@@ -231,14 +231,8 @@ class _LoginState extends State<LoginView> {
                                 onPressed: () =>
                                     setState(() => _showLogin = !_showLogin),
                                 child: Text(_showLogin
-                                    ? localization.signUp
-                                    : localization.login)),
-                            FlatButton(
-                                onPressed: () => viewModel.onGoogleLoginPressed(
-                                    context,
-                                    _urlController.text,
-                                    _secretController.text),
-                                child: Text(localization.googleLogin)),
+                                    ? localization.createAccount
+                                    : localization.alreadyHaveAnAccount)),
                           ],
                         ),
                   isOneTimePassword && !viewModel.isLoading

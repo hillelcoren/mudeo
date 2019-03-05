@@ -20,11 +20,13 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'already_have_an_account': 'Already have an account? Tap here to login',
       'play': 'Play',
       'cancel': 'Cancel',
       'one_time_password': 'One Time Password',
       'email': 'Email',
       'login': 'Login',
+      'create_account': 'Create a new account',
       'sign_up': 'Sign Up',
       'password': 'Password',
       'please_enter_your_email': 'Please enter your email',
@@ -34,6 +36,12 @@ class AppLocalization {
       'terms_of_service': 'terms of service',
     },
   };
+
+  String get createAccount =>
+      _localizedValues[locale.toString()]['create_account'];
+
+  String get alreadyHaveAnAccount =>
+      _localizedValues[locale.toString()]['already_have_an_account'];
 
   String get iAgreeToThe =>
       _localizedValues[locale.toString()]['i_agree_to_the'];
