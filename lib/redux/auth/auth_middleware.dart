@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,34 +25,15 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
 
 void _saveAuthLocal(dynamic action) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(kKeychainEmail, action.email ?? '');
-
-  if (formatApiUrlReadable(action.url) != kAppUrl) {
-    prefs.setString(kKeychainUrl, formatApiUrlMachine(action.url));
-    prefs.setString(kKeychainSecret, action.secret);
-  }
+  prefs.setString(kSharedPrefAppVersion, action.email ?? '');
 }
 
 void _loadAuthLocal(Store<AppState> store, dynamic action) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String email = prefs.getString(kSharedPrefEmail) ?? '';
-  final String url =
-  formatApiUrlMachine(prefs.getString(kSharedPrefUrl) ?? '');
-  final String secret =
-      prefs.getString(kSharedPrefSecret) ?? '';
-  store.dispatch(UserLoginLoaded(email, url, secret));
+  store.dispatch(UserLoginLoaded(email));
 
-  final bool enableDarkMode = prefs.getBool(kSharedPrefEnableDarkMode) ?? false;
-  final bool emailPayment = prefs.getBool(kSharedPrefEmailPayment) ?? false;
-  final bool autoStartTasks = prefs.getBool(kSharedPrefAutoStartTasks) ?? false;
-  final bool requireAuthentication =
-      prefs.getBool(kSharedPrefRequireAuthentication) ?? false;
-
-  store.dispatch(UserSettingsChanged(
-      enableDarkMode: enableDarkMode,
-      emailPayment: emailPayment,
-      requireAuthentication: requireAuthentication,
-      autoStartTasks: autoStartTasks));
+  store.dispatch(UserSettingsChanged());
 }
 
 Middleware<AppState> _createLoginInit() {
@@ -68,20 +52,12 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
         .login(
         email: action.email,
         password: action.password,
-        url: action.url,
         secret: action.secret,
         platform: action.platform,
         oneTimePassword: action.oneTimePassword)
         .then((data) {
       _saveAuthLocal(action);
 
-      if (_isVersionSupported(data.version)) {
-        store.dispatch(
-            LoadDataSuccess(completer: action.completer, loginResponse: data));
-      } else {
-        store.dispatch(UserLoginFailure(
-            'The minimum version is v$kMinMajorAppVersion.$kMinMinorAppVersion.$kMinPatchAppVersion'));
-      }
     }).catchError((Object error) {
       print(error);
       if (error.toString().contains('No host specified in URI')) {
@@ -122,7 +98,7 @@ Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
     _loadAuthLocal(store, action);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString(getKeychainTokenKey());
+    final String token = prefs.getString(kSharedPrefToken);
 
     repository
         .refresh(token: token, platform: action.platform)
