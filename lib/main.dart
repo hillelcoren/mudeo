@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
@@ -10,13 +9,8 @@ import 'package:redux/redux.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_state.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
-import 'package:screen/screen.dart';
 import 'package:sentry/sentry.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
 

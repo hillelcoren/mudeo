@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
@@ -30,7 +31,6 @@ class _LoginState extends State<LoginView> {
 
   final FocusNode _focusNode1 = new FocusNode();
 
-  bool _isSelfHosted = false;
   bool _autoValidate = false;
 
   @override
@@ -38,7 +38,6 @@ class _LoginState extends State<LoginView> {
     final state = widget.viewModel.authState;
     _emailController.text = state.email;
     _passwordController.text = state.password;
-    _secretController.text = state.secret;
 
     super.didChangeDependencies();
   }
