@@ -1,5 +1,6 @@
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/app/loading_reducer.dart';
+import 'package:mudeo/redux/auth/auth_reducer.dart';
 
 AppState appReducer(AppState state, dynamic action) {
   /*
@@ -17,6 +18,6 @@ AppState appReducer(AppState state, dynamic action) {
   return state.rebuild((b) => b
     ..isLoading = loadingReducer(state.isLoading, action)
     ..isSaving = savingReducer(state.isSaving, action)
-    //..authState.replace(authReducer(state.authState, action))
+    ..authState.replace(authReducer(state.authState, action))
   );
 }

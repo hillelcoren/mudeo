@@ -104,14 +104,9 @@ class MudeoAppState extends State<MudeoApp> {
           home: InitScreen(),
           //locale: AppLocalization.createLocale(localeSelector(state)),
           locale: AppLocalization.createLocale('en'),
-          theme: ThemeData().copyWith(
-            primaryColor: const Color(0xFF117cc1),
-            primaryColorLight: const Color(0xFF5dabf4),
-            primaryColorDark: const Color(0xFF0D5D91),
-            indicatorColor: Colors.white,
-            bottomAppBarColor: Colors.grey.shade300,
-            backgroundColor: Colors.grey.shade200,
-            buttonColor: const Color(0xFF0D5D91),
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            accentColor: Colors.lightBlueAccent,
           ),
           title: 'mudeo',
           routes: {

@@ -78,7 +78,7 @@ class _LoginState extends State<LoginView> {
         error.contains(OTP_ERROR) || _oneTimePasswordController.text.isNotEmpty;
 
     if (!viewModel.authState.isInitialized) {
-      //return Container();
+      return Container();
     }
 
     return Stack(
@@ -90,13 +90,13 @@ class _LoginState extends State<LoginView> {
             child: Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      //Colors.grey.shade800,
-                      //Colors.black87,
-                      Theme.of(context).buttonColor,
-                      Theme.of(context).buttonColor.withOpacity(.7),
-                    ],
-                  )),
+                colors: [
+                  //Colors.grey.shade800,
+                  //Colors.black87,
+                  Theme.of(context).buttonColor,
+                  Theme.of(context).buttonColor.withOpacity(.7),
+                ],
+              )),
             ),
           ),
         ),
@@ -105,8 +105,13 @@ class _LoginState extends State<LoginView> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+              child: Placeholder(
+                fallbackHeight: 100,
+              ),
+              /*
               child: Image.asset('assets/images/logo.png',
                   width: 100.0, height: 100.0),
+                  */
             ),
             Form(
               key: _formKey,
@@ -114,59 +119,59 @@ class _LoginState extends State<LoginView> {
                 children: <Widget>[
                   isOneTimePassword
                       ? TextFormField(
-                    controller: _oneTimePasswordController,
-                    autocorrect: false,
-                    decoration: InputDecoration(
-                        labelText: localization.oneTimePassword),
-                  )
+                          controller: _oneTimePasswordController,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                              labelText: localization.oneTimePassword),
+                        )
                       : Column(
-                    children: <Widget>[
-                      TextFormField(
-                        controller: _emailController,
-                        autocorrect: false,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            labelText: localization.email),
-                        keyboardType: TextInputType.emailAddress,
-                        autovalidate: _autoValidate,
-                        validator: (val) =>
-                        val.isEmpty || val.trim().isEmpty
-                            ? localization.pleaseEnterYourEmail
-                            : null,
-                        onFieldSubmitted: (String value) =>
-                            FocusScope.of(context)
-                                .requestFocus(_focusNode1),
-                      ),
-                      TextFormField(
-                        controller: _passwordController,
-                        autocorrect: false,
-                        autovalidate: _autoValidate,
-                        decoration: InputDecoration(
-                            labelText: localization.password),
-                        validator: (val) =>
-                        val.isEmpty || val.trim().isEmpty
-                            ? localization.pleaseEnterYourPassword
-                            : null,
-                        obscureText: true,
-                        focusNode: _focusNode1,
-                        onFieldSubmitted: (value) => _submitForm(),
-                      ),
-                    ],
-                  ),
+                          children: <Widget>[
+                            TextFormField(
+                              controller: _emailController,
+                              autocorrect: false,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                  labelText: localization.email),
+                              keyboardType: TextInputType.emailAddress,
+                              autovalidate: _autoValidate,
+                              validator: (val) =>
+                                  val.isEmpty || val.trim().isEmpty
+                                      ? localization.pleaseEnterYourEmail
+                                      : null,
+                              onFieldSubmitted: (String value) =>
+                                  FocusScope.of(context)
+                                      .requestFocus(_focusNode1),
+                            ),
+                            TextFormField(
+                              controller: _passwordController,
+                              autocorrect: false,
+                              autovalidate: _autoValidate,
+                              decoration: InputDecoration(
+                                  labelText: localization.password),
+                              validator: (val) =>
+                                  val.isEmpty || val.trim().isEmpty
+                                      ? localization.pleaseEnterYourPassword
+                                      : null,
+                              obscureText: true,
+                              focusNode: _focusNode1,
+                              onFieldSubmitted: (value) => _submitForm(),
+                            ),
+                          ],
+                        ),
                   viewModel.authState.error == null || error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
-                    padding: EdgeInsets.only(top: 26.0),
-                    child: Center(
-                      child: Text(
-                        viewModel.authState.error,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
+                          padding: EdgeInsets.only(top: 26.0),
+                          child: Center(
+                            child: Text(
+                              viewModel.authState.error,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 24.0),
                   ProgressButton(
                     padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
@@ -177,30 +182,30 @@ class _LoginState extends State<LoginView> {
                   isOneTimePassword
                       ? Container()
                       : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      FlatButton(
-                          onPressed: () => viewModel.onGoogleLoginPressed(
-                              context,
-                              _urlController.text,
-                              _secretController.text),
-                          child: Text(localization.googleLogin)),
-                    ],
-                  ),
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            FlatButton(
+                                onPressed: () => viewModel.onGoogleLoginPressed(
+                                    context,
+                                    _urlController.text,
+                                    _secretController.text),
+                                child: Text(localization.googleLogin)),
+                          ],
+                        ),
                   isOneTimePassword && !viewModel.isLoading
                       ? Padding(
-                    padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
-                    child: ElevatedButton(
-                      label: localization.cancel.toUpperCase(),
-                      color: Colors.grey,
-                      onPressed: () {
-                        setState(() {
-                          _oneTimePasswordController.text = '';
-                        });
-                        viewModel.onCancel2FAPressed();
-                      },
-                    ),
-                  )
+                          padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
+                          child: ElevatedButton(
+                            label: localization.cancel.toUpperCase(),
+                            color: Colors.grey,
+                            onPressed: () {
+                              setState(() {
+                                _oneTimePasswordController.text = '';
+                              });
+                              viewModel.onCancel2FAPressed();
+                            },
+                          ),
+                        )
                       : Container(),
                 ],
               ),
@@ -225,7 +230,7 @@ class ArcClipper extends CustomClipper<Path> {
         firstPoint.dx, firstPoint.dy);
 
     final secondControlPoint =
-    Offset(size.width - (size.width / 4), size.height);
+        Offset(size.width - (size.width / 4), size.height);
     final secondPoint = Offset(size.width, size.height - 30);
     path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
         secondPoint.dx, secondPoint.dy);

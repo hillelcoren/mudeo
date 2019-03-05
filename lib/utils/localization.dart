@@ -25,6 +25,7 @@ class AppLocalization {
       'one_time_password': 'One Time Password',
       'email': 'Email',
       'login': 'Login',
+      'sign_up': 'Sign Up',
       'password': 'Password',
       'please_enter_your_email': 'Please enter your email',
       'please_enter_your_password': 'Please enter your password',
@@ -46,6 +47,9 @@ class AppLocalization {
 
   String get login =>
       _localizedValues[locale.toString()]['login'];
+
+  String get signUp =>
+      _localizedValues[locale.toString()]['sign_up'];
 
   String get pleaseEnterYourPassword =>
       _localizedValues[locale.toString()]['please_enter_your_password'];
