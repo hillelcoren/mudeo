@@ -34,6 +34,7 @@ class _LoginState extends State<LoginView> {
   final FocusNode _focusNode1 = new FocusNode();
 
   bool _showLogin = false;
+  bool _termsChecked = false;
   bool _autoValidate = false;
 
   @override
@@ -172,9 +173,13 @@ class _LoginState extends State<LoginView> {
                                 : Padding(
                                     padding: EdgeInsets.only(top: 16),
                                     child: CheckboxListTile(
+                                      onChanged: (value) =>
+                                          setState(() => _termsChecked = value),
                                       controlAffinity:
                                           ListTileControlAffinity.leading,
-                                      value: false,
+                                      activeColor:
+                                          Theme.of(context).accentColor,
+                                      value: _termsChecked,
                                       title: RichText(
                                         text: TextSpan(
                                           children: <TextSpan>[
