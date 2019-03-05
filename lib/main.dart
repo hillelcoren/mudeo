@@ -1,9 +1,11 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:mudeo/redux/app/app_middleware.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
+import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:mudeo/constants.dart';
@@ -27,6 +29,7 @@ void main() async {
       middleware: []
         ..addAll(createStoreAuthMiddleware())
         //..addAll(createStoreProductsMiddleware())
+        ..addAll(createStorePersistenceMiddleware())
         ..addAll([
           LoggingMiddleware<dynamic>.printer(),
         ]));
@@ -112,10 +115,10 @@ class MudeoAppState extends State<MudeoApp> {
           ),
           title: 'mudeo',
           routes: {
-            /*
             LoginScreen.route: (context) {
               return LoginScreen();
             },
+            /*
             ProductScreen.route: (context) {
               if (widget.store.state.productState.isStale) {
                 widget.store.dispatch(LoadProducts());

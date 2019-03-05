@@ -13,7 +13,6 @@ class LoginView extends StatefulWidget {
 
   final LoginVM viewModel;
 
-
   @override
   _LoginState createState() => _LoginState();
 }
@@ -79,7 +78,7 @@ class _LoginState extends State<LoginView> {
         error.contains(OTP_ERROR) || _oneTimePasswordController.text.isNotEmpty;
 
     if (!viewModel.authState.isInitialized) {
-      return Container();
+      //return Container();
     }
 
     return Stack(
