@@ -10,7 +10,6 @@ import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/login.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:redux/redux.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -53,6 +52,7 @@ class LoginVM {
   final Function(BuildContext, String, String) onGoogleLoginPressed;
 
   static LoginVM fromStore(Store<AppState> store) {
+    /*
     final GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: [
         'email',
@@ -60,6 +60,7 @@ class LoginVM {
         'profile',
       ],
     );
+    */
 
     void _handleLogin(BuildContext context) {
       AppBuilder.of(context).rebuild();
@@ -70,6 +71,7 @@ class LoginVM {
         isLoading: store.state.isLoading,
         authState: store.state.authState,
         onCancel2FAPressed: () => store.dispatch(ClearAuthError()),
+        /*
         onGoogleLoginPressed:
             (BuildContext context, String url, String secret) async {
           try {
@@ -92,6 +94,7 @@ class LoginVM {
             print(error);
           }
         },
+        */
         onLoginPressed: (BuildContext context,
             {String email,
               String password,
