@@ -56,6 +56,7 @@ class _LoginState extends State<LoginView> {
   }
 
   void _submitForm() {
+    final localization = AppLocalization.of(context);
     final bool isValid = _formKey.currentState.validate();
 
     setState(() {
@@ -63,6 +64,18 @@ class _LoginState extends State<LoginView> {
     });
 
     if (!isValid) {
+      return;
+    }
+
+    if (!_termsChecked) {
+      showDialog<AlertDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(localization.termsOfService),
+              content: Text(localization.pleaseAgreeToTerms),
+            );
+          });
       return;
     }
 
@@ -191,7 +204,8 @@ class _LoginState extends State<LoginView> {
                                             _LinkTextSpan(
                                               style: linkStyle,
                                               url: kTermsOfServiceURL,
-                                              text: localization.termsOfService,
+                                              text: localization
+                                                  .termsOfServiceLink,
                                             ),
                                           ],
                                         ),
@@ -227,12 +241,17 @@ class _LoginState extends State<LoginView> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            FlatButton(
+                            Expanded(
+                              child: FlatButton(
                                 onPressed: () =>
                                     setState(() => _showLogin = !_showLogin),
-                                child: Text(_showLogin
-                                    ? localization.createAccount
-                                    : localization.alreadyHaveAnAccount)),
+                                child: Text(
+                                  _showLogin
+                                      ? localization.doNotHaveAnAccount
+                                      : localization.alreadyHaveAnAccount,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                   isOneTimePassword && !viewModel.isLoading
