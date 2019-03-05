@@ -107,7 +107,7 @@ class _LoginState extends State<LoginView> {
     return Stack(
       children: <Widget>[
         SizedBox(
-          height: 250.0,
+          height: 250,
           child: ClipPath(
             clipper: ArcClipper(),
             child: Container(
@@ -127,13 +127,13 @@ class _LoginState extends State<LoginView> {
           shrinkWrap: true,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+              padding: EdgeInsets.only(top: 20, bottom: 20),
               child: Placeholder(
                 fallbackHeight: 100,
               ),
               /*
               child: Image.asset('assets/images/logo.png',
-                  width: 100.0, height: 100.0),
+                  width: 100, height: 100),
                   */
             ),
             Form(
@@ -177,7 +177,9 @@ class _LoginState extends State<LoginView> {
                                       : null,
                               obscureText: true,
                               focusNode: _focusNode1,
-                              onFieldSubmitted: (value) => _submitForm(),
+                              textInputAction: TextInputAction.done,
+                              onFieldSubmitted: (value) => FocusScope.of(context)
+                                  .requestFocus(null),
                             ),
                             _showLogin
                                 ? SizedBox(
@@ -217,7 +219,7 @@ class _LoginState extends State<LoginView> {
                   viewModel.authState.error == null || error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
-                          padding: EdgeInsets.only(top: 16.0),
+                          padding: EdgeInsets.only(top: 16, bottom: 16),
                           child: Center(
                             child: Text(
                               viewModel.authState.error,
@@ -229,7 +231,7 @@ class _LoginState extends State<LoginView> {
                           ),
                         ),
                   ProgressButton(
-                    padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
+                    padding: EdgeInsets.only(top: 12, bottom: 12),
                     isLoading: viewModel.isLoading,
                     label:
                         (_showLogin ? localization.login : localization.signUp)
@@ -256,7 +258,7 @@ class _LoginState extends State<LoginView> {
                         ),
                   isOneTimePassword && !viewModel.isLoading
                       ? Padding(
-                          padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
+                          padding: EdgeInsets.only(top: 12, bottom: 12),
                           child: ElevatedButton(
                             label: localization.cancel.toUpperCase(),
                             color: Colors.grey,
@@ -284,7 +286,7 @@ class ArcClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0.0, size.height - 30);
+    path.lineTo(0, size.height - 30);
 
     final firstControlPoint = Offset(size.width / 4, size.height);
     final firstPoint = Offset(size.width / 2, size.height);
@@ -297,7 +299,7 @@ class ArcClipper extends CustomClipper<Path> {
     path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
         secondPoint.dx, secondPoint.dy);
 
-    path.lineTo(size.width, 0.0);
+    path.lineTo(size.width, 0);
     path.close();
 
     return path;

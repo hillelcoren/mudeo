@@ -77,7 +77,6 @@ Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
     repository
         .oauthLogin(
         token: action.token,
-        url: action.url,
         secret: action.secret,
         platform: action.platform)
         .then((data) {
