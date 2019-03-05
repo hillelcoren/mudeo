@@ -36,6 +36,7 @@ class LoginVM {
     @required this.isLoading,
     @required this.authState,
     @required this.onLoginPressed,
+    @required this.onSignUpPressed,
     @required this.onCancel2FAPressed,
     @required this.onGoogleLoginPressed,
   });
@@ -43,12 +44,17 @@ class LoginVM {
   bool isLoading;
   AuthState authState;
   final Function() onCancel2FAPressed;
+  final Function(BuildContext, {String handle, String email, String password})
+      onSignUpPressed;
+  final Function(BuildContext,
+      {String email, String password, String oneTimePassword}) onLoginPressed;
+
+  /*
   final Function(BuildContext,
       {String email,
       String password,
-      String url,
-      String secret,
-      String oneTimePassword}) onLoginPressed;
+      String handle)) onSignUpPressed;
+  */
   final Function(BuildContext, String, String) onGoogleLoginPressed;
 
   static LoginVM fromStore(Store<AppState> store) {
@@ -95,18 +101,26 @@ class LoginVM {
           }
         },
         */
-        onLoginPressed: (BuildContext context,
-            {String email,
-              String password,
-              String url,
-              String secret,
-              String oneTimePassword}) async {
+        onSignUpPressed: (BuildContext context,
+            {String handle, String email, String password}) {
           if (store.state.isLoading) {
             return;
           }
 
-          if (url.isNotEmpty && ! url.startsWith('http')) {
-            url = 'https://' + url;
+          final Completer<Null> completer = Completer<Null>();
+          store.dispatch(UserSignUpRequest(
+            completer: completer,
+            handle: handle.trim(),
+            email: email.trim(),
+            password: password.trim(),
+            platform: getPlatform(context),
+          ));
+          completer.future.then((_) => _handleLogin(context));
+        },
+        onLoginPressed: (BuildContext context,
+            {String email, String password, String oneTimePassword}) async {
+          if (store.state.isLoading) {
+            return;
           }
 
           final Completer<Null> completer = Completer<Null>();
@@ -114,8 +128,6 @@ class LoginVM {
             completer: completer,
             email: email.trim(),
             password: password.trim(),
-            url: url.trim(),
-            secret: secret.trim(),
             platform: getPlatform(context),
             oneTimePassword: oneTimePassword.trim(),
           ));

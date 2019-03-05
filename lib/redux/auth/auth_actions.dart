@@ -31,11 +31,11 @@ class UserLoginLoaded {
 class OAuthLoginRequest implements StartLoading {
   OAuthLoginRequest(
       {this.completer,
-        this.email,
-        this.token,
-        this.url,
-        this.secret,
-        this.platform});
+      this.email,
+      this.token,
+      this.url,
+      this.secret,
+      this.platform});
 
   final Completer completer;
   final String email; // TODO remove this property, break up _saveAuthLocal
@@ -45,21 +45,33 @@ class OAuthLoginRequest implements StartLoading {
   final String platform;
 }
 
+class UserSignUpRequest implements StartLoading {
+  UserSignUpRequest({
+    this.completer,
+    this.handle,
+    this.email,
+    this.password,
+    this.platform,
+  });
+
+  final Completer completer;
+  final String handle;
+  final String email;
+  final String password;
+  final String platform;
+}
+
 class UserLoginRequest implements StartLoading {
   UserLoginRequest(
       {this.completer,
-        this.email,
-        this.password,
-        this.url,
-        this.secret,
-        this.platform,
-        this.oneTimePassword});
+      this.email,
+      this.password,
+      this.platform,
+      this.oneTimePassword});
 
   final Completer completer;
   final String email;
   final String password;
-  final String url;
-  final String secret;
   final String platform;
   final String oneTimePassword;
 }

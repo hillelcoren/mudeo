@@ -53,7 +53,6 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
         .login(
         email: action.email,
         password: action.password,
-        secret: action.secret,
         platform: action.platform,
         oneTimePassword: action.oneTimePassword)
         .then((data) {
