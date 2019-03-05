@@ -22,7 +22,7 @@ class AppLocalization {
     'en': {
       'please_agree_to_terms':
           'Please agree to the terms to create a new account.',
-      'already_have_an_account': 'Already have an account? Tap here to login 41231232234123',
+      'already_have_an_account': 'Already have an account? Tap here to login',
       'do_not_have_an_account': 'Don\'t have an account? Tap here to create one',
       'play': 'Play',
       'cancel': 'Cancel',
