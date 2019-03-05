@@ -23,15 +23,15 @@ class LoginView extends StatefulWidget {
 class _LoginState extends State<LoginView> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final _handleController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _urlController = TextEditingController();
-  final _secretController = TextEditingController();
   final _oneTimePasswordController = TextEditingController();
 
   static const String OTP_ERROR = 'OTP_REQUIRED';
 
   final FocusNode _focusNode1 = new FocusNode();
+  final FocusNode _focusNode2 = new FocusNode();
 
   bool _showLogin = false;
   bool _termsChecked = false;
@@ -48,9 +48,9 @@ class _LoginState extends State<LoginView> {
 
   @override
   void dispose() {
+    _handleController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _secretController.dispose();
 
     super.dispose();
   }
@@ -91,8 +91,6 @@ class _LoginState extends State<LoginView> {
     widget.viewModel.onLoginPressed(context,
         email: _emailController.text,
         password: _passwordController.text,
-        url: _urlController.text,
-        secret: _secretController.text,
         oneTimePassword: _oneTimePasswordController.text);
   }
 
@@ -159,6 +157,22 @@ class _LoginState extends State<LoginView> {
                       : Column(
                           children: <Widget>[
                             TextFormField(
+                              controller: _handleController,
+                              autocorrect: false,
+                              textInputAction: TextInputAction.next,
+                              decoration: InputDecoration(
+                                  labelText: localization.handle),
+                              keyboardType: TextInputType.text,
+                              autovalidate: _autoValidate,
+                              validator: (val) =>
+                              val.isEmpty || val.trim().isEmpty
+                                  ? localization.pleaseEnterYourHandle
+                                  : null,
+                              onFieldSubmitted: (String value) =>
+                                  FocusScope.of(context)
+                                      .requestFocus(_focusNode1),
+                            ),
+                            TextFormField(
                               controller: _emailController,
                               autocorrect: false,
                               textInputAction: TextInputAction.next,
@@ -167,12 +181,13 @@ class _LoginState extends State<LoginView> {
                               keyboardType: TextInputType.emailAddress,
                               autovalidate: _autoValidate,
                               validator: (val) =>
-                                  val.isEmpty || val.trim().isEmpty
-                                      ? localization.pleaseEnterYourEmail
-                                      : null,
+                              val.isEmpty || val.trim().isEmpty
+                                  ? localization.pleaseEnterYourEmail
+                                  : null,
+                              focusNode: _focusNode1,
                               onFieldSubmitted: (String value) =>
                                   FocusScope.of(context)
-                                      .requestFocus(_focusNode1),
+                                      .requestFocus(_focusNode2),
                             ),
                             TextFormField(
                               controller: _passwordController,
@@ -185,7 +200,7 @@ class _LoginState extends State<LoginView> {
                                       ? localization.pleaseEnterYourPassword
                                       : null,
                               obscureText: true,
-                              focusNode: _focusNode1,
+                              focusNode: _focusNode2,
                               textInputAction: TextInputAction.done,
                               onFieldSubmitted: (value) => FocusScope.of(context)
                                   .requestFocus(null),
@@ -255,7 +270,9 @@ class _LoginState extends State<LoginView> {
                             Expanded(
                               child: FlatButton(
                                 onPressed: () =>
-                                    setState(() => _showLogin = !_showLogin),
+                                    setState(() {
+                                      _showLogin = !_showLogin;
+                                    }),
                                 child: Text(
                                   _showLogin
                                       ? localization.doNotHaveAnAccount

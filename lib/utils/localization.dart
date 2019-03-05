@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'handle': 'Handle',
       'close': 'Close',
       'please_agree_to_terms':
           'Please agree to the terms of service to create a new account.',
@@ -32,6 +33,7 @@ class AppLocalization {
       'login': 'Login',
       'sign_up': 'Sign Up',
       'password': 'Password',
+      'please_enter_your_handle': 'Please enter your handle',
       'please_enter_your_email': 'Please enter your email',
       'please_enter_your_password': 'Please enter your password',
       'google_login': 'Google Login',
@@ -40,6 +42,9 @@ class AppLocalization {
       'terms_of_service_link': 'terms of service',
     },
   };
+
+  String get handle =>
+      _localizedValues[locale.toString()]['handle'];
 
   String get close =>
       _localizedValues[locale.toString()]['close'];
@@ -77,6 +82,9 @@ class AppLocalization {
 
   String get pleaseEnterYourPassword =>
       _localizedValues[locale.toString()]['please_enter_your_password'];
+
+  String get pleaseEnterYourHandle =>
+      _localizedValues[locale.toString()]['please_enter_your_handle'];
 
   String get password => _localizedValues[locale.toString()]['password'];
 
