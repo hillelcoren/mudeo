@@ -12,7 +12,6 @@ class StartSaving {}
 
 class StopSaving {}
 
-/*
 class UserSettingsChanged implements PersistUI {
   UserSettingsChanged(
       {this.enableDarkMode,
@@ -25,7 +24,6 @@ class UserSettingsChanged implements PersistUI {
   final bool requireAuthentication;
   final bool autoStartTasks;
 }
-*/
 
 class LoadDataSuccess {
   LoadDataSuccess({this.loginResponse, this.completer});
