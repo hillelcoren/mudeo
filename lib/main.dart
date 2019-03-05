@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';

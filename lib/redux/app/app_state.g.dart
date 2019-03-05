@@ -37,6 +37,9 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
       'isSaving',
       serializers.serialize(object.isSaving,
           specifiedType: const FullType(bool)),
+      'authState',
+      serializers.serialize(object.authState,
+          specifiedType: const FullType(AuthState)),
     ];
 
     return result;
@@ -61,6 +64,10 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
           result.isSaving = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
+        case 'authState':
+          result.authState.replace(serializers.deserialize(value,
+              specifiedType: const FullType(AuthState)) as AuthState);
+          break;
       }
     }
 
@@ -73,16 +80,21 @@ class _$AppState extends AppState {
   final bool isLoading;
   @override
   final bool isSaving;
+  @override
+  final AuthState authState;
 
   factory _$AppState([void updates(AppStateBuilder b)]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.isLoading, this.isSaving}) : super._() {
+  _$AppState._({this.isLoading, this.isSaving, this.authState}) : super._() {
     if (isLoading == null) {
       throw new BuiltValueNullFieldError('AppState', 'isLoading');
     }
     if (isSaving == null) {
       throw new BuiltValueNullFieldError('AppState', 'isSaving');
+    }
+    if (authState == null) {
+      throw new BuiltValueNullFieldError('AppState', 'authState');
     }
   }
 
@@ -98,12 +110,14 @@ class _$AppState extends AppState {
     if (identical(other, this)) return true;
     return other is AppState &&
         isLoading == other.isLoading &&
-        isSaving == other.isSaving;
+        isSaving == other.isSaving &&
+        authState == other.authState;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, isLoading.hashCode), isSaving.hashCode));
+    return $jf($jc($jc($jc(0, isLoading.hashCode), isSaving.hashCode),
+        authState.hashCode));
   }
 }
 
@@ -118,12 +132,18 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   bool get isSaving => _$this._isSaving;
   set isSaving(bool isSaving) => _$this._isSaving = isSaving;
 
+  AuthStateBuilder _authState;
+  AuthStateBuilder get authState =>
+      _$this._authState ??= new AuthStateBuilder();
+  set authState(AuthStateBuilder authState) => _$this._authState = authState;
+
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     if (_$v != null) {
       _isLoading = _$v.isLoading;
       _isSaving = _$v.isSaving;
+      _authState = _$v.authState?.toBuilder();
       _$v = null;
     }
     return this;
@@ -144,8 +164,24 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
 
   @override
   _$AppState build() {
-    final _$result =
-        _$v ?? new _$AppState._(isLoading: isLoading, isSaving: isSaving);
+    _$AppState _$result;
+    try {
+      _$result = _$v ??
+          new _$AppState._(
+              isLoading: isLoading,
+              isSaving: isSaving,
+              authState: authState.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'authState';
+        authState.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'AppState', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

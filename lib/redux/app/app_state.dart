@@ -1,5 +1,6 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/redux/auth/auth_state.dart';
 
 part 'app_state.g.dart';
 
@@ -9,7 +10,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     return _$AppState._(
       isLoading: false,
       isSaving: false,
-      //authState: AuthState(),
+      authState: AuthState(),
       //dataState: DataState(),
       //uiState: UIState(),
     );
@@ -21,7 +22,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   bool get isSaving;
 
-  //AuthState get authState;
+  AuthState get authState;
 
   //DataState get dataState;
 

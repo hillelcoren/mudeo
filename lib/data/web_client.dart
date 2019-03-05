@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
-import 'package:invoiceninja_flutter/constants.dart';
+import 'package:mudeo/constants.dart';
 
 class WebClient {
 
@@ -11,7 +11,7 @@ class WebClient {
   String _checkUrl(String url) {
 
     if (! url.startsWith('http')) {
-      url = kAppUrl + url;
+      url = kAppURL + url;
     }
 
     if (! url.contains('?')) {
@@ -44,11 +44,7 @@ class WebClient {
     url = _checkUrl(url);
     print('GET: $url');
 
-    if (url.contains('invoiceninja.com')) {
-      url += '&per_page=$kMaxRecordsPerApiPage';
-    } else {
-      url += '&per_page=999999';
-    }
+    url += '&per_page=$kMaxRecordsPerApiPage';
 
     final http.Response response = await http.Client().get(
       url,
