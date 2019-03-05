@@ -1,16 +1,17 @@
-# mudeo
+# Looper
 
-A new Flutter project.
+The app enables you to easily record multi-track music videos
 
-## Getting Started
+## Tips
 
-This project is a starting point for a Flutter application.
+- It's important to use headphones to prevent an echo in the recording
 
-A few resources to get you started if this is your first Flutter project:
+- It can be helpful to record a count-in in the first recording (ie. "1, 2, 3, 4")
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+- To build up a song start with a beat and then add in layers
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Examples
+
+- Acapela: https://www.youtube.com/watch?v=4c9A0kuVP70 
+
+- Guitar and Harmonica: https://www.youtube.com/watch?v=V-zs4QpcyaY
