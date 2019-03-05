@@ -96,7 +96,7 @@ class MudeoAppState extends State<MudeoApp> {
           supportedLocales: kLanguages
               .map((String locale) => AppLocalization.createLocale(locale))
               .toList(),
-          //debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: false,
           localizationsDelegates: [
             const AppLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,

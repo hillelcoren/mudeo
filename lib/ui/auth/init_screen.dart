@@ -16,11 +16,10 @@ class InitScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                /*
                 Expanded(
-                  child: Center(child: Image.asset('assets/images/logo.png')),
+                  //child: Center(child: Image.asset('assets/images/logo.png')),
+                  child: SizedBox(),
                 ),
-                */
                 SizedBox(
                   height: 4.0,
                   child: LinearProgressIndicator(),
