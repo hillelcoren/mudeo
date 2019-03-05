@@ -74,6 +74,15 @@ class _LoginState extends State<LoginView> {
             return AlertDialog(
               title: Text(localization.termsOfService),
               content: Text(localization.pleaseAgreeToTerms),
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FlatButton(
+                    child: Text(AppLocalization.of(context).close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                )
+              ],
             );
           });
       return;

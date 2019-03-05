@@ -20,8 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'close': 'Close',
       'please_agree_to_terms':
-          'Please agree to the terms to create a new account.',
+          'Please agree to the terms of service to create a new account.',
       'already_have_an_account': 'Already have an account? Tap here to login',
       'do_not_have_an_account': 'Don\'t have an account? Tap here to create one',
       'play': 'Play',
@@ -39,6 +40,9 @@ class AppLocalization {
       'terms_of_service_link': 'terms of service',
     },
   };
+
+  String get close =>
+      _localizedValues[locale.toString()]['close'];
 
   String get doNotHaveAnAccount =>
       _localizedValues[locale.toString()]['do_not_have_an_account'];
