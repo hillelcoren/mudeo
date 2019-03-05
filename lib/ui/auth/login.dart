@@ -1,9 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({
@@ -30,6 +33,7 @@ class _LoginState extends State<LoginView> {
 
   final FocusNode _focusNode1 = new FocusNode();
 
+  bool _showLogin = false;
   bool _autoValidate = false;
 
   @override
@@ -76,6 +80,11 @@ class _LoginState extends State<LoginView> {
     final error = viewModel.authState.error ?? '';
     final isOneTimePassword =
         error.contains(OTP_ERROR) || _oneTimePasswordController.text.isNotEmpty;
+
+    final ThemeData themeData = Theme.of(context);
+    final TextStyle aboutTextStyle = themeData.textTheme.body2;
+    final TextStyle linkStyle =
+        themeData.textTheme.body2.copyWith(color: themeData.accentColor);
 
     if (!viewModel.authState.isInitialized) {
       return Container();
@@ -156,12 +165,40 @@ class _LoginState extends State<LoginView> {
                               focusNode: _focusNode1,
                               onFieldSubmitted: (value) => _submitForm(),
                             ),
+                            _showLogin
+                                ? SizedBox(
+                                    height: 16,
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: CheckboxListTile(
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      value: false,
+                                      title: RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              style: aboutTextStyle,
+                                              text: localization.iAgreeToThe +
+                                                  ' ',
+                                            ),
+                                            _LinkTextSpan(
+                                              style: linkStyle,
+                                              url: kTermsOfServiceURL,
+                                              text: localization.termsOfService,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                           ],
                         ),
                   viewModel.authState.error == null || error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
-                          padding: EdgeInsets.only(top: 26.0),
+                          padding: EdgeInsets.only(top: 16.0),
                           child: Center(
                             child: Text(
                               viewModel.authState.error,
@@ -172,11 +209,12 @@ class _LoginState extends State<LoginView> {
                             ),
                           ),
                         ),
-                  SizedBox(height: 24.0),
                   ProgressButton(
                     padding: EdgeInsets.only(top: 12.0, bottom: 12.0),
                     isLoading: viewModel.isLoading,
-                    label: localization.login.toUpperCase(),
+                    label:
+                        (_showLogin ? localization.login : localization.signUp)
+                            .toUpperCase(),
                     onPressed: () => _submitForm(),
                   ),
                   isOneTimePassword
@@ -184,6 +222,12 @@ class _LoginState extends State<LoginView> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
+                            FlatButton(
+                                onPressed: () =>
+                                    setState(() => _showLogin = !_showLogin),
+                                child: Text(_showLogin
+                                    ? localization.signUp
+                                    : localization.login)),
                             FlatButton(
                                 onPressed: () => viewModel.onGoogleLoginPressed(
                                     context,
@@ -243,4 +287,15 @@ class ArcClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class _LinkTextSpan extends TextSpan {
+  _LinkTextSpan({TextStyle style, String url, String text})
+      : super(
+            style: style,
+            text: text ?? url,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                launch(url, forceSafariVC: false);
+              });
 }

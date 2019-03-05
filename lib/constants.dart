@@ -1,5 +1,6 @@
 const String kAppVersion = '0.0.1';
 const String kAppURL = '';
+const String kTermsOfServiceURL = '';
 
 const String kAppleStoreUrl = '';
 const String kGoogleStoreUrl = '';

@@ -30,8 +30,16 @@ class AppLocalization {
       'please_enter_your_email': 'Please enter your email',
       'please_enter_your_password': 'Please enter your password',
       'google_login': 'Google Login',
+      'i_agree_to_the': 'I agree to the',
+      'terms_of_service': 'terms of service',
     },
   };
+
+  String get iAgreeToThe =>
+      _localizedValues[locale.toString()]['i_agree_to_the'];
+
+  String get termsOfService =>
+      _localizedValues[locale.toString()]['terms_of_service'];
 
   String get cancel =>
       _localizedValues[locale.toString()]['cancel'];
