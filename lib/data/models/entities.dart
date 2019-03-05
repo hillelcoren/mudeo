@@ -42,3 +42,14 @@ abstract class LoginResponseData
       _$loginResponseDataSerializer;
 }
 
+abstract class DataState
+    implements Built<DataState, DataStateBuilder> {
+  factory DataState() {
+    return _$DataState._(
+    );
+  }
+
+  DataState._();
+
+  static Serializer<DataState> get serializer => _$dataStateSerializer;
+}

@@ -1,6 +1,8 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
+import 'package:mudeo/redux/ui/ui_state.dart';
 
 part 'app_state.g.dart';
 
@@ -11,8 +13,8 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
       isLoading: false,
       isSaving: false,
       authState: AuthState(),
-      //dataState: DataState(),
-      //uiState: UIState(),
+      dataState: DataState(),
+      uiState: UIState(),
     );
   }
 
@@ -24,9 +26,9 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   AuthState get authState;
 
-  //DataState get dataState;
+  DataState get dataState;
 
-  //UIState get uiState;
+  UIState get uiState;
 
   static Serializer<AppState> get serializer => _$appStateSerializer;
 

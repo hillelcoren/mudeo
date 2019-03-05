@@ -1,5 +1,4 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'dart:async';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
@@ -7,11 +6,9 @@ import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
-import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:flutter/material.dart';
-import 'package:sentry/sentry.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
 
