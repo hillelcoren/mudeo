@@ -6,6 +6,7 @@ import 'package:mudeo/redux/auth/auth_middleware.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
+import 'package:mudeo/ui/main_screen_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:mudeo/constants.dart';
@@ -113,14 +114,14 @@ class MudeoAppState extends State<MudeoApp> {
             LoginScreen.route: (context) {
               return LoginScreen();
             },
-            /*
-            ProductScreen.route: (context) {
+            MainScreen.route: (context) {
+              /*
               if (widget.store.state.productState.isStale) {
                 widget.store.dispatch(LoadProducts());
               }
-              return ProductScreen();
+              */
+              return MainScreen();
             },
-            */
           },
         );
       }),

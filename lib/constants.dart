@@ -1,5 +1,5 @@
 const String kAppVersion = '0.0.1';
-const String kAppURL = '';
+const String kAppURL = 'https://api.mudeo.app';
 const String kTermsOfServiceURL = '';
 
 const String kAppleStoreUrl = '';
