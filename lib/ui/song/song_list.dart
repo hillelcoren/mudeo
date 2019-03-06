@@ -10,6 +10,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/utils/formatting.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class SongList extends StatelessWidget {
@@ -133,7 +134,8 @@ class SongItem extends StatelessWidget {
                         text: '@${artist.handle}',
                       ),
                       TextSpan(
-                        text: ' ',
+                        text:
+                            ' • ${song.playCount} ${localization.views}',
                       ),
                     ],
                   ),
