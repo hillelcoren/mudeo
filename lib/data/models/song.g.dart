@@ -42,8 +42,11 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           specifiedType: const FullType(String)),
       'url',
       serializers.serialize(object.url, specifiedType: const FullType(String)),
-      'is_flagged',
+      'artist_id',
       serializers.serialize(object.artistId,
+          specifiedType: const FullType(int)),
+      'category_id',
+      serializers.serialize(object.categoryId,
           specifiedType: const FullType(int)),
       'duration',
       serializers.serialize(object.duration,
@@ -94,8 +97,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           result.url = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'is_flagged':
+        case 'artist_id':
           result.artistId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'category_id':
+          result.categoryId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'duration':
@@ -220,6 +227,8 @@ class _$SongEntity extends SongEntity {
   @override
   final int artistId;
   @override
+  final int categoryId;
+  @override
   final int duration;
   @override
   final int likes;
@@ -240,6 +249,7 @@ class _$SongEntity extends SongEntity {
       this.description,
       this.url,
       this.artistId,
+      this.categoryId,
       this.duration,
       this.likes,
       this.isFlagged,
@@ -258,6 +268,9 @@ class _$SongEntity extends SongEntity {
     }
     if (artistId == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'artistId');
+    }
+    if (categoryId == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'categoryId');
     }
     if (duration == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'duration');
@@ -291,6 +304,7 @@ class _$SongEntity extends SongEntity {
         description == other.description &&
         url == other.url &&
         artistId == other.artistId &&
+        categoryId == other.categoryId &&
         duration == other.duration &&
         likes == other.likes &&
         isFlagged == other.isFlagged &&
@@ -309,10 +323,12 @@ class _$SongEntity extends SongEntity {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc($jc(0, title.hashCode),
-                                        description.hashCode),
-                                    url.hashCode),
-                                artistId.hashCode),
+                                    $jc(
+                                        $jc($jc(0, title.hashCode),
+                                            description.hashCode),
+                                        url.hashCode),
+                                    artistId.hashCode),
+                                categoryId.hashCode),
                             duration.hashCode),
                         likes.hashCode),
                     isFlagged.hashCode),
@@ -328,6 +344,7 @@ class _$SongEntity extends SongEntity {
           ..add('description', description)
           ..add('url', url)
           ..add('artistId', artistId)
+          ..add('categoryId', categoryId)
           ..add('duration', duration)
           ..add('likes', likes)
           ..add('isFlagged', isFlagged)
@@ -356,6 +373,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int _artistId;
   int get artistId => _$this._artistId;
   set artistId(int artistId) => _$this._artistId = artistId;
+
+  int _categoryId;
+  int get categoryId => _$this._categoryId;
+  set categoryId(int categoryId) => _$this._categoryId = categoryId;
 
   int _duration;
   int get duration => _$this._duration;
@@ -390,6 +411,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _description = _$v.description;
       _url = _$v.url;
       _artistId = _$v.artistId;
+      _categoryId = _$v.categoryId;
       _duration = _$v.duration;
       _likes = _$v.likes;
       _isFlagged = _$v.isFlagged;
@@ -424,6 +446,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               description: description,
               url: url,
               artistId: artistId,
+              categoryId: categoryId,
               duration: duration,
               likes: likes,
               isFlagged: isFlagged,

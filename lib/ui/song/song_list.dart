@@ -118,22 +118,28 @@ class SongItem extends StatelessWidget {
           ),
           Row(
             children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        print('testing');
-                      },
-                      style: linkStyle,
-                      text: '@${artist.handle}',
-                    ),
-                    TextSpan(
-                      text: ' ',
-                    ),
-                  ],
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            print('testing');
+                          },
+                        style: linkStyle,
+                        text: '@${artist.handle}',
+                      ),
+                      TextSpan(
+                        text: ' ',
+                      ),
+                    ],
+                  ),
                 ),
-              )
+              ),
+              Chip(
+                label: ,
+              ),
             ],
           ),
           SizedBox(height: 4),

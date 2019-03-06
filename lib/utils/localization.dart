@@ -20,6 +20,25 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'african': 'African',
+      'arabic': 'Arabic',
+      'asian': 'Asian',
+      'avant_garde': 'Avant-garde',
+      'blues': 'Blues',
+      'caribbean': 'Caribbean',
+      'comedy': 'Comedy',
+      'country': 'Country',
+      'easy_listening': 'Easy listening',
+      'electronic': 'Electronic',
+      'folk': 'Folk',
+      'hip_hop': 'Hip hop',
+      'jazz': 'Jazz',
+      'latin': 'Latin',
+      'pop': 'Pop',
+      'rb_and_soul': 'R&B and Soul',
+      'rock': 'Rock',
+      'classical_music': 'Classical Music',
+      'other': 'Other',
       'edit': 'Edit',
       'explore': 'Explore',
       'create': 'Create',
@@ -29,7 +48,8 @@ class AppLocalization {
       'please_agree_to_terms':
           'Please agree to the terms of service to create a new account.',
       'already_have_an_account': 'Already have an account? Tap here to login',
-      'do_not_have_an_account': 'Don\'t have an account? Tap here to create one',
+      'do_not_have_an_account':
+          'Don\'t have an account? Tap here to create one',
       'play': 'Play',
       'cancel': 'Cancel',
       'one_time_password': 'One Time Password',
@@ -47,23 +67,17 @@ class AppLocalization {
     },
   };
 
-  String get edit =>
-      _localizedValues[locale.toString()]['edit'];
+  String get edit => _localizedValues[locale.toString()]['edit'];
 
-  String get explore =>
-      _localizedValues[locale.toString()]['explore'];
+  String get explore => _localizedValues[locale.toString()]['explore'];
 
-  String get create =>
-      _localizedValues[locale.toString()]['create'];
+  String get create => _localizedValues[locale.toString()]['create'];
 
-  String get profile =>
-      _localizedValues[locale.toString()]['profile'];
+  String get profile => _localizedValues[locale.toString()]['profile'];
 
-  String get handle =>
-      _localizedValues[locale.toString()]['handle'];
+  String get handle => _localizedValues[locale.toString()]['handle'];
 
-  String get close =>
-      _localizedValues[locale.toString()]['close'];
+  String get close => _localizedValues[locale.toString()]['close'];
 
   String get doNotHaveAnAccount =>
       _localizedValues[locale.toString()]['do_not_have_an_account'];
@@ -108,6 +122,46 @@ class AppLocalization {
 
   String get oneTimePassword =>
       _localizedValues[locale.toString()]['one_time_password'];
+
+  String get african => _localizedValues[locale.toString()]['african'];
+
+  String get arabic => _localizedValues[locale.toString()]['arabic'];
+
+  String get asian => _localizedValues[locale.toString()]['asian'];
+
+  String get avantGarde => _localizedValues[locale.toString()]['avant_garde'];
+
+  String get blues => _localizedValues[locale.toString()]['blues'];
+
+  String get caribbean => _localizedValues[locale.toString()]['caribbean'];
+
+  String get comedy => _localizedValues[locale.toString()]['comedy'];
+
+  String get country => _localizedValues[locale.toString()]['country'];
+
+  String get easyListening =>
+      _localizedValues[locale.toString()]['easy_listening'];
+
+  String get electronic => _localizedValues[locale.toString()]['electronic'];
+
+  String get folk => _localizedValues[locale.toString()]['folk'];
+
+  String get hipHop => _localizedValues[locale.toString()]['hip_hop'];
+
+  String get jazz => _localizedValues[locale.toString()]['jazz'];
+
+  String get latin => _localizedValues[locale.toString()]['latin'];
+
+  String get pop => _localizedValues[locale.toString()]['pop'];
+
+  String get rBAndSoul => _localizedValues[locale.toString()]['rb_and_soul'];
+
+  String get rock => _localizedValues[locale.toString()]['rock'];
+
+  String get classicalMusic =>
+      _localizedValues[locale.toString()]['classical_music'];
+
+  String get other => _localizedValues[locale.toString()]['other'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
