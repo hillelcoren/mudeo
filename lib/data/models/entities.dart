@@ -50,39 +50,42 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
     return _$DataState._(
         //songMap: BuiltMap<int, SongEntity>(),
         songMap: BuiltMap({
-      1: SongEntity().rebuild((b) => b
-        ..title = 'test 1'
-        ..artistId = 1
-        ..genreId = 1
-        ..description = 'This is a test description of the song. Some more words to make it longs and some more.'
-        ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
-      2: SongEntity().rebuild((b) => b
-        ..title = 'test 2'
-        ..artistId = 2
-        ..genreId = 2
-        ..tracks.replace([
-          TrackEntity(),
-          TrackEntity(),
-          TrackEntity(),
-          TrackEntity(),
-          TrackEntity()
-        ])),
-      3: SongEntity().rebuild((b) => b..title = 'test 3'),
-      4: SongEntity().rebuild((b) => b..title = 'test 4'),
-      5: SongEntity().rebuild((b) => b..title = 'test 5'),
-      6: SongEntity().rebuild((b) => b..title = 'test 6'),
-      7: SongEntity().rebuild((b) => b..title = 'test 7'),
-      8: SongEntity().rebuild((b) => b..title = 'test 8'),
-    }),
-    artistMap: BuiltMap({
-      1: ArtistEntity().rebuild((b) => b..handle = 'first'),
-      2: ArtistEntity().rebuild((b) => b..handle= 'second'),
-    }));
+          1: SongEntity().rebuild((b) => b
+            ..title = 'test 1'
+            ..artistId = 1
+            ..genreId = 1
+            ..description =
+                'This is a test description of the song. Some more words to make it longs and some more.'
+            ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
+          2: SongEntity().rebuild((b) => b
+            ..title = 'test 2'
+            ..artistId = 2
+            ..genreId = 2
+            ..tracks.replace([
+              TrackEntity(),
+              TrackEntity(),
+              TrackEntity(),
+              TrackEntity(),
+              TrackEntity()
+            ])),
+          3: SongEntity().rebuild((b) => b
+            ..title = 'test 1'
+            ..artistId = 1
+            ..genreId = 1
+            ..description =
+                'This is a test description of the song. Some more words to make it longs and some more.'
+            ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
+        }),
+        artistMap: BuiltMap({
+          1: ArtistEntity().rebuild((b) => b..handle = 'first'),
+          2: ArtistEntity().rebuild((b) => b..handle = 'second'),
+        }));
   }
 
   DataState._();
 
   BuiltMap<int, SongEntity> get songMap;
+
   BuiltMap<int, ArtistEntity> get artistMap;
 
   static Serializer<DataState> get serializer => _$dataStateSerializer;
