@@ -42,6 +42,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           specifiedType: const FullType(String)),
       'url',
       serializers.serialize(object.url, specifiedType: const FullType(String)),
+      'is_flagged',
+      serializers.serialize(object.artistId,
+          specifiedType: const FullType(int)),
       'duration',
       serializers.serialize(object.duration,
           specifiedType: const FullType(int)),
@@ -90,6 +93,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'url':
           result.url = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'is_flagged':
+          result.artistId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
         case 'duration':
           result.duration = serializers.deserialize(value,
@@ -211,6 +218,8 @@ class _$SongEntity extends SongEntity {
   @override
   final String url;
   @override
+  final int artistId;
+  @override
   final int duration;
   @override
   final int likes;
@@ -230,6 +239,7 @@ class _$SongEntity extends SongEntity {
       {this.title,
       this.description,
       this.url,
+      this.artistId,
       this.duration,
       this.likes,
       this.isFlagged,
@@ -245,6 +255,9 @@ class _$SongEntity extends SongEntity {
     }
     if (url == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'url');
+    }
+    if (artistId == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'artistId');
     }
     if (duration == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'duration');
@@ -277,6 +290,7 @@ class _$SongEntity extends SongEntity {
         title == other.title &&
         description == other.description &&
         url == other.url &&
+        artistId == other.artistId &&
         duration == other.duration &&
         likes == other.likes &&
         isFlagged == other.isFlagged &&
@@ -294,9 +308,11 @@ class _$SongEntity extends SongEntity {
                     $jc(
                         $jc(
                             $jc(
-                                $jc($jc(0, title.hashCode),
-                                    description.hashCode),
-                                url.hashCode),
+                                $jc(
+                                    $jc($jc(0, title.hashCode),
+                                        description.hashCode),
+                                    url.hashCode),
+                                artistId.hashCode),
                             duration.hashCode),
                         likes.hashCode),
                     isFlagged.hashCode),
@@ -311,6 +327,7 @@ class _$SongEntity extends SongEntity {
           ..add('title', title)
           ..add('description', description)
           ..add('url', url)
+          ..add('artistId', artistId)
           ..add('duration', duration)
           ..add('likes', likes)
           ..add('isFlagged', isFlagged)
@@ -335,6 +352,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   String _url;
   String get url => _$this._url;
   set url(String url) => _$this._url = url;
+
+  int _artistId;
+  int get artistId => _$this._artistId;
+  set artistId(int artistId) => _$this._artistId = artistId;
 
   int _duration;
   int get duration => _$this._duration;
@@ -368,6 +389,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _title = _$v.title;
       _description = _$v.description;
       _url = _$v.url;
+      _artistId = _$v.artistId;
       _duration = _$v.duration;
       _likes = _$v.likes;
       _isFlagged = _$v.isFlagged;
@@ -401,6 +423,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               title: title,
               description: description,
               url: url,
+              artistId: artistId,
               duration: duration,
               likes: likes,
               isFlagged: isFlagged,

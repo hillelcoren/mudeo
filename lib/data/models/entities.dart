@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/song.dart';
 
 part 'entities.g.dart';
@@ -51,10 +52,12 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
         songMap: BuiltMap({
       1: SongEntity().rebuild((b) => b
         ..title = 'test 1'
+        ..artistId = 1
         ..description = 'This is a test description of the song. Some more words to make it longs and some more.'
         ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
       2: SongEntity().rebuild((b) => b
         ..title = 'test 2'
+        ..artistId = 2
         ..tracks.replace([
           TrackEntity(),
           TrackEntity(),
@@ -68,12 +71,17 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
       6: SongEntity().rebuild((b) => b..title = 'test 6'),
       7: SongEntity().rebuild((b) => b..title = 'test 7'),
       8: SongEntity().rebuild((b) => b..title = 'test 8'),
+    }),
+    artistMap: BuiltMap({
+      1: ArtistEntity().rebuild((b) => b..handle = 'first'),
+      2: ArtistEntity().rebuild((b) => b..handle= 'second'),
     }));
   }
 
   DataState._();
 
   BuiltMap<int, SongEntity> get songMap;
+  BuiltMap<int, ArtistEntity> get artistMap;
 
   static Serializer<DataState> get serializer => _$dataStateSerializer;
 }

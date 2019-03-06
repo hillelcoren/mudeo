@@ -173,6 +173,10 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
       serializers.serialize(object.songMap,
           specifiedType: const FullType(BuiltMap,
               const [const FullType(int), const FullType(SongEntity)])),
+      'artistMap',
+      serializers.serialize(object.artistMap,
+          specifiedType: const FullType(BuiltMap,
+              const [const FullType(int), const FullType(ArtistEntity)])),
     ];
 
     return result;
@@ -194,6 +198,13 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(int),
                 const FullType(SongEntity)
+              ])) as BuiltMap);
+          break;
+        case 'artistMap':
+          result.artistMap.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(int),
+                const FullType(ArtistEntity)
               ])) as BuiltMap);
           break;
       }
@@ -466,13 +477,18 @@ class LoginResponseDataBuilder
 class _$DataState extends DataState {
   @override
   final BuiltMap<int, SongEntity> songMap;
+  @override
+  final BuiltMap<int, ArtistEntity> artistMap;
 
   factory _$DataState([void updates(DataStateBuilder b)]) =>
       (new DataStateBuilder()..update(updates)).build();
 
-  _$DataState._({this.songMap}) : super._() {
+  _$DataState._({this.songMap, this.artistMap}) : super._() {
     if (songMap == null) {
       throw new BuiltValueNullFieldError('DataState', 'songMap');
+    }
+    if (artistMap == null) {
+      throw new BuiltValueNullFieldError('DataState', 'artistMap');
     }
   }
 
@@ -486,17 +502,21 @@ class _$DataState extends DataState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is DataState && songMap == other.songMap;
+    return other is DataState &&
+        songMap == other.songMap &&
+        artistMap == other.artistMap;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, songMap.hashCode));
+    return $jf($jc($jc(0, songMap.hashCode), artistMap.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DataState')..add('songMap', songMap))
+    return (newBuiltValueToStringHelper('DataState')
+          ..add('songMap', songMap)
+          ..add('artistMap', artistMap))
         .toString();
   }
 }
@@ -509,11 +529,18 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
       _$this._songMap ??= new MapBuilder<int, SongEntity>();
   set songMap(MapBuilder<int, SongEntity> songMap) => _$this._songMap = songMap;
 
+  MapBuilder<int, ArtistEntity> _artistMap;
+  MapBuilder<int, ArtistEntity> get artistMap =>
+      _$this._artistMap ??= new MapBuilder<int, ArtistEntity>();
+  set artistMap(MapBuilder<int, ArtistEntity> artistMap) =>
+      _$this._artistMap = artistMap;
+
   DataStateBuilder();
 
   DataStateBuilder get _$this {
     if (_$v != null) {
       _songMap = _$v.songMap?.toBuilder();
+      _artistMap = _$v.artistMap?.toBuilder();
       _$v = null;
     }
     return this;
@@ -536,12 +563,16 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   _$DataState build() {
     _$DataState _$result;
     try {
-      _$result = _$v ?? new _$DataState._(songMap: songMap.build());
+      _$result = _$v ??
+          new _$DataState._(
+              songMap: songMap.build(), artistMap: artistMap.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'songMap';
         songMap.build();
+        _$failedField = 'artistMap';
+        artistMap.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'DataState', _$failedField, e.toString());

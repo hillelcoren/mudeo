@@ -10,6 +10,7 @@ abstract class SongEntity
   factory SongEntity() {
     return _$SongEntity._(
       id: 0,
+      artistId: 0,
       title: '',
       description: '',
       url: '',
@@ -28,6 +29,9 @@ abstract class SongEntity
   String get description;
 
   String get url;
+
+  @BuiltValueField(wireName: 'artist_id')
+  int get artistId;
 
   int get duration;
 

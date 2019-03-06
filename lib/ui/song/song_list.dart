@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/song.dart';
+import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -38,6 +43,7 @@ class SongList extends StatelessWidget {
                 final song = data.songMap[songId];
 
                 return SongItem(
+                  context,
                   song: song,
                   onPlay: () {
                     print('tapped');
@@ -73,7 +79,7 @@ class SongList extends StatelessWidget {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem({this.song, this.onPlay});
+  SongItem(BuildContext context, {this.song, this.onPlay});
 
   final SongEntity song;
   final Function onPlay;
@@ -81,6 +87,12 @@ class SongItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final state = StoreProvider.of<AppState>(context).state;
+    final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
+
+    final ThemeData themeData = Theme.of(context);
+    final TextStyle linkStyle =
+        themeData.textTheme.body2.copyWith(color: themeData.accentColor);
 
     return Material(
       child: FormCard(
@@ -102,6 +114,26 @@ class SongItem extends StatelessWidget {
                 onPressed: onPlay,
                 tooltip: localization.edit,
               ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()..onTap = () {
+                        print('testing');
+                      },
+                      style: linkStyle,
+                      text: '@${artist.handle}',
+                    ),
+                    TextSpan(
+                      text: ' ',
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           SizedBox(height: 4),

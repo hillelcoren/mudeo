@@ -36,5 +36,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltMap,
               const [const FullType(int), const FullType(SongEntity)]),
-          () => new MapBuilder<int, SongEntity>()))
+          () => new MapBuilder<int, SongEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltMap,
+              const [const FullType(int), const FullType(ArtistEntity)]),
+          () => new MapBuilder<int, ArtistEntity>()))
     .build();

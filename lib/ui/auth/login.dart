@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
@@ -227,7 +228,7 @@ class _LoginState extends State<LoginView> {
                                               text: localization.iAgreeToThe +
                                                   ' ',
                                             ),
-                                            _LinkTextSpan(
+                                            LinkTextSpan(
                                               style: linkStyle,
                                               url: kTermsOfServiceURL,
                                               text: localization
@@ -335,13 +336,3 @@ class ArcClipper extends CustomClipper<Path> {
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
-class _LinkTextSpan extends TextSpan {
-  _LinkTextSpan({TextStyle style, String url, String text})
-      : super(
-            style: style,
-            text: text ?? url,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                launch(url, forceSafariVC: false);
-              });
-}
