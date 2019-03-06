@@ -53,15 +53,17 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
           1: SongEntity().rebuild((b) => b
             ..title = 'test 1'
             ..artistId = 1
-            ..genreId = 1
+            ..genreId = 12
             ..duration = 20
+            ..playCount = 50
             ..description =
                 'This is a test description of the song. Some more words to make it longs and some more.'
             ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
           2: SongEntity().rebuild((b) => b
             ..title = 'test 2'
             ..artistId = 2
-            ..genreId = 2
+            ..genreId = 8
+            ..playCount = 100
             ..tracks.replace([
               TrackEntity(),
               TrackEntity(),
