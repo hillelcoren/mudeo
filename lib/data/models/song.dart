@@ -4,10 +4,10 @@ import 'package:mudeo/data/models/entities.dart';
 
 part 'song.g.dart';
 
-abstract class SongState
-    implements SelectableEntity, Built<SongState, SongStateBuilder> {
-  factory SongState() {
-    return _$SongState._(
+abstract class SongEntity
+    implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
+  factory SongEntity() {
+    return _$SongEntity._(
       id: 0,
       title: '',
       description: '',
@@ -19,7 +19,7 @@ abstract class SongState
     );
   }
 
-  SongState._();
+  SongEntity._();
 
   String get title;
 
@@ -42,34 +42,34 @@ abstract class SongState
     return title;
   }
 
-  static Serializer<SongState> get serializer => _$songStateSerializer;
+  static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }
 
-abstract class TrackState
-    implements Built<TrackState, TrackStateBuilder> {
-  factory TrackState() {
-    return _$TrackState._();
+abstract class TrackEntity
+    implements Built<TrackEntity, TrackEntityBuilder> {
+  factory TrackEntity() {
+    return _$TrackEntity._();
   }
 
-  TrackState._();
+  TrackEntity._();
 
   int get id;
 
-  static Serializer<TrackState> get serializer => _$trackStateSerializer;
+  static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
 }
 
 
-abstract class SongTrackState
-    implements Built<SongTrackState, SongTrackStateBuilder> {
-  factory SongTrackState() {
-    return _$SongTrackState._(
+abstract class SongTrackEntity
+    implements Built<SongTrackEntity, SongTrackEntityBuilder> {
+  factory SongTrackEntity() {
+    return _$SongTrackEntity._(
     );
   }
 
-  SongTrackState._();
+  SongTrackEntity._();
 
   int get id;
 
-  static Serializer<SongTrackState> get serializer => _$songTrackStateSerializer;
+  static Serializer<SongTrackEntity> get serializer => _$songTrackEntitySerializer;
 }
 

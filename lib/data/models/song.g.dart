@@ -19,19 +19,19 @@ part of 'song.dart';
 // ignore_for_file: unnecessary_new
 // ignore_for_file: test_types_in_equals
 
-Serializer<SongState> _$songStateSerializer = new _$SongStateSerializer();
-Serializer<TrackState> _$trackStateSerializer = new _$TrackStateSerializer();
-Serializer<SongTrackState> _$songTrackStateSerializer =
-    new _$SongTrackStateSerializer();
+Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
+Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
+Serializer<SongTrackEntity> _$songTrackEntitySerializer =
+    new _$SongTrackEntitySerializer();
 
-class _$SongStateSerializer implements StructuredSerializer<SongState> {
+class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
   @override
-  final Iterable<Type> types = const [SongState, _$SongState];
+  final Iterable<Type> types = const [SongEntity, _$SongEntity];
   @override
-  final String wireName = 'SongState';
+  final String wireName = 'SongEntity';
 
   @override
-  Iterable serialize(Serializers serializers, SongState object,
+  Iterable serialize(Serializers serializers, SongEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'title',
@@ -65,9 +65,9 @@ class _$SongStateSerializer implements StructuredSerializer<SongState> {
   }
 
   @override
-  SongState deserialize(Serializers serializers, Iterable serialized,
+  SongEntity deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new SongStateBuilder();
+    final result = new SongEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -114,14 +114,14 @@ class _$SongStateSerializer implements StructuredSerializer<SongState> {
   }
 }
 
-class _$TrackStateSerializer implements StructuredSerializer<TrackState> {
+class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
   @override
-  final Iterable<Type> types = const [TrackState, _$TrackState];
+  final Iterable<Type> types = const [TrackEntity, _$TrackEntity];
   @override
-  final String wireName = 'TrackState';
+  final String wireName = 'TrackEntity';
 
   @override
-  Iterable serialize(Serializers serializers, TrackState object,
+  Iterable serialize(Serializers serializers, TrackEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
@@ -132,9 +132,9 @@ class _$TrackStateSerializer implements StructuredSerializer<TrackState> {
   }
 
   @override
-  TrackState deserialize(Serializers serializers, Iterable serialized,
+  TrackEntity deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new TrackStateBuilder();
+    final result = new TrackEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -153,15 +153,15 @@ class _$TrackStateSerializer implements StructuredSerializer<TrackState> {
   }
 }
 
-class _$SongTrackStateSerializer
-    implements StructuredSerializer<SongTrackState> {
+class _$SongTrackEntitySerializer
+    implements StructuredSerializer<SongTrackEntity> {
   @override
-  final Iterable<Type> types = const [SongTrackState, _$SongTrackState];
+  final Iterable<Type> types = const [SongTrackEntity, _$SongTrackEntity];
   @override
-  final String wireName = 'SongTrackState';
+  final String wireName = 'SongTrackEntity';
 
   @override
-  Iterable serialize(Serializers serializers, SongTrackState object,
+  Iterable serialize(Serializers serializers, SongTrackEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
@@ -172,9 +172,9 @@ class _$SongTrackStateSerializer
   }
 
   @override
-  SongTrackState deserialize(Serializers serializers, Iterable serialized,
+  SongTrackEntity deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new SongTrackStateBuilder();
+    final result = new SongTrackEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -193,7 +193,7 @@ class _$SongTrackStateSerializer
   }
 }
 
-class _$SongState extends SongState {
+class _$SongEntity extends SongEntity {
   @override
   final String title;
   @override
@@ -211,10 +211,10 @@ class _$SongState extends SongState {
   @override
   final int id;
 
-  factory _$SongState([void updates(SongStateBuilder b)]) =>
-      (new SongStateBuilder()..update(updates)).build();
+  factory _$SongEntity([void updates(SongEntityBuilder b)]) =>
+      (new SongEntityBuilder()..update(updates)).build();
 
-  _$SongState._(
+  _$SongEntity._(
       {this.title,
       this.description,
       this.url,
@@ -225,39 +225,39 @@ class _$SongState extends SongState {
       this.id})
       : super._() {
     if (title == null) {
-      throw new BuiltValueNullFieldError('SongState', 'title');
+      throw new BuiltValueNullFieldError('SongEntity', 'title');
     }
     if (description == null) {
-      throw new BuiltValueNullFieldError('SongState', 'description');
+      throw new BuiltValueNullFieldError('SongEntity', 'description');
     }
     if (url == null) {
-      throw new BuiltValueNullFieldError('SongState', 'url');
+      throw new BuiltValueNullFieldError('SongEntity', 'url');
     }
     if (duration == null) {
-      throw new BuiltValueNullFieldError('SongState', 'duration');
+      throw new BuiltValueNullFieldError('SongEntity', 'duration');
     }
     if (likes == null) {
-      throw new BuiltValueNullFieldError('SongState', 'likes');
+      throw new BuiltValueNullFieldError('SongEntity', 'likes');
     }
     if (isFlagged == null) {
-      throw new BuiltValueNullFieldError('SongState', 'isFlagged');
+      throw new BuiltValueNullFieldError('SongEntity', 'isFlagged');
     }
     if (isPublic == null) {
-      throw new BuiltValueNullFieldError('SongState', 'isPublic');
+      throw new BuiltValueNullFieldError('SongEntity', 'isPublic');
     }
   }
 
   @override
-  SongState rebuild(void updates(SongStateBuilder b)) =>
+  SongEntity rebuild(void updates(SongEntityBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SongStateBuilder toBuilder() => new SongStateBuilder()..replace(this);
+  SongEntityBuilder toBuilder() => new SongEntityBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SongState &&
+    return other is SongEntity &&
         title == other.title &&
         description == other.description &&
         url == other.url &&
@@ -286,7 +286,7 @@ class _$SongState extends SongState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongState')
+    return (newBuiltValueToStringHelper('SongEntity')
           ..add('title', title)
           ..add('description', description)
           ..add('url', url)
@@ -299,8 +299,8 @@ class _$SongState extends SongState {
   }
 }
 
-class SongStateBuilder implements Builder<SongState, SongStateBuilder> {
-  _$SongState _$v;
+class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
+  _$SongEntity _$v;
 
   String _title;
   String get title => _$this._title;
@@ -334,9 +334,9 @@ class SongStateBuilder implements Builder<SongState, SongStateBuilder> {
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
-  SongStateBuilder();
+  SongEntityBuilder();
 
-  SongStateBuilder get _$this {
+  SongEntityBuilder get _$this {
     if (_$v != null) {
       _title = _$v.title;
       _description = _$v.description;
@@ -352,22 +352,22 @@ class SongStateBuilder implements Builder<SongState, SongStateBuilder> {
   }
 
   @override
-  void replace(SongState other) {
+  void replace(SongEntity other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
-    _$v = other as _$SongState;
+    _$v = other as _$SongEntity;
   }
 
   @override
-  void update(void updates(SongStateBuilder b)) {
+  void update(void updates(SongEntityBuilder b)) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$SongState build() {
+  _$SongEntity build() {
     final _$result = _$v ??
-        new _$SongState._(
+        new _$SongEntity._(
             title: title,
             description: description,
             url: url,
@@ -381,30 +381,30 @@ class SongStateBuilder implements Builder<SongState, SongStateBuilder> {
   }
 }
 
-class _$TrackState extends TrackState {
+class _$TrackEntity extends TrackEntity {
   @override
   final int id;
 
-  factory _$TrackState([void updates(TrackStateBuilder b)]) =>
-      (new TrackStateBuilder()..update(updates)).build();
+  factory _$TrackEntity([void updates(TrackEntityBuilder b)]) =>
+      (new TrackEntityBuilder()..update(updates)).build();
 
-  _$TrackState._({this.id}) : super._() {
+  _$TrackEntity._({this.id}) : super._() {
     if (id == null) {
-      throw new BuiltValueNullFieldError('TrackState', 'id');
+      throw new BuiltValueNullFieldError('TrackEntity', 'id');
     }
   }
 
   @override
-  TrackState rebuild(void updates(TrackStateBuilder b)) =>
+  TrackEntity rebuild(void updates(TrackEntityBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  TrackStateBuilder toBuilder() => new TrackStateBuilder()..replace(this);
+  TrackEntityBuilder toBuilder() => new TrackEntityBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is TrackState && id == other.id;
+    return other is TrackEntity && id == other.id;
   }
 
   @override
@@ -414,21 +414,21 @@ class _$TrackState extends TrackState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('TrackState')..add('id', id))
+    return (newBuiltValueToStringHelper('TrackEntity')..add('id', id))
         .toString();
   }
 }
 
-class TrackStateBuilder implements Builder<TrackState, TrackStateBuilder> {
-  _$TrackState _$v;
+class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
+  _$TrackEntity _$v;
 
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
-  TrackStateBuilder();
+  TrackEntityBuilder();
 
-  TrackStateBuilder get _$this {
+  TrackEntityBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
       _$v = null;
@@ -437,51 +437,51 @@ class TrackStateBuilder implements Builder<TrackState, TrackStateBuilder> {
   }
 
   @override
-  void replace(TrackState other) {
+  void replace(TrackEntity other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
-    _$v = other as _$TrackState;
+    _$v = other as _$TrackEntity;
   }
 
   @override
-  void update(void updates(TrackStateBuilder b)) {
+  void update(void updates(TrackEntityBuilder b)) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$TrackState build() {
-    final _$result = _$v ?? new _$TrackState._(id: id);
+  _$TrackEntity build() {
+    final _$result = _$v ?? new _$TrackEntity._(id: id);
     replace(_$result);
     return _$result;
   }
 }
 
-class _$SongTrackState extends SongTrackState {
+class _$SongTrackEntity extends SongTrackEntity {
   @override
   final int id;
 
-  factory _$SongTrackState([void updates(SongTrackStateBuilder b)]) =>
-      (new SongTrackStateBuilder()..update(updates)).build();
+  factory _$SongTrackEntity([void updates(SongTrackEntityBuilder b)]) =>
+      (new SongTrackEntityBuilder()..update(updates)).build();
 
-  _$SongTrackState._({this.id}) : super._() {
+  _$SongTrackEntity._({this.id}) : super._() {
     if (id == null) {
-      throw new BuiltValueNullFieldError('SongTrackState', 'id');
+      throw new BuiltValueNullFieldError('SongTrackEntity', 'id');
     }
   }
 
   @override
-  SongTrackState rebuild(void updates(SongTrackStateBuilder b)) =>
+  SongTrackEntity rebuild(void updates(SongTrackEntityBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SongTrackStateBuilder toBuilder() =>
-      new SongTrackStateBuilder()..replace(this);
+  SongTrackEntityBuilder toBuilder() =>
+      new SongTrackEntityBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SongTrackState && id == other.id;
+    return other is SongTrackEntity && id == other.id;
   }
 
   @override
@@ -491,22 +491,22 @@ class _$SongTrackState extends SongTrackState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongTrackState')..add('id', id))
+    return (newBuiltValueToStringHelper('SongTrackEntity')..add('id', id))
         .toString();
   }
 }
 
-class SongTrackStateBuilder
-    implements Builder<SongTrackState, SongTrackStateBuilder> {
-  _$SongTrackState _$v;
+class SongTrackEntityBuilder
+    implements Builder<SongTrackEntity, SongTrackEntityBuilder> {
+  _$SongTrackEntity _$v;
 
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
-  SongTrackStateBuilder();
+  SongTrackEntityBuilder();
 
-  SongTrackStateBuilder get _$this {
+  SongTrackEntityBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
       _$v = null;
@@ -515,21 +515,21 @@ class SongTrackStateBuilder
   }
 
   @override
-  void replace(SongTrackState other) {
+  void replace(SongTrackEntity other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
-    _$v = other as _$SongTrackState;
+    _$v = other as _$SongTrackEntity;
   }
 
   @override
-  void update(void updates(SongTrackStateBuilder b)) {
+  void update(void updates(SongTrackEntityBuilder b)) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$SongTrackState build() {
-    final _$result = _$v ?? new _$SongTrackState._(id: id);
+  _$SongTrackEntity build() {
+    final _$result = _$v ?? new _$SongTrackEntity._(id: id);
     replace(_$result);
     return _$result;
   }

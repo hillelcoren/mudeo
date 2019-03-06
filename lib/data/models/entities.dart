@@ -1,5 +1,7 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/data/models/song.dart';
 
 part 'entities.g.dart';
 
@@ -44,10 +46,14 @@ abstract class LoginResponseData
 
 abstract class DataState implements Built<DataState, DataStateBuilder> {
   factory DataState() {
-    return _$DataState._();
+    return _$DataState._(
+      songMap: BuiltMap<int, SongEntity>(),
+    );
   }
 
   DataState._();
+
+  BuiltMap<int, SongEntity> get songMap;
 
   static Serializer<DataState> get serializer => _$dataStateSerializer;
 }
@@ -58,5 +64,3 @@ abstract class SelectableEntity {
 
   String get listDisplayName => 'Error: listDisplayName not set';
 }
-
-

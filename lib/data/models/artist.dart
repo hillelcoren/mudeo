@@ -4,10 +4,10 @@ import 'package:mudeo/data/models/entities.dart';
 
 part 'artist.g.dart';
 
-abstract class ArtistState
-    implements SelectableEntity, Built<ArtistState, ArtistStateBuilder> {
-  factory ArtistState() {
-    return _$ArtistState._(
+abstract class ArtistEntity
+    implements SelectableEntity, Built<ArtistEntity, ArtistEntityBuilder> {
+  factory ArtistEntity() {
+    return _$ArtistEntity._(
       id: 0,
       firstName: '',
       lastName: '',
@@ -16,7 +16,7 @@ abstract class ArtistState
     );
   }
 
-  ArtistState._();
+  ArtistEntity._();
 
   @BuiltValueField(wireName: 'first_name')
   String get firstName;
@@ -34,5 +34,5 @@ abstract class ArtistState
     return handle;
   }
 
-  static Serializer<ArtistState> get serializer => _$artistStateSerializer;
+  static Serializer<ArtistEntity> get serializer => _$artistEntitySerializer;
 }

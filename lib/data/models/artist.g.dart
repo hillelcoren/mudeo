@@ -19,16 +19,17 @@ part of 'artist.dart';
 // ignore_for_file: unnecessary_new
 // ignore_for_file: test_types_in_equals
 
-Serializer<ArtistState> _$artistStateSerializer = new _$ArtistStateSerializer();
+Serializer<ArtistEntity> _$artistEntitySerializer =
+    new _$ArtistEntitySerializer();
 
-class _$ArtistStateSerializer implements StructuredSerializer<ArtistState> {
+class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   @override
-  final Iterable<Type> types = const [ArtistState, _$ArtistState];
+  final Iterable<Type> types = const [ArtistEntity, _$ArtistEntity];
   @override
-  final String wireName = 'ArtistState';
+  final String wireName = 'ArtistEntity';
 
   @override
-  Iterable serialize(Serializers serializers, ArtistState object,
+  Iterable serialize(Serializers serializers, ArtistEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'first_name',
@@ -55,9 +56,9 @@ class _$ArtistStateSerializer implements StructuredSerializer<ArtistState> {
   }
 
   @override
-  ArtistState deserialize(Serializers serializers, Iterable serialized,
+  ArtistEntity deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new ArtistStateBuilder();
+    final result = new ArtistEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -92,7 +93,7 @@ class _$ArtistStateSerializer implements StructuredSerializer<ArtistState> {
   }
 }
 
-class _$ArtistState extends ArtistState {
+class _$ArtistEntity extends ArtistEntity {
   @override
   final String firstName;
   @override
@@ -104,37 +105,37 @@ class _$ArtistState extends ArtistState {
   @override
   final int id;
 
-  factory _$ArtistState([void updates(ArtistStateBuilder b)]) =>
-      (new ArtistStateBuilder()..update(updates)).build();
+  factory _$ArtistEntity([void updates(ArtistEntityBuilder b)]) =>
+      (new ArtistEntityBuilder()..update(updates)).build();
 
-  _$ArtistState._(
+  _$ArtistEntity._(
       {this.firstName, this.lastName, this.handle, this.email, this.id})
       : super._() {
     if (firstName == null) {
-      throw new BuiltValueNullFieldError('ArtistState', 'firstName');
+      throw new BuiltValueNullFieldError('ArtistEntity', 'firstName');
     }
     if (lastName == null) {
-      throw new BuiltValueNullFieldError('ArtistState', 'lastName');
+      throw new BuiltValueNullFieldError('ArtistEntity', 'lastName');
     }
     if (handle == null) {
-      throw new BuiltValueNullFieldError('ArtistState', 'handle');
+      throw new BuiltValueNullFieldError('ArtistEntity', 'handle');
     }
     if (email == null) {
-      throw new BuiltValueNullFieldError('ArtistState', 'email');
+      throw new BuiltValueNullFieldError('ArtistEntity', 'email');
     }
   }
 
   @override
-  ArtistState rebuild(void updates(ArtistStateBuilder b)) =>
+  ArtistEntity rebuild(void updates(ArtistEntityBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ArtistStateBuilder toBuilder() => new ArtistStateBuilder()..replace(this);
+  ArtistEntityBuilder toBuilder() => new ArtistEntityBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ArtistState &&
+    return other is ArtistEntity &&
         firstName == other.firstName &&
         lastName == other.lastName &&
         handle == other.handle &&
@@ -154,7 +155,7 @@ class _$ArtistState extends ArtistState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ArtistState')
+    return (newBuiltValueToStringHelper('ArtistEntity')
           ..add('firstName', firstName)
           ..add('lastName', lastName)
           ..add('handle', handle)
@@ -164,8 +165,9 @@ class _$ArtistState extends ArtistState {
   }
 }
 
-class ArtistStateBuilder implements Builder<ArtistState, ArtistStateBuilder> {
-  _$ArtistState _$v;
+class ArtistEntityBuilder
+    implements Builder<ArtistEntity, ArtistEntityBuilder> {
+  _$ArtistEntity _$v;
 
   String _firstName;
   String get firstName => _$this._firstName;
@@ -187,9 +189,9 @@ class ArtistStateBuilder implements Builder<ArtistState, ArtistStateBuilder> {
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
-  ArtistStateBuilder();
+  ArtistEntityBuilder();
 
-  ArtistStateBuilder get _$this {
+  ArtistEntityBuilder get _$this {
     if (_$v != null) {
       _firstName = _$v.firstName;
       _lastName = _$v.lastName;
@@ -202,22 +204,22 @@ class ArtistStateBuilder implements Builder<ArtistState, ArtistStateBuilder> {
   }
 
   @override
-  void replace(ArtistState other) {
+  void replace(ArtistEntity other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
-    _$v = other as _$ArtistState;
+    _$v = other as _$ArtistEntity;
   }
 
   @override
-  void update(void updates(ArtistStateBuilder b)) {
+  void update(void updates(ArtistEntityBuilder b)) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$ArtistState build() {
+  _$ArtistEntity build() {
     final _$result = _$v ??
-        new _$ArtistState._(
+        new _$ArtistEntity._(
             firstName: firstName,
             lastName: lastName,
             handle: handle,

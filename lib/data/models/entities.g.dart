@@ -168,13 +168,38 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
   @override
   Iterable serialize(Serializers serializers, DataState object,
       {FullType specifiedType = FullType.unspecified}) {
-    return <Object>[];
+    final result = <Object>[
+      'songMap',
+      serializers.serialize(object.songMap,
+          specifiedType: const FullType(BuiltMap,
+              const [const FullType(int), const FullType(SongEntity)])),
+    ];
+
+    return result;
   }
 
   @override
   DataState deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    return new DataStateBuilder().build();
+    final result = new DataStateBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'songMap':
+          result.songMap.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(int),
+                const FullType(SongEntity)
+              ])) as BuiltMap);
+          break;
+      }
+    }
+
+    return result.build();
   }
 }
 
@@ -439,10 +464,17 @@ class LoginResponseDataBuilder
 }
 
 class _$DataState extends DataState {
+  @override
+  final BuiltMap<int, SongEntity> songMap;
+
   factory _$DataState([void updates(DataStateBuilder b)]) =>
       (new DataStateBuilder()..update(updates)).build();
 
-  _$DataState._() : super._();
+  _$DataState._({this.songMap}) : super._() {
+    if (songMap == null) {
+      throw new BuiltValueNullFieldError('DataState', 'songMap');
+    }
+  }
 
   @override
   DataState rebuild(void updates(DataStateBuilder b)) =>
@@ -454,24 +486,38 @@ class _$DataState extends DataState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is DataState;
+    return other is DataState && songMap == other.songMap;
   }
 
   @override
   int get hashCode {
-    return 190850634;
+    return $jf($jc(0, songMap.hashCode));
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('DataState').toString();
+    return (newBuiltValueToStringHelper('DataState')..add('songMap', songMap))
+        .toString();
   }
 }
 
 class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   _$DataState _$v;
 
+  MapBuilder<int, SongEntity> _songMap;
+  MapBuilder<int, SongEntity> get songMap =>
+      _$this._songMap ??= new MapBuilder<int, SongEntity>();
+  set songMap(MapBuilder<int, SongEntity> songMap) => _$this._songMap = songMap;
+
   DataStateBuilder();
+
+  DataStateBuilder get _$this {
+    if (_$v != null) {
+      _songMap = _$v.songMap?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(DataState other) {
@@ -488,7 +534,20 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
 
   @override
   _$DataState build() {
-    final _$result = _$v ?? new _$DataState._();
+    _$DataState _$result;
+    try {
+      _$result = _$v ?? new _$DataState._(songMap: songMap.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'songMap';
+        songMap.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'DataState', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

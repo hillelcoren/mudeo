@@ -21,10 +21,16 @@ part of 'serializers.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AppState.serializer)
+      ..add(ArtistEntity.serializer)
       ..add(AuthState.serializer)
       ..add(DataState.serializer)
       ..add(ErrorMessage.serializer)
       ..add(LoginResponse.serializer)
       ..add(LoginResponseData.serializer)
-      ..add(UIState.serializer))
+      ..add(SongEntity.serializer)
+      ..add(UIState.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltMap,
+              const [const FullType(int), const FullType(SongEntity)]),
+          () => new MapBuilder<int, SongEntity>()))
     .build();
