@@ -42,8 +42,8 @@ Middleware<AppState> _createLoginInit() {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     _loadAuthLocal(store, action);
 
-    //Navigator.of(action.context).pushReplacementNamed(LoginScreen.route);
-    Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
+    Navigator.of(action.context).pushReplacementNamed(LoginScreen.route);
+    //Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
 
     next(action);
   };
