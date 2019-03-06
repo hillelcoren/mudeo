@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'explore': 'Explore',
+      'create': 'Create',
+      'profile': 'Profile',
       'handle': 'Handle',
       'close': 'Close',
       'please_agree_to_terms':
@@ -42,6 +45,15 @@ class AppLocalization {
       'terms_of_service_link': 'terms of service',
     },
   };
+
+  String get explore =>
+      _localizedValues[locale.toString()]['explore'];
+
+  String get create =>
+      _localizedValues[locale.toString()]['create'];
+
+  String get profile =>
+      _localizedValues[locale.toString()]['profile'];
 
   String get handle =>
       _localizedValues[locale.toString()]['handle'];

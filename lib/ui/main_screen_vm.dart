@@ -6,22 +6,50 @@ import 'package:mudeo/ui/main_screen.dart';
 import 'package:redux/redux.dart';
 import 'package:mudeo/utils/localization.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   static const String route = '/main';
+
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Scaffold'),
+    final List<Widget> _children = [
+      Placeholder(),
+      Placeholder(
+        color: Colors.green,
       ),
-      body: MainScreenBuilder(),
+      Placeholder(),
+    ];
+
+    return Scaffold(
+      body: _children[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black45,
+        onTap: (index) => setState(() => _selectedIndex = index),
+        currentIndex: 0, // this will be set when a new tab is tapped
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            title: Text(localization.explore),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.video_call),
+            title: Text(localization.create),
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person), title: Text(localization.profile))
+        ],
+      ),
     );
   }
 }
-
 
 class MainScreenBuilder extends StatelessWidget {
   const MainScreenBuilder({Key key}) : super(key: key);
