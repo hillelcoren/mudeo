@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -138,7 +139,9 @@ class SongItem extends StatelessWidget {
                 ),
               ),
               Chip(
-                label: ,
+                label: Text(localization.lookup(kGenres[song.genreId])),
+                backgroundColor: kGenreColors[song.genreId],
+                elevation: 2,
               ),
             ],
           ),

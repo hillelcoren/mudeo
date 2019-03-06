@@ -14,7 +14,7 @@ abstract class SongEntity
       title: '',
       description: '',
       url: '',
-      categoryId: 0,
+      genreId: 0,
       duration: 0,
       likes: 0,
       isFlagged: false,
@@ -35,7 +35,7 @@ abstract class SongEntity
   int get artistId;
 
   @BuiltValueField(wireName: 'category_id')
-  int get categoryId;
+  int get genreId;
 
   int get duration;
 

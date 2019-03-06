@@ -46,8 +46,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       serializers.serialize(object.artistId,
           specifiedType: const FullType(int)),
       'category_id',
-      serializers.serialize(object.categoryId,
-          specifiedType: const FullType(int)),
+      serializers.serialize(object.genreId, specifiedType: const FullType(int)),
       'duration',
       serializers.serialize(object.duration,
           specifiedType: const FullType(int)),
@@ -102,7 +101,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
               specifiedType: const FullType(int)) as int;
           break;
         case 'category_id':
-          result.categoryId = serializers.deserialize(value,
+          result.genreId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'duration':
@@ -227,7 +226,7 @@ class _$SongEntity extends SongEntity {
   @override
   final int artistId;
   @override
-  final int categoryId;
+  final int genreId;
   @override
   final int duration;
   @override
@@ -249,7 +248,7 @@ class _$SongEntity extends SongEntity {
       this.description,
       this.url,
       this.artistId,
-      this.categoryId,
+      this.genreId,
       this.duration,
       this.likes,
       this.isFlagged,
@@ -269,8 +268,8 @@ class _$SongEntity extends SongEntity {
     if (artistId == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'artistId');
     }
-    if (categoryId == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'categoryId');
+    if (genreId == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'genreId');
     }
     if (duration == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'duration');
@@ -304,7 +303,7 @@ class _$SongEntity extends SongEntity {
         description == other.description &&
         url == other.url &&
         artistId == other.artistId &&
-        categoryId == other.categoryId &&
+        genreId == other.genreId &&
         duration == other.duration &&
         likes == other.likes &&
         isFlagged == other.isFlagged &&
@@ -328,7 +327,7 @@ class _$SongEntity extends SongEntity {
                                             description.hashCode),
                                         url.hashCode),
                                     artistId.hashCode),
-                                categoryId.hashCode),
+                                genreId.hashCode),
                             duration.hashCode),
                         likes.hashCode),
                     isFlagged.hashCode),
@@ -344,7 +343,7 @@ class _$SongEntity extends SongEntity {
           ..add('description', description)
           ..add('url', url)
           ..add('artistId', artistId)
-          ..add('categoryId', categoryId)
+          ..add('genreId', genreId)
           ..add('duration', duration)
           ..add('likes', likes)
           ..add('isFlagged', isFlagged)
@@ -374,9 +373,9 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int get artistId => _$this._artistId;
   set artistId(int artistId) => _$this._artistId = artistId;
 
-  int _categoryId;
-  int get categoryId => _$this._categoryId;
-  set categoryId(int categoryId) => _$this._categoryId = categoryId;
+  int _genreId;
+  int get genreId => _$this._genreId;
+  set genreId(int genreId) => _$this._genreId = genreId;
 
   int _duration;
   int get duration => _$this._duration;
@@ -411,7 +410,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _description = _$v.description;
       _url = _$v.url;
       _artistId = _$v.artistId;
-      _categoryId = _$v.categoryId;
+      _genreId = _$v.genreId;
       _duration = _$v.duration;
       _likes = _$v.likes;
       _isFlagged = _$v.isFlagged;
@@ -446,7 +445,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               description: description,
               url: url,
               artistId: artistId,
-              categoryId: categoryId,
+              genreId: genreId,
               duration: duration,
               likes: likes,
               isFlagged: isFlagged,
