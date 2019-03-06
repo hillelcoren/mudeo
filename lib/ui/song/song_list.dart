@@ -36,10 +36,11 @@ class SongList extends StatelessWidget {
                 final songId = viewModel.songIds[index];
                 final song = data.songMap[songId];
 
-                return SongItem(song);
-
-                return ListTile(
-                  title: Text('song'),
+                return SongItem(
+                  song: song,
+                  onTap: () {
+                    print('tapped');
+                  },
                 );
               }),
           /*
@@ -77,9 +78,10 @@ class SongList extends StatelessWidget {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem(this.song);
+  SongItem({this.song, this.onTap});
 
   final SongEntity song;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +91,17 @@ class SongItem extends StatelessWidget {
         //mainAxisAlignment: MainAxisAlignment.start,
         //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(song.title, style: Theme.of(context).textTheme.title),
-          SizedBox(height: 4),
-          Text(song.description),
-          SizedBox(height: 4),
+          InkWell(
+            onTap: onTap,
+            child: Column(
+              children: <Widget>[
+                Text(song.title, style: Theme.of(context).textTheme.title),
+                SizedBox(height: 4),
+                Text(song.description),
+                SizedBox(height: 4),
+              ],
+            ),
+          ),
           Container(
             height: 100,
             child: ListView(
@@ -107,5 +116,16 @@ class SongItem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class SongView extends StatelessWidget {
+  SongView(this.song);
+
+  final SongEntity song;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(song.title);
   }
 }
