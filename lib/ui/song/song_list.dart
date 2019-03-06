@@ -111,7 +111,7 @@ class SongItem extends StatelessWidget {
                             Navigator.of(context).push(
                               CupertinoPageRoute<void>(
                                 builder: (BuildContext context) {
-                                  return ArtistPage();
+                                  return ArtistPage(artist);
                                 },
                               ),
                             );

@@ -56,6 +56,7 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
             ..genreId = 12
             ..duration = 20
             ..playCount = 50
+            ..likeCount = 10
             ..description =
                 'This is a test description of the song. Some more words to make it longs and some more.'
             ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
@@ -64,6 +65,7 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
             ..artistId = 2
             ..genreId = 8
             ..playCount = 100
+            ..likes = 80
             ..tracks.replace([
               TrackEntity(),
               TrackEntity(),
