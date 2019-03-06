@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/utils/localization.dart';
 
 class SongList extends StatelessWidget {
   const SongList({
@@ -38,7 +39,7 @@ class SongList extends StatelessWidget {
 
                 return SongItem(
                   song: song,
-                  onTap: () {
+                  onPlay: () {
                     print('tapped');
                   },
                 );
@@ -78,30 +79,33 @@ class SongList extends StatelessWidget {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem({this.song, this.onTap});
+  SongItem({this.song, this.onPlay});
 
   final SongEntity song;
-  final Function onTap;
+  final Function onPlay;
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
     return Material(
       child: FormCard(
-        //mainAxisSize: MainAxisSize.min,
-        //mainAxisAlignment: MainAxisAlignment.start,
-        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          InkWell(
-            onTap: onTap,
-            child: Column(
-              children: <Widget>[
-                Text(song.title, style: Theme.of(context).textTheme.title),
-                SizedBox(height: 4),
-                Text(song.description),
-                SizedBox(height: 4),
-              ],
-            ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child:
+                    Text(song.title, style: Theme.of(context).textTheme.title),
+              ),
+              FlatButton(
+                child: Text(localization.play),
+                onPressed: onPlay,
+              ),
+            ],
           ),
+          SizedBox(height: 4),
+          Text(song.description),
+          SizedBox(height: 18),
           Container(
             height: 100,
             child: ListView(

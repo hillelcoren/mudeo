@@ -51,6 +51,7 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
         songMap: BuiltMap({
       1: SongEntity().rebuild((b) => b
         ..title = 'test 1'
+        ..description = 'This is a test description of the song. Some more words to make it longs and some more.'
         ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
       2: SongEntity().rebuild((b) => b
         ..title = 'test 2'
