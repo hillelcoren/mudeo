@@ -17,6 +17,7 @@ abstract class SongEntity
       genreId: 0,
       duration: 0,
       likes: 0,
+      playCount: 0,
       isFlagged: false,
       isPublic: false,
       tracks: BuiltList<TrackEntity>(),
@@ -40,6 +41,8 @@ abstract class SongEntity
   int get duration;
 
   int get likes;
+
+  int get playCount;
 
   @BuiltValueField(wireName: 'is_flagged')
   bool get isFlagged;
