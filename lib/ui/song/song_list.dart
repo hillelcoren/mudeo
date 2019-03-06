@@ -9,6 +9,7 @@ import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/form_card.dart';
+import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/formatting.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -49,28 +50,6 @@ class SongList extends StatelessWidget {
                   song: song,
                   onPlay: () {
                     print('tapped');
-
-                    /*
-                    Navigator.of(context).push(
-                      CupertinoPageRoute<void>(
-                        builder: (BuildContext context) {
-                          return CupertinoPageScaffold(
-                            navigationBar: CupertinoNavigationBar(
-                              middle: Text('Page 2 of tab $index'),
-                            ),
-                            child: Center(
-                              child: CupertinoButton(
-                                child: const Text('Back'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                    */
                   },
                 );
               }),
@@ -129,13 +108,19 @@ class SongItem extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             print('testing');
+                            Navigator.of(context).push(
+                              CupertinoPageRoute<void>(
+                                builder: (BuildContext context) {
+                                  return ArtistPage();
+                                },
+                              ),
+                            );
                           },
                         style: linkStyle,
                         text: '@${artist.handle}',
                       ),
                       TextSpan(
-                        text:
-                            ' • ${song.playCount} ${localization.views}',
+                        text: ' • ${song.playCount} ${localization.views}',
                       ),
                     ],
                   ),
