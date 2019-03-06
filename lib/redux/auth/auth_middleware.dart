@@ -4,8 +4,7 @@ import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
-import 'package:mudeo/ui/auth/login_vm.dart';
-import 'package:mudeo/ui/main_screen_vm.dart';
+import 'package:mudeo/ui/main_screen.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

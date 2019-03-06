@@ -53,6 +53,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       'is_public',
       serializers.serialize(object.isPublic,
           specifiedType: const FullType(bool)),
+      'tracks',
+      serializers.serialize(object.tracks,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(TrackEntity)])),
     ];
     if (object.id != null) {
       result
@@ -102,6 +106,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'is_public':
           result.isPublic = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'tracks':
+          result.tracks.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(TrackEntity)]))
+              as BuiltList);
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -209,6 +219,8 @@ class _$SongEntity extends SongEntity {
   @override
   final bool isPublic;
   @override
+  final BuiltList<TrackEntity> tracks;
+  @override
   final int id;
 
   factory _$SongEntity([void updates(SongEntityBuilder b)]) =>
@@ -222,6 +234,7 @@ class _$SongEntity extends SongEntity {
       this.likes,
       this.isFlagged,
       this.isPublic,
+      this.tracks,
       this.id})
       : super._() {
     if (title == null) {
@@ -245,6 +258,9 @@ class _$SongEntity extends SongEntity {
     if (isPublic == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'isPublic');
     }
+    if (tracks == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'tracks');
+    }
   }
 
   @override
@@ -265,6 +281,7 @@ class _$SongEntity extends SongEntity {
         likes == other.likes &&
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
+        tracks == other.tracks &&
         id == other.id;
   }
 
@@ -275,12 +292,16 @@ class _$SongEntity extends SongEntity {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, title.hashCode), description.hashCode),
-                            url.hashCode),
-                        duration.hashCode),
-                    likes.hashCode),
-                isFlagged.hashCode),
-            isPublic.hashCode),
+                        $jc(
+                            $jc(
+                                $jc($jc(0, title.hashCode),
+                                    description.hashCode),
+                                url.hashCode),
+                            duration.hashCode),
+                        likes.hashCode),
+                    isFlagged.hashCode),
+                isPublic.hashCode),
+            tracks.hashCode),
         id.hashCode));
   }
 
@@ -294,6 +315,7 @@ class _$SongEntity extends SongEntity {
           ..add('likes', likes)
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
+          ..add('tracks', tracks)
           ..add('id', id))
         .toString();
   }
@@ -330,6 +352,11 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   bool get isPublic => _$this._isPublic;
   set isPublic(bool isPublic) => _$this._isPublic = isPublic;
 
+  ListBuilder<TrackEntity> _tracks;
+  ListBuilder<TrackEntity> get tracks =>
+      _$this._tracks ??= new ListBuilder<TrackEntity>();
+  set tracks(ListBuilder<TrackEntity> tracks) => _$this._tracks = tracks;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -345,6 +372,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _likes = _$v.likes;
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
+      _tracks = _$v.tracks?.toBuilder();
       _id = _$v.id;
       _$v = null;
     }
@@ -366,16 +394,30 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
   @override
   _$SongEntity build() {
-    final _$result = _$v ??
-        new _$SongEntity._(
-            title: title,
-            description: description,
-            url: url,
-            duration: duration,
-            likes: likes,
-            isFlagged: isFlagged,
-            isPublic: isPublic,
-            id: id);
+    _$SongEntity _$result;
+    try {
+      _$result = _$v ??
+          new _$SongEntity._(
+              title: title,
+              description: description,
+              url: url,
+              duration: duration,
+              likes: likes,
+              isFlagged: isFlagged,
+              isPublic: isPublic,
+              tracks: tracks.build(),
+              id: id);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'tracks';
+        tracks.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'SongEntity', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

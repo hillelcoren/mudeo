@@ -47,13 +47,27 @@ abstract class LoginResponseData
 abstract class DataState implements Built<DataState, DataStateBuilder> {
   factory DataState() {
     return _$DataState._(
-      //songMap: BuiltMap<int, SongEntity>(),
-      songMap: BuiltMap({
-        1: SongEntity().rebuild((b) => b..title = 'test 1'),
-        2: SongEntity().rebuild((b) => b..title = 'test 2'),
-        3: SongEntity().rebuild((b) => b..title = 'test 3'),
-      })
-    );
+        //songMap: BuiltMap<int, SongEntity>(),
+        songMap: BuiltMap({
+      1: SongEntity().rebuild((b) => b
+        ..title = 'test 1'
+        ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
+      2: SongEntity().rebuild((b) => b
+        ..title = 'test 2'
+        ..tracks.replace([
+          TrackEntity(),
+          TrackEntity(),
+          TrackEntity(),
+          TrackEntity(),
+          TrackEntity()
+        ])),
+      3: SongEntity().rebuild((b) => b..title = 'test 3'),
+      4: SongEntity().rebuild((b) => b..title = 'test 4'),
+      5: SongEntity().rebuild((b) => b..title = 'test 5'),
+      6: SongEntity().rebuild((b) => b..title = 'test 6'),
+      7: SongEntity().rebuild((b) => b..title = 'test 7'),
+      8: SongEntity().rebuild((b) => b..title = 'test 8'),
+    }));
   }
 
   DataState._();

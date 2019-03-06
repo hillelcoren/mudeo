@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:mudeo/data/models/entities.dart';
@@ -16,6 +17,7 @@ abstract class SongEntity
       likes: 0,
       isFlagged: false,
       isPublic: false,
+      tracks: BuiltList<TrackEntity>(),
     );
   }
 
@@ -37,6 +39,8 @@ abstract class SongEntity
   @BuiltValueField(wireName: 'is_public')
   bool get isPublic;
 
+  BuiltList<TrackEntity> get tracks;
+
   @override
   String get listDisplayName {
     return title;
@@ -48,7 +52,9 @@ abstract class SongEntity
 abstract class TrackEntity
     implements Built<TrackEntity, TrackEntityBuilder> {
   factory TrackEntity() {
-    return _$TrackEntity._();
+    return _$TrackEntity._(
+      id: 0,
+    );
   }
 
   TrackEntity._();

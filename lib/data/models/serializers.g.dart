@@ -28,7 +28,11 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(LoginResponse.serializer)
       ..add(LoginResponseData.serializer)
       ..add(SongEntity.serializer)
+      ..add(TrackEntity.serializer)
       ..add(UIState.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(TrackEntity)]),
+          () => new ListBuilder<TrackEntity>())
       ..addBuilderFactory(
           const FullType(BuiltMap,
               const [const FullType(int), const FullType(SongEntity)]),

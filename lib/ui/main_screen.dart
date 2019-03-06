@@ -1,17 +1,42 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mudeo/ui/main_screen_vm.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/utils/localization.dart';
 
-class MainView extends StatelessWidget {
-  const MainView({
-    Key key,
-    @required this.viewModel,
-  }) : super(key: key);
-
-  final MainScreenVM viewModel;
+class MainScreen extends StatelessWidget {
+  static String route = '/main';
 
   @override
   Widget build(BuildContext context) {
-    return Text('testing');
+    final localization = AppLocalization.of(context);
+
+    List<Widget> _views = [
+      SongListScreen(),
+      Placeholder(),
+      Placeholder(),
+    ];
+
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text(localization.explore),
+            icon: Icon(Icons.dashboard),
+          ),
+          BottomNavigationBarItem(
+            title: Text(localization.create),
+            icon: Icon(Icons.video_call),
+          ),
+          BottomNavigationBarItem(
+            title: Text(localization.profile),
+            icon: Icon(Icons.person),
+          ),
+        ],
+      ),
+      tabBuilder: (BuildContext context, int index) {
+        return _views[index];
+      },
+    );
   }
 }
