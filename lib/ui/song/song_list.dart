@@ -117,7 +117,7 @@ class SongItem extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 2),
+          SizedBox(height: 4),
           Row(
             children: <Widget>[
               Expanded(
@@ -146,10 +146,11 @@ class SongItem extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height: song.description.isEmpty ? 0 : 12),
           Text(song.description),
+          SizedBox(height: song.description.isEmpty ? 0 : 12),
           Padding(
-            padding: const EdgeInsets.only(top: 18, bottom: 10),
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Container(
               height: 100,
               child: ListView(
@@ -167,12 +168,15 @@ class SongItem extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.favorite),
+                onPressed: () => null,
               ),
               IconButton(
                 icon: Icon(Icons.share),
+                onPressed: () => null,
               ),
               IconButton(
                 icon: Icon(Icons.flag),
+                onPressed: () => null,
               ),
             ],
           ),
