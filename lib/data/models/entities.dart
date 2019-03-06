@@ -17,7 +17,7 @@ abstract class ErrorMessage
 abstract class LoginResponse
     implements Built<LoginResponse, LoginResponseBuilder> {
   factory LoginResponse([void updates(LoginResponseBuilder b)]) =
-  _$LoginResponse;
+      _$LoginResponse;
 
   LoginResponse._();
 
@@ -32,7 +32,7 @@ abstract class LoginResponse
 abstract class LoginResponseData
     implements Built<LoginResponseData, LoginResponseDataBuilder> {
   factory LoginResponseData([void updates(LoginResponseDataBuilder b)]) =
-  _$LoginResponseData;
+      _$LoginResponseData;
 
   LoginResponseData._();
 
@@ -42,14 +42,21 @@ abstract class LoginResponseData
       _$loginResponseDataSerializer;
 }
 
-abstract class DataState
-    implements Built<DataState, DataStateBuilder> {
+abstract class DataState implements Built<DataState, DataStateBuilder> {
   factory DataState() {
-    return _$DataState._(
-    );
+    return _$DataState._();
   }
 
   DataState._();
 
   static Serializer<DataState> get serializer => _$dataStateSerializer;
 }
+
+abstract class SelectableEntity {
+  @nullable
+  int get id;
+
+  String get listDisplayName => 'Error: listDisplayName not set';
+}
+
+

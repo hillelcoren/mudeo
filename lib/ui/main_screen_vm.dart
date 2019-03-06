@@ -4,8 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/main_screen.dart';
 import 'package:redux/redux.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/material.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class MainScreen extends StatelessWidget {
