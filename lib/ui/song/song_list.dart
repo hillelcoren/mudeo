@@ -92,8 +92,8 @@ class SongItem extends StatelessWidget {
     final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
 
     final ThemeData themeData = Theme.of(context);
-    final TextStyle linkStyle =
-        themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+    final TextStyle linkStyle = themeData.textTheme.body2
+        .copyWith(color: themeData.accentColor, fontSize: 15);
 
     return Material(
       child: FormCard(
@@ -117,6 +117,7 @@ class SongItem extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 2),
           Row(
             children: <Widget>[
               Expanded(
@@ -138,14 +139,14 @@ class SongItem extends StatelessWidget {
                   ),
                 ),
               ),
-              Chip(
-                label: Text(localization.lookup(kGenres[song.genreId])),
-                backgroundColor: kGenreColors[song.genreId],
-                elevation: 2,
+              Text(
+                localization.lookup(kGenres[song.genreId]),
+                style:
+                    TextStyle(color: kGenreColors[song.genreId], fontSize: 15),
               ),
             ],
           ),
-          SizedBox(height: 4),
+          SizedBox(height: 10),
           Text(song.description),
           Padding(
             padding: const EdgeInsets.only(top: 18, bottom: 10),
