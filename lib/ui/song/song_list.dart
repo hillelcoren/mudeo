@@ -41,14 +41,8 @@ class SongList extends StatelessWidget {
                   song: song,
                   onPlay: () {
                     print('tapped');
-                  },
-                );
-              }),
-          /*
-              child: Center(
-                child: CupertinoButton(
-                  child: const Text('Next page'),
-                  onPressed: () {
+
+                    /*
                     Navigator.of(context).push(
                       CupertinoPageRoute<void>(
                         builder: (BuildContext context) {
@@ -68,10 +62,10 @@ class SongList extends StatelessWidget {
                         },
                       ),
                     );
+                    */
                   },
-                ),
-              ),
-              */
+                );
+              }),
         );
       },
     );
@@ -97,25 +91,48 @@ class SongItem extends StatelessWidget {
                 child:
                     Text(song.title, style: Theme.of(context).textTheme.title),
               ),
-              FlatButton(
-                child: Text(localization.play),
+              IconButton(
+                icon: Icon(Icons.play_circle_outline),
                 onPressed: onPlay,
+                tooltip: localization.play,
+              ),
+              SizedBox(width: 12),
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: onPlay,
+                tooltip: localization.edit,
               ),
             ],
           ),
           SizedBox(height: 4),
           Text(song.description),
-          SizedBox(height: 18),
-          Container(
-            height: 100,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: song.tracks
-                  .map((track) =>
-                      Placeholder(fallbackHeight: 100, fallbackWidth: 100))
-                  .toList(),
+          Padding(
+            padding: const EdgeInsets.only(top: 18, bottom: 10),
+            child: Container(
+              height: 100,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: song.tracks
+                    .map((track) =>
+                        Placeholder(fallbackHeight: 100, fallbackWidth: 100))
+                    .toList(),
+              ),
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.favorite),
+              ),
+              IconButton(
+                icon: Icon(Icons.share),
+              ),
+              IconButton(
+                icon: Icon(Icons.flag),
+              ),
+            ],
           ),
         ],
       ),
