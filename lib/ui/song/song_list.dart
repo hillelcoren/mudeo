@@ -84,12 +84,15 @@ class SongItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: FormCard(
+        //mainAxisSize: MainAxisSize.min,
+        //mainAxisAlignment: MainAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(song.title),
+          Text(song.title, style: Theme.of(context).textTheme.title),
+          SizedBox(height: 4),
+          Text(song.description),
+          SizedBox(height: 4),
           Container(
             height: 100,
             child: ListView(
