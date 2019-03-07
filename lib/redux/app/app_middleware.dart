@@ -11,6 +11,7 @@ import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/redux/ui/ui_state.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
+import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:redux/redux.dart';
 import 'package:path_provider/path_provider.dart';
@@ -95,6 +96,9 @@ Middleware<AppState> _createLoadState(
       AppBuilder.of(action.context).rebuild();
       store.dispatch(LoadStateSuccess(appState));
 
+      final NavigatorState navigator = Navigator.of(action.context);
+      navigator.pushReplacementNamed(MainScreen.route);
+      /*
       if (uiState.currentRoute != LoginScreen.route) {
         final NavigatorState navigator = Navigator.of(action.context);
         bool isFirst = true;
@@ -107,6 +111,7 @@ Middleware<AppState> _createLoadState(
           isFirst = false;
         });
       }
+      */
     } catch (error) {
       print(error);
 
