@@ -65,7 +65,7 @@ class AppLocalization {
       'please_enter_your_email': 'Please enter your email',
       'please_enter_your_password': 'Please enter your password',
       'google_login': 'Google Login',
-      'i_agree_to_the': 'By signing up you agree to the',
+      'i_agree_to_the': 'I agree to the',
       'and': 'and',
       'terms_of_service': 'Terms of Service',
       'terms_of_service_link': 'terms of service',

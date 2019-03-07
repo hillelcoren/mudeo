@@ -41,7 +41,7 @@ class MainScreen extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             title: Text(localization.create),
-            icon: Icon(Icons.video_call),
+            icon: Icon(Icons.videocam),
           ),
           BottomNavigationBarItem(
             title: Text(localization.profile),

@@ -35,7 +35,7 @@ class ArtistPage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Colors.black26,
                   ),
                   child: IconButton(
                       icon: Icon(Icons.chevron_left),
