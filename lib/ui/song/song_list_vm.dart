@@ -63,7 +63,7 @@ class SongListVM {
       isLoading: state.isLoading,
       //isLoaded: state.clientState.isLoaded,
       songIds: state.dataState.songMap.keys.toList(),
-      isLoaded: true,
+      isLoaded: state.dataState.areSongsLoaded,
       onSongTap: (context, client) {
         //store.dispatch(ViewSong(clientId: client.id, context: context));
       },

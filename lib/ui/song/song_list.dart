@@ -9,6 +9,7 @@ import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/app/form_card.dart';
+import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -24,7 +25,7 @@ class SongList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!viewModel.isLoaded) {
-      //return LoadingIndicator();
+      return LoadingIndicator();
     }
 
     return CupertinoTabView(
