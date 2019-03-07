@@ -88,7 +88,6 @@ Middleware<AppState> _createLoadState(
       }
 
       authState = await authRepository.loadAuthState();
-      print('Loading auth State: $authState');
       uiState = await uiRepository.loadUIState();
       dataState = await dataRepository.loadDataState();
 
