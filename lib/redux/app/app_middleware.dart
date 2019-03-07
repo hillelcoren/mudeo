@@ -85,7 +85,7 @@ Middleware<AppState> _createLoadState(
 
       authState = await authRepository.loadAuthState();
       uiState = await uiRepository.loadUIState();
-      //dataState = await dataRepository.loadDataState();
+      dataState = await dataRepository.loadDataState();
 
       final AppState appState = AppState().rebuild((b) => b
         ..authState.replace(authState)

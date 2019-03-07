@@ -28,9 +28,8 @@ class PersistenceRepository {
     return await fileStorage.save(json.encode(data));
   }
 
-  Future<DataState> loadDataState(int index) async {
+  Future<DataState> loadDataState() async {
     final String data = await fileStorage.load();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     final dataState =
     serializers.deserializeWith(DataState.serializer, json.decode(data));
 

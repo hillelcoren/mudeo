@@ -13,7 +13,7 @@ class FileStorage {
   Future<File> _getLocalFile() async {
     final dir = await getDirectory();
 
-    return File('${dir.path}/invoiceninja__$tag.json');
+    return File('${dir.path}/mudeo__$tag.json');
   }
 
   Future<dynamic> load() async {

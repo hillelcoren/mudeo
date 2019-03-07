@@ -30,7 +30,7 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
 
 void _saveAuthLocal(dynamic action) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(kSharedPrefAppVersion, action.email ?? '');
+  prefs.setString(kSharedPrefEmail, action.email ?? '');
 }
 
 void _loadAuthLocal(Store<AppState> store, dynamic action) async {
