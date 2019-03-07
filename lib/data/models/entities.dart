@@ -145,11 +145,11 @@ abstract class BaseEntity implements SelectableEntity {
 
   @nullable
   @BuiltValueField(wireName: 'deleted_at')
-  int get deletedAt;
+  String get deletedAt;
 
   @nullable
   @BuiltValueField(wireName: 'updated_at')
-  int get updatedAt;
+  String get updatedAt;
 
   String get entityKey => '__${entityType}__${id}__';
 

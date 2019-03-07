@@ -42,7 +42,6 @@ abstract class SongEntity extends Object with BaseEntity
       url: '',
       genreId: 0,
       duration: 0,
-      likes: 0,
       playCount: 0,
       likeCount: 0,
       isFlagged: false,
@@ -59,19 +58,21 @@ abstract class SongEntity extends Object with BaseEntity
 
   String get url;
 
+  @nullable
   @BuiltValueField(wireName: 'artist_id')
   int get artistId;
 
+  @nullable
   @BuiltValueField(wireName: 'category_id')
   int get genreId;
 
   int get duration;
 
-  int get likes;
-
+  @nullable
   @BuiltValueField(wireName: 'play_count')
   int get playCount;
 
+  @nullable
   @BuiltValueField(wireName: 'like_count')
   int get likeCount;
 
@@ -81,6 +82,7 @@ abstract class SongEntity extends Object with BaseEntity
   @BuiltValueField(wireName: 'is_public')
   bool get isPublic;
 
+  @nullable
   BuiltList<TrackEntity> get tracks;
 
   @override
