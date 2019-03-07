@@ -1,11 +1,6 @@
-import 'package:invoiceninja_flutter/data/models/song_model.dart';
-import 'package:invoiceninja_flutter/redux/company/company_actions.dart';
-import 'package:invoiceninja_flutter/redux/ui/entity_ui_state.dart';
-import 'package:invoiceninja_flutter/redux/ui/list_ui_state.dart';
 import 'package:redux/redux.dart';
-import 'package:invoiceninja_flutter/redux/song/song_actions.dart';
-import 'package:invoiceninja_flutter/redux/song/song_state.dart';
 
+/*
 EntityUIState songUIReducer(SongUIState state, dynamic action) {
   return state.rebuild((b) => b
     ..listUIState.replace(songListReducer(state.listUIState, action))
@@ -189,3 +184,4 @@ SongState _setLoadedSongs(
 
   return state.rebuild((b) => b..list.replace(state.map.keys));
 }
+*/

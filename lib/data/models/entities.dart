@@ -136,7 +136,6 @@ class EntityAction extends EnumClass {
 }
 
 
-
 abstract class BaseEntity implements SelectableEntity {
   /*
   @nullable
