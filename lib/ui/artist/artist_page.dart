@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/form_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
   ArtistPage(this.artist);
@@ -24,6 +26,10 @@ class ArtistPage extends StatelessWidget {
         ),
       );
     }
+
+    final ThemeData themeData = Theme.of(context);
+    final TextStyle linkStyle = themeData.textTheme.body2
+        .copyWith(color: themeData.accentColor, fontSize: 18);
 
     return CupertinoPageScaffold(
         child: Material(
@@ -63,33 +69,56 @@ class ArtistPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline,
                   ),
                 ),
-                Container(
-                  height: 2,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
+                Padding(
+                  padding: const EdgeInsets.only(top: 6, bottom: 18),
+                  child: Container(
+                    height: 2,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  // TODO remove this
-                  artist.description == null || artist.description.isEmpty
-                      ? 'This is a test description'
-                      : '@${artist.description}',
-                  style: TextStyle(
-                    fontSize: 16,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    // TODO remove this
+                    artist.description == null || artist.description.isEmpty
+                        ? 'This is a test description'
+                        : '@${artist.description}',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-                SizedBox(height: 20),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: artist.socialLinks.keys
-                        .map((type) => SocialIconButton(
-                            type: type, url: artist.socialLinks[type]))
-                        .toList()),
-                SizedBox(height: 10),
+                /*
+                artist.website != null && artist.website.isNotEmpty
+                    ? Text(artist.website)
+                    : SizedBox(),
+                    */
+                Padding(
+                  padding: EdgeInsets.only(top: 12, bottom: 6),
+                  child: RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        LinkTextSpan(
+                          style: linkStyle,
+                          text: 'https://hillelcoren.com/',
+                          url: 'https://hillelcoren.com/',
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: artist.socialLinks.keys
+                          .map((type) => SocialIconButton(
+                              type: type, url: artist.socialLinks[type]))
+                          .toList()),
+                ),
               ],
             )
           ],
@@ -131,10 +160,10 @@ class SocialIconButton extends StatelessWidget {
 
     return IconButton(
       onPressed: () {
-
+        launch(url, forceSafariVC: false);
       },
       tooltip: type,
-      icon: Icon(iconData, size: 32),
+      icon: Icon(iconData, size: 30),
     );
   }
 }
