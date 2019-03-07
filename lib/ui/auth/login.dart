@@ -7,7 +7,6 @@ import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({

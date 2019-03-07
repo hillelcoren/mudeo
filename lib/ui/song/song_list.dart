@@ -7,11 +7,9 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/redux/app/app_state.dart';
-import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
-import 'package:mudeo/utils/formatting.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class SongList extends StatelessWidget {
