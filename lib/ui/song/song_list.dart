@@ -31,28 +31,25 @@ class SongList extends StatelessWidget {
     return CupertinoTabView(
       builder: (BuildContext context) {
         return CupertinoPageScaffold(
-          child: ListView.builder(
-              shrinkWrap: true,
-              /*
+          child: RefreshIndicator(
+            onRefresh: () => viewModel.onRefreshed(context),
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: viewModel.songIds.length,
+                itemBuilder: (BuildContext context, index) {
+                  final data = viewModel.state.dataState;
+                  final songId = viewModel.songIds[index];
+                  final song = data.songMap[songId];
 
-              separatorBuilder: (context, index) {
-                return Divider();
-              },
-              */
-              itemCount: viewModel.songIds.length,
-              itemBuilder: (BuildContext context, index) {
-                final data = viewModel.state.dataState;
-                final songId = viewModel.songIds[index];
-                final song = data.songMap[songId];
-
-                return SongItem(
-                  context,
-                  song: song,
-                  onPlay: () {
-                    print('tapped');
-                  },
-                );
-              }),
+                  return SongItem(
+                    context,
+                    song: song,
+                    onPlay: () {
+                      print('tapped');
+                    },
+                  );
+                }),
+          ),
         );
       },
     );
@@ -126,13 +123,13 @@ class SongItem extends StatelessWidget {
                   ),
                 ),
               ),
-              /*
-              Text(
-                localization.lookup(kGenres[song.genreId]),
-                style:
-                    TextStyle(color: kGenreColors[song.genreId], fontSize: 15),
-              ),
-              */
+              song.genreId == null || song.genreId == 0
+                  ? SizedBox()
+                  : Text(
+                      localization.lookup(kGenres[song.genreId]),
+                      style: TextStyle(
+                          color: kGenreColors[song.genreId], fontSize: 15),
+                    ),
             ],
           ),
           SizedBox(height: song.description.isEmpty ? 0 : 12),

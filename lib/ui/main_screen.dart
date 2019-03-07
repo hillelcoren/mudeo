@@ -20,7 +20,7 @@ class MainScreen extends StatelessWidget {
       Placeholder(),
       Container(
         child: Center(
-          child: FlatButton(
+          child: RaisedButton(
             child: Text('logout'),
             onPressed: () {
               final store = StoreProvider.of<AppState>(context);

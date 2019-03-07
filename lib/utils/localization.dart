@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'refresh_complete': 'Refresh complete',
+      'dismiss': 'Dismiss',
+      'an_error_occurred': 'An error occurred',
       'views': 'views',
       'african': 'African',
       'arabic': 'Arabic',
@@ -70,7 +73,8 @@ class AppLocalization {
     },
   };
 
-  String get privacyPolicyLink => _localizedValues[locale.toString()]['privacy_policy_link'];
+  String get privacyPolicyLink =>
+      _localizedValues[locale.toString()]['privacy_policy_link'];
 
   String get and => _localizedValues[locale.toString()]['and'];
 
@@ -171,6 +175,14 @@ class AppLocalization {
   String get other => _localizedValues[locale.toString()]['other'];
 
   String get views => _localizedValues[locale.toString()]['views'];
+
+  String get anErrorOccurred =>
+      _localizedValues[locale.toString()]['an_error_occurred'];
+
+  String get dismiss => _localizedValues[locale.toString()]['dismiss'];
+
+  String get refreshComplete =>
+      _localizedValues[locale.toString()]['refresh_complete'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

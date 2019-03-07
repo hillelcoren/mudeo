@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_list.dart';
+import 'package:mudeo/utils/completers.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class SongListScreen extends StatelessWidget {
@@ -41,17 +46,18 @@ class SongListVM {
   final Function(BuildContext) onRefreshed;
 
   static SongListVM fromStore(Store<AppState> store) {
-    /*
     Future<Null> _handleRefresh(BuildContext context) {
       if (store.state.isLoading) {
         return Future<Null>(null);
       }
+      /*
       final completer = snackBarCompleter(
           context, AppLocalization.of(context).refreshComplete);
+          */
+      final completer = Completer<Null>();
       store.dispatch(LoadSongs(completer: completer, force: true));
       return completer.future;
     }
-    */
 
     final state = store.state;
 
@@ -67,7 +73,7 @@ class SongListVM {
       onSongTap: (context, client) {
         //store.dispatch(ViewSong(clientId: client.id, context: context));
       },
-      //onRefreshed: (context) => _handleRefresh(context),
+      onRefreshed: (context) => _handleRefresh(context),
     );
   }
 }
