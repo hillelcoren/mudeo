@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/song.dart';
 
@@ -48,7 +49,10 @@ abstract class LoginResponseData
 abstract class DataState implements Built<DataState, DataStateBuilder> {
   factory DataState() {
     return _$DataState._(
-        //songMap: BuiltMap<int, SongEntity>(),
+      songsUpdateAt: 0,
+      songMap: BuiltMap<int, SongEntity>(),
+      artistMap: BuiltMap<int, ArtistEntity>(),
+      /*
         songMap: BuiltMap({
           1: SongEntity().rebuild((b) => b
             ..title = 'test 1'
@@ -84,14 +88,29 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
         artistMap: BuiltMap({
           1: ArtistEntity().rebuild((b) => b..handle = 'first'),
           2: ArtistEntity().rebuild((b) => b..handle = 'second'),
-        }));
+        })
+        */
+    );
   }
 
   DataState._();
 
+  int get songsUpdateAt;
+
   BuiltMap<int, SongEntity> get songMap;
 
   BuiltMap<int, ArtistEntity> get artistMap;
+
+  bool get areSongsStale {
+    if (!areSongsLoaded) {
+      return true;
+    }
+
+    return DateTime.now().millisecondsSinceEpoch - songsUpdateAt >
+        kMillisecondsToRefreshData;
+  }
+
+  bool get areSongsLoaded => songsUpdateAt > 0;
 
   static Serializer<DataState> get serializer => _$dataStateSerializer;
 }

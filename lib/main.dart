@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
@@ -115,11 +116,9 @@ class MudeoAppState extends State<MudeoApp> {
               return LoginScreen();
             },
             MainScreen.route: (context) {
-              /*
-              if (widget.store.state.productState.isStale) {
-                widget.store.dispatch(LoadProducts());
+              if (widget.store.state.dataState.areSongsStale) {
+                widget.store.dispatch(LoadSongs());
               }
-              */
               return MainScreen();
             },
           },
