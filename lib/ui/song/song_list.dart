@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -115,7 +116,7 @@ class SongItem extends StatelessWidget {
                             );
                           },
                         style: linkStyle,
-                        text: '@${artist.handle}',
+                        text: '@${artist.handle}artist',
                       ),
                       TextSpan(
                         text: ' • ${song.playCount} ${localization.views}',
@@ -137,22 +138,28 @@ class SongItem extends StatelessWidget {
           Text(song.description),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
           // TODO remove this
-          song.tracks == null
-              ? Placeholder(fallbackHeight: 80)
-              : Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Container(
-                    height: 100,
-                    child: ListView(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      children: song.tracks
-                          .map((track) => Placeholder(
-                              fallbackHeight: 100, fallbackWidth: 100))
-                          .toList(),
-                    ),
-                  ),
-                ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Container(
+              height: 100,
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                children: (song.tracks == null
+                        ? BuiltList<TrackEntity>([
+                            TrackEntity(),
+                            TrackEntity(),
+                            TrackEntity(),
+                            TrackEntity(),
+                            TrackEntity(),
+                          ])
+                        : song.tracks)
+                    .map((track) =>
+                        Placeholder(fallbackHeight: 100, fallbackWidth: 100))
+                    .toList(),
+              ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
