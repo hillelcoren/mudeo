@@ -18,10 +18,13 @@ class FormCard extends StatelessWidget {
         elevation: 4.0,
         child: Padding(
           padding: const EdgeInsets.only(
-              left: 16.0, top: 16.0, right: 16.0, bottom: 10.0),
-          child: Column(
-            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
-            children: children,
+              left: 16.0, top: 20.0, right: 16.0, bottom: 15.0),
+          child: Container(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
+              children: children,
+            ),
           ),
         ),
       ),

@@ -14,6 +14,7 @@ abstract class ArtistEntity
       handle: '',
       email: '',
       token: '',
+      description: '',
     );
   }
 
@@ -36,10 +37,15 @@ abstract class ArtistEntity
 
   String get token;
 
+  @nullable
+  String get description;
+
   @override
   String get listDisplayName {
     return handle;
   }
+
+  String get fullName => '$firstName $lastName';
 
   static Serializer<ArtistEntity> get serializer => _$artistEntitySerializer;
 }
