@@ -32,9 +32,6 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   Iterable serialize(Serializers serializers, ArtistEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'email',
-      serializers.serialize(object.email,
-          specifiedType: const FullType(String)),
       'token',
       serializers.serialize(object.token,
           specifiedType: const FullType(String)),
@@ -55,6 +52,12 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
       result
         ..add('handle')
         ..add(serializers.serialize(object.handle,
+            specifiedType: const FullType(String)));
+    }
+    if (object.email != null) {
+      result
+        ..add('email')
+        ..add(serializers.serialize(object.email,
             specifiedType: const FullType(String)));
     }
     if (object.id != null) {
@@ -134,9 +137,6 @@ class _$ArtistEntity extends ArtistEntity {
       this.token,
       this.id})
       : super._() {
-    if (email == null) {
-      throw new BuiltValueNullFieldError('ArtistEntity', 'email');
-    }
     if (token == null) {
       throw new BuiltValueNullFieldError('ArtistEntity', 'token');
     }

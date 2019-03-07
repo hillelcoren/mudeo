@@ -25,7 +25,7 @@ class AuthRepository {
       'one_time_password': oneTimePassword,
     };
 
-    String url = '$kAppURL/login';
+    String url = '$kAppURL/auth';
 
     return sendRequest(url: url, data: credentials);
   }

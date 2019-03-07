@@ -67,7 +67,7 @@ class _LoginState extends State<LoginView> {
       return;
     }
 
-    if (!_termsChecked) {
+    if (!_showLogin && !_termsChecked) {
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
@@ -165,22 +165,24 @@ class _LoginState extends State<LoginView> {
                         )
                       : Column(
                           children: <Widget>[
-                            TextFormField(
-                              controller: _handleController,
-                              autocorrect: false,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                  labelText: localization.handle),
-                              keyboardType: TextInputType.text,
-                              autovalidate: _autoValidate,
-                              validator: (val) =>
-                                  val.isEmpty || val.trim().isEmpty
-                                      ? localization.pleaseEnterYourHandle
-                                      : null,
-                              onFieldSubmitted: (String value) =>
-                                  FocusScope.of(context)
-                                      .requestFocus(_focusNode1),
-                            ),
+                            _showLogin
+                                ? SizedBox()
+                                : TextFormField(
+                                    controller: _handleController,
+                                    autocorrect: false,
+                                    textInputAction: TextInputAction.next,
+                                    decoration: InputDecoration(
+                                        labelText: localization.handle),
+                                    keyboardType: TextInputType.text,
+                                    autovalidate: _autoValidate,
+                                    validator: (val) =>
+                                        val.isEmpty || val.trim().isEmpty
+                                            ? localization.pleaseEnterYourHandle
+                                            : null,
+                                    onFieldSubmitted: (String value) =>
+                                        FocusScope.of(context)
+                                            .requestFocus(_focusNode1),
+                                  ),
                             TextFormField(
                               controller: _emailController,
                               autocorrect: false,
@@ -255,8 +257,7 @@ class _LoginState extends State<LoginView> {
                                             ),
                                             TextSpan(
                                               style: aboutTextStyle,
-                                              text:
-                                                  '.',
+                                              text: '.',
                                             ),
                                           ],
                                         ),

@@ -31,6 +31,7 @@ abstract class ArtistEntity
   @BuiltValueField(wireName: 'handle')
   String get handle;
 
+  @nullable
   String get email;
 
   String get token;
