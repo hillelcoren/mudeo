@@ -62,11 +62,17 @@ class AppLocalization {
       'please_enter_your_email': 'Please enter your email',
       'please_enter_your_password': 'Please enter your password',
       'google_login': 'Google Login',
-      'i_agree_to_the': 'I agree to the',
+      'i_agree_to_the': 'By signing up you agree to the',
+      'and': 'and',
       'terms_of_service': 'Terms of Service',
       'terms_of_service_link': 'terms of service',
+      'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get privacyPolicyLink => _localizedValues[locale.toString()]['privacy_policy_link'];
+
+  String get and => _localizedValues[locale.toString()]['and'];
 
   String get edit => _localizedValues[locale.toString()]['edit'];
 

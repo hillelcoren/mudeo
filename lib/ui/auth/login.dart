@@ -242,6 +242,22 @@ class _LoginState extends State<LoginView> {
                                               text: localization
                                                   .termsOfServiceLink,
                                             ),
+                                            TextSpan(
+                                              style: aboutTextStyle,
+                                              text:
+                                                  ' ' + localization.and + ' ',
+                                            ),
+                                            LinkTextSpan(
+                                              style: linkStyle,
+                                              url: kPrivacyPolicyURL,
+                                              text: localization
+                                                  .privacyPolicyLink,
+                                            ),
+                                            TextSpan(
+                                              style: aboutTextStyle,
+                                              text:
+                                                  '.',
+                                            ),
                                           ],
                                         ),
                                       ),
