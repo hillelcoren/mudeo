@@ -19,6 +19,38 @@ part of 'entities.dart';
 // ignore_for_file: unnecessary_new
 // ignore_for_file: test_types_in_equals
 
+const EntityAction _$like = const EntityAction._('like');
+
+EntityAction _$valueOf(String name) {
+  switch (name) {
+    case 'like':
+      return _$like;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<EntityAction> _$values =
+    new BuiltSet<EntityAction>(const <EntityAction>[
+  _$like,
+]);
+
+const EntityType _$song = const EntityType._('song');
+
+EntityType _$typeValueOf(String name) {
+  switch (name) {
+    case 'song':
+      return _$song;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<EntityType> _$typeValues =
+    new BuiltSet<EntityType>(const <EntityType>[
+  _$song,
+]);
+
 Serializer<ErrorMessage> _$errorMessageSerializer =
     new _$ErrorMessageSerializer();
 Serializer<LoginResponse> _$loginResponseSerializer =
@@ -26,6 +58,9 @@ Serializer<LoginResponse> _$loginResponseSerializer =
 Serializer<LoginResponseData> _$loginResponseDataSerializer =
     new _$LoginResponseDataSerializer();
 Serializer<DataState> _$dataStateSerializer = new _$DataStateSerializer();
+Serializer<EntityAction> _$entityActionSerializer =
+    new _$EntityActionSerializer();
+Serializer<EntityType> _$entityTypeSerializer = new _$EntityTypeSerializer();
 
 class _$ErrorMessageSerializer implements StructuredSerializer<ErrorMessage> {
   @override
@@ -219,6 +254,40 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
 
     return result.build();
   }
+}
+
+class _$EntityActionSerializer implements PrimitiveSerializer<EntityAction> {
+  @override
+  final Iterable<Type> types = const <Type>[EntityAction];
+  @override
+  final String wireName = 'EntityAction';
+
+  @override
+  Object serialize(Serializers serializers, EntityAction object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  EntityAction deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      EntityAction.valueOf(serialized as String);
+}
+
+class _$EntityTypeSerializer implements PrimitiveSerializer<EntityType> {
+  @override
+  final Iterable<Type> types = const <Type>[EntityType];
+  @override
+  final String wireName = 'EntityType';
+
+  @override
+  Object serialize(Serializers serializers, EntityType object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  EntityType deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      EntityType.valueOf(serialized as String);
 }
 
 class _$ErrorMessage extends ErrorMessage {

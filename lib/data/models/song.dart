@@ -5,7 +5,33 @@ import 'package:mudeo/data/models/entities.dart';
 
 part 'song.g.dart';
 
-abstract class SongEntity
+abstract class SongListResponse
+    implements Built<SongListResponse, SongListResponseBuilder> {
+  factory SongListResponse([void updates(SongListResponseBuilder b)]) =
+  _$SongListResponse;
+
+  SongListResponse._();
+
+  BuiltList<SongEntity> get data;
+
+  static Serializer<SongListResponse> get serializer =>
+      _$songListResponseSerializer;
+}
+
+abstract class SongItemResponse
+    implements Built<SongItemResponse, SongItemResponseBuilder> {
+  factory SongItemResponse([void updates(SongItemResponseBuilder b)]) =
+  _$SongItemResponse;
+
+  SongItemResponse._();
+
+  SongEntity get data;
+
+  static Serializer<SongItemResponse> get serializer =>
+      _$songItemResponseSerializer;
+}
+
+abstract class SongEntity extends BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
   factory SongEntity() {
     return _$SongEntity._(

@@ -18,6 +18,8 @@ part 'serializers.g.dart';
   SongEntity,
   ArtistEntity,
   DataState,
+  SongListResponse,
+  SongItemResponse,
 ])
 final Serializers serializers =
 (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

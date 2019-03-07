@@ -35,6 +35,9 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
       'email',
       serializers.serialize(object.email,
           specifiedType: const FullType(String)),
+      'token',
+      serializers.serialize(object.token,
+          specifiedType: const FullType(String)),
     ];
     if (object.firstName != null) {
       result
@@ -91,6 +94,10 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           result.email = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'token':
+          result.token = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -112,16 +119,26 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final String email;
   @override
+  final String token;
+  @override
   final int id;
 
   factory _$ArtistEntity([void updates(ArtistEntityBuilder b)]) =>
       (new ArtistEntityBuilder()..update(updates)).build();
 
   _$ArtistEntity._(
-      {this.firstName, this.lastName, this.handle, this.email, this.id})
+      {this.firstName,
+      this.lastName,
+      this.handle,
+      this.email,
+      this.token,
+      this.id})
       : super._() {
     if (email == null) {
       throw new BuiltValueNullFieldError('ArtistEntity', 'email');
+    }
+    if (token == null) {
+      throw new BuiltValueNullFieldError('ArtistEntity', 'token');
     }
   }
 
@@ -140,6 +157,7 @@ class _$ArtistEntity extends ArtistEntity {
         lastName == other.lastName &&
         handle == other.handle &&
         email == other.email &&
+        token == other.token &&
         id == other.id;
   }
 
@@ -147,9 +165,11 @@ class _$ArtistEntity extends ArtistEntity {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, firstName.hashCode), lastName.hashCode),
-                handle.hashCode),
-            email.hashCode),
+            $jc(
+                $jc($jc($jc(0, firstName.hashCode), lastName.hashCode),
+                    handle.hashCode),
+                email.hashCode),
+            token.hashCode),
         id.hashCode));
   }
 
@@ -160,6 +180,7 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('lastName', lastName)
           ..add('handle', handle)
           ..add('email', email)
+          ..add('token', token)
           ..add('id', id))
         .toString();
   }
@@ -185,6 +206,10 @@ class ArtistEntityBuilder
   String get email => _$this._email;
   set email(String email) => _$this._email = email;
 
+  String _token;
+  String get token => _$this._token;
+  set token(String token) => _$this._token = token;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -197,6 +222,7 @@ class ArtistEntityBuilder
       _lastName = _$v.lastName;
       _handle = _$v.handle;
       _email = _$v.email;
+      _token = _$v.token;
       _id = _$v.id;
       _$v = null;
     }
@@ -224,6 +250,7 @@ class ArtistEntityBuilder
             lastName: lastName,
             handle: handle,
             email: email,
+            token: token,
             id: id);
     replace(_$result);
     return _$result;

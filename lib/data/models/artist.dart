@@ -13,6 +13,7 @@ abstract class ArtistEntity
       lastName: '',
       handle: '',
       email: '',
+      token: '',
     );
   }
 
@@ -31,6 +32,8 @@ abstract class ArtistEntity
   String get handle;
 
   String get email;
+
+  String get token;
 
   @override
   String get listDisplayName {

@@ -121,3 +121,73 @@ abstract class SelectableEntity {
 
   String get listDisplayName => 'Error: listDisplayName not set';
 }
+
+
+class EntityAction extends EnumClass {
+
+  const EntityAction._(String name) : super(name);
+
+  static Serializer<EntityAction> get serializer => _$entityActionSerializer;
+
+  static const EntityAction like = _$like;
+
+  static BuiltSet<EntityAction> get values => _$values;
+  static EntityAction valueOf(String name) => _$valueOf(name);
+}
+
+
+
+abstract class BaseEntity implements SelectableEntity {
+  /*
+  @nullable
+  @BuiltValueField(wireName: 'created_at')
+  int get createdAt;
+  */
+
+  @nullable
+  @BuiltValueField(wireName: 'deleted_at')
+  int get deletedAt;
+
+  @nullable
+  @BuiltValueField(wireName: 'updated_at')
+  int get updatedAt;
+
+  String get entityKey => '__${entityType}__${id}__';
+
+  EntityType get entityType => throw 'EntityType not set: ${this}';
+
+  bool get isNew => id == null || id < 0;
+
+  /*
+  List<EntityAction> getBaseActions({UserEntity user}) {
+    final actions = <EntityAction>[];
+
+    if (user.canEditEntity(this) && (isArchived || isDeleted)) {
+      actions.add(EntityAction.restore);
+    }
+
+    if (user.canEditEntity(this) && isActive) {
+      actions.add(EntityAction.archive);
+    }
+
+    if (user.canEditEntity(this) && (isActive || isArchived)) {
+      actions.add(EntityAction.delete);
+    }
+
+    return actions;
+  }
+  */
+
+}
+
+class EntityType extends EnumClass {
+  const EntityType._(String name) : super(name);
+
+  static Serializer<EntityType> get serializer => _$entityTypeSerializer;
+
+  static const EntityType song = _$song;
+
+  static BuiltSet<EntityType> get values => _$typeValues;
+
+  static EntityType valueOf(String name) => _$typeValueOf(name);
+}

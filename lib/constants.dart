@@ -12,6 +12,7 @@ const String kSharedPrefToken = 'token';
 const String kSharedPrefEmail = 'email';
 const String kSharedPrefAppVersion = 'app_version';
 
+const int kUpdatedAtBufferSeconds = 600;
 const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes
 const int kMaxRecordsPerApiPage = 100;
 
