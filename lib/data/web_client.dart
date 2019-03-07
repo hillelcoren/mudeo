@@ -49,7 +49,7 @@ class WebClient {
     final http.Response response = await http.Client().get(
       url,
       headers: {
-        'X-Ninja-Token': token,
+        'X-Mudeo-Token': token,
       },
     );
 

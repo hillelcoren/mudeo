@@ -4,6 +4,8 @@ class PersistUI {}
 
 class PersistData {}
 
+class PersistAuth {}
+
 class StartLoading {}
 
 class StopLoading {}

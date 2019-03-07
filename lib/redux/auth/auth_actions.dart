@@ -77,7 +77,7 @@ class UserLoginRequest implements StartLoading {
   final String oneTimePassword;
 }
 
-class UserLoginSuccess implements StopLoading {
+class UserLoginSuccess implements StopLoading, PersistAuth {
   UserLoginSuccess(this.artist);
   final ArtistEntity artist;
 }

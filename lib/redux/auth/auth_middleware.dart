@@ -27,9 +27,10 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
   ];
 }
 
-void _saveAuthLocal(dynamic action) async {
+void _saveAuthLocal(ArtistEntity artist) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(kSharedPrefEmail, action.email ?? '');
+  prefs.setString(kSharedPrefEmail, artist.email ?? '');
+  prefs.setString(kSharedPrefToken, artist.token ?? '');
 }
 
 void _loadAuthLocal(Store<AppState> store, dynamic action) async {
@@ -59,7 +60,7 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
             platform: action.platform,
             oneTimePassword: action.oneTimePassword)
         .then((ArtistEntity artist) {
-      _saveAuthLocal(action);
+      _saveAuthLocal(artist);
       store.dispatch(UserLoginSuccess(artist));
 
       action.completer.complete(null);
@@ -84,7 +85,7 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
             password: action.password,
             platform: action.platform)
         .then((ArtistEntity artist) {
-      _saveAuthLocal(action);
+      _saveAuthLocal(artist);
       store.dispatch(UserLoginSuccess(artist));
 
       action.completer.complete(null);
@@ -104,8 +105,8 @@ Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
             token: action.token,
             secret: action.secret,
             platform: action.platform)
-        .then((data) {
-      _saveAuthLocal(action);
+        .then((artist) {
+      _saveAuthLocal(artist);
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));

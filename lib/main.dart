@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
+import 'package:mudeo/redux/song/song_middleware.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
@@ -30,7 +31,7 @@ void main() async {
       initialState: AppState(),
       middleware: []
         ..addAll(createStoreAuthMiddleware())
-        //..addAll(createStoreProductsMiddleware())
+        ..addAll(createStoreSongsMiddleware())
         ..addAll(createStorePersistenceMiddleware())
         ..addAll([
           LoggingMiddleware<dynamic>.printer(),

@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/file_storage.dart';
 import 'package:mudeo/data/models/entities.dart';
+import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/data/repositories/persistence_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -31,7 +32,7 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
   ),
   PersistenceRepository dataRepository = const PersistenceRepository(
     fileStorage: const FileStorage(
-      'company1_state',
+      'data_state',
       getApplicationDocumentsDirectory,
     ),
   ),
@@ -55,12 +56,15 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
       uiRepository,
       dataRepository);
 
+  final persistAuth = _createPersistAuth(authRepository);
+
   return [
     TypedMiddleware<AppState, UserLogout>(deleteState),
     TypedMiddleware<AppState, LoadStateRequest>(loadState),
     TypedMiddleware<AppState, UserLoginSuccess>(userLoginSuccess),
     TypedMiddleware<AppState, PersistData>(persistData),
     TypedMiddleware<AppState, PersistUI>(persistUI),
+    TypedMiddleware<AppState, PersistAuth>(persistAuth),
   ];
 }
 
@@ -84,6 +88,7 @@ Middleware<AppState> _createLoadState(
       }
 
       authState = await authRepository.loadAuthState();
+      print('Loading auth State: $authState');
       uiState = await uiRepository.loadUIState();
       dataState = await dataRepository.loadDataState();
 
@@ -185,8 +190,6 @@ Middleware<AppState> _createUserLoggedIn(
     authRepository.saveAuthState(state.authState);
     uiRepository.saveUIState(state.uiState);
     dataRepository.saveDataState(state.dataState);
-
-
   };
 }
 
@@ -195,6 +198,14 @@ Middleware<AppState> _createPersistUI(PersistenceRepository uiRepository) {
     next(action);
 
     uiRepository.saveUIState(store.state.uiState);
+  };
+}
+
+Middleware<AppState> _createPersistAuth(PersistenceRepository authRepository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    next(action);
+
+    authRepository.saveAuthState(store.state.authState);
   };
 }
 

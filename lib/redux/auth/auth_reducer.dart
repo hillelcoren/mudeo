@@ -39,6 +39,8 @@ AuthState oauthLoginRequestReducer(
 AuthState userLoginSuccessReducer(
     AuthState authState, UserLoginSuccess action) {
   return authState.rebuild((b) => b
+    ..userId = action.artist.id
+    ..token = action.artist.token
     ..isAuthenticated = true
     ..password = '');
 }
