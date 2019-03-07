@@ -13,12 +13,12 @@ class ArtistPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _profileImage() {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(40.0),
+        borderRadius: BorderRadius.circular(140.0),
         child: CachedNetworkImage(
           imageUrl:
               "https://pbs.twimg.com/profile_images/1021821127545573376/TxRT22Ak_400x400.jpg",
-          width: 80.0,
-          height: 80.0,
+          width: 140.0,
+          height: 140.0,
         ),
       );
     }
