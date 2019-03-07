@@ -1,5 +1,7 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mudeo/ui/app/form_card.dart';
@@ -19,65 +21,6 @@ class ArtistPage extends StatelessWidget {
               "https://pbs.twimg.com/profile_images/1021821127545573376/TxRT22Ak_400x400.jpg",
           width: 140.0,
           height: 140.0,
-        ),
-      );
-    }
-
-    Widget _buildForeground() {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 40.0),
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black26,
-                  ),
-                  child: IconButton(
-                      icon: Icon(Icons.chevron_left),
-                      onPressed: () => Navigator.of(context).pop()),
-                )
-              ],
-            ),
-            SizedBox(height: 190),
-            Row(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(40.0),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://pbs.twimg.com/profile_images/1021821127545573376/TxRT22Ak_400x400.jpg",
-                    width: 80.0,
-                    height: 80.0,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'Ryan Barnes',
-                        style: TextStyle(
-                            fontSize: 26.0,
-                            //color: Colors.white,
-                            fontWeight: FontWeight.w400),
-                      ),
-                      Text(
-                        'Product designer',
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          ],
         ),
       );
     }
@@ -117,9 +60,7 @@ class ArtistPage extends StatelessWidget {
                     artist.handle == null || artist.handle.isEmpty
                         ? '@handle'
                         : '@${artist.handle}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline,
+                    style: Theme.of(context).textTheme.headline,
                   ),
                 ),
                 Container(
@@ -141,6 +82,14 @@ class ArtistPage extends StatelessWidget {
                     fontSize: 16,
                   ),
                 ),
+                SizedBox(height: 20),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: artist.socialLinks.keys
+                        .map((type) => SocialIconButton(
+                            type: type, url: artist.socialLinks[type]))
+                        .toList()),
+                SizedBox(height: 10),
               ],
             )
           ],
@@ -150,17 +99,42 @@ class ArtistPage extends StatelessWidget {
   }
 }
 
-class DiagonalClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.lineTo(0.0, size.height - 60.0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(size.width, 0.0);
-    path.close();
-    return path;
-  }
+class SocialIconButton extends StatelessWidget {
+  SocialIconButton({this.type, this.url});
+
+  final String type;
+  final String url;
 
   @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+  Widget build(BuildContext context) {
+    IconData iconData;
+    switch (type) {
+      case kLinkTypeFacebook:
+        iconData = FontAwesomeIcons.facebook;
+        break;
+      case kLinkTypeYouTube:
+        iconData = FontAwesomeIcons.youtube;
+        break;
+      case kLinkTypeInstagram:
+        iconData = FontAwesomeIcons.instagram;
+        break;
+      case kLinkTypeTwitch:
+        iconData = FontAwesomeIcons.twitch;
+        break;
+      case kLinkTypeTwitter:
+        iconData = FontAwesomeIcons.twitter;
+        break;
+      case kLinkTypeSoundCloud:
+        iconData = FontAwesomeIcons.soundcloud;
+        break;
+    }
+
+    return IconButton(
+      onPressed: () {
+
+      },
+      tooltip: type,
+      icon: Icon(iconData, size: 32),
+    );
+  }
 }

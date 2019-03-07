@@ -20,6 +20,14 @@ const List<String> kLanguages = [
   'en',
 ];
 
+const String kLinkTypeFacebook = 'Facebook';
+const String kLinkTypeYouTube = 'YouTube';
+const String kLinkTypeInstagram = 'Instagram';
+const String kLinkTypeSoundCloud = 'SoundCloud';
+const String kLinkTypeTwitch = 'Twitch';
+const String kLinkTypeTwitter = 'Twitter';
+const String kLinkTypeWebsite = 'Website';
+
 const String kGenreAfrican = 'african';
 const String kGenreArabic = 'arabic';
 const String kGenreAsian = 'asian';

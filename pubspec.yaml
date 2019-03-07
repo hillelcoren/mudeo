@@ -29,6 +29,7 @@ dependencies:
   #firebase_auth: ^0.8.1+4
   sentry: ^2.2.0
   intl: ^0.15.7
+  font_awesome_flutter: ^8.4.0
 
 dev_dependencies:
   #flutter_test:

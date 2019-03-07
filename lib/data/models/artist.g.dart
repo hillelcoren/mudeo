@@ -66,6 +66,48 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add(serializers.serialize(object.description,
             specifiedType: const FullType(String)));
     }
+    if (object.twitterURL != null) {
+      result
+        ..add('twitter_url')
+        ..add(serializers.serialize(object.twitterURL,
+            specifiedType: const FullType(String)));
+    }
+    if (object.facebookURL != null) {
+      result
+        ..add('facebook_url')
+        ..add(serializers.serialize(object.facebookURL,
+            specifiedType: const FullType(String)));
+    }
+    if (object.instagramURL != null) {
+      result
+        ..add('instagram_url')
+        ..add(serializers.serialize(object.instagramURL,
+            specifiedType: const FullType(String)));
+    }
+    if (object.youTubeURL != null) {
+      result
+        ..add('youTube_url')
+        ..add(serializers.serialize(object.youTubeURL,
+            specifiedType: const FullType(String)));
+    }
+    if (object.twitchURL != null) {
+      result
+        ..add('twitch_url')
+        ..add(serializers.serialize(object.twitchURL,
+            specifiedType: const FullType(String)));
+    }
+    if (object.soundCloudURL != null) {
+      result
+        ..add('soundCloud_url')
+        ..add(serializers.serialize(object.soundCloudURL,
+            specifiedType: const FullType(String)));
+    }
+    if (object.website != null) {
+      result
+        ..add('website')
+        ..add(serializers.serialize(object.website,
+            specifiedType: const FullType(String)));
+    }
     if (object.id != null) {
       result
         ..add('id')
@@ -111,6 +153,34 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           result.description = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'twitter_url':
+          result.twitterURL = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'facebook_url':
+          result.facebookURL = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'instagram_url':
+          result.instagramURL = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'youTube_url':
+          result.youTubeURL = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'twitch_url':
+          result.twitchURL = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'soundCloud_url':
+          result.soundCloudURL = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'website':
+          result.website = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -136,6 +206,20 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final String description;
   @override
+  final String twitterURL;
+  @override
+  final String facebookURL;
+  @override
+  final String instagramURL;
+  @override
+  final String youTubeURL;
+  @override
+  final String twitchURL;
+  @override
+  final String soundCloudURL;
+  @override
+  final String website;
+  @override
   final int id;
 
   factory _$ArtistEntity([void updates(ArtistEntityBuilder b)]) =>
@@ -148,6 +232,13 @@ class _$ArtistEntity extends ArtistEntity {
       this.email,
       this.token,
       this.description,
+      this.twitterURL,
+      this.facebookURL,
+      this.instagramURL,
+      this.youTubeURL,
+      this.twitchURL,
+      this.soundCloudURL,
+      this.website,
       this.id})
       : super._() {
     if (token == null) {
@@ -172,6 +263,13 @@ class _$ArtistEntity extends ArtistEntity {
         email == other.email &&
         token == other.token &&
         description == other.description &&
+        twitterURL == other.twitterURL &&
+        facebookURL == other.facebookURL &&
+        instagramURL == other.instagramURL &&
+        youTubeURL == other.youTubeURL &&
+        twitchURL == other.twitchURL &&
+        soundCloudURL == other.soundCloudURL &&
+        website == other.website &&
         id == other.id;
   }
 
@@ -181,11 +279,29 @@ class _$ArtistEntity extends ArtistEntity {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, firstName.hashCode), lastName.hashCode),
-                        handle.hashCode),
-                    email.hashCode),
-                token.hashCode),
-            description.hashCode),
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc(
+                                            $jc(
+                                                $jc(
+                                                    $jc(
+                                                        $jc(0,
+                                                            firstName.hashCode),
+                                                        lastName.hashCode),
+                                                    handle.hashCode),
+                                                email.hashCode),
+                                            token.hashCode),
+                                        description.hashCode),
+                                    twitterURL.hashCode),
+                                facebookURL.hashCode),
+                            instagramURL.hashCode),
+                        youTubeURL.hashCode),
+                    twitchURL.hashCode),
+                soundCloudURL.hashCode),
+            website.hashCode),
         id.hashCode));
   }
 
@@ -198,6 +314,13 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('email', email)
           ..add('token', token)
           ..add('description', description)
+          ..add('twitterURL', twitterURL)
+          ..add('facebookURL', facebookURL)
+          ..add('instagramURL', instagramURL)
+          ..add('youTubeURL', youTubeURL)
+          ..add('twitchURL', twitchURL)
+          ..add('soundCloudURL', soundCloudURL)
+          ..add('website', website)
           ..add('id', id))
         .toString();
   }
@@ -231,6 +354,35 @@ class ArtistEntityBuilder
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
 
+  String _twitterURL;
+  String get twitterURL => _$this._twitterURL;
+  set twitterURL(String twitterURL) => _$this._twitterURL = twitterURL;
+
+  String _facebookURL;
+  String get facebookURL => _$this._facebookURL;
+  set facebookURL(String facebookURL) => _$this._facebookURL = facebookURL;
+
+  String _instagramURL;
+  String get instagramURL => _$this._instagramURL;
+  set instagramURL(String instagramURL) => _$this._instagramURL = instagramURL;
+
+  String _youTubeURL;
+  String get youTubeURL => _$this._youTubeURL;
+  set youTubeURL(String youTubeURL) => _$this._youTubeURL = youTubeURL;
+
+  String _twitchURL;
+  String get twitchURL => _$this._twitchURL;
+  set twitchURL(String twitchURL) => _$this._twitchURL = twitchURL;
+
+  String _soundCloudURL;
+  String get soundCloudURL => _$this._soundCloudURL;
+  set soundCloudURL(String soundCloudURL) =>
+      _$this._soundCloudURL = soundCloudURL;
+
+  String _website;
+  String get website => _$this._website;
+  set website(String website) => _$this._website = website;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -245,6 +397,13 @@ class ArtistEntityBuilder
       _email = _$v.email;
       _token = _$v.token;
       _description = _$v.description;
+      _twitterURL = _$v.twitterURL;
+      _facebookURL = _$v.facebookURL;
+      _instagramURL = _$v.instagramURL;
+      _youTubeURL = _$v.youTubeURL;
+      _twitchURL = _$v.twitchURL;
+      _soundCloudURL = _$v.soundCloudURL;
+      _website = _$v.website;
       _id = _$v.id;
       _$v = null;
     }
@@ -274,6 +433,13 @@ class ArtistEntityBuilder
             email: email,
             token: token,
             description: description,
+            twitterURL: twitterURL,
+            facebookURL: facebookURL,
+            instagramURL: instagramURL,
+            youTubeURL: youTubeURL,
+            twitchURL: twitchURL,
+            soundCloudURL: soundCloudURL,
+            website: website,
             id: id);
     replace(_$result);
     return _$result;
