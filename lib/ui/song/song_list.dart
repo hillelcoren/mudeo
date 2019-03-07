@@ -74,6 +74,7 @@ class SongItem extends StatelessWidget {
 
     return Material(
       child: FormCard(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class FormCard extends StatelessWidget {
   const FormCard({
     Key key,
+    this.crossAxisAlignment,
     @required this.children,
   }) : super(key: key);
 
   final List<Widget> children;
+  final CrossAxisAlignment crossAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +20,7 @@ class FormCard extends StatelessWidget {
           padding: const EdgeInsets.only(
               left: 16.0, top: 16.0, right: 16.0, bottom: 10.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
             children: children,
           ),
         ),
