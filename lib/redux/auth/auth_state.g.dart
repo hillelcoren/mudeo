@@ -31,6 +31,11 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
   Iterable serialize(Serializers serializers, AuthState object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
+      'userId',
+      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+      'token',
+      serializers.serialize(object.token,
+          specifiedType: const FullType(String)),
       'email',
       serializers.serialize(object.email,
           specifiedType: const FullType(String)),
@@ -65,6 +70,14 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'userId':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'token':
+          result.token = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
         case 'email':
           result.email = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -94,6 +107,10 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
 
 class _$AuthState extends AuthState {
   @override
+  final int userId;
+  @override
+  final String token;
+  @override
   final String email;
   @override
   final String password;
@@ -108,12 +125,20 @@ class _$AuthState extends AuthState {
       (new AuthStateBuilder()..update(updates)).build();
 
   _$AuthState._(
-      {this.email,
+      {this.userId,
+      this.token,
+      this.email,
       this.password,
       this.isInitialized,
       this.isAuthenticated,
       this.error})
       : super._() {
+    if (userId == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'userId');
+    }
+    if (token == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'token');
+    }
     if (email == null) {
       throw new BuiltValueNullFieldError('AuthState', 'email');
     }
@@ -139,6 +164,8 @@ class _$AuthState extends AuthState {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is AuthState &&
+        userId == other.userId &&
+        token == other.token &&
         email == other.email &&
         password == other.password &&
         isInitialized == other.isInitialized &&
@@ -150,7 +177,11 @@ class _$AuthState extends AuthState {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, email.hashCode), password.hashCode),
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, userId.hashCode), token.hashCode),
+                        email.hashCode),
+                    password.hashCode),
                 isInitialized.hashCode),
             isAuthenticated.hashCode),
         error.hashCode));
@@ -159,6 +190,8 @@ class _$AuthState extends AuthState {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AuthState')
+          ..add('userId', userId)
+          ..add('token', token)
           ..add('email', email)
           ..add('password', password)
           ..add('isInitialized', isInitialized)
@@ -170,6 +203,14 @@ class _$AuthState extends AuthState {
 
 class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   _$AuthState _$v;
+
+  int _userId;
+  int get userId => _$this._userId;
+  set userId(int userId) => _$this._userId = userId;
+
+  String _token;
+  String get token => _$this._token;
+  set token(String token) => _$this._token = token;
 
   String _email;
   String get email => _$this._email;
@@ -197,6 +238,8 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
 
   AuthStateBuilder get _$this {
     if (_$v != null) {
+      _userId = _$v.userId;
+      _token = _$v.token;
       _email = _$v.email;
       _password = _$v.password;
       _isInitialized = _$v.isInitialized;
@@ -224,6 +267,8 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   _$AuthState build() {
     final _$result = _$v ??
         new _$AuthState._(
+            userId: userId,
+            token: token,
             email: email,
             password: password,
             isInitialized: isInitialized,

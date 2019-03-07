@@ -7,14 +7,18 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   factory AuthState() {
     return _$AuthState._(
+      userId: 0,
       email: '',
       password: '',
+      token: '',
       isAuthenticated: false,
       isInitialized: false,
     );
   }
   AuthState._();
 
+  int get userId;
+  String get token;
   String get email;
   String get password;
   bool get isInitialized;

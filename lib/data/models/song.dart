@@ -31,7 +31,7 @@ abstract class SongItemResponse
       _$songItemResponseSerializer;
 }
 
-abstract class SongEntity extends BaseEntity
+abstract class SongEntity extends Object with BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
   factory SongEntity() {
     return _$SongEntity._(

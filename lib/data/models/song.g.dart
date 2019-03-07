@@ -163,6 +163,18 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(int)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(int)));
+    }
 
     return result;
   }
@@ -230,6 +242,14 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'id':
           result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
       }
@@ -528,6 +548,10 @@ class _$SongEntity extends SongEntity {
   final BuiltList<TrackEntity> tracks;
   @override
   final int id;
+  @override
+  final int deletedAt;
+  @override
+  final int updatedAt;
 
   factory _$SongEntity([void updates(SongEntityBuilder b)]) =>
       (new SongEntityBuilder()..update(updates)).build();
@@ -545,7 +569,9 @@ class _$SongEntity extends SongEntity {
       this.isFlagged,
       this.isPublic,
       this.tracks,
-      this.id})
+      this.id,
+      this.deletedAt,
+      this.updatedAt})
       : super._() {
     if (title == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'title');
@@ -608,7 +634,9 @@ class _$SongEntity extends SongEntity {
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
         tracks == other.tracks &&
-        id == other.id;
+        id == other.id &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -624,19 +652,26 @@ class _$SongEntity extends SongEntity {
                                     $jc(
                                         $jc(
                                             $jc(
-                                                $jc($jc(0, title.hashCode),
-                                                    description.hashCode),
-                                                url.hashCode),
-                                            artistId.hashCode),
-                                        genreId.hashCode),
-                                    duration.hashCode),
-                                likes.hashCode),
-                            playCount.hashCode),
-                        likeCount.hashCode),
-                    isFlagged.hashCode),
-                isPublic.hashCode),
-            tracks.hashCode),
-        id.hashCode));
+                                                $jc(
+                                                    $jc(
+                                                        $jc(
+                                                            $jc(0,
+                                                                title.hashCode),
+                                                            description
+                                                                .hashCode),
+                                                        url.hashCode),
+                                                    artistId.hashCode),
+                                                genreId.hashCode),
+                                            duration.hashCode),
+                                        likes.hashCode),
+                                    playCount.hashCode),
+                                likeCount.hashCode),
+                            isFlagged.hashCode),
+                        isPublic.hashCode),
+                    tracks.hashCode),
+                id.hashCode),
+            deletedAt.hashCode),
+        updatedAt.hashCode));
   }
 
   @override
@@ -654,7 +689,9 @@ class _$SongEntity extends SongEntity {
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
           ..add('tracks', tracks)
-          ..add('id', id))
+          ..add('id', id)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -715,6 +752,14 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
+  int _deletedAt;
+  int get deletedAt => _$this._deletedAt;
+  set deletedAt(int deletedAt) => _$this._deletedAt = deletedAt;
+
+  int _updatedAt;
+  int get updatedAt => _$this._updatedAt;
+  set updatedAt(int updatedAt) => _$this._updatedAt = updatedAt;
+
   SongEntityBuilder();
 
   SongEntityBuilder get _$this {
@@ -732,6 +777,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _isPublic = _$v.isPublic;
       _tracks = _$v.tracks?.toBuilder();
       _id = _$v.id;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
       _$v = null;
     }
     return this;
@@ -768,7 +815,9 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               isFlagged: isFlagged,
               isPublic: isPublic,
               tracks: tracks.build(),
-              id: id);
+              id: id,
+              deletedAt: deletedAt,
+              updatedAt: updatedAt);
     } catch (_) {
       String _$failedField;
       try {

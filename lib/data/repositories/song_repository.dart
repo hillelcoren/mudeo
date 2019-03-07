@@ -8,6 +8,7 @@ import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/data/web_client.dart';
+import 'package:mudeo/redux/auth/auth_state.dart';
 
 class SongRepository {
   const SongRepository({
@@ -16,14 +17,14 @@ class SongRepository {
 
   final WebClient webClient;
 
-  Future<BuiltList<SongEntity>> loadList(ArtistEntity artist, int updatedAt) async {
+  Future<BuiltList<SongEntity>> loadList(AuthState auth, int updatedAt) async {
     String url = kAppURL + '/songs?';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
     }
 
-    final dynamic response = await webClient.get(url, artist.token);
+    final dynamic response = await webClient.get(url, auth.token);
 
     final SongListResponse songResponse =
     serializers.deserializeWith(SongListResponse.serializer, response);
@@ -32,20 +33,20 @@ class SongRepository {
   }
 
   Future<SongEntity> saveData(
-      ArtistEntity artist, SongEntity song,
+      AuthState auth, SongEntity song,
       [EntityAction action]) async {
     final data = serializers.serializeWith(SongEntity.serializer, song);
     dynamic response;
 
     if (song.isNew) {
       response = await webClient.post(
-          kAppURL + '/songs', artist.token, json.encode(data));
+          kAppURL + '/songs', auth.token, json.encode(data));
     } else {
       var url = kAppURL + '/songs/' + song.id.toString();
       if (action != null) {
         url += '?action=' + action.toString();
       }
-      response = await webClient.put(url, artist.token, json.encode(data));
+      response = await webClient.put(url, auth.token, json.encode(data));
     }
 
     final SongItemResponse songResponse =

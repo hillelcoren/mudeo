@@ -10,7 +10,6 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/redux/ui/ui_state.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
-import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:redux/redux.dart';

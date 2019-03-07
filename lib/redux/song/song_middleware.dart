@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/data/repositories/song_repository.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -44,7 +45,7 @@ Middleware<AppState> _saveSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
         .saveData(
-        store.state.selectedCompany, store.state.authState, action.song)
+        store.state.authState, action.song)
         .then((SongEntity song) {
       if (action.song.isNew) {
         store.dispatch(AddSongSuccess(song));
@@ -66,7 +67,7 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final AppState state = store.state;
 
-    if (!state.songState.isStale && !action.force) {
+    if (!state.dataState.areSongsStale && !action.force) {
       next(action);
       return;
     }
@@ -76,16 +77,13 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
       return;
     }
 
-    final int updatedAt = (state.songState.lastUpdated / 1000).round();
+    final int updatedAt = (state.dataState.songsUpdateAt / 1000).round();
 
     store.dispatch(LoadSongsRequest());
-    repository.loadList(state.selectedCompany, state.authState, updatedAt).then((data) {
+    repository.loadList(state.authState, updatedAt).then((data) {
       store.dispatch(LoadSongsSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);
-      }
-      if (state.invoiceState.isStale) {
-        store.dispatch(LoadInvoices());
       }
     }).catchError((Object error) {
       print(error);
