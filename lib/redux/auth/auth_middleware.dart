@@ -22,7 +22,7 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
   return [
     TypedMiddleware<AppState, LoadUserLogin>(loginInit),
     TypedMiddleware<AppState, UserLoginRequest>(loginRequest),
-    TypedMiddleware<AppState, UserSignUpRequest>(loginRequest),
+    TypedMiddleware<AppState, UserSignUpRequest>(signUpRequest),
     TypedMiddleware<AppState, OAuthLoginRequest>(oauthRequest),
     TypedMiddleware<AppState, RefreshData>(refreshRequest),
   ];

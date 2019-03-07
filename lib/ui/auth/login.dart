@@ -88,10 +88,19 @@ class _LoginState extends State<LoginView> {
       return;
     }
 
-    widget.viewModel.onLoginPressed(context,
+    if (_showLogin) {
+      widget.viewModel.onLoginPressed(context,
+          email: _emailController.text,
+          password: _passwordController.text,
+          oneTimePassword: _oneTimePasswordController.text);
+    } else {
+      widget.viewModel.onSignUpPressed(
+        context,
+        handle: _handleController.text,
         email: _emailController.text,
         password: _passwordController.text,
-        oneTimePassword: _oneTimePasswordController.text);
+      );
+    }
   }
 
   @override
@@ -165,9 +174,9 @@ class _LoginState extends State<LoginView> {
                               keyboardType: TextInputType.text,
                               autovalidate: _autoValidate,
                               validator: (val) =>
-                              val.isEmpty || val.trim().isEmpty
-                                  ? localization.pleaseEnterYourHandle
-                                  : null,
+                                  val.isEmpty || val.trim().isEmpty
+                                      ? localization.pleaseEnterYourHandle
+                                      : null,
                               onFieldSubmitted: (String value) =>
                                   FocusScope.of(context)
                                       .requestFocus(_focusNode1),
@@ -181,9 +190,9 @@ class _LoginState extends State<LoginView> {
                               keyboardType: TextInputType.emailAddress,
                               autovalidate: _autoValidate,
                               validator: (val) =>
-                              val.isEmpty || val.trim().isEmpty
-                                  ? localization.pleaseEnterYourEmail
-                                  : null,
+                                  val.isEmpty || val.trim().isEmpty
+                                      ? localization.pleaseEnterYourEmail
+                                      : null,
                               focusNode: _focusNode1,
                               onFieldSubmitted: (String value) =>
                                   FocusScope.of(context)
@@ -202,8 +211,8 @@ class _LoginState extends State<LoginView> {
                               obscureText: true,
                               focusNode: _focusNode2,
                               textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (value) => FocusScope.of(context)
-                                  .requestFocus(null),
+                              onFieldSubmitted: (value) =>
+                                  FocusScope.of(context).requestFocus(null),
                             ),
                             _showLogin
                                 ? SizedBox(
@@ -269,8 +278,7 @@ class _LoginState extends State<LoginView> {
                           children: <Widget>[
                             Expanded(
                               child: FlatButton(
-                                onPressed: () =>
-                                    setState(() {
+                                onPressed: () => setState(() {
                                       _showLogin = !_showLogin;
                                     }),
                                 child: Text(
@@ -334,4 +342,3 @@ class ArcClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
-
