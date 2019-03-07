@@ -55,6 +55,8 @@ class SongListVM {
 
     final state = store.state;
 
+    print('song ids: ${state.dataState.songMap.keys.toList()}');
+
     return SongListVM(
       //clientMap: state.clientState.map,
       state: state,

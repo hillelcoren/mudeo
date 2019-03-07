@@ -124,30 +124,35 @@ class SongItem extends StatelessWidget {
                   ),
                 ),
               ),
+              /*
               Text(
                 localization.lookup(kGenres[song.genreId]),
                 style:
                     TextStyle(color: kGenreColors[song.genreId], fontSize: 15),
               ),
+              */
             ],
           ),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
           Text(song.description),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Container(
-              height: 100,
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: song.tracks
-                    .map((track) =>
-                        Placeholder(fallbackHeight: 100, fallbackWidth: 100))
-                    .toList(),
-              ),
-            ),
-          ),
+          // TODO remove this
+          song.tracks == null
+              ? Placeholder(fallbackHeight: 80)
+              : Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Container(
+                    height: 100,
+                    child: ListView(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      children: song.tracks
+                          .map((track) => Placeholder(
+                              fallbackHeight: 100, fallbackWidth: 100))
+                          .toList(),
+                    ),
+                  ),
+                ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
