@@ -82,15 +82,9 @@ class SongItem extends StatelessWidget {
                     Text(song.title, style: Theme.of(context).textTheme.title),
               ),
               IconButton(
-                icon: Icon(Icons.play_circle_outline),
+                icon: Icon(Icons.play_circle_outline, size: 35),
                 onPressed: onPlay,
                 tooltip: localization.play,
-              ),
-              SizedBox(width: 12),
-              IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: onPlay,
-                tooltip: localization.edit,
               ),
             ],
           ),
@@ -161,6 +155,11 @@ class SongItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: onPlay,
+                tooltip: localization.edit,
+              ),
               IconButton(
                 icon: Icon(Icons.favorite),
                 onPressed: () => null,
