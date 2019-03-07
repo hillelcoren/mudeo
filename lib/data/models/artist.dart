@@ -18,13 +18,16 @@ abstract class ArtistEntity
 
   ArtistEntity._();
 
+  @nullable
   @BuiltValueField(wireName: 'first_name')
   String get firstName;
 
+  @nullable
   @BuiltValueField(wireName: 'last_name')
   String get lastName;
 
-  @BuiltValueField(wireName: 'handle_name')
+  @nullable
+  @BuiltValueField(wireName: 'handle')
   String get handle;
 
   String get email;

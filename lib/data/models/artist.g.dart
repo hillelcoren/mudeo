@@ -32,19 +32,28 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   Iterable serialize(Serializers serializers, ArtistEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'first_name',
-      serializers.serialize(object.firstName,
-          specifiedType: const FullType(String)),
-      'last_name',
-      serializers.serialize(object.lastName,
-          specifiedType: const FullType(String)),
-      'handle_name',
-      serializers.serialize(object.handle,
-          specifiedType: const FullType(String)),
       'email',
       serializers.serialize(object.email,
           specifiedType: const FullType(String)),
     ];
+    if (object.firstName != null) {
+      result
+        ..add('first_name')
+        ..add(serializers.serialize(object.firstName,
+            specifiedType: const FullType(String)));
+    }
+    if (object.lastName != null) {
+      result
+        ..add('last_name')
+        ..add(serializers.serialize(object.lastName,
+            specifiedType: const FullType(String)));
+    }
+    if (object.handle != null) {
+      result
+        ..add('handle')
+        ..add(serializers.serialize(object.handle,
+            specifiedType: const FullType(String)));
+    }
     if (object.id != null) {
       result
         ..add('id')
@@ -74,7 +83,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           result.lastName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'handle_name':
+        case 'handle':
           result.handle = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
@@ -111,15 +120,6 @@ class _$ArtistEntity extends ArtistEntity {
   _$ArtistEntity._(
       {this.firstName, this.lastName, this.handle, this.email, this.id})
       : super._() {
-    if (firstName == null) {
-      throw new BuiltValueNullFieldError('ArtistEntity', 'firstName');
-    }
-    if (lastName == null) {
-      throw new BuiltValueNullFieldError('ArtistEntity', 'lastName');
-    }
-    if (handle == null) {
-      throw new BuiltValueNullFieldError('ArtistEntity', 'handle');
-    }
     if (email == null) {
       throw new BuiltValueNullFieldError('ArtistEntity', 'email');
     }

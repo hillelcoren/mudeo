@@ -181,6 +181,8 @@ Middleware<AppState> _createUserLoggedIn(
     authRepository.saveAuthState(state.authState);
     uiRepository.saveUIState(state.uiState);
     dataRepository.saveDataState(state.dataState);
+
+
   };
 }
 

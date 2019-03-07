@@ -61,8 +61,9 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
             oneTimePassword: action.oneTimePassword)
         .then((ArtistEntity artist) {
       _saveAuthLocal(action);
-      store.dispatch(
-          UserLoginSuccess(artist));
+      store.dispatch(UserLoginSuccess(artist));
+
+      action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
       if (error.toString().contains('No host specified in URI')) {
@@ -85,8 +86,9 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
             platform: action.platform)
         .then((ArtistEntity artist) {
       _saveAuthLocal(action);
-      store.dispatch(
-          UserLoginSuccess(artist));
+      store.dispatch(UserLoginSuccess(artist));
+
+      action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));
