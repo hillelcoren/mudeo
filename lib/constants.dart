@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const String kAppVersion = '0.0.1';
-const String kAppURL = 'https://api.mudeo.app';
+const String kAppURL = 'https://mudeo.app/api';
 const String kTermsOfServiceURL = '';
 
 const String kAppleStoreUrl = '';

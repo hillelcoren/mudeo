@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/web_client.dart';
@@ -13,7 +14,7 @@ class AuthRepository {
 
   final WebClient webClient;
 
-  Future<LoginResponseData> login(
+  Future<ArtistEntity> login(
       {String email,
       String password,
       String platform,
@@ -30,12 +31,11 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<LoginResponseData> signUp(
+  Future<ArtistEntity> signUp(
       {String handle,
       String email,
       String password,
-      String platform,
-      String oneTimePassword}) async {
+      String platform}) async {
     final credentials = {
       'api_secret': Config.API_SECRET,
       'email': email,
@@ -43,12 +43,12 @@ class AuthRepository {
       'handle': handle,
     };
 
-    String url = '$kAppURL/sign_up';
+    String url = '$kAppURL/user/create';
 
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<LoginResponseData> oauthLogin(
+  Future<ArtistEntity> oauthLogin(
       {String token, String url, String secret, String platform}) async {
     final credentials = {
       'api_secret': url.isEmpty ? Config.API_SECRET : secret,
@@ -61,7 +61,7 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<LoginResponseData> refresh(
+  Future<ArtistEntity> refresh(
       {String url, String token, String platform}) async {
 
     url = '$kAppURL/refresh';
@@ -69,19 +69,21 @@ class AuthRepository {
     return sendRequest(url: url, data: {}, token: token);
   }
 
-  Future<LoginResponseData> sendRequest(
+  Future<ArtistEntity> sendRequest(
       {String url, dynamic data, String token}) async {
 
     final dynamic response =
         await webClient.post(url, token ?? '', json.encode(data));
 
-    final LoginResponse loginResponse =
-        serializers.deserializeWith(LoginResponse.serializer, response);
+    final loginResponse =
+        serializers.deserializeWith(ArtistEntity.serializer, response);
 
+    /*
     if (loginResponse.error != null) {
       throw loginResponse.error.message;
     }
+    */
 
-    return loginResponse.data;
+    return loginResponse;
   }
 }

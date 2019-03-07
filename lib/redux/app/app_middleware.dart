@@ -41,11 +41,9 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
       uiRepository,
       dataRepository);
 
-  final dataLoaded = _createDataLoaded();
-
   final persistData = _createPersistData(dataRepository);
 
-  final userLoggedIn = _createUserLoggedIn(
+  final userLoginSuccess = _createUserLoggedIn(
       authRepository,
       uiRepository,
       dataRepository);
@@ -60,8 +58,7 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
   return [
     TypedMiddleware<AppState, UserLogout>(deleteState),
     TypedMiddleware<AppState, LoadStateRequest>(loadState),
-    TypedMiddleware<AppState, UserLoginSuccess>(userLoggedIn),
-    TypedMiddleware<AppState, LoadDataSuccess>(dataLoaded),
+    TypedMiddleware<AppState, UserLoginSuccess>(userLoginSuccess),
     TypedMiddleware<AppState, PersistData>(persistData),
     TypedMiddleware<AppState, PersistUI>(persistUI),
   ];
@@ -192,28 +189,6 @@ Middleware<AppState> _createPersistUI(PersistenceRepository uiRepository) {
     next(action);
 
     uiRepository.saveUIState(store.state.uiState);
-  };
-}
-
-Middleware<AppState> _createDataLoaded() {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) async {
-
-    /*
-    for (int i = 0; i < data.accounts.length; i++) {
-      final CompanyEntity company = data.accounts[i];
-
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString(getKeychainTokenKey(i), company.token);
-
-      store.dispatch(SelectCompany(i + 1, company));
-      store.dispatch(LoadCompanySuccess(company));
-    }
-
-    store.dispatch(SelectCompany(1, data.accounts[0]));
-    store.dispatch(UserLoginSuccess());
-    */
-
-    action.completer.complete(null);
   };
 }
 

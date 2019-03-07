@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
+import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/main_screen.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,12 +15,14 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
 ]) {
   final loginInit = _createLoginInit();
   final loginRequest = _createLoginRequest(repository);
+  final signUpRequest = _createSignUpRequest(repository);
   final oauthRequest = _createOAuthRequest(repository);
   final refreshRequest = _createRefreshRequest(repository);
 
   return [
     TypedMiddleware<AppState, LoadUserLogin>(loginInit),
     TypedMiddleware<AppState, UserLoginRequest>(loginRequest),
+    TypedMiddleware<AppState, UserSignUpRequest>(loginRequest),
     TypedMiddleware<AppState, OAuthLoginRequest>(oauthRequest),
     TypedMiddleware<AppState, RefreshData>(refreshRequest),
   ];
@@ -41,8 +45,7 @@ Middleware<AppState> _createLoginInit() {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     _loadAuthLocal(store, action);
 
-    //Navigator.of(action.context).pushReplacementNamed(LoginScreen.route);
-    Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
+    Navigator.of(action.context).pushReplacementNamed(LoginScreen.route);
 
     next(action);
   };
@@ -52,13 +55,14 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
         .login(
-        email: action.email,
-        password: action.password,
-        platform: action.platform,
-        oneTimePassword: action.oneTimePassword)
-        .then((data) {
+            email: action.email,
+            password: action.password,
+            platform: action.platform,
+            oneTimePassword: action.oneTimePassword)
+        .then((ArtistEntity artist) {
       _saveAuthLocal(action);
-
+      store.dispatch(
+          UserLoginSuccess(artist));
     }).catchError((Object error) {
       print(error);
       if (error.toString().contains('No host specified in URI')) {
@@ -72,16 +76,35 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
   };
 }
 
+Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    repository
+        .signUp(
+            email: action.email,
+            password: action.password,
+            platform: action.platform)
+        .then((ArtistEntity artist) {
+      _saveAuthLocal(action);
+      store.dispatch(
+          UserLoginSuccess(artist));
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(UserLoginFailure(error.toString()));
+    });
+
+    next(action);
+  };
+}
+
 Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
         .oauthLogin(
-        token: action.token,
-        secret: action.secret,
-        platform: action.platform)
+            token: action.token,
+            secret: action.secret,
+            platform: action.platform)
         .then((data) {
       _saveAuthLocal(action);
-
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));
@@ -100,11 +123,9 @@ Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString(kSharedPrefToken);
 
-    repository
-        .refresh(token: token, platform: action.platform)
-        .then((data) {
+    repository.refresh(token: token, platform: action.platform).then((data) {
       store.dispatch(
-          LoadDataSuccess(completer: action.completer, loginResponse: data));
+          LoadUserSuccess(completer: action.completer, loginResponse: data));
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));

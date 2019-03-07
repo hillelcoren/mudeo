@@ -25,8 +25,8 @@ class UserSettingsChanged implements PersistUI {
   final bool autoStartTasks;
 }
 
-class LoadDataSuccess {
-  LoadDataSuccess({this.loginResponse, this.completer});
+class LoadUserSuccess {
+  LoadUserSuccess({this.loginResponse, this.completer});
 
   final Completer completer;
   final dynamic loginResponse;

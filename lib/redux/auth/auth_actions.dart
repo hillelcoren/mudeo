@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 
@@ -76,7 +77,10 @@ class UserLoginRequest implements StartLoading {
   final String oneTimePassword;
 }
 
-class UserLoginSuccess implements StopLoading {}
+class UserLoginSuccess implements StopLoading {
+  UserLoginSuccess(this.artist);
+  final ArtistEntity artist;
+}
 
 class UserLoginFailure implements StopLoading {
   UserLoginFailure(this.error);
