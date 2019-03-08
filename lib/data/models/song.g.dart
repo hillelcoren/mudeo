@@ -280,8 +280,6 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'songId',
-      serializers.serialize(object.songId, specifiedType: const FullType(int)),
       'volume',
       serializers.serialize(object.volume, specifiedType: const FullType(int)),
       'orderId',
@@ -307,10 +305,6 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
-        case 'songId':
-          result.songId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'volume':
@@ -850,8 +844,6 @@ class _$TrackEntity extends TrackEntity {
   @override
   final int id;
   @override
-  final int songId;
-  @override
   final int volume;
   @override
   final int orderId;
@@ -861,13 +853,10 @@ class _$TrackEntity extends TrackEntity {
   factory _$TrackEntity([void updates(TrackEntityBuilder b)]) =>
       (new TrackEntityBuilder()..update(updates)).build();
 
-  _$TrackEntity._({this.id, this.songId, this.volume, this.orderId, this.video})
+  _$TrackEntity._({this.id, this.volume, this.orderId, this.video})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('TrackEntity', 'id');
-    }
-    if (songId == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'songId');
     }
     if (volume == null) {
       throw new BuiltValueNullFieldError('TrackEntity', 'volume');
@@ -892,7 +881,6 @@ class _$TrackEntity extends TrackEntity {
     if (identical(other, this)) return true;
     return other is TrackEntity &&
         id == other.id &&
-        songId == other.songId &&
         volume == other.volume &&
         orderId == other.orderId &&
         video == other.video;
@@ -901,8 +889,7 @@ class _$TrackEntity extends TrackEntity {
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, id.hashCode), songId.hashCode), volume.hashCode),
-            orderId.hashCode),
+        $jc($jc($jc(0, id.hashCode), volume.hashCode), orderId.hashCode),
         video.hashCode));
   }
 
@@ -910,7 +897,6 @@ class _$TrackEntity extends TrackEntity {
   String toString() {
     return (newBuiltValueToStringHelper('TrackEntity')
           ..add('id', id)
-          ..add('songId', songId)
           ..add('volume', volume)
           ..add('orderId', orderId)
           ..add('video', video))
@@ -924,10 +910,6 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
-
-  int _songId;
-  int get songId => _$this._songId;
-  set songId(int songId) => _$this._songId = songId;
 
   int _volume;
   int get volume => _$this._volume;
@@ -946,7 +928,6 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   TrackEntityBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
-      _songId = _$v.songId;
       _volume = _$v.volume;
       _orderId = _$v.orderId;
       _video = _$v.video?.toBuilder();
@@ -974,11 +955,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
     try {
       _$result = _$v ??
           new _$TrackEntity._(
-              id: id,
-              songId: songId,
-              volume: volume,
-              orderId: orderId,
-              video: video.build());
+              id: id, volume: volume, orderId: orderId, video: video.build());
     } catch (_) {
       String _$failedField;
       try {

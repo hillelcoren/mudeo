@@ -94,7 +94,7 @@ abstract class SongEntity extends Object
   }
 
   TrackEntity newTrack(VideoEntity video) =>
-      TrackEntity(songId: id, video: video, orderId: tracks.length);
+      TrackEntity(video: video, orderId: tracks.length);
 
   static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }
