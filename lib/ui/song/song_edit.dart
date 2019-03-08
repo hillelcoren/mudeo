@@ -208,6 +208,7 @@ class SaveSongDialog extends StatefulWidget {
 }
 
 class _SaveSongDialogState extends State<SaveSongDialog> {
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
 
@@ -248,13 +249,20 @@ class _SaveSongDialogState extends State<SaveSongDialog> {
   }
 
   void _onChanged() {
-    final song = widget.viewModel.song
-        .rebuild((b) => b..title = _titleController.text.trim());
+    final song = widget.viewModel.song.rebuild((b) => b
+      ..title = _titleController.text.trim()
+      ..description = _descriptionController.text.trim());
 
     if (song != widget.viewModel.song) {
-      print('save song');
       widget.viewModel.onSongChanged(song);
     }
+  }
+
+  void _onSubmit() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    widget.viewModel.onSongSaved();
   }
 
   @override
@@ -269,60 +277,62 @@ class _SaveSongDialogState extends State<SaveSongDialog> {
           Material(
             child: Padding(
               padding: const EdgeInsets.all(28.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                      labelText: localization.title,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _titleController,
+                      decoration: InputDecoration(
+                        labelText: localization.title,
+                      ),
+                      validator: (value) =>
+                          value.isEmpty ? localization.fieldIsRequired : null,
                     ),
-                    validator: (value) => value.isNotEmpty && value.length < 8
-                        ? localization.fieldIsRequired
-                        : null,
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _descriptionController,
-                    maxLines: 6,
-                    decoration: InputDecoration(
-                      labelText: localization.description,
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _descriptionController,
+                      maxLines: 6,
+                      decoration: InputDecoration(
+                        labelText: localization.description,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.public,
-                          color: Colors.white70,
-                          size: 20,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          localization.public,
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                        Spacer(),
-                        FlatButton(
-                          child: Text(localization.cancel),
-                          //color: Colors.grey,
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          label: song.isNew
-                              ? localization.upload
-                              : localization.save,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.public,
+                            color: Colors.white70,
+                            size: 20,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            localization.public,
+                            style: TextStyle(color: Colors.white70),
+                          ),
+                          Spacer(),
+                          FlatButton(
+                            child: Text(localization.cancel),
+                            //color: Colors.grey,
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          ElevatedButton(
+                            onPressed: () => _onSubmit(),
+                            label: song.isNew
+                                ? localization.upload
+                                : localization.save,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

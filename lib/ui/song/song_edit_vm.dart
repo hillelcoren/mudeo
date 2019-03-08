@@ -33,6 +33,7 @@ class SongEditVM {
     @required this.song,
     @required this.onTrackAdded,
     @required this.onSongChanged,
+    @required this.onSongSaved,
   });
 
   final AppState state;
@@ -41,25 +42,30 @@ class SongEditVM {
   final SongEntity song;
   final Function(VideoEntity) onTrackAdded;
   final Function(SongEntity) onSongChanged;
+  final Function() onSongSaved;
 
   static SongEditVM fromStore(Store<AppState> store) {
     final state = store.state;
 
     return SongEditVM(
-      song: state.uiState.song,
-      //clientMap: state.clientState.map,
-      state: state,
-      isLoading: state.isLoading,
-      //isLoaded: state.clientState.isLoaded,
-      isLoaded: state.dataState.areSongsLoaded,
-      onTrackAdded: (video) {
-        final song = state.uiState.song;
-        final track = song.newTrack(video);
-        store.dispatch(AddTrack(track));
-      },
-      onSongChanged: (song) {
-        store.dispatch(UpdateSong(song));
-      }
-    );
+        song: state.uiState.song,
+        //clientMap: state.clientState.map,
+        state: state,
+        isLoading: state.isLoading,
+        //isLoaded: state.clientState.isLoaded,
+        isLoaded: state.dataState.areSongsLoaded,
+        onTrackAdded: (video) {
+          final song = state.uiState.song;
+          final track = song.newTrack(video);
+          store.dispatch(AddTrack(track));
+        },
+        onSongChanged: (song) {
+          store.dispatch(UpdateSong(song));
+        },
+        onSongSaved: () {
+          final song = state.uiState.song;
+          final completer = Completer<Null>();
+          store.dispatch(SaveSongRequest(song: song, completer: completer));
+        });
   }
 }
