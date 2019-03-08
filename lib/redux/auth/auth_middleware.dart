@@ -81,6 +81,7 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
         .signUp(
+            handle: action.handle,
             email: action.email,
             password: action.password,
             platform: action.platform)
