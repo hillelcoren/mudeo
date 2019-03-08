@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
+import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 
@@ -17,7 +18,7 @@ class MainScreen extends StatelessWidget {
 
     List<Widget> _views = [
       SongListScreen(),
-      Placeholder(),
+      SongEditScreen(),
       Container(
         child: Center(
           child: RaisedButton(
