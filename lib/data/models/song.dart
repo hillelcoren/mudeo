@@ -33,7 +33,7 @@ abstract class SongItemResponse
 
 abstract class SongEntity extends Object with BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
-  factory SongEntity(int id) {
+  factory SongEntity({int id}) {
     return _$SongEntity._(
       id: id ?? --SongEntity.counter,
       artistId: 0,
@@ -96,7 +96,7 @@ abstract class SongEntity extends Object with BaseEntity
 
 abstract class TrackEntity
     implements Built<TrackEntity, TrackEntityBuilder> {
-  factory TrackEntity(int id) {
+  factory TrackEntity({int id}) {
     return _$TrackEntity._(
       id: id ?? --TrackEntity.counter,
     );
@@ -113,7 +113,7 @@ abstract class TrackEntity
 
 abstract class SongTrackEntity
     implements Built<SongTrackEntity, SongTrackEntityBuilder> {
-  factory SongTrackEntity(int id) {
+  factory SongTrackEntity({int id}) {
     return _$SongTrackEntity._(
       id: id ?? --SongTrackEntity.counter,
     );
