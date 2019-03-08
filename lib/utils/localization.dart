@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'stop': 'Stop',
+      'delete': 'Delete',
+      'record': 'Record',
       'refresh_complete': 'Refresh complete',
       'dismiss': 'Dismiss',
       'an_error_occurred': 'An error occurred',
@@ -72,6 +75,12 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get delete => _localizedValues[locale.toString()]['delete'];
+
+  String get stop => _localizedValues[locale.toString()]['stop'];
+
+  String get record => _localizedValues[locale.toString()]['record'];
 
   String get privacyPolicyLink =>
       _localizedValues[locale.toString()]['privacy_policy_link'];

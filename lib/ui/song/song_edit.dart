@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -163,13 +164,15 @@ class ExpandedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
     return Expanded(
       child: Tooltip(
         message: icon == Icons.play_arrow
-            ? 'Play'
+            ? localization.play
             : icon == Icons.stop
-                ? 'Stop'
-                : icon == Icons.delete ? 'Delete' : 'Record',
+                ? localization.stop
+                : icon == Icons.delete ? localization.delete : localization.record,
         child: MaterialButton(
           height: 75,
           onPressed: onPressed,
