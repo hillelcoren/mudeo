@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song.dart';
+import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:path_provider/path_provider.dart';
@@ -93,6 +94,15 @@ class _SongEditState extends State<SongEdit> {
     });
   }
 
+  void onSavePressed() {
+    showDialog<SaveSongDialog>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SaveSongDialog(viewModel: widget.viewModel);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (camera == null) return SizedBox();
@@ -140,8 +150,8 @@ class _SongEditState extends State<SongEdit> {
                   : (isPlaying ? null : record),
               color: isPlaying || isRecording ? null : Colors.redAccent),
           ExpandedButton(
-              icon: Icons.delete,
-              onPressed: isEmpty || isPlaying ? null : delete),
+              icon: Icons.cloud_upload,
+              onPressed: isEmpty || isPlaying ? null : onSavePressed),
         ]),
         isEmpty
             ? SizedBox()
@@ -180,6 +190,102 @@ class ExpandedButton extends StatelessWidget {
           onPressed: onPressed,
           child: Icon(icon, size: 36, color: color),
         ),
+      ),
+    );
+  }
+}
+
+class SaveSongDialog extends StatefulWidget {
+  const SaveSongDialog({
+    Key key,
+    @required this.viewModel,
+  }) : super(key: key);
+
+  final SongEditVM viewModel;
+
+  @override
+  _SaveSongDialogState createState() => _SaveSongDialogState();
+}
+
+class _SaveSongDialogState extends State<SaveSongDialog> {
+  final _titleController = TextEditingController();
+
+  List<TextEditingController> _controllers = [];
+
+  @override
+  void didChangeDependencies() {
+    if (_controllers.isNotEmpty) {
+      return;
+    }
+
+    _controllers = [_titleController];
+
+    _controllers
+        .forEach((dynamic controller) => controller.removeListener(_onChanged));
+
+    final song = widget.viewModel.song;
+    _titleController.text = song.title;
+
+    _controllers
+        .forEach((dynamic controller) => controller.addListener(_onChanged));
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _controllers.forEach((dynamic controller) {
+      controller.removeListener(_onChanged);
+      controller.dispose();
+    });
+
+    super.dispose();
+  }
+
+  void _onChanged() {
+    final song = widget.viewModel.song
+        .rebuild((b) => b..title = _titleController.text.trim());
+
+    if (song != widget.viewModel.song) {
+      print('save song');
+      //widget.viewModel.saveSong();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        children: <Widget>[
+          Material(
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                      labelText: localization.title,
+                    ),
+                    validator: (value) => value.isNotEmpty && value.length < 8
+                        ? localization.fieldIsRequired
+                        : null,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    label: localization.dismiss,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(child: Container()),
+        ],
       ),
     );
   }

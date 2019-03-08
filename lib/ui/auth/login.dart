@@ -69,7 +69,7 @@ class _LoginState extends State<LoginView> {
 
     if (!_showLogin && !_termsChecked) {
       showDialog<AlertDialog>(
-          context: context,
+            context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(localization.termsOfService),

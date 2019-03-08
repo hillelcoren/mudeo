@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'title': 'Title',
+      'field_is_required': 'Field is required',
       'stop': 'Stop',
       'delete': 'Delete',
       'record': 'Record',
@@ -98,6 +100,10 @@ class AppLocalization {
   String get handle => _localizedValues[locale.toString()]['handle'];
 
   String get close => _localizedValues[locale.toString()]['close'];
+
+  String get title => _localizedValues[locale.toString()]['title'];
+
+  String get fieldIsRequired => _localizedValues[locale.toString()]['field_is_required'];
 
   String get doNotHaveAnAccount =>
       _localizedValues[locale.toString()]['do_not_have_an_account'];
