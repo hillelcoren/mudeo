@@ -20,6 +20,10 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'public': 'Public',
+      'upload': 'Upload',
+      'save': 'Save',
+      'description': 'Description',
       'title': 'Title',
       'field_is_required': 'Field is required',
       'stop': 'Stop',
@@ -196,8 +200,17 @@ class AppLocalization {
 
   String get dismiss => _localizedValues[locale.toString()]['dismiss'];
 
+  String get upload => _localizedValues[locale.toString()]['upload'];
+
+  String get save => _localizedValues[locale.toString()]['save'];
+
+  String get public => _localizedValues[locale.toString()]['public'];
+
   String get refreshComplete =>
       _localizedValues[locale.toString()]['refresh_complete'];
+
+  String get description => _localizedValues[locale.toString()]['description'];
+
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
