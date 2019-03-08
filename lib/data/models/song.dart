@@ -100,10 +100,9 @@ abstract class SongEntity extends Object
 }
 
 abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
-  factory TrackEntity({int id, int songId, int orderId, VideoEntity video}) {
+  factory TrackEntity({int id, int orderId, VideoEntity video}) {
     return _$TrackEntity._(
       id: id ?? --TrackEntity.counter,
-      songId: songId ?? 0,
       volume: 0,
       orderId: orderId ?? 0,
       video: video ?? VideoEntity(),
@@ -115,8 +114,6 @@ abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
   static int counter = 0;
 
   int get id;
-
-  int get songId;
 
   int get volume;
 
