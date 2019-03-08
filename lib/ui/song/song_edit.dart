@@ -248,7 +248,7 @@ class _SaveSongDialogState extends State<SaveSongDialog> {
 
     if (song != widget.viewModel.song) {
       print('save song');
-      //widget.viewModel.saveSong();
+      widget.viewModel.onSongChanged(song);
     }
   }
 

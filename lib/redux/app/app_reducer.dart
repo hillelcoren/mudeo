@@ -41,10 +41,17 @@ DataState songListReducer(DataState dataState, LoadSongsSuccess action) {
 
 Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, AddTrack>(addTrackReducer),
+  TypedReducer<UIState, UpdateSong>(updateSongReducer),
 ]);
 
 UIState addTrackReducer(UIState uiState, AddTrack action) {
   return uiState.rebuild((b) => b
     ..song.tracks.add(action.track)
+  );
+}
+
+UIState updateSongReducer(UIState uiState, UpdateSong action) {
+  return uiState.rebuild((b) => b
+    ..song.replace(action.song)
   );
 }
