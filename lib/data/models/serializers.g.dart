@@ -32,6 +32,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(SongListResponse.serializer)
       ..add(TrackEntity.serializer)
       ..add(UIState.serializer)
+      ..add(VideoEntity.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(SongEntity)]),
           () => new ListBuilder<SongEntity>())

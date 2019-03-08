@@ -25,8 +25,7 @@ Serializer<SongItemResponse> _$songItemResponseSerializer =
     new _$SongItemResponseSerializer();
 Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
 Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
-Serializer<SongTrackEntity> _$songTrackEntitySerializer =
-    new _$SongTrackEntitySerializer();
+Serializer<VideoEntity> _$videoEntitySerializer = new _$VideoEntitySerializer();
 
 class _$SongListResponseSerializer
     implements StructuredSerializer<SongListResponse> {
@@ -281,11 +280,15 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'userId',
-      serializers.serialize(object.userId, specifiedType: const FullType(int)),
-      'timestamp',
-      serializers.serialize(object.timestamp,
-          specifiedType: const FullType(int)),
+      'songId',
+      serializers.serialize(object.songId, specifiedType: const FullType(int)),
+      'volume',
+      serializers.serialize(object.volume, specifiedType: const FullType(int)),
+      'orderId',
+      serializers.serialize(object.orderId, specifiedType: const FullType(int)),
+      'video',
+      serializers.serialize(object.video,
+          specifiedType: const FullType(VideoEntity)),
     ];
 
     return result;
@@ -306,13 +309,21 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'userId':
-          result.userId = serializers.deserialize(value,
+        case 'songId':
+          result.songId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'timestamp':
-          result.timestamp = serializers.deserialize(value,
+        case 'volume':
+          result.volume = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
+          break;
+        case 'orderId':
+          result.orderId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'video':
+          result.video.replace(serializers.deserialize(value,
+              specifiedType: const FullType(VideoEntity)) as VideoEntity);
           break;
       }
     }
@@ -321,28 +332,32 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
   }
 }
 
-class _$SongTrackEntitySerializer
-    implements StructuredSerializer<SongTrackEntity> {
+class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   @override
-  final Iterable<Type> types = const [SongTrackEntity, _$SongTrackEntity];
+  final Iterable<Type> types = const [VideoEntity, _$VideoEntity];
   @override
-  final String wireName = 'SongTrackEntity';
+  final String wireName = 'VideoEntity';
 
   @override
-  Iterable serialize(Serializers serializers, SongTrackEntity object,
+  Iterable serialize(Serializers serializers, VideoEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'userId',
+      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+      'timestamp',
+      serializers.serialize(object.timestamp,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
   }
 
   @override
-  SongTrackEntity deserialize(Serializers serializers, Iterable serialized,
+  VideoEntity deserialize(Serializers serializers, Iterable serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new SongTrackEntityBuilder();
+    final result = new VideoEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -352,6 +367,14 @@ class _$SongTrackEntitySerializer
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'userId':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'timestamp':
+          result.timestamp = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
       }
@@ -827,22 +850,33 @@ class _$TrackEntity extends TrackEntity {
   @override
   final int id;
   @override
-  final int userId;
+  final int songId;
   @override
-  final int timestamp;
+  final int volume;
+  @override
+  final int orderId;
+  @override
+  final VideoEntity video;
 
   factory _$TrackEntity([void updates(TrackEntityBuilder b)]) =>
       (new TrackEntityBuilder()..update(updates)).build();
 
-  _$TrackEntity._({this.id, this.userId, this.timestamp}) : super._() {
+  _$TrackEntity._({this.id, this.songId, this.volume, this.orderId, this.video})
+      : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('TrackEntity', 'id');
     }
-    if (userId == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'userId');
+    if (songId == null) {
+      throw new BuiltValueNullFieldError('TrackEntity', 'songId');
     }
-    if (timestamp == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'timestamp');
+    if (volume == null) {
+      throw new BuiltValueNullFieldError('TrackEntity', 'volume');
+    }
+    if (orderId == null) {
+      throw new BuiltValueNullFieldError('TrackEntity', 'orderId');
+    }
+    if (video == null) {
+      throw new BuiltValueNullFieldError('TrackEntity', 'video');
     }
   }
 
@@ -858,22 +892,28 @@ class _$TrackEntity extends TrackEntity {
     if (identical(other, this)) return true;
     return other is TrackEntity &&
         id == other.id &&
-        userId == other.userId &&
-        timestamp == other.timestamp;
+        songId == other.songId &&
+        volume == other.volume &&
+        orderId == other.orderId &&
+        video == other.video;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, id.hashCode), userId.hashCode), timestamp.hashCode));
+    return $jf($jc(
+        $jc($jc($jc($jc(0, id.hashCode), songId.hashCode), volume.hashCode),
+            orderId.hashCode),
+        video.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('TrackEntity')
           ..add('id', id)
-          ..add('userId', userId)
-          ..add('timestamp', timestamp))
+          ..add('songId', songId)
+          ..add('volume', volume)
+          ..add('orderId', orderId)
+          ..add('video', video))
         .toString();
   }
 }
@@ -885,21 +925,31 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
-  int _userId;
-  int get userId => _$this._userId;
-  set userId(int userId) => _$this._userId = userId;
+  int _songId;
+  int get songId => _$this._songId;
+  set songId(int songId) => _$this._songId = songId;
 
-  int _timestamp;
-  int get timestamp => _$this._timestamp;
-  set timestamp(int timestamp) => _$this._timestamp = timestamp;
+  int _volume;
+  int get volume => _$this._volume;
+  set volume(int volume) => _$this._volume = volume;
+
+  int _orderId;
+  int get orderId => _$this._orderId;
+  set orderId(int orderId) => _$this._orderId = orderId;
+
+  VideoEntityBuilder _video;
+  VideoEntityBuilder get video => _$this._video ??= new VideoEntityBuilder();
+  set video(VideoEntityBuilder video) => _$this._video = video;
 
   TrackEntityBuilder();
 
   TrackEntityBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
-      _userId = _$v.userId;
-      _timestamp = _$v.timestamp;
+      _songId = _$v.songId;
+      _volume = _$v.volume;
+      _orderId = _$v.orderId;
+      _video = _$v.video?.toBuilder();
       _$v = null;
     }
     return this;
@@ -920,86 +970,130 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
   @override
   _$TrackEntity build() {
-    final _$result = _$v ??
-        new _$TrackEntity._(id: id, userId: userId, timestamp: timestamp);
+    _$TrackEntity _$result;
+    try {
+      _$result = _$v ??
+          new _$TrackEntity._(
+              id: id,
+              songId: songId,
+              volume: volume,
+              orderId: orderId,
+              video: video.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'video';
+        video.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'TrackEntity', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
 }
 
-class _$SongTrackEntity extends SongTrackEntity {
+class _$VideoEntity extends VideoEntity {
   @override
   final int id;
+  @override
+  final int userId;
+  @override
+  final int timestamp;
 
-  factory _$SongTrackEntity([void updates(SongTrackEntityBuilder b)]) =>
-      (new SongTrackEntityBuilder()..update(updates)).build();
+  factory _$VideoEntity([void updates(VideoEntityBuilder b)]) =>
+      (new VideoEntityBuilder()..update(updates)).build();
 
-  _$SongTrackEntity._({this.id}) : super._() {
+  _$VideoEntity._({this.id, this.userId, this.timestamp}) : super._() {
     if (id == null) {
-      throw new BuiltValueNullFieldError('SongTrackEntity', 'id');
+      throw new BuiltValueNullFieldError('VideoEntity', 'id');
+    }
+    if (userId == null) {
+      throw new BuiltValueNullFieldError('VideoEntity', 'userId');
+    }
+    if (timestamp == null) {
+      throw new BuiltValueNullFieldError('VideoEntity', 'timestamp');
     }
   }
 
   @override
-  SongTrackEntity rebuild(void updates(SongTrackEntityBuilder b)) =>
+  VideoEntity rebuild(void updates(VideoEntityBuilder b)) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SongTrackEntityBuilder toBuilder() =>
-      new SongTrackEntityBuilder()..replace(this);
+  VideoEntityBuilder toBuilder() => new VideoEntityBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SongTrackEntity && id == other.id;
+    return other is VideoEntity &&
+        id == other.id &&
+        userId == other.userId &&
+        timestamp == other.timestamp;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, id.hashCode));
+    return $jf(
+        $jc($jc($jc(0, id.hashCode), userId.hashCode), timestamp.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongTrackEntity')..add('id', id))
+    return (newBuiltValueToStringHelper('VideoEntity')
+          ..add('id', id)
+          ..add('userId', userId)
+          ..add('timestamp', timestamp))
         .toString();
   }
 }
 
-class SongTrackEntityBuilder
-    implements Builder<SongTrackEntity, SongTrackEntityBuilder> {
-  _$SongTrackEntity _$v;
+class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
+  _$VideoEntity _$v;
 
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
-  SongTrackEntityBuilder();
+  int _userId;
+  int get userId => _$this._userId;
+  set userId(int userId) => _$this._userId = userId;
 
-  SongTrackEntityBuilder get _$this {
+  int _timestamp;
+  int get timestamp => _$this._timestamp;
+  set timestamp(int timestamp) => _$this._timestamp = timestamp;
+
+  VideoEntityBuilder();
+
+  VideoEntityBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
+      _userId = _$v.userId;
+      _timestamp = _$v.timestamp;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(SongTrackEntity other) {
+  void replace(VideoEntity other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
-    _$v = other as _$SongTrackEntity;
+    _$v = other as _$VideoEntity;
   }
 
   @override
-  void update(void updates(SongTrackEntityBuilder b)) {
+  void update(void updates(VideoEntityBuilder b)) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$SongTrackEntity build() {
-    final _$result = _$v ?? new _$SongTrackEntity._(id: id);
+  _$VideoEntity build() {
+    final _$result = _$v ??
+        new _$VideoEntity._(id: id, userId: userId, timestamp: timestamp);
     replace(_$result);
     return _$result;
   }

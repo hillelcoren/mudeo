@@ -38,7 +38,7 @@ class SongEditVM {
   final bool isLoading;
   final bool isLoaded;
   final SongEntity song;
-  final Function(TrackEntity) onTrackAdded;
+  final Function(VideoEntity) onTrackAdded;
 
   static SongEditVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -50,7 +50,11 @@ class SongEditVM {
       isLoading: state.isLoading,
       //isLoaded: state.clientState.isLoaded,
       isLoaded: state.dataState.areSongsLoaded,
-      onTrackAdded: (track) => store.dispatch(AddTrack(track)),
+      onTrackAdded: (video) {
+        final song = state.uiState.song;
+        final track = song.newTrack(video);
+        store.dispatch(AddTrack(track));
+      },
     );
   }
 }

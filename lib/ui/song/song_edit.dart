@@ -66,7 +66,7 @@ class _SongEditState extends State<SongEdit> {
     await player.initialize();
     setState(() => videos.add(player));
 
-    final track = TrackEntity().rebuild((b) => b..timestamp = timestamp);
+    final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
     widget.viewModel.onTrackAdded(track);
   }
 
@@ -172,7 +172,9 @@ class ExpandedButton extends StatelessWidget {
             ? localization.play
             : icon == Icons.stop
                 ? localization.stop
-                : icon == Icons.delete ? localization.delete : localization.record,
+                : icon == Icons.delete
+                    ? localization.delete
+                    : localization.record,
         child: MaterialButton(
           height: 75,
           onPressed: onPressed,

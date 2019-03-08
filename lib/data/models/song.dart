@@ -8,7 +8,7 @@ part 'song.g.dart';
 abstract class SongListResponse
     implements Built<SongListResponse, SongListResponseBuilder> {
   factory SongListResponse([void updates(SongListResponseBuilder b)]) =
-  _$SongListResponse;
+      _$SongListResponse;
 
   SongListResponse._();
 
@@ -21,7 +21,7 @@ abstract class SongListResponse
 abstract class SongItemResponse
     implements Built<SongItemResponse, SongItemResponseBuilder> {
   factory SongItemResponse([void updates(SongItemResponseBuilder b)]) =
-  _$SongItemResponse;
+      _$SongItemResponse;
 
   SongItemResponse._();
 
@@ -31,7 +31,8 @@ abstract class SongItemResponse
       _$songItemResponseSerializer;
 }
 
-abstract class SongEntity extends Object with BaseEntity
+abstract class SongEntity extends Object
+    with BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
   factory SongEntity({int id}) {
     return _$SongEntity._(
@@ -51,6 +52,7 @@ abstract class SongEntity extends Object with BaseEntity
   }
 
   SongEntity._();
+
   static int counter = 0;
 
   String get title;
@@ -91,20 +93,51 @@ abstract class SongEntity extends Object with BaseEntity
     return title;
   }
 
+  TrackEntity newTrack(VideoEntity video) =>
+      TrackEntity(songId: id, video: video, orderId: tracks.length);
+
   static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }
 
-abstract class TrackEntity
-    implements Built<TrackEntity, TrackEntityBuilder> {
-  factory TrackEntity({int id}) {
+abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
+  factory TrackEntity({int id, int songId, int orderId, VideoEntity video}) {
     return _$TrackEntity._(
       id: id ?? --TrackEntity.counter,
+      songId: songId ?? 0,
+      volume: 0,
+      orderId: orderId ?? 0,
+      video: video ?? VideoEntity(),
+    );
+  }
+
+  TrackEntity._();
+
+  static int counter = 0;
+
+  int get id;
+
+  int get songId;
+
+  int get volume;
+
+  int get orderId;
+
+  VideoEntity get video;
+
+  static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
+}
+
+abstract class VideoEntity implements Built<VideoEntity, VideoEntityBuilder> {
+  factory VideoEntity({int id}) {
+    return _$VideoEntity._(
+      id: id ?? --VideoEntity.counter,
       userId: 0,
       timestamp: 0,
     );
   }
 
-  TrackEntity._();
+  VideoEntity._();
+
   static int counter = 0;
 
   int get id;
@@ -113,23 +146,5 @@ abstract class TrackEntity
 
   int get timestamp;
 
-  static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
+  static Serializer<VideoEntity> get serializer => _$videoEntitySerializer;
 }
-
-
-abstract class SongTrackEntity
-    implements Built<SongTrackEntity, SongTrackEntityBuilder> {
-  factory SongTrackEntity({int id}) {
-    return _$SongTrackEntity._(
-      id: id ?? --SongTrackEntity.counter,
-    );
-  }
-
-  SongTrackEntity._();
-  static int counter = 0;
-
-  int get id;
-
-  static Serializer<SongTrackEntity> get serializer => _$songTrackEntitySerializer;
-}
-

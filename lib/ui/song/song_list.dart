@@ -139,12 +139,12 @@ class SongItem extends StatelessWidget {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: (song.tracks == null
-                        ? BuiltList<TrackEntity>([
-                            TrackEntity(),
-                            TrackEntity(),
-                            TrackEntity(),
-                            TrackEntity(),
-                            TrackEntity(),
+                        ? BuiltList<VideoEntity>([
+                            VideoEntity(),
+                            VideoEntity(),
+                            VideoEntity(),
+                            VideoEntity(),
+                            VideoEntity(),
                           ])
                         : song.tracks)
                     .map((track) =>
