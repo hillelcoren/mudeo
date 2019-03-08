@@ -91,25 +91,22 @@ class ArtistPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                /*
                 artist.website != null && artist.website.isNotEmpty
-                    ? Text(artist.website)
-                    : SizedBox(),
-                    */
-                Padding(
-                  padding: EdgeInsets.only(top: 12, bottom: 6),
-                  child: RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        LinkTextSpan(
-                          style: linkStyle,
-                          text: 'https://hillelcoren.com/',
-                          url: 'https://hillelcoren.com/',
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 12, bottom: 6),
+                        child: RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              LinkTextSpan(
+                                style: linkStyle,
+                                text: artist.website,
+                                url: artist.website,
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      )
+                    : SizedBox(),
                 Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Row(
