@@ -4,11 +4,12 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
-class SongEdit extends StatelessWidget {
+class SongEdit extends StatefulWidget {
   const SongEdit({
     Key key,
     @required this.viewModel,
@@ -17,21 +18,15 @@ class SongEdit extends StatelessWidget {
   final SongEditVM viewModel;
 
   @override
-  Widget build(BuildContext context) {
-    return Home();
-  }
+  _SongEditState createState() => _SongEditState();
 }
 
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
+class _SongEditState extends State<SongEdit> {
   List<VideoPlayerController> videos = [];
   CameraController camera;
   bool isPlaying = false;
   DateTime start, end;
+  int timestamp;
   String path;
   Timer timer;
 
@@ -55,7 +50,8 @@ class _HomeState extends State<Home> {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/videos';
     await Directory(folder).create(recursive: true);
-    path = '$folder/${DateTime.now().millisecondsSinceEpoch}.mp4';
+    timestamp = DateTime.now().millisecondsSinceEpoch;
+    path = '$folder/$timestamp.mp4';
     start ??= DateTime.now();
     if (end != null) Timer(end.difference(start), stopRecording);
     await camera.startVideoRecording(path);
@@ -68,6 +64,9 @@ class _HomeState extends State<Home> {
     VideoPlayerController player = VideoPlayerController.file(File(path));
     await player.initialize();
     setState(() => videos.add(player));
+
+    final track = TrackEntity().rebuild((b) => b..timestamp = timestamp);
+    widget.viewModel.onTrackAdded(track);
   }
 
   void play() {

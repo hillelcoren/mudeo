@@ -99,6 +99,8 @@ abstract class TrackEntity
   factory TrackEntity({int id}) {
     return _$TrackEntity._(
       id: id ?? --TrackEntity.counter,
+      userId: 0,
+      timestamp: 0,
     );
   }
 
@@ -106,6 +108,10 @@ abstract class TrackEntity
   static int counter = 0;
 
   int get id;
+
+  int get userId;
+
+  int get timestamp;
 
   static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
 }

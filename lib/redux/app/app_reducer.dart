@@ -3,8 +3,8 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/app/loading_reducer.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_reducer.dart';
-import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
+import 'package:mudeo/redux/ui/ui_state.dart';
 import 'package:redux/redux.dart';
 
 AppState appReducer(AppState state, dynamic action) {
@@ -21,7 +21,8 @@ AppState appReducer(AppState state, dynamic action) {
     ..isLoading = loadingReducer(state.isLoading, action)
     ..isSaving = savingReducer(state.isSaving, action)
     ..authState.replace(authReducer(state.authState, action))
-    ..dataState.replace(dataReducer(state.dataState, action)));
+    ..dataState.replace(dataReducer(state.dataState, action))
+    ..uiState.replace(uiReducer(state.uiState, action)));
 }
 
 Reducer<DataState> dataReducer = combineReducers([
@@ -35,6 +36,15 @@ DataState songListReducer(DataState dataState, LoadSongsSuccess action) {
       action.songs,
       key: (dynamic item) => item.id,
       value: (dynamic item) => item,
-    ))
+    )));
+}
+
+Reducer<UIState> uiReducer = combineReducers([
+  TypedReducer<UIState, AddTrack>(addTrackReducer),
+]);
+
+UIState addTrackReducer(UIState uiState, AddTrack action) {
+  return uiState.rebuild((b) => b
+    ..song.tracks.add(action.track)
   );
 }

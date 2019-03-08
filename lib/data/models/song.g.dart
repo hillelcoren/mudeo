@@ -281,6 +281,11 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'userId',
+      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+      'timestamp',
+      serializers.serialize(object.timestamp,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -299,6 +304,14 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'userId':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'timestamp':
+          result.timestamp = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
       }
@@ -813,13 +826,23 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 class _$TrackEntity extends TrackEntity {
   @override
   final int id;
+  @override
+  final int userId;
+  @override
+  final int timestamp;
 
   factory _$TrackEntity([void updates(TrackEntityBuilder b)]) =>
       (new TrackEntityBuilder()..update(updates)).build();
 
-  _$TrackEntity._({this.id}) : super._() {
+  _$TrackEntity._({this.id, this.userId, this.timestamp}) : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('TrackEntity', 'id');
+    }
+    if (userId == null) {
+      throw new BuiltValueNullFieldError('TrackEntity', 'userId');
+    }
+    if (timestamp == null) {
+      throw new BuiltValueNullFieldError('TrackEntity', 'timestamp');
     }
   }
 
@@ -833,17 +856,24 @@ class _$TrackEntity extends TrackEntity {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is TrackEntity && id == other.id;
+    return other is TrackEntity &&
+        id == other.id &&
+        userId == other.userId &&
+        timestamp == other.timestamp;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, id.hashCode));
+    return $jf(
+        $jc($jc($jc(0, id.hashCode), userId.hashCode), timestamp.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('TrackEntity')..add('id', id))
+    return (newBuiltValueToStringHelper('TrackEntity')
+          ..add('id', id)
+          ..add('userId', userId)
+          ..add('timestamp', timestamp))
         .toString();
   }
 }
@@ -855,11 +885,21 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
+  int _userId;
+  int get userId => _$this._userId;
+  set userId(int userId) => _$this._userId = userId;
+
+  int _timestamp;
+  int get timestamp => _$this._timestamp;
+  set timestamp(int timestamp) => _$this._timestamp = timestamp;
+
   TrackEntityBuilder();
 
   TrackEntityBuilder get _$this {
     if (_$v != null) {
       _id = _$v.id;
+      _userId = _$v.userId;
+      _timestamp = _$v.timestamp;
       _$v = null;
     }
     return this;
@@ -880,7 +920,8 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
   @override
   _$TrackEntity build() {
-    final _$result = _$v ?? new _$TrackEntity._(id: id);
+    final _$result = _$v ??
+        new _$TrackEntity._(id: id, userId: userId, timestamp: timestamp);
     replace(_$result);
     return _$result;
   }

@@ -7,9 +7,9 @@ part 'artist.g.dart';
 
 abstract class ArtistEntity
     implements SelectableEntity, Built<ArtistEntity, ArtistEntityBuilder> {
-  factory ArtistEntity() {
+  factory ArtistEntity({int id}) {
     return _$ArtistEntity._(
-      id: 0,
+      id: id ?? 0,
       firstName: '',
       lastName: '',
       handle: '',
