@@ -1,5 +1,7 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/constants.dart';
+import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 
 part 'ui_state.g.dart';
@@ -7,15 +9,16 @@ part 'ui_state.g.dart';
 abstract class UIState implements Built<UIState, UIStateBuilder> {
   factory UIState() {
     return _$UIState._(
-      currentRoute: LoginScreen.route,
-      //quoteUIState: QuoteUIState(),
+      selectedTabIndex: kTabExplore,
+      song: SongEntity(),
     );
   }
 
   UIState._();
 
-  String get currentRoute;
-  static Serializer<UIState> get serializer => _$uIStateSerializer;
+  int get selectedTabIndex;
 
-  bool containsRoute(String route) => currentRoute.contains(route);
+  SongEntity get song;
+
+  static Serializer<UIState> get serializer => _$uIStateSerializer;
 }

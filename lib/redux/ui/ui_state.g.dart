@@ -31,9 +31,12 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
   Iterable serialize(Serializers serializers, UIState object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'currentRoute',
-      serializers.serialize(object.currentRoute,
-          specifiedType: const FullType(String)),
+      'selectedTabIndex',
+      serializers.serialize(object.selectedTabIndex,
+          specifiedType: const FullType(int)),
+      'song',
+      serializers.serialize(object.song,
+          specifiedType: const FullType(SongEntity)),
     ];
 
     return result;
@@ -50,9 +53,13 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'currentRoute':
-          result.currentRoute = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+        case 'selectedTabIndex':
+          result.selectedTabIndex = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'song':
+          result.song.replace(serializers.deserialize(value,
+              specifiedType: const FullType(SongEntity)) as SongEntity);
           break;
       }
     }
@@ -63,14 +70,19 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
 
 class _$UIState extends UIState {
   @override
-  final String currentRoute;
+  final int selectedTabIndex;
+  @override
+  final SongEntity song;
 
   factory _$UIState([void updates(UIStateBuilder b)]) =>
       (new UIStateBuilder()..update(updates)).build();
 
-  _$UIState._({this.currentRoute}) : super._() {
-    if (currentRoute == null) {
-      throw new BuiltValueNullFieldError('UIState', 'currentRoute');
+  _$UIState._({this.selectedTabIndex, this.song}) : super._() {
+    if (selectedTabIndex == null) {
+      throw new BuiltValueNullFieldError('UIState', 'selectedTabIndex');
+    }
+    if (song == null) {
+      throw new BuiltValueNullFieldError('UIState', 'song');
     }
   }
 
@@ -84,18 +96,21 @@ class _$UIState extends UIState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is UIState && currentRoute == other.currentRoute;
+    return other is UIState &&
+        selectedTabIndex == other.selectedTabIndex &&
+        song == other.song;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, currentRoute.hashCode));
+    return $jf($jc($jc(0, selectedTabIndex.hashCode), song.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('UIState')
-          ..add('currentRoute', currentRoute))
+          ..add('selectedTabIndex', selectedTabIndex)
+          ..add('song', song))
         .toString();
   }
 }
@@ -103,15 +118,21 @@ class _$UIState extends UIState {
 class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
   _$UIState _$v;
 
-  String _currentRoute;
-  String get currentRoute => _$this._currentRoute;
-  set currentRoute(String currentRoute) => _$this._currentRoute = currentRoute;
+  int _selectedTabIndex;
+  int get selectedTabIndex => _$this._selectedTabIndex;
+  set selectedTabIndex(int selectedTabIndex) =>
+      _$this._selectedTabIndex = selectedTabIndex;
+
+  SongEntityBuilder _song;
+  SongEntityBuilder get song => _$this._song ??= new SongEntityBuilder();
+  set song(SongEntityBuilder song) => _$this._song = song;
 
   UIStateBuilder();
 
   UIStateBuilder get _$this {
     if (_$v != null) {
-      _currentRoute = _$v.currentRoute;
+      _selectedTabIndex = _$v.selectedTabIndex;
+      _song = _$v.song?.toBuilder();
       _$v = null;
     }
     return this;
@@ -132,7 +153,22 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
 
   @override
   _$UIState build() {
-    final _$result = _$v ?? new _$UIState._(currentRoute: currentRoute);
+    _$UIState _$result;
+    try {
+      _$result = _$v ??
+          new _$UIState._(
+              selectedTabIndex: selectedTabIndex, song: song.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'song';
+        song.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'UIState', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

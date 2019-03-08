@@ -20,6 +20,10 @@ const List<String> kLanguages = [
   'en',
 ];
 
+const int kTabExplore = 0;
+const int kTabCreate = 1;
+const int kTabProfile = 2;
+
 const String kLinkTypeFacebook = 'Facebook';
 const String kLinkTypeYouTube = 'YouTube';
 const String kLinkTypeInstagram = 'Instagram';

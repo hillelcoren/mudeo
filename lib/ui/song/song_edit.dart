@@ -4,7 +4,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
