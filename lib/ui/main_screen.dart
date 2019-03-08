@@ -37,15 +37,15 @@ class MainScreen extends StatelessWidget {
       tabBar: CupertinoTabBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            title: Text(localization.explore),
+            //title: Text(localization.explore),
             icon: Icon(Icons.dashboard),
           ),
           BottomNavigationBarItem(
-            title: Text(localization.create),
+            //title: Text(localization.create),
             icon: Icon(Icons.videocam),
           ),
           BottomNavigationBarItem(
-            title: Text(localization.profile),
+            //title: Text(localization.profile),
             icon: Icon(Icons.person),
           ),
         ],

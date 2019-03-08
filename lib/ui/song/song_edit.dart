@@ -175,7 +175,7 @@ class ExpandedButton extends StatelessWidget {
         child: MaterialButton(
           height: 75,
           onPressed: onPressed,
-          child: Icon(icon, size: 45, color: color),
+          child: Icon(icon, size: 36, color: color),
         ),
       ),
     );
