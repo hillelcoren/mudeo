@@ -49,7 +49,7 @@ class WebClient {
     final http.Response response = await http.Client().get(
       url,
       headers: {
-        'X-Mudeo-Token': token,
+        'X-API-TOKEN': token,
       },
     );
 
@@ -76,7 +76,7 @@ class WebClient {
       url,
       body: data,
       headers: {
-        'X-Ninja-Token': token,
+        'X-API-TOKEN': token,
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       },
@@ -107,7 +107,7 @@ class WebClient {
       url,
       body: data,
       headers: {
-        'X-Ninja-Token': token,
+        'X-API-TOKEN': token,
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       },
