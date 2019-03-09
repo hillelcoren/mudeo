@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'artist.dart';
+part of 'artist_model.dart';
 
 // **************************************************************************
 // BuiltValueGenerator

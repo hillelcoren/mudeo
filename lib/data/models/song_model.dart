@@ -3,7 +3,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:mudeo/data/models/entities.dart';
 
-part 'song.g.dart';
+part 'song_model.g.dart';
 
 abstract class SongListResponse
     implements Built<SongListResponse, SongListResponseBuilder> {

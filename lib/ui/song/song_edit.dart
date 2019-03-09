@@ -4,7 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mudeo/data/models/song.dart';
+import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/localization.dart';

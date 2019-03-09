@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:mudeo/data/models/song.dart';
+import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 
 class ViewSongList implements PersistUI {

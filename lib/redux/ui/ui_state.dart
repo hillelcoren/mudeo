@@ -1,7 +1,7 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:mudeo/constants.dart';
-import 'package:mudeo/data/models/song.dart';
+import 'package:mudeo/data/models/song_model.dart';
 
 part 'ui_state.g.dart';
 

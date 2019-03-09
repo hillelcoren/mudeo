@@ -3,7 +3,7 @@ import 'package:built_value/serializer.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/entities.dart';
 
-part 'artist.g.dart';
+part 'artist_model.g.dart';
 
 abstract class ArtistEntity
     implements SelectableEntity, Built<ArtistEntity, ArtistEntityBuilder> {

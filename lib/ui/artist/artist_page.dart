@@ -2,7 +2,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
-import 'package:mudeo/data/models/artist.dart';
+import 'package:mudeo/data/models/artist_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/form_card.dart';

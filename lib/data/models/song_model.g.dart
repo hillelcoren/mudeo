@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'song.dart';
+part of 'song_model.dart';
 
 // **************************************************************************
 // BuiltValueGenerator

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
-import 'package:mudeo/data/models/artist.dart';
+import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';

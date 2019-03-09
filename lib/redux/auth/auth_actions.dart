@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:mudeo/data/models/artist.dart';
+import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 

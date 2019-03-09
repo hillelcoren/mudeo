@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:mudeo/data/models/song.dart';
+import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
