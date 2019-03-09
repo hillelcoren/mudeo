@@ -45,6 +45,6 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     //return 'Is Loading: ${this.isLoading}, Invoice: ${this.invoiceUIState.selected}';
     //return 'Date Formats: ${staticState.dateFormatMap}';
     //return 'Route: ${uiState.currentRoute}';
-    return 'Index: ${uiState.selectedTabIndex}';
+    return 'Song is changed: ${uiState.song.isChanged}';
   }
 }

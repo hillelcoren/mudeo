@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'lose_changes': 'This will discard your unsaved changes.',
+      'ok': 'Ok',
+      'are_you_sure': 'Are you sure?',
       'favorite': 'Favorite',
       'share': 'Share',
       'public': 'Public',
@@ -84,6 +87,12 @@ class AppLocalization {
     },
   };
 
+
+  String get loseChanges => _localizedValues[locale.toString()]['lose_changes'];
+
+  String get ok => _localizedValues[locale.toString()]['ok'];
+
+  String get areYouSure => _localizedValues[locale.toString()]['are_you_sure'];
 
   String get favorite => _localizedValues[locale.toString()]['favorite'];
 

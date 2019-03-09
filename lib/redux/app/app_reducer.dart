@@ -53,11 +53,14 @@ UIState addTrackReducer(UIState uiState, AddTrack action) {
   final track = action.track;
   return uiState.rebuild((b) => b
     ..song.duration = song.duration == 0 ? action.duration : song.duration
+    ..song.isChanged = true
     ..song.tracks.add(track));
 }
 
 UIState updateSongReducer(UIState uiState, UpdateSong action) {
-  return uiState.rebuild((b) => b..song.replace(action.song));
+  return uiState.rebuild((b) => b
+    ..song.replace(action.song)
+    ..song.isChanged = true);
 }
 
 UIState editSongReducer(UIState uiState, EditSong action) {
@@ -67,7 +70,5 @@ UIState editSongReducer(UIState uiState, EditSong action) {
 }
 
 UIState mainTabChangedReducer(UIState uiState, MainTabChanged action) {
-  return uiState.rebuild((b) => b
-    ..selectedTabIndex = action.tabIndex);
+  return uiState.rebuild((b) => b..selectedTabIndex = action.tabIndex);
 }
-

@@ -7,6 +7,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_list.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class SongListScreen extends StatelessWidget {
@@ -71,10 +72,33 @@ class SongListVM {
         //store.dispatch(ViewSong(clientId: client.id, context: context));
       },
       onSongEdit: (context, song) {
-        if (state.uiState.song) {
-
+        final localization = AppLocalization.of(context);
+        final uiSong = store.state.uiState.song;
+        if (uiSong.isChanged ?? false) {
+          showDialog<AlertDialog>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              semanticLabel: localization.areYouSure,
+              title: Text(localization.areYouSure),
+              content: Text(localization.loseChanges),
+              actions: <Widget>[
+                new FlatButton(
+                    child: Text(localization.cancel.toUpperCase()),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                new FlatButton(
+                    child: Text(localization.ok.toUpperCase()),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      store.dispatch(EditSong(song: song, context: context));
+                    })
+              ],
+            ),
+          );
+        } else {
+          store.dispatch(EditSong(song: song, context: context));
         }
-        store.dispatch(EditSong(song: song, context: context));
       },
       onRefreshed: (context) => _handleRefresh(context),
     );

@@ -48,6 +48,7 @@ abstract class SongEntity extends Object
       isFlagged: false,
       isPublic: false,
       tracks: BuiltList<TrackEntity>(),
+      isChanged: false,
     );
   }
 
@@ -85,13 +86,16 @@ abstract class SongEntity extends Object
   @BuiltValueField(wireName: 'is_public')
   bool get isPublic;
 
-  @nullable
+  @BuiltValueField(wireName: 'song_videos')
   BuiltList<TrackEntity> get tracks;
 
   @override
   String get listDisplayName {
     return title;
   }
+
+  @nullable
+  bool get isChanged;
 
   TrackEntity newTrack(VideoEntity video) =>
       TrackEntity(video: video, orderId: tracks.length);
