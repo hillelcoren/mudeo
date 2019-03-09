@@ -47,7 +47,7 @@ class FilterCompany {
   final String filter;
 }
 
-class MainTabChanged {
+class MainTabChanged implements PersistUI {
   MainTabChanged(this.tabIndex);
   final int tabIndex;
 }
