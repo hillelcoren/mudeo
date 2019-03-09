@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -28,7 +27,6 @@ class _SongEditState extends State<SongEdit> {
   List<VideoPlayerController> videos = [];
   CameraController camera;
   bool isPlaying = false;
-  DateTime start, end;
   int timestamp;
   String path;
   Timer timer;
@@ -49,27 +47,53 @@ class _SongEditState extends State<SongEdit> {
     });
   }
 
-  void record() async {
+  @override
+  void didChangeDependencies() async {
+    final song = widget.viewModel.song;
+    if (videos.isEmpty && song.tracks.isNotEmpty) {
+      widget.viewModel.song.tracks.forEach((track) async {
+        String path = await getVideoPath(track.video.timestamp);
+        VideoPlayerController player = VideoPlayerController.file(File(path));
+        await player.initialize();
+        setState(() {
+          videos.add(player);
+        });
+      });
+    }
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<String> getVideoPath(int timestamp) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/videos';
     await Directory(folder).create(recursive: true);
+    return '$folder/$timestamp.mp4';
+  }
+
+  void record() async {
+    final song = widget.viewModel.song;
     timestamp = DateTime.now().millisecondsSinceEpoch;
-    path = '$folder/$timestamp.mp4';
-    start ??= DateTime.now();
-    if (end != null) Timer(end.difference(start), stopRecording);
+    path = await getVideoPath(timestamp);
+    if (song.duration > 0)
+      Timer(Duration(milliseconds: song.duration), stopRecording);
     await camera.startVideoRecording(path);
     play();
   }
 
   void stopRecording() async {
-    end ??= DateTime.now();
     await camera.stopVideoRecording();
     VideoPlayerController player = VideoPlayerController.file(File(path));
     await player.initialize();
     setState(() => videos.add(player));
-
     final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
-    widget.viewModel.onTrackAdded(track);
+    widget.viewModel
+        .onTrackAdded(track, DateTime.now().millisecondsSinceEpoch - timestamp);
   }
 
   void play() {
@@ -78,21 +102,14 @@ class _SongEditState extends State<SongEdit> {
       ..seekTo(Duration())
       ..play());
     setState(() => isPlaying = true);
-    timer =
-        Timer(end.difference(start), () => setState(() => isPlaying = false));
+    timer = Timer(Duration(milliseconds: widget.viewModel.song.duration),
+        () => setState(() => isPlaying = false));
   }
 
   void stopPlaying() {
     videos.forEach((video) => video.pause());
     timer?.cancel();
     setState(() => isPlaying = false);
-  }
-
-  void delete() {
-    setState(() {
-      videos.removeLast();
-      if (videos.isEmpty) start = end = null;
-    });
   }
 
   void onSavePressed() {
@@ -196,3 +213,31 @@ class ExpandedButton extends StatelessWidget {
   }
 }
 
+class SongTrack extends StatefulWidget {
+  SongTrack(this.path);
+
+  final String path;
+
+  @override
+  _SongTrackState createState() => _SongTrackState();
+}
+
+class _SongTrackState extends State<SongTrack> {
+  VideoPlayerController video;
+  int aspectRatio;
+
+  @override
+  void initState() {
+    super.initState();
+
+    VideoPlayerController.file(File(widget.path)).initialize();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        elevation: 50,
+        margin: EdgeInsets.symmetric(horizontal: 6),
+        child: AspectRatio(aspectRatio: 1, child: VideoPlayer(video)));
+  }
+}

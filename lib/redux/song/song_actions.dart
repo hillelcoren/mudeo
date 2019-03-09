@@ -92,7 +92,8 @@ class SortSongs implements PersistUI {
 }
 
 class AddTrack implements PersistUI {
-  AddTrack(this.track);
+  AddTrack({this.track, this.duration});
 
   final TrackEntity track;
+  final int duration;
 }

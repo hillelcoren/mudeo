@@ -45,13 +45,13 @@ Reducer<UIState> uiReducer = combineReducers([
 ]);
 
 UIState addTrackReducer(UIState uiState, AddTrack action) {
+  final song = uiState.song;
+  final track = action.track;
   return uiState.rebuild((b) => b
-    ..song.tracks.add(action.track)
-  );
+    ..song.duration = song.duration == 0 ? action.duration : song.duration
+    ..song.tracks.add(track));
 }
 
 UIState updateSongReducer(UIState uiState, UpdateSong action) {
-  return uiState.rebuild((b) => b
-    ..song.replace(action.song)
-  );
+  return uiState.rebuild((b) => b..song.replace(action.song));
 }
