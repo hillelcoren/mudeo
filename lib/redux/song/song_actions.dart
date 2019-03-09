@@ -91,7 +91,7 @@ class SortSongs implements PersistUI {
   final String field;
 }
 
-class AddTrack {
+class AddTrack implements PersistUI {
   AddTrack(this.track);
 
   final TrackEntity track;
