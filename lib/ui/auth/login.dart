@@ -8,8 +8,8 @@ import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({
     Key key,
     @required this.viewModel,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class LoginView extends StatefulWidget {
   _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<LoginView> {
+class _LoginState extends State<LoginScreen> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final _handleController = TextEditingController();

@@ -46,3 +46,8 @@ class FilterCompany {
 
   final String filter;
 }
+
+class MainTabChanged {
+  MainTabChanged(this.tabIndex);
+  final int tabIndex;
+}

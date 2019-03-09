@@ -31,6 +31,7 @@ class SongListVM {
     @required this.isLoading,
     @required this.isLoaded,
     @required this.onSongTap,
+    @required this.onSongEdit,
     @required this.onRefreshed,
     @required this.songIds,
   });
@@ -40,6 +41,7 @@ class SongListVM {
   final bool isLoaded;
   final List<int> songIds;
   final Function(BuildContext, SongEntity) onSongTap;
+  final Function(BuildContext, SongEntity) onSongEdit;
   final Function(BuildContext) onRefreshed;
 
   static SongListVM fromStore(Store<AppState> store) {
@@ -58,8 +60,6 @@ class SongListVM {
 
     final state = store.state;
 
-    print('song ids: ${state.dataState.songMap.keys.toList()}');
-
     return SongListVM(
       //clientMap: state.clientState.map,
       state: state,
@@ -69,6 +69,9 @@ class SongListVM {
       isLoaded: state.dataState.areSongsLoaded,
       onSongTap: (context, client) {
         //store.dispatch(ViewSong(clientId: client.id, context: context));
+      },
+      onSongEdit: (context, song) {
+        store.dispatch(EditSong(song: song, context: context));
       },
       onRefreshed: (context) => _handleRefresh(context),
     );

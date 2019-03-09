@@ -12,8 +12,8 @@ import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:redux/redux.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key key}) : super(key: key);
+class LoginScreenBuilder extends StatelessWidget {
+  const LoginScreenBuilder({Key key}) : super(key: key);
 
   static const String route = '/login';
 
@@ -23,7 +23,7 @@ class LoginScreen extends StatelessWidget {
       body: StoreConnector<AppState, LoginVM>(
         converter: LoginVM.fromStore,
         builder: (context, viewModel) {
-          return LoginView(
+          return LoginScreen(
             viewModel: viewModel,
           );
         },

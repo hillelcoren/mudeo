@@ -47,6 +47,7 @@ class SongList extends StatelessWidget {
                     onPlay: () {
                       print('tapped');
                     },
+                    onEdit: () => viewModel.onSongEdit(context, song),
                   );
                 }),
           ),
@@ -57,10 +58,11 @@ class SongList extends StatelessWidget {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem(BuildContext context, {this.song, this.onPlay});
+  SongItem(BuildContext context, {this.song, this.onPlay, this.onEdit});
 
   final SongEntity song;
   final Function onPlay;
+  final Function onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +160,7 @@ class SongItem extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.videocam),
-                onPressed: onPlay,
+                onPressed: onEdit,
                 tooltip: localization.edit,
               ),
               IconButton(

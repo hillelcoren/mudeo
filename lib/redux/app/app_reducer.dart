@@ -1,4 +1,6 @@
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/entities.dart';
+import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/app/loading_reducer.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
@@ -42,6 +44,8 @@ DataState songListReducer(DataState dataState, LoadSongsSuccess action) {
 Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, AddTrack>(addTrackReducer),
   TypedReducer<UIState, UpdateSong>(updateSongReducer),
+  TypedReducer<UIState, EditSong>(editSongReducer),
+  TypedReducer<UIState, MainTabChanged>(mainTabChangedReducer),
 ]);
 
 UIState addTrackReducer(UIState uiState, AddTrack action) {
@@ -55,3 +59,15 @@ UIState addTrackReducer(UIState uiState, AddTrack action) {
 UIState updateSongReducer(UIState uiState, UpdateSong action) {
   return uiState.rebuild((b) => b..song.replace(action.song));
 }
+
+UIState editSongReducer(UIState uiState, EditSong action) {
+  return uiState.rebuild((b) => b
+    ..selectedTabIndex = kTabCreate
+    ..song.replace(action.song));
+}
+
+UIState mainTabChangedReducer(UIState uiState, MainTabChanged action) {
+  return uiState.rebuild((b) => b
+    ..selectedTabIndex = action.tabIndex);
+}
+

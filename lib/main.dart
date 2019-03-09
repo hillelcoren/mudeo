@@ -113,14 +113,14 @@ class MudeoAppState extends State<MudeoApp> {
           ),
           title: 'mudeo',
           routes: {
-            LoginScreen.route: (context) {
-              return LoginScreen();
+            LoginScreenBuilder.route: (context) {
+              return LoginScreenBuilder();
             },
             MainScreen.route: (context) {
               if (widget.store.state.dataState.areSongsStale) {
                 widget.store.dispatch(LoadSongs());
               }
-              return MainScreen();
+              return MainScreenBuilder();
             },
           },
         );
