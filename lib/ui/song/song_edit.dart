@@ -52,12 +52,17 @@ class _SongEditState extends State<SongEdit> {
     final song = widget.viewModel.song;
     if (videos.isEmpty && song.tracks.isNotEmpty) {
       widget.viewModel.song.tracks.forEach((track) async {
-        String path = await getVideoPath(track.video.timestamp);
-        VideoPlayerController player = VideoPlayerController.file(File(path));
-        await player.initialize();
-        setState(() {
-          videos.add(player);
-        });
+        // TODO remove this check
+        if (track.video != null) {
+          String path = await getVideoPath(track.video.timestamp);
+          if (await File(path).exists()) {
+            VideoPlayerController player = VideoPlayerController.file(File(path));
+            await player.initialize();
+            setState(() {
+              videos.add(player);
+            });
+          }
+        }
       });
     }
 
