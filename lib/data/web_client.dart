@@ -43,7 +43,7 @@ class WebClient {
   Future<dynamic> get(String url, String token) async {
 
     url = _checkUrl(url);
-    print('GET: $url');
+    print('GET: $url: $token');
 
     url += '&per_page=$kMaxRecordsPerApiPage';
 
@@ -51,7 +51,7 @@ class WebClient {
       url,
       headers: {
         'X-API-TOKEN': token,
-        'X-API-SECRET': Config.API_SECRET,
+        //'X-API-SECRET': Config.API_SECRET,
       },
     );
 
@@ -79,7 +79,7 @@ class WebClient {
       body: data,
       headers: {
         'X-API-TOKEN': token,
-        'X-API-SECRET': Config.API_SECRET,
+        //'X-API-SECRET': Config.API_SECRET,
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       },
@@ -111,7 +111,7 @@ class WebClient {
       body: data,
       headers: {
         'X-API-TOKEN': token,
-        'X-API-SECRET': Config.API_SECRET,
+        //'X-API-SECRET': Config.API_SECRET,
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       },
