@@ -66,6 +66,8 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void dispose() {
+    videos.forEach((video) => video.dispose());
+    camera.dispose();
     super.dispose();
   }
 
