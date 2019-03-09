@@ -280,14 +280,25 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'volume',
-      serializers.serialize(object.volume, specifiedType: const FullType(int)),
-      'orderId',
-      serializers.serialize(object.orderId, specifiedType: const FullType(int)),
-      'video',
-      serializers.serialize(object.video,
-          specifiedType: const FullType(VideoEntity)),
     ];
+    if (object.volume != null) {
+      result
+        ..add('volume')
+        ..add(serializers.serialize(object.volume,
+            specifiedType: const FullType(int)));
+    }
+    if (object.orderId != null) {
+      result
+        ..add('orderId')
+        ..add(serializers.serialize(object.orderId,
+            specifiedType: const FullType(int)));
+    }
+    if (object.video != null) {
+      result
+        ..add('video')
+        ..add(serializers.serialize(object.video,
+            specifiedType: const FullType(VideoEntity)));
+    }
 
     return result;
   }
@@ -858,15 +869,6 @@ class _$TrackEntity extends TrackEntity {
     if (id == null) {
       throw new BuiltValueNullFieldError('TrackEntity', 'id');
     }
-    if (volume == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'volume');
-    }
-    if (orderId == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'orderId');
-    }
-    if (video == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'video');
-    }
   }
 
   @override
@@ -955,12 +957,12 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
     try {
       _$result = _$v ??
           new _$TrackEntity._(
-              id: id, volume: volume, orderId: orderId, video: video.build());
+              id: id, volume: volume, orderId: orderId, video: _video?.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'video';
-        video.build();
+        _video?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'TrackEntity', _$failedField, e.toString());

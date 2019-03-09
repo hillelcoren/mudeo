@@ -115,10 +115,13 @@ abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
 
   int get id;
 
+  @nullable
   int get volume;
 
+  @nullable
   int get orderId;
 
+  @nullable
   VideoEntity get video;
 
   static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;

@@ -43,7 +43,7 @@ class WebClient {
   Future<dynamic> get(String url, String token) async {
 
     url = _checkUrl(url);
-    print('GET: $url: $token');
+    print('GET: $url TOKEN: $token');
 
     url += '&per_page=$kMaxRecordsPerApiPage';
 
