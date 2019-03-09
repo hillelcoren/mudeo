@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/file_storage.dart';
 import 'package:mudeo/data/models/entities.dart';
-import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/data/repositories/persistence_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';

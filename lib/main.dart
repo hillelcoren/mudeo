@@ -91,9 +91,9 @@ class MudeoAppState extends State<MudeoApp> {
     return StoreProvider<AppState>(
       store: widget.store,
       child: AppBuilder(builder: (context) {
-        final state = widget.store.state;
+        //final state = widget.store.state;
         Intl.defaultLocale = 'en';
-        final localization = AppLocalization(Locale(Intl.defaultLocale));
+        //final localization = AppLocalization(Locale(Intl.defaultLocale));
 
         return MaterialApp(
           supportedLocales: kLanguages

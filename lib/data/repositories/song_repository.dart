@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:built_collection/built_collection.dart';
 import 'package:mudeo/constants.dart';
-import 'package:mudeo/data/models/artist.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/models/song.dart';

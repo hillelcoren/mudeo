@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
-import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 
 class WebClient {

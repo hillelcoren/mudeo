@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -8,8 +7,6 @@ import 'package:mudeo/data/models/song.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_list.dart';
-import 'package:mudeo/utils/completers.dart';
-import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class SongListScreen extends StatelessWidget {

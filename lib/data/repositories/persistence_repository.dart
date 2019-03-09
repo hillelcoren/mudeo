@@ -9,7 +9,6 @@ import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/redux/ui/ui_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PersistenceRepository {
   const PersistenceRepository({
