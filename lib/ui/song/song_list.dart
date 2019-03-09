@@ -140,15 +140,7 @@ class SongItem extends StatelessWidget {
               child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                children: (song.tracks == null
-                        ? BuiltList<VideoEntity>([
-                            VideoEntity(),
-                            VideoEntity(),
-                            VideoEntity(),
-                            VideoEntity(),
-                            VideoEntity(),
-                          ])
-                        : song.tracks)
+                children: (song.tracks)
                     .map((track) =>
                         Placeholder(fallbackHeight: 100, fallbackWidth: 100))
                     .toList(),

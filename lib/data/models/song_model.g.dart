@@ -287,6 +287,9 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'video',
+      serializers.serialize(object.video,
+          specifiedType: const FullType(VideoEntity)),
     ];
     if (object.volume != null) {
       result
@@ -299,12 +302,6 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
         ..add('orderId')
         ..add(serializers.serialize(object.orderId,
             specifiedType: const FullType(int)));
-    }
-    if (object.video != null) {
-      result
-        ..add('video')
-        ..add(serializers.serialize(object.video,
-            specifiedType: const FullType(VideoEntity)));
     }
 
     return result;
@@ -356,12 +353,15 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
     final result = <Object>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
-      'userId',
+      'user_id',
       serializers.serialize(object.userId, specifiedType: const FullType(int)),
-      'timestamp',
-      serializers.serialize(object.timestamp,
-          specifiedType: const FullType(int)),
     ];
+    if (object.timestamp != null) {
+      result
+        ..add('timestamp')
+        ..add(serializers.serialize(object.timestamp,
+            specifiedType: const FullType(int)));
+    }
 
     return result;
   }
@@ -381,7 +381,7 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'userId':
+        case 'user_id':
           result.userId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
@@ -895,6 +895,9 @@ class _$TrackEntity extends TrackEntity {
     if (id == null) {
       throw new BuiltValueNullFieldError('TrackEntity', 'id');
     }
+    if (video == null) {
+      throw new BuiltValueNullFieldError('TrackEntity', 'video');
+    }
   }
 
   @override
@@ -983,12 +986,12 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
     try {
       _$result = _$v ??
           new _$TrackEntity._(
-              id: id, volume: volume, orderId: orderId, video: _video?.build());
+              id: id, volume: volume, orderId: orderId, video: video.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'video';
-        _video?.build();
+        video.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'TrackEntity', _$failedField, e.toString());
@@ -1017,9 +1020,6 @@ class _$VideoEntity extends VideoEntity {
     }
     if (userId == null) {
       throw new BuiltValueNullFieldError('VideoEntity', 'userId');
-    }
-    if (timestamp == null) {
-      throw new BuiltValueNullFieldError('VideoEntity', 'timestamp');
     }
   }
 

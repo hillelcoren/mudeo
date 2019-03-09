@@ -125,7 +125,6 @@ abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
   @nullable
   int get orderId;
 
-  @nullable
   VideoEntity get video;
 
   static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
@@ -146,8 +145,10 @@ abstract class VideoEntity implements Built<VideoEntity, VideoEntityBuilder> {
 
   int get id;
 
+  @BuiltValueField(wireName: 'user_id')
   int get userId;
 
+  @nullable
   int get timestamp;
 
   static Serializer<VideoEntity> get serializer => _$videoEntitySerializer;
