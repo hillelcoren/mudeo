@@ -86,7 +86,7 @@ class SongItem extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.play_circle_filled, size: 35),
-                onPressed: onPlay,
+                //onPressed: onPlay,
                 tooltip: localization.play,
               ),
             ],
@@ -160,20 +160,22 @@ class SongItem extends StatelessWidget {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.videocam),
-                onPressed: onEdit,
                 tooltip: localization.edit,
+                onPressed: onEdit,
               ),
               IconButton(
                 icon: Icon(Icons.favorite),
-                onPressed: () => null,
+                tooltip: localization.favorite,
+                //onPressed: () => null,
               ),
               IconButton(
                 icon: Icon(Icons.share),
-                onPressed: () => null,
+                tooltip: localization.share,
+                //onPressed: () => null,
               ),
               IconButton(
                 icon: Icon(Icons.flag),
-                onPressed: () => null,
+                //onPressed: () => null,
               ),
             ],
           ),

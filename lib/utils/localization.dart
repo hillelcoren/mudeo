@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'favorite': 'Favorite',
+      'share': 'Share',
       'public': 'Public',
       'upload': 'Upload',
       'save': 'Save',
@@ -81,6 +83,11 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+
+  String get favorite => _localizedValues[locale.toString()]['favorite'];
+
+  String get share => _localizedValues[locale.toString()]['share'];
 
   String get delete => _localizedValues[locale.toString()]['delete'];
 
