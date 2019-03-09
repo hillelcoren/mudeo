@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
+import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 
 class WebClient {
@@ -50,6 +51,7 @@ class WebClient {
       url,
       headers: {
         'X-API-TOKEN': token,
+        'X-API-SECRET': Config.API_SECRET,
       },
     );
 
@@ -77,6 +79,7 @@ class WebClient {
       body: data,
       headers: {
         'X-API-TOKEN': token,
+        'X-API-SECRET': Config.API_SECRET,
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       },
@@ -108,6 +111,7 @@ class WebClient {
       body: data,
       headers: {
         'X-API-TOKEN': token,
+        'X-API-SECRET': Config.API_SECRET,
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       },
