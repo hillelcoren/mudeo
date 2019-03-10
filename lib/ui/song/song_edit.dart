@@ -286,7 +286,7 @@ class TrackEditDialog extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(left: 100, bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 15),
                       child: IconButton(
                         icon: Icon(Icons.close),
                         onPressed: () {
@@ -305,11 +305,24 @@ class TrackEditDialog extends StatelessWidget {
                             curve: Curves.elasticOut,
                             reverseCurve: Curves.bounceIn,
                             duration: Duration(milliseconds: 500),
-                            scale: 1.25
+                            scale: 1.25),
+                        trackBar: FlutterSliderTrackBar(
+                          activeTrackBarColor: Colors.greenAccent,
+                          activeTrackBarHeight: 5,
+                          leftInactiveTrackBarColor:
+                              Colors.grey.withOpacity(0.5),
+                        ),
+                        tooltip: FlutterSliderTooltip(
+                          rightSuffix: Icon(
+                            Icons.volume_up,
+                            size: 19,
+                            color: Colors.black26,
+                          ),
                         ),
                         axis: Axis.vertical,
                         rtl: true,
-                        values: [0, 25, 50, 75, 100],
+                        //values: [0, 25, 50, 75, 100],
+                        values: [50],
                         max: 100,
                         min: 0,
                         onDragging: (handlerIndex, lowerValue, upperValue) {
