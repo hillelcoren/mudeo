@@ -149,15 +149,9 @@ class _SongEditState extends State<SongEdit> {
           title: Text(viewModel.song.title),
           actions: <Widget>[
             IconButton(
-                onPressed: () {
-                  viewModel.onClearPressed();
-                },
-                tooltip: localization.clear,
-                icon: Icon(Icons.delete)),
-            IconButton(
-              icon: Icon(Icons.cloud_upload),
-              tooltip: localization.save,
-              onPressed: () => viewModel.onSavePressed(),
+              icon: Icon(Icons.delete),
+              tooltip: localization.delete,
+              onPressed: isEmpty || isPlaying ? null : viewModel.onClearPressed,
             ),
           ],
         ),
