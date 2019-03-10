@@ -135,16 +135,6 @@ class _SongEditState extends State<SongEdit> {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
 
-    /*
-    final cards = videos
-        .map((video) => Card(
-            elevation: 50,
-            margin: EdgeInsets.symmetric(horizontal: 6),
-            child: AspectRatio(
-                aspectRatio: value.aspectRatio, child: VideoPlayer(video))))
-        .toList();
-    */
-
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -206,6 +196,15 @@ class _SongEditState extends State<SongEdit> {
                               video: video,
                               aspectRatio: value.aspectRatio,
                               index: videos.indexOf(video),
+                              onDeletePressed: () {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  videos.remove(video);
+                                  if (videos.isEmpty) {
+                                    timestamp = null;
+                                  }
+                                });
+                              },
                             ))
                         .toList(),
                   ))
@@ -214,44 +213,19 @@ class _SongEditState extends State<SongEdit> {
   }
 }
 
-class ExpandedButton extends StatelessWidget {
-  ExpandedButton({this.icon, this.onPressed, this.color, this.viewModel});
-
-  final IconData icon;
-  final Function onPressed;
-  final Color color;
-  final SongEditVM viewModel;
-
-  @override
-  Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-
-    return Expanded(
-      child: Tooltip(
-        message: icon == Icons.play_arrow
-            ? localization.play
-            : icon == Icons.stop
-                ? localization.stop
-                : icon == Icons.delete
-                    ? localization.delete
-                    : localization.record,
-        child: MaterialButton(
-          height: 75,
-          onPressed: onPressed,
-          child: Icon(icon, size: 36, color: color),
-        ),
-      ),
-    );
-  }
-}
-
 class TrackView extends StatelessWidget {
-  TrackView({this.video, this.aspectRatio, this.viewModel, this.index});
+  TrackView(
+      {this.video,
+      this.aspectRatio,
+      this.viewModel,
+      this.index,
+      this.onDeletePressed});
 
   final int index;
   final SongEditVM viewModel;
   final VideoPlayerController video;
   final double aspectRatio;
+  final Function onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +236,11 @@ class TrackView extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return TrackEditDialog(
-                  video: video, viewModel: viewModel, index: index);
+                video: video,
+                viewModel: viewModel,
+                index: index,
+                onDeletePressed: onDeletePressed,
+              );
             });
       },
       child: Card(
@@ -275,11 +253,13 @@ class TrackView extends StatelessWidget {
 }
 
 class TrackEditDialog extends StatelessWidget {
-  TrackEditDialog({this.video, this.viewModel, this.index});
+  TrackEditDialog(
+      {this.video, this.viewModel, this.index, this.onDeletePressed});
 
   final SongEditVM viewModel;
   final VideoPlayerController video;
   final int index;
+  final Function onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -345,6 +325,7 @@ class TrackEditDialog extends StatelessWidget {
                         ElevatedButton(
                           label: localization.delete,
                           color: Colors.redAccent,
+                          onPressed: onDeletePressed,
                         ),
                       ],
                     ),
@@ -355,6 +336,37 @@ class TrackEditDialog extends StatelessWidget {
           ),
           Expanded(child: Container()),
         ],
+      ),
+    );
+  }
+}
+
+class ExpandedButton extends StatelessWidget {
+  ExpandedButton({this.icon, this.onPressed, this.color, this.viewModel});
+
+  final IconData icon;
+  final Function onPressed;
+  final Color color;
+  final SongEditVM viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
+    return Expanded(
+      child: Tooltip(
+        message: icon == Icons.play_arrow
+            ? localization.play
+            : icon == Icons.stop
+                ? localization.stop
+                : icon == Icons.delete
+                    ? localization.delete
+                    : localization.record,
+        child: MaterialButton(
+          height: 75,
+          onPressed: onPressed,
+          child: Icon(icon, size: 36, color: color),
+        ),
       ),
     );
   }
