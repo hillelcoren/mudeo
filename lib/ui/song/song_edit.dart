@@ -283,6 +283,7 @@ class TrackEditDialog extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Material(
             child: Padding(
@@ -294,14 +295,8 @@ class TrackEditDialog extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
                         Container(
-                          padding: const EdgeInsets.only(top: 10, bottom: 25),
+                          padding: const EdgeInsets.only(bottom: 30),
                           height: 250,
                           child: FlutterSlider(
                             handlerAnimation: FlutterSliderHandlerAnimation(
@@ -348,7 +343,6 @@ class TrackEditDialog extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(child: Container()),
         ],
       ),
     );
@@ -377,7 +371,8 @@ class ExpandedButton extends StatelessWidget {
                     ? localization.delete
                     : localization.record,
         child: MaterialButton(
-          height: 75,
+          //color: Colors.black26,
+          height: 60,
           onPressed: onPressed,
           child: Icon(icon, size: 36, color: color),
         ),
