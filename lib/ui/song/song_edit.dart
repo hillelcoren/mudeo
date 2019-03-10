@@ -145,13 +145,16 @@ class _SongEditState extends State<SongEdit> {
 
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => viewModel.onBackPressed()),
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => viewModel.onBackPressed()),
           title: Text(viewModel.song.title),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.delete),
               tooltip: localization.delete,
-              onPressed: isEmpty || isPlaying ? null : viewModel.onClearPressed,
+              //onPressed: isEmpty || isPlaying ? null : viewModel.onClearPressed,
+              onPressed: () => viewModel.onClearPressed(context),
             ),
           ],
         ),

@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'new_song': 'New song',
       'clear': 'Clear',
       'lose_changes': 'This will discard your unsaved changes.',
       'ok': 'Ok',
@@ -88,6 +89,7 @@ class AppLocalization {
     },
   };
 
+  String get newSong => _localizedValues[locale.toString()]['new_song'];
 
   String get loseChanges => _localizedValues[locale.toString()]['lose_changes'];
 

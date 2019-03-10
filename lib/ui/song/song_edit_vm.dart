@@ -9,6 +9,7 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class SongEditScreen extends StatelessWidget {
@@ -48,7 +49,7 @@ class SongEditVM {
   final Function(VideoEntity, int) onTrackAdded;
   final Function(SongEntity) onSongChanged;
   final Function() onSavePressed;
-  final Function() onClearPressed;
+  final Function(BuildContext) onClearPressed;
   final Function() onBackPressed;
 
   static SongEditVM fromStore(Store<AppState> store) {
@@ -61,8 +62,11 @@ class SongEditVM {
         isLoading: state.isLoading,
         //isLoaded: state.clientState.isLoaded,
         isLoaded: state.dataState.areSongsLoaded,
-        onClearPressed: () {
-          store.dispatch(UpdateSong(SongEntity()));
+        onClearPressed: (context) {
+          final song = SongEntity().rebuild((b) => b
+            ..title = AppLocalization.of(context).newSong
+          );
+          store.dispatch(UpdateSong(song));
         },
         onTrackAdded: (video, duration) {
           final song = state.uiState.song;
