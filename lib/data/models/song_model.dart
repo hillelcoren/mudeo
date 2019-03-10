@@ -37,7 +37,7 @@ abstract class SongEntity extends Object
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
   factory SongEntity({int id}) {
     return _$SongEntity._(
-      id: id ?? --SongEntity.counter,
+      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       artistId: 0,
       title: '',
       description: '',
@@ -54,8 +54,6 @@ abstract class SongEntity extends Object
   }
 
   SongEntity._();
-
-  static int counter = 0;
 
   String get title;
 
@@ -109,10 +107,11 @@ abstract class SongEntity extends Object
   static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }
 
-abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
+abstract class TrackEntity extends Object
+    with BaseEntity implements Built<TrackEntity, TrackEntityBuilder> {
   factory TrackEntity({int id, int orderId, VideoEntity video}) {
     return _$TrackEntity._(
-      id: id ?? --TrackEntity.counter,
+      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       volume: kDefaultTrackVolume,
       orderId: orderId ?? 0,
       video: video ?? VideoEntity(),
@@ -120,10 +119,6 @@ abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
   }
 
   TrackEntity._();
-
-  static int counter = 0;
-
-  int get id;
 
   @nullable
   int get volume;
@@ -133,13 +128,19 @@ abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
 
   VideoEntity get video;
 
+  @override
+  String get listDisplayName {
+    return orderId.toString();
+  }
+
   static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
 }
 
-abstract class VideoEntity implements Built<VideoEntity, VideoEntityBuilder> {
+abstract class VideoEntity extends Object
+    with BaseEntity implements Built<VideoEntity, VideoEntityBuilder> {
   factory VideoEntity({int id}) {
     return _$VideoEntity._(
-      id: id ?? --VideoEntity.counter,
+      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       userId: 0,
       timestamp: 0,
     );
@@ -147,15 +148,16 @@ abstract class VideoEntity implements Built<VideoEntity, VideoEntityBuilder> {
 
   VideoEntity._();
 
-  static int counter = 0;
-
-  int get id;
-
   @BuiltValueField(wireName: 'user_id')
   int get userId;
 
   @nullable
   int get timestamp;
+
+  @override
+  String get listDisplayName {
+    return timestamp.toString();
+  }
 
   static Serializer<VideoEntity> get serializer => _$videoEntitySerializer;
 }

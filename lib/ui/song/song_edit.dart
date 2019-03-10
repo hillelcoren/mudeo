@@ -191,19 +191,33 @@ class _SongEditState extends State<SongEdit> {
                     child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: videos
-                        .map((video) => TrackView(
+                        .map((videoPlayer) => TrackView(
                               viewModel: viewModel,
-                              video: video,
+                              video: videoPlayer,
                               aspectRatio: value.aspectRatio,
-                              index: videos.indexOf(video),
-                              onDeletePressed: () {
+                              index: videos.indexOf(videoPlayer),
+                              onDeletePressed: () async {
                                 Navigator.of(context).pop();
+                                final index = videos.indexOf(videoPlayer);
+                                final song = viewModel.song
+                                    .rebuild((b) => b..tracks.removeAt(index));
+                                viewModel.onSongChanged(song);
                                 setState(() {
-                                  videos.remove(video);
+                                  videos.remove(videoPlayer);
                                   if (videos.isEmpty) {
                                     timestamp = null;
                                   }
                                 });
+                                /*
+                                final index = videos.indexOf(videoPlayer);
+                                final video = viewModel.song.tracks[index].video;
+                                if (video.isNew) {
+                                  String path = await getVideoPath(video.timestamp);
+                                  if (File(path).existsSync()) {
+                                    File(path).deleteSync();
+                                  }
+                                }
+                                */
                               },
                             ))
                         .toList(),

@@ -285,8 +285,6 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
   Iterable serialize(Serializers serializers, TrackEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
       'video',
       serializers.serialize(object.video,
           specifiedType: const FullType(VideoEntity)),
@@ -301,6 +299,24 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       result
         ..add('orderId')
         ..add(serializers.serialize(object.orderId,
+            specifiedType: const FullType(int)));
+    }
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
 
@@ -318,10 +334,6 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
         case 'volume':
           result.volume = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -333,6 +345,18 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
         case 'video':
           result.video.replace(serializers.deserialize(value,
               specifiedType: const FullType(VideoEntity)) as VideoEntity);
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
       }
     }
@@ -351,8 +375,6 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   Iterable serialize(Serializers serializers, VideoEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'id',
-      serializers.serialize(object.id, specifiedType: const FullType(int)),
       'user_id',
       serializers.serialize(object.userId, specifiedType: const FullType(int)),
     ];
@@ -360,6 +382,24 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
       result
         ..add('timestamp')
         ..add(serializers.serialize(object.timestamp,
+            specifiedType: const FullType(int)));
+    }
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
 
@@ -377,16 +417,24 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'id':
-          result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
         case 'user_id':
           result.userId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'timestamp':
           result.timestamp = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
       }
@@ -879,22 +927,29 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
 class _$TrackEntity extends TrackEntity {
   @override
-  final int id;
-  @override
   final int volume;
   @override
   final int orderId;
   @override
   final VideoEntity video;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
+  @override
+  final int id;
 
   factory _$TrackEntity([void updates(TrackEntityBuilder b)]) =>
       (new TrackEntityBuilder()..update(updates)).build();
 
-  _$TrackEntity._({this.id, this.volume, this.orderId, this.video})
+  _$TrackEntity._(
+      {this.volume,
+      this.orderId,
+      this.video,
+      this.deletedAt,
+      this.updatedAt,
+      this.id})
       : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'id');
-    }
     if (video == null) {
       throw new BuiltValueNullFieldError('TrackEntity', 'video');
     }
@@ -911,36 +966,41 @@ class _$TrackEntity extends TrackEntity {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is TrackEntity &&
-        id == other.id &&
         volume == other.volume &&
         orderId == other.orderId &&
-        video == other.video;
+        video == other.video &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt &&
+        id == other.id;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, id.hashCode), volume.hashCode), orderId.hashCode),
-        video.hashCode));
+        $jc(
+            $jc(
+                $jc($jc($jc(0, volume.hashCode), orderId.hashCode),
+                    video.hashCode),
+                deletedAt.hashCode),
+            updatedAt.hashCode),
+        id.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('TrackEntity')
-          ..add('id', id)
           ..add('volume', volume)
           ..add('orderId', orderId)
-          ..add('video', video))
+          ..add('video', video)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt)
+          ..add('id', id))
         .toString();
   }
 }
 
 class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   _$TrackEntity _$v;
-
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
 
   int _volume;
   int get volume => _$this._volume;
@@ -954,14 +1014,28 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   VideoEntityBuilder get video => _$this._video ??= new VideoEntityBuilder();
   set video(VideoEntityBuilder video) => _$this._video = video;
 
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
+
   TrackEntityBuilder();
 
   TrackEntityBuilder get _$this {
     if (_$v != null) {
-      _id = _$v.id;
       _volume = _$v.volume;
       _orderId = _$v.orderId;
       _video = _$v.video?.toBuilder();
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
+      _id = _$v.id;
       _$v = null;
     }
     return this;
@@ -986,7 +1060,12 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
     try {
       _$result = _$v ??
           new _$TrackEntity._(
-              id: id, volume: volume, orderId: orderId, video: video.build());
+              volume: volume,
+              orderId: orderId,
+              video: video.build(),
+              deletedAt: deletedAt,
+              updatedAt: updatedAt,
+              id: id);
     } catch (_) {
       String _$failedField;
       try {
@@ -1005,19 +1084,22 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
 class _$VideoEntity extends VideoEntity {
   @override
-  final int id;
-  @override
   final int userId;
   @override
   final int timestamp;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
+  @override
+  final int id;
 
   factory _$VideoEntity([void updates(VideoEntityBuilder b)]) =>
       (new VideoEntityBuilder()..update(updates)).build();
 
-  _$VideoEntity._({this.id, this.userId, this.timestamp}) : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('VideoEntity', 'id');
-    }
+  _$VideoEntity._(
+      {this.userId, this.timestamp, this.deletedAt, this.updatedAt, this.id})
+      : super._() {
     if (userId == null) {
       throw new BuiltValueNullFieldError('VideoEntity', 'userId');
     }
@@ -1034,33 +1116,37 @@ class _$VideoEntity extends VideoEntity {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is VideoEntity &&
-        id == other.id &&
         userId == other.userId &&
-        timestamp == other.timestamp;
+        timestamp == other.timestamp &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt &&
+        id == other.id;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, id.hashCode), userId.hashCode), timestamp.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc(0, userId.hashCode), timestamp.hashCode),
+                deletedAt.hashCode),
+            updatedAt.hashCode),
+        id.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('VideoEntity')
-          ..add('id', id)
           ..add('userId', userId)
-          ..add('timestamp', timestamp))
+          ..add('timestamp', timestamp)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt)
+          ..add('id', id))
         .toString();
   }
 }
 
 class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   _$VideoEntity _$v;
-
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
 
   int _userId;
   int get userId => _$this._userId;
@@ -1070,13 +1156,27 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   int get timestamp => _$this._timestamp;
   set timestamp(int timestamp) => _$this._timestamp = timestamp;
 
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
+
   VideoEntityBuilder();
 
   VideoEntityBuilder get _$this {
     if (_$v != null) {
-      _id = _$v.id;
       _userId = _$v.userId;
       _timestamp = _$v.timestamp;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
+      _id = _$v.id;
       _$v = null;
     }
     return this;
@@ -1098,7 +1198,12 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   @override
   _$VideoEntity build() {
     final _$result = _$v ??
-        new _$VideoEntity._(id: id, userId: userId, timestamp: timestamp);
+        new _$VideoEntity._(
+            userId: userId,
+            timestamp: timestamp,
+            deletedAt: deletedAt,
+            updatedAt: updatedAt,
+            id: id);
     replace(_$result);
     return _$result;
   }

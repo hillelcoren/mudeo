@@ -18,6 +18,8 @@ part 'serializers.g.dart';
   SongEntity,
   ArtistEntity,
   DataState,
+  TrackEntity,
+  VideoEntity,
   SongListResponse,
   SongItemResponse,
 ])
