@@ -202,8 +202,10 @@ class _SongEditState extends State<SongEdit> {
                     scrollDirection: Axis.horizontal,
                     children: videos
                         .map((video) => TrackView(
+                              viewModel: viewModel,
                               video: video,
                               aspectRatio: value.aspectRatio,
+                              index: videos.indexOf(video),
                             ))
                         .toList(),
                   ))
@@ -213,11 +215,12 @@ class _SongEditState extends State<SongEdit> {
 }
 
 class ExpandedButton extends StatelessWidget {
-  ExpandedButton({this.icon, this.onPressed, this.color});
+  ExpandedButton({this.icon, this.onPressed, this.color, this.viewModel});
 
   final IconData icon;
   final Function onPressed;
   final Color color;
+  final SongEditVM viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -243,8 +246,10 @@ class ExpandedButton extends StatelessWidget {
 }
 
 class TrackView extends StatelessWidget {
-  TrackView({this.video, this.aspectRatio});
+  TrackView({this.video, this.aspectRatio, this.viewModel, this.index});
 
+  final int index;
+  final SongEditVM viewModel;
   final VideoPlayerController video;
   final double aspectRatio;
 
@@ -256,7 +261,8 @@ class TrackView extends StatelessWidget {
             barrierDismissible: true,
             context: context,
             builder: (BuildContext context) {
-              return TrackEditDialog();
+              return TrackEditDialog(
+                  video: video, viewModel: viewModel, index: index);
             });
       },
       child: Card(
@@ -269,9 +275,16 @@ class TrackView extends StatelessWidget {
 }
 
 class TrackEditDialog extends StatelessWidget {
+  TrackEditDialog({this.video, this.viewModel, this.index});
+
+  final SongEditVM viewModel;
+  final VideoPlayerController video;
+  final int index;
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final song = viewModel.song;
 
     return Padding(
       padding: EdgeInsets.all(16.0),
@@ -322,11 +335,18 @@ class TrackEditDialog extends StatelessWidget {
                         axis: Axis.vertical,
                         rtl: true,
                         //values: [0, 25, 50, 75, 100],
-                        values: [50],
+                        values: [song.tracks[index].volume.toDouble()],
                         max: 100,
                         min: 0,
                         onDragging: (handlerIndex, lowerValue, upperValue) {
-                          //setState(() {});
+                          video.setVolume(lowerValue / 100);
+
+                          final song = viewModel.song
+                              .setTrackVolume(index, lowerValue.toInt());
+
+                          print(
+                              'volume: $lowerValue ${song.tracks[index].volume}');
+                          viewModel.onSongChanged(song);
                         },
                       ),
                     ),

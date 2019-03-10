@@ -101,7 +101,6 @@ class SongItem extends StatelessWidget {
                       TextSpan(
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print('testing');
                             Navigator.of(context).push(
                               CupertinoPageRoute<void>(
                                 builder: (BuildContext context) {

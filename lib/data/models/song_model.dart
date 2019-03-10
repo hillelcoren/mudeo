@@ -1,6 +1,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/entities.dart';
 
 part 'song_model.g.dart';
@@ -100,6 +101,11 @@ abstract class SongEntity extends Object
   TrackEntity newTrack(VideoEntity video) =>
       TrackEntity(video: video, orderId: tracks.length);
 
+  SongEntity setTrackVolume(int index, int volume) {
+    final track = tracks[index].rebuild((b) => b..volume = volume);
+    return rebuild((b) => b..tracks[index] = track);
+  }
+
   static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }
 
@@ -107,7 +113,7 @@ abstract class TrackEntity implements Built<TrackEntity, TrackEntityBuilder> {
   factory TrackEntity({int id, int orderId, VideoEntity video}) {
     return _$TrackEntity._(
       id: id ?? --TrackEntity.counter,
-      volume: 0,
+      volume: kDefaultTrackVolume,
       orderId: orderId ?? 0,
       video: video ?? VideoEntity(),
     );
