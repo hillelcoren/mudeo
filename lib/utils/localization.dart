@@ -22,7 +22,6 @@ class AppLocalization {
     'en': {
       'volume': 'Volume',
       'solo': 'Solo',
-      'new_song': 'New song',
       'clear': 'Clear',
       'lose_changes': 'This will discard your unsaved changes.',
       'ok': 'Ok',
@@ -92,8 +91,6 @@ class AppLocalization {
   };
 
   String get volume => _localizedValues[locale.toString()]['volume'];
-
-  String get newSong => _localizedValues[locale.toString()]['new_song'];
 
   String get loseChanges => _localizedValues[locale.toString()]['lose_changes'];
 

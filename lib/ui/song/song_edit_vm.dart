@@ -63,10 +63,7 @@ class SongEditVM {
         //isLoaded: state.clientState.isLoaded,
         isLoaded: state.dataState.areSongsLoaded,
         onClearPressed: (context) {
-          final song = SongEntity().rebuild((b) => b
-            ..title = AppLocalization.of(context).newSong
-          );
-          store.dispatch(UpdateSong(song));
+          store.dispatch(UpdateSong(SongEntity()));
         },
         onTrackAdded: (video, duration) {
           final song = state.uiState.song;
