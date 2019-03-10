@@ -30,6 +30,8 @@ dependencies:
   sentry: ^2.2.0
   intl: ^0.15.7
   font_awesome_flutter: ^8.4.0
+  flutter_xlider: ^2.1.0
+
 
 dev_dependencies:
   #flutter_test:

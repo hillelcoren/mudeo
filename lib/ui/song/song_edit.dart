@@ -5,11 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 
 class SongEdit extends StatefulWidget {
   const SongEdit({
@@ -199,7 +201,7 @@ class _SongEditState extends State<SongEdit> {
                     child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: videos
-                        .map((video) => TrackEditor(
+                        .map((video) => TrackView(
                               video: video,
                               aspectRatio: value.aspectRatio,
                             ))
@@ -240,23 +242,93 @@ class ExpandedButton extends StatelessWidget {
   }
 }
 
-class TrackEditor extends StatefulWidget {
-  TrackEditor({this.video, this.aspectRatio});
+class TrackView extends StatelessWidget {
+  TrackView({this.video, this.aspectRatio});
 
   final VideoPlayerController video;
   final double aspectRatio;
 
   @override
-  _TrackEditorState createState() => _TrackEditorState();
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showDialog<TrackEditDialog>(
+            barrierDismissible: true,
+            context: context,
+            builder: (BuildContext context) {
+              return TrackEditDialog();
+            });
+      },
+      child: Card(
+          elevation: 50,
+          margin: const EdgeInsets.symmetric(horizontal: 6),
+          child:
+              AspectRatio(aspectRatio: aspectRatio, child: VideoPlayer(video))),
+    );
+  }
 }
 
-class _TrackEditorState extends State<TrackEditor> {
+class TrackEditDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 50,
-        margin: EdgeInsets.symmetric(horizontal: 6),
-        child: AspectRatio(
-            aspectRatio: widget.aspectRatio, child: VideoPlayer(widget.video)));
+    final localization = AppLocalization.of(context);
+
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Column(
+        children: <Widget>[
+          Material(
+            child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Form(
+                //key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100, bottom: 15),
+                      child: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                    ElevatedButton(
+                      label: localization.solo,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      height: 200,
+                      child: FlutterSlider(
+                        handlerAnimation: FlutterSliderHandlerAnimation(
+                            curve: Curves.elasticOut,
+                            reverseCurve: Curves.bounceIn,
+                            duration: Duration(milliseconds: 500),
+                            scale: 1.25
+                        ),
+                        axis: Axis.vertical,
+                        rtl: true,
+                        values: [0, 25, 50, 75, 100],
+                        max: 100,
+                        min: 0,
+                        onDragging: (handlerIndex, lowerValue, upperValue) {
+                          //setState(() {});
+                        },
+                      ),
+                    ),
+                    ElevatedButton(
+                      label: localization.delete,
+                      color: Colors.redAccent,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(child: Container()),
+        ],
+      ),
+    );
   }
 }
