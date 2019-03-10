@@ -143,11 +143,9 @@ class _SongEditState extends State<SongEdit> {
           title: Text(viewModel.song.title),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.delete),
-              tooltip: localization.delete,
-              //onPressed: isEmpty || isPlaying ? null : viewModel.onClearPressed,
-              onPressed: () => viewModel.onClearPressed(context),
-            ),
+                icon: Icon(Icons.cloud_upload),
+                tooltip: localization.save,
+                onPressed: isEmpty || isPlaying ? null : onSavePressed),
           ],
         ),
         body: Padding(
@@ -182,8 +180,15 @@ class _SongEditState extends State<SongEdit> {
                       : (isPlaying ? null : record),
                   color: isPlaying || isRecording ? null : Colors.redAccent),
               ExpandedButton(
-                  icon: Icons.cloud_upload,
-                  onPressed: isEmpty || isPlaying ? null : onSavePressed),
+                icon: Icons.delete,
+                onPressed: () => viewModel.onClearPressed(context),
+                // TODO enable this code
+                /*
+                onPressed: isEmpty || isPlaying
+                    ? null
+                    : () => viewModel.onClearPressed(context),
+                    */
+              ),
             ]),
             isEmpty
                 ? SizedBox()

@@ -36,24 +36,18 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
     ),
   ),
 ]) {
-  final loadState = _createLoadState(
-      authRepository,
-      uiRepository,
-      dataRepository);
+  final loadState =
+      _createLoadState(authRepository, uiRepository, dataRepository);
 
   final persistData = _createPersistData(dataRepository);
 
-  final userLoginSuccess = _createUserLoggedIn(
-      authRepository,
-      uiRepository,
-      dataRepository);
+  final userLoginSuccess =
+      _createUserLoggedIn(authRepository, uiRepository, dataRepository);
 
   final persistUI = _createPersistUI(uiRepository);
 
-  final deleteState = _createDeleteState(
-      authRepository,
-      uiRepository,
-      dataRepository);
+  final deleteState =
+      _createDeleteState(authRepository, uiRepository, dataRepository);
 
   final persistAuth = _createPersistAuth(authRepository);
 
@@ -68,10 +62,10 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
 }
 
 Middleware<AppState> _createLoadState(
-    PersistenceRepository authRepository,
-    PersistenceRepository uiRepository,
-    PersistenceRepository dataRepository,
-    ) {
+  PersistenceRepository authRepository,
+  PersistenceRepository uiRepository,
+  PersistenceRepository dataRepository,
+) {
   AuthState authState;
   UIState uiState;
   DataState dataState;
@@ -100,20 +94,6 @@ Middleware<AppState> _createLoadState(
 
       final NavigatorState navigator = Navigator.of(action.context);
       navigator.pushReplacementNamed(MainScreen.route);
-      /*
-      if (uiState.currentRoute != LoginScreen.route) {
-        final NavigatorState navigator = Navigator.of(action.context);
-        bool isFirst = true;
-        _getRoutes(appState).forEach((route) {
-          if (isFirst) {
-            navigator.pushReplacementNamed(route);
-          } else {
-            navigator.pushNamed(route);
-          }
-          isFirst = false;
-        });
-      }
-      */
     } catch (error) {
       print(error);
 
@@ -142,44 +122,11 @@ Middleware<AppState> _createLoadState(
   };
 }
 
-List<String> _getRoutes(AppState state) {
-  final List<String> routes = [];
-  var route = '';
-  /*
-  EntityType entityType;
-
-  state.uiState.currentRoute
-      .split('/')
-      .where((part) => part.isNotEmpty)
-      .forEach((part) {
-    if (part == 'edit') {
-      // Only restore new unsaved entities to prevent conflicts
-      final bool isNew = state.getUIState(entityType).isCreatingNew;
-      if (isNew) {
-        route += '/edit';
-      } else if (entityType != EntityType.product) {
-        route += '/view';
-      }
-    } else {
-      if (!['dashboard', 'settings'].contains(part) && entityType == null) {
-        entityType = EntityType.valueOf(part);
-      }
-
-      route += '/' + part;
-    }
-
-    routes.add(route);
-  });
-  */
-
-  return routes;
-}
-
 Middleware<AppState> _createUserLoggedIn(
-    PersistenceRepository authRepository,
-    PersistenceRepository uiRepository,
-    PersistenceRepository dataRepository,
-    ) {
+  PersistenceRepository authRepository,
+  PersistenceRepository uiRepository,
+  PersistenceRepository dataRepository,
+) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     next(action);
 
@@ -207,9 +154,7 @@ Middleware<AppState> _createPersistAuth(PersistenceRepository authRepository) {
   };
 }
 
-Middleware<AppState> _createPersistData(
-    PersistenceRepository dataRepository
-    ) {
+Middleware<AppState> _createPersistData(PersistenceRepository dataRepository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     // first process the action so the data is in the state
     next(action);
@@ -220,10 +165,10 @@ Middleware<AppState> _createPersistData(
 }
 
 Middleware<AppState> _createDeleteState(
-    PersistenceRepository authRepository,
-    PersistenceRepository uiRepository,
-    PersistenceRepository dataRepository,
-    ) {
+  PersistenceRepository authRepository,
+  PersistenceRepository uiRepository,
+  PersistenceRepository dataRepository,
+) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) async {
     authRepository.delete();
     uiRepository.delete();

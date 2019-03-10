@@ -43,7 +43,6 @@ class ArtistSettingsVM {
     final state = store.state;
 
     return ArtistSettingsVM(
-      //clientMap: state.clientState.map,
       state: state,
       isLoading: state.isLoading,
       //isLoaded: state.clientState.isLoaded,
