@@ -292,69 +292,70 @@ class TrackEditDialog extends StatelessWidget {
         children: <Widget>[
           Material(
             child: Padding(
-              padding: const EdgeInsets.all(28.0),
+              padding: const EdgeInsets.all(8),
               child: Form(
                 //key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                    ElevatedButton(
-                      label: localization.solo,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      height: 200,
-                      child: FlutterSlider(
-                        handlerAnimation: FlutterSliderHandlerAnimation(
-                            curve: Curves.elasticOut,
-                            reverseCurve: Curves.bounceIn,
-                            duration: Duration(milliseconds: 500),
-                            scale: 1.25),
-                        trackBar: FlutterSliderTrackBar(
-                          activeTrackBarColor: Colors.greenAccent,
-                          activeTrackBarHeight: 5,
-                          leftInactiveTrackBarColor:
-                              Colors.grey.withOpacity(0.5),
-                        ),
-                        tooltip: FlutterSliderTooltip(
-                          rightSuffix: Icon(
-                            Icons.volume_up,
-                            size: 19,
-                            color: Colors.black26,
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
                         ),
-                        axis: Axis.vertical,
-                        rtl: true,
-                        //values: [0, 25, 50, 75, 100],
-                        values: [song.tracks[index].volume.toDouble()],
-                        max: 100,
-                        min: 0,
-                        onDragging: (handlerIndex, lowerValue, upperValue) {
-                          video.setVolume(lowerValue / 100);
-
-                          final song = viewModel.song
-                              .setTrackVolume(index, lowerValue.toInt());
-
-                          print(
-                              'volume: $lowerValue ${song.tracks[index].volume}');
-                          viewModel.onSongChanged(song);
-                        },
-                      ),
+                        ElevatedButton(
+                          label: localization.solo,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          height: 200,
+                          child: FlutterSlider(
+                            handlerAnimation: FlutterSliderHandlerAnimation(
+                                curve: Curves.elasticOut,
+                                reverseCurve: Curves.bounceIn,
+                                duration: Duration(milliseconds: 500),
+                                scale: 1.25),
+                            trackBar: FlutterSliderTrackBar(
+                              activeTrackBarColor: Colors.greenAccent,
+                              activeTrackBarHeight: 5,
+                              leftInactiveTrackBarColor:
+                                  Colors.grey.withOpacity(0.5),
+                            ),
+                            tooltip: FlutterSliderTooltip(
+                              rightSuffix: Icon(
+                                Icons.volume_up,
+                                size: 19,
+                                color: Colors.black26,
+                              ),
+                            ),
+                            axis: Axis.vertical,
+                            rtl: true,
+                            //values: [0, 25, 50, 75, 100],
+                            values: [song.tracks[index].volume.toDouble()],
+                            max: 100,
+                            min: 0,
+                            onDragging: (handlerIndex, lowerValue, upperValue) {
+                              video.setVolume(lowerValue / 100);
+                              final song = viewModel.song
+                                  .setTrackVolume(index, lowerValue.toInt());
+                              viewModel.onSongChanged(song);
+                            },
+                          ),
+                        ),
+                        ElevatedButton(
+                          label: localization.delete,
+                          color: Colors.redAccent,
+                        ),
+                      ],
                     ),
-                    ElevatedButton(
-                      label: localization.delete,
-                      color: Colors.redAccent,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
