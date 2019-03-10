@@ -371,7 +371,6 @@ class ExpandedButton extends StatelessWidget {
                     ? localization.delete
                     : localization.record,
         child: MaterialButton(
-          //color: Colors.black26,
           height: 60,
           onPressed: onPressed,
           child: Icon(icon, size: 36, color: color),

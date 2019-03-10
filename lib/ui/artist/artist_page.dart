@@ -64,8 +64,8 @@ class ArtistPage extends StatelessWidget {
                   child: Text(
                     // TODO remove this
                     artist.handle == null || artist.handle.isEmpty
-                        ? '@handle'
-                        : '@${artist.handle}',
+                        ? 'handle'
+                        : artist.handle,
                     style: Theme.of(context).textTheme.headline,
                   ),
                 ),
