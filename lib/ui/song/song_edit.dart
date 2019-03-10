@@ -49,22 +49,16 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void didChangeDependencies() async {
-    final song = widget.viewModel.song;
-    if (videos.isEmpty && song.tracks.isNotEmpty) {
-      widget.viewModel.song.tracks.forEach((track) async {
-        // TODO remove this check
-        if (track.video != null) {
-          String path = await getVideoPath(track.video.timestamp);
-          if (await File(path).exists()) {
-            VideoPlayerController player = VideoPlayerController.file(File(path));
-            await player.initialize();
-            setState(() {
-              videos.add(player);
-            });
-          }
-        }
-      });
-    }
+    widget.viewModel.song.tracks.forEach((track) async {
+      String path = await getVideoPath(track.video.timestamp);
+      if (await File(path).exists()) {
+        VideoPlayerController player = VideoPlayerController.file(File(path));
+        await player.initialize();
+        setState(() {
+          videos.add(player);
+        });
+      }
+    });
 
     super.didChangeDependencies();
   }
@@ -135,6 +129,11 @@ class _SongEditState extends State<SongEdit> {
     if (!value.isInitialized) return SizedBox();
     final isRecording = value.isRecordingVideo;
     final isEmpty = videos.isEmpty;
+
+    final localization = AppLocalization.of(context);
+    final viewModel = widget.viewModel;
+
+    /*
     final cards = videos
         .map((video) => Card(
             elevation: 50,
@@ -142,51 +141,75 @@ class _SongEditState extends State<SongEdit> {
             child: AspectRatio(
                 aspectRatio: value.aspectRatio, child: VideoPlayer(video))))
         .toList();
+    */
 
     return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => viewModel.onBackPressed()),
+          title: Text(viewModel.song.title),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () {
+                  viewModel.onClearPressed();
+                },
+                tooltip: localization.clear,
+                icon: Icon(Icons.delete)),
+            IconButton(
+              icon: Icon(Icons.cloud_upload),
+              tooltip: localization.save,
+              onPressed: () => viewModel.onSavePressed(),
+            ),
+          ],
+        ),
         body: Padding(
-      padding: const EdgeInsets.only(bottom: 50),
-      child: Column(children: [
-        Expanded(
-            child: AnimatedContainer(
-                duration: Duration(milliseconds: 200),
-                child: Center(
-                  child: AspectRatio(
-                      aspectRatio: value.aspectRatio,
-                      child: CameraPreview(camera)),
-                ),
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    border: isRecording
-                        ? Border.all(color: Colors.red, width: 3)
-                        : null))),
-        Row(children: [
-          ExpandedButton(
-              icon: isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
-              onPressed: isRecording || isEmpty
-                  ? null
-                  : (isPlaying ? stopPlaying : play)),
-          ExpandedButton(
-              icon: isRecording && isEmpty
-                  ? Icons.stop
-                  : Icons.fiber_manual_record,
-              onPressed: isRecording
-                  ? (isEmpty ? stopRecording : null)
-                  : (isPlaying ? null : record),
-              color: isPlaying || isRecording ? null : Colors.redAccent),
-          ExpandedButton(
-              icon: Icons.cloud_upload,
-              onPressed: isEmpty || isPlaying ? null : onSavePressed),
-        ]),
-        isEmpty
-            ? SizedBox()
-            : Flexible(
-                child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: cards,
-              ))
-      ]),
-    ));
+          padding: const EdgeInsets.only(bottom: 50),
+          child: Column(children: [
+            Expanded(
+                child: AnimatedContainer(
+                    duration: Duration(milliseconds: 200),
+                    child: Center(
+                      child: AspectRatio(
+                          aspectRatio: value.aspectRatio,
+                          child: CameraPreview(camera)),
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        border: isRecording
+                            ? Border.all(color: Colors.red, width: 3)
+                            : null))),
+            Row(children: [
+              ExpandedButton(
+                  icon:
+                      isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
+                  onPressed: isRecording || isEmpty
+                      ? null
+                      : (isPlaying ? stopPlaying : play)),
+              ExpandedButton(
+                  icon: isRecording && isEmpty
+                      ? Icons.stop
+                      : Icons.fiber_manual_record,
+                  onPressed: isRecording
+                      ? (isEmpty ? stopRecording : null)
+                      : (isPlaying ? null : record),
+                  color: isPlaying || isRecording ? null : Colors.redAccent),
+              ExpandedButton(
+                  icon: Icons.cloud_upload,
+                  onPressed: isEmpty || isPlaying ? null : onSavePressed),
+            ]),
+            isEmpty
+                ? SizedBox()
+                : Flexible(
+                    child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: videos
+                        .map((video) => TrackEditor(
+                              video: video,
+                              aspectRatio: value.aspectRatio,
+                            ))
+                        .toList(),
+                  ))
+          ]),
+        ));
   }
 }
 
@@ -220,31 +243,23 @@ class ExpandedButton extends StatelessWidget {
   }
 }
 
-class SongTrack extends StatefulWidget {
-  SongTrack(this.path);
+class TrackEditor extends StatefulWidget {
+  TrackEditor({this.video, this.aspectRatio});
 
-  final String path;
+  final VideoPlayerController video;
+  final double aspectRatio;
 
   @override
-  _SongTrackState createState() => _SongTrackState();
+  _TrackEditorState createState() => _TrackEditorState();
 }
 
-class _SongTrackState extends State<SongTrack> {
-  VideoPlayerController video;
-  int aspectRatio;
-
-  @override
-  void initState() {
-    super.initState();
-
-    VideoPlayerController.file(File(widget.path)).initialize();
-  }
-
+class _TrackEditorState extends State<TrackEditor> {
   @override
   Widget build(BuildContext context) {
     return Card(
         elevation: 50,
         margin: EdgeInsets.symmetric(horizontal: 6),
-        child: AspectRatio(aspectRatio: 1, child: VideoPlayer(video)));
+        child: AspectRatio(
+            aspectRatio: widget.aspectRatio, child: VideoPlayer(widget.video)));
   }
 }

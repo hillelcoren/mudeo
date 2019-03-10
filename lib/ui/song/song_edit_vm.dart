@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
@@ -19,6 +21,7 @@ class SongEditScreen extends StatelessWidget {
       builder: (context, vm) {
         return SongEdit(
           viewModel: vm,
+          key: ValueKey(vm.song.id),
         );
       },
     );
@@ -33,7 +36,9 @@ class SongEditVM {
     @required this.song,
     @required this.onTrackAdded,
     @required this.onSongChanged,
-    @required this.onSongSaved,
+    @required this.onSavePressed,
+    @required this.onClearPressed,
+    @required this.onBackPressed,
   });
 
   final AppState state;
@@ -42,7 +47,9 @@ class SongEditVM {
   final SongEntity song;
   final Function(VideoEntity, int) onTrackAdded;
   final Function(SongEntity) onSongChanged;
-  final Function() onSongSaved;
+  final Function() onSavePressed;
+  final Function() onClearPressed;
+  final Function() onBackPressed;
 
   static SongEditVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -54,6 +61,9 @@ class SongEditVM {
         isLoading: state.isLoading,
         //isLoaded: state.clientState.isLoaded,
         isLoaded: state.dataState.areSongsLoaded,
+        onClearPressed: () {
+          store.dispatch(UpdateSong(SongEntity()));
+        },
         onTrackAdded: (video, duration) {
           final song = state.uiState.song;
           final track = song.newTrack(video);
@@ -65,7 +75,10 @@ class SongEditVM {
         onSongChanged: (song) {
           store.dispatch(UpdateSong(song));
         },
-        onSongSaved: () {
+        onBackPressed: () {
+          store.dispatch(UpdateTabIndex(kTabExplore));
+        },
+        onSavePressed: () {
           final song = state.uiState.song;
           final completer = Completer<Null>();
           store.dispatch(SaveSongRequest(song: song, completer: completer));

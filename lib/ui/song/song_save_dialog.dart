@@ -72,7 +72,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     if (!_formKey.currentState.validate()) {
       return;
     }
-    widget.viewModel.onSongSaved();
+    widget.viewModel.onSavePressed();
   }
 
   @override

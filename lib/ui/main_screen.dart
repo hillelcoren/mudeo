@@ -49,7 +49,7 @@ class MainScreenVM {
       state: state,
       isLoading: state.isLoading,
       isLoaded: true,
-      onTabChanged: (index) => store.dispatch(MainTabChanged(index)),
+      onTabChanged: (index) => store.dispatch(UpdateTabIndex(index)),
     );
   }
 }

@@ -70,9 +70,7 @@ class LoginVM {
     */
 
     void _handleLogin(BuildContext context) {
-      print('_handleLogin');
       AppBuilder.of(context).rebuild();
-      //store.dispatch(ViewDashboard(context));
       Navigator.of(context).pushReplacementNamed(MainScreen.route);
     }
 

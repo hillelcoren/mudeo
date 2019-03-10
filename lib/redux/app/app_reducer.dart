@@ -45,7 +45,7 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, AddTrack>(addTrackReducer),
   TypedReducer<UIState, UpdateSong>(updateSongReducer),
   TypedReducer<UIState, EditSong>(editSongReducer),
-  TypedReducer<UIState, MainTabChanged>(mainTabChangedReducer),
+  TypedReducer<UIState, UpdateTabIndex>(mainTabChangedReducer),
 ]);
 
 UIState addTrackReducer(UIState uiState, AddTrack action) {
@@ -69,6 +69,6 @@ UIState editSongReducer(UIState uiState, EditSong action) {
     ..song.replace(action.song));
 }
 
-UIState mainTabChangedReducer(UIState uiState, MainTabChanged action) {
-  return uiState.rebuild((b) => b..selectedTabIndex = action.tabIndex);
+UIState mainTabChangedReducer(UIState uiState, UpdateTabIndex action) {
+  return uiState.rebuild((b) => b..selectedTabIndex = action.index);
 }
