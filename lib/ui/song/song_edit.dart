@@ -294,28 +294,21 @@ class TrackEditDialog extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Form(
-                //key: _formKey,
                 child: Card(
                   child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ),
-                        ElevatedButton(
-                          label: localization.solo,
+                        IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          height: 200,
+                          padding: const EdgeInsets.only(top: 10, bottom: 25),
+                          height: 250,
                           child: FlutterSlider(
                             handlerAnimation: FlutterSliderHandlerAnimation(
                                 curve: Curves.elasticOut,
