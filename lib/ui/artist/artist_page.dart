@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
+import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -86,10 +90,8 @@ class ArtistPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Text(
-                    // TODO remove this
-                    artist.description == null || artist.description.isEmpty
-                        ? 'This is a test description'
-                        : '@${artist.description}',
+                    // TODO remove this null check
+                    artist.description ?? '',
                     style: TextStyle(
                       fontSize: 16,
                     ),
@@ -139,7 +141,11 @@ class ArtistPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   label: localization.logout,
-                  onPressed: () => null,
+                  onPressed: () {
+                    final store = StoreProvider.of<AppState>(context);
+                    store.dispatch(UserLogout());
+                    Navigator.of(context).pushReplacementNamed(LoginScreenBuilder.route);
+                  },
                   color: Colors.grey,
                 ),
                 ElevatedButton(

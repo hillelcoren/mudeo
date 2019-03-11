@@ -33,7 +33,6 @@ class ArtistSettingsVM {
     @required this.state,
     @required this.isLoading,
     @required this.isLoaded,
-    @required this.onPreviewPressed,
     @required this.onLogoutPressed,
   });
 
@@ -41,7 +40,6 @@ class ArtistSettingsVM {
   final bool isLoading;
   final bool isLoaded;
   final Function(BuildContext) onLogoutPressed;
-  final Function(BuildContext) onPreviewPressed;
 
   static ArtistSettingsVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -54,15 +52,6 @@ class ArtistSettingsVM {
       onLogoutPressed: (context) {
         store.dispatch(UserLogout());
         Navigator.of(context).pushReplacementNamed(LoginScreenBuilder.route);
-      },
-      onPreviewPressed: (context) {
-        Navigator.of(context).push(
-          CupertinoPageRoute<void>(
-            builder: (BuildContext context) {
-              return ArtistPage(artist: state.authState.artist);
-            },
-          ),
-        );
       },
     );
   }
