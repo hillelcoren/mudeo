@@ -75,7 +75,7 @@ class SongListVM {
         Navigator.of(context).push(
           CupertinoPageRoute<void>(
             builder: (BuildContext context) {
-              return ArtistPage(artist);
+              return ArtistPage(artist: artist);
             },
           ),
         );

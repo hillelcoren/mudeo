@@ -59,7 +59,7 @@ class ArtistSettingsVM {
         Navigator.of(context).push(
           CupertinoPageRoute<void>(
             builder: (BuildContext context) {
-              return ArtistPage(state.authState.artist);
+              return ArtistPage(artist: state.authState.artist);
             },
           ),
         );

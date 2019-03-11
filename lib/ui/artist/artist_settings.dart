@@ -233,16 +233,6 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                   onPressed: () => viewModel.onPreviewPressed(context),
                 ),
               ),
-              Padding(
-                padding:
-                const EdgeInsets.only(left: 28, top: 10, right: 28),
-                child: ElevatedButton(
-                  color: Colors.grey,
-                  width: double.infinity,
-                  label: localization.logout,
-                  onPressed: () => viewModel.onLogoutPressed(context),
-                ),
-              ),
             ],
           ),
         ),

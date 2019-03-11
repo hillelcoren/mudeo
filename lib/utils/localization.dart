@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'edit_profile': 'Edit Profile',
+      'delete_account': 'Delete Account',
       'preview': 'Preview',
       'name': 'Name',
       'website': 'Website',
@@ -96,6 +98,11 @@ class AppLocalization {
     },
   };
 
+  String get editProfile => _localizedValues[locale.toString()]['edit_profile'];
+
+  String get deleteAccount =>
+      _localizedValues[locale.toString()]['delete_account'];
+
   String get preview => _localizedValues[locale.toString()]['preview'];
 
   String get name => _localizedValues[locale.toString()]['name'];
@@ -147,7 +154,8 @@ class AppLocalization {
 
   String get title => _localizedValues[locale.toString()]['title'];
 
-  String get fieldIsRequired => _localizedValues[locale.toString()]['field_is_required'];
+  String get fieldIsRequired =>
+      _localizedValues[locale.toString()]['field_is_required'];
 
   String get doNotHaveAnAccount =>
       _localizedValues[locale.toString()]['do_not_have_an_account'];
@@ -252,7 +260,6 @@ class AppLocalization {
       _localizedValues[locale.toString()]['refresh_complete'];
 
   String get description => _localizedValues[locale.toString()]['description'];
-
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

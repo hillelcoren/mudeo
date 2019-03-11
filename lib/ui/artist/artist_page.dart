@@ -1,17 +1,20 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
+import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
+import 'package:mudeo/ui/artist/artist_settings_vm.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
-  ArtistPage(this.artist);
+  ArtistPage({this.artist, this.showAuthOptions = false});
 
   final ArtistEntity artist;
+  final bool showAuthOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class ArtistPage extends StatelessWidget {
       );
     }
 
+    final localization = AppLocalization.of(context);
     final ThemeData themeData = Theme.of(context);
     final TextStyle linkStyle = themeData.textTheme.body2
         .copyWith(color: themeData.accentColor, fontSize: 18);
@@ -117,7 +121,34 @@ class ArtistPage extends StatelessWidget {
                           .toList()),
                 ),
               ],
-            )
+            ),
+            showAuthOptions ? ButtonBar(
+              mainAxisSize: MainAxisSize.min, // this will take space as minimum as posible(to center)
+              children: <Widget>[
+                ElevatedButton(
+                  label: localization.editProfile,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      CupertinoPageRoute<void>(
+                        builder: (BuildContext context) {
+                          return ArtistSettingsScreen();
+                        },
+                      ),
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  label: localization.logout,
+                  onPressed: () => null,
+                  color: Colors.grey,
+                ),
+                ElevatedButton(
+                  label: localization.deleteAccount,
+                  onPressed: () => null,
+                  color: Colors.redAccent,
+                ),
+              ],
+            ) : SizedBox(),
           ],
         ),
       ),
