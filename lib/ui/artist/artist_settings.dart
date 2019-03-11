@@ -101,53 +101,56 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         ],
       ),
       body: Material(
-        child: Form(
-          key: _formKey,
-          child: FormCard(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                autocorrect: false,
-                controller: _firstNameController,
-                decoration: InputDecoration(
-                  labelText: localization.firstName,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 60),
+          child: Form(
+            key: _formKey,
+            child: FormCard(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  autocorrect: false,
+                  controller: _firstNameController,
+                  decoration: InputDecoration(
+                    labelText: localization.firstName,
+                  ),
+                  validator: (value) =>
+                      value.isEmpty ? localization.fieldIsRequired : null,
                 ),
-                validator: (value) =>
-                    value.isEmpty ? localization.fieldIsRequired : null,
-              ),
-              TextFormField(
-                autocorrect: false,
-                controller: _lastNameController,
-                decoration: InputDecoration(
-                  labelText: localization.lastName,
+                TextFormField(
+                  autocorrect: false,
+                  controller: _lastNameController,
+                  decoration: InputDecoration(
+                    labelText: localization.lastName,
+                  ),
+                  validator: (value) =>
+                      value.isEmpty ? localization.fieldIsRequired : null,
                 ),
-                validator: (value) =>
-                    value.isEmpty ? localization.fieldIsRequired : null,
-              ),
-              TextFormField(
-                autocorrect: false,
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: localization.email,
+                TextFormField(
+                  autocorrect: false,
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: localization.email,
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) =>
+                      value.isEmpty ? localization.fieldIsRequired : null,
                 ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) =>
-                    value.isEmpty ? localization.fieldIsRequired : null,
-              ),
-              TextFormField(
-                autocorrect: false,
-                controller: _handleController,
-                decoration: InputDecoration(
-                  labelText: localization.handle,
+                TextFormField(
+                  autocorrect: false,
+                  controller: _handleController,
+                  decoration: InputDecoration(
+                    labelText: localization.handle,
+                  ),
+                  validator: (value) =>
+                      value.isEmpty ? localization.fieldIsRequired : null,
                 ),
-                validator: (value) =>
-                    value.isEmpty ? localization.fieldIsRequired : null,
-              ),
-              RaisedButton(
-                child: Text('logout'),
-                onPressed: () => viewModel.onLogoutPressed(context),
-              ),
-            ],
+                RaisedButton(
+                  child: Text('logout'),
+                  onPressed: () => viewModel.onLogoutPressed(context),
+                ),
+              ],
+            ),
           ),
         ),
       ),

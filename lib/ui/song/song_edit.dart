@@ -151,7 +151,7 @@ class _SongEditState extends State<SongEdit> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.only(bottom: 50),
+          padding: const EdgeInsets.only(bottom: 60),
           child: Column(children: [
             Expanded(
                 child: AnimatedContainer(
@@ -381,6 +381,7 @@ class ExpandedButton extends StatelessWidget {
           height: 60,
           onPressed: onPressed,
           child: Icon(icon, size: 36, color: color),
+          //color: Colors.grey,
         ),
       ),
     );
