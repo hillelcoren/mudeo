@@ -42,6 +42,7 @@ class _LoginState extends State<LoginScreen> {
     final state = widget.viewModel.authState;
     _emailController.text = state.email;
     _passwordController.text = state.password;
+    _showLogin = state.email != null && state.email.isNotEmpty;
 
     super.didChangeDependencies();
   }

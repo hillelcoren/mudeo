@@ -4,9 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
-import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
-import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -74,18 +72,6 @@ class MainScreen extends StatelessWidget {
       SongListScreen(),
       SongEditScreen(),
       ArtistSettingsScreen(),
-      Container(
-        child: Center(
-          child: RaisedButton(
-            child: Text('logout'),
-            onPressed: () {
-                final store = StoreProvider.of<AppState>(context);
-                store.dispatch(UserLogout());
-                Navigator.of(context).pushReplacementNamed(LoginScreenBuilder.route);
-            },
-          ),
-        ),
-      ),
     ];
 
     return CupertinoTabScaffold(

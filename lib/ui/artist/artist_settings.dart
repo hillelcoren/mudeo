@@ -19,9 +19,11 @@ class ArtistSettings extends StatefulWidget {
 }
 
 class _ArtistSettingsState extends State<ArtistSettings> {
-
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final _titleController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _handleController = TextEditingController();
   List<TextEditingController> _controllers = [];
 
   @override
@@ -31,7 +33,10 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     }
 
     _controllers = [
-      _titleController,
+      _firstNameController,
+      _lastNameController,
+      _emailController,
+      _handleController,
     ];
 
     _controllers
@@ -83,7 +88,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    //final song = widget.viewModel.song;
+    final viewModel = widget.viewModel;
 
     return Scaffold(
       appBar: AppBar(
@@ -103,12 +108,44 @@ class _ArtistSettingsState extends State<ArtistSettings> {
             children: <Widget>[
               TextFormField(
                 autocorrect: false,
-                controller: _titleController,
+                controller: _firstNameController,
                 decoration: InputDecoration(
-                  labelText: localization.title,
+                  labelText: localization.firstName,
                 ),
                 validator: (value) =>
-                value.isEmpty ? localization.fieldIsRequired : null,
+                    value.isEmpty ? localization.fieldIsRequired : null,
+              ),
+              TextFormField(
+                autocorrect: false,
+                controller: _lastNameController,
+                decoration: InputDecoration(
+                  labelText: localization.lastName,
+                ),
+                validator: (value) =>
+                    value.isEmpty ? localization.fieldIsRequired : null,
+              ),
+              TextFormField(
+                autocorrect: false,
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: localization.email,
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) =>
+                    value.isEmpty ? localization.fieldIsRequired : null,
+              ),
+              TextFormField(
+                autocorrect: false,
+                controller: _handleController,
+                decoration: InputDecoration(
+                  labelText: localization.handle,
+                ),
+                validator: (value) =>
+                    value.isEmpty ? localization.fieldIsRequired : null,
+              ),
+              RaisedButton(
+                child: Text('logout'),
+                onPressed: () => viewModel.onLogoutPressed(context),
               ),
             ],
           ),
