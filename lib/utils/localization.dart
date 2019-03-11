@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'preview': 'Preview',
       'name': 'Name',
       'website': 'Website',
       'logout': 'Logout',
@@ -31,7 +32,7 @@ class AppLocalization {
       'lose_changes': 'This will discard your unsaved changes.',
       'ok': 'Ok',
       'are_you_sure': 'Are you sure?',
-      'favorite': 'Favorite',
+      'like': 'Like',
       'share': 'Share',
       'public': 'Public',
       'upload': 'Upload',
@@ -95,6 +96,8 @@ class AppLocalization {
     },
   };
 
+  String get preview => _localizedValues[locale.toString()]['preview'];
+
   String get name => _localizedValues[locale.toString()]['name'];
 
   String get website => _localizedValues[locale.toString()]['website'];
@@ -115,7 +118,7 @@ class AppLocalization {
 
   String get areYouSure => _localizedValues[locale.toString()]['are_you_sure'];
 
-  String get favorite => _localizedValues[locale.toString()]['favorite'];
+  String get like => _localizedValues[locale.toString()]['like'];
 
   String get share => _localizedValues[locale.toString()]['share'];
 

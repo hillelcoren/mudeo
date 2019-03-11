@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
+import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
@@ -31,7 +34,7 @@ class SongListVM {
     @required this.state,
     @required this.isLoading,
     @required this.isLoaded,
-    @required this.onSongTap,
+    @required this.onArtistTap,
     @required this.onSongEdit,
     @required this.onRefreshed,
     @required this.songIds,
@@ -41,7 +44,7 @@ class SongListVM {
   final bool isLoading;
   final bool isLoaded;
   final List<int> songIds;
-  final Function(BuildContext, SongEntity) onSongTap;
+  final Function(BuildContext, ArtistEntity) onArtistTap;
   final Function(BuildContext, SongEntity) onSongEdit;
   final Function(BuildContext) onRefreshed;
 
@@ -68,8 +71,14 @@ class SongListVM {
       //isLoaded: state.clientState.isLoaded,
       songIds: state.dataState.songMap.keys.toList(),
       isLoaded: state.dataState.areSongsLoaded,
-      onSongTap: (context, client) {
-        //store.dispatch(ViewSong(clientId: client.id, context: context));
+      onArtistTap: (context, artist) {
+        Navigator.of(context).push(
+          CupertinoPageRoute<void>(
+            builder: (BuildContext context) {
+              return ArtistPage(artist);
+            },
+          ),
+        );
       },
       onSongEdit: (context, song) {
         final localization = AppLocalization.of(context);

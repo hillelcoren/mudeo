@@ -58,11 +58,8 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     _controllers
         .forEach((dynamic controller) => controller.removeListener(_onChanged));
 
-    /*
-    final song = widget.viewModel.song;
-    _titleController.text = song.title;
-    _descriptionController.text = song.description;
-    */
+    final artist = widget.viewModel.state.authState.artist;
+    _handleController.text = artist.handle.trim();
 
     _controllers
         .forEach((dynamic controller) => controller.addListener(_onChanged));
@@ -229,8 +226,18 @@ class _ArtistSettingsState extends State<ArtistSettings> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
                 child: ElevatedButton(
+                  width: double.infinity,
+                  label: localization.preview,
+                  onPressed: () => viewModel.onPreviewPressed(context),
+                ),
+              ),
+              Padding(
+                padding:
+                const EdgeInsets.only(left: 28, top: 10, right: 28),
+                child: ElevatedButton(
+                  color: Colors.grey,
                   width: double.infinity,
                   label: localization.logout,
                   onPressed: () => viewModel.onLogoutPressed(context),

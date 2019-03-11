@@ -44,6 +44,7 @@ class SongList extends StatelessWidget {
                   return SongItem(
                     context,
                     song: song,
+                    onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
                     onPlay: () {
                       print('tapped');
                     },
@@ -58,16 +59,20 @@ class SongList extends StatelessWidget {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem(BuildContext context, {this.song, this.onPlay, this.onEdit});
+  SongItem(BuildContext context,
+      {this.song, this.onPlay, this.onEdit, this.onArtistTap});
 
   final SongEntity song;
   final Function onPlay;
   final Function onEdit;
+  final Function(ArtistEntity) onArtistTap;
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final state = StoreProvider.of<AppState>(context).state;
+    final state = StoreProvider
+        .of<AppState>(context)
+        .state;
     final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
 
     final ThemeData themeData = Theme.of(context);
@@ -82,7 +87,10 @@ class SongItem extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child:
-                    Text(song.title, style: Theme.of(context).textTheme.title),
+                Text(song.title, style: Theme
+                    .of(context)
+                    .textTheme
+                    .title),
               ),
               IconButton(
                 icon: Icon(Icons.play_circle_filled, size: 35),
@@ -100,15 +108,7 @@ class SongItem extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context).push(
-                              CupertinoPageRoute<void>(
-                                builder: (BuildContext context) {
-                                  return ArtistPage(artist);
-                                },
-                              ),
-                            );
-                          },
+                          ..onTap = () => onArtistTap(artist),
                         style: linkStyle,
                         text: '@${artist.handle}artist',
                       ),
@@ -122,10 +122,10 @@ class SongItem extends StatelessWidget {
               song.genreId == null || song.genreId == 0
                   ? SizedBox()
                   : Text(
-                      localization.lookup(kGenres[song.genreId]),
-                      style: TextStyle(
-                          color: kGenreColors[song.genreId], fontSize: 15),
-                    ),
+                localization.lookup(kGenres[song.genreId]),
+                style: TextStyle(
+                    color: kGenreColors[song.genreId], fontSize: 15),
+              ),
             ],
           ),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
@@ -141,7 +141,7 @@ class SongItem extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: (song.tracks)
                     .map((track) =>
-                        Placeholder(fallbackHeight: 100, fallbackWidth: 100))
+                    Placeholder(fallbackHeight: 100, fallbackWidth: 100))
                     .toList(),
               ),
             ),
@@ -156,7 +156,7 @@ class SongItem extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.favorite),
-                tooltip: localization.favorite,
+                tooltip: localization.like,
                 //onPressed: () => null,
               ),
               IconButton(
