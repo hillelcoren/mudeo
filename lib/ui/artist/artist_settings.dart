@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
-import 'package:mudeo/ui/artist/artist_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 
@@ -22,10 +22,10 @@ class ArtistSettings extends StatefulWidget {
 
 class _ArtistSettingsState extends State<ArtistSettings> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _emailController = TextEditingController();
   final _handleController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
   final _twitterController = TextEditingController();
   final _facebookController = TextEditingController();
   final _instagramController = TextEditingController();
@@ -42,8 +42,8 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     }
 
     _controllers = [
-      _firstNameController,
-      _lastNameController,
+      _nameController,
+      _descriptionController,
       _emailController,
       _handleController,
       _twitchController,
@@ -127,27 +127,20 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                 children: <Widget>[
                   TextFormField(
                     autocorrect: false,
-                    controller: _firstNameController,
+                    controller: _handleController,
                     decoration: InputDecoration(
-                      labelText: localization.firstName,
+                      labelText: localization.handle,
+                      icon: Icon(FontAwesomeIcons.at),
                     ),
                     validator: (value) =>
-                        value.isEmpty ? localization.fieldIsRequired : null,
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _lastNameController,
-                    decoration: InputDecoration(
-                      labelText: localization.lastName,
-                    ),
-                    validator: (value) =>
-                        value.isEmpty ? localization.fieldIsRequired : null,
+                    value.isEmpty ? localization.fieldIsRequired : null,
                   ),
                   TextFormField(
                     autocorrect: false,
                     controller: _emailController,
                     decoration: InputDecoration(
                       labelText: localization.email,
+                      icon: Icon(FontAwesomeIcons.envelope),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) =>
@@ -155,12 +148,20 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                   ),
                   TextFormField(
                     autocorrect: false,
-                    controller: _handleController,
+                    controller: _nameController,
                     decoration: InputDecoration(
-                      labelText: localization.handle,
+                      labelText: localization.name,
+                      icon: Icon(FontAwesomeIcons.userAlt),
                     ),
-                    validator: (value) =>
-                        value.isEmpty ? localization.fieldIsRequired : null,
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _descriptionController,
+                    maxLines: 6,
+                    decoration: InputDecoration(
+                      labelText: localization.description,
+                      icon: Icon(FontAwesomeIcons.solidStickyNote),
+                    ),
                   ),
                 ],
               ),
