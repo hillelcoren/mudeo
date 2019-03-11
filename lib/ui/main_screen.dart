@@ -44,7 +44,6 @@ class MainScreenVM {
     final state = store.state;
 
     return MainScreenVM(
-      //clientMap: state.clientState.map,
       state: state,
       isLoading: state.isLoading,
       isLoaded: true,
