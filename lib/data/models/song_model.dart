@@ -9,7 +9,7 @@ part 'song_model.g.dart';
 abstract class SongListResponse
     implements Built<SongListResponse, SongListResponseBuilder> {
   factory SongListResponse([void updates(SongListResponseBuilder b)]) =
-      _$SongListResponse;
+  _$SongListResponse;
 
   SongListResponse._();
 
@@ -22,7 +22,7 @@ abstract class SongListResponse
 abstract class SongItemResponse
     implements Built<SongItemResponse, SongItemResponseBuilder> {
   factory SongItemResponse([void updates(SongItemResponseBuilder b)]) =
-      _$SongItemResponse;
+  _$SongItemResponse;
 
   SongItemResponse._();
 
@@ -35,7 +35,7 @@ abstract class SongItemResponse
 abstract class VideoItemResponse
     implements Built<VideoItemResponse, VideoItemResponseBuilder> {
   factory VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =
-      _$VideoItemResponse;
+  _$VideoItemResponse;
 
   VideoItemResponse._();
 
@@ -50,7 +50,9 @@ abstract class SongEntity extends Object
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
   factory SongEntity({int id}) {
     return _$SongEntity._(
-      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+      id: id ?? DateTime
+          .now()
+          .millisecondsSinceEpoch * -1,
       artistId: 0,
       title: '',
       description: '',
@@ -112,9 +114,7 @@ abstract class SongEntity extends Object
   TrackEntity newTrack(VideoEntity video) =>
       TrackEntity(video: video, orderId: tracks.length);
 
-  VideoEntity get newVideo => tracks
-      .firstWhere((track) => track.video.isNew, orElse: () => null)
-      .video;
+  VideoEntity get newVideo => trackWithNewVideo?.video;
 
   bool get hasNewVideos => newVideo != null;
 
@@ -134,7 +134,9 @@ abstract class TrackEntity extends Object
     implements Built<TrackEntity, TrackEntityBuilder> {
   factory TrackEntity({int id, int orderId, VideoEntity video}) {
     return _$TrackEntity._(
-      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+      id: id ?? DateTime
+          .now()
+          .millisecondsSinceEpoch * -1,
       volume: kDefaultTrackVolume,
       orderId: orderId ?? 0,
       video: video ?? VideoEntity(),
@@ -164,7 +166,9 @@ abstract class VideoEntity extends Object
     implements Built<VideoEntity, VideoEntityBuilder> {
   factory VideoEntity({int id}) {
     return _$VideoEntity._(
-      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+      id: id ?? DateTime
+          .now()
+          .millisecondsSinceEpoch * -1,
       userId: 0,
       timestamp: 0,
     );
