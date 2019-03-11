@@ -46,13 +46,9 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
 
   final persistUI = _createPersistUI(uiRepository);
 
-  final deleteState =
-      _createDeleteState(authRepository, uiRepository, dataRepository);
-
   final persistAuth = _createPersistAuth(authRepository);
 
   return [
-    TypedMiddleware<AppState, UserLogout>(deleteState),
     TypedMiddleware<AppState, LoadStateRequest>(loadState),
     TypedMiddleware<AppState, UserLoginSuccess>(userLoginSuccess),
     TypedMiddleware<AppState, PersistData>(persistData),
@@ -77,10 +73,17 @@ Middleware<AppState> _createLoadState(
       prefs.setString(kSharedPrefAppVersion, kAppVersion);
 
       if (appVersion != kAppVersion) {
-        throw 'New app version - clearing state';
+        throw 'Clearing state for a new version';
       }
 
       authState = await authRepository.loadAuthState();
+
+      if ((authState.artist.token ?? '') == '') {
+        store.dispatch(UserLogout());
+        store.dispatch(LoadUserLogin(action.context));
+        return;
+      }
+
       uiState = await uiRepository.loadUIState();
       dataState = await dataRepository.loadDataState();
 
@@ -161,22 +164,5 @@ Middleware<AppState> _createPersistData(PersistenceRepository dataRepository) {
 
     final AppState state = store.state;
     dataRepository.saveDataState(state.dataState);
-  };
-}
-
-Middleware<AppState> _createDeleteState(
-  PersistenceRepository authRepository,
-  PersistenceRepository uiRepository,
-  PersistenceRepository dataRepository,
-) {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) async {
-    authRepository.delete();
-    uiRepository.delete();
-    dataRepository.delete();
-
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(kSharedPrefToken, '');
-
-    next(action);
   };
 }

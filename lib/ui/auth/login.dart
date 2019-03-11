@@ -40,7 +40,7 @@ class _LoginState extends State<LoginScreen> {
   @override
   void didChangeDependencies() {
     final state = widget.viewModel.authState;
-    _showLogin = state.wasAuthenticated;
+    _showLogin = _showLogin || state.wasAuthenticated;
 
     super.didChangeDependencies();
   }
