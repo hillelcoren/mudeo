@@ -102,10 +102,10 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
-    print('isChanged: ${viewModel.isChanged}');
+    
     return Scaffold(
       appBar: AppBar(
-        title: Text(localization.profile),
+        title: Text(localization.editProfile),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.cloud_upload),
