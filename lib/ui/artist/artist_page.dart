@@ -5,6 +5,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
@@ -130,13 +131,8 @@ class ArtistPage extends StatelessWidget {
                 ElevatedButton(
                   label: localization.editProfile,
                   onPressed: () {
-                    Navigator.of(context).push(
-                      CupertinoPageRoute<void>(
-                        builder: (BuildContext context) {
-                          return ArtistSettingsScreen();
-                        },
-                      ),
-                    );
+                    final store = StoreProvider.of<AppState>(context);
+                    store.dispatch(EditArtist(context: context, artist: artist));
                   },
                 ),
                 ElevatedButton(

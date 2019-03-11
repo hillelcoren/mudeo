@@ -11,7 +11,13 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, EditSong>(editSongReducer),
   TypedReducer<UIState, UpdateTabIndex>(mainTabChangedReducer),
   TypedReducer<UIState, SaveVideoSuccess>(saveVideoReducer),
+  TypedReducer<UIState, UpdateArtist>(updateArtistReducer),
 ]);
+
+
+UIState mainTabChangedReducer(UIState uiState, UpdateTabIndex action) {
+  return uiState.rebuild((b) => b..selectedTabIndex = action.index);
+}
 
 UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
   final video = action.video;
@@ -45,17 +51,15 @@ UIState updateSongReducer(UIState uiState, UpdateSong action) {
     ..song.isChanged = true);
 }
 
-UIState updateArtistReducer(UIState uiState, UpdateArtist action) {
-  return uiState.rebuild((b) => b
-    ..artist.replace(action.artist));
-}
-
 UIState editSongReducer(UIState uiState, EditSong action) {
   return uiState.rebuild((b) => b
     ..selectedTabIndex = kTabCreate
     ..song.replace(action.song));
 }
 
-UIState mainTabChangedReducer(UIState uiState, UpdateTabIndex action) {
-  return uiState.rebuild((b) => b..selectedTabIndex = action.index);
+
+UIState updateArtistReducer(UIState uiState, UpdateArtist action) {
+  return uiState.rebuild((b) => b
+    ..artist.replace(action.artist));
 }
+
