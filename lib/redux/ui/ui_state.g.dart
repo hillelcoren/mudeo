@@ -37,6 +37,9 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
       'song',
       serializers.serialize(object.song,
           specifiedType: const FullType(SongEntity)),
+      'artist',
+      serializers.serialize(object.artist,
+          specifiedType: const FullType(ArtistEntity)),
     ];
 
     return result;
@@ -61,6 +64,10 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
           result.song.replace(serializers.deserialize(value,
               specifiedType: const FullType(SongEntity)) as SongEntity);
           break;
+        case 'artist':
+          result.artist.replace(serializers.deserialize(value,
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
+          break;
       }
     }
 
@@ -73,16 +80,21 @@ class _$UIState extends UIState {
   final int selectedTabIndex;
   @override
   final SongEntity song;
+  @override
+  final ArtistEntity artist;
 
   factory _$UIState([void updates(UIStateBuilder b)]) =>
       (new UIStateBuilder()..update(updates)).build();
 
-  _$UIState._({this.selectedTabIndex, this.song}) : super._() {
+  _$UIState._({this.selectedTabIndex, this.song, this.artist}) : super._() {
     if (selectedTabIndex == null) {
       throw new BuiltValueNullFieldError('UIState', 'selectedTabIndex');
     }
     if (song == null) {
       throw new BuiltValueNullFieldError('UIState', 'song');
+    }
+    if (artist == null) {
+      throw new BuiltValueNullFieldError('UIState', 'artist');
     }
   }
 
@@ -98,19 +110,22 @@ class _$UIState extends UIState {
     if (identical(other, this)) return true;
     return other is UIState &&
         selectedTabIndex == other.selectedTabIndex &&
-        song == other.song;
+        song == other.song &&
+        artist == other.artist;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, selectedTabIndex.hashCode), song.hashCode));
+    return $jf($jc($jc($jc(0, selectedTabIndex.hashCode), song.hashCode),
+        artist.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('UIState')
           ..add('selectedTabIndex', selectedTabIndex)
-          ..add('song', song))
+          ..add('song', song)
+          ..add('artist', artist))
         .toString();
   }
 }
@@ -127,12 +142,18 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
   SongEntityBuilder get song => _$this._song ??= new SongEntityBuilder();
   set song(SongEntityBuilder song) => _$this._song = song;
 
+  ArtistEntityBuilder _artist;
+  ArtistEntityBuilder get artist =>
+      _$this._artist ??= new ArtistEntityBuilder();
+  set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
+
   UIStateBuilder();
 
   UIStateBuilder get _$this {
     if (_$v != null) {
       _selectedTabIndex = _$v.selectedTabIndex;
       _song = _$v.song?.toBuilder();
+      _artist = _$v.artist?.toBuilder();
       _$v = null;
     }
     return this;
@@ -157,12 +178,16 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
     try {
       _$result = _$v ??
           new _$UIState._(
-              selectedTabIndex: selectedTabIndex, song: song.build());
+              selectedTabIndex: selectedTabIndex,
+              song: song.build(),
+              artist: artist.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'song';
         song.build();
+        _$failedField = 'artist';
+        artist.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'UIState', _$failedField, e.toString());

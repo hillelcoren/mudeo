@@ -78,15 +78,15 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   }
 
   void _onChanged() {
-    /*
-    final song = widget.viewModel.song.rebuild((b) => b
-      ..title = _titleController.text.trim()
-      ..description = _descriptionController.text.trim());
+    final viewModel = widget.viewModel;
+    final authState = viewModel.state.authState;
 
-    if (song != widget.viewModel.song) {
-      widget.viewModel.onSongChanged(song);
+    final artist = authState.artist
+        .rebuild((b) => b..handle = _handleController.text.trim());
+
+    if (artist != authState.artist) {
+      viewModel.onChangedArtist(artist);
     }
-    */
   }
 
   void _onSubmit() {
@@ -102,14 +102,14 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
-    print('BOTTOM: ${MediaQuery.of(context).viewInsets.bottom}');
+    print('isChanged: ${viewModel.isChanged}');
     return Scaffold(
       appBar: AppBar(
         title: Text(localization.profile),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.cloud_upload),
-            onPressed: () => null,
+            onPressed: viewModel.isChanged ? () => null : null,
           )
         ],
       ),
@@ -130,7 +130,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                       icon: Icon(FontAwesomeIcons.at),
                     ),
                     validator: (value) =>
-                    value.isEmpty ? localization.fieldIsRequired : null,
+                        value.isEmpty ? localization.fieldIsRequired : null,
                   ),
                   TextFormField(
                     autocorrect: false,
