@@ -44,7 +44,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
   String toString() {
     //return 'Is Loading: ${this.isLoading}, Invoice: ${this.invoiceUIState.selected}';
     //return 'Date Formats: ${staticState.dateFormatMap}';
-    return 'Tracks: ${uiState.song.tracks}';
-    //return 'Id ${uiState.song.id}, Is Changed: ${uiState.song.isChanged}';
+    //return 'Tracks: ${uiState.song.tracks}';
+    return 'Id ${uiState.song.id}, Is Changed: ${uiState.song.isChanged}';
   }
 }
