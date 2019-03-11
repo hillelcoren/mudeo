@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
+import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 
@@ -105,49 +106,102 @@ class _ArtistSettingsState extends State<ArtistSettings> {
           padding: const EdgeInsets.only(bottom: 60),
           child: Form(
             key: _formKey,
-            child: FormCard(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: ListView(
               children: <Widget>[
-                TextFormField(
-                  autocorrect: false,
-                  controller: _firstNameController,
-                  decoration: InputDecoration(
-                    labelText: localization.firstName,
-                  ),
-                  validator: (value) =>
-                      value.isEmpty ? localization.fieldIsRequired : null,
+                FormCard(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _firstNameController,
+                      decoration: InputDecoration(
+                        labelText: localization.firstName,
+                      ),
+                      validator: (value) =>
+                          value.isEmpty ? localization.fieldIsRequired : null,
+                    ),
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _lastNameController,
+                      decoration: InputDecoration(
+                        labelText: localization.lastName,
+                      ),
+                      validator: (value) =>
+                          value.isEmpty ? localization.fieldIsRequired : null,
+                    ),
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: localization.email,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) =>
+                          value.isEmpty ? localization.fieldIsRequired : null,
+                    ),
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _handleController,
+                      decoration: InputDecoration(
+                        labelText: localization.handle,
+                      ),
+                      validator: (value) =>
+                          value.isEmpty ? localization.fieldIsRequired : null,
+                    ),
+                  ],
                 ),
-                TextFormField(
-                  autocorrect: false,
-                  controller: _lastNameController,
-                  decoration: InputDecoration(
-                    labelText: localization.lastName,
-                  ),
-                  validator: (value) =>
+                FormCard(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _firstNameController,
+                      decoration: InputDecoration(
+                        labelText: localization.firstName,
+                      ),
+                      validator: (value) =>
                       value.isEmpty ? localization.fieldIsRequired : null,
-                ),
-                TextFormField(
-                  autocorrect: false,
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    labelText: localization.email,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) =>
+                    ),
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _lastNameController,
+                      decoration: InputDecoration(
+                        labelText: localization.lastName,
+                      ),
+                      validator: (value) =>
                       value.isEmpty ? localization.fieldIsRequired : null,
-                ),
-                TextFormField(
-                  autocorrect: false,
-                  controller: _handleController,
-                  decoration: InputDecoration(
-                    labelText: localization.handle,
-                  ),
-                  validator: (value) =>
+                    ),
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: localization.email,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) =>
                       value.isEmpty ? localization.fieldIsRequired : null,
+                    ),
+                    TextFormField(
+                      autocorrect: false,
+                      controller: _handleController,
+                      decoration: InputDecoration(
+                        labelText: localization.handle,
+                      ),
+                      validator: (value) =>
+                      value.isEmpty ? localization.fieldIsRequired : null,
+                    ),
+                  ],
                 ),
-                RaisedButton(
-                  child: Text('logout'),
-                  onPressed: () => viewModel.onLogoutPressed(context),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                  child: ElevatedButton(
+                    width: double.infinity,
+                    label: localization.logout,
+                    onPressed: () => viewModel.onLogoutPressed(context),
+                  ),
                 ),
               ],
             ),

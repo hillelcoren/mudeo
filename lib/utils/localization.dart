@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'logout': 'Logout',
       'first_name': 'First Name',
       'last_name': 'Last Name',
       'volume': 'Volume',
@@ -167,6 +168,8 @@ class AppLocalization {
   String get play => _localizedValues[locale.toString()]['play'];
 
   String get login => _localizedValues[locale.toString()]['login'];
+
+  String get logout => _localizedValues[locale.toString()]['logout'];
 
   String get signUp => _localizedValues[locale.toString()]['sign_up'];
 

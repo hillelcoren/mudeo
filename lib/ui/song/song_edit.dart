@@ -53,13 +53,16 @@ class _SongEditState extends State<SongEdit> {
   void didChangeDependencies() async {
     widget.viewModel.song.tracks.forEach((track) async {
       String path = await getVideoPath(track.video.timestamp);
+      VideoPlayerController player;
       if (await File(path).exists()) {
-        VideoPlayerController player = VideoPlayerController.file(File(path));
+        player = VideoPlayerController.file(File(path));
         await player.initialize();
-        setState(() {
-          videos.add(player);
-        });
+      } else {
+        player = VideoPlayerController.asset(null);
       }
+      setState(() {
+        videos.add(player);
+      });
     });
 
     super.didChangeDependencies();

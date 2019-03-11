@@ -4,11 +4,13 @@ class FormCard extends StatelessWidget {
   const FormCard({
     Key key,
     this.crossAxisAlignment,
+    this.mainAxisSize,
     @required this.children,
   }) : super(key: key);
 
   final List<Widget> children;
   final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisSize mainAxisSize;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class FormCard extends StatelessWidget {
           child: Container(
             width: double.infinity,
             child: Column(
+              mainAxisSize: mainAxisSize ?? MainAxisSize.max,
               crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
               children: children,
             ),
