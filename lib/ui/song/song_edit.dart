@@ -52,7 +52,7 @@ class _SongEditState extends State<SongEdit> {
   @override
   void didChangeDependencies() async {
     widget.viewModel.song.tracks.forEach((track) async {
-      String path = await getVideoPath(track.video.timestamp);
+      String path = await VideoEntity.getPath(track.video.timestamp);
       VideoPlayerController player;
       if (await File(path).exists()) {
         player = VideoPlayerController.file(File(path));
@@ -75,17 +75,10 @@ class _SongEditState extends State<SongEdit> {
     super.dispose();
   }
 
-  Future<String> getVideoPath(int timestamp) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String folder = '${directory.path}/videos';
-    await Directory(folder).create(recursive: true);
-    return '$folder/$timestamp.mp4';
-  }
-
   void record() async {
     final song = widget.viewModel.song;
     timestamp = DateTime.now().millisecondsSinceEpoch;
-    path = await getVideoPath(timestamp);
+    path = await VideoEntity.getPath(timestamp);
     if (song.duration > 0)
       Timer(Duration(milliseconds: song.duration), stopRecording);
     await camera.startVideoRecording(path);

@@ -26,20 +26,19 @@ class SongRepository {
     final dynamic response = await webClient.get(url, auth.token);
 
     final SongListResponse songResponse =
-    serializers.deserializeWith(SongListResponse.serializer, response);
+        serializers.deserializeWith(SongListResponse.serializer, response);
 
     return songResponse.data;
   }
 
-  Future<SongEntity> saveSong(
-      AuthState auth, SongEntity song,
+  Future<SongEntity> saveSong(AuthState auth, SongEntity song,
       [EntityAction action]) async {
     final data = serializers.serializeWith(SongEntity.serializer, song);
     dynamic response;
 
     if (song.isNew) {
-      response = await webClient.post(
-          kAppURL + '/songs', auth.token, json.encode(data));
+      response = await webClient.post(kAppURL + '/songs', auth.token,
+          data: json.encode(data));
     } else {
       var url = kAppURL + '/songs/' + song.id.toString();
       if (action != null) {
@@ -49,20 +48,19 @@ class SongRepository {
     }
 
     final SongItemResponse songResponse =
-    serializers.deserializeWith(SongItemResponse.serializer, response);
+        serializers.deserializeWith(SongItemResponse.serializer, response);
 
     return songResponse.data;
   }
 
-  Future<VideoEntity> saveVideo(
-      AuthState auth, VideoEntity video,
+  Future<VideoEntity> saveVideo(AuthState auth, VideoEntity video,
       [EntityAction action]) async {
     final data = serializers.serializeWith(VideoEntity.serializer, video);
     dynamic response;
 
     if (video.isNew) {
-      response = await webClient.post(
-          kAppURL + '/videos', auth.token, json.encode(data));
+      response = await webClient.post(kAppURL + '/videos', auth.token,
+          filePath: await VideoEntity.getPath(video.timestamp));
     } else {
       var url = kAppURL + '/videos/' + video.id.toString();
       if (action != null) {
@@ -72,7 +70,7 @@ class SongRepository {
     }
 
     final VideoItemResponse songResponse =
-    serializers.deserializeWith(VideoItemResponse.serializer, response);
+        serializers.deserializeWith(VideoItemResponse.serializer, response);
 
     return songResponse.data;
   }
