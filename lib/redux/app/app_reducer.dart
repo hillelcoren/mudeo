@@ -15,12 +15,14 @@ AppState appReducer(AppState state, dynamic action) {
         .rebuild((b) => b..authState.replace(state.authState.reset));
     //..uiState.enableDarkMode = state.uiState.enableDarkMode);
   } else if (action is LoadStateSuccess) {
-    return action.state.rebuild((b) => b
+    return action.state.rebuild((b) =>
+    b
       ..isLoading = false
       ..isSaving = false);
   }
 
-  return state.rebuild((b) => b
+  return state.rebuild((b) =>
+  b
     ..isLoading = loadingReducer(state.isLoading, action)
     ..isSaving = savingReducer(state.isSaving, action)
     ..authState.replace(authReducer(state.authState, action))
@@ -33,8 +35,11 @@ Reducer<DataState> dataReducer = combineReducers([
 ]);
 
 DataState songListReducer(DataState dataState, LoadSongsSuccess action) {
-  return dataState.rebuild((b) => b
-    ..songsUpdateAt = DateTime.now().millisecondsSinceEpoch
+  return dataState.rebuild((b) =>
+  b
+    ..songsUpdateAt = DateTime
+        .now()
+        .millisecondsSinceEpoch
     ..songMap.addAll(Map.fromIterable(
       action.songs,
       key: (dynamic item) => item.id,
@@ -54,10 +59,14 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
   final video = action.video;
   final song = action.song;
 
-  final oldTrack =
-      song.getTrackByKey(userId: video.userId, timestamp: video.timestamp);
-  final index = song.tracks.indexOf(oldTrack);
+  final oldTrack = song.trackWithNewVideo;
 
+  if (oldTrack == null) {
+    print('>> Old track not found');
+    return uiState;
+  }
+
+  final index = song.tracks.indexOf(oldTrack);
   final newTrack = oldTrack.rebuild((b) => b..video.replace(video));
 
   return uiState.rebuild((b) => b..song.tracks[index] = newTrack);
@@ -66,20 +75,23 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
 UIState addTrackReducer(UIState uiState, AddTrack action) {
   final song = uiState.song;
   final track = action.track;
-  return uiState.rebuild((b) => b
+  return uiState.rebuild((b) =>
+  b
     ..song.duration = song.duration == 0 ? action.duration : song.duration
     ..song.isChanged = true
     ..song.tracks.add(track));
 }
 
 UIState updateSongReducer(UIState uiState, UpdateSong action) {
-  return uiState.rebuild((b) => b
+  return uiState.rebuild((b) =>
+  b
     ..song.replace(action.song)
     ..song.isChanged = true);
 }
 
 UIState editSongReducer(UIState uiState, EditSong action) {
-  return uiState.rebuild((b) => b
+  return uiState.rebuild((b) =>
+  b
     ..selectedTabIndex = kTabCreate
     ..song.replace(action.song));
 }

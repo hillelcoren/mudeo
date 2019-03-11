@@ -113,16 +113,13 @@ abstract class SongEntity extends Object
       TrackEntity(video: video, orderId: tracks.length);
 
   VideoEntity get newVideo => tracks
-      .firstWhere((track) => track.video.isNew, orElse: () => TrackEntity())
+      .firstWhere((track) => track.video.isNew, orElse: () => null)
       .video;
 
   bool get hasNewVideos => newVideo != null;
 
-  TrackEntity getTrackByKey({int userId, int timestamp}) => tracks.firstWhere(
-      (track) => track.video.matchesKey(userId: userId, timestamp: timestamp));
-
-  int getTrackIndexByKey({int userId, int timestamp}) =>
-      tracks.indexOf(getTrackByKey(userId: userId, timestamp: timestamp));
+  TrackEntity get trackWithNewVideo =>
+      tracks.firstWhere((track) => track.video.isNew, orElse: () => null);
 
   SongEntity setTrackVolume(int index, int volume) {
     final track = tracks[index].rebuild((b) => b..volume = volume);
