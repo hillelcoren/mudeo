@@ -5,7 +5,7 @@ import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
-import 'package:mudeo/ui/main_screen.dart';
+import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,20 +33,11 @@ void _saveAuthLocal(ArtistEntity artist) async {
   prefs.setString(kSharedPrefToken, artist.token ?? '');
 }
 
-void _loadAuthLocal(Store<AppState> store, dynamic action) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final String email = prefs.getString(kSharedPrefEmail) ?? '';
-  store.dispatch(UserLoginLoaded(email));
-
-  store.dispatch(UserSettingsChanged());
-}
-
 Middleware<AppState> _createLoginInit() {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    _loadAuthLocal(store, action);
-
-    //Navigator.of(action.context).pushReplacementNamed(LoginScreen.route);
-    Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
+    
+    Navigator.of(action.context).pushReplacementNamed(LoginScreenBuilder.route);
+    //Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
 
     next(action);
   };
@@ -62,6 +53,7 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
             oneTimePassword: action.oneTimePassword)
         .then((ArtistEntity artist) {
       if (artist.token == null) {
+        // TODO enable this code
         //throw 'Error: token is blank';
       }
       _saveAuthLocal(artist);
@@ -123,8 +115,6 @@ Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
 Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
-
-    _loadAuthLocal(store, action);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString(kSharedPrefToken);

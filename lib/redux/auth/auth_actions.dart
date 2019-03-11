@@ -23,12 +23,6 @@ class LoadUserLogin {
   final BuildContext context;
 }
 
-class UserLoginLoaded {
-  UserLoginLoaded(this.email);
-
-  final String email;
-}
-
 class OAuthLoginRequest implements StartLoading {
   OAuthLoginRequest(
       {this.completer,
@@ -88,6 +82,6 @@ class UserLoginFailure implements StopLoading {
   final Object error;
 }
 
-class UserLogout implements PersistData {}
+class UserLogout implements PersistData, PersistAuth, PersistUI {}
 
 class ClearAuthError {}

@@ -3,7 +3,6 @@ import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:redux/redux.dart';
 
 Reducer<AuthState> authReducer = combineReducers([
-  TypedReducer<AuthState, UserLoginLoaded>(userLoginLoadedReducer),
   TypedReducer<AuthState, UserLoginRequest>(userLoginRequestReducer),
   TypedReducer<AuthState, OAuthLoginRequest>(oauthLoginRequestReducer),
   TypedReducer<AuthState, UserLoginSuccess>(userLoginSuccessReducer),
@@ -13,10 +12,6 @@ Reducer<AuthState> authReducer = combineReducers([
 
 AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
   return authState.rebuild((b) => b..error = null);
-}
-
-AuthState userLoginLoadedReducer(AuthState authState, UserLoginLoaded action) {
-  return authState.rebuild((b) => b..isInitialized = true);
 }
 
 AuthState userLoginRequestReducer(
