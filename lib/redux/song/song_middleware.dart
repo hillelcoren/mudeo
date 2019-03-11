@@ -42,21 +42,33 @@ Middleware<AppState> _viewSongList() {
 
 Middleware<AppState> _saveSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    repository
-        .saveData(
-        store.state.authState, action.song)
-        .then((SongEntity song) {
-      if (action.song.isNew) {
-        store.dispatch(AddSongSuccess(song));
-      } else {
-        store.dispatch(SaveSongSuccess(song));
-      }
-      action.completer.complete(null);
-    }).catchError((Object error) {
-      print(error);
-      store.dispatch(SaveSongFailure(error));
-      action.completer.completeError(error);
-    });
+    SongEntity song = action.song;
+    final authState = store.state.authState;
+    print('>> Save song');
+    if (song.hasNewVideos) {
+      print('>> Song has new videos');
+      repository.saveVideo(authState, song.newVideo).then((video) {
+        print('>> Video was saved');
+        store.dispatch(SaveVideoSuccess(song: song, video: video));
+        store.dispatch(SaveSongRequest(
+            song: store.state.uiState.song, completer: action.completer));
+      });
+    } else {
+      print('>> Song has NO new videos');
+      repository.saveSong(authState, action.song).then((SongEntity song) {
+        print('>> Song was saved');
+        if (action.song.isNew) {
+          store.dispatch(AddSongSuccess(song));
+        } else {
+          store.dispatch(SaveSongSuccess(song));
+        }
+        action.completer.complete(null);
+      }).catchError((Object error) {
+        print(error);
+        store.dispatch(SaveSongFailure(error));
+        action.completer.completeError(error);
+      });
+    }
 
     next(action);
   };

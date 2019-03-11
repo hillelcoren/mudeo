@@ -23,6 +23,8 @@ Serializer<SongListResponse> _$songListResponseSerializer =
     new _$SongListResponseSerializer();
 Serializer<SongItemResponse> _$songItemResponseSerializer =
     new _$SongItemResponseSerializer();
+Serializer<VideoItemResponse> _$videoItemResponseSerializer =
+    new _$VideoItemResponseSerializer();
 Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
 Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
 Serializer<VideoEntity> _$videoEntitySerializer = new _$VideoEntitySerializer();
@@ -103,6 +105,47 @@ class _$SongItemResponseSerializer
         case 'data':
           result.data.replace(serializers.deserialize(value,
               specifiedType: const FullType(SongEntity)) as SongEntity);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$VideoItemResponseSerializer
+    implements StructuredSerializer<VideoItemResponse> {
+  @override
+  final Iterable<Type> types = const [VideoItemResponse, _$VideoItemResponse];
+  @override
+  final String wireName = 'VideoItemResponse';
+
+  @override
+  Iterable serialize(Serializers serializers, VideoItemResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(VideoEntity)),
+    ];
+
+    return result;
+  }
+
+  @override
+  VideoItemResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new VideoItemResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(VideoEntity)) as VideoEntity);
           break;
       }
     }
@@ -619,6 +662,97 @@ class SongItemResponseBuilder
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'SongItemResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$VideoItemResponse extends VideoItemResponse {
+  @override
+  final VideoEntity data;
+
+  factory _$VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =>
+      (new VideoItemResponseBuilder()..update(updates)).build();
+
+  _$VideoItemResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('VideoItemResponse', 'data');
+    }
+  }
+
+  @override
+  VideoItemResponse rebuild(void updates(VideoItemResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  VideoItemResponseBuilder toBuilder() =>
+      new VideoItemResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is VideoItemResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('VideoItemResponse')..add('data', data))
+        .toString();
+  }
+}
+
+class VideoItemResponseBuilder
+    implements Builder<VideoItemResponse, VideoItemResponseBuilder> {
+  _$VideoItemResponse _$v;
+
+  VideoEntityBuilder _data;
+  VideoEntityBuilder get data => _$this._data ??= new VideoEntityBuilder();
+  set data(VideoEntityBuilder data) => _$this._data = data;
+
+  VideoItemResponseBuilder();
+
+  VideoItemResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(VideoItemResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$VideoItemResponse;
+  }
+
+  @override
+  void update(void updates(VideoItemResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$VideoItemResponse build() {
+    _$VideoItemResponse _$result;
+    try {
+      _$result = _$v ?? new _$VideoItemResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'VideoItemResponse', _$failedField, e.toString());
       }
       rethrow;
     }

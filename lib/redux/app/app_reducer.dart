@@ -47,7 +47,21 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, UpdateSong>(updateSongReducer),
   TypedReducer<UIState, EditSong>(editSongReducer),
   TypedReducer<UIState, UpdateTabIndex>(mainTabChangedReducer),
+  TypedReducer<UIState, SaveVideoSuccess>(saveVideoReducer),
 ]);
+
+UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
+  final video = action.video;
+  final song = action.song;
+
+  final oldTrack =
+      song.getTrackByKey(userId: video.userId, timestamp: video.timestamp);
+  final index = song.tracks.indexOf(oldTrack);
+
+  final newTrack = oldTrack.rebuild((b) => b..video.replace(video));
+
+  return uiState.rebuild((b) => b..song.tracks[index] = newTrack);
+}
 
 UIState addTrackReducer(UIState uiState, AddTrack action) {
   final song = uiState.song;

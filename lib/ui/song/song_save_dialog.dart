@@ -64,7 +64,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       ..description = _descriptionController.text.trim());
 
     if (song != widget.viewModel.song) {
-      widget.viewModel.onSongChanged(song);
+      widget.viewModel.onChangedSong(song);
     }
   }
 

@@ -36,7 +36,7 @@ class SongEditVM {
     @required this.isLoaded,
     @required this.song,
     @required this.onTrackAdded,
-    @required this.onSongChanged,
+    @required this.onChangedSong,
     @required this.onSavePressed,
     @required this.onClearPressed,
     @required this.onBackPressed,
@@ -47,7 +47,7 @@ class SongEditVM {
   final bool isLoaded;
   final SongEntity song;
   final Function(VideoEntity, int) onTrackAdded;
-  final Function(SongEntity) onSongChanged;
+  final Function(SongEntity) onChangedSong;
   final Function() onSavePressed;
   final Function(BuildContext) onClearPressed;
   final Function() onBackPressed;
@@ -73,7 +73,7 @@ class SongEditVM {
             duration: duration,
           ));
         },
-        onSongChanged: (song) {
+        onChangedSong: (song) {
           store.dispatch(UpdateSong(song));
         },
         onBackPressed: () {

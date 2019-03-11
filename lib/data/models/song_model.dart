@@ -32,6 +32,19 @@ abstract class SongItemResponse
       _$songItemResponseSerializer;
 }
 
+abstract class VideoItemResponse
+    implements Built<VideoItemResponse, VideoItemResponseBuilder> {
+  factory VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =
+      _$VideoItemResponse;
+
+  VideoItemResponse._();
+
+  VideoEntity get data;
+
+  static Serializer<VideoItemResponse> get serializer =>
+      _$videoItemResponseSerializer;
+}
+
 abstract class SongEntity extends Object
     with BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
@@ -99,6 +112,18 @@ abstract class SongEntity extends Object
   TrackEntity newTrack(VideoEntity video) =>
       TrackEntity(video: video, orderId: tracks.length);
 
+  VideoEntity get newVideo => tracks
+      .firstWhere((track) => track.video.isNew, orElse: () => TrackEntity())
+      .video;
+
+  bool get hasNewVideos => newVideo != null;
+
+  TrackEntity getTrackByKey({int userId, int timestamp}) => tracks.firstWhere(
+      (track) => track.video.matchesKey(userId: userId, timestamp: timestamp));
+
+  int getTrackIndexByKey({int userId, int timestamp}) =>
+      tracks.indexOf(getTrackByKey(userId: userId, timestamp: timestamp));
+
   SongEntity setTrackVolume(int index, int volume) {
     final track = tracks[index].rebuild((b) => b..volume = volume);
     return rebuild((b) => b..tracks[index] = track);
@@ -108,7 +133,8 @@ abstract class SongEntity extends Object
 }
 
 abstract class TrackEntity extends Object
-    with BaseEntity implements Built<TrackEntity, TrackEntityBuilder> {
+    with BaseEntity
+    implements Built<TrackEntity, TrackEntityBuilder> {
   factory TrackEntity({int id, int orderId, VideoEntity video}) {
     return _$TrackEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
@@ -137,7 +163,8 @@ abstract class TrackEntity extends Object
 }
 
 abstract class VideoEntity extends Object
-    with BaseEntity implements Built<VideoEntity, VideoEntityBuilder> {
+    with BaseEntity
+    implements Built<VideoEntity, VideoEntityBuilder> {
   factory VideoEntity({int id}) {
     return _$VideoEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
@@ -158,6 +185,9 @@ abstract class VideoEntity extends Object
   String get listDisplayName {
     return timestamp.toString();
   }
+
+  bool matchesKey({int userId, int timestamp}) =>
+      userId == this.userId && timestamp == this.timestamp;
 
   static Serializer<VideoEntity> get serializer => _$videoEntitySerializer;
 }

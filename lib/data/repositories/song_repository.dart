@@ -31,7 +31,7 @@ class SongRepository {
     return songResponse.data;
   }
 
-  Future<SongEntity> saveData(
+  Future<SongEntity> saveSong(
       AuthState auth, SongEntity song,
       [EntityAction action]) async {
     final data = serializers.serializeWith(SongEntity.serializer, song);
@@ -50,6 +50,29 @@ class SongRepository {
 
     final SongItemResponse songResponse =
     serializers.deserializeWith(SongItemResponse.serializer, response);
+
+    return songResponse.data;
+  }
+
+  Future<VideoEntity> saveVideo(
+      AuthState auth, VideoEntity video,
+      [EntityAction action]) async {
+    final data = serializers.serializeWith(VideoEntity.serializer, video);
+    dynamic response;
+
+    if (video.isNew) {
+      response = await webClient.post(
+          kAppURL + '/videos', auth.token, json.encode(data));
+    } else {
+      var url = kAppURL + '/videos/' + video.id.toString();
+      if (action != null) {
+        url += '?action=' + action.toString();
+      }
+      response = await webClient.put(url, auth.token, json.encode(data));
+    }
+
+    final VideoItemResponse songResponse =
+    serializers.deserializeWith(VideoItemResponse.serializer, response);
 
     return songResponse.data;
   }

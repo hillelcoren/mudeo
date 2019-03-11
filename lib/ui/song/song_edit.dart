@@ -211,7 +211,7 @@ class _SongEditState extends State<SongEdit> {
                                 final index = videos.indexOf(videoPlayer);
                                 final song = viewModel.song
                                     .rebuild((b) => b..tracks.removeAt(index));
-                                viewModel.onSongChanged(song);
+                                viewModel.onChangedSong(song);
                                 setState(() {
                                   videos.remove(videoPlayer);
                                   if (videos.isEmpty) {
@@ -337,7 +337,7 @@ class TrackEditDialog extends StatelessWidget {
                               video.setVolume(lowerValue / 100);
                               final song = viewModel.song
                                   .setTrackVolume(index, lowerValue.toInt());
-                              viewModel.onSongChanged(song);
+                              viewModel.onChangedSong(song);
                             },
                           ),
                         ),

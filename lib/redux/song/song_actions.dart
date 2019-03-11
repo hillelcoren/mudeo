@@ -67,6 +67,19 @@ class SaveSongSuccess implements StopSaving, PersistData, PersistUI {
   final SongEntity song;
 }
 
+class SaveVideoSuccess implements StopSaving, PersistData, PersistUI {
+  SaveVideoSuccess({this.song, this.video});
+
+  final SongEntity song;
+  final VideoEntity video;
+}
+
+class SaveVideoFailure implements StopSaving, PersistData, PersistUI {
+  SaveVideoFailure(this.error);
+
+  final Object error;
+}
+
 class AddSongSuccess implements StopSaving, PersistData, PersistUI {
   AddSongSuccess(this.song);
 
