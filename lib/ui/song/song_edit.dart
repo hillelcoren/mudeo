@@ -268,7 +268,7 @@ class TrackView extends StatelessWidget {
             });
       },
       child: Card(
-          elevation: 50,
+          elevation: 5,
           margin: const EdgeInsets.symmetric(horizontal: 6),
           child:
               AspectRatio(aspectRatio: aspectRatio, child: VideoPlayer(video))),

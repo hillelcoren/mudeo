@@ -133,34 +133,12 @@ class SocialIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconData iconData;
-    switch (type) {
-      case kLinkTypeFacebook:
-        iconData = FontAwesomeIcons.facebook;
-        break;
-      case kLinkTypeYouTube:
-        iconData = FontAwesomeIcons.youtube;
-        break;
-      case kLinkTypeInstagram:
-        iconData = FontAwesomeIcons.instagram;
-        break;
-      case kLinkTypeTwitch:
-        iconData = FontAwesomeIcons.twitch;
-        break;
-      case kLinkTypeTwitter:
-        iconData = FontAwesomeIcons.twitter;
-        break;
-      case kLinkTypeSoundCloud:
-        iconData = FontAwesomeIcons.soundcloud;
-        break;
-    }
-
     return IconButton(
       onPressed: () {
         launch(url, forceSafariVC: false);
       },
       tooltip: type,
-      icon: Icon(iconData, size: 30),
+      icon: Icon(socialIcons[type], size: 30),
     );
   }
 }

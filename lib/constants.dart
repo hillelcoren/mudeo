@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const String kAppVersion = '0.0.1';
 const String kAppURL = 'https://mudeo.app/api';
@@ -28,7 +29,7 @@ const int kTabProfile = 2;
 const String kLinkTypeFacebook = 'Facebook';
 const String kLinkTypeYouTube = 'YouTube';
 const String kLinkTypeInstagram = 'Instagram';
-const String kLinkTypeSoundCloud = 'SoundCloud';
+const String kLinkTypeSoundcloud = 'SoundCloud';
 const String kLinkTypeTwitch = 'Twitch';
 const String kLinkTypeTwitter = 'Twitter';
 const String kLinkTypeWebsite = 'Website';
@@ -95,4 +96,14 @@ const Map<int, MaterialAccentColor> kGenreColors = {
   17: Colors.deepPurpleAccent,
   18: Colors.lightBlueAccent,
   19: Colors.tealAccent,
+};
+
+const Map<String, IconData> socialIcons = {
+  kLinkTypeFacebook: FontAwesomeIcons.facebook,
+  kLinkTypeYouTube: FontAwesomeIcons.youtube,
+  kLinkTypeInstagram: FontAwesomeIcons.instagram,
+  kLinkTypeTwitch: FontAwesomeIcons.twitch,
+  kLinkTypeTwitter: FontAwesomeIcons.twitter,
+  kLinkTypeSoundcloud: FontAwesomeIcons.soundcloud,
+  kLinkTypeWebsite: FontAwesomeIcons.globe,
 };

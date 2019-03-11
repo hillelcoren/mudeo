@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
@@ -25,6 +26,13 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _handleController = TextEditingController();
+  final _twitterController = TextEditingController();
+  final _facebookController = TextEditingController();
+  final _instagramController = TextEditingController();
+  final _youtubeController = TextEditingController();
+  final _twitchController = TextEditingController();
+  final _soundCloudController = TextEditingController();
+  final _websiteController = TextEditingController();
   List<TextEditingController> _controllers = [];
 
   @override
@@ -38,6 +46,13 @@ class _ArtistSettingsState extends State<ArtistSettings> {
       _lastNameController,
       _emailController,
       _handleController,
+      _twitchController,
+      _facebookController,
+      _instagramController,
+      _youtubeController,
+      _twitterController,
+      _soundCloudController,
+      _websiteController,
     ];
 
     _controllers
@@ -90,7 +105,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
-
+    print('BOTTOM: ${MediaQuery.of(context).viewInsets.bottom}');
     return Scaffold(
       appBar: AppBar(
         title: Text(localization.profile),
@@ -102,109 +117,125 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         ],
       ),
       body: Material(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 60),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: <Widget>[
-                FormCard(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _firstNameController,
-                      decoration: InputDecoration(
-                        labelText: localization.firstName,
-                      ),
-                      validator: (value) =>
-                          value.isEmpty ? localization.fieldIsRequired : null,
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: <Widget>[
+              FormCard(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _firstNameController,
+                    decoration: InputDecoration(
+                      labelText: localization.firstName,
                     ),
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _lastNameController,
-                      decoration: InputDecoration(
-                        labelText: localization.lastName,
-                      ),
-                      validator: (value) =>
-                          value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: localization.email,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) =>
-                          value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _handleController,
-                      decoration: InputDecoration(
-                        labelText: localization.handle,
-                      ),
-                      validator: (value) =>
-                          value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                  ],
-                ),
-                FormCard(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _firstNameController,
-                      decoration: InputDecoration(
-                        labelText: localization.firstName,
-                      ),
-                      validator: (value) =>
-                      value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _lastNameController,
-                      decoration: InputDecoration(
-                        labelText: localization.lastName,
-                      ),
-                      validator: (value) =>
-                      value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        labelText: localization.email,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) =>
-                      value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _handleController,
-                      decoration: InputDecoration(
-                        labelText: localization.handle,
-                      ),
-                      validator: (value) =>
-                      value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
-                  child: ElevatedButton(
-                    width: double.infinity,
-                    label: localization.logout,
-                    onPressed: () => viewModel.onLogoutPressed(context),
+                    validator: (value) =>
+                        value.isEmpty ? localization.fieldIsRequired : null,
                   ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _lastNameController,
+                    decoration: InputDecoration(
+                      labelText: localization.lastName,
+                    ),
+                    validator: (value) =>
+                        value.isEmpty ? localization.fieldIsRequired : null,
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: localization.email,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) =>
+                        value.isEmpty ? localization.fieldIsRequired : null,
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _handleController,
+                    decoration: InputDecoration(
+                      labelText: localization.handle,
+                    ),
+                    validator: (value) =>
+                        value.isEmpty ? localization.fieldIsRequired : null,
+                  ),
+                ],
+              ),
+              FormCard(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _websiteController,
+                    decoration: InputDecoration(
+                      labelText: localization.website,
+                      icon: Icon(socialIcons[kLinkTypeWebsite]),
+                    ),
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _youtubeController,
+                    decoration: InputDecoration(
+                      labelText: 'YouTube',
+                      icon: Icon(socialIcons[kLinkTypeYouTube]),
+                    ),
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _facebookController,
+                    decoration: InputDecoration(
+                      labelText: 'Facebook',
+                      icon: Icon(socialIcons[kLinkTypeFacebook]),
+                    ),
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _instagramController,
+                    decoration: InputDecoration(
+                      labelText: 'Instagram',
+                      icon: Icon(socialIcons[kLinkTypeInstagram]),
+                    ),
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _twitterController,
+                    decoration: InputDecoration(
+                      labelText: 'Twitter',
+                      icon: Icon(socialIcons[kLinkTypeTwitter]),
+                    ),
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _twitchController,
+                    decoration: InputDecoration(
+                      labelText: 'Twitch',
+                      icon: Icon(socialIcons[kLinkTypeTwitch]),
+                    ),
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    controller: _soundCloudController,
+                    decoration: InputDecoration(
+                      labelText: 'SoundCloud',
+                      icon: Icon(socialIcons[kLinkTypeSoundcloud]),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                child: ElevatedButton(
+                  width: double.infinity,
+                  label: localization.logout,
+                  onPressed: () => viewModel.onLogoutPressed(context),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

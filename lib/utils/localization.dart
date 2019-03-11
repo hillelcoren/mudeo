@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'website': 'Website',
       'logout': 'Logout',
       'first_name': 'First Name',
       'last_name': 'Last Name',
@@ -92,6 +93,8 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get website => _localizedValues[locale.toString()]['website'];
 
   String get firstName => _localizedValues[locale.toString()]['first_name'];
 

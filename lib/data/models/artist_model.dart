@@ -97,7 +97,7 @@ abstract class ArtistEntity
       data[kLinkTypeInstagram] = instagramURL;
     }
     if (soundCloudURL != null && soundCloudURL.isNotEmpty) {
-      data[kLinkTypeSoundCloud] = soundCloudURL;
+      data[kLinkTypeSoundcloud] = soundCloudURL;
     }
     if (twitchURL != null && twitchURL.isNotEmpty) {
       data[kLinkTypeTwitch] = twitchURL;
