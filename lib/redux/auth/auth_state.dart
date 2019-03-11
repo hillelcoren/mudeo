@@ -1,45 +1,36 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/data/models/artist_model.dart';
 
 part 'auth_state.g.dart';
 
 abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
   factory AuthState() {
     return _$AuthState._(
-      userId: 0,
-      email: '',
-      password: '',
-      token: '',
+      artist: ArtistEntity(),
       isAuthenticated: false,
       isInitialized: false,
+      wasAuthenticated: false,
     );
   }
 
   AuthState._();
 
-  int get userId;
-
-  String get token;
-
-  String get email;
-
-  String get password;
+  ArtistEntity get artist;
 
   bool get isInitialized;
 
   bool get isAuthenticated;
 
+  bool get wasAuthenticated;
+
   @nullable
   String get error;
 
   AuthState get reset => rebuild((b) => b
-    ..userId = 0
-    ..token = null
-    ..error = null
-    ..password = null
+    ..artist.replace(ArtistEntity())
     ..isInitialized = true
     ..isAuthenticated = false);
 
-  //factory AuthState([void updates(AuthStateBuilder b)]) = _$AuthState;
   static Serializer<AuthState> get serializer => _$authStateSerializer;
 }

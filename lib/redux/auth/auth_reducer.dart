@@ -11,38 +11,31 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, ClearAuthError>(clearAuthErrorReducer),
 ]);
 
-AuthState clearAuthErrorReducer(
-    AuthState authState, ClearAuthError action) {
+AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
   return authState.rebuild((b) => b..error = null);
 }
 
 AuthState userLoginLoadedReducer(AuthState authState, UserLoginLoaded action) {
-  return authState.rebuild((b) => b
-    ..isInitialized = true
-    ..email = action.email ?? '');
+  return authState.rebuild((b) => b..isInitialized = true);
 }
 
 AuthState userLoginRequestReducer(
     AuthState authState, UserLoginRequest action) {
-  return authState.rebuild((b) => b
-    ..error = null
-    ..email = action.email
-    ..password = action.password);
+  return authState.rebuild((b) => b..error = null);
 }
 
 AuthState oauthLoginRequestReducer(
     AuthState authState, OAuthLoginRequest action) {
-  return authState.rebuild((b) => b
-    ..error = null);
+  return authState.rebuild((b) => b..error = null);
 }
 
 AuthState userLoginSuccessReducer(
     AuthState authState, UserLoginSuccess action) {
   return authState.rebuild((b) => b
-    ..userId = action.artist.id
-    ..token = action.artist.token
+    ..artist.replace(action.artist)
+    ..error = null
     ..isAuthenticated = true
-    ..password = '');
+    ..wasAuthenticated = true);
 }
 
 AuthState userLoginFailureReducer(

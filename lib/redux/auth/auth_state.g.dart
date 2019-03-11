@@ -31,22 +31,17 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
   Iterable serialize(Serializers serializers, AuthState object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'userId',
-      serializers.serialize(object.userId, specifiedType: const FullType(int)),
-      'token',
-      serializers.serialize(object.token,
-          specifiedType: const FullType(String)),
-      'email',
-      serializers.serialize(object.email,
-          specifiedType: const FullType(String)),
-      'password',
-      serializers.serialize(object.password,
-          specifiedType: const FullType(String)),
+      'artist',
+      serializers.serialize(object.artist,
+          specifiedType: const FullType(ArtistEntity)),
       'isInitialized',
       serializers.serialize(object.isInitialized,
           specifiedType: const FullType(bool)),
       'isAuthenticated',
       serializers.serialize(object.isAuthenticated,
+          specifiedType: const FullType(bool)),
+      'wasAuthenticated',
+      serializers.serialize(object.wasAuthenticated,
           specifiedType: const FullType(bool)),
     ];
     if (object.error != null) {
@@ -70,21 +65,9 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'userId':
-          result.userId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
-          break;
-        case 'token':
-          result.token = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'email':
-          result.email = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'password':
-          result.password = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+        case 'artist':
+          result.artist.replace(serializers.deserialize(value,
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
           break;
         case 'isInitialized':
           result.isInitialized = serializers.deserialize(value,
@@ -92,6 +75,10 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
           break;
         case 'isAuthenticated':
           result.isAuthenticated = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'wasAuthenticated':
+          result.wasAuthenticated = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
         case 'error':
@@ -107,17 +94,13 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
 
 class _$AuthState extends AuthState {
   @override
-  final int userId;
-  @override
-  final String token;
-  @override
-  final String email;
-  @override
-  final String password;
+  final ArtistEntity artist;
   @override
   final bool isInitialized;
   @override
   final bool isAuthenticated;
+  @override
+  final bool wasAuthenticated;
   @override
   final String error;
 
@@ -125,31 +108,23 @@ class _$AuthState extends AuthState {
       (new AuthStateBuilder()..update(updates)).build();
 
   _$AuthState._(
-      {this.userId,
-      this.token,
-      this.email,
-      this.password,
+      {this.artist,
       this.isInitialized,
       this.isAuthenticated,
+      this.wasAuthenticated,
       this.error})
       : super._() {
-    if (userId == null) {
-      throw new BuiltValueNullFieldError('AuthState', 'userId');
-    }
-    if (token == null) {
-      throw new BuiltValueNullFieldError('AuthState', 'token');
-    }
-    if (email == null) {
-      throw new BuiltValueNullFieldError('AuthState', 'email');
-    }
-    if (password == null) {
-      throw new BuiltValueNullFieldError('AuthState', 'password');
+    if (artist == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'artist');
     }
     if (isInitialized == null) {
       throw new BuiltValueNullFieldError('AuthState', 'isInitialized');
     }
     if (isAuthenticated == null) {
       throw new BuiltValueNullFieldError('AuthState', 'isAuthenticated');
+    }
+    if (wasAuthenticated == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'wasAuthenticated');
     }
   }
 
@@ -164,12 +139,10 @@ class _$AuthState extends AuthState {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is AuthState &&
-        userId == other.userId &&
-        token == other.token &&
-        email == other.email &&
-        password == other.password &&
+        artist == other.artist &&
         isInitialized == other.isInitialized &&
         isAuthenticated == other.isAuthenticated &&
+        wasAuthenticated == other.wasAuthenticated &&
         error == other.error;
   }
 
@@ -177,25 +150,19 @@ class _$AuthState extends AuthState {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc(
-                $jc(
-                    $jc($jc($jc(0, userId.hashCode), token.hashCode),
-                        email.hashCode),
-                    password.hashCode),
-                isInitialized.hashCode),
-            isAuthenticated.hashCode),
+            $jc($jc($jc(0, artist.hashCode), isInitialized.hashCode),
+                isAuthenticated.hashCode),
+            wasAuthenticated.hashCode),
         error.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AuthState')
-          ..add('userId', userId)
-          ..add('token', token)
-          ..add('email', email)
-          ..add('password', password)
+          ..add('artist', artist)
           ..add('isInitialized', isInitialized)
           ..add('isAuthenticated', isAuthenticated)
+          ..add('wasAuthenticated', wasAuthenticated)
           ..add('error', error))
         .toString();
   }
@@ -204,21 +171,10 @@ class _$AuthState extends AuthState {
 class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   _$AuthState _$v;
 
-  int _userId;
-  int get userId => _$this._userId;
-  set userId(int userId) => _$this._userId = userId;
-
-  String _token;
-  String get token => _$this._token;
-  set token(String token) => _$this._token = token;
-
-  String _email;
-  String get email => _$this._email;
-  set email(String email) => _$this._email = email;
-
-  String _password;
-  String get password => _$this._password;
-  set password(String password) => _$this._password = password;
+  ArtistEntityBuilder _artist;
+  ArtistEntityBuilder get artist =>
+      _$this._artist ??= new ArtistEntityBuilder();
+  set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
 
   bool _isInitialized;
   bool get isInitialized => _$this._isInitialized;
@@ -230,6 +186,11 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   set isAuthenticated(bool isAuthenticated) =>
       _$this._isAuthenticated = isAuthenticated;
 
+  bool _wasAuthenticated;
+  bool get wasAuthenticated => _$this._wasAuthenticated;
+  set wasAuthenticated(bool wasAuthenticated) =>
+      _$this._wasAuthenticated = wasAuthenticated;
+
   String _error;
   String get error => _$this._error;
   set error(String error) => _$this._error = error;
@@ -238,12 +199,10 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
 
   AuthStateBuilder get _$this {
     if (_$v != null) {
-      _userId = _$v.userId;
-      _token = _$v.token;
-      _email = _$v.email;
-      _password = _$v.password;
+      _artist = _$v.artist?.toBuilder();
       _isInitialized = _$v.isInitialized;
       _isAuthenticated = _$v.isAuthenticated;
+      _wasAuthenticated = _$v.wasAuthenticated;
       _error = _$v.error;
       _$v = null;
     }
@@ -265,15 +224,26 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
 
   @override
   _$AuthState build() {
-    final _$result = _$v ??
-        new _$AuthState._(
-            userId: userId,
-            token: token,
-            email: email,
-            password: password,
-            isInitialized: isInitialized,
-            isAuthenticated: isAuthenticated,
-            error: error);
+    _$AuthState _$result;
+    try {
+      _$result = _$v ??
+          new _$AuthState._(
+              artist: artist.build(),
+              isInitialized: isInitialized,
+              isAuthenticated: isAuthenticated,
+              wasAuthenticated: wasAuthenticated,
+              error: error);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'artist';
+        artist.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'AuthState', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

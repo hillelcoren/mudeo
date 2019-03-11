@@ -23,7 +23,7 @@ class SongRepository {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
     }
 
-    final dynamic response = await webClient.get(url, auth.token);
+    final dynamic response = await webClient.get(url, auth.artist.token);
 
     final SongListResponse songResponse =
         serializers.deserializeWith(SongListResponse.serializer, response);
@@ -37,14 +37,14 @@ class SongRepository {
     dynamic response;
 
     if (song.isNew) {
-      response = await webClient.post(kAppURL + '/songs', auth.token,
+      response = await webClient.post(kAppURL + '/songs', auth.artist.token,
           data: json.encode(data));
     } else {
       var url = kAppURL + '/songs/' + song.id.toString();
       if (action != null) {
         url += '?action=' + action.toString();
       }
-      response = await webClient.put(url, auth.token, json.encode(data));
+      response = await webClient.put(url, auth.artist.token, json.encode(data));
     }
 
     final SongItemResponse songResponse =
@@ -59,14 +59,14 @@ class SongRepository {
     dynamic response;
 
     if (video.isNew) {
-      response = await webClient.post(kAppURL + '/videos', auth.token,
+      response = await webClient.post(kAppURL + '/videos', auth.artist.token,
           filePath: await VideoEntity.getPath(video.timestamp));
     } else {
       var url = kAppURL + '/videos/' + video.id.toString();
       if (action != null) {
         url += '?action=' + action.toString();
       }
-      response = await webClient.put(url, auth.token, json.encode(data));
+      response = await webClient.put(url, auth.artist.token, json.encode(data));
     }
 
     final VideoItemResponse songResponse =
