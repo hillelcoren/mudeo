@@ -10,7 +10,6 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
-import 'package:mudeo/ui/artist/artist_settings_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:url_launcher/url_launcher.dart';

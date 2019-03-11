@@ -11,6 +11,7 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, EditSong>(editSongReducer),
   TypedReducer<UIState, UpdateTabIndex>(mainTabChangedReducer),
   TypedReducer<UIState, SaveVideoSuccess>(saveVideoReducer),
+  TypedReducer<UIState, EditArtist>(editArtistReducer),
   TypedReducer<UIState, UpdateArtist>(updateArtistReducer),
 ]);
 
@@ -57,6 +58,11 @@ UIState editSongReducer(UIState uiState, EditSong action) {
     ..song.replace(action.song));
 }
 
+
+UIState editArtistReducer(UIState uiState, EditArtist action) {
+  return uiState.rebuild((b) => b
+    ..artist.replace(action.artist));
+}
 
 UIState updateArtistReducer(UIState uiState, UpdateArtist action) {
   return uiState.rebuild((b) => b

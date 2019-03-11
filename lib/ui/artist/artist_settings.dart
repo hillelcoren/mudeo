@@ -79,12 +79,12 @@ class _ArtistSettingsState extends State<ArtistSettings> {
 
   void _onChanged() {
     final viewModel = widget.viewModel;
-    final authState = viewModel.state.authState;
+    final uiState = viewModel.state.uiState;
 
-    final artist = authState.artist
+    final artist = uiState.artist
         .rebuild((b) => b..handle = _handleController.text.trim());
 
-    if (artist != authState.artist) {
+    if (artist != uiState.artist) {
       viewModel.onChangedArtist(artist);
     }
   }
