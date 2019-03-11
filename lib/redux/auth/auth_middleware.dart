@@ -61,9 +61,11 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
             platform: action.platform,
             oneTimePassword: action.oneTimePassword)
         .then((ArtistEntity artist) {
+      if (artist.token == null) {
+        //throw 'Error: token is blank';
+      }
       _saveAuthLocal(artist);
       store.dispatch(UserLoginSuccess(artist));
-
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);

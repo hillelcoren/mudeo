@@ -31,11 +31,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   @override
   Iterable serialize(Serializers serializers, ArtistEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'token',
-      serializers.serialize(object.token,
-          specifiedType: const FullType(String)),
-    ];
+    final result = <Object>[];
     if (object.firstName != null) {
       result
         ..add('first_name')
@@ -58,6 +54,12 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
       result
         ..add('email')
         ..add(serializers.serialize(object.email,
+            specifiedType: const FullType(String)));
+    }
+    if (object.token != null) {
+      result
+        ..add('token')
+        ..add(serializers.serialize(object.token,
             specifiedType: const FullType(String)));
     }
     if (object.description != null) {
@@ -240,11 +242,7 @@ class _$ArtistEntity extends ArtistEntity {
       this.soundCloudURL,
       this.website,
       this.id})
-      : super._() {
-    if (token == null) {
-      throw new BuiltValueNullFieldError('ArtistEntity', 'token');
-    }
-  }
+      : super._();
 
   @override
   ArtistEntity rebuild(void updates(ArtistEntityBuilder b)) =>

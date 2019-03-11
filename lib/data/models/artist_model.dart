@@ -43,6 +43,7 @@ abstract class ArtistEntity
   @nullable
   String get email;
 
+  @nullable
   String get token;
 
   @nullable
