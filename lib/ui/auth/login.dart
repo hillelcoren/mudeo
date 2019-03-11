@@ -282,6 +282,7 @@ class _LoginState extends State<LoginScreen> {
                           ),
                         ),
                   ProgressButton(
+                    width: double.infinity,
                     padding: EdgeInsets.only(top: 12, bottom: 12),
                     isLoading: viewModel.isLoading,
                     label:

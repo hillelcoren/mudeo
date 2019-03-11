@@ -1,7 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
+import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 
@@ -78,7 +77,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final song = widget.viewModel.song;
+    final viewModel = widget.viewModel;
+    final song = viewModel.song;
 
     return Padding(
       padding: EdgeInsets.all(16.0),
@@ -100,7 +100,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                         labelText: localization.title,
                       ),
                       validator: (value) =>
-                      value.isEmpty ? localization.fieldIsRequired : null,
+                          value.isEmpty ? localization.fieldIsRequired : null,
                     ),
                     TextFormField(
                       autocorrect: false,
@@ -133,7 +133,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                           SizedBox(
                             width: 8,
                           ),
-                          ElevatedButton(
+                          ProgressButton(
+                            isLoading: viewModel.state.isSaving,
                             onPressed: () => _onSubmit(),
                             label: song.isNew
                                 ? localization.upload
