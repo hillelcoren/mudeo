@@ -5,7 +5,7 @@ import 'package:mudeo/data/models/entities.dart';
 
 part 'artist_model.g.dart';
 
-abstract class ArtistEntity
+abstract class ArtistEntity extends Object with BaseEntity
     implements SelectableEntity, Built<ArtistEntity, ArtistEntityBuilder> {
   factory ArtistEntity({int id}) {
     return _$ArtistEntity._(
@@ -113,4 +113,17 @@ abstract class ArtistEntity
   }
 
   static Serializer<ArtistEntity> get serializer => _$artistEntitySerializer;
+}
+
+abstract class ArtistItemResponse
+    implements Built<ArtistItemResponse, ArtistItemResponseBuilder> {
+  factory ArtistItemResponse([void updates(ArtistItemResponseBuilder b)]) =
+  _$ArtistItemResponse;
+
+  ArtistItemResponse._();
+
+  ArtistEntity get data;
+
+  static Serializer<ArtistItemResponse> get serializer =>
+      _$artistItemResponseSerializer;
 }

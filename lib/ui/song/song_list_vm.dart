@@ -72,13 +72,6 @@ class SongListVM {
       songIds: state.dataState.songMap.keys.toList(),
       isLoaded: state.dataState.areSongsLoaded,
       onArtistTap: (context, artist) {
-        Navigator.of(context).push(
-          CupertinoPageRoute<void>(
-            builder: (BuildContext context) {
-              return ArtistPage(artist: artist);
-            },
-          ),
-        );
       },
       onSongEdit: (context, song) {
         final localization = AppLocalization.of(context);

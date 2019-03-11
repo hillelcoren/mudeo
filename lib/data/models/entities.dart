@@ -52,44 +52,6 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
       songsUpdateAt: 0,
       songMap: BuiltMap<int, SongEntity>(),
       artistMap: BuiltMap<int, ArtistEntity>(),
-      /*
-        songMap: BuiltMap({
-          1: SongEntity().rebuild((b) => b
-            ..title = 'test 1'
-            ..artistId = 1
-            ..genreId = 12
-            ..duration = 20
-            ..playCount = 50
-            ..likeCount = 10
-            ..description =
-                'This is a test description of the song. Some more words to make it longs and some more.'
-            ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
-          2: SongEntity().rebuild((b) => b
-            ..title = 'test 2'
-            ..artistId = 2
-            ..genreId = 8
-            ..playCount = 100
-            ..likes = 80
-            ..tracks.replace([
-              TrackEntity(),
-              TrackEntity(),
-              TrackEntity(),
-              TrackEntity(),
-              TrackEntity()
-            ])),
-          3: SongEntity().rebuild((b) => b
-            ..title = 'test 1'
-            ..artistId = 1
-            ..genreId = 1
-            ..description =
-                'This is a test description of the song. Some more words to make it longs and some more.'
-            ..tracks.replace([TrackEntity(), TrackEntity(), TrackEntity()])),
-        }),
-        artistMap: BuiltMap({
-          1: ArtistEntity().rebuild((b) => b..handle = 'first'),
-          2: ArtistEntity().rebuild((b) => b..handle = 'second'),
-        })
-        */
     );
   }
 
@@ -122,9 +84,7 @@ abstract class SelectableEntity {
   String get listDisplayName => 'Error: listDisplayName not set';
 }
 
-
 class EntityAction extends EnumClass {
-
   const EntityAction._(String name) : super(name);
 
   static Serializer<EntityAction> get serializer => _$entityActionSerializer;
@@ -132,9 +92,9 @@ class EntityAction extends EnumClass {
   static const EntityAction like = _$like;
 
   static BuiltSet<EntityAction> get values => _$values;
+
   static EntityAction valueOf(String name) => _$valueOf(name);
 }
-
 
 abstract class BaseEntity implements SelectableEntity {
   /*
@@ -157,7 +117,7 @@ abstract class BaseEntity implements SelectableEntity {
 
   bool get isNew => id == null || id < 0;
 
-  /*
+/*
   List<EntityAction> getBaseActions({UserEntity user}) {
     final actions = <EntityAction>[];
 

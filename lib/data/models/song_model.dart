@@ -10,45 +10,6 @@ import 'package:path_provider/path_provider.dart';
 
 part 'song_model.g.dart';
 
-abstract class SongListResponse
-    implements Built<SongListResponse, SongListResponseBuilder> {
-  factory SongListResponse([void updates(SongListResponseBuilder b)]) =
-      _$SongListResponse;
-
-  SongListResponse._();
-
-  BuiltList<SongEntity> get data;
-
-  static Serializer<SongListResponse> get serializer =>
-      _$songListResponseSerializer;
-}
-
-abstract class SongItemResponse
-    implements Built<SongItemResponse, SongItemResponseBuilder> {
-  factory SongItemResponse([void updates(SongItemResponseBuilder b)]) =
-      _$SongItemResponse;
-
-  SongItemResponse._();
-
-  SongEntity get data;
-
-  static Serializer<SongItemResponse> get serializer =>
-      _$songItemResponseSerializer;
-}
-
-abstract class VideoItemResponse
-    implements Built<VideoItemResponse, VideoItemResponseBuilder> {
-  factory VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =
-      _$VideoItemResponse;
-
-  VideoItemResponse._();
-
-  VideoEntity get data;
-
-  static Serializer<VideoItemResponse> get serializer =>
-      _$videoItemResponseSerializer;
-}
-
 abstract class SongEntity extends Object
     with BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
@@ -194,3 +155,43 @@ abstract class VideoEntity extends Object
 
   static Serializer<VideoEntity> get serializer => _$videoEntitySerializer;
 }
+
+abstract class SongListResponse
+    implements Built<SongListResponse, SongListResponseBuilder> {
+  factory SongListResponse([void updates(SongListResponseBuilder b)]) =
+  _$SongListResponse;
+
+  SongListResponse._();
+
+  BuiltList<SongEntity> get data;
+
+  static Serializer<SongListResponse> get serializer =>
+      _$songListResponseSerializer;
+}
+
+abstract class SongItemResponse
+    implements Built<SongItemResponse, SongItemResponseBuilder> {
+  factory SongItemResponse([void updates(SongItemResponseBuilder b)]) =
+  _$SongItemResponse;
+
+  SongItemResponse._();
+
+  SongEntity get data;
+
+  static Serializer<SongItemResponse> get serializer =>
+      _$songItemResponseSerializer;
+}
+
+abstract class VideoItemResponse
+    implements Built<VideoItemResponse, VideoItemResponseBuilder> {
+  factory VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =
+  _$VideoItemResponse;
+
+  VideoItemResponse._();
+
+  VideoEntity get data;
+
+  static Serializer<VideoItemResponse> get serializer =>
+      _$videoItemResponseSerializer;
+}
+

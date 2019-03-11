@@ -2,6 +2,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
+import 'package:mudeo/redux/artist/artist_middleware.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_middleware.dart';
@@ -32,6 +33,7 @@ void main() async {
       middleware: []
         ..addAll(createStoreAuthMiddleware())
         ..addAll(createStoreSongsMiddleware())
+        ..addAll(createStoreArtistsMiddleware())
         ..addAll(createStorePersistenceMiddleware())
         ..addAll([
           LoggingMiddleware<dynamic>.printer(),

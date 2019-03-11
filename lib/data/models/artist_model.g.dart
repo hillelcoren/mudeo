@@ -21,6 +21,8 @@ part of 'artist_model.dart';
 
 Serializer<ArtistEntity> _$artistEntitySerializer =
     new _$ArtistEntitySerializer();
+Serializer<ArtistItemResponse> _$artistItemResponseSerializer =
+    new _$ArtistItemResponseSerializer();
 
 class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   @override
@@ -116,6 +118,18 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -187,6 +201,55 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ArtistItemResponseSerializer
+    implements StructuredSerializer<ArtistItemResponse> {
+  @override
+  final Iterable<Type> types = const [ArtistItemResponse, _$ArtistItemResponse];
+  @override
+  final String wireName = 'ArtistItemResponse';
+
+  @override
+  Iterable serialize(Serializers serializers, ArtistItemResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(ArtistEntity)),
+    ];
+
+    return result;
+  }
+
+  @override
+  ArtistItemResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ArtistItemResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
+          break;
       }
     }
 
@@ -223,6 +286,10 @@ class _$ArtistEntity extends ArtistEntity {
   final String website;
   @override
   final int id;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
 
   factory _$ArtistEntity([void updates(ArtistEntityBuilder b)]) =>
       (new ArtistEntityBuilder()..update(updates)).build();
@@ -241,7 +308,9 @@ class _$ArtistEntity extends ArtistEntity {
       this.twitchURL,
       this.soundCloudURL,
       this.website,
-      this.id})
+      this.id,
+      this.deletedAt,
+      this.updatedAt})
       : super._();
 
   @override
@@ -268,7 +337,9 @@ class _$ArtistEntity extends ArtistEntity {
         twitchURL == other.twitchURL &&
         soundCloudURL == other.soundCloudURL &&
         website == other.website &&
-        id == other.id;
+        id == other.id &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt;
   }
 
   @override
@@ -286,21 +357,28 @@ class _$ArtistEntity extends ArtistEntity {
                                             $jc(
                                                 $jc(
                                                     $jc(
-                                                        $jc(0,
-                                                            firstName.hashCode),
-                                                        lastName.hashCode),
-                                                    handle.hashCode),
-                                                email.hashCode),
-                                            token.hashCode),
-                                        description.hashCode),
-                                    twitterURL.hashCode),
-                                facebookURL.hashCode),
-                            instagramURL.hashCode),
-                        youTubeURL.hashCode),
-                    twitchURL.hashCode),
-                soundCloudURL.hashCode),
-            website.hashCode),
-        id.hashCode));
+                                                        $jc(
+                                                            $jc(
+                                                                $jc(
+                                                                    0,
+                                                                    firstName
+                                                                        .hashCode),
+                                                                lastName
+                                                                    .hashCode),
+                                                            handle.hashCode),
+                                                        email.hashCode),
+                                                    token.hashCode),
+                                                description.hashCode),
+                                            twitterURL.hashCode),
+                                        facebookURL.hashCode),
+                                    instagramURL.hashCode),
+                                youTubeURL.hashCode),
+                            twitchURL.hashCode),
+                        soundCloudURL.hashCode),
+                    website.hashCode),
+                id.hashCode),
+            deletedAt.hashCode),
+        updatedAt.hashCode));
   }
 
   @override
@@ -319,7 +397,9 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('twitchURL', twitchURL)
           ..add('soundCloudURL', soundCloudURL)
           ..add('website', website)
-          ..add('id', id))
+          ..add('id', id)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt))
         .toString();
   }
 }
@@ -385,6 +465,14 @@ class ArtistEntityBuilder
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
 
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
   ArtistEntityBuilder();
 
   ArtistEntityBuilder get _$this {
@@ -403,6 +491,8 @@ class ArtistEntityBuilder
       _soundCloudURL = _$v.soundCloudURL;
       _website = _$v.website;
       _id = _$v.id;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
       _$v = null;
     }
     return this;
@@ -438,7 +528,101 @@ class ArtistEntityBuilder
             twitchURL: twitchURL,
             soundCloudURL: soundCloudURL,
             website: website,
-            id: id);
+            id: id,
+            deletedAt: deletedAt,
+            updatedAt: updatedAt);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ArtistItemResponse extends ArtistItemResponse {
+  @override
+  final ArtistEntity data;
+
+  factory _$ArtistItemResponse([void updates(ArtistItemResponseBuilder b)]) =>
+      (new ArtistItemResponseBuilder()..update(updates)).build();
+
+  _$ArtistItemResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('ArtistItemResponse', 'data');
+    }
+  }
+
+  @override
+  ArtistItemResponse rebuild(void updates(ArtistItemResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ArtistItemResponseBuilder toBuilder() =>
+      new ArtistItemResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ArtistItemResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ArtistItemResponse')
+          ..add('data', data))
+        .toString();
+  }
+}
+
+class ArtistItemResponseBuilder
+    implements Builder<ArtistItemResponse, ArtistItemResponseBuilder> {
+  _$ArtistItemResponse _$v;
+
+  ArtistEntityBuilder _data;
+  ArtistEntityBuilder get data => _$this._data ??= new ArtistEntityBuilder();
+  set data(ArtistEntityBuilder data) => _$this._data = data;
+
+  ArtistItemResponseBuilder();
+
+  ArtistItemResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ArtistItemResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ArtistItemResponse;
+  }
+
+  @override
+  void update(void updates(ArtistItemResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ArtistItemResponse build() {
+    _$ArtistItemResponse _$result;
+    try {
+      _$result = _$v ?? new _$ArtistItemResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'ArtistItemResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

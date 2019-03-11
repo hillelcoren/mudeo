@@ -22,6 +22,7 @@ part of 'serializers.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AppState.serializer)
       ..add(ArtistEntity.serializer)
+      ..add(ArtistItemResponse.serializer)
       ..add(AuthState.serializer)
       ..add(DataState.serializer)
       ..add(ErrorMessage.serializer)

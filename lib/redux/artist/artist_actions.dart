@@ -4,6 +4,13 @@ import 'package:built_collection/built_collection.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 
+class ViewArtist implements PersistUI {
+  ViewArtist({this.context, this.artist});
+
+  final BuildContext context;
+  final ArtistEntity artist;
+}
+
 class ViewArtistList implements PersistUI {
   ViewArtistList(this.context);
 
@@ -21,6 +28,37 @@ class UpdateArtist implements PersistUI {
   UpdateArtist(this.artist);
 
   final ArtistEntity artist;
+}
+
+class LoadArtist {
+  LoadArtist({this.completer, this.force = false});
+
+  final Completer completer;
+  final bool force;
+}
+
+class LoadArtistRequest implements StartLoading {}
+
+class LoadArtistFailure implements StopLoading {
+  LoadArtistFailure(this.error);
+
+  final dynamic error;
+
+  @override
+  String toString() {
+    return 'LoadArtistFailure{error: $error}';
+  }
+}
+
+class LoadArtistSuccess implements PersistData, StopLoading {
+  LoadArtistSuccess(this.artist);
+
+  final ArtistEntity artist;
+
+  @override
+  String toString() {
+    return 'LoadArtistSuccess{artists: $artist}';
+  }
 }
 
 class LoadArtists {

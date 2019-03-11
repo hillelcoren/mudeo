@@ -19,140 +19,15 @@ part of 'song_model.dart';
 // ignore_for_file: unnecessary_new
 // ignore_for_file: test_types_in_equals
 
+Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
+Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
+Serializer<VideoEntity> _$videoEntitySerializer = new _$VideoEntitySerializer();
 Serializer<SongListResponse> _$songListResponseSerializer =
     new _$SongListResponseSerializer();
 Serializer<SongItemResponse> _$songItemResponseSerializer =
     new _$SongItemResponseSerializer();
 Serializer<VideoItemResponse> _$videoItemResponseSerializer =
     new _$VideoItemResponseSerializer();
-Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
-Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
-Serializer<VideoEntity> _$videoEntitySerializer = new _$VideoEntitySerializer();
-
-class _$SongListResponseSerializer
-    implements StructuredSerializer<SongListResponse> {
-  @override
-  final Iterable<Type> types = const [SongListResponse, _$SongListResponse];
-  @override
-  final String wireName = 'SongListResponse';
-
-  @override
-  Iterable serialize(Serializers serializers, SongListResponse object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'data',
-      serializers.serialize(object.data,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(SongEntity)])),
-    ];
-
-    return result;
-  }
-
-  @override
-  SongListResponse deserialize(Serializers serializers, Iterable serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new SongListResponseBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current as String;
-      iterator.moveNext();
-      final dynamic value = iterator.current;
-      switch (key) {
-        case 'data':
-          result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(
-                  BuiltList, const [const FullType(SongEntity)])) as BuiltList);
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
-class _$SongItemResponseSerializer
-    implements StructuredSerializer<SongItemResponse> {
-  @override
-  final Iterable<Type> types = const [SongItemResponse, _$SongItemResponse];
-  @override
-  final String wireName = 'SongItemResponse';
-
-  @override
-  Iterable serialize(Serializers serializers, SongItemResponse object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'data',
-      serializers.serialize(object.data,
-          specifiedType: const FullType(SongEntity)),
-    ];
-
-    return result;
-  }
-
-  @override
-  SongItemResponse deserialize(Serializers serializers, Iterable serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new SongItemResponseBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current as String;
-      iterator.moveNext();
-      final dynamic value = iterator.current;
-      switch (key) {
-        case 'data':
-          result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SongEntity)) as SongEntity);
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
-
-class _$VideoItemResponseSerializer
-    implements StructuredSerializer<VideoItemResponse> {
-  @override
-  final Iterable<Type> types = const [VideoItemResponse, _$VideoItemResponse];
-  @override
-  final String wireName = 'VideoItemResponse';
-
-  @override
-  Iterable serialize(Serializers serializers, VideoItemResponse object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'data',
-      serializers.serialize(object.data,
-          specifiedType: const FullType(VideoEntity)),
-    ];
-
-    return result;
-  }
-
-  @override
-  VideoItemResponse deserialize(Serializers serializers, Iterable serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new VideoItemResponseBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current as String;
-      iterator.moveNext();
-      final dynamic value = iterator.current;
-      switch (key) {
-        case 'data':
-          result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(VideoEntity)) as VideoEntity);
-          break;
-      }
-    }
-
-    return result.build();
-  }
-}
 
 class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
   @override
@@ -487,277 +362,128 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   }
 }
 
-class _$SongListResponse extends SongListResponse {
+class _$SongListResponseSerializer
+    implements StructuredSerializer<SongListResponse> {
   @override
-  final BuiltList<SongEntity> data;
+  final Iterable<Type> types = const [SongListResponse, _$SongListResponse];
+  @override
+  final String wireName = 'SongListResponse';
 
-  factory _$SongListResponse([void updates(SongListResponseBuilder b)]) =>
-      (new SongListResponseBuilder()..update(updates)).build();
+  @override
+  Iterable serialize(Serializers serializers, SongListResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(SongEntity)])),
+    ];
 
-  _$SongListResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('SongListResponse', 'data');
-    }
+    return result;
   }
 
   @override
-  SongListResponse rebuild(void updates(SongListResponseBuilder b)) =>
-      (toBuilder()..update(updates)).build();
+  SongListResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new SongListResponseBuilder();
 
-  @override
-  SongListResponseBuilder toBuilder() =>
-      new SongListResponseBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is SongListResponse && data == other.data;
-  }
-
-  @override
-  int get hashCode {
-    return $jf($jc(0, data.hashCode));
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper('SongListResponse')..add('data', data))
-        .toString();
-  }
-}
-
-class SongListResponseBuilder
-    implements Builder<SongListResponse, SongListResponseBuilder> {
-  _$SongListResponse _$v;
-
-  ListBuilder<SongEntity> _data;
-  ListBuilder<SongEntity> get data =>
-      _$this._data ??= new ListBuilder<SongEntity>();
-  set data(ListBuilder<SongEntity> data) => _$this._data = data;
-
-  SongListResponseBuilder();
-
-  SongListResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(SongListResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
-    _$v = other as _$SongListResponse;
-  }
-
-  @override
-  void update(void updates(SongListResponseBuilder b)) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  _$SongListResponse build() {
-    _$SongListResponse _$result;
-    try {
-      _$result = _$v ?? new _$SongListResponse._(data: data.build());
-    } catch (_) {
-      String _$failedField;
-      try {
-        _$failedField = 'data';
-        data.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'SongListResponse', _$failedField, e.toString());
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(
+                  BuiltList, const [const FullType(SongEntity)])) as BuiltList);
+          break;
       }
-      rethrow;
     }
-    replace(_$result);
-    return _$result;
+
+    return result.build();
   }
 }
 
-class _$SongItemResponse extends SongItemResponse {
+class _$SongItemResponseSerializer
+    implements StructuredSerializer<SongItemResponse> {
   @override
-  final SongEntity data;
+  final Iterable<Type> types = const [SongItemResponse, _$SongItemResponse];
+  @override
+  final String wireName = 'SongItemResponse';
 
-  factory _$SongItemResponse([void updates(SongItemResponseBuilder b)]) =>
-      (new SongItemResponseBuilder()..update(updates)).build();
+  @override
+  Iterable serialize(Serializers serializers, SongItemResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(SongEntity)),
+    ];
 
-  _$SongItemResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('SongItemResponse', 'data');
-    }
+    return result;
   }
 
   @override
-  SongItemResponse rebuild(void updates(SongItemResponseBuilder b)) =>
-      (toBuilder()..update(updates)).build();
+  SongItemResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new SongItemResponseBuilder();
 
-  @override
-  SongItemResponseBuilder toBuilder() =>
-      new SongItemResponseBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is SongItemResponse && data == other.data;
-  }
-
-  @override
-  int get hashCode {
-    return $jf($jc(0, data.hashCode));
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper('SongItemResponse')..add('data', data))
-        .toString();
-  }
-}
-
-class SongItemResponseBuilder
-    implements Builder<SongItemResponse, SongItemResponseBuilder> {
-  _$SongItemResponse _$v;
-
-  SongEntityBuilder _data;
-  SongEntityBuilder get data => _$this._data ??= new SongEntityBuilder();
-  set data(SongEntityBuilder data) => _$this._data = data;
-
-  SongItemResponseBuilder();
-
-  SongItemResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(SongItemResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
-    _$v = other as _$SongItemResponse;
-  }
-
-  @override
-  void update(void updates(SongItemResponseBuilder b)) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  _$SongItemResponse build() {
-    _$SongItemResponse _$result;
-    try {
-      _$result = _$v ?? new _$SongItemResponse._(data: data.build());
-    } catch (_) {
-      String _$failedField;
-      try {
-        _$failedField = 'data';
-        data.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'SongItemResponse', _$failedField, e.toString());
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(SongEntity)) as SongEntity);
+          break;
       }
-      rethrow;
     }
-    replace(_$result);
-    return _$result;
+
+    return result.build();
   }
 }
 
-class _$VideoItemResponse extends VideoItemResponse {
+class _$VideoItemResponseSerializer
+    implements StructuredSerializer<VideoItemResponse> {
   @override
-  final VideoEntity data;
+  final Iterable<Type> types = const [VideoItemResponse, _$VideoItemResponse];
+  @override
+  final String wireName = 'VideoItemResponse';
 
-  factory _$VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =>
-      (new VideoItemResponseBuilder()..update(updates)).build();
+  @override
+  Iterable serialize(Serializers serializers, VideoItemResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(VideoEntity)),
+    ];
 
-  _$VideoItemResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('VideoItemResponse', 'data');
-    }
+    return result;
   }
 
   @override
-  VideoItemResponse rebuild(void updates(VideoItemResponseBuilder b)) =>
-      (toBuilder()..update(updates)).build();
+  VideoItemResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new VideoItemResponseBuilder();
 
-  @override
-  VideoItemResponseBuilder toBuilder() =>
-      new VideoItemResponseBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is VideoItemResponse && data == other.data;
-  }
-
-  @override
-  int get hashCode {
-    return $jf($jc(0, data.hashCode));
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper('VideoItemResponse')..add('data', data))
-        .toString();
-  }
-}
-
-class VideoItemResponseBuilder
-    implements Builder<VideoItemResponse, VideoItemResponseBuilder> {
-  _$VideoItemResponse _$v;
-
-  VideoEntityBuilder _data;
-  VideoEntityBuilder get data => _$this._data ??= new VideoEntityBuilder();
-  set data(VideoEntityBuilder data) => _$this._data = data;
-
-  VideoItemResponseBuilder();
-
-  VideoItemResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(VideoItemResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
-    _$v = other as _$VideoItemResponse;
-  }
-
-  @override
-  void update(void updates(VideoItemResponseBuilder b)) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  _$VideoItemResponse build() {
-    _$VideoItemResponse _$result;
-    try {
-      _$result = _$v ?? new _$VideoItemResponse._(data: data.build());
-    } catch (_) {
-      String _$failedField;
-      try {
-        _$failedField = 'data';
-        data.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'VideoItemResponse', _$failedField, e.toString());
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(VideoEntity)) as VideoEntity);
+          break;
       }
-      rethrow;
     }
-    replace(_$result);
-    return _$result;
+
+    return result.build();
   }
 }
 
@@ -1338,6 +1064,280 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
             deletedAt: deletedAt,
             updatedAt: updatedAt,
             id: id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SongListResponse extends SongListResponse {
+  @override
+  final BuiltList<SongEntity> data;
+
+  factory _$SongListResponse([void updates(SongListResponseBuilder b)]) =>
+      (new SongListResponseBuilder()..update(updates)).build();
+
+  _$SongListResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('SongListResponse', 'data');
+    }
+  }
+
+  @override
+  SongListResponse rebuild(void updates(SongListResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SongListResponseBuilder toBuilder() =>
+      new SongListResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SongListResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SongListResponse')..add('data', data))
+        .toString();
+  }
+}
+
+class SongListResponseBuilder
+    implements Builder<SongListResponse, SongListResponseBuilder> {
+  _$SongListResponse _$v;
+
+  ListBuilder<SongEntity> _data;
+  ListBuilder<SongEntity> get data =>
+      _$this._data ??= new ListBuilder<SongEntity>();
+  set data(ListBuilder<SongEntity> data) => _$this._data = data;
+
+  SongListResponseBuilder();
+
+  SongListResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SongListResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$SongListResponse;
+  }
+
+  @override
+  void update(void updates(SongListResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$SongListResponse build() {
+    _$SongListResponse _$result;
+    try {
+      _$result = _$v ?? new _$SongListResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'SongListResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SongItemResponse extends SongItemResponse {
+  @override
+  final SongEntity data;
+
+  factory _$SongItemResponse([void updates(SongItemResponseBuilder b)]) =>
+      (new SongItemResponseBuilder()..update(updates)).build();
+
+  _$SongItemResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('SongItemResponse', 'data');
+    }
+  }
+
+  @override
+  SongItemResponse rebuild(void updates(SongItemResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SongItemResponseBuilder toBuilder() =>
+      new SongItemResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SongItemResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SongItemResponse')..add('data', data))
+        .toString();
+  }
+}
+
+class SongItemResponseBuilder
+    implements Builder<SongItemResponse, SongItemResponseBuilder> {
+  _$SongItemResponse _$v;
+
+  SongEntityBuilder _data;
+  SongEntityBuilder get data => _$this._data ??= new SongEntityBuilder();
+  set data(SongEntityBuilder data) => _$this._data = data;
+
+  SongItemResponseBuilder();
+
+  SongItemResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SongItemResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$SongItemResponse;
+  }
+
+  @override
+  void update(void updates(SongItemResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$SongItemResponse build() {
+    _$SongItemResponse _$result;
+    try {
+      _$result = _$v ?? new _$SongItemResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'SongItemResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$VideoItemResponse extends VideoItemResponse {
+  @override
+  final VideoEntity data;
+
+  factory _$VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =>
+      (new VideoItemResponseBuilder()..update(updates)).build();
+
+  _$VideoItemResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('VideoItemResponse', 'data');
+    }
+  }
+
+  @override
+  VideoItemResponse rebuild(void updates(VideoItemResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  VideoItemResponseBuilder toBuilder() =>
+      new VideoItemResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is VideoItemResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('VideoItemResponse')..add('data', data))
+        .toString();
+  }
+}
+
+class VideoItemResponseBuilder
+    implements Builder<VideoItemResponse, VideoItemResponseBuilder> {
+  _$VideoItemResponse _$v;
+
+  VideoEntityBuilder _data;
+  VideoEntityBuilder get data => _$this._data ??= new VideoEntityBuilder();
+  set data(VideoEntityBuilder data) => _$this._data = data;
+
+  VideoItemResponseBuilder();
+
+  VideoItemResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(VideoItemResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$VideoItemResponse;
+  }
+
+  @override
+  void update(void updates(VideoItemResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$VideoItemResponse build() {
+    _$VideoItemResponse _$result;
+    try {
+      _$result = _$v ?? new _$VideoItemResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'VideoItemResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
