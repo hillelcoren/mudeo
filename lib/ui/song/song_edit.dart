@@ -227,9 +227,16 @@ class _SongEditState extends State<SongEdit> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              icon: Icon(Icons.camera_alt),
-              tooltip: localization.settings,
-              onPressed: onSettingsPressed),
+              icon: Icon(Icons.delete),
+              tooltip: localization.delete,
+              onPressed: () => viewModel.onClearPressed(context),
+              // TODO enable this code
+              /*
+                onPressed: isEmpty || isPlaying
+                    ? null
+                    : () => viewModel.onClearPressed(context),
+                    */
+          ),
           title: Text(viewModel.song.title),
           actions: <Widget>[
             IconButton(
@@ -270,14 +277,8 @@ class _SongEditState extends State<SongEdit> {
                       : (isPlaying ? null : record),
                   color: isPlaying || isRecording ? null : Colors.redAccent),
               ExpandedButton(
-                icon: Icons.delete,
-                onPressed: () => viewModel.onClearPressed(context),
-                // TODO enable this code
-                /*
-                onPressed: isEmpty || isPlaying
-                    ? null
-                    : () => viewModel.onClearPressed(context),
-                    */
+                icon: Icons.camera_alt,
+                onPressed: onSettingsPressed,
               ),
             ]),
             isEmpty
