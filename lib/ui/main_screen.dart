@@ -71,7 +71,7 @@ class MainScreen extends StatelessWidget {
       SongEditScreen(),
       ArtistPage(
         artist: viewModel.state.authState.artist,
-        showAuthOptions: true,
+        showSettings: true,
       ),
     ];
 

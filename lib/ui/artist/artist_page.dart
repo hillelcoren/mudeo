@@ -10,15 +10,16 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
+import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
-  ArtistPage({this.artist, this.showAuthOptions = false});
+  ArtistPage({this.artist, this.showSettings = false});
 
   final ArtistEntity artist;
-  final bool showAuthOptions;
+  final bool showSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,70 @@ class ArtistPage extends StatelessWidget {
               expandedHeight: 200.0,
               floating: false,
               pinned: true,
+              actions: <Widget>[
+                showSettings ? IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    showDialog<SimpleDialog>(
+                        barrierDismissible: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          final localization = AppLocalization.of(context);
+                          return SimpleDialog(
+                            title: Text(localization.settings),
+                            children: <Widget>[
+                              SimpleDialogOption(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: IconText(
+                                    icon: Icons.person,
+                                    text: localization.editProfile,
+                                    textStyle: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  final store = StoreProvider.of<AppState>(context);
+                                  store.dispatch(
+                                      EditArtist(context: context, artist: artist));
+                                },
+                              ),
+                              SimpleDialogOption(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: IconText(
+                                    icon: Icons.lock,
+                                    text: localization.logout,
+                                    textStyle: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  final store = StoreProvider.of<AppState>(context);
+                                  store.dispatch(UserLogout());
+                                  Navigator.of(context)
+                                      .pushReplacementNamed(LoginScreenBuilder.route);
+                                },
+                              ),
+                              SimpleDialogOption(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: IconText(
+                                    icon: Icons.warning,
+                                    text: localization.deleteAccount,
+                                    textStyle: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                ) : SizedBox()
+              ],
               flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
                   title: Text(artist.fullName,
@@ -124,40 +189,6 @@ class ArtistPage extends StatelessWidget {
                 ),
               ],
             ),
-            showAuthOptions
-                ? ButtonBar(
-                    mainAxisSize: MainAxisSize.min,
-                    // this will take space as minimum as posible(to center)
-                    children: <Widget>[
-                      RaisedButton(
-                        child: Text(localization.editProfile),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0)),
-                        onPressed: () {
-                          final store = StoreProvider.of<AppState>(context);
-                          store.dispatch(
-                              EditArtist(context: context, artist: artist));
-                        },
-                        //color: Colors.blueAccent,
-                      ),
-                      FlatButton(
-                        child: Text(localization.logout),
-                        onPressed: () {
-                          final store = StoreProvider.of<AppState>(context);
-                          store.dispatch(UserLogout());
-                          Navigator.of(context)
-                              .pushReplacementNamed(LoginScreenBuilder.route);
-                        },
-                        //color: Colors.grey,
-                      ),
-                      FlatButton(
-                        child: Text(localization.deleteAccount),
-                        onPressed: () => null,
-                        //color: Colors.redAccent,
-                      ),
-                    ],
-                  )
-                : SizedBox(),
           ],
         ),
       ),
