@@ -242,7 +242,7 @@ class _SongEditState extends State<SongEdit> {
             IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,
-                onPressed: isEmpty || isPlaying ? null : onSavePressed),
+                onPressed: isEmpty ? null : onSavePressed),
           ],
         ),
         body: Padding(
@@ -277,7 +277,7 @@ class _SongEditState extends State<SongEdit> {
                       : (isPlaying ? null : record),
                   color: isPlaying || isRecording ? null : Colors.redAccent),
               ExpandedButton(
-                icon: Icons.camera_alt,
+                icon: Icons.camera,
                 onPressed: onSettingsPressed,
               ),
             ]),
