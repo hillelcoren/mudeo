@@ -32,15 +32,20 @@ class _SongEditState extends State<SongEdit> {
   int timestamp;
   String path;
   Timer timer;
+  CameraLensDirection cameraDirection = CameraLensDirection.front;
 
   @override
   void initState() {
     super.initState();
 
+    initCamera();
+  }
+
+  void initCamera() {
     availableCameras().then((cameras) {
       camera = CameraController(
           cameras.firstWhere(
-              (camera) => camera.lensDirection == CameraLensDirection.front),
+                  (camera) => camera.lensDirection == cameraDirection),
           ResolutionPreset.high)
         ..addListener(() {
           if (mounted) setState(() {});
@@ -120,6 +125,17 @@ class _SongEditState extends State<SongEdit> {
         });
   }
 
+  void onSwitchCameraPressed() {
+    setState(() {
+      if (cameraDirection == CameraLensDirection.front) {
+        cameraDirection = CameraLensDirection.back;
+      } else {
+        cameraDirection = CameraLensDirection.front;
+      }
+      initCamera();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (camera == null) return SizedBox();
@@ -140,6 +156,10 @@ class _SongEditState extends State<SongEdit> {
               */
           title: Text(viewModel.song.title),
           actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.switch_camera),
+                tooltip: localization.switchCamera,
+                onPressed: isPlaying ? null : onSwitchCameraPressed),
             IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,

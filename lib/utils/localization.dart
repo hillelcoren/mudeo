@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'switch_camera': 'Switch Camera',
       'edit_profile': 'Edit Profile',
       'delete_account': 'Delete Account',
       'preview': 'Preview',
@@ -97,6 +98,9 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+
+  String get switchCamera => _localizedValues[locale.toString()]['switch_camera'];
 
   String get editProfile => _localizedValues[locale.toString()]['edit_profile'];
 
