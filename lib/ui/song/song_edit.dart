@@ -132,15 +132,6 @@ class _SongEditState extends State<SongEdit> {
     setState(() => isPlaying = false);
   }
 
-  void onSavePressed() {
-    showDialog<SongSaveDialog>(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return SongSaveDialog(viewModel: widget.viewModel);
-        });
-  }
-
   void onSettingsPressed() {
     showDialog<SimpleDialog>(
         barrierDismissible: true,
@@ -224,102 +215,80 @@ class _SongEditState extends State<SongEdit> {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
 
-    return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.delete),
-            tooltip: localization.delete,
-            onPressed: () => viewModel.onClearPressed(context),
-            // TODO enable this code
-            /*
-                onPressed: isEmpty || isPlaying
-                    ? null
-                    : () => viewModel.onClearPressed(context),
-                    */
-          ),
-          title: Text(viewModel.song.title),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.cloud_upload),
-                tooltip: localization.save,
-                onPressed: isEmpty ? null : onSavePressed),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(bottom: 60),
-          child: Column(children: [
-            Expanded(
-                child: AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
-                    child: Center(
-                      child: AspectRatio(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 60),
+      child: Column(children: [
+        Expanded(
+            child: AnimatedContainer(
+                duration: Duration(milliseconds: 200),
+                child: Center(
+                  child: AspectRatio(
+                      aspectRatio: value.aspectRatio,
+                      child: CameraPreview(camera)),
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    border: isRecording
+                        ? Border.all(color: Colors.red, width: 3)
+                        : null))),
+        Row(children: [
+          ExpandedButton(
+              icon: isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
+              onPressed: isRecording || isEmpty
+                  ? null
+                  : (isPlaying ? stopPlaying : play)),
+          ExpandedButton(
+              icon: isRecording && isEmpty
+                  ? Icons.stop
+                  : Icons.fiber_manual_record,
+              onPressed: isRecording
+                  ? (isEmpty ? stopRecording : null)
+                  : (isPlaying ? null : record),
+              color: isPlaying || isRecording ? null : Colors.redAccent),
+          availableCameraDirections.keys
+                      .where(
+                          (direction) => availableCameraDirections[direction])
+                      .length >
+                  2
+              ? ExpandedButton(
+                  icon: Icons.camera,
+                  onPressed: onSettingsPressed,
+                )
+              : ExpandedButton(
+                  iconHeight: 26,
+                  icon: cameraDirection == CameraLensDirection.front
+                      ? Icons.camera_front
+                      : Icons.camera_rear,
+                  onPressed: () => selectCameraDirection(
+                      cameraDirection == CameraLensDirection.front
+                          ? CameraLensDirection.back
+                          : CameraLensDirection.front),
+                ),
+        ]),
+        isEmpty
+            ? SizedBox()
+            : Flexible(
+                child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: videos
+                    .map((videoPlayer) => TrackView(
+                          viewModel: viewModel,
+                          video: videoPlayer,
                           aspectRatio: value.aspectRatio,
-                          child: CameraPreview(camera)),
-                    ),
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        border: isRecording
-                            ? Border.all(color: Colors.red, width: 3)
-                            : null))),
-            Row(children: [
-              ExpandedButton(
-                  icon:
-                      isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
-                  onPressed: isRecording || isEmpty
-                      ? null
-                      : (isPlaying ? stopPlaying : play)),
-              ExpandedButton(
-                  icon: isRecording && isEmpty
-                      ? Icons.stop
-                      : Icons.fiber_manual_record,
-                  onPressed: isRecording
-                      ? (isEmpty ? stopRecording : null)
-                      : (isPlaying ? null : record),
-                  color: isPlaying || isRecording ? null : Colors.redAccent),
-              availableCameraDirections.keys
-                          .where((direction) =>
-                              availableCameraDirections[direction])
-                          .length >
-                      2
-                  ? ExpandedButton(
-                      icon: Icons.camera,
-                      onPressed: onSettingsPressed,
-                    )
-                  : ExpandedButton(
-                      iconHeight: 26,
-                      icon: cameraDirection == CameraLensDirection.front
-                          ? Icons.camera_front
-                          : Icons.camera_rear,
-                      onPressed: () => selectCameraDirection(
-                          cameraDirection == CameraLensDirection.front
-                              ? CameraLensDirection.back
-                              : CameraLensDirection.front),
-                    ),
-            ]),
-            isEmpty
-                ? SizedBox()
-                : Flexible(
-                    child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: videos
-                        .map((videoPlayer) => TrackView(
-                              viewModel: viewModel,
-                              video: videoPlayer,
-                              aspectRatio: value.aspectRatio,
-                              index: videos.indexOf(videoPlayer),
-                              onDeletePressed: () async {
-                                Navigator.of(context).pop();
-                                final index = videos.indexOf(videoPlayer);
-                                final song = viewModel.song
-                                    .rebuild((b) => b..tracks.removeAt(index));
-                                viewModel.onChangedSong(song);
-                                setState(() {
-                                  videos.remove(videoPlayer);
-                                  if (videos.isEmpty) {
-                                    timestamp = null;
-                                  }
-                                });
-                                /*
+                          index: videos.indexOf(videoPlayer),
+                          onDeletePressed: () async {
+                            Navigator.of(context).pop();
+                            final index = videos.indexOf(videoPlayer);
+                            final song = viewModel.song
+                                .rebuild((b) => b..tracks.removeAt(index));
+                            viewModel.onChangedSong(song);
+                            setState(() {
+                              videos.remove(videoPlayer);
+                              if (videos.isEmpty) {
+                                timestamp = null;
+                              }
+                            });
+                            /*
                                 final index = videos.indexOf(videoPlayer);
                                 final video = viewModel.song.tracks[index].video;
                                 if (video.isNew) {
@@ -329,12 +298,12 @@ class _SongEditState extends State<SongEdit> {
                                   }
                                 }
                                 */
-                              },
-                            ))
-                        .toList(),
-                  ))
-          ]),
-        ));
+                          },
+                        ))
+                    .toList(),
+              ))
+      ]),
+    );
   }
 }
 

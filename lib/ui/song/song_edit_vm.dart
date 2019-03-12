@@ -9,20 +9,55 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
+import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class SongEditScreen extends StatelessWidget {
   const SongEditScreen({Key key}) : super(key: key);
 
+  void onSavePressed(BuildContext context, SongEditVM viewModel) {
+    showDialog<SongSaveDialog>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SongSaveDialog(viewModel: viewModel);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
     return StoreConnector<AppState, SongEditVM>(
       converter: SongEditVM.fromStore,
       builder: (context, vm) {
-        return SongEdit(
-          viewModel: vm,
-          key: ValueKey(vm.song.id),
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.delete),
+              tooltip: localization.delete,
+              onPressed: () => vm.onClearPressed(context),
+              // TODO enable this code
+              /*
+                onPressed: isEmpty || isPlaying
+                    ? null
+                    : () => viewModel.onClearPressed(context),
+                    */
+            ),
+            title: Text(vm.song.title),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.cloud_upload),
+                tooltip: localization.save,
+                onPressed: () => onSavePressed(context, vm),
+              ),
+            ],
+          ),
+          body: SongEdit(
+            viewModel: vm,
+            key: ValueKey(vm.song.id),
+          ),
         );
       },
     );
