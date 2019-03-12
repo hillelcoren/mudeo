@@ -158,7 +158,7 @@ class ArtistPage extends StatelessWidget {
                   ),
                 ),
                 */
-                Padding(
+                showSettings ? SizedBox() : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: RaisedButton(
                       child: Text(localization.follow, style: TextStyle(fontSize: 18)),
