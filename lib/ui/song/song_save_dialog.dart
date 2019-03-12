@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
@@ -22,6 +23,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   final _descriptionController = TextEditingController();
 
   List<TextEditingController> _controllers = [];
+  int selectedGenreId;
 
   @override
   void didChangeDependencies() {
@@ -101,6 +103,28 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                       ),
                       validator: (value) =>
                           value.isEmpty ? localization.fieldIsRequired : null,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: DropdownButton<int>(
+                          isExpanded: true,
+                          hint: Text(localization.genre),
+                          onChanged: (value) {
+                            viewModel.onChangedSong(
+                                song.rebuild((b) => b..genreId = value));
+                            setState(() {
+                              selectedGenreId = value;
+                            });
+                          },
+                          value: selectedGenreId ??
+                              (song.genreId > 0 ? song.genreId : null),
+                          items: kGenres.keys
+                              .map((id) => DropdownMenuItem(
+                                    value: id,
+                                    child:
+                                        Text(localization.lookup(kGenres[id])),
+                                  ))
+                              .toList()),
                     ),
                     TextFormField(
                       autocorrect: false,

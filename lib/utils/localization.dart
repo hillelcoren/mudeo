@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'genre': 'Genre',
       'front': 'Front',
       'back': 'Back',
       'external': 'External',
@@ -102,6 +103,8 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get genre => _localizedValues[locale.toString()]['genre'];
 
   String get front => _localizedValues[locale.toString()]['front'];
 

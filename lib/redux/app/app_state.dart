@@ -47,6 +47,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     //return 'Tracks: ${uiState.song.tracks}';
     //return 'Id ${uiState.song.id}, Is Changed: ${uiState.song.isChanged}';
     //return 'Is Loading: $isLoading, Is Saving: $isSaving';
-    return 'Has been authenticated: ${authState.wasAuthenticated}';
+    //return 'Has been authenticated: ${authState.wasAuthenticated}';
+    return 'Genre: ${uiState.song.genreId}';
   }
 }
