@@ -143,7 +143,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     TextFormField(
                       autocorrect: false,
                       controller: _descriptionController,
-                      maxLines: 2,
+                      maxLines: 3,
                       decoration: InputDecoration(
                         labelText: localization.description,
                       ),
