@@ -105,7 +105,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                           value.isEmpty ? localization.fieldIsRequired : null,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       child: DropdownButton<int>(
                           isExpanded: true,
                           hint: Text(localization.genre),
@@ -129,7 +129,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     TextFormField(
                       autocorrect: false,
                       controller: _descriptionController,
-                      maxLines: 6,
+                      maxLines: 2,
                       decoration: InputDecoration(
                         labelText: localization.description,
                       ),
