@@ -38,6 +38,7 @@ const String kLinkTypeSoundcloud = 'SoundCloud';
 const String kLinkTypeTwitch = 'Twitch';
 const String kLinkTypeTwitter = 'Twitter';
 const String kLinkTypeWebsite = 'Website';
+const String kLinkTypeReddit = 'Reddit';
 
 const String kGenreAfrican = 'african';
 const String kGenreArabic = 'arabic';

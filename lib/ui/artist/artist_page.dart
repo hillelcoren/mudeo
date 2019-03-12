@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -59,7 +60,6 @@ class ArtistPage extends StatelessWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return SimpleDialog(
-                                  title: Text(localization.settings),
                                   children: <Widget>[
                                     SimpleDialogOption(
                                       child: Padding(
@@ -78,6 +78,46 @@ class ArtistPage extends StatelessWidget {
                                             context: context, artist: artist));
                                       },
                                     ),
+                                    Divider(),
+                                    SimpleDialogOption(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: IconText(
+                                          icon: FontAwesomeIcons.twitter,
+                                          text: kLinkTypeTwitter,
+                                          textStyle: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        final store =
+                                        StoreProvider.of<AppState>(context);
+                                        store.dispatch(UserLogout());
+                                        Navigator.of(context)
+                                            .pushReplacementNamed(
+                                            LoginScreenBuilder.route);
+                                      },
+                                    ),
+                                    SimpleDialogOption(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: IconText(
+                                          icon: FontAwesomeIcons.redditAlien,
+                                          text: kLinkTypeReddit,
+                                          textStyle: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        final store =
+                                        StoreProvider.of<AppState>(context);
+                                        store.dispatch(UserLogout());
+                                        Navigator.of(context)
+                                            .pushReplacementNamed(
+                                            LoginScreenBuilder.route);
+                                      },
+                                    ),
+                                    Divider(),
                                     SimpleDialogOption(
                                       child: Padding(
                                         padding: const EdgeInsets.all(12),
