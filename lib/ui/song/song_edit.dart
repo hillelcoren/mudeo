@@ -226,17 +226,12 @@ class _SongEditState extends State<SongEdit> {
 
     return Scaffold(
         appBar: AppBar(
-          /*
           leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () => viewModel.onBackPressed()),
-              */
+              icon: Icon(Icons.camera_alt),
+              tooltip: localization.settings,
+              onPressed: onSettingsPressed),
           title: Text(viewModel.song.title),
           actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.camera_alt),
-                tooltip: localization.settings,
-                onPressed: onSettingsPressed),
             IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,
