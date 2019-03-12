@@ -33,6 +33,10 @@ class WebClient {
       final dynamic jsonResponse = json.decode(response);
       message = jsonResponse['error'] ?? jsonResponse;
       message = message['message'] ?? message;
+      try {
+        jsonResponse['errors'].forEach((field, errors) =>
+            errors.forEach((error) => message += '\n$field: $error'));
+      } catch (error) {}
     } catch (error) {
       // do nothing
     }
@@ -93,10 +97,10 @@ class WebClient {
     } else {
       response = await http.Client()
           .post(
-            url,
-            body: data,
-            headers: headers,
-          )
+        url,
+        body: data,
+        headers: headers,
+      )
           .timeout(const Duration(seconds: 30));
     }
 
