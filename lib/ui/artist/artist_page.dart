@@ -133,6 +133,7 @@ class ArtistPage extends StatelessWidget {
                     final store = StoreProvider.of<AppState>(context);
                     store.dispatch(EditArtist(context: context, artist: artist));
                   },
+                  color: Colors.blueAccent,
                 ),
                 ElevatedButton(
                   label: localization.logout,

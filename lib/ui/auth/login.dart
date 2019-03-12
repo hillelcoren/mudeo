@@ -302,9 +302,12 @@ class _LoginState extends State<LoginScreen> {
                           children: <Widget>[
                             Expanded(
                               child: FlatButton(
-                                onPressed: () => setState(() {
-                                      _showLogin = !_showLogin;
-                                    }),
+                                onPressed: () {
+                                  viewModel.clearAuthError();
+                                  setState(() {
+                                    _showLogin = !_showLogin;
+                                  });
+                                },
                                 child: Text(
                                   _showLogin
                                       ? localization.doNotHaveAnAccount

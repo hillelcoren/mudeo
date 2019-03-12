@@ -36,6 +36,7 @@ class LoginVM {
   LoginVM({
     @required this.isLoading,
     @required this.authState,
+    @required this.clearAuthError,
     @required this.onLoginPressed,
     @required this.onSignUpPressed,
     @required this.onCancel2FAPressed,
@@ -44,6 +45,7 @@ class LoginVM {
 
   bool isLoading;
   AuthState authState;
+  final Function() clearAuthError;
   final Function() onCancel2FAPressed;
   final Function(BuildContext, {String handle, String email, String password})
       onSignUpPressed;
@@ -118,6 +120,7 @@ class LoginVM {
           ));
           completer.future.then((_) => _handleLogin(context));
         },
+        clearAuthError: () => store.dispatch(ClearAuthError()),
         onLoginPressed: (BuildContext context,
             {String email, String password, String oneTimePassword}) async {
           if (store.state.isLoading) {
