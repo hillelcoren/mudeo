@@ -75,28 +75,31 @@ class MainScreen extends StatelessWidget {
       ),
     ];
 
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        currentIndex: viewModel.state.uiState.selectedTabIndex,
-        onTap: (index) => viewModel.onTabChanged(index),
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            //title: Text(localization.explore),
-            icon: Icon(Icons.dashboard),
-          ),
-          BottomNavigationBarItem(
-            //title: Text(localization.create),
-            icon: Icon(Icons.videocam),
-          ),
-          BottomNavigationBarItem(
-            //title: Text(localization.profile),
-            icon: Icon(Icons.person),
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
+          currentIndex: viewModel.state.uiState.selectedTabIndex,
+          onTap: (index) => viewModel.onTabChanged(index),
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              //title: Text(localization.explore),
+              icon: Icon(Icons.dashboard),
+            ),
+            BottomNavigationBarItem(
+              //title: Text(localization.create),
+              icon: Icon(Icons.videocam),
+            ),
+            BottomNavigationBarItem(
+              //title: Text(localization.profile),
+              icon: Icon(Icons.person),
+            ),
+          ],
+        ),
+        tabBuilder: (BuildContext context, int index) {
+          return _views[index];
+        },
       ),
-      tabBuilder: (BuildContext context, int index) {
-        return _views[index];
-      },
     );
   }
 }
