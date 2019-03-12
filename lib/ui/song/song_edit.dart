@@ -281,23 +281,14 @@ class _SongEditState extends State<SongEdit> {
                             final index = videos.indexOf(videoPlayer);
                             final song = viewModel.song
                                 .rebuild((b) => b..tracks.removeAt(index));
-                            viewModel.onChangedSong(song);
+                            final video = viewModel.song.tracks[index].video;
+                            viewModel.onDeleteVideoPressed(song, video);
                             setState(() {
                               videos.remove(videoPlayer);
                               if (videos.isEmpty) {
                                 timestamp = null;
                               }
                             });
-                            /*
-                                final index = videos.indexOf(videoPlayer);
-                                final video = viewModel.song.tracks[index].video;
-                                if (video.isNew) {
-                                  String path = await getVideoPath(video.timestamp);
-                                  if (File(path).existsSync()) {
-                                    File(path).deleteSync();
-                                  }
-                                }
-                                */
                           },
                         ))
                     .toList(),

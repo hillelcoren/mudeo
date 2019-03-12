@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -75,6 +76,7 @@ class SongEditVM {
     @required this.onSavePressed,
     @required this.onClearPressed,
     @required this.onBackPressed,
+    @required this.onDeleteVideoPressed,
   });
 
   final AppState state;
@@ -85,39 +87,48 @@ class SongEditVM {
   final Function(SongEntity) onChangedSong;
   final Function() onSavePressed;
   final Function(BuildContext) onClearPressed;
+  final Function(SongEntity, VideoEntity) onDeleteVideoPressed;
   final Function() onBackPressed;
 
   static SongEditVM fromStore(Store<AppState> store) {
     final state = store.state;
 
     return SongEditVM(
-        song: state.uiState.song,
-        //clientMap: state.clientState.map,
-        state: state,
-        isLoading: state.isLoading,
-        //isLoaded: state.clientState.isLoaded,
-        isLoaded: state.dataState.areSongsLoaded,
-        onClearPressed: (context) {
-          store.dispatch(UpdateSong(SongEntity()));
-        },
-        onTrackAdded: (video, duration) {
-          final song = state.uiState.song;
-          final track = song.newTrack(video);
-          store.dispatch(AddTrack(
-            track: track,
-            duration: duration,
-          ));
-        },
-        onChangedSong: (song) {
-          store.dispatch(UpdateSong(song));
-        },
-        onBackPressed: () {
-          store.dispatch(UpdateTabIndex(kTabExplore));
-        },
-        onSavePressed: () {
-          final song = state.uiState.song;
-          final completer = Completer<Null>();
-          store.dispatch(SaveSongRequest(song: song, completer: completer));
-        });
+      song: state.uiState.song,
+      //clientMap: state.clientState.map,
+      state: state,
+      isLoading: state.isLoading,
+      //isLoaded: state.clientState.isLoaded,
+      isLoaded: state.dataState.areSongsLoaded,
+      onClearPressed: (context) {
+        store.dispatch(UpdateSong(SongEntity()));
+      },
+      onTrackAdded: (video, duration) {
+        final song = state.uiState.song;
+        final track = song.newTrack(video);
+        store.dispatch(AddTrack(
+          track: track,
+          duration: duration,
+        ));
+      },
+      onChangedSong: (song) {
+        store.dispatch(UpdateSong(song));
+      },
+      onBackPressed: () {
+        store.dispatch(UpdateTabIndex(kTabExplore));
+      },
+      onSavePressed: () {
+        final song = state.uiState.song;
+        final completer = Completer<Null>();
+        store.dispatch(SaveSongRequest(song: song, completer: completer));
+      },
+      onDeleteVideoPressed: (song, video) async {
+        store.dispatch(UpdateSong(song));
+        String path = await VideoEntity.getPath(video.timestamp);
+        if (File(path).existsSync()) {
+          File(path).deleteSync();
+        }
+      },
+    );
   }
 }
