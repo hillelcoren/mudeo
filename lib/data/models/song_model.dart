@@ -89,6 +89,8 @@ abstract class SongEntity extends Object
     return rebuild((b) => b..tracks[index] = track);
   }
 
+  bool get canAddTrack => tracks.length < 3;
+
   static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }
 

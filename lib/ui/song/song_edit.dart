@@ -214,6 +214,7 @@ class _SongEditState extends State<SongEdit> {
 
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
+    final song = viewModel.song;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 60),
@@ -240,10 +241,12 @@ class _SongEditState extends State<SongEdit> {
           ExpandedButton(
               icon: isRecording && isEmpty
                   ? Icons.stop
-                  : Icons.fiber_manual_record,
+                  : (song.canAddTrack
+                      ? Icons.fiber_manual_record
+                      : Icons.not_interested),
               onPressed: isRecording
                   ? (isEmpty ? stopRecording : null)
-                  : (isPlaying ? null : record),
+                  : (isPlaying ? null : (song.canAddTrack ? record : null)),
               color: isPlaying || isRecording ? null : Colors.redAccent),
           availableCameraDirections.keys
                       .where(
