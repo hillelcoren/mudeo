@@ -10,8 +10,12 @@ const String kAppleStoreUrl = '';
 const String kGoogleStoreUrl = '';
 
 const String kSharedPrefToken = 'token';
-const String kSharedPrefEmail = 'email';
 const String kSharedPrefAppVersion = 'app_version';
+const String kSharedPrefCameraDirection = 'camera_direction';
+
+const String kCameraDirectionFront = 'front';
+const String kCameraDirectionBack = 'back';
+const String kCameraDirectionExternal = 'external';
 
 const int kDefaultTrackVolume = 100;
 const int kUpdatedAtBufferSeconds = 600;

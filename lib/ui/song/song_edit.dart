@@ -4,12 +4,14 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
+import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 
@@ -33,19 +35,32 @@ class _SongEditState extends State<SongEdit> {
   String path;
   Timer timer;
   CameraLensDirection cameraDirection = CameraLensDirection.front;
+  Map<CameraLensDirection, bool> availableCameraDirections = {
+    CameraLensDirection.front: false,
+    CameraLensDirection.back: false,
+    CameraLensDirection.external: false,
+  };
 
   @override
   void initState() {
     super.initState();
 
-    initCamera();
+    SharedPreferences.getInstance().then((sharedPrefs) {
+      cameraDirection = convertCameraDirectionFromString(
+          sharedPrefs.getString(kSharedPrefCameraDirection));
+      initCamera();
+    });
   }
 
   void initCamera() {
     availableCameras().then((cameras) {
+      cameras.forEach((camera) {
+        availableCameraDirections[camera.lensDirection] = true;
+      });
+
       camera = CameraController(
-          cameras.firstWhere(
-                  (camera) => camera.lensDirection == cameraDirection),
+          cameras
+              .firstWhere((camera) => camera.lensDirection == cameraDirection),
           ResolutionPreset.high)
         ..addListener(() {
           if (mounted) setState(() {});
@@ -125,13 +140,53 @@ class _SongEditState extends State<SongEdit> {
         });
   }
 
-  void onSwitchCameraPressed() {
+  void onSettingsPressed() {
+    showDialog<SimpleDialog>(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext context) {
+          final localization = AppLocalization.of(context);
+          return SimpleDialog(
+            title: Text('test'),
+            children: <Widget>[
+              availableCameraDirections[CameraLensDirection.front]
+                  ? SimpleDialogOption(
+                      onPressed: () {
+                        selectCameraDirection(CameraLensDirection.front);
+                        Navigator.pop(context);
+                      },
+                      child: Text(localization.front),
+                    )
+                  : SizedBox(),
+              availableCameraDirections[CameraLensDirection.back]
+                  ? SimpleDialogOption(
+                      onPressed: () {
+                        selectCameraDirection(CameraLensDirection.back);
+                        Navigator.pop(context);
+                      },
+                      child: Text(localization.back),
+                    )
+                  : SizedBox(),
+              availableCameraDirections[CameraLensDirection.external]
+                  ? SimpleDialogOption(
+                      onPressed: () {
+                        selectCameraDirection(CameraLensDirection.external);
+                        Navigator.pop(context);
+                      },
+                      child: Text(localization.external),
+                    )
+                  : SizedBox(),
+            ],
+          );
+        });
+  }
+
+  void selectCameraDirection(CameraLensDirection direction) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+        kSharedPrefCameraDirection, convertCameraDirectionToString(direction));
     setState(() {
-      if (cameraDirection == CameraLensDirection.front) {
-        cameraDirection = CameraLensDirection.back;
-      } else {
-        cameraDirection = CameraLensDirection.front;
-      }
+      cameraDirection = direction;
       initCamera();
     });
   }
@@ -157,9 +212,9 @@ class _SongEditState extends State<SongEdit> {
           title: Text(viewModel.song.title),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.switch_camera),
-                tooltip: localization.switchCamera,
-                onPressed: isPlaying ? null : onSwitchCameraPressed),
+                icon: Icon(Icons.settings),
+                tooltip: localization.settings,
+                onPressed: onSettingsPressed),
             IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,

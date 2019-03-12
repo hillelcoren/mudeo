@@ -29,7 +29,6 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
 
 void _saveAuthLocal(ArtistEntity artist) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(kSharedPrefEmail, artist.email ?? '');
   prefs.setString(kSharedPrefToken, artist.token ?? '');
 }
 

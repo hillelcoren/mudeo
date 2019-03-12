@@ -20,7 +20,11 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      'switch_camera': 'Switch Camera',
+      'front': 'Front',
+      'back': 'Back',
+      'external': 'External',
+      'settings': 'Settings',
+      'selected_camera': 'Selected Camera',
       'edit_profile': 'Edit Profile',
       'delete_account': 'Delete Account',
       'preview': 'Preview',
@@ -99,8 +103,15 @@ class AppLocalization {
     },
   };
 
+  String get front => _localizedValues[locale.toString()]['front'];
 
-  String get switchCamera => _localizedValues[locale.toString()]['switch_camera'];
+  String get back => _localizedValues[locale.toString()]['back'];
+
+  String get external => _localizedValues[locale.toString()]['external'];
+
+  String get settings => _localizedValues[locale.toString()]['settings'];
+
+  String get selectedCamera => _localizedValues[locale.toString()]['selected_camera'];
 
   String get editProfile => _localizedValues[locale.toString()]['edit_profile'];
 
