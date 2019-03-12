@@ -90,6 +90,7 @@ class ArtistPage extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        launch(kTwitterURL, forceSafariVC: false);
                                       },
                                     ),
                                     SimpleDialogOption(
@@ -103,6 +104,7 @@ class ArtistPage extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
+                                        launch(kRedditURL, forceSafariVC: false);
                                       },
                                     ),
                                     Divider(),
