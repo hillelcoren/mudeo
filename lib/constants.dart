@@ -24,6 +24,7 @@ const int kDefaultTrackVolume = 100;
 const int kUpdatedAtBufferSeconds = 600;
 const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes
 const int kMaxRecordsPerApiPage = 100;
+const int kMaxTracks = 5;
 
 const List<String> kLanguages = [
   'en',
