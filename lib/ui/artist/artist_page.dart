@@ -124,33 +124,40 @@ class ArtistPage extends StatelessWidget {
                 ),
               ],
             ),
-            showAuthOptions ? ButtonBar(
-              mainAxisSize: MainAxisSize.min, // this will take space as minimum as posible(to center)
-              children: <Widget>[
-                ElevatedButton(
-                  label: localization.editProfile,
-                  onPressed: () {
-                    final store = StoreProvider.of<AppState>(context);
-                    store.dispatch(EditArtist(context: context, artist: artist));
-                  },
-                  color: Colors.blueAccent,
-                ),
-                ElevatedButton(
-                  label: localization.logout,
-                  onPressed: () {
-                    final store = StoreProvider.of<AppState>(context);
-                    store.dispatch(UserLogout());
-                    Navigator.of(context).pushReplacementNamed(LoginScreenBuilder.route);
-                  },
-                  color: Colors.grey,
-                ),
-                ElevatedButton(
-                  label: localization.deleteAccount,
-                  onPressed: () => null,
-                  color: Colors.redAccent,
-                ),
-              ],
-            ) : SizedBox(),
+            showAuthOptions
+                ? ButtonBar(
+                    mainAxisSize: MainAxisSize.min,
+                    // this will take space as minimum as posible(to center)
+                    children: <Widget>[
+                      RaisedButton(
+                        child: Text(localization.editProfile),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)),
+                        onPressed: () {
+                          final store = StoreProvider.of<AppState>(context);
+                          store.dispatch(
+                              EditArtist(context: context, artist: artist));
+                        },
+                        //color: Colors.blueAccent,
+                      ),
+                      FlatButton(
+                        child: Text(localization.logout),
+                        onPressed: () {
+                          final store = StoreProvider.of<AppState>(context);
+                          store.dispatch(UserLogout());
+                          Navigator.of(context)
+                              .pushReplacementNamed(LoginScreenBuilder.route);
+                        },
+                        //color: Colors.grey,
+                      ),
+                      FlatButton(
+                        child: Text(localization.deleteAccount),
+                        onPressed: () => null,
+                        //color: Colors.redAccent,
+                      ),
+                    ],
+                  )
+                : SizedBox(),
           ],
         ),
       ),
