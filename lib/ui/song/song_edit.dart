@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
+import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/camera.dart';
@@ -147,7 +148,7 @@ class _SongEditState extends State<SongEdit> {
         builder: (BuildContext context) {
           final localization = AppLocalization.of(context);
           return SimpleDialog(
-            title: Text('test'),
+            title: Text(localization.selectCamera),
             children: <Widget>[
               availableCameraDirections[CameraLensDirection.front]
                   ? SimpleDialogOption(
@@ -155,7 +156,14 @@ class _SongEditState extends State<SongEdit> {
                         selectCameraDirection(CameraLensDirection.front);
                         Navigator.pop(context);
                       },
-                      child: Text(localization.front),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconText(
+                          icon: Icons.camera_front,
+                          text: localization.front,
+                          textStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
                     )
                   : SizedBox(),
               availableCameraDirections[CameraLensDirection.back]
@@ -164,7 +172,14 @@ class _SongEditState extends State<SongEdit> {
                         selectCameraDirection(CameraLensDirection.back);
                         Navigator.pop(context);
                       },
-                      child: Text(localization.back),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconText(
+                          icon: Icons.camera_rear,
+                          text: localization.back,
+                          textStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
                     )
                   : SizedBox(),
               availableCameraDirections[CameraLensDirection.external]
@@ -173,7 +188,14 @@ class _SongEditState extends State<SongEdit> {
                         selectCameraDirection(CameraLensDirection.external);
                         Navigator.pop(context);
                       },
-                      child: Text(localization.external),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconText(
+                          icon: Icons.camera_alt,
+                          text: localization.external,
+                          textStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
                     )
                   : SizedBox(),
             ],
@@ -212,7 +234,7 @@ class _SongEditState extends State<SongEdit> {
           title: Text(viewModel.song.title),
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.settings),
+                icon: Icon(Icons.camera_alt),
                 tooltip: localization.settings,
                 onPressed: onSettingsPressed),
             IconButton(

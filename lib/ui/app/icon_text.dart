@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class IconText extends StatelessWidget {
+  const IconText({this.text, this.icon, this.textStyle});
 
-  const IconText({this.text, this.icon});
   final String text;
   final IconData icon;
+  final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,10 @@ class IconText extends StatelessWidget {
       children: <Widget>[
         Icon(icon),
         SizedBox(width: 6.0),
-        Text(text),
+        Text(
+          text,
+          style: this.textStyle,
+        ),
       ],
     );
   }

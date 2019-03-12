@@ -24,7 +24,7 @@ class AppLocalization {
       'back': 'Back',
       'external': 'External',
       'settings': 'Settings',
-      'selected_camera': 'Selected Camera',
+      'select_camera': 'Select Camera',
       'edit_profile': 'Edit Profile',
       'delete_account': 'Delete Account',
       'preview': 'Preview',
@@ -111,7 +111,7 @@ class AppLocalization {
 
   String get settings => _localizedValues[locale.toString()]['settings'];
 
-  String get selectedCamera => _localizedValues[locale.toString()]['selected_camera'];
+  String get selectCamera => _localizedValues[locale.toString()]['select_camera'];
 
   String get editProfile => _localizedValues[locale.toString()]['edit_profile'];
 
