@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
@@ -68,7 +69,7 @@ class _LoginState extends State<LoginScreen> {
 
     if (!_showLogin && !_termsChecked) {
       showDialog<AlertDialog>(
-            context: context,
+          context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(localization.termsOfService),
@@ -171,7 +172,9 @@ class _LoginState extends State<LoginScreen> {
                                     autocorrect: false,
                                     textInputAction: TextInputAction.next,
                                     decoration: InputDecoration(
-                                        labelText: localization.handle),
+                                      labelText: localization.handle,
+                                      icon: Icon(FontAwesomeIcons.at),
+                                    ),
                                     keyboardType: TextInputType.text,
                                     autovalidate: _autoValidate,
                                     validator: (val) =>
@@ -187,7 +190,9 @@ class _LoginState extends State<LoginScreen> {
                               autocorrect: false,
                               textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
-                                  labelText: localization.email),
+                                labelText: localization.email,
+                                icon: Icon(FontAwesomeIcons.solidEnvelope),
+                              ),
                               keyboardType: TextInputType.emailAddress,
                               autovalidate: _autoValidate,
                               validator: (val) =>
@@ -204,7 +209,9 @@ class _LoginState extends State<LoginScreen> {
                               autocorrect: false,
                               autovalidate: _autoValidate,
                               decoration: InputDecoration(
-                                  labelText: localization.password),
+                                labelText: localization.password,
+                                icon: Icon(FontAwesomeIcons.lock),
+                              ),
                               validator: (val) =>
                                   val.isEmpty || val.trim().isEmpty
                                       ? localization.pleaseEnterYourPassword

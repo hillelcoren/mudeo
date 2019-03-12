@@ -102,7 +102,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(localization.editProfile),
@@ -137,7 +137,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                     controller: _emailController,
                     decoration: InputDecoration(
                       labelText: localization.email,
-                      icon: Icon(FontAwesomeIcons.envelope),
+                      icon: Icon(FontAwesomeIcons.solidEnvelope),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) =>
