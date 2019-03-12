@@ -90,12 +90,6 @@ class ArtistPage extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        final store =
-                                        StoreProvider.of<AppState>(context);
-                                        store.dispatch(UserLogout());
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                            LoginScreenBuilder.route);
                                       },
                                     ),
                                     SimpleDialogOption(
@@ -109,12 +103,6 @@ class ArtistPage extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        final store =
-                                        StoreProvider.of<AppState>(context);
-                                        store.dispatch(UserLogout());
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                            LoginScreenBuilder.route);
                                       },
                                     ),
                                     Divider(),
