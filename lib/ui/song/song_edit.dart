@@ -227,11 +227,11 @@ class _SongEditState extends State<SongEdit> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-              icon: Icon(Icons.delete),
-              tooltip: localization.delete,
-              onPressed: () => viewModel.onClearPressed(context),
-              // TODO enable this code
-              /*
+            icon: Icon(Icons.delete),
+            tooltip: localization.delete,
+            onPressed: () => viewModel.onClearPressed(context),
+            // TODO enable this code
+            /*
                 onPressed: isEmpty || isPlaying
                     ? null
                     : () => viewModel.onClearPressed(context),
@@ -276,10 +276,25 @@ class _SongEditState extends State<SongEdit> {
                       ? (isEmpty ? stopRecording : null)
                       : (isPlaying ? null : record),
                   color: isPlaying || isRecording ? null : Colors.redAccent),
-              ExpandedButton(
-                icon: Icons.camera,
-                onPressed: onSettingsPressed,
-              ),
+              availableCameraDirections.keys
+                          .where((direction) =>
+                              availableCameraDirections[direction])
+                          .length >
+                      2
+                  ? ExpandedButton(
+                      icon: Icons.camera,
+                      onPressed: onSettingsPressed,
+                    )
+                  : ExpandedButton(
+                      iconHeight: 26,
+                      icon: cameraDirection == CameraLensDirection.front
+                          ? Icons.camera_front
+                          : Icons.camera_rear,
+                      onPressed: () => selectCameraDirection(
+                          cameraDirection == CameraLensDirection.front
+                              ? CameraLensDirection.back
+                              : CameraLensDirection.front),
+                    ),
             ]),
             isEmpty
                 ? SizedBox()
@@ -446,12 +461,14 @@ class TrackEditDialog extends StatelessWidget {
 }
 
 class ExpandedButton extends StatelessWidget {
-  ExpandedButton({this.icon, this.onPressed, this.color, this.viewModel});
+  ExpandedButton(
+      {this.icon, this.onPressed, this.color, this.viewModel, this.iconHeight});
 
   final IconData icon;
   final Function onPressed;
   final Color color;
   final SongEditVM viewModel;
+  final double iconHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -469,7 +486,7 @@ class ExpandedButton extends StatelessWidget {
         child: MaterialButton(
           height: 60,
           onPressed: onPressed,
-          child: Icon(icon, size: 32, color: color),
+          child: Icon(icon, size: iconHeight ?? 32, color: color),
           //color: Colors.grey,
         ),
       ),
