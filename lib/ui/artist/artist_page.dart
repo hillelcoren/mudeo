@@ -50,68 +50,72 @@ class ArtistPage extends StatelessWidget {
               floating: false,
               pinned: true,
               actions: <Widget>[
-                showSettings ? IconButton(
-                  icon: Icon(Icons.settings),
-                  onPressed: () {
-                    showDialog<SimpleDialog>(
-                        barrierDismissible: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          final localization = AppLocalization.of(context);
-                          return SimpleDialog(
-                            title: Text(localization.settings),
-                            children: <Widget>[
-                              SimpleDialogOption(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: IconText(
-                                    icon: Icons.person,
-                                    text: localization.editProfile,
-                                    textStyle: TextStyle(fontSize: 18),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  final store = StoreProvider.of<AppState>(context);
-                                  store.dispatch(
-                                      EditArtist(context: context, artist: artist));
-                                },
-                              ),
-                              SimpleDialogOption(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: IconText(
-                                    icon: Icons.lock,
-                                    text: localization.logout,
-                                    textStyle: TextStyle(fontSize: 18),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  final store = StoreProvider.of<AppState>(context);
-                                  store.dispatch(UserLogout());
-                                  Navigator.of(context)
-                                      .pushReplacementNamed(LoginScreenBuilder.route);
-                                },
-                              ),
-                              SimpleDialogOption(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: IconText(
-                                    icon: Icons.warning,
-                                    text: localization.deleteAccount,
-                                    textStyle: TextStyle(fontSize: 18),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                ) : SizedBox()
+                showSettings
+                    ? IconButton(
+                        icon: Icon(Icons.settings),
+                        onPressed: () {
+                          showDialog<SimpleDialog>(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SimpleDialog(
+                                  title: Text(localization.settings),
+                                  children: <Widget>[
+                                    SimpleDialogOption(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: IconText(
+                                          icon: Icons.person,
+                                          text: localization.editProfile,
+                                          textStyle: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        final store =
+                                            StoreProvider.of<AppState>(context);
+                                        store.dispatch(EditArtist(
+                                            context: context, artist: artist));
+                                      },
+                                    ),
+                                    SimpleDialogOption(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: IconText(
+                                          icon: Icons.lock,
+                                          text: localization.logout,
+                                          textStyle: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        final store =
+                                            StoreProvider.of<AppState>(context);
+                                        store.dispatch(UserLogout());
+                                        Navigator.of(context)
+                                            .pushReplacementNamed(
+                                                LoginScreenBuilder.route);
+                                      },
+                                    ),
+                                    SimpleDialogOption(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: IconText(
+                                          icon: Icons.warning,
+                                          text: localization.deleteAccount,
+                                          textStyle: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                      )
+                    : SizedBox()
               ],
               flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
@@ -142,6 +146,7 @@ class ArtistPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline,
                   ),
                 ),
+                /*
                 Padding(
                   padding: const EdgeInsets.only(top: 6, bottom: 18),
                   child: Container(
@@ -152,16 +157,29 @@ class ArtistPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                */
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    // TODO remove this null check
-                    artist.description ?? '',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: RaisedButton(
+                      child: Text(localization.follow, style: TextStyle(fontSize: 18)),
+                      //onPressed: () {},
+                      color: Colors.lightBlue,
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0))),
                 ),
+                artist.description != null && artist.description.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          // TODO remove this null check
+                          artist.description ?? '',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
                 artist.website != null && artist.website.isNotEmpty
                     ? Padding(
                         padding: EdgeInsets.only(top: 12, bottom: 6),
