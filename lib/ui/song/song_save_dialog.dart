@@ -4,6 +4,7 @@ import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SongSaveDialog extends StatefulWidget {
   const SongSaveDialog({
@@ -24,6 +25,17 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
 
   List<TextEditingController> _controllers = [];
   int selectedGenreId;
+
+  @override
+  void initState() {
+    super.initState();
+
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        selectedGenreId = prefs.getInt(kSharedPrefGenreId);
+      });
+    });
+  }
 
   @override
   void didChangeDependencies() {
@@ -110,6 +122,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                           isExpanded: true,
                           hint: Text(localization.genre),
                           onChanged: (value) {
+                            SharedPreferences.getInstance().then((prefs) =>
+                                prefs.setInt(kSharedPrefGenreId, value));
                             viewModel.onChangedSong(
                                 song.rebuild((b) => b..genreId = value));
                             setState(() {
