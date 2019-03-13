@@ -38,12 +38,14 @@ class SongListVM {
     @required this.onSongEdit,
     @required this.onRefreshed,
     @required this.songIds,
+    @required this.loadSongs,
   });
 
   final AppState state;
   final bool isLoading;
   final bool isLoaded;
   final List<int> songIds;
+  final Function loadSongs;
   final Function(BuildContext, ArtistEntity) onArtistTap;
   final Function(BuildContext, SongEntity) onSongEdit;
   final Function(BuildContext) onRefreshed;
@@ -71,8 +73,8 @@ class SongListVM {
       //isLoaded: state.clientState.isLoaded,
       songIds: state.dataState.songMap.keys.toList(),
       isLoaded: state.dataState.areSongsLoaded,
-      onArtistTap: (context, artist) {
-      },
+      loadSongs: () => store.dispatch(LoadSongs()),
+      onArtistTap: (context, artist) {},
       onSongEdit: (context, song) {
         final localization = AppLocalization.of(context);
         final uiSong = store.state.uiState.song;
@@ -80,23 +82,24 @@ class SongListVM {
           showDialog<AlertDialog>(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-              semanticLabel: localization.areYouSure,
-              title: Text(localization.areYouSure),
-              content: Text(localization.loseChanges),
-              actions: <Widget>[
-                new FlatButton(
-                    child: Text(localization.cancel.toUpperCase()),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-                new FlatButton(
-                    child: Text(localization.ok.toUpperCase()),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      store.dispatch(EditSong(song: song, context: context));
-                    })
-              ],
-            ),
+                  semanticLabel: localization.areYouSure,
+                  title: Text(localization.areYouSure),
+                  content: Text(localization.loseChanges),
+                  actions: <Widget>[
+                    new FlatButton(
+                        child: Text(localization.cancel.toUpperCase()),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                    new FlatButton(
+                        child: Text(localization.ok.toUpperCase()),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          store
+                              .dispatch(EditSong(song: song, context: context));
+                        })
+                  ],
+                ),
           );
         } else {
           store.dispatch(EditSong(song: song, context: context));

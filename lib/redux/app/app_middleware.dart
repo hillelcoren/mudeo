@@ -8,6 +8,7 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/ui/ui_state.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/main_screen.dart';
@@ -48,12 +49,15 @@ List<Middleware<AppState>> createStorePersistenceMiddleware([
 
   final persistAuth = _createPersistAuth(authRepository);
 
+  final updateTabIndex = _updateTabIndex();
+
   return [
     TypedMiddleware<AppState, LoadStateRequest>(loadState),
     TypedMiddleware<AppState, UserLoginSuccess>(userLoginSuccess),
     TypedMiddleware<AppState, PersistData>(persistData),
     TypedMiddleware<AppState, PersistUI>(persistUI),
     TypedMiddleware<AppState, PersistAuth>(persistAuth),
+    TypedMiddleware<AppState, UpdateTabIndex>(updateTabIndex),
   ];
 }
 
@@ -166,3 +170,16 @@ Middleware<AppState> _createPersistData(PersistenceRepository dataRepository) {
     dataRepository.saveDataState(state.dataState);
   };
 }
+
+Middleware<AppState> _updateTabIndex() {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    // first process the action so the data is in the state
+    next(action);
+
+    final dataState = store.state.dataState;
+    if (dataState.areSongsStale && !dataState.loadFailedRecently) {
+      store.dispatch(LoadSongs());
+    }
+  };
+}
+

@@ -23,7 +23,7 @@ const String kCameraDirectionExternal = 'external';
 const int kDefaultTrackVolume = 100;
 const int kUpdatedAtBufferSeconds = 600;
 const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes
-const int kMillisecondsToRetryData = 1000 * 10; // 10 seconds
+const int kMillisecondsToRetryData = 1000 * 15; // 10 seconds
 const int kMaxRecordsPerApiPage = 100;
 const int kMaxTracks = 5;
 
