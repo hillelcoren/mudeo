@@ -11,15 +11,17 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, EditSong>(editSongReducer),
   TypedReducer<UIState, UpdateTabIndex>(mainTabChangedReducer),
   TypedReducer<UIState, SaveVideoSuccess>(saveVideoReducer),
+  TypedReducer<UIState, SaveSongSuccess>(saveSongReducer),
+  TypedReducer<UIState, AddSongSuccess>(addSongReducer),
   TypedReducer<UIState, EditArtist>(editArtistReducer),
   TypedReducer<UIState, UpdateArtist>(updateArtistReducer),
   TypedReducer<UIState, StartRecording>(startRecordingReducer),
   TypedReducer<UIState, StopRecording>(stopRecordingReducer),
 ]);
 
-
 UIState startRecordingReducer(UIState uiState, StartRecording action) {
-  return uiState.rebuild((b) => b..recordingTimestamp = DateTime.now().millisecondsSinceEpoch);
+  return uiState.rebuild(
+      (b) => b..recordingTimestamp = DateTime.now().millisecondsSinceEpoch);
 }
 
 UIState stopRecordingReducer(UIState uiState, StopRecording action) {
@@ -47,6 +49,14 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
   return uiState.rebuild((b) => b..song.tracks[index] = newTrack);
 }
 
+UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {
+  return uiState.rebuild((b) => b..song.replace(action.song));
+}
+
+UIState addSongReducer(UIState uiState, AddSongSuccess action) {
+  return uiState.rebuild((b) => b..song.replace(action.song));
+}
+
 UIState addTrackReducer(UIState uiState, AddTrack action) {
   final song = uiState.song;
   final track = action.track;
@@ -68,14 +78,10 @@ UIState editSongReducer(UIState uiState, EditSong action) {
     ..song.replace(action.song));
 }
 
-
 UIState editArtistReducer(UIState uiState, EditArtist action) {
-  return uiState.rebuild((b) => b
-    ..artist.replace(action.artist));
+  return uiState.rebuild((b) => b..artist.replace(action.artist));
 }
 
 UIState updateArtistReducer(UIState uiState, UpdateArtist action) {
-  return uiState.rebuild((b) => b
-    ..artist.replace(action.artist));
+  return uiState.rebuild((b) => b..artist.replace(action.artist));
 }
-

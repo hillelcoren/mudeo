@@ -52,7 +52,7 @@ Middleware<AppState> _saveSong(SongRepository repository) {
             song: store.state.uiState.song, completer: action.completer));
       });
     } else {
-      repository.saveSong(authState, action.song).then((SongEntity song) {
+      repository.saveSong(authState, action.song).then((song) {
         if (action.song.isNew) {
           store.dispatch(AddSongSuccess(song));
         } else {
