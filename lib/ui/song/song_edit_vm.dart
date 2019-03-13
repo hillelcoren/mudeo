@@ -76,14 +76,36 @@ class SongEditScreen extends StatelessWidget {
               PopupMenuButton<String>(
                 icon: Icon(Icons.more_vert),
                 itemBuilder: (BuildContext context) {
-                  return [localization.clearSong].map((option) => PopupMenuItem(
-                    child: Text(option),
-                    value: option,
-                  )).toList();
+                  return [localization.clearSong]
+                      .map((option) => PopupMenuItem(
+                            child: Text(option),
+                            value: option,
+                          ))
+                      .toList();
                 },
                 onSelected: (String action) {
                   if (action == localization.clearSong) {
-                    vm.onClearPressed(context);
+                    showDialog<AlertDialog>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              semanticLabel: localization.areYouSure,
+                              title: Text(localization.areYouSure),
+                              content: Text(localization.clearSong),
+                              actions: <Widget>[
+                                new FlatButton(
+                                    child:
+                                        Text(localization.cancel.toUpperCase()),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    }),
+                                new FlatButton(
+                                    child: Text(localization.ok.toUpperCase()),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      vm.onClearPressed(context);
+                                    })
+                              ],
+                            ));
                   }
                 },
               )
