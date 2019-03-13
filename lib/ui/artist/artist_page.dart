@@ -42,6 +42,151 @@ class ArtistPage extends StatelessWidget {
     final TextStyle linkStyle = themeData.textTheme.body2
         .copyWith(color: themeData.accentColor, fontSize: 18);
 
+    void _showMenu() {
+      showDialog<SimpleDialog>(
+          barrierDismissible: true,
+          context: context,
+          builder: (BuildContext context) {
+            final ThemeData themeData = Theme.of(context);
+            final TextStyle aboutTextStyle = themeData.textTheme.body2;
+            final TextStyle linkStyle = themeData.textTheme.body2
+                .copyWith(color: themeData.accentColor);
+
+            return SimpleDialog(
+              children: <Widget>[
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: Icons.person,
+                      text: localization.editProfile,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    final store = StoreProvider.of<AppState>(context);
+                    store
+                        .dispatch(EditArtist(context: context, artist: artist));
+                  },
+                ),
+                Divider(),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: Icons.lock,
+                      text: localization.logoutApp,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    final store = StoreProvider.of<AppState>(context);
+                    store.dispatch(UserLogout());
+                    Navigator.of(context)
+                        .pushReplacementNamed(LoginScreenBuilder.route);
+                  },
+                ),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: Icons.warning,
+                      text: localization.deleteAccount,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                Divider(),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: Icons.info_outline,
+                      text: localization.about,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    showAboutDialog(
+                      context: context,
+                      applicationName: 'mudeo',
+                      /*
+                                          applicationIcon: Image.asset(
+                                            'assets/images/logo.png',
+                                            width: 40.0,
+                                            height: 40.0,
+                                          ),
+                                          */
+                      applicationVersion:
+                          '${localization.version} $kAppVersion',
+                      applicationLegalese: '© 2019 mudeo',
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 24.0),
+                          child: RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  style: aboutTextStyle,
+                                  text: localization.thankYouForUsingOurApp +
+                                      '\n\n' +
+                                      localization.ifYouLikeIt,
+                                ),
+                                LinkTextSpan(
+                                  style: linkStyle,
+                                  url: getAppStoreURL(context),
+                                  text: ' ' + localization.clickHere + ' ',
+                                ),
+                                TextSpan(
+                                  style: aboutTextStyle,
+                                  text: localization.toRateIt,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: FontAwesomeIcons.twitter,
+                      text: kLinkTypeTwitter,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    launch(kTwitterURL, forceSafariVC: false);
+                  },
+                ),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: FontAwesomeIcons.redditAlien,
+                      text: kLinkTypeReddit,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    launch(kRedditURL, forceSafariVC: false);
+                  },
+                ),
+              ],
+            );
+          });
+    }
+
     return CupertinoPageScaffold(
         child: Material(
       child: NestedScrollView(
@@ -49,172 +194,8 @@ class ArtistPage extends StatelessWidget {
           return <Widget>[
             SliverAppBar(
               expandedHeight: 200.0,
-              floating: false,
-              pinned: true,
-              actions: <Widget>[
-                showSettings
-                    ? IconButton(
-                        icon: Icon(Icons.settings),
-                        onPressed: () {
-                          showDialog<SimpleDialog>(
-                              barrierDismissible: true,
-                              context: context,
-                              builder: (BuildContext context) {
-                                final ThemeData themeData = Theme.of(context);
-                                final TextStyle aboutTextStyle = themeData.textTheme.body2;
-                                final TextStyle linkStyle =
-                                themeData.textTheme.body2.copyWith(color: themeData.accentColor);
-
-                                return SimpleDialog(
-                                  children: <Widget>[
-                                    SimpleDialogOption(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: IconText(
-                                          icon: Icons.person,
-                                          text: localization.editProfile,
-                                          textStyle: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        final store =
-                                            StoreProvider.of<AppState>(context);
-                                        store.dispatch(EditArtist(
-                                            context: context, artist: artist));
-                                      },
-                                    ),
-                                    Divider(),
-                                    SimpleDialogOption(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: IconText(
-                                          icon: FontAwesomeIcons.twitter,
-                                          text: kLinkTypeTwitter,
-                                          textStyle: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        launch(kTwitterURL,
-                                            forceSafariVC: false);
-                                      },
-                                    ),
-                                    SimpleDialogOption(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: IconText(
-                                          icon: FontAwesomeIcons.redditAlien,
-                                          text: kLinkTypeReddit,
-                                          textStyle: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        launch(kRedditURL,
-                                            forceSafariVC: false);
-                                      },
-                                    ),
-                                    Divider(),
-                                    SimpleDialogOption(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: IconText(
-                                          icon: Icons.info_outline,
-                                          text: localization.about,
-                                          textStyle: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        showAboutDialog(
-                                          context: context,
-                                          applicationName: 'mudeo',
-                                          /*
-                                          applicationIcon: Image.asset(
-                                            'assets/images/logo.png',
-                                            width: 40.0,
-                                            height: 40.0,
-                                          ),
-                                          */
-                                          applicationVersion:
-                                              '${localization.version} $kAppVersion',
-                                          applicationLegalese:
-                                              '© 2019 mudeo',
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 24.0),
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      style: aboutTextStyle,
-                                                      text: localization
-                                                              .thankYouForUsingOurApp +
-                                                          '\n\n' +
-                                                          localization
-                                                              .ifYouLikeIt,
-                                                    ),
-                                                    LinkTextSpan(
-                                                      style: linkStyle,
-                                                      url: getAppStoreURL(context),
-                                                      text: ' ' +
-                                                          localization
-                                                              .clickHere +
-                                                          ' ',
-                                                    ),
-                                                    TextSpan(
-                                                      style: aboutTextStyle,
-                                                      text:
-                                                          localization.toRateIt,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    ),
-                                    SimpleDialogOption(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: IconText(
-                                          icon: Icons.lock,
-                                          text: localization.logout,
-                                          textStyle: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                        final store =
-                                            StoreProvider.of<AppState>(context);
-                                        store.dispatch(UserLogout());
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                                LoginScreenBuilder.route);
-                                      },
-                                    ),
-                                    SimpleDialogOption(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12),
-                                        child: IconText(
-                                          icon: Icons.warning,
-                                          text: localization.deleteAccount,
-                                          textStyle: TextStyle(fontSize: 18),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              });
-                        },
-                      )
-                    : SizedBox()
-              ],
+              floating: true,
+              pinned: false,
               flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
                   title: Text(artist.fullName,
@@ -244,29 +225,21 @@ class ArtistPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline,
                   ),
                 ),
-                showSettings
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 6, bottom: 18),
-                        child: Container(
-                          height: 2,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                          ),
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: RaisedButton(
-                            child: Text(localization.follow,
-                                style: TextStyle(fontSize: 18)),
-                            //onPressed: () {},
-                            color: Colors.lightBlue,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 35),
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0))),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: RaisedButton(
+                      child: Text(
+                          showSettings
+                              ? localization.settings
+                              : localization.follow,
+                          style: TextStyle(fontSize: 18)),
+                      onPressed: () => showSettings ? _showMenu() : null,
+                      color: showSettings ? Colors.black87 : Colors.lightBlue,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0))),
+                ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 10),
