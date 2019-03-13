@@ -49,6 +49,7 @@ abstract class LoginResponseData
 abstract class DataState implements Built<DataState, DataStateBuilder> {
   factory DataState() {
     return _$DataState._(
+      songsFailedAt: 0,
       songsUpdateAt: 0,
       songMap: BuiltMap<int, SongEntity>(),
       artistMap: BuiltMap<int, ArtistEntity>(),
@@ -57,11 +58,22 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
 
   DataState._();
 
+  int get songsFailedAt;
+
   int get songsUpdateAt;
 
   BuiltMap<int, SongEntity> get songMap;
 
   BuiltMap<int, ArtistEntity> get artistMap;
+
+  bool get loadFailedRecently {
+    if (songsFailedAt == 0) {
+      return false;
+    }
+
+    return DateTime.now().millisecondsSinceEpoch - songsFailedAt <
+        kMillisecondsToRetryData;
+  }
 
   bool get areSongsStale {
     if (!areSongsLoaded) {

@@ -78,9 +78,12 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final AppState state = store.state;
 
-    if (!state.dataState.areSongsStale && !action.force) {
-      next(action);
-      return;
+    if (!action.force) {
+      if (!state.dataState.areSongsStale ||
+          state.dataState.loadFailedRecently) {
+        next(action);
+        return;
+      }
     }
 
     if (state.isLoading) {
