@@ -73,7 +73,9 @@ class SongEditScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,
-                onPressed: uiState.isRecording
+                onPressed: uiState.isRecording ||
+                        uiState.song.tracks.isEmpty ||
+                        !(uiState.song.isChanged ?? false)
                     ? null
                     : () => onSavePressed(context, vm),
               ),
