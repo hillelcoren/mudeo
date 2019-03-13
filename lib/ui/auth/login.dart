@@ -289,7 +289,7 @@ class _LoginState extends State<LoginScreen> {
                   ProgressButton(
                     width: double.infinity,
                     padding: EdgeInsets.only(top: 12, bottom: 6),
-                    isLoading: viewModel.isLoading,
+                    isLoading: viewModel.isLoading || viewModel.authState.isAuthenticated,
                     label:
                         (_showLogin ? localization.login : localization.signUp)
                             .toUpperCase(),
