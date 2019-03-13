@@ -8,6 +8,7 @@ import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SongSaveDialog extends StatefulWidget {
   const SongSaveDialog({
@@ -33,7 +34,9 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   List<TextEditingController> _controllers = [];
   int selectedGenreId;
   bool isSaving = false;
-  int selectedStackIndex = kStackIndexForm;
+
+  //int selectedStackIndex = kStackIndexForm;
+  int selectedStackIndex = kStackIndexSuccess;
 
   @override
   void initState() {
@@ -102,7 +105,9 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final completer = Completer<Null>();
     widget.viewModel.onSavePressed(completer);
     completer.future.then((_) {
-      selectedStackIndex = kStackIndexSuccess;
+      setState(() {
+        selectedStackIndex = kStackIndexSuccess;
+      });
     });
   }
 
@@ -210,7 +215,37 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     }
 
     Widget _success() {
-      return Text('Done!');
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Align(
+            child: Text(localization.yourSongHasBeenSaved,
+                style: Theme.of(context).textTheme.title),
+            alignment: Alignment.centerLeft,
+          ),
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: FlatButton(
+              onPressed: () {
+                launch(song.url, forceSafariVC: false);
+              },
+              child: Text(
+                'https://mudeo.app/song/...',
+                style: TextStyle(fontSize: 20, color: Colors.lightBlueAccent),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              FlatButton(
+                child: Text(localization.close),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        ],
+      );
     }
 
     return Padding(
@@ -224,8 +259,12 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 index: selectedStackIndex,
                 children: <Widget>[
                   selectedStackIndex == kStackIndexForm ? _form() : SizedBox(),
-                  _progress(),
-                  _success(),
+                  selectedStackIndex == kStackIndexProgress
+                      ? _progress()
+                      : SizedBox(),
+                  selectedStackIndex == kStackIndexSuccess
+                      ? _success()
+                      : SizedBox(),
                 ],
               ),
             ),
