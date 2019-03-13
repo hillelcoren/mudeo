@@ -103,7 +103,6 @@ class _SongEditState extends State<SongEdit> {
     timestamp = DateTime.now().millisecondsSinceEpoch;
     path = await VideoEntity.getPath(timestamp);
 
-    print('Recored: Set tiemr for ${song.duration > 0 ? song.duration : kMaxSongDuration} seconds');
     recordTimer = Timer(
         Duration(
             milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
@@ -114,7 +113,6 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void stopRecording() async {
-    print('Stop record');
     recordTimer?.cancel();
     await camera.stopVideoRecording();
     VideoPlayerController player = VideoPlayerController.file(File(path));
