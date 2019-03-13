@@ -113,7 +113,7 @@ class SongItem extends StatelessWidget {
                         text: '@${artist.handle}',
                       ),
                       TextSpan(
-                        text: ' • ${song.playCount} ${localization.views}',
+                        text: ' • ${song.playCount ?? 0} ${localization.views}',
                       ),
                     ],
                   ),
