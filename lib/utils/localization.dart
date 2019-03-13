@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'uploading': 'Uploading',
       'follow': 'Follow',
       'genre': 'Genre',
       'front': 'Front',
@@ -104,6 +105,9 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+
+  String get uploading => _localizedValues[locale.toString()]['uploading'];
 
   String get follow => _localizedValues[locale.toString()]['follow'];
 

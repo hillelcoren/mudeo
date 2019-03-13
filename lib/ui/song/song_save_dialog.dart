@@ -26,9 +26,14 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
 
+  static final int kStackIndexForm = 0;
+  static final int kStackIndexProgress = 1;
+  static final int kStackIndexSuccess = 2;
+
   List<TextEditingController> _controllers = [];
   int selectedGenreId;
   bool isSaving = false;
+  int selectedStackIndex = kStackIndexForm;
 
   @override
   void initState() {
@@ -91,13 +96,13 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     }
 
     setState(() {
-      isSaving = true;
+      selectedStackIndex = kStackIndexProgress;
     });
 
     final completer = Completer<Null>();
     widget.viewModel.onSavePressed(completer);
     completer.future.then((_) {
-      Navigator.of(context).pop();
+      selectedStackIndex = kStackIndexSuccess;
     });
   }
 
@@ -107,6 +112,107 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final viewModel = widget.viewModel;
     final song = viewModel.song;
 
+    Widget _form() {
+      return Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            TextFormField(
+              autocorrect: false,
+              controller: _titleController,
+              autofocus: true,
+              decoration: InputDecoration(
+                labelText: localization.title,
+              ),
+              validator: (value) =>
+                  value.isEmpty ? localization.fieldIsRequired : null,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: DropdownButton<int>(
+                  isExpanded: true,
+                  hint: Text(localization.genre),
+                  onChanged: (value) {
+                    SharedPreferences.getInstance().then(
+                        (prefs) => prefs.setInt(kSharedPrefGenreId, value));
+                    viewModel
+                        .onChangedSong(song.rebuild((b) => b..genreId = value));
+                    setState(() {
+                      selectedGenreId = value;
+                    });
+                  },
+                  value: selectedGenreId ??
+                      (song.genreId > 0 ? song.genreId : null),
+                  items: kGenres.keys
+                      .map((id) => DropdownMenuItem(
+                            value: id,
+                            child: Text(localization.lookup(kGenres[id])),
+                          ))
+                      .toList()),
+            ),
+            TextFormField(
+              autocorrect: false,
+              controller: _descriptionController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: localization.description,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.public,
+                    color: Colors.white70,
+                    size: 20,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    localization.public,
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  Spacer(),
+                  FlatButton(
+                    child: Text(localization.cancel),
+                    //color: Colors.grey,
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  ProgressButton(
+                    isLoading: viewModel.state.isSaving,
+                    onPressed: () => _onSubmit(),
+                    label: song.isNew ? localization.upload : localization.save,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+    Widget _progress() {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Align(
+            child: Text('${localization.uploading}...',
+                style: Theme.of(context).textTheme.title),
+            alignment: Alignment.centerLeft,
+          ),
+          LoadingIndicator(),
+        ],
+      );
+    }
+
+    Widget _success() {
+      return Text('Done!');
+    }
+
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
@@ -114,93 +220,13 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           Material(
             child: Padding(
               padding: const EdgeInsets.all(28.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _titleController,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                        labelText: localization.title,
-                      ),
-                      validator: (value) =>
-                          value.isEmpty ? localization.fieldIsRequired : null,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: DropdownButton<int>(
-                          isExpanded: true,
-                          hint: Text(localization.genre),
-                          onChanged: (value) {
-                            SharedPreferences.getInstance().then((prefs) =>
-                                prefs.setInt(kSharedPrefGenreId, value));
-                            viewModel.onChangedSong(
-                                song.rebuild((b) => b..genreId = value));
-                            setState(() {
-                              selectedGenreId = value;
-                            });
-                          },
-                          value: selectedGenreId ??
-                              (song.genreId > 0 ? song.genreId : null),
-                          items: kGenres.keys
-                              .map((id) => DropdownMenuItem(
-                                    value: id,
-                                    child:
-                                        Text(localization.lookup(kGenres[id])),
-                                  ))
-                              .toList()),
-                    ),
-                    TextFormField(
-                      autocorrect: false,
-                      controller: _descriptionController,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        labelText: localization.description,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.public,
-                            color: Colors.white70,
-                            size: 20,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            localization.public,
-                            style: TextStyle(color: Colors.white70),
-                          ),
-                          Spacer(),
-                          isSaving
-                              ? SizedBox()
-                              : FlatButton(
-                                  child: Text(localization.cancel),
-                                  //color: Colors.grey,
-                                  onPressed: () => Navigator.of(context).pop(),
-                                ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          isSaving
-                              ? SizedBox()
-                              : ProgressButton(
-                                  isLoading: viewModel.state.isSaving,
-                                  onPressed: () => _onSubmit(),
-                                  label: song.isNew
-                                      ? localization.upload
-                                      : localization.save,
-                                ),
-                          isSaving ? LoadingIndicator() : SizedBox()
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+              child: IndexedStack(
+                index: selectedStackIndex,
+                children: <Widget>[
+                  selectedStackIndex == kStackIndexForm ? _form() : SizedBox(),
+                  _progress(),
+                  _success(),
+                ],
               ),
             ),
           ),
