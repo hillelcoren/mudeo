@@ -3,9 +3,10 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
+import 'package:async/async.dart';
+import 'package:path/path.dart';
 
 class WebClient {
   const WebClient();
@@ -79,28 +80,36 @@ class WebClient {
     print('Request: $data');
     http.Response response;
 
-    final headers = {
+    Map<String, String> headers = {
       'X-API-TOKEN': token,
       'X-API-SECRET': Config.API_SECRET,
-      'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
     };
 
     if (filePath != null) {
       final file = File(filePath);
-      final request = new http.MultipartRequest('POST', Uri.parse(url))
+      var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
+      var length = await file.length();
+      print('url: $url');
+      print('length of file: $length');
+
+      headers['Content-Type'] = 'application/json';
+
+      final request = http.MultipartRequest('POST', Uri.parse(url))
         ..headers.addAll(headers)
-        ..files.add(new http.MultipartFile(
-            'video', file.openRead(), await file.length()));
+        ..files.add(http.MultipartFile('video', stream, length,
+            filename: basename(file.path)));
+
       response = await http.Response.fromStream(await request.send())
           .timeout(const Duration(minutes: 10));
     } else {
+      headers['Content-Type'] = 'application/json';
       response = await http.Client()
           .post(
-        url,
-        body: data,
-        headers: headers,
-      )
+            url,
+            body: data,
+            headers: headers,
+          )
           .timeout(const Duration(seconds: 30));
     }
 

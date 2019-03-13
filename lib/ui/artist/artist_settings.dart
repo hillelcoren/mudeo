@@ -59,7 +59,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         .forEach((dynamic controller) => controller.removeListener(_onChanged));
 
     final artist = widget.viewModel.state.authState.artist;
-    _handleController.text = artist.handle.trim();
+    _handleController.text = artist.handle;
 
     _controllers
         .forEach((dynamic controller) => controller.addListener(_onChanged));

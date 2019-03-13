@@ -63,13 +63,13 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
     ];
     if (object.artistId != null) {
       result
-        ..add('artist_id')
+        ..add('user_id')
         ..add(serializers.serialize(object.artistId,
             specifiedType: const FullType(int)));
     }
     if (object.genreId != null) {
       result
-        ..add('category_id')
+        ..add('genre_id')
         ..add(serializers.serialize(object.genreId,
             specifiedType: const FullType(int)));
     }
@@ -136,11 +136,11 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           result.url = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'artist_id':
+        case 'user_id':
           result.artistId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'category_id':
+        case 'genre_id':
           result.genreId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;

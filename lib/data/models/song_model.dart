@@ -40,11 +40,11 @@ abstract class SongEntity extends Object
   String get url;
 
   @nullable
-  @BuiltValueField(wireName: 'artist_id')
+  @BuiltValueField(wireName: 'user_id')
   int get artistId;
 
   @nullable
-  @BuiltValueField(wireName: 'category_id')
+  @BuiltValueField(wireName: 'genre_id')
   int get genreId;
 
   int get duration;
