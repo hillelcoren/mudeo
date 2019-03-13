@@ -21,7 +21,7 @@ class SongEditScreen extends StatelessWidget {
   void onSavePressed(BuildContext context, SongEditVM viewModel) {
     showDialog<SongSaveDialog>(
         context: context,
-        barrierDismissible: true,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return SongSaveDialog(
               key: ValueKey(viewModel.song.id), viewModel: viewModel);

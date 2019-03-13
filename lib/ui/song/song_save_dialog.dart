@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
@@ -35,7 +33,6 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   List<TextEditingController> _controllers = [];
   int selectedGenreId;
   bool isSaving = false;
-
   int selectedStackIndex = kStackIndexForm;
 
   @override
@@ -218,7 +215,20 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 style: Theme.of(context).textTheme.title),
             alignment: Alignment.centerLeft,
           ),
-          LoadingIndicator(),
+          Padding(
+            padding: const EdgeInsets.only(top: 30, bottom: 10),
+            child: LinearProgressIndicator(),
+          ),
+          /*
+          Align(
+            child: Text(
+                localization.uploadingVideoOf
+                    .replaceFirst(':current', '1')
+                    .replaceFirst(':total', '2'),
+                style: Theme.of(context).textTheme.subtitle),
+            alignment: Alignment.centerLeft,
+          ),
+          */
         ],
       );
     }

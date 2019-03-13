@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'uploading_video_of': 'Uploading video :current of :total',
       'your_song_has_been_saved': 'Your song has been saved!',
       'uploading': 'Uploading',
       'follow': 'Follow',
@@ -107,8 +108,7 @@ class AppLocalization {
     },
   };
 
-
-
+  String get uploadingVideoOf => _localizedValues[locale.toString()]['uploading_video_of'];
 
   String get yourSongHasBeenSaved => _localizedValues[locale.toString()]['your_song_has_been_saved'];
 
