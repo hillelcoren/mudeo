@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
@@ -107,6 +108,15 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       setState(() {
         selectedStackIndex = kStackIndexSuccess;
       });
+    }).catchError((Object error) {
+      setState(() {
+        selectedStackIndex = kStackIndexForm;
+      });
+      showDialog<ErrorDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorDialog(error);
+          });
     });
   }
 
