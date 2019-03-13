@@ -125,6 +125,7 @@ class ArtistPage extends StatelessWidget {
                       applicationVersion:
                           '${localization.version} $kAppVersion',
                       applicationLegalese: '© 2019 mudeo',
+                      /*
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(top: 24.0),
@@ -151,6 +152,7 @@ class ArtistPage extends StatelessWidget {
                           ),
                         ),
                       ],
+                      */
                     );
                   },
                 ),
