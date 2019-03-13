@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
+import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -25,6 +28,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
 
   List<TextEditingController> _controllers = [];
   int selectedGenreId;
+  bool isSaving = false;
 
   @override
   void initState() {
@@ -85,7 +89,16 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     if (!_formKey.currentState.validate()) {
       return;
     }
-    widget.viewModel.onSavePressed();
+
+    setState(() {
+      isSaving = true;
+    });
+
+    final completer = Completer<Null>();
+    widget.viewModel.onSavePressed(completer);
+    completer.future.then((_) {
+      Navigator.of(context).pop();
+    });
   }
 
   @override
@@ -163,21 +176,26 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             style: TextStyle(color: Colors.white70),
                           ),
                           Spacer(),
-                          FlatButton(
-                            child: Text(localization.cancel),
-                            //color: Colors.grey,
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
+                          isSaving
+                              ? SizedBox()
+                              : FlatButton(
+                                  child: Text(localization.cancel),
+                                  //color: Colors.grey,
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
                           SizedBox(
                             width: 8,
                           ),
-                          ProgressButton(
-                            isLoading: viewModel.state.isSaving,
-                            onPressed: () => _onSubmit(),
-                            label: song.isNew
-                                ? localization.upload
-                                : localization.save,
-                          ),
+                          isSaving
+                              ? SizedBox()
+                              : ProgressButton(
+                                  isLoading: viewModel.state.isSaving,
+                                  onPressed: () => _onSubmit(),
+                                  label: song.isNew
+                                      ? localization.upload
+                                      : localization.save,
+                                ),
+                          isSaving ? LoadingIndicator() : SizedBox()
                         ],
                       ),
                     )

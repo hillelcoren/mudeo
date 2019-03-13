@@ -110,7 +110,7 @@ class SongEditVM {
   final Function onStartRecording;
   final Function(VideoEntity, int) onTrackAdded;
   final Function(SongEntity) onChangedSong;
-  final Function() onSavePressed;
+  final Function(Completer) onSavePressed;
   final Function(BuildContext) onClearPressed;
   final Function(SongEntity, VideoEntity) onDeleteVideoPressed;
   final Function() onBackPressed;
@@ -146,9 +146,8 @@ class SongEditVM {
       onBackPressed: () {
         store.dispatch(UpdateTabIndex(kTabExplore));
       },
-      onSavePressed: () {
+      onSavePressed: (completer) {
         final song = state.uiState.song;
-        final completer = Completer<Null>();
         store.dispatch(SaveSongRequest(song: song, completer: completer));
       },
       onDeleteVideoPressed: (song, video) async {
