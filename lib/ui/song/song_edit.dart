@@ -33,7 +33,8 @@ class _SongEditState extends State<SongEdit> {
   bool isPlaying = false;
   int timestamp;
   String path;
-  Timer timer;
+  Timer recordTimer;
+  Timer playTimer;
   CameraLensDirection cameraDirection = CameraLensDirection.front;
   Map<CameraLensDirection, bool> availableCameraDirections = {
     CameraLensDirection.front: false,
@@ -97,16 +98,24 @@ class _SongEditState extends State<SongEdit> {
 
   void record() async {
     widget.viewModel.onStartRecording();
+
     final song = widget.viewModel.song;
     timestamp = DateTime.now().millisecondsSinceEpoch;
     path = await VideoEntity.getPath(timestamp);
-    if (song.duration > 0)
-      Timer(Duration(milliseconds: song.duration), stopRecording);
+
+    print('Recored: Set tiemr for ${song.duration > 0 ? song.duration : kMaxSongDuration} seconds');
+    recordTimer = Timer(
+        Duration(
+            milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
+        () => stopRecording());
+
     await camera.startVideoRecording(path);
     play();
   }
 
   void stopRecording() async {
+    print('Stop record');
+    recordTimer?.cancel();
     await camera.stopVideoRecording();
     VideoPlayerController player = VideoPlayerController.file(File(path));
     await player.initialize();
@@ -122,13 +131,13 @@ class _SongEditState extends State<SongEdit> {
       ..seekTo(Duration())
       ..play());
     setState(() => isPlaying = true);
-    timer = Timer(Duration(milliseconds: widget.viewModel.song.duration),
+    playTimer = Timer(Duration(milliseconds: widget.viewModel.song.duration),
         () => setState(() => isPlaying = false));
   }
 
   void stopPlaying() {
     videos.forEach((video) => video.pause());
-    timer?.cancel();
+    playTimer?.cancel();
     setState(() => isPlaying = false);
   }
 

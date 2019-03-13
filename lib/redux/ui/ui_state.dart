@@ -26,9 +26,11 @@ abstract class UIState implements Built<UIState, UIStateBuilder> {
 
   ArtistEntity get artist;
 
-  int get recordingDuration => Duration(
+  Duration get recordingDuration => Duration(
       milliseconds: DateTime.now().millisecondsSinceEpoch -
-          recordingTimestamp).inSeconds;
+          recordingTimestamp);
+
+  bool get isRecording => recordingTimestamp > 0;
 
   static Serializer<UIState> get serializer => _$uIStateSerializer;
 }

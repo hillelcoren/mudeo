@@ -43,7 +43,7 @@ class SongEditScreen extends StatelessWidget {
               onPressed: () => vm.onClearPressed(context),
               // TODO enable this code
               /*
-                onPressed: isEmpty || isPlaying
+                onPressed: isEmpty || isPlaying || uiState.isRecording
                     ? null
                     : () => viewModel.onClearPressed(context),
                     */
@@ -51,15 +51,17 @@ class SongEditScreen extends StatelessWidget {
             title: LiveText(
               () {
                 if (uiState.recordingTimestamp > 0) {
-                  final seconds = uiState.recordingDuration;
+                  final seconds = uiState.recordingDuration.inSeconds;
                   return seconds < 10 ? '00:0$seconds' : '00:$seconds';
                 } else {
                   return vm.song.title;
                 }
               },
               style: () => TextStyle(
-                  color: uiState.recordingDuration >= kMaxSongDuration - 10
-                      ? (uiState.recordingDuration >= kMaxSongDuration - 5
+                  color: uiState.recordingDuration.inMilliseconds >=
+                          kMaxSongDuration - 10000
+                      ? (uiState.recordingDuration.inMilliseconds >=
+                              kMaxSongDuration - 5000
                           ? Colors.redAccent
                           : Colors.orangeAccent)
                       : null),
@@ -68,7 +70,9 @@ class SongEditScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,
-                onPressed: () => onSavePressed(context, vm),
+                onPressed: uiState.isRecording
+                    ? null
+                    : () => onSavePressed(context, vm),
               ),
             ],
           ),
