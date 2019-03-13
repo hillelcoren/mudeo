@@ -9,6 +9,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
+import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -46,7 +47,14 @@ class SongEditScreen extends StatelessWidget {
                     : () => viewModel.onClearPressed(context),
                     */
             ),
-            title: Text(vm.song.title),
+            title: LiveText(() {
+              final state = vm.state.uiState;
+              if (state.recordingTimestamp > 0) {
+                return 'TS: ${vm.state.uiState.recordingTimestamp}';
+              } else {
+                return vm.song.title;
+              }
+            }),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.cloud_upload),
@@ -71,6 +79,7 @@ class SongEditVM {
     @required this.isLoading,
     @required this.isLoaded,
     @required this.song,
+    @required this.onStartRecording,
     @required this.onTrackAdded,
     @required this.onChangedSong,
     @required this.onSavePressed,
@@ -83,6 +92,7 @@ class SongEditVM {
   final bool isLoading;
   final bool isLoaded;
   final SongEntity song;
+  final Function onStartRecording;
   final Function(VideoEntity, int) onTrackAdded;
   final Function(SongEntity) onChangedSong;
   final Function() onSavePressed;
@@ -103,7 +113,11 @@ class SongEditVM {
       onClearPressed: (context) {
         store.dispatch(UpdateSong(SongEntity()));
       },
+      onStartRecording: () {
+        store.dispatch(StartRecording());
+      },
       onTrackAdded: (video, duration) {
+        store.dispatch(StopRecording());
         final song = state.uiState.song;
         final track = song.newTrack(video);
         store.dispatch(AddTrack(

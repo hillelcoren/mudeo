@@ -10,6 +10,7 @@ abstract class UIState implements Built<UIState, UIStateBuilder> {
   factory UIState() {
     return _$UIState._(
       selectedTabIndex: kTabExplore,
+      recordingTimestamp: 0,
       song: SongEntity(),
       artist: ArtistEntity(),
     );
@@ -18,6 +19,8 @@ abstract class UIState implements Built<UIState, UIStateBuilder> {
   UIState._();
 
   int get selectedTabIndex;
+
+  int get recordingTimestamp;
 
   SongEntity get song;
 

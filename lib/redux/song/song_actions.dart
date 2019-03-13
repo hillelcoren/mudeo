@@ -110,3 +110,6 @@ class AddTrack implements PersistUI {
   final TrackEntity track;
   final int duration;
 }
+
+class StartRecording {}
+class StopRecording {}

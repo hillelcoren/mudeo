@@ -9,7 +9,6 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
-import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,6 +96,7 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void record() async {
+    widget.viewModel.onStartRecording();
     final song = widget.viewModel.song;
     timestamp = DateTime.now().millisecondsSinceEpoch;
     path = await VideoEntity.getPath(timestamp);

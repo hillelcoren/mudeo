@@ -13,8 +13,18 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, SaveVideoSuccess>(saveVideoReducer),
   TypedReducer<UIState, EditArtist>(editArtistReducer),
   TypedReducer<UIState, UpdateArtist>(updateArtistReducer),
+  TypedReducer<UIState, StartRecording>(startRecordingReducer),
+  TypedReducer<UIState, StopRecording>(stopRecordingReducer),
 ]);
 
+
+UIState startRecordingReducer(UIState uiState, StartRecording action) {
+  return uiState.rebuild((b) => b..recordingTimestamp = DateTime.now().millisecondsSinceEpoch);
+}
+
+UIState stopRecordingReducer(UIState uiState, StopRecording action) {
+  return uiState.rebuild((b) => b..recordingTimestamp = 0);
+}
 
 UIState mainTabChangedReducer(UIState uiState, UpdateTabIndex action) {
   return uiState.rebuild((b) => b..selectedTabIndex = action.index);
