@@ -26,6 +26,7 @@ const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes
 const int kMillisecondsToRetryData = 1000 * 15; // 10 seconds
 const int kMaxRecordsPerApiPage = 100;
 const int kMaxTracks = 5;
+const int kMaxSongDuration = 30;
 
 const List<String> kLanguages = [
   'en',

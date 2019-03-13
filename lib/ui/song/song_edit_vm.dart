@@ -34,6 +34,7 @@ class SongEditScreen extends StatelessWidget {
     return StoreConnector<AppState, SongEditVM>(
       converter: SongEditVM.fromStore,
       builder: (context, vm) {
+        final uiState = vm.state.uiState;
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -47,14 +48,22 @@ class SongEditScreen extends StatelessWidget {
                     : () => viewModel.onClearPressed(context),
                     */
             ),
-            title: LiveText(() {
-              final state = vm.state.uiState;
-              if (state.recordingTimestamp > 0) {
-                return 'TS: ${vm.state.uiState.recordingTimestamp}';
-              } else {
-                return vm.song.title;
-              }
-            }),
+            title: LiveText(
+              () {
+                if (uiState.recordingTimestamp > 0) {
+                  final seconds = uiState.recordingDuration;
+                  return seconds < 10 ? '00:0$seconds' : '00:$seconds';
+                } else {
+                  return vm.song.title;
+                }
+              },
+              style: () => TextStyle(
+                  color: uiState.recordingDuration >= kMaxSongDuration - 10
+                      ? (uiState.recordingDuration >= kMaxSongDuration - 5
+                          ? Colors.redAccent
+                          : Colors.orangeAccent)
+                      : null),
+            ),
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.cloud_upload),

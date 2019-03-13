@@ -5,7 +5,7 @@ class LiveText extends StatefulWidget {
   const LiveText(this.value, {this.style});
 
   final Function value;
-  final TextStyle style;
+  final Function style;
 
   @override
   _LiveTextState createState() => _LiveTextState();
@@ -32,7 +32,7 @@ class _LiveTextState extends State<LiveText> {
   Widget build(BuildContext context) {
     return Text(
       widget.value(),
-      style: widget.style,
+      style: widget.style(),
     );
   }
 }
