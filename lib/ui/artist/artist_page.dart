@@ -14,6 +14,7 @@ import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
@@ -59,6 +60,11 @@ class ArtistPage extends StatelessWidget {
                               barrierDismissible: true,
                               context: context,
                               builder: (BuildContext context) {
+                                final ThemeData themeData = Theme.of(context);
+                                final TextStyle aboutTextStyle = themeData.textTheme.body2;
+                                final TextStyle linkStyle =
+                                themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+
                                 return SimpleDialog(
                                   children: <Widget>[
                                     SimpleDialogOption(
@@ -90,7 +96,8 @@ class ArtistPage extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        launch(kTwitterURL, forceSafariVC: false);
+                                        launch(kTwitterURL,
+                                            forceSafariVC: false);
                                       },
                                     ),
                                     SimpleDialogOption(
@@ -104,10 +111,71 @@ class ArtistPage extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        launch(kRedditURL, forceSafariVC: false);
+                                        launch(kRedditURL,
+                                            forceSafariVC: false);
                                       },
                                     ),
                                     Divider(),
+                                    SimpleDialogOption(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12),
+                                        child: IconText(
+                                          icon: Icons.info_outline,
+                                          text: localization.about,
+                                          textStyle: TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        showAboutDialog(
+                                          context: context,
+                                          applicationName: 'mudeo',
+                                          /*
+                                          applicationIcon: Image.asset(
+                                            'assets/images/logo.png',
+                                            width: 40.0,
+                                            height: 40.0,
+                                          ),
+                                          */
+                                          applicationVersion:
+                                              '${localization.version} $kAppVersion',
+                                          applicationLegalese:
+                                              '© 2019 mudeo',
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 24.0),
+                                              child: RichText(
+                                                text: TextSpan(
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      style: aboutTextStyle,
+                                                      text: localization
+                                                              .thankYouForUsingOurApp +
+                                                          '\n\n' +
+                                                          localization
+                                                              .ifYouLikeIt,
+                                                    ),
+                                                    LinkTextSpan(
+                                                      style: linkStyle,
+                                                      url: getAppStoreURL(context),
+                                                      text: ' ' +
+                                                          localization
+                                                              .clickHere +
+                                                          ' ',
+                                                    ),
+                                                    TextSpan(
+                                                      style: aboutTextStyle,
+                                                      text:
+                                                          localization.toRateIt,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ),
                                     SimpleDialogOption(
                                       child: Padding(
                                         padding: const EdgeInsets.all(12),
@@ -176,25 +244,29 @@ class ArtistPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline,
                   ),
                 ),
-                showSettings ? Padding(
-                  padding: const EdgeInsets.only(top: 6, bottom: 18),
-                  child: Container(
-                    height: 2,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent,
-                    ),
-                  ),
-                ) : Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: RaisedButton(
-                      child: Text(localization.follow, style: TextStyle(fontSize: 18)),
-                      //onPressed: () {},
-                      color: Colors.lightBlue,
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 35),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0))),
-                ),
+                showSettings
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 6, bottom: 18),
+                        child: Container(
+                          height: 2,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: RaisedButton(
+                            child: Text(localization.follow,
+                                style: TextStyle(fontSize: 18)),
+                            //onPressed: () {},
+                            color: Colors.lightBlue,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 35),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0))),
+                      ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(bottom: 10),

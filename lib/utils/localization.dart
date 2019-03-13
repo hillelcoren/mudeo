@@ -20,6 +20,12 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'version': 'Version',
+      'thank_you_for_using_our_app': 'Thank you for using our app!',
+      'if_you_like_it': 'If you like it please',
+      'click_here': 'click here',
+      'to_rate_it': 'to rate it.',
+      'about': 'About',
       'uploading_video_of': 'Uploading video :current of :total',
       'your_song_has_been_saved': 'Your song has been saved!',
       'uploading': 'Uploading',
@@ -107,6 +113,20 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get version => _localizedValues[locale.toString()]['version'];
+
+  String get thankYouForUsingOurApp =>
+      _localizedValues[locale.toString()]['thank_you_for_using_our_app'];
+
+  String get ifYouLikeIt =>
+      _localizedValues[locale.toString()]['if_you_like_it'];
+
+  String get clickHere => _localizedValues[locale.toString()]['click_here'];
+
+  String get toRateIt => _localizedValues[locale.toString()]['to_rate_it'];
+
+  String get about => _localizedValues[locale.toString()]['about'];
 
   String get uploadingVideoOf => _localizedValues[locale.toString()]['uploading_video_of'];
 
