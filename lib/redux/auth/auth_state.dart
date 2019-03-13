@@ -30,7 +30,8 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
   AuthState get reset => rebuild((b) => b
     ..artist.replace(ArtistEntity())
     ..isInitialized = true
-    ..isAuthenticated = false);
+    ..isAuthenticated = false
+    ..wasAuthenticated = true);
 
   static Serializer<AuthState> get serializer => _$authStateSerializer;
 }

@@ -305,14 +305,14 @@ class _SongEditState extends State<SongEdit> {
                   2
               ? ExpandedButton(
                   icon: Icons.camera,
-                  onPressed: onSettingsPressed,
+                  onPressed: isPlaying ? null : onSettingsPressed,
                 )
               : ExpandedButton(
                   iconHeight: 26,
                   icon: cameraDirection == CameraLensDirection.front
                       ? Icons.camera_front
                       : Icons.camera_rear,
-                  onPressed: () => selectCameraDirection(
+                  onPressed: isPlaying ? null : () => selectCameraDirection(
                       cameraDirection == CameraLensDirection.front
                           ? CameraLensDirection.back
                           : CameraLensDirection.front),
