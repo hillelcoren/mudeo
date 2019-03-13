@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'clear_song': 'Clear Song',
       'logout_app': 'Logout App',
       'version': 'Version',
       'thank_you_for_using_our_app': 'Thank you for using our app!',
@@ -114,6 +115,8 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get clearSong => _localizedValues[locale.toString()]['clear_song'];
 
   String get logoutApp => _localizedValues[locale.toString()]['logout_app'];
 

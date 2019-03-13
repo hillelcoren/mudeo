@@ -39,15 +39,9 @@ class SongEditScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.delete),
-              tooltip: localization.delete,
-              onPressed: () => vm.onClearPressed(context),
-              // TODO enable this code
-              /*
-                onPressed: isEmpty || isPlaying || uiState.isRecording
-                    ? null
-                    : () => viewModel.onClearPressed(context),
-                    */
+              icon: Icon(Icons.arrow_back),
+              tooltip: localization.back,
+              onPressed: () => vm.onBackPressed(),
             ),
             title: Center(
               child: LiveText(
@@ -79,6 +73,20 @@ class SongEditScreen extends StatelessWidget {
                     ? null
                     : () => onSavePressed(context, vm),
               ),
+              PopupMenuButton<String>(
+                icon: Icon(Icons.more_vert),
+                itemBuilder: (BuildContext context) {
+                  return [localization.clearSong].map((option) => PopupMenuItem(
+                    child: Text(option),
+                    value: option,
+                  )).toList();
+                },
+                onSelected: (String action) {
+                  if (action == localization.clearSong) {
+                    vm.onClearPressed(context);
+                  }
+                },
+              )
             ],
           ),
           body: SongEdit(

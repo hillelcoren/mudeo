@@ -94,9 +94,16 @@ class SongItem extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.play_circle_filled, size: 35),
+                tooltip: localization.play,
+                onPressed: onEdit,
+              ),
+              /*
+              IconButton(
+                icon: Icon(Icons.play_circle_filled, size: 35),
                 //onPressed: onPlay,
                 tooltip: localization.play,
               ),
+              */
             ],
           ),
           SizedBox(height: 4),
@@ -130,8 +137,8 @@ class SongItem extends StatelessWidget {
           ),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
           Text(song.description),
+          /*
           SizedBox(height: song.description.isEmpty ? 0 : 12),
-          // TODO remove this
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Container(
@@ -170,6 +177,7 @@ class SongItem extends StatelessWidget {
               ),
             ],
           ),
+          */
         ],
       ),
     );
