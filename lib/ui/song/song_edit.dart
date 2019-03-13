@@ -313,10 +313,12 @@ class _SongEditState extends State<SongEdit> {
                   icon: cameraDirection == CameraLensDirection.front
                       ? Icons.camera_front
                       : Icons.camera_rear,
-                  onPressed: isPlaying ? null : () => selectCameraDirection(
-                      cameraDirection == CameraLensDirection.front
-                          ? CameraLensDirection.back
-                          : CameraLensDirection.front),
+                  onPressed: isPlaying
+                      ? null
+                      : () => selectCameraDirection(
+                          cameraDirection == CameraLensDirection.front
+                              ? CameraLensDirection.back
+                              : CameraLensDirection.front),
                 ),
         ]),
         isEmpty
@@ -457,9 +459,33 @@ class TrackEditDialog extends StatelessWidget {
                           ),
                         ),
                         ElevatedButton(
-                          label: localization.delete,
+                          label: localization.remove,
                           color: Colors.redAccent,
-                          onPressed: onDeletePressed,
+                          onPressed: () {
+                            showDialog<AlertDialog>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    semanticLabel: localization.areYouSure,
+                                    title: Text(localization.areYouSure),
+                                    content: Text(localization.removeVideo),
+                                    actions: <Widget>[
+                                      new FlatButton(
+                                          child: Text(localization.cancel
+                                              .toUpperCase()),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }),
+                                      new FlatButton(
+                                          child: Text(
+                                              localization.ok.toUpperCase()),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            onDeletePressed();
+                                          })
+                                    ],
+                                  ),
+                            );
+                          },
                         ),
                       ],
                     ),
