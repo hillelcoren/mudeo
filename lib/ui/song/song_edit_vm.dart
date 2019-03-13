@@ -23,7 +23,8 @@ class SongEditScreen extends StatelessWidget {
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return SongSaveDialog(viewModel: viewModel);
+          return SongSaveDialog(
+              key: ValueKey(viewModel.song.id), viewModel: viewModel);
         });
   }
 

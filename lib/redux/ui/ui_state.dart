@@ -27,8 +27,9 @@ abstract class UIState implements Built<UIState, UIStateBuilder> {
   ArtistEntity get artist;
 
   Duration get recordingDuration => Duration(
-      milliseconds: DateTime.now().millisecondsSinceEpoch -
-          recordingTimestamp);
+      milliseconds: recordingTimestamp == 0
+          ? 0
+          : DateTime.now().millisecondsSinceEpoch - recordingTimestamp);
 
   bool get isRecording => recordingTimestamp > 0;
 

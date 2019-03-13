@@ -35,8 +35,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   int selectedGenreId;
   bool isSaving = false;
 
-  //int selectedStackIndex = kStackIndexForm;
-  int selectedStackIndex = kStackIndexSuccess;
+  int selectedStackIndex = kStackIndexForm;
 
   @override
   void initState() {
@@ -255,18 +254,11 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           Material(
             child: Padding(
               padding: const EdgeInsets.all(28.0),
-              child: IndexedStack(
-                index: selectedStackIndex,
-                children: <Widget>[
-                  selectedStackIndex == kStackIndexForm ? _form() : SizedBox(),
-                  selectedStackIndex == kStackIndexProgress
+              child: selectedStackIndex == kStackIndexForm
+                  ? _form()
+                  : selectedStackIndex == kStackIndexProgress
                       ? _progress()
-                      : SizedBox(),
-                  selectedStackIndex == kStackIndexSuccess
-                      ? _success()
-                      : SizedBox(),
-                ],
-              ),
+                      : _success(),
             ),
           ),
           Expanded(child: Container()),
