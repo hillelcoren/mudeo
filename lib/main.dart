@@ -17,8 +17,12 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
+import 'package:screen/screen.dart';
 
 void main() async {
+
+  Screen.keepOn(true);
+
   /*
   final SentryClient _sentry = SentryClient(
       dsn: Config.SENTRY_DNS,

@@ -176,8 +176,7 @@ class ArtistPage extends StatelessWidget {
                     style: Theme.of(context).textTheme.headline,
                   ),
                 ),
-                /*
-                Padding(
+                showSettings ? Padding(
                   padding: const EdgeInsets.only(top: 6, bottom: 18),
                   child: Container(
                     height: 2,
@@ -186,9 +185,7 @@ class ArtistPage extends StatelessWidget {
                       color: Colors.blueAccent,
                     ),
                   ),
-                ),
-                */
-                showSettings ? SizedBox() : Padding(
+                ) : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: RaisedButton(
                       child: Text(localization.follow, style: TextStyle(fontSize: 18)),
