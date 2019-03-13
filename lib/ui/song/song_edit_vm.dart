@@ -98,6 +98,7 @@ class SongEditVM {
     @required this.isLoaded,
     @required this.song,
     @required this.onStartRecording,
+    @required this.onStopRecording,
     @required this.onTrackAdded,
     @required this.onChangedSong,
     @required this.onSavePressed,
@@ -111,6 +112,7 @@ class SongEditVM {
   final bool isLoaded;
   final SongEntity song;
   final Function onStartRecording;
+  final Function onStopRecording;
   final Function(VideoEntity, int) onTrackAdded;
   final Function(SongEntity) onChangedSong;
   final Function(Completer) onSavePressed;
@@ -133,6 +135,9 @@ class SongEditVM {
       },
       onStartRecording: () {
         store.dispatch(StartRecording());
+      },
+      onStopRecording: () {
+        store.dispatch(StopRecording());
       },
       onTrackAdded: (video, duration) {
         store.dispatch(StopRecording());

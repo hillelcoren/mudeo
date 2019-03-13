@@ -31,10 +31,13 @@ class _SongEditState extends State<SongEdit> {
   List<VideoPlayerController> videos = [];
   CameraController camera;
   bool isPlaying = false;
+  bool isPastThreeSeconds = false;
   int timestamp;
   String path;
   Timer recordTimer;
+  Timer cancelTimer;
   Timer playTimer;
+
   CameraLensDirection cameraDirection = CameraLensDirection.front;
   Map<CameraLensDirection, bool> availableCameraDirections = {
     CameraLensDirection.front: false,
@@ -103,21 +106,37 @@ class _SongEditState extends State<SongEdit> {
     timestamp = DateTime.now().millisecondsSinceEpoch;
     path = await VideoEntity.getPath(timestamp);
 
+    cancelTimer = Timer(Duration(seconds: 3), () {
+      setState(() => isPastThreeSeconds = true);
+    });
     recordTimer = Timer(
         Duration(
             milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
-        () => stopRecording());
+        () => saveRecording());
 
     await camera.startVideoRecording(path);
     play();
   }
 
   void stopRecording() async {
+    stopPlaying();
     recordTimer?.cancel();
+    cancelTimer?.cancel();
     await camera.stopVideoRecording();
+    setState(() {
+      isPastThreeSeconds = false;
+    });
+    widget.viewModel.onStopRecording();
+  }
+
+  void saveRecording() async {
+    stopRecording();
     VideoPlayerController player = VideoPlayerController.file(File(path));
     await player.initialize();
-    setState(() => videos.add(player));
+    setState(() {
+      isPastThreeSeconds = false;
+      videos.add(player);
+    });
     final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
     widget.viewModel
         .onTrackAdded(track, DateTime.now().millisecondsSinceEpoch - timestamp);
@@ -223,6 +242,36 @@ class _SongEditState extends State<SongEdit> {
     final viewModel = widget.viewModel;
     final song = viewModel.song;
 
+    IconData _getRecordIcon() {
+      if (isRecording && isEmpty) {
+        if (!isPastThreeSeconds) {
+          return Icons.close;
+        } else {
+          return Icons.stop;
+        }
+      } else if (song.canAddTrack) {
+        if (isRecording && (!isPastThreeSeconds || !isEmpty)) {
+          return Icons.close;
+        } else {
+          return Icons.fiber_manual_record;
+        }
+      } else {
+        return Icons.not_interested;
+      }
+    }
+
+    Function _getRecordingFunction() {
+      if (isRecording) {
+        if (!isPastThreeSeconds || (isRecording && !isEmpty)) {
+          return stopRecording;
+        } else {
+          return isEmpty ? saveRecording : null;
+        }
+      } else {
+        return isPlaying ? null : (song.canAddTrack ? record : null);
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 60),
       child: Column(children: [
@@ -246,14 +295,8 @@ class _SongEditState extends State<SongEdit> {
                   ? null
                   : (isPlaying ? stopPlaying : play)),
           ExpandedButton(
-              icon: isRecording && isEmpty
-                  ? Icons.stop
-                  : (song.canAddTrack
-                      ? Icons.fiber_manual_record
-                      : Icons.not_interested),
-              onPressed: isRecording
-                  ? (isEmpty ? stopRecording : null)
-                  : (isPlaying ? null : (song.canAddTrack ? record : null)),
+              icon: _getRecordIcon(),
+              onPressed: _getRecordingFunction(),
               color: isPlaying || isRecording ? null : Colors.redAccent),
           availableCameraDirections.keys
                       .where(
