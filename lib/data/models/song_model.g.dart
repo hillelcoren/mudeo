@@ -215,7 +215,7 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
     }
     if (object.orderId != null) {
       result
-        ..add('orderId')
+        ..add('order_id')
         ..add(serializers.serialize(object.orderId,
             specifiedType: const FullType(int)));
     }
@@ -256,7 +256,7 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
           result.volume = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'orderId':
+        case 'order_id':
           result.orderId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;

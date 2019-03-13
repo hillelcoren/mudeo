@@ -204,7 +204,7 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
   Iterable serialize(Serializers serializers, DataState object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'songsTriedAt',
+      'songsFailedAt',
       serializers.serialize(object.songsFailedAt,
           specifiedType: const FullType(int)),
       'songsUpdateAt',
@@ -234,8 +234,8 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'songsTriedAt':
-          result.songsTriedAt = serializers.deserialize(value,
+        case 'songsFailedAt':
+          result.songsFailedAt = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'songsUpdateAt':
@@ -574,7 +574,7 @@ class _$DataState extends DataState {
       {this.songsFailedAt, this.songsUpdateAt, this.songMap, this.artistMap})
       : super._() {
     if (songsFailedAt == null) {
-      throw new BuiltValueNullFieldError('DataState', 'songsTriedAt');
+      throw new BuiltValueNullFieldError('DataState', 'songsFailedAt');
     }
     if (songsUpdateAt == null) {
       throw new BuiltValueNullFieldError('DataState', 'songsUpdateAt');
@@ -615,7 +615,7 @@ class _$DataState extends DataState {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('DataState')
-          ..add('songsTriedAt', songsFailedAt)
+          ..add('songsFailedAt', songsFailedAt)
           ..add('songsUpdateAt', songsUpdateAt)
           ..add('songMap', songMap)
           ..add('artistMap', artistMap))
@@ -626,9 +626,9 @@ class _$DataState extends DataState {
 class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   _$DataState _$v;
 
-  int _songsTriedAt;
-  int get songsTriedAt => _$this._songsTriedAt;
-  set songsTriedAt(int songsTriedAt) => _$this._songsTriedAt = songsTriedAt;
+  int _songsFailedAt;
+  int get songsFailedAt => _$this._songsFailedAt;
+  set songsFailedAt(int songsFailedAt) => _$this._songsFailedAt = songsFailedAt;
 
   int _songsUpdateAt;
   int get songsUpdateAt => _$this._songsUpdateAt;
@@ -649,7 +649,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
 
   DataStateBuilder get _$this {
     if (_$v != null) {
-      _songsTriedAt = _$v.songsFailedAt;
+      _songsFailedAt = _$v.songsFailedAt;
       _songsUpdateAt = _$v.songsUpdateAt;
       _songMap = _$v.songMap?.toBuilder();
       _artistMap = _$v.artistMap?.toBuilder();
@@ -677,7 +677,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
     try {
       _$result = _$v ??
           new _$DataState._(
-              songsFailedAt: songsTriedAt,
+              songsFailedAt: songsFailedAt,
               songsUpdateAt: songsUpdateAt,
               songMap: songMap.build(),
               artistMap: artistMap.build());

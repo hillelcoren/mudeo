@@ -10,6 +10,7 @@ Reducer<DataState> dataReducer = combineReducers([
 DataState loadSongsSuccessReducer(DataState dataState, LoadSongsSuccess action) {
   return dataState.rebuild((b) => b
     ..songsUpdateAt = DateTime.now().millisecondsSinceEpoch
+    ..songsFailedAt = 0
     ..songMap.addAll(Map.fromIterable(
       action.songs,
       key: (dynamic item) => item.id,
@@ -19,6 +20,6 @@ DataState loadSongsSuccessReducer(DataState dataState, LoadSongsSuccess action) 
 
 DataState loadSongsFailureReducer(DataState dataState, LoadSongsFailure action) {
   return dataState.rebuild((b) => b
-    ..songsTriedAt = DateTime.now().millisecondsSinceEpoch);
+    ..songsFailedAt = DateTime.now().millisecondsSinceEpoch);
 }
 

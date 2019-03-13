@@ -112,6 +112,7 @@ abstract class TrackEntity extends Object
   int get volume;
 
   @nullable
+  @BuiltValueField(wireName: 'order_id')
   int get orderId;
 
   VideoEntity get video;
