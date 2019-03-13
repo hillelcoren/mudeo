@@ -144,8 +144,8 @@ class _LoginState extends State<LoginScreen> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 20, bottom: 20),
-              child: Placeholder(
-                fallbackHeight: 100,
+              child: SizedBox(
+                height: 100,
               ),
               /*
               child: Image.asset('assets/images/logo.png',
