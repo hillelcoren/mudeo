@@ -80,6 +80,7 @@ class _SongEditState extends State<SongEdit> {
       VideoPlayerController player;
       if (await File(path).exists()) {
         player = VideoPlayerController.file(File(path));
+        player.setVolume(track.volume.toDouble());
         await player.initialize();
       } else {
         player = VideoPlayerController.asset(null);
