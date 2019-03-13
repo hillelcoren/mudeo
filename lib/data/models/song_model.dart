@@ -72,6 +72,7 @@ abstract class SongEntity extends Object
   }
 
   @nullable
+  @BuiltValueField(serialize: false)
   bool get isChanged;
 
   TrackEntity newTrack(VideoEntity video) =>

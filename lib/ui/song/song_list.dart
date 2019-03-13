@@ -110,7 +110,7 @@ class SongItem extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () => onArtistTap(artist),
                         style: linkStyle,
-                        text: '@${artist.handle}artist',
+                        text: '@${artist.handle}',
                       ),
                       TextSpan(
                         text: ' • ${song.playCount} ${localization.views}',

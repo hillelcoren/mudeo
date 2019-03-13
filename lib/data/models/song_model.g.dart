@@ -85,12 +85,6 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.likeCount,
             specifiedType: const FullType(int)));
     }
-    if (object.isChanged != null) {
-      result
-        ..add('isChanged')
-        ..add(serializers.serialize(object.isChanged,
-            specifiedType: const FullType(bool)));
-    }
     if (object.id != null) {
       result
         ..add('id')
@@ -169,10 +163,6 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(TrackEntity)]))
               as BuiltList);
-          break;
-        case 'isChanged':
-          result.isChanged = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
           break;
         case 'id':
           result.id = serializers.deserialize(value,

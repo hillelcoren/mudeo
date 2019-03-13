@@ -17,7 +17,7 @@ class SongRepository {
   final WebClient webClient;
 
   Future<BuiltList<SongEntity>> loadList(AuthState auth, int updatedAt) async {
-    String url = kAppURL + '/songs?';
+    String url = kAppURL + '/songs?includes=artist';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
