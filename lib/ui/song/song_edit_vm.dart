@@ -48,23 +48,25 @@ class SongEditScreen extends StatelessWidget {
                     : () => viewModel.onClearPressed(context),
                     */
             ),
-            title: LiveText(
-              () {
-                if (uiState.recordingTimestamp > 0) {
-                  final seconds = uiState.recordingDuration.inSeconds;
-                  return seconds < 10 ? '00:0$seconds' : '00:$seconds';
-                } else {
-                  return vm.song.title;
-                }
-              },
-              style: () => TextStyle(
-                  color: uiState.recordingDuration.inMilliseconds >=
-                          kMaxSongDuration - 10000
-                      ? (uiState.recordingDuration.inMilliseconds >=
-                              kMaxSongDuration - 5000
-                          ? Colors.redAccent
-                          : Colors.orangeAccent)
-                      : null),
+            title: Center(
+              child: LiveText(
+                () {
+                  if (uiState.recordingTimestamp > 0) {
+                    final seconds = uiState.recordingDuration.inSeconds;
+                    return seconds < 10 ? '00:0$seconds' : '00:$seconds';
+                  } else {
+                    return vm.song.title;
+                  }
+                },
+                style: () => TextStyle(
+                    color: uiState.recordingDuration.inMilliseconds >=
+                            kMaxSongDuration - 10000
+                        ? (uiState.recordingDuration.inMilliseconds >=
+                                kMaxSongDuration - 5000
+                            ? Colors.redAccent
+                            : Colors.orangeAccent)
+                        : null),
+              ),
             ),
             actions: <Widget>[
               IconButton(
