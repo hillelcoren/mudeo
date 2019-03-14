@@ -73,16 +73,16 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.genreId,
             specifiedType: const FullType(int)));
     }
-    if (object.playCount != null) {
+    if (object.countPlay != null) {
       result
-        ..add('play_count')
-        ..add(serializers.serialize(object.playCount,
+        ..add('count_play')
+        ..add(serializers.serialize(object.countPlay,
             specifiedType: const FullType(int)));
     }
-    if (object.likeCount != null) {
+    if (object.countLink != null) {
       result
-        ..add('like_count')
-        ..add(serializers.serialize(object.likeCount,
+        ..add('count_like')
+        ..add(serializers.serialize(object.countLink,
             specifiedType: const FullType(int)));
     }
     if (object.id != null) {
@@ -142,12 +142,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           result.duration = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'play_count':
-          result.playCount = serializers.deserialize(value,
+        case 'count_play':
+          result.countPlay = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
-        case 'like_count':
-          result.likeCount = serializers.deserialize(value,
+        case 'count_like':
+          result.countLink = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'is_flagged':
@@ -501,9 +501,9 @@ class _$SongEntity extends SongEntity {
   @override
   final int duration;
   @override
-  final int playCount;
+  final int countPlay;
   @override
-  final int likeCount;
+  final int countLink;
   @override
   final bool isFlagged;
   @override
@@ -529,8 +529,8 @@ class _$SongEntity extends SongEntity {
       this.artistId,
       this.genreId,
       this.duration,
-      this.playCount,
-      this.likeCount,
+      this.countPlay,
+      this.countLink,
       this.isFlagged,
       this.isPublic,
       this.tracks,
@@ -579,8 +579,8 @@ class _$SongEntity extends SongEntity {
         artistId == other.artistId &&
         genreId == other.genreId &&
         duration == other.duration &&
-        playCount == other.playCount &&
-        likeCount == other.likeCount &&
+        countPlay == other.countPlay &&
+        countLink == other.countLink &&
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
         tracks == other.tracks &&
@@ -614,8 +614,8 @@ class _$SongEntity extends SongEntity {
                                                     artistId.hashCode),
                                                 genreId.hashCode),
                                             duration.hashCode),
-                                        playCount.hashCode),
-                                    likeCount.hashCode),
+                                        countPlay.hashCode),
+                                    countLink.hashCode),
                                 isFlagged.hashCode),
                             isPublic.hashCode),
                         tracks.hashCode),
@@ -634,8 +634,8 @@ class _$SongEntity extends SongEntity {
           ..add('artistId', artistId)
           ..add('genreId', genreId)
           ..add('duration', duration)
-          ..add('playCount', playCount)
-          ..add('likeCount', likeCount)
+          ..add('countPlay', countPlay)
+          ..add('countLink', countLink)
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
           ..add('tracks', tracks)
@@ -674,13 +674,13 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int get duration => _$this._duration;
   set duration(int duration) => _$this._duration = duration;
 
-  int _playCount;
-  int get playCount => _$this._playCount;
-  set playCount(int playCount) => _$this._playCount = playCount;
+  int _countPlay;
+  int get countPlay => _$this._countPlay;
+  set countPlay(int countPlay) => _$this._countPlay = countPlay;
 
-  int _likeCount;
-  int get likeCount => _$this._likeCount;
-  set likeCount(int likeCount) => _$this._likeCount = likeCount;
+  int _countLink;
+  int get countLink => _$this._countLink;
+  set countLink(int countLink) => _$this._countLink = countLink;
 
   bool _isFlagged;
   bool get isFlagged => _$this._isFlagged;
@@ -721,8 +721,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _artistId = _$v.artistId;
       _genreId = _$v.genreId;
       _duration = _$v.duration;
-      _playCount = _$v.playCount;
-      _likeCount = _$v.likeCount;
+      _countPlay = _$v.countPlay;
+      _countLink = _$v.countLink;
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
       _tracks = _$v.tracks?.toBuilder();
@@ -760,8 +760,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               artistId: artistId,
               genreId: genreId,
               duration: duration,
-              playCount: playCount,
-              likeCount: likeCount,
+              countPlay: countPlay,
+              countLink: countLink,
               isFlagged: isFlagged,
               isPublic: isPublic,
               tracks: tracks.build(),

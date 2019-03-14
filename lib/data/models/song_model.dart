@@ -22,8 +22,8 @@ abstract class SongEntity extends Object
       url: '',
       genreId: 0,
       duration: 0,
-      playCount: 0,
-      likeCount: 0,
+      countPlay: 0,
+      countLink: 0,
       isFlagged: false,
       isPublic: false,
       tracks: BuiltList<TrackEntity>(),
@@ -50,12 +50,12 @@ abstract class SongEntity extends Object
   int get duration;
 
   @nullable
-  @BuiltValueField(wireName: 'play_count')
-  int get playCount;
+  @BuiltValueField(wireName: 'count_play')
+  int get countPlay;
 
   @nullable
-  @BuiltValueField(wireName: 'like_count')
-  int get likeCount;
+  @BuiltValueField(wireName: 'count_like')
+  int get countLink;
 
   @BuiltValueField(wireName: 'is_flagged')
   bool get isFlagged;
