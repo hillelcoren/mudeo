@@ -28,7 +28,7 @@ class SongEdit extends StatefulWidget {
 }
 
 class _SongEditState extends State<SongEdit> {
-  List<VideoPlayerController> videos = [];
+  Map<int, VideoPlayerController> videoPlayers = {};
   CameraController camera;
   bool isPlaying = false;
   bool isPastThreeSeconds = false;
@@ -75,7 +75,6 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void didChangeDependencies() async {
-
     widget.viewModel.song.tracks.forEach((track) async {
       String path = await VideoEntity.getPath(track.video.timestamp);
       VideoPlayerController player;
@@ -91,7 +90,7 @@ class _SongEditState extends State<SongEdit> {
         player = VideoPlayerController.asset(null);
       }
       setState(() {
-        videos.add(player);
+        videoPlayers[track.video.id] = player;
       });
     });
 
@@ -100,7 +99,7 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void dispose() {
-    videos.forEach((video) => video.dispose());
+    //videoPlayers.forEach((videoPlayer) => videoPlayer.dispose());
     camera.dispose();
     super.dispose();
   }
@@ -137,20 +136,20 @@ class _SongEditState extends State<SongEdit> {
 
   void saveRecording() async {
     stopRecording();
-    VideoPlayerController player = VideoPlayerController.file(File(path));
-    await player.initialize();
+    VideoPlayerController videoPlayer = VideoPlayerController.file(File(path));
+    await videoPlayer.initialize();
+    final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
     setState(() {
       isPastThreeSeconds = false;
-      videos.add(player);
+      videoPlayers[track.id] = videoPlayer;
     });
-    final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
     widget.viewModel
         .onTrackAdded(track, DateTime.now().millisecondsSinceEpoch - timestamp);
   }
 
   void play() {
-    if (videos.isEmpty) return;
-    videos.forEach((video) => video
+    if (videoPlayers.isEmpty) return;
+    videoPlayers.forEach((int, videoPlayer) => videoPlayer
       ..seekTo(Duration())
       ..play());
     setState(() => isPlaying = true);
@@ -159,7 +158,7 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void stopPlaying() {
-    videos.forEach((video) => video.pause());
+    videoPlayers.forEach((int, videoPlayer) => videoPlayer.pause());
     playTimer?.cancel();
     setState(() => isPlaying = false);
   }
@@ -242,7 +241,7 @@ class _SongEditState extends State<SongEdit> {
     final value = camera.value;
     if (!value.isInitialized) return SizedBox();
     final isRecording = value.isRecordingVideo;
-    final isEmpty = videos.isEmpty;
+    final isEmpty = videoPlayers.isEmpty;
 
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
@@ -330,30 +329,60 @@ class _SongEditState extends State<SongEdit> {
             ? SizedBox()
             : Flexible(
                 child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: song.tracks.map((track) {
+                    final videoPlayer = videoPlayers[track.video.id];
+                    return TrackView(
+                      viewModel: viewModel,
+                      videoPlayer: videoPlayer,
+                      aspectRatio: value.aspectRatio,
+                      track: track,
+                      onDeletePressed: () async {
+                        Navigator.of(context).pop();
+                        viewModel.onDeleteVideoPressed(song, track.video);
+                        setState(() {
+                          videoPlayers.remove(videoPlayer);
+                          if (videoPlayers.isEmpty) {
+                            timestamp = null;
+                          }
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              )
+        /*
+        song.tracks.isEmpty
+            ? SizedBox()
+            : Flexible(
+                child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: videos
-                    .map((videoPlayer) => TrackView(
+                children: videoPlayers
+                    .map((int, videoPlayer) => MapEntry(
+                        int,
+                        TrackView(
                           viewModel: viewModel,
-                          video: videoPlayer,
+                          videoPlayer: videoPlayer,
                           aspectRatio: value.aspectRatio,
-                          index: videos.indexOf(videoPlayer),
+                          index: videoPlayers.indexOf(videoPlayer),
                           onDeletePressed: () async {
                             Navigator.of(context).pop();
-                            final index = videos.indexOf(videoPlayer);
+                            final index = videoPlayers.indexOf(videoPlayer);
                             final song = viewModel.song
                                 .rebuild((b) => b..tracks.removeAt(index));
                             final video = viewModel.song.tracks[index].video;
                             viewModel.onDeleteVideoPressed(song, video);
                             setState(() {
-                              videos.remove(videoPlayer);
-                              if (videos.isEmpty) {
+                              videoPlayers.remove(videoPlayer);
+                              if (videoPlayers.isEmpty) {
                                 timestamp = null;
                               }
                             });
                           },
-                        ))
+                        )))
                     .toList(),
               ))
+              */
       ]),
     );
   }
@@ -361,15 +390,15 @@ class _SongEditState extends State<SongEdit> {
 
 class TrackView extends StatelessWidget {
   TrackView(
-      {this.video,
+      {this.videoPlayer,
       this.aspectRatio,
       this.viewModel,
-      this.index,
+      this.track,
       this.onDeletePressed});
 
-  final int index;
   final SongEditVM viewModel;
-  final VideoPlayerController video;
+  final VideoPlayerController videoPlayer;
+  final TrackEntity track;
   final double aspectRatio;
   final Function onDeletePressed;
 
@@ -382,29 +411,31 @@ class TrackView extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return TrackEditDialog(
-                video: video,
+                videoPlayer: videoPlayer,
                 viewModel: viewModel,
-                index: index,
                 onDeletePressed: onDeletePressed,
+                track: track,
               );
             });
       },
       child: Card(
           elevation: 5,
           margin: const EdgeInsets.symmetric(horizontal: 6),
-          child:
-              AspectRatio(aspectRatio: aspectRatio, child: VideoPlayer(video))),
+          child: videoPlayer == null
+              ? SizedBox()
+              : AspectRatio(
+                  aspectRatio: aspectRatio, child: VideoPlayer(videoPlayer))),
     );
   }
 }
 
 class TrackEditDialog extends StatelessWidget {
   TrackEditDialog(
-      {this.video, this.viewModel, this.index, this.onDeletePressed});
+      {this.videoPlayer, this.track, this.viewModel, this.onDeletePressed});
 
   final SongEditVM viewModel;
-  final VideoPlayerController video;
-  final int index;
+  final VideoPlayerController videoPlayer;
+  final TrackEntity track;
   final Function onDeletePressed;
 
   @override
@@ -452,13 +483,13 @@ class TrackEditDialog extends StatelessWidget {
                             axis: Axis.vertical,
                             rtl: true,
                             //values: [0, 25, 50, 75, 100],
-                            values: [song.tracks[index].volume.toDouble()],
+                            values: [track.volume.toDouble()],
                             max: 100,
                             min: 0,
                             onDragging: (handlerIndex, lowerValue, upperValue) {
-                              video.setVolume(lowerValue / 100);
+                              videoPlayer.setVolume(lowerValue / 100);
                               final song = viewModel.song
-                                  .setTrackVolume(index, lowerValue.toInt());
+                                  .setTrackVolume(track, lowerValue.toInt());
                               viewModel.onChangedSong(song);
                             },
                           ),

@@ -95,9 +95,10 @@ abstract class SongEntity extends Object
   TrackEntity get trackWithNewVideo =>
       tracks.firstWhere((track) => track.video.isNew, orElse: () => null);
 
-  SongEntity setTrackVolume(int index, int volume) {
-    final track = tracks[index].rebuild((b) => b..volume = volume);
-    return rebuild((b) => b..tracks[index] = track);
+  SongEntity setTrackVolume(TrackEntity track, int volume) {
+    final index = tracks.indexOf(track);
+    final updatedTrack = track.rebuild((b) => b..volume = volume);
+    return rebuild((b) => b..tracks[index] = updatedTrack);
   }
 
   bool get canAddTrack => tracks.length < kMaxTracks;
