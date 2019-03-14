@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
-import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -83,7 +82,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   void _onChanged() {
     final song = widget.viewModel.song.rebuild((b) => b
       ..title = _titleController.text.trim()
-      ..description = _descriptionController.text.trim());
+      ..description = _descriptionController.text.trim()
+      ..genreId = selectedGenreId);
 
     if (song != widget.viewModel.song) {
       widget.viewModel.onChangedSong(song);

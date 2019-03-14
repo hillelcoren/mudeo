@@ -14,6 +14,7 @@ import 'package:mudeo/ui/song/song_edit.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SongEditScreen extends StatelessWidget {
   const SongEditScreen({Key key}) : super(key: key);
@@ -161,8 +162,10 @@ class SongEditVM {
       isLoading: state.isLoading,
       //isLoaded: state.clientState.isLoaded,
       isLoaded: state.dataState.areSongsLoaded,
-      onClearPressed: (context) {
-        store.dispatch(UpdateSong(SongEntity()));
+      onClearPressed: (context) async {
+        final sharedPrefs = await SharedPreferences.getInstance();
+        final genreId = sharedPrefs.getInt(kSharedPrefGenreId);
+        store.dispatch(UpdateSong(SongEntity(genreId: genreId)));
       },
       onStartRecording: () {
         store.dispatch(StartRecording());

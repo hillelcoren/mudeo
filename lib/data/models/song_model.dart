@@ -14,14 +14,14 @@ part 'song_model.g.dart';
 abstract class SongEntity extends Object
     with BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
-  factory SongEntity({int id}) {
+  factory SongEntity({int id, int genreId}) {
     return _$SongEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       artistId: 0,
       title: '',
       description: '',
       url: '',
-      genreId: 0,
+      genreId: genreId ?? 0,
       duration: 0,
       countPlay: 0,
       countLink: 0,
