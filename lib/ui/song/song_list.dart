@@ -1,4 +1,5 @@
 import 'package:built_collection/built_collection.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -133,7 +134,6 @@ class SongItem extends StatelessWidget {
           ),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
           Text(song.description),
-          /*
           SizedBox(height: song.description.isEmpty ? 0 : 12),
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -143,12 +143,24 @@ class SongItem extends StatelessWidget {
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: (song.tracks)
-                    .map((track) =>
-                    Placeholder(fallbackHeight: 100, fallbackWidth: 100))
+                    .map(
+                      (track) => Placeholder(
+                            fallbackHeight: 140,
+                            fallbackWidth: 100,
+                          ),
+                      /*
+                          CachedNetworkImage(
+                            imageUrl:
+                            '',
+                            height: 140.0,
+                          ),
+                          */
+                    )
                     .toList(),
               ),
             ),
           ),
+          /*
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[

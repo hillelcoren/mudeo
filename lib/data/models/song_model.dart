@@ -161,6 +161,7 @@ abstract class VideoEntity extends Object
       userId: 0,
       timestamp: 0,
       url: '',
+      thumbnailUrl: '',
     );
   }
 
@@ -174,6 +175,10 @@ abstract class VideoEntity extends Object
 
   @nullable
   String get url;
+
+  @nullable
+  @BuiltValueField(wireName: 'thumbnail_url')
+  String get thumbnailUrl;
 
   @override
   String get listDisplayName {
