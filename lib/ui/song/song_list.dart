@@ -113,9 +113,11 @@ class SongItem extends StatelessWidget {
                         style: linkStyle,
                         text: '@${artist.handle}',
                       ),
+                      /*
                       TextSpan(
                         text: ' • ${song.countPlay ?? 0} ${localization.views}',
                       ),
+                      */
                     ],
                   ),
                 ),

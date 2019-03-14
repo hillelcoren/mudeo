@@ -39,10 +39,48 @@ class SongEditScreen extends StatelessWidget {
         final uiState = vm.state.uiState;
         return Scaffold(
           appBar: AppBar(
+            /*
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               tooltip: localization.back,
               onPressed: () => vm.onBackPressed(),
+            ),
+            */
+            leading:               PopupMenuButton<String>(
+              icon: Icon(Icons.more_vert),
+              itemBuilder: (BuildContext context) {
+                return [localization.clearSong]
+                    .map((option) => PopupMenuItem(
+                  child: Text(option),
+                  value: option,
+                ))
+                    .toList();
+              },
+              onSelected: (String action) {
+                if (action == localization.clearSong) {
+                  showDialog<AlertDialog>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        semanticLabel: localization.areYouSure,
+                        title: Text(localization.areYouSure),
+                        content: Text(localization.clearSong),
+                        actions: <Widget>[
+                          new FlatButton(
+                              child:
+                              Text(localization.cancel.toUpperCase()),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }),
+                          new FlatButton(
+                              child: Text(localization.ok.toUpperCase()),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                vm.onClearPressed(context);
+                              })
+                        ],
+                      ));
+                }
+              },
             ),
             title: Center(
               child: LiveText(
@@ -73,42 +111,6 @@ class SongEditScreen extends StatelessWidget {
                         ? () => onSavePressed(context, vm)
                         : null,
               ),
-              PopupMenuButton<String>(
-                icon: Icon(Icons.more_vert),
-                itemBuilder: (BuildContext context) {
-                  return [localization.clearSong]
-                      .map((option) => PopupMenuItem(
-                            child: Text(option),
-                            value: option,
-                          ))
-                      .toList();
-                },
-                onSelected: (String action) {
-                  if (action == localization.clearSong) {
-                    showDialog<AlertDialog>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                              semanticLabel: localization.areYouSure,
-                              title: Text(localization.areYouSure),
-                              content: Text(localization.clearSong),
-                              actions: <Widget>[
-                                new FlatButton(
-                                    child:
-                                        Text(localization.cancel.toUpperCase()),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    }),
-                                new FlatButton(
-                                    child: Text(localization.ok.toUpperCase()),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      vm.onClearPressed(context);
-                                    })
-                              ],
-                            ));
-                  }
-                },
-              )
             ],
           ),
           body: SongEdit(

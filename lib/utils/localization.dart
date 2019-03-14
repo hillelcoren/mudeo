@@ -51,7 +51,7 @@ class AppLocalization {
       'volume': 'Volume',
       'solo': 'Solo',
       'clear': 'Clear',
-      'lose_changes': 'This will discard your unsaved changes.',
+      'lose_changes': 'This will discard your unsaved changes',
       'ok': 'Ok',
       'are_you_sure': 'Are you sure?',
       'like': 'Like',
