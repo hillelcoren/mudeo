@@ -99,7 +99,7 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void dispose() {
-    //videoPlayers.forEach((videoPlayer) => videoPlayer.dispose());
+    videoPlayers.forEach((int, videoPlayer) => videoPlayer.dispose());
     camera.dispose();
     super.dispose();
   }
@@ -341,7 +341,7 @@ class _SongEditState extends State<SongEdit> {
                         Navigator.of(context).pop();
                         viewModel.onDeleteVideoPressed(song, track);
                         setState(() {
-                          videoPlayers[track.video.id].dispose();
+                          //videoPlayers[track.video.id].dispose();
                           if (song.tracks.isEmpty) {
                             timestamp = null;
                           }
