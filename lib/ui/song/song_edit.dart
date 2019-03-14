@@ -105,6 +105,7 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void record() async {
+    play();
     widget.viewModel.onStartRecording();
 
     final song = widget.viewModel.song;
@@ -120,7 +121,6 @@ class _SongEditState extends State<SongEdit> {
         () => saveRecording());
 
     await camera.startVideoRecording(path);
-    play();
   }
 
   void stopRecording() async {
