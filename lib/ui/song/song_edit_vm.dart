@@ -149,7 +149,7 @@ class SongEditVM {
   final Function(SongEntity) onChangedSong;
   final Function(Completer) onSavePressed;
   final Function(BuildContext) onClearPressed;
-  final Function(SongEntity, VideoEntity) onDeleteVideoPressed;
+  final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
   final Function() onBackPressed;
 
   static SongEditVM fromStore(Store<AppState> store) {
@@ -190,9 +190,13 @@ class SongEditVM {
         final song = store.state.uiState.song;
         store.dispatch(SaveSongRequest(song: song, completer: completer));
       },
-      onDeleteVideoPressed: (song, video) async {
+      onDeleteVideoPressed: (song, track) async {
+        final int index = song.tracks.indexOf(track);
+        song = song.rebuild((b) => b
+            ..tracks.removeAt(index)
+        );
         store.dispatch(UpdateSong(song));
-        String path = await VideoEntity.getPath(video.timestamp);
+        String path = await VideoEntity.getPath(track.video.timestamp);
         if (File(path).existsSync()) {
           File(path).deleteSync();
         }
