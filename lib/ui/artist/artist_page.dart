@@ -9,12 +9,10 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/LinkText.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:mudeo/utils/platforms.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
@@ -223,11 +221,6 @@ class ArtistPage extends StatelessWidget {
               pinned: false,
               flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-                  title: Text(artist.fullName,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
-                      )),
                   background: Image.network(
                     "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
                     fit: BoxFit.cover,

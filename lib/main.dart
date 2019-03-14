@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
@@ -23,8 +24,10 @@ import 'package:redux_logging/redux_logging.dart';
 import 'package:screen/screen.dart';
 
 void main() async {
-
   Screen.keepOn(true);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   final SentryClient _sentry = SentryClient(
       dsn: Config.SENTRY_DNS,
