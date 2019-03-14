@@ -121,7 +121,8 @@ class MudeoAppState extends State<MudeoApp> {
               return LoginScreenBuilder();
             },
             MainScreen.route: (context) {
-              if (widget.store.state.dataState.areSongsStale) {
+              final state = widget.store.state.dataState;
+              if (state.areSongsLoaded && state.areSongsStale) {
                 widget.store.dispatch(LoadSongs());
               }
               return MainScreenBuilder();

@@ -21,6 +21,9 @@ class SongListScreen extends StatelessWidget {
     return CupertinoTabView(builder: (BuildContext context) {
       return CupertinoPageScaffold(
         child: StoreConnector<AppState, SongListVM>(
+          onInit: (store) {
+            store.dispatch(LoadSongs());
+          },
           converter: SongListVM.fromStore,
           builder: (context, vm) {
             return SongList(viewModel: vm);
@@ -39,13 +42,11 @@ class SongListVM {
     @required this.onArtistTap,
     @required this.onSongEdit,
     @required this.onRefreshed,
-    @required this.loadSongs,
   });
 
   final AppState state;
   final bool isLoading;
   final bool isLoaded;
-  final Function loadSongs;
   final Function(BuildContext, ArtistEntity) onArtistTap;
   final Function(BuildContext, SongEntity) onSongEdit;
   final Function(BuildContext) onRefreshed;
@@ -72,7 +73,6 @@ class SongListVM {
       isLoading: state.isLoading,
       //isLoaded: state.clientState.isLoaded,
       isLoaded: state.dataState.areSongsLoaded,
-      loadSongs: () => store.dispatch(LoadSongs()),
       onArtistTap: (context, artist) {
         store.dispatch(ViewArtist(context: context, artist: artist));
       },
