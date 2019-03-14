@@ -1,4 +1,4 @@
-package com.example.mudeo;
+package app.mudeo.mudeo;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

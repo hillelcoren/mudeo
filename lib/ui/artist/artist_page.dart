@@ -81,13 +81,35 @@ class ArtistPage extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    final store = StoreProvider.of<AppState>(context);
-                    store.dispatch(UserLogout());
-                    Navigator.of(context)
-                        .pushReplacementNamed(LoginScreenBuilder.route);
+                    showDialog<AlertDialog>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                            semanticLabel: localization.areYouSure,
+                            title: Text(localization.areYouSure),
+                            content: Text(localization.logoutApp),
+                            actions: <Widget>[
+                              new FlatButton(
+                                  child:
+                                      Text(localization.cancel.toUpperCase()),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                              new FlatButton(
+                                  child: Text(localization.ok.toUpperCase()),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    final store =
+                                        StoreProvider.of<AppState>(context);
+                                    store.dispatch(UserLogout());
+                                    Navigator.of(context).pushReplacementNamed(
+                                        LoginScreenBuilder.route);
+                                  })
+                            ],
+                          ),
+                    );
                   },
                 ),
+                /*
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -101,6 +123,7 @@ class ArtistPage extends StatelessWidget {
                     Navigator.of(context).pop();
                   },
                 ),
+                */
                 Divider(),
                 SimpleDialogOption(
                   child: Padding(
