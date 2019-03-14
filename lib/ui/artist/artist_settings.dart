@@ -109,7 +109,9 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.cloud_upload),
-            onPressed: viewModel.isChanged ? () => null : null,
+            onPressed: viewModel.isChanged
+                ? () => viewModel.onSavePressed(context)
+                : null,
           )
         ],
       ),

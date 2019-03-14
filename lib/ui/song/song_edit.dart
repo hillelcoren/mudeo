@@ -82,6 +82,10 @@ class _SongEditState extends State<SongEdit> {
         player = VideoPlayerController.file(File(path));
         player.setVolume(track.volume.toDouble());
         await player.initialize();
+      } else if (track.video.url != null && track.video.url.isNotEmpty) {
+        player = VideoPlayerController.network(track.video.url);
+        player.setVolume(track.volume.toDouble());
+        await player.initialize();
       } else {
         player = VideoPlayerController.asset(null);
       }
@@ -274,7 +278,7 @@ class _SongEditState extends State<SongEdit> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 60),
+      padding: const EdgeInsets.only(bottom: 50),
       child: Column(children: [
         Expanded(
             child: AnimatedContainer(
@@ -524,6 +528,7 @@ class ExpandedButton extends StatelessWidget {
                     ? localization.delete
                     : localization.record,
         child: MaterialButton(
+          color: Colors.black26,
           height: 60,
           onPressed: onPressed,
           child: Icon(icon, size: iconHeight ?? 32, color: color),

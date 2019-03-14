@@ -134,6 +134,7 @@ abstract class VideoEntity extends Object
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       userId: 0,
       timestamp: 0,
+      url: '',
     );
   }
 
@@ -144,6 +145,9 @@ abstract class VideoEntity extends Object
 
   @nullable
   int get timestamp;
+
+  @nullable
+  String get url;
 
   @override
   String get listDisplayName {

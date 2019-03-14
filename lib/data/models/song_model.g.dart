@@ -292,6 +292,12 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         ..add(serializers.serialize(object.timestamp,
             specifiedType: const FullType(int)));
     }
+    if (object.url != null) {
+      result
+        ..add('url')
+        ..add(serializers.serialize(object.url,
+            specifiedType: const FullType(String)));
+    }
     if (object.deletedAt != null) {
       result
         ..add('deleted_at')
@@ -332,6 +338,10 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         case 'timestamp':
           result.timestamp = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
+          break;
+        case 'url':
+          result.url = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
@@ -938,6 +948,8 @@ class _$VideoEntity extends VideoEntity {
   @override
   final int timestamp;
   @override
+  final String url;
+  @override
   final String deletedAt;
   @override
   final String updatedAt;
@@ -948,7 +960,12 @@ class _$VideoEntity extends VideoEntity {
       (new VideoEntityBuilder()..update(updates)).build();
 
   _$VideoEntity._(
-      {this.userId, this.timestamp, this.deletedAt, this.updatedAt, this.id})
+      {this.userId,
+      this.timestamp,
+      this.url,
+      this.deletedAt,
+      this.updatedAt,
+      this.id})
       : super._() {
     if (userId == null) {
       throw new BuiltValueNullFieldError('VideoEntity', 'userId');
@@ -968,6 +985,7 @@ class _$VideoEntity extends VideoEntity {
     return other is VideoEntity &&
         userId == other.userId &&
         timestamp == other.timestamp &&
+        url == other.url &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt &&
         id == other.id;
@@ -977,7 +995,9 @@ class _$VideoEntity extends VideoEntity {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, userId.hashCode), timestamp.hashCode),
+            $jc(
+                $jc($jc($jc(0, userId.hashCode), timestamp.hashCode),
+                    url.hashCode),
                 deletedAt.hashCode),
             updatedAt.hashCode),
         id.hashCode));
@@ -988,6 +1008,7 @@ class _$VideoEntity extends VideoEntity {
     return (newBuiltValueToStringHelper('VideoEntity')
           ..add('userId', userId)
           ..add('timestamp', timestamp)
+          ..add('url', url)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt)
           ..add('id', id))
@@ -1005,6 +1026,10 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   int _timestamp;
   int get timestamp => _$this._timestamp;
   set timestamp(int timestamp) => _$this._timestamp = timestamp;
+
+  String _url;
+  String get url => _$this._url;
+  set url(String url) => _$this._url = url;
 
   String _deletedAt;
   String get deletedAt => _$this._deletedAt;
@@ -1024,6 +1049,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
     if (_$v != null) {
       _userId = _$v.userId;
       _timestamp = _$v.timestamp;
+      _url = _$v.url;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
       _id = _$v.id;
@@ -1051,6 +1077,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
         new _$VideoEntity._(
             userId: userId,
             timestamp: timestamp,
+            url: url,
             deletedAt: deletedAt,
             updatedAt: updatedAt,
             id: id);
