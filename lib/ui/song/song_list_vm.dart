@@ -103,7 +103,7 @@ class SongListVM {
                 ),
           );
         } else {
-          store.dispatch(EditSong(song: song, context: context));
+          store.dispatch(EditSong(song: song.fork, context: context));
         }
       },
       onRefreshed: (context) => _handleRefresh(context),
