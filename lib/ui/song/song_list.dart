@@ -147,17 +147,13 @@ class SongItem extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 children: (song.tracks)
                     .map(
-                      (track) => Placeholder(
-                            fallbackHeight: 140,
-                            fallbackWidth: 100,
-                          ),
-                      /*
+                      (track) =>
                           CachedNetworkImage(
                             imageUrl:
-                            '',
+                            track.video.thumbnailUrl,
                             height: 140.0,
                           ),
-                          */
+
                     )
                     .toList(),
               ),
