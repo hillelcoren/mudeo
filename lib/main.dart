@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:mudeo/.env.dart';
+import 'package:sentry/sentry.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
 import 'package:mudeo/redux/artist/artist_middleware.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
@@ -23,14 +26,12 @@ void main() async {
 
   Screen.keepOn(true);
 
-  /*
   final SentryClient _sentry = SentryClient(
       dsn: Config.SENTRY_DNS,
       environmentAttributes: Event(
         release: kAppVersion,
         environment: Config.PLATFORM,
       ));
-  */
 
   final store = Store<AppState>(appReducer,
       initialState: AppState(),
@@ -43,7 +44,6 @@ void main() async {
           LoggingMiddleware<dynamic>.printer(),
         ]));
 
-  /*
   Future<void> _reportError(dynamic error, dynamic stackTrace) async {
     print('Caught error: $error');
     if (isInDebugMode) {
@@ -56,11 +56,7 @@ void main() async {
       );
     }
   }
-  */
 
-  runApp(MudeoApp(store: store));
-
-  /*
   runZoned<Future<void>>(() async {
     runApp(MudeoApp(store: store));
   }, onError: (dynamic error, dynamic stackTrace) {
@@ -74,7 +70,6 @@ void main() async {
       Zone.current.handleUncaughtError(details.exception, details.stack);
     }
   };
-  */
 }
 
 bool get isInDebugMode {
