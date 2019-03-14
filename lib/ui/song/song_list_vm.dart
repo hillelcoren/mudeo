@@ -7,6 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -72,7 +73,9 @@ class SongListVM {
       //isLoaded: state.clientState.isLoaded,
       isLoaded: state.dataState.areSongsLoaded,
       loadSongs: () => store.dispatch(LoadSongs()),
-      onArtistTap: (context, artist) {},
+      onArtistTap: (context, artist) {
+        store.dispatch(ViewArtist(context: context, artist: artist));
+      },
       onSongEdit: (context, song) {
         final localization = AppLocalization.of(context);
         final uiSong = store.state.uiState.song;
