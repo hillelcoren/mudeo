@@ -97,7 +97,7 @@ class SongListVM {
                         onPressed: () {
                           Navigator.pop(context);
                           store
-                              .dispatch(EditSong(song: song, context: context));
+                              .dispatch(EditSong(song: song.fork, context: context));
                         })
                   ],
                 ),

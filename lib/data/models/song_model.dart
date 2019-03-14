@@ -18,6 +18,7 @@ abstract class SongEntity extends Object
     return _$SongEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       artistId: 0,
+      parentId: 0,
       title: '',
       description: '',
       url: '',
@@ -51,6 +52,10 @@ abstract class SongEntity extends Object
   @nullable
   @BuiltValueField(wireName: 'genre_id')
   int get genreId;
+
+  @nullable
+  @BuiltValueField(wireName: 'parent_id')
+  int get parentId;
 
   int get duration;
 
@@ -96,6 +101,11 @@ abstract class SongEntity extends Object
   }
 
   bool get canAddTrack => tracks.length < kMaxTracks;
+
+  SongEntity get fork => rebuild((b) => b
+    ..parentId = id
+    ..id = DateTime.now().millisecondsSinceEpoch * -1
+  );
 
   static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }
@@ -172,7 +182,7 @@ abstract class VideoEntity extends Object
 abstract class SongListResponse
     implements Built<SongListResponse, SongListResponseBuilder> {
   factory SongListResponse([void updates(SongListResponseBuilder b)]) =
-  _$SongListResponse;
+      _$SongListResponse;
 
   SongListResponse._();
 
@@ -185,7 +195,7 @@ abstract class SongListResponse
 abstract class SongItemResponse
     implements Built<SongItemResponse, SongItemResponseBuilder> {
   factory SongItemResponse([void updates(SongItemResponseBuilder b)]) =
-  _$SongItemResponse;
+      _$SongItemResponse;
 
   SongItemResponse._();
 
@@ -198,7 +208,7 @@ abstract class SongItemResponse
 abstract class VideoItemResponse
     implements Built<VideoItemResponse, VideoItemResponseBuilder> {
   factory VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =
-  _$VideoItemResponse;
+      _$VideoItemResponse;
 
   VideoItemResponse._();
 
@@ -207,4 +217,3 @@ abstract class VideoItemResponse
   static Serializer<VideoItemResponse> get serializer =>
       _$videoItemResponseSerializer;
 }
-

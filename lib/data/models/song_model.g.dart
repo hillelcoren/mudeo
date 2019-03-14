@@ -79,6 +79,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.genreId,
             specifiedType: const FullType(int)));
     }
+    if (object.parentId != null) {
+      result
+        ..add('parent_id')
+        ..add(serializers.serialize(object.parentId,
+            specifiedType: const FullType(int)));
+    }
     if (object.countPlay != null) {
       result
         ..add('count_play')
@@ -146,6 +152,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'genre_id':
           result.genreId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'parent_id':
+          result.parentId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'duration':
@@ -511,6 +521,8 @@ class _$SongEntity extends SongEntity {
   @override
   final int genreId;
   @override
+  final int parentId;
+  @override
   final int duration;
   @override
   final int countPlay;
@@ -541,6 +553,7 @@ class _$SongEntity extends SongEntity {
       this.artistId,
       this.artist,
       this.genreId,
+      this.parentId,
       this.duration,
       this.countPlay,
       this.countLink,
@@ -592,6 +605,7 @@ class _$SongEntity extends SongEntity {
         artistId == other.artistId &&
         artist == other.artist &&
         genreId == other.genreId &&
+        parentId == other.parentId &&
         duration == other.duration &&
         countPlay == other.countPlay &&
         countLink == other.countLink &&
@@ -622,15 +636,17 @@ class _$SongEntity extends SongEntity {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    0,
-                                                                    title
+                                                                    $jc(
+                                                                        0,
+                                                                        title
+                                                                            .hashCode),
+                                                                    description
                                                                         .hashCode),
-                                                                description
-                                                                    .hashCode),
-                                                            url.hashCode),
-                                                        artistId.hashCode),
-                                                    artist.hashCode),
-                                                genreId.hashCode),
+                                                                url.hashCode),
+                                                            artistId.hashCode),
+                                                        artist.hashCode),
+                                                    genreId.hashCode),
+                                                parentId.hashCode),
                                             duration.hashCode),
                                         countPlay.hashCode),
                                     countLink.hashCode),
@@ -652,6 +668,7 @@ class _$SongEntity extends SongEntity {
           ..add('artistId', artistId)
           ..add('artist', artist)
           ..add('genreId', genreId)
+          ..add('parentId', parentId)
           ..add('duration', duration)
           ..add('countPlay', countPlay)
           ..add('countLink', countLink)
@@ -693,6 +710,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int _genreId;
   int get genreId => _$this._genreId;
   set genreId(int genreId) => _$this._genreId = genreId;
+
+  int _parentId;
+  int get parentId => _$this._parentId;
+  set parentId(int parentId) => _$this._parentId = parentId;
 
   int _duration;
   int get duration => _$this._duration;
@@ -745,6 +766,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _artistId = _$v.artistId;
       _artist = _$v.artist?.toBuilder();
       _genreId = _$v.genreId;
+      _parentId = _$v.parentId;
       _duration = _$v.duration;
       _countPlay = _$v.countPlay;
       _countLink = _$v.countLink;
@@ -785,6 +807,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               artistId: artistId,
               artist: _artist?.build(),
               genreId: genreId,
+              parentId: parentId,
               duration: duration,
               countPlay: countPlay,
               countLink: countLink,

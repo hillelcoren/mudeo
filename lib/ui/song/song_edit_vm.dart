@@ -68,12 +68,10 @@ class SongEditScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,
-                onPressed: uiState.isRecording ||
-                        uiState.song.tracks.isEmpty ||
-                        (!(uiState.song.isChanged ?? false) &&
-                            !uiState.song.isNew)
-                    ? null
-                    : () => onSavePressed(context, vm),
+                onPressed:
+                    !uiState.isRecording && uiState.song.tracks.isNotEmpty
+                        ? () => onSavePressed(context, vm)
+                        : null,
               ),
               PopupMenuButton<String>(
                 icon: Icon(Icons.more_vert),

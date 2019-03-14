@@ -30,20 +30,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   static final int kStackIndexSuccess = 2;
 
   List<TextEditingController> _controllers = [];
-  int selectedGenreId;
   bool isSaving = false;
   int selectedStackIndex = kStackIndexForm;
-
-  @override
-  void initState() {
-    super.initState();
-
-    SharedPreferences.getInstance().then((prefs) {
-      setState(() {
-        selectedGenreId = prefs.getInt(kSharedPrefGenreId);
-      });
-    });
-  }
 
   @override
   void didChangeDependencies() {
@@ -83,7 +71,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final song = widget.viewModel.song.rebuild((b) => b
       ..title = _titleController.text.trim()
       ..description = _descriptionController.text.trim()
-      ..genreId = selectedGenreId);
+      //..genreId = selectedGenreId
+    );
 
     if (song != widget.viewModel.song) {
       widget.viewModel.onChangedSong(song);
@@ -142,6 +131,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: DropdownButton<int>(
+                  key: ValueKey(song.genreId),
                   isExpanded: true,
                   hint: Text(localization.genre),
                   onChanged: (value) {
@@ -149,12 +139,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                         (prefs) => prefs.setInt(kSharedPrefGenreId, value));
                     viewModel
                         .onChangedSong(song.rebuild((b) => b..genreId = value));
-                    setState(() {
-                      selectedGenreId = value;
-                    });
                   },
-                  value: selectedGenreId ??
-                      (song.genreId > 0 ? song.genreId : null),
+                  value: song.genreId > 0 ? song.genreId : null,
                   items: kGenres.keys
                       .map((id) => DropdownMenuItem(
                             value: id,
