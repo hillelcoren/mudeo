@@ -69,7 +69,8 @@ class SongEditScreen extends StatelessWidget {
                 tooltip: localization.save,
                 onPressed: uiState.isRecording ||
                         uiState.song.tracks.isEmpty ||
-                        !(uiState.song.isChanged ?? false)
+                        (!(uiState.song.isChanged ?? false) &&
+                            !uiState.song.isNew)
                     ? null
                     : () => onSavePressed(context, vm),
               ),
