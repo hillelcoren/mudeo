@@ -114,7 +114,7 @@ abstract class ArtistEntity extends Object
     if (twitchURL != null && twitchURL.isNotEmpty) {
       data[kLinkTypeTwitch] = twitchURL;
     }
-    
+
     return data;
   }
 

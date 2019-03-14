@@ -224,12 +224,15 @@ class ArtistPage extends StatelessWidget {
               expandedHeight: 200.0,
               floating: true,
               pinned: false,
-              flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  background: Image.network(
-                    "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                    fit: BoxFit.cover,
-                  )),
+              flexibleSpace: artist.headerImageUrl != null &&
+                      artist.headerImageUrl.isNotEmpty
+                  ? FlexibleSpaceBar(
+                      centerTitle: true,
+                      background: Image.network(
+                        artist.headerImageUrl,
+                        fit: BoxFit.cover,
+                      ))
+                  : SizedBox(),
             ),
           ];
         },
