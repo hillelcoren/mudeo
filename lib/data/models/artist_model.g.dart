@@ -70,6 +70,18 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add(serializers.serialize(object.description,
             specifiedType: const FullType(String)));
     }
+    if (object.profileImageUrl != null) {
+      result
+        ..add('profile_image_url')
+        ..add(serializers.serialize(object.profileImageUrl,
+            specifiedType: const FullType(String)));
+    }
+    if (object.headerImageUrl != null) {
+      result
+        ..add('header_image_url')
+        ..add(serializers.serialize(object.headerImageUrl,
+            specifiedType: const FullType(String)));
+    }
     if (object.twitterURL != null) {
       result
         ..add('twitter_url')
@@ -167,6 +179,14 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           break;
         case 'description':
           result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'profile_image_url':
+          result.profileImageUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'header_image_url':
+          result.headerImageUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'twitter_url':
@@ -271,6 +291,10 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final String description;
   @override
+  final String profileImageUrl;
+  @override
+  final String headerImageUrl;
+  @override
   final String twitterURL;
   @override
   final String facebookURL;
@@ -301,6 +325,8 @@ class _$ArtistEntity extends ArtistEntity {
       this.email,
       this.token,
       this.description,
+      this.profileImageUrl,
+      this.headerImageUrl,
       this.twitterURL,
       this.facebookURL,
       this.instagramURL,
@@ -330,6 +356,8 @@ class _$ArtistEntity extends ArtistEntity {
         email == other.email &&
         token == other.token &&
         description == other.description &&
+        profileImageUrl == other.profileImageUrl &&
+        headerImageUrl == other.headerImageUrl &&
         twitterURL == other.twitterURL &&
         facebookURL == other.facebookURL &&
         instagramURL == other.instagramURL &&
@@ -360,15 +388,20 @@ class _$ArtistEntity extends ArtistEntity {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    0,
-                                                                    firstName
+                                                                    $jc(
+                                                                        $jc(
+                                                                            0,
+                                                                            firstName
+                                                                                .hashCode),
+                                                                        lastName
+                                                                            .hashCode),
+                                                                    handle
                                                                         .hashCode),
-                                                                lastName
-                                                                    .hashCode),
-                                                            handle.hashCode),
-                                                        email.hashCode),
-                                                    token.hashCode),
-                                                description.hashCode),
+                                                                email.hashCode),
+                                                            token.hashCode),
+                                                        description.hashCode),
+                                                    profileImageUrl.hashCode),
+                                                headerImageUrl.hashCode),
                                             twitterURL.hashCode),
                                         facebookURL.hashCode),
                                     instagramURL.hashCode),
@@ -390,6 +423,8 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('email', email)
           ..add('token', token)
           ..add('description', description)
+          ..add('profileImageUrl', profileImageUrl)
+          ..add('headerImageUrl', headerImageUrl)
           ..add('twitterURL', twitterURL)
           ..add('facebookURL', facebookURL)
           ..add('instagramURL', instagramURL)
@@ -431,6 +466,16 @@ class ArtistEntityBuilder
   String _description;
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
+
+  String _profileImageUrl;
+  String get profileImageUrl => _$this._profileImageUrl;
+  set profileImageUrl(String profileImageUrl) =>
+      _$this._profileImageUrl = profileImageUrl;
+
+  String _headerImageUrl;
+  String get headerImageUrl => _$this._headerImageUrl;
+  set headerImageUrl(String headerImageUrl) =>
+      _$this._headerImageUrl = headerImageUrl;
 
   String _twitterURL;
   String get twitterURL => _$this._twitterURL;
@@ -483,6 +528,8 @@ class ArtistEntityBuilder
       _email = _$v.email;
       _token = _$v.token;
       _description = _$v.description;
+      _profileImageUrl = _$v.profileImageUrl;
+      _headerImageUrl = _$v.headerImageUrl;
       _twitterURL = _$v.twitterURL;
       _facebookURL = _$v.facebookURL;
       _instagramURL = _$v.instagramURL;
@@ -521,6 +568,8 @@ class ArtistEntityBuilder
             email: email,
             token: token,
             description: description,
+            profileImageUrl: profileImageUrl,
+            headerImageUrl: headerImageUrl,
             twitterURL: twitterURL,
             facebookURL: facebookURL,
             instagramURL: instagramURL,

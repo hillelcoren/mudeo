@@ -33,6 +33,7 @@ class SongList extends StatelessWidget {
     final songIds = dataState.songMap.keys.toList();
     songIds.sort((songIda, songIdb) =>
         dataState.songMap[songIdb].id - dataState.songMap[songIda].id);
+
     return RefreshIndicator(
       onRefresh: () => viewModel.onRefreshed(context),
       child: ListView.builder(

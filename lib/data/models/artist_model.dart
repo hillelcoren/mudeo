@@ -5,7 +5,8 @@ import 'package:mudeo/data/models/entities.dart';
 
 part 'artist_model.g.dart';
 
-abstract class ArtistEntity extends Object with BaseEntity
+abstract class ArtistEntity extends Object
+    with BaseEntity
     implements SelectableEntity, Built<ArtistEntity, ArtistEntityBuilder> {
   factory ArtistEntity({int id}) {
     return _$ArtistEntity._(
@@ -23,6 +24,8 @@ abstract class ArtistEntity extends Object with BaseEntity
       soundCloudURL: '',
       twitchURL: '',
       website: '',
+      profileImageUrl: '',
+      headerImageUrl: '',
     );
   }
 
@@ -48,6 +51,14 @@ abstract class ArtistEntity extends Object with BaseEntity
 
   @nullable
   String get description;
+
+  @nullable
+  @BuiltValueField(wireName: 'profile_image_url')
+  String get profileImageUrl;
+
+  @nullable
+  @BuiltValueField(wireName: 'header_image_url')
+  String get headerImageUrl;
 
   @nullable
   @BuiltValueField(wireName: 'twitter_url')
@@ -103,12 +114,7 @@ abstract class ArtistEntity extends Object with BaseEntity
     if (twitchURL != null && twitchURL.isNotEmpty) {
       data[kLinkTypeTwitch] = twitchURL;
     }
-
-    // TODO remove this
-    data[kLinkTypeTwitter] = 'https://twitter.com/itsallwidgets';
-    data[kLinkTypeYouTube] = 'https://www.youtube.com/watch?v=FToO5roV7oc';
-    data[kLinkTypeInstagram] = 'https://www.youtube.com/watch?v=FToO5roV7oc';
-
+    
     return data;
   }
 
@@ -118,7 +124,7 @@ abstract class ArtistEntity extends Object with BaseEntity
 abstract class ArtistItemResponse
     implements Built<ArtistItemResponse, ArtistItemResponseBuilder> {
   factory ArtistItemResponse([void updates(ArtistItemResponseBuilder b)]) =
-  _$ArtistItemResponse;
+      _$ArtistItemResponse;
 
   ArtistItemResponse._();
 

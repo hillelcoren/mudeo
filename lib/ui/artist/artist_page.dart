@@ -26,12 +26,17 @@ class ArtistPage extends StatelessWidget {
     Widget _profileImage() {
       return ClipRRect(
         borderRadius: BorderRadius.circular(140.0),
-        child: CachedNetworkImage(
-          imageUrl:
-              "https://pbs.twimg.com/profile_images/1021821127545573376/TxRT22Ak_400x400.jpg",
-          width: 140.0,
-          height: 140.0,
-        ),
+        child: artist.profileImageUrl == null || artist.profileImageUrl.isEmpty
+            ? Container(
+                color: Colors.black38,
+                padding: EdgeInsets.all(15),
+                child: Icon(Icons.person, size: 70),
+              )
+            : CachedNetworkImage(
+                imageUrl: artist.profileImageUrl,
+                width: 140.0,
+                height: 140.0,
+              ),
       );
     }
 
