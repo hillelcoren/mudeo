@@ -28,39 +28,37 @@ class SongList extends StatelessWidget {
       return LoadingIndicator();
     }
 
-    return CupertinoTabView(
-      builder: (BuildContext context) {
-        return CupertinoPageScaffold(
-          child: RefreshIndicator(
-            onRefresh: () => viewModel.onRefreshed(context),
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: viewModel.songIds.length,
-                itemBuilder: (BuildContext context, index) {
-                  final data = viewModel.state.dataState;
-                  final songId = viewModel.songIds[index];
-                  final song = data.songMap[songId];
+    final dataState = viewModel.state.dataState;
+    final songIds = dataState.songMap.keys.toList().reversed.toList();
+    return RefreshIndicator(
+      onRefresh: () => viewModel.onRefreshed(context),
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: songIds.length,
+          itemBuilder: (BuildContext context, index) {
+            final data = viewModel.state.dataState;
+            final songId = songIds[index];
+            final song = data.songMap[songId];
 
-                  return SongItem(
-                    context,
-                    song: song,
-                    onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
-                    onPlay: () {
-                      print('tapped');
-                    },
-                    onEdit: () => viewModel.onSongEdit(context, song),
-                  );
-                }),
-          ),
-        );
-      },
+            return SongItem(
+              ValueKey(songId),
+              context,
+              song: song,
+              onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
+              onPlay: () {
+                print('tapped');
+              },
+              onEdit: () => viewModel.onSongEdit(context, song),
+            );
+          }),
     );
   }
 }
 
 class SongItem extends StatelessWidget {
-  SongItem(BuildContext context,
-      {this.song, this.onPlay, this.onEdit, this.onArtistTap});
+  SongItem(Key key, BuildContext context,
+      {this.song, this.onPlay, this.onEdit, this.onArtistTap})
+      : super(key: key);
 
   final SongEntity song;
   final Function onPlay;
@@ -70,9 +68,7 @@ class SongItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final state = StoreProvider
-        .of<AppState>(context)
-        .state;
+    final state = StoreProvider.of<AppState>(context).state;
     final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
 
     final ThemeData themeData = Theme.of(context);
@@ -87,10 +83,7 @@ class SongItem extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child:
-                Text(song.title, style: Theme
-                    .of(context)
-                    .textTheme
-                    .title),
+                    Text(song.title, style: Theme.of(context).textTheme.title),
               ),
               IconButton(
                 icon: Icon(Icons.play_circle_filled, size: 35),
@@ -129,10 +122,10 @@ class SongItem extends StatelessWidget {
               song.genreId == null || song.genreId == 0
                   ? SizedBox()
                   : Text(
-                localization.lookup(kGenres[song.genreId]),
-                style: TextStyle(
-                    color: kGenreColors[song.genreId], fontSize: 15),
-              ),
+                      localization.lookup(kGenres[song.genreId]),
+                      style: TextStyle(
+                          color: kGenreColors[song.genreId], fontSize: 15),
+                    ),
             ],
           ),
           SizedBox(height: song.description.isEmpty ? 0 : 12),

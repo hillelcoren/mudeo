@@ -8,7 +8,6 @@ import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
-import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
@@ -18,14 +17,16 @@ class SongListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SongListVM>(
-      converter: SongListVM.fromStore,
-      builder: (context, vm) {
-        return SongList(
-          viewModel: vm,
-        );
-      },
-    );
+    return CupertinoTabView(builder: (BuildContext context) {
+      return CupertinoPageScaffold(
+        child: StoreConnector<AppState, SongListVM>(
+          converter: SongListVM.fromStore,
+          builder: (context, vm) {
+            return SongList(viewModel: vm);
+          },
+        ),
+      );
+    });
   }
 }
 
@@ -37,14 +38,12 @@ class SongListVM {
     @required this.onArtistTap,
     @required this.onSongEdit,
     @required this.onRefreshed,
-    @required this.songIds,
     @required this.loadSongs,
   });
 
   final AppState state;
   final bool isLoading;
   final bool isLoaded;
-  final List<int> songIds;
   final Function loadSongs;
   final Function(BuildContext, ArtistEntity) onArtistTap;
   final Function(BuildContext, SongEntity) onSongEdit;
@@ -71,7 +70,6 @@ class SongListVM {
       state: state,
       isLoading: state.isLoading,
       //isLoaded: state.clientState.isLoaded,
-      songIds: state.dataState.songMap.keys.toList(),
       isLoaded: state.dataState.areSongsLoaded,
       loadSongs: () => store.dispatch(LoadSongs()),
       onArtistTap: (context, artist) {},

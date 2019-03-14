@@ -18,7 +18,7 @@ class ArtistRepository {
 
   Future<ArtistEntity> loadItem(
       AuthState auth, int entityId) async {
-    String url = '$kAppURL/artists/$entityId?include=songs';
+    String url = '$kAppURL/users/$entityId?include=songs';
 
     final dynamic response = await webClient.get(url, auth.artist.token);
 
@@ -30,7 +30,7 @@ class ArtistRepository {
 
   Future<BuiltList<ArtistEntity>> loadList(
       AuthState auth, int updatedAt) async {
-    String url = '$kAppURL/artists?';
+    String url = '$kAppURL/users?';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
@@ -53,10 +53,10 @@ class ArtistRepository {
     dynamic response;
 
     if (artist.isNew) {
-      response = await webClient.post('$kAppURL/artists?include=activities',
+      response = await webClient.post('$kAppURL/users?include=activities',
           auth.artist.token, data: json.encode(data));
     } else {
-      var url = '$kAppURL/artists/${artist.id}?include=activities';
+      var url = '$kAppURL/users/${artist.id}?include=activities';
       if (action != null) {
         url += '&action=' + action.toString();
       }
