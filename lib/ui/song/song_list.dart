@@ -30,7 +30,9 @@ class SongList extends StatelessWidget {
     }
 
     final dataState = viewModel.state.dataState;
-    final songIds = dataState.songMap.keys.toList().reversed.toList();
+    final songIds = dataState.songMap.keys.toList();
+    songIds.sort((songIda, songIdb) =>
+        dataState.songMap[songIdb].id - dataState.songMap[songIda].id);
     return RefreshIndicator(
       onRefresh: () => viewModel.onRefreshed(context),
       child: ListView.builder(
