@@ -341,7 +341,7 @@ class _SongEditState extends State<SongEdit> {
                         Navigator.of(context).pop();
                         viewModel.onDeleteVideoPressed(song, track.video);
                         setState(() {
-                          videoPlayers.remove(videoPlayer);
+                          videoPlayers.remove(track.video.id);
                           if (videoPlayers.isEmpty) {
                             timestamp = null;
                           }
