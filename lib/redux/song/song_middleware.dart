@@ -50,7 +50,11 @@ Middleware<AppState> _saveSong(SongRepository repository) {
         store.dispatch(SaveVideoSuccess(song: song, video: video));
         store.dispatch(SaveSongRequest(
             song: store.state.uiState.song, completer: action.completer));
-      });
+      }).catchError((Object error) {
+        print(error);
+        store.dispatch(SaveVideoFailure(error));
+        action.completer.completeError(error);
+      });;
     } else {
       repository.saveSong(authState, action.song).then((song) {
         if (action.song.isNew) {
