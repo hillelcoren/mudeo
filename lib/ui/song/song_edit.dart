@@ -75,6 +75,7 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void didChangeDependencies() async {
+
     widget.viewModel.song.tracks.forEach((track) async {
       String path = await VideoEntity.getPath(track.video.timestamp);
       VideoPlayerController player;

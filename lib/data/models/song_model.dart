@@ -104,8 +104,19 @@ abstract class SongEntity extends Object
 
   SongEntity get fork => rebuild((b) => b
     ..parentId = id
-    ..id = DateTime.now().millisecondsSinceEpoch * -1
-  );
+    ..id = DateTime.now().millisecondsSinceEpoch * -1);
+
+  SongEntity get updateOrderByIds {
+    int counter = 0;
+    final sortedTracks = List<TrackEntity>();
+
+    tracks.forEach((track) {
+      final updatedTrack = track.rebuild((b) => b..orderId = counter);
+      sortedTracks.insert(counter++, updatedTrack);
+    });
+
+    return rebuild((b) => b..tracks.replace(sortedTracks));
+  }
 
   static Serializer<SongEntity> get serializer => _$songEntitySerializer;
 }

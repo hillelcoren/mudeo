@@ -54,9 +54,9 @@ Middleware<AppState> _saveSong(SongRepository repository) {
         print(error);
         store.dispatch(SaveVideoFailure(error));
         action.completer.completeError(error);
-      });;
+      });
     } else {
-      repository.saveSong(authState, action.song).then((song) {
+      repository.saveSong(authState, action.song.updateOrderByIds).then((song) {
         if (action.song.isNew) {
           store.dispatch(AddSongSuccess(song));
         } else {
