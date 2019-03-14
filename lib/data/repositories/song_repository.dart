@@ -37,7 +37,7 @@ class SongRepository {
     dynamic response;
 
     if (song.isNew) {
-      response = await webClient.post(kAppURL + '/songs', auth.artist.token,
+      response = await webClient.post(kAppURL + '/songs?include=user', auth.artist.token,
           data: json.encode(data));
     } else {
       var url = kAppURL + '/songs/' + song.id.toString();

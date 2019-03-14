@@ -5,6 +5,7 @@ import 'package:redux/redux.dart';
 Reducer<DataState> dataReducer = combineReducers([
   TypedReducer<DataState, LoadSongsSuccess>(loadSongsSuccessReducer),
   TypedReducer<DataState, LoadSongsFailure>(loadSongsFailureReducer),
+  TypedReducer<DataState, AddSongSuccess>(addSongReducer),
 ]);
 
 DataState loadSongsSuccessReducer(
@@ -23,4 +24,8 @@ DataState loadSongsFailureReducer(
     DataState dataState, LoadSongsFailure action) {
   return dataState
       .rebuild((b) => b..songsFailedAt = DateTime.now().millisecondsSinceEpoch);
+}
+
+DataState addSongReducer(DataState dataState, AddSongSuccess action) {
+  return dataState.rebuild((b) => b..songMap[action.song.id] = action.song);
 }
