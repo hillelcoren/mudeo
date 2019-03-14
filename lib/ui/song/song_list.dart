@@ -69,7 +69,8 @@ class SongItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final state = StoreProvider.of<AppState>(context).state;
-    final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
+    final artist = song.artist ?? ArtistEntity();
+    //final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
 
     final ThemeData themeData = Theme.of(context);
     final TextStyle linkStyle = themeData.textTheme.body2

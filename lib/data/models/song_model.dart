@@ -5,6 +5,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -42,6 +43,10 @@ abstract class SongEntity extends Object
   @nullable
   @BuiltValueField(wireName: 'user_id')
   int get artistId;
+
+  @nullable
+  @BuiltValueField(wireName: 'user')
+  ArtistEntity get artist;
 
   @nullable
   @BuiltValueField(wireName: 'genre_id')

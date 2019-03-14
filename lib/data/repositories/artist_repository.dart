@@ -53,10 +53,10 @@ class ArtistRepository {
     dynamic response;
 
     if (artist.isNew) {
-      response = await webClient.post('$kAppURL/users?include=activities',
+      response = await webClient.post('$kAppURL/users?include=',
           auth.artist.token, data: json.encode(data));
     } else {
-      var url = '$kAppURL/users/${artist.id}?include=activities';
+      var url = '$kAppURL/users/${artist.id}?include=';
       if (action != null) {
         url += '&action=' + action.toString();
       }
