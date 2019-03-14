@@ -325,7 +325,7 @@ class _SongEditState extends State<SongEdit> {
                               : CameraLensDirection.front),
                 ),
         ]),
-        isEmpty
+        song.tracks.isEmpty
             ? SizedBox()
             : Flexible(
                 child: ListView(

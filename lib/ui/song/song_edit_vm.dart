@@ -153,15 +153,13 @@ class SongEditVM {
   final Function() onBackPressed;
 
   static SongEditVM fromStore(Store<AppState> store) {
-    final state = store.state;
-
     return SongEditVM(
-      song: state.uiState.song,
+      song: store.state.uiState.song,
       //clientMap: state.clientState.map,
-      state: state,
-      isLoading: state.isLoading,
+      state: store.state,
+      isLoading: store.state.isLoading,
       //isLoaded: state.clientState.isLoaded,
-      isLoaded: state.dataState.areSongsLoaded,
+      isLoaded: store.state.dataState.areSongsLoaded,
       onClearPressed: (context) async {
         final sharedPrefs = await SharedPreferences.getInstance();
         final genreId = sharedPrefs.getInt(kSharedPrefGenreId);
@@ -175,7 +173,7 @@ class SongEditVM {
       },
       onTrackAdded: (video, duration) {
         store.dispatch(StopRecording());
-        final song = state.uiState.song;
+        final song = store.state.uiState.song;
         final track = song.newTrack(video);
         store.dispatch(AddTrack(
           track: track,
@@ -189,7 +187,7 @@ class SongEditVM {
         store.dispatch(UpdateTabIndex(kTabExplore));
       },
       onSavePressed: (completer) {
-        final song = state.uiState.song;
+        final song = store.state.uiState.song;
         store.dispatch(SaveSongRequest(song: song, completer: completer));
       },
       onDeleteVideoPressed: (song, video) async {

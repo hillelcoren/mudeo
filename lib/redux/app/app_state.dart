@@ -51,6 +51,6 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     //return 'Genre: ${uiState.song.genreId}';
     //return 'Last Tried: ${dataState.songsFailedAt}, Updated at ${dataState.songsUpdateAt}';
     //return 'Recording: ${uiState.recordingTimestamp}';
-    return 'Song ${uiState.song.id} is NEW: ${uiState.song.isNew}';
+    return 'Song  ${uiState.song.title} ${uiState.song.id} is NEW: ${uiState.song.isNew}';
   }
 }
