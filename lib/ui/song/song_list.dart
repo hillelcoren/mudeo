@@ -95,6 +95,7 @@ class SongItem extends StatelessWidget {
                   children: <Widget>[
                     ArtistProfile(
                       artist: song.artist,
+                      onTap: () => onArtistTap(artist),
                     ),
                     SizedBox(width: 12),
                     Expanded(
