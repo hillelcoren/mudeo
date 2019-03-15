@@ -188,7 +188,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   ProgressButton(
                     isLoading: viewModel.state.isSaving,
                     onPressed: () => _onSubmit(),
-                    label: song.isNew ? localization.upload : localization.save,
+                    label: localization.create,
+                    //label: song.isNew ? localization.upload : localization.save,
                   ),
                 ],
               ),
@@ -234,6 +235,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 style: Theme.of(context).textTheme.title),
             alignment: Alignment.centerLeft,
           ),
+          /*
           Padding(
             padding: EdgeInsets.all(16),
             child: FlatButton(
@@ -246,11 +248,18 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               ),
             ),
           ),
+          */
+          SizedBox(
+            height: 30,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               FlatButton(
-                child: Text(localization.close),
+                child: Text(
+                  localization.close,
+                  style: TextStyle(fontSize: 18),
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],

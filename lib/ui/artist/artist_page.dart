@@ -57,6 +57,7 @@ class ArtistPage extends StatelessWidget {
 
             return SimpleDialog(
               children: <Widget>[
+                /*
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -74,6 +75,7 @@ class ArtistPage extends StatelessWidget {
                   },
                 ),
                 Divider(),
+                */
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),

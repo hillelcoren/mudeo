@@ -36,6 +36,10 @@ class SongRepository {
     final data = serializers.serializeWith(SongEntity.serializer, song);
     dynamic response;
 
+    response = await webClient.post(kAppURL + '/songs?include=user', auth.artist.token,
+        data: json.encode(data));
+
+    /*
     if (song.isNew) {
       response = await webClient.post(kAppURL + '/songs?include=user', auth.artist.token,
           data: json.encode(data));
@@ -46,6 +50,7 @@ class SongRepository {
       }
       response = await webClient.put(url, auth.artist.token, json.encode(data));
     }
+    */
 
     final SongItemResponse songResponse =
         serializers.deserializeWith(SongItemResponse.serializer, response);
