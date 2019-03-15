@@ -84,7 +84,7 @@ class MainScreen extends StatelessWidget {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               //title: Text(localization.explore),
-              icon: Icon(Icons.dashboard),
+              icon: Icon(Icons.home),
             ),
             BottomNavigationBarItem(
               //title: Text(localization.create),

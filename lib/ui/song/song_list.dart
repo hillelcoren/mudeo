@@ -141,19 +141,19 @@ class SongItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Container(
-              height: 140,
+              height: 320,
               child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: (song.tracks)
                     .map(
                       (track) => track.video.thumbnailUrl.isEmpty
-                          ? Placeholder(
-                              fallbackWidth: 100,
+                          ? SizedBox(
+                              height: 320,
                             )
                           : CachedNetworkImage(
                               imageUrl: track.video.thumbnailUrl,
-                              height: 180.0,
+                              height: 320,
                             ),
                     )
                     .toList(),
