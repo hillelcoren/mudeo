@@ -103,6 +103,7 @@ class SongItem extends StatelessWidget {
                         children: <Widget>[
                           Text(song.title,
                               style: Theme.of(context).textTheme.title),
+                          SizedBox(height: 4),
                           RichText(
                             text: TextSpan(
                               children: <TextSpan>[
@@ -124,20 +125,25 @@ class SongItem extends StatelessWidget {
                       ),
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.play_circle_filled, size: 35),
+                          icon: Icon(Icons.play_circle_filled, size: 34),
                           tooltip: localization.play,
                           onPressed: onEdit,
                         ),
-                        song.genreId == null || song.genreId == 0
-                            ? SizedBox()
-                            : Text(
-                                localization.lookup(kGenres[song.genreId]),
-                                style: TextStyle(
-                                    color: kGenreColors[song.genreId],
-                                    fontSize: 15),
-                              ),
+                        SizedBox(height: 4),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: song.genreId == null || song.genreId == 0
+                              ? SizedBox()
+                              : Text(
+                                  localization.lookup(kGenres[song.genreId]),
+                                  style: TextStyle(
+                                      color: kGenreColors[song.genreId],
+                                      fontSize: 15),
+                                ),
+                        ),
                       ],
                     ),
 
