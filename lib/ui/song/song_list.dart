@@ -12,6 +12,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
+import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 
@@ -85,16 +86,54 @@ class SongItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+              ArtistProfile(
+                artist: song.artist,
+              ),
+              SizedBox(width: 12),
               Expanded(
-                child:
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
                     Text(song.title, style: Theme.of(context).textTheme.title),
+                    RichText(
+                      text: TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => onArtistTap(artist),
+                            style: linkStyle,
+                            text: '@${artist.handle}',
+                          ),
+                          /*
+                    TextSpan(
+                      text: ' • ${song.countPlay ?? 0} ${localization.views}',
+                    ),
+                    */
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              IconButton(
-                icon: Icon(Icons.play_circle_filled, size: 35),
-                tooltip: localization.play,
-                onPressed: onEdit,
+              Column(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.play_circle_filled, size: 35),
+                    tooltip: localization.play,
+                    onPressed: onEdit,
+                  ),
+                  song.genreId == null || song.genreId == 0
+                      ? SizedBox()
+                      : Text(
+                          localization.lookup(kGenres[song.genreId]),
+                          style: TextStyle(
+                              color: kGenreColors[song.genreId], fontSize: 15),
+                        ),
+                ],
               ),
+
               /*
               IconButton(
                 icon: Icon(Icons.play_circle_filled, size: 35),
@@ -104,44 +143,13 @@ class SongItem extends StatelessWidget {
               */
             ],
           ),
-          SizedBox(height: 4),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => onArtistTap(artist),
-                        style: linkStyle,
-                        text: '@${artist.handle}',
-                      ),
-                      /*
-                      TextSpan(
-                        text: ' • ${song.countPlay ?? 0} ${localization.views}',
-                      ),
-                      */
-                    ],
-                  ),
-                ),
-              ),
-              song.genreId == null || song.genreId == 0
-                  ? SizedBox()
-                  : Text(
-                      localization.lookup(kGenres[song.genreId]),
-                      style: TextStyle(
-                          color: kGenreColors[song.genreId], fontSize: 15),
-                    ),
-            ],
-          ),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
           Text(song.description),
           SizedBox(height: song.description.isEmpty ? 0 : 12),
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Container(
-              height: 320,
+              height: 330,
               child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -149,11 +157,11 @@ class SongItem extends StatelessWidget {
                     .map(
                       (track) => track.video.thumbnailUrl.isEmpty
                           ? SizedBox(
-                              height: 320,
+                              height: 330,
                             )
                           : CachedNetworkImage(
                               imageUrl: track.video.thumbnailUrl,
-                              height: 320,
+                              height: 330,
                             ),
                     )
                     .toList(),
