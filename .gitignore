@@ -70,3 +70,7 @@
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 .env.dart
+key.properties
+google-services.json
+GoogleService-Info.plist
+ios/Runner/Info.plist
