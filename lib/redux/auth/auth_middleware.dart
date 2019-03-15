@@ -35,6 +35,7 @@ void _saveAuthLocal(ArtistEntity artist) async {
 Middleware<AppState> _createLoginInit() {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     Navigator.of(action.context).pushReplacementNamed(LoginScreenBuilder.route);
+    //Navigator.of(action.context).pushReplacementNamed(MainScree);
 
     next(action);
   };

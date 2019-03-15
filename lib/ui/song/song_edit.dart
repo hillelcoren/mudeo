@@ -8,6 +8,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
+import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -33,6 +34,7 @@ class _SongEditState extends State<SongEdit> {
   bool isPlaying = false;
   bool isPastThreeSeconds = false;
   int timestamp;
+  int countdownTimer = 0;
   String path;
   Timer recordTimer;
   Timer cancelTimer;
@@ -105,6 +107,34 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void record() async {
+    if (countdownTimer > 0) {
+      return;
+    }
+    setState(() {
+      countdownTimer = 4;
+      Timer(Duration(seconds: 1), () {
+        setState(() {
+          countdownTimer = 3;
+        });
+        Timer(Duration(seconds: 1), () {
+          setState(() {
+            countdownTimer = 2;
+          });
+          Timer(Duration(seconds: 1), () {
+            setState(() {
+              countdownTimer = 1;
+            });
+            Timer(Duration(seconds: 1), () {
+              countdownTimer = 0;
+              _record();
+            });
+          });
+        });
+      });
+    });
+  }
+
+  void _record() async {
     play();
     widget.viewModel.onStartRecording();
 
@@ -300,7 +330,8 @@ class _SongEditState extends State<SongEdit> {
                   ? null
                   : (isPlaying ? stopPlaying : play)),
           ExpandedButton(
-              icon: _getRecordIcon(),
+              icon: countdownTimer > 0 ? null : _getRecordIcon(),
+              label: countdownTimer > 0 ? countdownTimer.toString() : null,
               onPressed: _getRecordingFunction(),
               color: isPlaying || isRecording ? null : Colors.redAccent),
           availableCameraDirections.keys
@@ -537,14 +568,21 @@ class TrackEditDialog extends StatelessWidget {
 }
 
 class ExpandedButton extends StatelessWidget {
-  ExpandedButton(
-      {this.icon, this.onPressed, this.color, this.viewModel, this.iconHeight});
+  ExpandedButton({
+    this.icon,
+    this.onPressed,
+    this.color,
+    this.viewModel,
+    this.iconHeight,
+    this.label,
+  });
 
   final IconData icon;
   final Function onPressed;
   final Color color;
   final SongEditVM viewModel;
   final double iconHeight;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -563,7 +601,11 @@ class ExpandedButton extends StatelessWidget {
           color: Colors.black26,
           height: 60,
           onPressed: onPressed,
-          child: Icon(icon, size: iconHeight ?? 32, color: color),
+          child: label != null
+              ? Text(label,
+                  style: TextStyle(
+                      color: color, fontSize: 24, fontWeight: FontWeight.bold))
+              : Icon(icon, size: iconHeight ?? 32, color: color),
           //color: Colors.grey,
         ),
       ),
