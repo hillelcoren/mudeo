@@ -82,119 +82,132 @@ class SongItem extends StatelessWidget {
         .copyWith(color: themeData.accentColor, fontSize: 15);
 
     return Material(
-      child: FormCard(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.max,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ArtistProfile(
-                artist: song.artist,
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Text(song.title, style: Theme.of(context).textTheme.title),
-                    RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => onArtistTap(artist),
-                            style: linkStyle,
-                            text: '@${artist.handle}',
-                          ),
-                          /*
-                    TextSpan(
-                      text: ' • ${song.countPlay ?? 0} ${localization.views}',
+                    ArtistProfile(
+                      artist: song.artist,
                     ),
-                    */
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(song.title,
+                              style: Theme.of(context).textTheme.title),
+                          RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => onArtistTap(artist),
+                                  style: linkStyle,
+                                  text: '@${artist.handle}',
+                                ),
+                                /*
+                          TextSpan(
+                            text: ' • ${song.countPlay ?? 0} ${localization.views}',
+                          ),
+                          */
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
+                    Column(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.play_circle_filled, size: 35),
+                          tooltip: localization.play,
+                          onPressed: onEdit,
+                        ),
+                        song.genreId == null || song.genreId == 0
+                            ? SizedBox()
+                            : Text(
+                                localization.lookup(kGenres[song.genreId]),
+                                style: TextStyle(
+                                    color: kGenreColors[song.genreId],
+                                    fontSize: 15),
+                              ),
+                      ],
+                    ),
+
+                    /*
+                    IconButton(
+                      icon: Icon(Icons.play_circle_filled, size: 35),
+                      //onPressed: onPlay,
+                      tooltip: localization.play,
+                    ),
+                    */
                   ],
                 ),
               ),
-              Column(
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 10, top: 4, right: 10, bottom: 4),
+                child: Text(song.description),
+              ),
+              SizedBox(height: song.description.isEmpty ? 0 : 12),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 0),
+                child: Container(
+                  height: 330,
+                  child: ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: (song.tracks)
+                        .map(
+                          (track) => track.video.thumbnailUrl.isEmpty
+                              ? SizedBox(
+                                  height: 330,
+                                )
+                              : CachedNetworkImage(
+                                  imageUrl: track.video.thumbnailUrl,
+                                  height: 330,
+                                ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+              /*
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.play_circle_filled, size: 35),
-                    tooltip: localization.play,
+                    icon: Icon(Icons.videocam),
+                    tooltip: localization.edit,
                     onPressed: onEdit,
                   ),
-                  song.genreId == null || song.genreId == 0
-                      ? SizedBox()
-                      : Text(
-                          localization.lookup(kGenres[song.genreId]),
-                          style: TextStyle(
-                              color: kGenreColors[song.genreId], fontSize: 15),
-                        ),
+                  IconButton(
+                    icon: Icon(Icons.favorite),
+                    tooltip: localization.like,
+                    //onPressed: () => null,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.share),
+                    tooltip: localization.share,
+                    //onPressed: () => null,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.flag),
+                    //onPressed: () => null,
+                  ),
                 ],
-              ),
-
-              /*
-              IconButton(
-                icon: Icon(Icons.play_circle_filled, size: 35),
-                //onPressed: onPlay,
-                tooltip: localization.play,
               ),
               */
             ],
           ),
-          SizedBox(height: song.description.isEmpty ? 0 : 12),
-          Text(song.description),
-          SizedBox(height: song.description.isEmpty ? 0 : 12),
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Container(
-              height: 330,
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: (song.tracks)
-                    .map(
-                      (track) => track.video.thumbnailUrl.isEmpty
-                          ? SizedBox(
-                              height: 330,
-                            )
-                          : CachedNetworkImage(
-                              imageUrl: track.video.thumbnailUrl,
-                              height: 330,
-                            ),
-                    )
-                    .toList(),
-              ),
-            ),
-          ),
-          /*
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.videocam),
-                tooltip: localization.edit,
-                onPressed: onEdit,
-              ),
-              IconButton(
-                icon: Icon(Icons.favorite),
-                tooltip: localization.like,
-                //onPressed: () => null,
-              ),
-              IconButton(
-                icon: Icon(Icons.share),
-                tooltip: localization.share,
-                //onPressed: () => null,
-              ),
-              IconButton(
-                icon: Icon(Icons.flag),
-                //onPressed: () => null,
-              ),
-            ],
-          ),
-          */
-        ],
+        ),
       ),
     );
   }
