@@ -235,20 +235,21 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 style: Theme.of(context).textTheme.title),
             alignment: Alignment.centerLeft,
           ),
-          /*
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: FlatButton(
-              onPressed: () {
-                launch(song.url, forceSafariVC: false);
-              },
-              child: Text(
-                'https://mudeo.app/song/...',
-                style: TextStyle(fontSize: 20, color: Colors.lightBlueAccent),
-              ),
-            ),
-          ),
-          */
+          song.url != null && song.url.isNotEmpty
+              ? Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: FlatButton(
+                    onPressed: () {
+                      launch(song.url, forceSafariVC: false);
+                    },
+                    child: Text(
+                      song.url.replaceFirst('https://', ''),
+                      style: TextStyle(
+                          fontSize: 22, color: Colors.lightBlueAccent),
+                    ),
+                  ),
+                )
+              : SizedBox(),
           SizedBox(
             height: 30,
           ),
