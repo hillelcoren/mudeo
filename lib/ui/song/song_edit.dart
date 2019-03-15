@@ -111,23 +111,18 @@ class _SongEditState extends State<SongEdit> {
       return;
     }
     setState(() {
-      countdownTimer = 4;
+      countdownTimer = 3;
       Timer(Duration(seconds: 1), () {
         setState(() {
-          countdownTimer = 3;
+          countdownTimer = 2;
         });
         Timer(Duration(seconds: 1), () {
           setState(() {
-            countdownTimer = 2;
+            countdownTimer = 1;
           });
           Timer(Duration(seconds: 1), () {
-            setState(() {
-              countdownTimer = 1;
-            });
-            Timer(Duration(seconds: 1), () {
-              countdownTimer = 0;
-              _record();
-            });
+            countdownTimer = 0;
+            _record();
           });
         });
       });
