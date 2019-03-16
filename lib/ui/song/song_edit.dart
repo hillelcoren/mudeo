@@ -8,7 +8,6 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
-import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -136,7 +135,6 @@ class _SongEditState extends State<SongEdit> {
 
     final song = widget.viewModel.song;
     path = await VideoEntity.getPath(timestamp);
-    print('song duration: ${song.duration}');
     cancelTimer = Timer(Duration(seconds: 3), () {
       setState(() => isPastThreeSeconds = true);
     });
