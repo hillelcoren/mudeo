@@ -31,10 +31,7 @@ class AuthRepository {
   }
 
   Future<ArtistEntity> signUp(
-      {String handle,
-      String email,
-      String password,
-      String platform}) async {
+      {String handle, String email, String password, String platform}) async {
     final credentials = {
       'api_secret': Config.API_SECRET,
       'email': email,
@@ -61,16 +58,19 @@ class AuthRepository {
   }
 
   Future<ArtistEntity> refresh(
-      {String url, String token, String platform}) async {
+      {int artistId, String token, String platform}) async {
+    String url = '$kAppURL/users/$artistId';
 
-    url = '$kAppURL/refresh';
+    final dynamic response = await webClient.get(url, token);
 
-    return sendRequest(url: url, data: {}, token: token);
+    final loginResponse =
+        serializers.deserializeWith(ArtistEntity.serializer, response);
+
+    return loginResponse;
   }
 
   Future<ArtistEntity> sendRequest(
       {String url, dynamic data, String token}) async {
-
     final dynamic response =
         await webClient.post(url, token ?? '', data: json.encode(data));
 

@@ -35,9 +35,8 @@ class LoadUserSuccess {
 }
 
 class RefreshData {
-  RefreshData({this.platform, this.completer});
+  RefreshData({this.completer});
 
-  final String platform;
   final Completer completer;
 }
 

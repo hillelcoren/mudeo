@@ -108,17 +108,18 @@ Middleware<AppState> _createLoadState(
       final token = prefs.getString(kSharedPrefToken) ?? '';
 
       if (token.isNotEmpty) {
-        final Completer<Null> completer = Completer<Null>();
+        final completer = Completer<Null>();
+        store.dispatch(RefreshData(
+          completer: completer,
+        ));
         completer.future.then((_) {
-          //store.dispatch(ViewDashboard(action.context));
+          final NavigatorState navigator = Navigator.of(action.context);
+          navigator.pushReplacementNamed(MainScreen.route);
         }).catchError((Object error) {
           store.dispatch(UserLogout());
           store.dispatch(LoadUserLogin(action.context));
         });
-        store.dispatch(RefreshData(
-          platform: getPlatform(action.context),
-          completer: completer,
-        ));
+        return;
       } else {
         store.dispatch(UserLogout());
         store.dispatch(LoadUserLogin(action.context));
@@ -182,4 +183,3 @@ Middleware<AppState> _updateTabIndex() {
     }
   };
 }
-

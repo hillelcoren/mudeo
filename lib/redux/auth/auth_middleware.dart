@@ -117,9 +117,15 @@ Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String token = prefs.getString(kSharedPrefToken);
 
-    repository.refresh(token: token, platform: action.platform).then((data) {
+    repository
+        .refresh(
+      artistId: store.state.authState.artist.id,
+      token: token,
+    )
+        .then((data) {
       store.dispatch(
           LoadUserSuccess(completer: action.completer, loginResponse: data));
+      action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));
