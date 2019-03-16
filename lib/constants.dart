@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-const String kAppVersion = '0.0.1';
+const String kAppVersion = '0.0.2+2';
 const String kAppURL = 'https://mudeo.app/api';
-const String kTermsOfServiceURL = 'https://mudeo.app';
-const String kPrivacyPolicyURL = 'https://mudeo.app';
+const String kTermsOfServiceURL = 'https://mudeo.app/terms';
+const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
 const String kRedditURL = 'https://www.reddit.com/r/mudeo';
 const String kTwitterURL = 'https://twitter.com/mudeo_app';
 

@@ -1,7 +1,6 @@
 name: mudeo
-description: A new Flutter project.
-
-version: 1.0.0+1
+description: Make music together!
+version: 0.0.2+2
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
