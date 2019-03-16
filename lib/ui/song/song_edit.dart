@@ -409,7 +409,7 @@ class TrackView extends StatelessWidget {
           elevation: 5,
           margin: const EdgeInsets.symmetric(horizontal: 6),
           child: videoPlayer == null
-              ? SizedBox()
+              ? SizedBox(width: 139)
               : AspectRatio(
                   aspectRatio: aspectRatio, child: VideoPlayer(videoPlayer))),
     );
