@@ -261,10 +261,6 @@ class _LoginState extends State<LoginScreen> {
                                               text: localization
                                                   .privacyPolicyLink,
                                             ),
-                                            TextSpan(
-                                              style: aboutTextStyle,
-                                              text: '.',
-                                            ),
                                           ],
                                         ),
                                       ),
