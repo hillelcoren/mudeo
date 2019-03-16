@@ -33,7 +33,6 @@ class _SongEditState extends State<SongEdit> {
   CameraController camera;
   bool isPlaying = false;
   bool isPastThreeSeconds = false;
-  int timestamp;
   int countdownTimer = 0;
   String path;
   Timer recordTimer;
@@ -131,12 +130,13 @@ class _SongEditState extends State<SongEdit> {
 
   void _record() async {
     play();
-    widget.viewModel.onStartRecording();
+
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    widget.viewModel.onStartRecording(timestamp);
 
     final song = widget.viewModel.song;
-    timestamp = DateTime.now().millisecondsSinceEpoch;
     path = await VideoEntity.getPath(timestamp);
-
+    print('song duration: ${song.duration}');
     cancelTimer = Timer(Duration(seconds: 3), () {
       setState(() => isPastThreeSeconds = true);
     });
@@ -160,6 +160,8 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void saveRecording() async {
+    final timestamp = widget.viewModel.state.uiState.recordingTimestamp;
+    final endTimestamp = DateTime.now().millisecondsSinceEpoch;
     stopRecording();
     VideoPlayerController videoPlayer = VideoPlayerController.file(File(path));
     await videoPlayer.initialize();
@@ -169,7 +171,7 @@ class _SongEditState extends State<SongEdit> {
       videoPlayers[track.id] = videoPlayer;
     });
     widget.viewModel
-        .onTrackAdded(track, DateTime.now().millisecondsSinceEpoch - timestamp);
+        .onTrackAdded(track, endTimestamp - timestamp);
   }
 
   void play() {
@@ -366,12 +368,6 @@ class _SongEditState extends State<SongEdit> {
                       onDeletePressed: () async {
                         Navigator.of(context).pop();
                         viewModel.onDeleteVideoPressed(song, track);
-                        setState(() {
-                          //videoPlayers[track.video.id].dispose();
-                          if (song.tracks.isEmpty) {
-                            timestamp = null;
-                          }
-                        });
                       },
                     );
                   }).toList(),

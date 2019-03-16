@@ -42,6 +42,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   @override
   String toString() {
-    return 'Handle: ${authState.artist?.handle}';
+    //return 'Handle: ${authState.artist?.handle}';
+    return 'Recording Timestamp: ${uiState.recordingTimestamp}';
   }
 }

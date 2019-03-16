@@ -111,5 +111,8 @@ class AddTrack implements PersistUI {
   final int duration;
 }
 
-class StartRecording {}
+class StartRecording {
+  StartRecording(this.timestamp);
+  final int timestamp;
+}
 class StopRecording {}

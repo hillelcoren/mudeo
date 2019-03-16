@@ -106,10 +106,9 @@ class SongEditScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,
-                onPressed:
-                    !uiState.isRecording && uiState.song.hasNewVideos
-                        ? () => onSavePressed(context, vm)
-                        : null,
+                onPressed: !uiState.isRecording && uiState.song.hasNewVideos
+                    ? () => onSavePressed(context, vm)
+                    : null,
               ),
             ],
           ),
@@ -143,7 +142,7 @@ class SongEditVM {
   final bool isLoading;
   final bool isLoaded;
   final SongEntity song;
-  final Function onStartRecording;
+  final Function(int) onStartRecording;
   final Function onStopRecording;
   final Function(VideoEntity, int) onTrackAdded;
   final Function(SongEntity) onChangedSong;
@@ -165,8 +164,8 @@ class SongEditVM {
         final genreId = sharedPrefs.getInt(kSharedPrefGenreId);
         store.dispatch(UpdateSong(SongEntity(genreId: genreId)));
       },
-      onStartRecording: () {
-        store.dispatch(StartRecording());
+      onStartRecording: (timestamp) {
+        store.dispatch(StartRecording(timestamp));
       },
       onStopRecording: () {
         store.dispatch(StopRecording());
@@ -193,6 +192,9 @@ class SongEditVM {
       onDeleteVideoPressed: (song, track) async {
         final int index = song.tracks.indexOf(track);
         song = song.rebuild((b) => b..tracks.removeAt(index));
+        if (song.tracks.isEmpty) {
+          song = song.rebuild((b) => b..duration = 0);
+        }
         store.dispatch(UpdateSong(song));
         String path = await VideoEntity.getPath(track.video.timestamp);
         if (File(path).existsSync()) {

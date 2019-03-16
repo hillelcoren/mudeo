@@ -21,7 +21,7 @@ Reducer<UIState> uiReducer = combineReducers([
 
 UIState startRecordingReducer(UIState uiState, StartRecording action) {
   return uiState.rebuild(
-      (b) => b..recordingTimestamp = DateTime.now().millisecondsSinceEpoch);
+      (b) => b..recordingTimestamp = action.timestamp);
 }
 
 UIState stopRecordingReducer(UIState uiState, StopRecording action) {
