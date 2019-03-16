@@ -168,8 +168,7 @@ class _SongEditState extends State<SongEdit> {
       isPastThreeSeconds = false;
       videoPlayers[track.id] = videoPlayer;
     });
-    widget.viewModel
-        .onTrackAdded(track, endTimestamp - timestamp);
+    widget.viewModel.onTrackAdded(track, endTimestamp - timestamp);
   }
 
   void play() {
@@ -266,11 +265,11 @@ class _SongEditState extends State<SongEdit> {
     final value = camera.value;
     if (!value.isInitialized) return SizedBox();
     final isRecording = value.isRecordingVideo;
-    final isEmpty = videoPlayers.isEmpty;
 
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
     final song = viewModel.song;
+    final isEmpty = song.tracks.isEmpty;
 
     IconData _getRecordIcon() {
       if (isRecording && isEmpty) {
@@ -371,38 +370,6 @@ class _SongEditState extends State<SongEdit> {
                   }).toList(),
                 ),
               )
-        /*
-        song.tracks.isEmpty
-            ? SizedBox()
-            : Flexible(
-                child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: videoPlayers
-                    .map((int, videoPlayer) => MapEntry(
-                        int,
-                        TrackView(
-                          viewModel: viewModel,
-                          videoPlayer: videoPlayer,
-                          aspectRatio: value.aspectRatio,
-                          index: videoPlayers.indexOf(videoPlayer),
-                          onDeletePressed: () async {
-                            Navigator.of(context).pop();
-                            final index = videoPlayers.indexOf(videoPlayer);
-                            final song = viewModel.song
-                                .rebuild((b) => b..tracks.removeAt(index));
-                            final video = viewModel.song.tracks[index].video;
-                            viewModel.onDeleteVideoPressed(song, video);
-                            setState(() {
-                              videoPlayers.remove(videoPlayer);
-                              if (videoPlayers.isEmpty) {
-                                timestamp = null;
-                              }
-                            });
-                          },
-                        )))
-                    .toList(),
-              ))
-              */
       ]),
     );
   }
