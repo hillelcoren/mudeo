@@ -59,7 +59,7 @@ class AuthRepository {
 
   Future<ArtistEntity> refresh(
       {int artistId, String token, String platform}) async {
-    String url = '$kAppURL/users/$artistId';
+    String url = '$kAppURL/user';
 
     final dynamic response = await webClient.get(url, token);
 
