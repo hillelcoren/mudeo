@@ -46,14 +46,14 @@ class SongEditScreen extends StatelessWidget {
               onPressed: () => vm.onBackPressed(),
             ),
             */
-            leading:               PopupMenuButton<String>(
+            leading: PopupMenuButton<String>(
               icon: Icon(Icons.more_vert),
               itemBuilder: (BuildContext context) {
                 return [localization.clearSong]
                     .map((option) => PopupMenuItem(
-                  child: Text(option),
-                  value: option,
-                ))
+                          child: Text(option),
+                          value: option,
+                        ))
                     .toList();
               },
               onSelected: (String action) {
@@ -61,24 +61,24 @@ class SongEditScreen extends StatelessWidget {
                   showDialog<AlertDialog>(
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
-                        semanticLabel: localization.areYouSure,
-                        title: Text(localization.areYouSure),
-                        content: Text(localization.clearSong),
-                        actions: <Widget>[
-                          new FlatButton(
-                              child:
-                              Text(localization.cancel.toUpperCase()),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                          new FlatButton(
-                              child: Text(localization.ok.toUpperCase()),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                vm.onClearPressed(context);
-                              })
-                        ],
-                      ));
+                            semanticLabel: localization.areYouSure,
+                            title: Text(localization.areYouSure),
+                            content: Text(localization.clearSong),
+                            actions: <Widget>[
+                              new FlatButton(
+                                  child:
+                                      Text(localization.cancel.toUpperCase()),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                              new FlatButton(
+                                  child: Text(localization.ok.toUpperCase()),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    vm.onClearPressed(context);
+                                  })
+                            ],
+                          ));
                 }
               },
             ),
@@ -192,9 +192,7 @@ class SongEditVM {
       },
       onDeleteVideoPressed: (song, track) async {
         final int index = song.tracks.indexOf(track);
-        song = song.rebuild((b) => b
-            ..tracks.removeAt(index)
-        );
+        song = song.rebuild((b) => b..tracks.removeAt(index));
         store.dispatch(UpdateSong(song));
         String path = await VideoEntity.getPath(track.video.timestamp);
         if (File(path).existsSync()) {
