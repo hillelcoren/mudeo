@@ -122,9 +122,8 @@ Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
       artistId: store.state.authState.artist.id,
       token: token,
     )
-        .then((data) {
-      store.dispatch(
-          LoadUserSuccess(completer: action.completer, loginResponse: data));
+        .then((artist) {
+      store.dispatch(UserLoginSuccess(artist));
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
