@@ -19,7 +19,6 @@ class AuthRepository {
       String platform,
       String oneTimePassword}) async {
     final credentials = {
-      'api_secret': Config.API_SECRET,
       'email': email,
       'password': password,
       'one_time_password': oneTimePassword,
@@ -33,7 +32,6 @@ class AuthRepository {
   Future<ArtistEntity> signUp(
       {String handle, String email, String password, String platform}) async {
     final credentials = {
-      'api_secret': Config.API_SECRET,
       'email': email,
       'password': password,
       'handle': handle,
@@ -47,7 +45,6 @@ class AuthRepository {
   Future<ArtistEntity> oauthLogin(
       {String token, String url, String secret, String platform}) async {
     final credentials = {
-      'api_secret': url.isEmpty ? Config.API_SECRET : secret,
       'token': token,
       'provider': 'google',
     };
