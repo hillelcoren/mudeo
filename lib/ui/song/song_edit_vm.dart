@@ -43,7 +43,7 @@ class SongEditScreen extends StatelessWidget {
               icon: Icon(Icons.more_vert),
               itemBuilder: (BuildContext context) {
                 final actions = [localization.newSong];
-                if (!viewModel.song.isNew) {
+                if (!viewModel.song.isNew || viewModel.song.parentId > 0) {
                   actions.add(localization.resetSong);
                 }
                 return actions
@@ -166,8 +166,15 @@ class SongEditVM {
       },
       onResetSongPressed: (context) {
         final state = store.state;
-        final songId = state.uiState.song.id;
-        final song = state.dataState.songMap[songId];
+        final uiState = state.uiState;
+        SongEntity song;
+        if (state.uiState.song.isNew) {
+          final songId = uiState.song.parentId;
+          song = state.dataState.songMap[songId].fork;
+        } else {
+          final songId = uiState.song.id;
+          song = state.dataState.songMap[songId];
+        }
         store.dispatch(UpdateSong(SongEntity()));
         WidgetsBinding.instance
             .addPostFrameCallback((_) => store.dispatch(UpdateSong(song)));
