@@ -1,38 +1,14 @@
 import 'dart:async';
 
-class PersistUI {}
+abstract class PersistUI {}
+abstract class PersistData {}
+abstract class PersistAuth {}
 
-class PersistData {}
+abstract class StartLoading {}
+abstract class StopLoading {}
 
-class PersistAuth {}
-
-class StartLoading {}
-
-class StopLoading {}
-
-class StartSaving {}
-
-class StopSaving {}
-
-class UserSettingsChanged implements PersistUI {
-  UserSettingsChanged(
-      {this.enableDarkMode,
-      this.emailPayment,
-      this.requireAuthentication,
-      this.autoStartTasks});
-
-  final bool enableDarkMode;
-  final bool emailPayment;
-  final bool requireAuthentication;
-  final bool autoStartTasks;
-}
-
-class LoadUserSuccess {
-  LoadUserSuccess({this.loginResponse, this.completer});
-
-  final Completer completer;
-  final dynamic loginResponse;
-}
+abstract class StartSaving {}
+abstract class StopSaving {}
 
 class RefreshData {
   RefreshData({this.completer});
@@ -40,13 +16,8 @@ class RefreshData {
   final Completer completer;
 }
 
-class FilterCompany {
-  FilterCompany(this.filter);
-
-  final String filter;
-}
-
 class UpdateTabIndex implements PersistUI {
   UpdateTabIndex(this.index);
+
   final int index;
 }
