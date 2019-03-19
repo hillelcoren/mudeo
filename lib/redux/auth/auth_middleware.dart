@@ -6,6 +6,7 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
+import 'package:mudeo/ui/main_screen.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,7 +36,7 @@ void _saveAuthLocal(ArtistEntity artist) async {
 Middleware<AppState> _createLoginInit() {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     Navigator.of(action.context).pushReplacementNamed(LoginScreenBuilder.route);
-    //Navigator.of(action.context).pushReplacementNamed(MainScree);
+    //Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
 
     next(action);
   };

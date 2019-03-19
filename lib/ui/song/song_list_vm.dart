@@ -78,7 +78,14 @@ class SongListVM {
       },
       onSongEdit: (context, song) {
         final localization = AppLocalization.of(context);
-        final uiSong = store.state.uiState.song;
+        final state = store.state;
+        final artist = state.authState.artist;
+        final uiSong = state.uiState.song;
+
+        if (!artist.ownsSong(song)) {
+          song = song.fork;
+        }
+
         if (uiSong.isChanged ?? false) {
           showDialog<AlertDialog>(
             context: context,
@@ -97,13 +104,13 @@ class SongListVM {
                         onPressed: () {
                           Navigator.pop(context);
                           store
-                              .dispatch(EditSong(song: song.fork, context: context));
+                              .dispatch(EditSong(song: song, context: context));
                         })
                   ],
                 ),
           );
         } else {
-          store.dispatch(EditSong(song: song.fork, context: context));
+          store.dispatch(EditSong(song: song, context: context));
         }
       },
       onRefreshed: (context) => _handleRefresh(context),

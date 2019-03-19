@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const String kAppVersion = '0.0.3+3';
 const String kAppURL = 'https://mudeo.app/api';
+//const String kAppURL = 'https://staging.mudeo.app/api';
 const String kTermsOfServiceURL = 'https://mudeo.app/terms';
 const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
 const String kRedditURL = 'https://www.reddit.com/r/mudeo';
@@ -26,7 +27,9 @@ const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes
 const int kMillisecondsToRetryData = 1000 * 15; // 10 seconds
 const int kMaxRecordsPerApiPage = 100;
 const int kMaxTracks = 5;
-const int kMaxSongDuration = 30 * 1000; // 30 seconds
+const int kMaxSongDuration = 60 * 1000; // 1 minute
+const int kFirstWarningOffset = 10 * 1000; // 10 seconds
+const int kSecondWarningOffset = 5 * 1000; // 5 seconds
 
 const List<String> kLanguages = [
   'en',

@@ -2,6 +2,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/entities.dart';
+import 'package:mudeo/data/models/song_model.dart';
 
 part 'artist_model.g.dart';
 
@@ -93,6 +94,8 @@ abstract class ArtistEntity extends Object
   }
 
   String get fullName => '$firstName $lastName';
+
+  bool ownsSong(SongEntity song) => song.artistId == id;
 
   Map<String, String> get socialLinks {
     final data = Map<String, String>();

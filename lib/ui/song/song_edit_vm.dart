@@ -94,9 +94,9 @@ class SongEditScreen extends StatelessWidget {
                 },
                 style: () => TextStyle(
                     color: uiState.recordingDuration.inMilliseconds >=
-                            kMaxSongDuration - 10000
+                            kMaxSongDuration - kFirstWarningOffset
                         ? (uiState.recordingDuration.inMilliseconds >=
-                                kMaxSongDuration - 5000
+                                kMaxSongDuration - kSecondWarningOffset
                             ? Colors.redAccent
                             : Colors.orangeAccent)
                         : null),

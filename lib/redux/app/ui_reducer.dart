@@ -54,7 +54,7 @@ UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {
 }
 
 UIState addSongReducer(UIState uiState, AddSongSuccess action) {
-  return uiState.rebuild((b) => b..song.replace(action.song.fork));
+  return uiState.rebuild((b) => b..song.replace(action.song));
 }
 
 UIState addTrackReducer(UIState uiState, AddTrack action) {
