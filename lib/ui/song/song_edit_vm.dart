@@ -35,21 +35,18 @@ class SongEditScreen extends StatelessWidget {
 
     return StoreConnector<AppState, SongEditVM>(
       converter: SongEditVM.fromStore,
-      builder: (context, vm) {
-        final uiState = vm.state.uiState;
+      builder: (context, viewModel) {
+        final uiState = viewModel.state.uiState;
         return Scaffold(
           appBar: AppBar(
-            /*
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              tooltip: localization.back,
-              onPressed: () => vm.onBackPressed(),
-            ),
-            */
             leading: PopupMenuButton<String>(
               icon: Icon(Icons.more_vert),
               itemBuilder: (BuildContext context) {
-                return [localization.clearSong]
+                final actions = [localization.newSong];
+                if (!viewModel.song.isNew) {
+                  actions.add(localization.resetSong);
+                }
+                return actions
                     .map((option) => PopupMenuItem(
                           child: Text(option),
                           value: option,
@@ -57,29 +54,30 @@ class SongEditScreen extends StatelessWidget {
                     .toList();
               },
               onSelected: (String action) {
-                if (action == localization.clearSong) {
-                  showDialog<AlertDialog>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                            semanticLabel: localization.areYouSure,
-                            title: Text(localization.areYouSure),
-                            content: Text(localization.clearSong),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  child:
-                                      Text(localization.cancel.toUpperCase()),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  }),
-                              new FlatButton(
-                                  child: Text(localization.ok.toUpperCase()),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    vm.onClearPressed(context);
-                                  })
-                            ],
-                          ));
-                }
+                showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                          semanticLabel: localization.areYouSure,
+                          title: Text(localization.areYouSure),
+                          content: Text(localization.loseChanges),
+                          actions: <Widget>[
+                            new FlatButton(
+                                child: Text(localization.cancel.toUpperCase()),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                            new FlatButton(
+                                child: Text(localization.ok.toUpperCase()),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  if (action == localization.newSong) {
+                                    viewModel.onNewSongPressed(context);
+                                  } else if (action == localization.resetSong) {
+                                    viewModel.onResetSongPressed(context);
+                                  }
+                                })
+                          ],
+                        ));
               },
             ),
             title: Center(
@@ -89,7 +87,7 @@ class SongEditScreen extends StatelessWidget {
                     final seconds = uiState.recordingDuration.inSeconds;
                     return seconds < 10 ? '00:0$seconds' : '00:$seconds';
                   } else {
-                    return vm.song.title;
+                    return viewModel.song.title;
                   }
                 },
                 style: () => TextStyle(
@@ -107,14 +105,14 @@ class SongEditScreen extends StatelessWidget {
                 icon: Icon(Icons.cloud_upload),
                 tooltip: localization.save,
                 onPressed: !uiState.isRecording && uiState.song.hasNewVideos
-                    ? () => onSavePressed(context, vm)
+                    ? () => onSavePressed(context, viewModel)
                     : null,
               ),
             ],
           ),
           body: SongEdit(
-            viewModel: vm,
-            key: ValueKey(vm.song.id),
+            viewModel: viewModel,
+            key: ValueKey(viewModel.song.id),
           ),
         );
       },
@@ -133,7 +131,8 @@ class SongEditVM {
     @required this.onTrackAdded,
     @required this.onChangedSong,
     @required this.onSavePressed,
-    @required this.onClearPressed,
+    @required this.onNewSongPressed,
+    @required this.onResetSongPressed,
     @required this.onBackPressed,
     @required this.onDeleteVideoPressed,
   });
@@ -147,7 +146,8 @@ class SongEditVM {
   final Function(VideoEntity, int) onTrackAdded;
   final Function(SongEntity) onChangedSong;
   final Function(Completer) onSavePressed;
-  final Function(BuildContext) onClearPressed;
+  final Function(BuildContext) onNewSongPressed;
+  final Function(BuildContext) onResetSongPressed;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
   final Function() onBackPressed;
 
@@ -159,10 +159,18 @@ class SongEditVM {
       isLoading: store.state.isLoading,
       //isLoaded: state.clientState.isLoaded,
       isLoaded: store.state.dataState.areSongsLoaded,
-      onClearPressed: (context) async {
+      onNewSongPressed: (context) async {
         final sharedPrefs = await SharedPreferences.getInstance();
         final genreId = sharedPrefs.getInt(kSharedPrefGenreId);
         store.dispatch(UpdateSong(SongEntity(genreId: genreId)));
+      },
+      onResetSongPressed: (context) {
+        final state = store.state;
+        final songId = state.uiState.song.id;
+        final song = state.dataState.songMap[songId];
+        store.dispatch(UpdateSong(SongEntity()));
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => store.dispatch(UpdateSong(song)));
       },
       onStartRecording: (timestamp) {
         store.dispatch(StartRecording(timestamp));

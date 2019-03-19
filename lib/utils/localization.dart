@@ -22,7 +22,8 @@ class AppLocalization {
     'en': {
       'remove': 'Remove',
       'remove_video': 'Remove Video',
-      'clear_song': 'Clear Song',
+      'reset_song': 'Reset Song',
+      'new_song': 'New Song',
       'logout_app': 'Logout App',
       'version': 'Version',
       'thank_you_for_using_our_app': 'Thank you for using our app!',
@@ -51,7 +52,7 @@ class AppLocalization {
       'volume': 'Volume',
       'solo': 'Solo',
       'clear': 'Clear',
-      'lose_changes': 'This will discard your unsaved changes',
+      'lose_changes': 'This will discard any unsaved changes',
       'ok': 'Ok',
       'are_you_sure': 'Are you sure?',
       'like': 'Like',
@@ -122,7 +123,9 @@ class AppLocalization {
 
   String get removeVideo => _localizedValues[locale.toString()]['remove_video'];
 
-  String get clearSong => _localizedValues[locale.toString()]['clear_song'];
+  String get resetSong => _localizedValues[locale.toString()]['reset_song'];
+
+  String get newSong => _localizedValues[locale.toString()]['new_song'];
 
   String get logoutApp => _localizedValues[locale.toString()]['logout_app'];
 
