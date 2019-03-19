@@ -7,37 +7,13 @@ import 'package:redux/redux.dart';
 List<Middleware<AppState>> createStoreSongsMiddleware([
   SongRepository repository = const SongRepository(),
 ]) {
-  final viewSongList = _viewSongList();
-  final editSong = _editSong();
   final loadSongs = _loadSongs(repository);
   final saveSong = _saveSong(repository);
 
   return [
-    TypedMiddleware<AppState, EditSong>(editSong),
     TypedMiddleware<AppState, LoadSongs>(loadSongs),
     TypedMiddleware<AppState, SaveSongRequest>(saveSong),
   ];
-}
-
-Middleware<AppState> _editSong() {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) async {
-    next(action);
-
-    //store.dispatch(UpdateCurrentRoute(SongEditScreen.route));
-    //Navigator.of(action.context).pushNamed(SongEditScreen.route);
-  };
-}
-
-Middleware<AppState> _viewSongList() {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    next(action);
-
-    /*
-    store.dispatch(UpdateCurrentRoute(SongScreen.route));
-    Navigator.of(action.context).pushNamedAndRemoveUntil(
-        SongScreen.route, (Route<dynamic> route) => false);
-       */
-  };
 }
 
 Middleware<AppState> _saveSong(SongRepository repository) {

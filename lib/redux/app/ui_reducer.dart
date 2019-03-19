@@ -20,8 +20,7 @@ Reducer<UIState> uiReducer = combineReducers([
 ]);
 
 UIState startRecordingReducer(UIState uiState, StartRecording action) {
-  return uiState.rebuild(
-      (b) => b..recordingTimestamp = action.timestamp);
+  return uiState.rebuild((b) => b..recordingTimestamp = action.timestamp);
 }
 
 UIState stopRecordingReducer(UIState uiState, StopRecording action) {
@@ -62,20 +61,24 @@ UIState addTrackReducer(UIState uiState, AddTrack action) {
   final track = action.track;
   return uiState.rebuild((b) => b
     ..song.duration = song.duration == 0 ? action.duration : song.duration
-    ..song.isChanged = true
     ..song.tracks.add(track));
 }
 
 UIState updateSongReducer(UIState uiState, UpdateSong action) {
-  return uiState.rebuild((b) => b
-    ..song.replace(action.song)
-    ..song.isChanged = true);
+  return uiState.rebuild((b) => b..song.replace(action.song));
 }
 
 UIState editSongReducer(UIState uiState, EditSong action) {
-  return uiState.rebuild((b) => b
-    ..selectedTabIndex = kTabCreate
-    ..song.replace(action.song));
+  UIState state = uiState.rebuild((b) => b
+    ..selectedTabIndex = kTabCreate);
+
+  if (uiState.song.id != action.song.id) {
+    state = state.rebuild((b) => b
+      ..song.replace(action.song)
+    );
+  }
+
+  return state;
 }
 
 UIState editArtistReducer(UIState uiState, EditArtist action) {

@@ -545,8 +545,6 @@ class _$SongEntity extends SongEntity {
   @override
   final BuiltList<TrackEntity> tracks;
   @override
-  final bool isChanged;
-  @override
   final int id;
   @override
   final String deletedAt;
@@ -570,7 +568,6 @@ class _$SongEntity extends SongEntity {
       this.isFlagged,
       this.isPublic,
       this.tracks,
-      this.isChanged,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -622,7 +619,6 @@ class _$SongEntity extends SongEntity {
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
         tracks == other.tracks &&
-        isChanged == other.isChanged &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -646,24 +642,22 @@ class _$SongEntity extends SongEntity {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    $jc(
-                                                                        0,
-                                                                        title
-                                                                            .hashCode),
-                                                                    description
+                                                                    0,
+                                                                    title
                                                                         .hashCode),
-                                                                url.hashCode),
-                                                            artistId.hashCode),
-                                                        artist.hashCode),
-                                                    genreId.hashCode),
-                                                parentId.hashCode),
-                                            duration.hashCode),
-                                        countPlay.hashCode),
-                                    countLink.hashCode),
-                                isFlagged.hashCode),
-                            isPublic.hashCode),
-                        tracks.hashCode),
-                    isChanged.hashCode),
+                                                                description
+                                                                    .hashCode),
+                                                            url.hashCode),
+                                                        artistId.hashCode),
+                                                    artist.hashCode),
+                                                genreId.hashCode),
+                                            parentId.hashCode),
+                                        duration.hashCode),
+                                    countPlay.hashCode),
+                                countLink.hashCode),
+                            isFlagged.hashCode),
+                        isPublic.hashCode),
+                    tracks.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -685,7 +679,6 @@ class _$SongEntity extends SongEntity {
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
           ..add('tracks', tracks)
-          ..add('isChanged', isChanged)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -750,10 +743,6 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _$this._tracks ??= new ListBuilder<TrackEntity>();
   set tracks(ListBuilder<TrackEntity> tracks) => _$this._tracks = tracks;
 
-  bool _isChanged;
-  bool get isChanged => _$this._isChanged;
-  set isChanged(bool isChanged) => _$this._isChanged = isChanged;
-
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -783,7 +772,6 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
       _tracks = _$v.tracks?.toBuilder();
-      _isChanged = _$v.isChanged;
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -824,7 +812,6 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               isFlagged: isFlagged,
               isPublic: isPublic,
               tracks: tracks.build(),
-              isChanged: isChanged,
               id: id,
               deletedAt: deletedAt,
               updatedAt: updatedAt);

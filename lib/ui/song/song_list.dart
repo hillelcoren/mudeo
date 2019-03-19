@@ -48,7 +48,7 @@ class SongList extends StatelessWidget {
               song: song,
               onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
               onPlay: () {
-                print('tapped');
+                print('play tapped');
               },
               onEdit: () => viewModel.onSongEdit(context, song),
             );

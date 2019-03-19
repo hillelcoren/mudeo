@@ -29,7 +29,6 @@ abstract class SongEntity extends Object
       isFlagged: false,
       isPublic: false,
       tracks: BuiltList<TrackEntity>(),
-      isChanged: false,
     );
   }
 
@@ -80,10 +79,6 @@ abstract class SongEntity extends Object
   String get listDisplayName {
     return title;
   }
-
-  @nullable
-  @BuiltValueField(serialize: false)
-  bool get isChanged;
 
   TrackEntity newTrack(VideoEntity video) =>
       TrackEntity(video: video, orderId: tracks.length);

@@ -86,7 +86,7 @@ class SongListVM {
           song = song.fork;
         }
 
-        if (uiSong.isChanged ?? false) {
+        if (uiSong.hasNewVideos && uiSong.id != song.id) {
           showDialog<AlertDialog>(
             context: context,
             builder: (BuildContext context) => AlertDialog(
