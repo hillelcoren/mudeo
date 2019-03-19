@@ -151,7 +151,7 @@ class ArtistPage extends StatelessWidget {
                                           ),
                                           */
                       applicationVersion:
-                          '${localization.version} $kAppVersion',
+                          '${localization.version} ${kAppVersion.split('+')[0]}',
                       applicationLegalese: '© 2019 mudeo',
                       /*
                       children: <Widget>[

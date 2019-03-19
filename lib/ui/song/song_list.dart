@@ -69,15 +69,6 @@ class SongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-    final state = StoreProvider.of<AppState>(context).state;
-    final artist = song.artist ?? ArtistEntity();
-    //final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
-
-    final ThemeData themeData = Theme.of(context);
-    final TextStyle linkStyle = themeData.textTheme.body2
-        .copyWith(color: themeData.accentColor, fontSize: 15);
-
     return Material(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -85,75 +76,11 @@ class SongItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    ArtistProfile(
-                      artist: song.artist,
-                      onTap: () => onArtistTap(artist),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(song.title,
-                              style: Theme.of(context).textTheme.title),
-                          SizedBox(height: 4),
-                          RichText(
-                            text: TextSpan(
-                              children: <TextSpan>[
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () => onArtistTap(artist),
-                                  style: linkStyle,
-                                  text: '@${artist.handle}',
-                                ),
-                                /*
-                          TextSpan(
-                            text: ' • ${song.countPlay ?? 0} ${localization.views}',
-                          ),
-                          */
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.play_circle_filled, size: 34),
-                          tooltip: localization.play,
-                          onPressed: onEdit,
-                        ),
-                        SizedBox(height: 4),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8),
-                          child: song.genreId == null || song.genreId == 0
-                              ? SizedBox()
-                              : Text(
-                                  localization.lookup(kGenres[song.genreId]),
-                                  style: TextStyle(
-                                      color: kGenreColors[song.genreId],
-                                      fontSize: 15),
-                                ),
-                        ),
-                      ],
-                    ),
-
-                    /*
-                    IconButton(
-                      icon: Icon(Icons.play_circle_filled, size: 35),
-                      //onPressed: onPlay,
-                      tooltip: localization.play,
-                    ),
-                    */
-                  ],
-                ),
+              SongHeader(
+                song: song,
+                //onPlay: onPlay,
+                onPlay: onEdit,
+                onArtistTap: onArtistTap,
               ),
               song.description.isEmpty
                   ? SizedBox()
@@ -215,13 +142,77 @@ class SongItem extends StatelessWidget {
   }
 }
 
-class SongView extends StatelessWidget {
-  SongView(this.song);
+class SongHeader extends StatelessWidget {
+  SongHeader({this.song, this.onPlay, this.onArtistTap});
 
   final SongEntity song;
+  final Function onPlay;
+  final Function onArtistTap;
 
   @override
   Widget build(BuildContext context) {
-    return Text(song.title);
+    final localization = AppLocalization.of(context);
+    final state = StoreProvider.of<AppState>(context).state;
+    final artist = song.artist ?? ArtistEntity();
+    //final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
+
+    final ThemeData themeData = Theme.of(context);
+    final TextStyle artistStyle = themeData.textTheme.body2
+        .copyWith(color: themeData.accentColor, fontSize: 16);
+    final TextStyle genreStyle =
+        artistStyle.copyWith(color: kGenreColors[song.genreId]);
+
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          ArtistProfile(
+            artist: song.artist,
+            onTap: () => onArtistTap(artist),
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(song.title, style: Theme.of(context).textTheme.title),
+                SizedBox(height: 6),
+                RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => onArtistTap(artist),
+                        style: artistStyle,
+                        text: '@${artist.handle}',
+                      ),
+                      song.genreId == null || song.genreId == 0
+                          ? null
+                          : TextSpan(
+                              text: ' • ' +
+                                  localization.lookup(kGenres[song.genreId]),
+                              style: genreStyle,
+                            ),
+
+                      /*
+                          TextSpan(
+                            text: ' • ${song.countPlay ?? 0} ${localization.views}',
+                          ),
+                          */
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.play_circle_filled, size: 40),
+            tooltip: localization.play,
+            onPressed: onPlay,
+          ),
+        ],
+      ),
+    );
   }
 }
