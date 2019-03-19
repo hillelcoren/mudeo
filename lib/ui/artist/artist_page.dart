@@ -255,18 +255,21 @@ class ArtistPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: RaisedButton(
-                      child: Text(
-                          showSettings
-                              ? localization.settings
-                              : localization.follow,
-                          style: TextStyle(fontSize: 18)),
-                      onPressed: () => showSettings ? _showMenu() : null,
-                      color: showSettings ? Colors.black87 : Colors.lightBlue,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 35),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0))),
+                  child: showSettings
+                      ? RaisedButton(
+                          child: Text(
+                              showSettings
+                                  ? localization.settings
+                                  : localization.follow,
+                              style: TextStyle(fontSize: 18)),
+                          onPressed: () => showSettings ? _showMenu() : null,
+                          color:
+                              showSettings ? Colors.black87 : Colors.lightBlue,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 35),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0)))
+                      : SizedBox(),
                 ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(

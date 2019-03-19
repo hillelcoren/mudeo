@@ -1,4 +1,3 @@
-import 'package:built_collection/built_collection.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -9,9 +8,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
-import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
-import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -83,13 +80,13 @@ class SongItem extends StatelessWidget {
 
     return Material(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
@@ -158,32 +155,30 @@ class SongItem extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 10, top: 4, right: 10, bottom: 4),
-                child: Text(song.description),
-              ),
-              SizedBox(height: song.description.isEmpty ? 0 : 12),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 0),
-                child: Container(
-                  height: 330,
-                  child: ListView(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    children: (song.tracks)
-                        .map(
-                          (track) => track.video.thumbnailUrl.isEmpty
-                              ? SizedBox(
-                                  height: 330,
-                                )
-                              : CachedNetworkImage(
-                                  imageUrl: track.video.thumbnailUrl,
-                                  height: 330,
-                                ),
-                        )
-                        .toList(),
-                  ),
+              song.description.isEmpty
+                  ? SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10, top: 4, right: 10, bottom: 4),
+                      child: Text(song.description),
+                    ),
+              Container(
+                height: 330,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: (song.tracks)
+                      .map(
+                        (track) => track.video.thumbnailUrl.isEmpty
+                            ? SizedBox(
+                                height: 330,
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: track.video.thumbnailUrl,
+                                height: 330,
+                              ),
+                      )
+                      .toList(),
                 ),
               ),
               /*
