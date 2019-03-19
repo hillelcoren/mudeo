@@ -86,7 +86,7 @@ class SongItem extends StatelessWidget {
                   ? SizedBox()
                   : Padding(
                       padding: const EdgeInsets.only(
-                          left: 10, top: 4, right: 10, bottom: 4),
+                          left: 10, bottom: 14, right: 10),
                       child: Text(song.description),
                     ),
               Container(
