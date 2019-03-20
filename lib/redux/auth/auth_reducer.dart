@@ -4,7 +4,7 @@ import 'package:redux/redux.dart';
 
 Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, UserLoginRequest>(userLoginRequestReducer),
-  TypedReducer<AuthState, OAuthLoginRequest>(oauthLoginRequestReducer),
+  TypedReducer<AuthState, GoogleLoginRequest>(oauthLoginRequestReducer),
   TypedReducer<AuthState, UserLoginSuccess>(userLoginSuccessReducer),
   TypedReducer<AuthState, UserLoginFailure>(userLoginFailureReducer),
   TypedReducer<AuthState, ClearAuthError>(clearAuthErrorReducer),
@@ -20,7 +20,7 @@ AuthState userLoginRequestReducer(
 }
 
 AuthState oauthLoginRequestReducer(
-    AuthState authState, OAuthLoginRequest action) {
+    AuthState authState, GoogleLoginRequest action) {
   return authState.rebuild((b) => b..error = null);
 }
 

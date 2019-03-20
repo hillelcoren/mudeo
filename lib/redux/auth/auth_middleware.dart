@@ -16,6 +16,7 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
   final loginInit = _createLoginInit();
   final loginRequest = _createLoginRequest(repository);
   final signUpRequest = _createSignUpRequest(repository);
+  final googleSignUpRequest = _createGoogleSignUpRequest(repository);
   final oauthRequest = _createOAuthRequest(repository);
   final refreshRequest = _createRefreshRequest(repository);
 
@@ -23,7 +24,8 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
     TypedMiddleware<AppState, LoadUserLogin>(loginInit),
     TypedMiddleware<AppState, UserLoginRequest>(loginRequest),
     TypedMiddleware<AppState, UserSignUpRequest>(signUpRequest),
-    TypedMiddleware<AppState, OAuthLoginRequest>(oauthRequest),
+    TypedMiddleware<AppState, GoogleSignUpRequest>(googleSignUpRequest),
+    TypedMiddleware<AppState, GoogleLoginRequest>(oauthRequest),
     TypedMiddleware<AppState, RefreshData>(refreshRequest),
   ];
 }
@@ -65,6 +67,30 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
       } else {
         store.dispatch(UserLoginFailure(error.toString()));
       }
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _createGoogleSignUpRequest(AuthRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    repository
+        .googleSignUp(
+      handle: action.handle,
+      email: action.email,
+      token: action.token,
+      name: action.name,
+      photoUrl: action.photoUrl,
+    )
+        .then((ArtistEntity artist) {
+      _saveAuthLocal(artist);
+      store.dispatch(UserLoginSuccess(artist));
+
+      action.completer.complete(null);
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(UserLoginFailure(error.toString()));
     });
 
     next(action);

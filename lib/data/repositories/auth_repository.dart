@@ -42,6 +42,25 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
+  Future<ArtistEntity> googleSignUp(
+      {String handle,
+        String email,
+        String token,
+        String name,
+        String photoUrl}) async {
+    final credentials = {
+      'email': email,
+      'handle': handle,
+      'name': name,
+      'oauth_user_id': token,
+      'header_image_url': photoUrl,
+    };
+
+    String url = '$kAppURL/user/create';
+
+    return sendRequest(url: url, data: credentials);
+  }
+
   Future<ArtistEntity> oauthLogin(
       {String token, String url, String secret, String platform}) async {
     final credentials = {

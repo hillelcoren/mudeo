@@ -23,14 +23,32 @@ class LoadUserLogin {
   final BuildContext context;
 }
 
-class OAuthLoginRequest implements StartLoading {
-  OAuthLoginRequest(
+class GoogleLoginRequest implements StartLoading {
+  GoogleLoginRequest(
       {this.completer,
       this.email,
       this.token,});
 
   final Completer completer;
   final String email; // TODO remove this property, break up _saveAuthLocal
+  final String token;
+}
+
+class GoogleSignUpRequest implements StartLoading {
+  GoogleSignUpRequest({
+    this.completer,
+    this.handle,
+    this.email,
+    this.name,
+    this.photoUrl,
+    this.token,
+  });
+
+  final Completer completer;
+  final String handle;
+  final String email;
+  final String name;
+  final String photoUrl;
   final String token;
 }
 

@@ -51,8 +51,7 @@ class LoginVM {
   final Function() onCancel2FAPressed;
   final Function(BuildContext, {String handle, String email, String password})
       onEmailSignUpPressed;
-  final Function(BuildContext, {String handle})
-      onGoogleSignUpPressed;
+  final Function(BuildContext, {String handle}) onGoogleSignUpPressed;
   final Function(BuildContext,
       {String email, String password, String oneTimePassword}) onLoginPressed;
 
@@ -78,16 +77,17 @@ class LoginVM {
         onCancel2FAPressed: () => store.dispatch(ClearAuthError()),
         onGoogleSignUpPressed: (BuildContext context, {String handle}) async {
           try {
-            print('Google sign up');
             final account = await _googleSignIn.signIn();
-            print('account $account');
             if (account != null) {
               account.authentication.then((GoogleSignInAuthentication value) {
-                print('value $value');
                 final Completer<Null> completer = Completer<Null>();
-                store.dispatch(OAuthLoginRequest(
+                store.dispatch(GoogleSignUpRequest(
                   completer: completer,
                   token: value.idToken,
+                  handle: handle,
+                  email: account.email,
+                  name: account.displayName,
+                  photoUrl: account.photoUrl,
                 ));
                 completer.future.then((_) => _handleLogin(context));
               });
@@ -106,7 +106,7 @@ class LoginVM {
               account.authentication.then((GoogleSignInAuthentication value) {
                 print('value $value');
                 final Completer<Null> completer = Completer<Null>();
-                store.dispatch(OAuthLoginRequest(
+                store.dispatch(GoogleLoginRequest(
                   completer: completer,
                   token: value.idToken,
                 ));
