@@ -238,11 +238,11 @@ class _LoginState extends State<LoginScreen> {
                                 : SizedBox(),
                             _showLogin
                                 ? SizedBox(
-                                    height: 16,
+                                    height: 25,
                                   )
                                 : Padding(
                                     padding:
-                                        EdgeInsets.only(top: 26, bottom: 8),
+                                        EdgeInsets.only(top: 20, bottom: 8),
                                     child: CheckboxListTile(
                                       onChanged: (value) =>
                                           setState(() => _termsChecked = value),
@@ -299,7 +299,7 @@ class _LoginState extends State<LoginScreen> {
                         ),
                   ProgressButton(
                     width: double.infinity,
-                    padding: EdgeInsets.only(top: 12, bottom: 6),
+                    padding: EdgeInsets.only(top: 4, bottom: 6),
                     isLoading: viewModel.isLoading ||
                         viewModel.authState.isAuthenticated,
                     label: (_showLogin
