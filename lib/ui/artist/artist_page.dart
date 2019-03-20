@@ -91,7 +91,7 @@ class ArtistPage extends StatelessWidget {
                       builder: (BuildContext context) => AlertDialog(
                             semanticLabel: localization.areYouSure,
                             title: Text(localization.areYouSure),
-                            content: Text(localization.logoutApp),
+                            content: Text(localization.logoutFromTheApp),
                             actions: <Widget>[
                               new FlatButton(
                                   child:

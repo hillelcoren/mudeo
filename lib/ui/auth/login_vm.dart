@@ -11,6 +11,7 @@ import 'package:mudeo/ui/auth/login.dart';
 import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:redux/redux.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreenBuilder extends StatelessWidget {
   const LoginScreenBuilder({Key key}) : super(key: key);
@@ -52,16 +53,9 @@ class LoginVM {
   final Function(BuildContext,
       {String email, String password, String oneTimePassword}) onLoginPressed;
 
-  /*
-  final Function(BuildContext,
-      {String email,
-      String password,
-      String handle)) onSignUpPressed;
-  */
   final Function(BuildContext, String, String) onGoogleLoginPressed;
 
   static LoginVM fromStore(Store<AppState> store) {
-    /*
     final GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: [
         'email',
@@ -69,7 +63,6 @@ class LoginVM {
         'profile',
       ],
     );
-    */
 
     void _handleLogin(BuildContext context) {
       AppBuilder.of(context).rebuild();
@@ -80,14 +73,15 @@ class LoginVM {
         isLoading: store.state.isLoading,
         authState: store.state.authState,
         onCancel2FAPressed: () => store.dispatch(ClearAuthError()),
-        /*
         onGoogleLoginPressed:
             (BuildContext context, String url, String secret) async {
           try {
+            print('Google login');
             final account = await _googleSignIn.signIn();
-
+            print('account $account');
             if (account != null) {
               account.authentication.then((GoogleSignInAuthentication value) {
+                print('value $value');
                 final Completer<Null> completer = Completer<Null>();
                 store.dispatch(OAuthLoginRequest(
                   completer: completer,
@@ -103,7 +97,6 @@ class LoginVM {
             print(error);
           }
         },
-        */
         onSignUpPressed: (BuildContext context,
             {String handle, String email, String password}) {
           if (store.state.isLoading) {

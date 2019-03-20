@@ -24,8 +24,9 @@ dependencies:
   url_launcher: ^5.0.1
   cached_network_image: ^0.6.2
   share: ^0.6.0+1
-  #google_sign_in: ^4.0.1+1
-  #firebase_auth: ^0.8.1+4
+  google_sign_in: ^4.0.1+1
+  #firebase_auth: ^0.8.1+4 // requires update to AndroidX
+  firebase_auth: ^0.6.2+1
   sentry: ^2.2.0
   intl: ^0.15.7
   font_awesome_flutter: ^8.4.0

@@ -26,6 +26,7 @@ class AppLocalization {
       'reset_song': 'Reset Song',
       'new_song': 'New Song',
       'logout_app': 'Logout App',
+      'logout_app_from_the_app': 'Logout from the app',
       'version': 'Version',
       'thank_you_for_using_our_app': 'Thank you for using our app!',
       'if_you_like_it': 'If you like it please',
@@ -119,7 +120,8 @@ class AppLocalization {
     },
   };
 
-  String get openInBrowser => _localizedValues[locale.toString()]['open_in_browser'];
+  String get openInBrowser =>
+      _localizedValues[locale.toString()]['open_in_browser'];
 
   String get remove => _localizedValues[locale.toString()]['remove'];
 
@@ -130,6 +132,9 @@ class AppLocalization {
   String get newSong => _localizedValues[locale.toString()]['new_song'];
 
   String get logoutApp => _localizedValues[locale.toString()]['logout_app'];
+
+  String get logoutFromTheApp =>
+      _localizedValues[locale.toString()]['logout_from_the_app'];
 
   String get version => _localizedValues[locale.toString()]['version'];
 
@@ -145,9 +150,11 @@ class AppLocalization {
 
   String get about => _localizedValues[locale.toString()]['about'];
 
-  String get uploadingVideoOf => _localizedValues[locale.toString()]['uploading_video_of'];
+  String get uploadingVideoOf =>
+      _localizedValues[locale.toString()]['uploading_video_of'];
 
-  String get yourSongHasBeenSaved => _localizedValues[locale.toString()]['your_song_has_been_saved'];
+  String get yourSongHasBeenSaved =>
+      _localizedValues[locale.toString()]['your_song_has_been_saved'];
 
   String get uploading => _localizedValues[locale.toString()]['uploading'];
 
@@ -163,7 +170,8 @@ class AppLocalization {
 
   String get settings => _localizedValues[locale.toString()]['settings'];
 
-  String get selectCamera => _localizedValues[locale.toString()]['select_camera'];
+  String get selectCamera =>
+      _localizedValues[locale.toString()]['select_camera'];
 
   String get editProfile => _localizedValues[locale.toString()]['edit_profile'];
 
