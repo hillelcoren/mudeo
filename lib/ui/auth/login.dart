@@ -303,8 +303,12 @@ class _LoginState extends State<LoginScreen> {
                     isLoading: viewModel.isLoading ||
                         viewModel.authState.isAuthenticated,
                     label: (_showLogin
-                            ? localization.login
-                            : localization.signUpUsingGoogle)
+                            ? (_showEmail
+                                ? localization.login
+                                : localization.loginWithGoogle)
+                            : (_showEmail
+                                ? localization.signUp
+                                : localization.signUpWithGoogle))
                         .toUpperCase(),
                     onPressed: () => _submitForm(),
                   ),
@@ -313,13 +317,17 @@ class _LoginState extends State<LoginScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            _showLogin
-                                ? SizedBox()
-                                : Expanded(
-                                    child: FlatButton(
-                                        onPressed: () {},
-                                        child: Text(localization.useEmail)),
-                                  ),
+                            Expanded(
+                              child: FlatButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _showEmail = !_showEmail;
+                                    });
+                                  },
+                                  child: Text(_showEmail
+                                      ? localization.useGoogle
+                                      : localization.useEmail)),
+                            ),
                             Expanded(
                               child: FlatButton(
                                 onPressed: () {
@@ -330,7 +338,7 @@ class _LoginState extends State<LoginScreen> {
                                 },
                                 child: Text(
                                   _showLogin
-                                      ? localization.doNotHaveAnAccount
+                                      ? localization.signUp
                                       : localization.login,
                                 ),
                               ),

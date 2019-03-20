@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'use_google': 'Use Google',
       'use_email': 'Use Email',
       'open_in_browser': 'Open in Browser',
       'remove': 'Remove',
@@ -99,15 +100,14 @@ class AppLocalization {
       'close': 'Close',
       'please_agree_to_terms':
           'Please agree to the terms of service and privacy policy to create an account.',
-      'do_not_have_an_account':
-          'Don\'t have an account? Tap here to create one',
       'play': 'Play',
       'cancel': 'Cancel',
       'one_time_password': 'One Time Password',
       'email': 'Email',
       'login': 'Login',
+      'login_with_google': 'Login with Google',
       'sign_up': 'Sign Up',
-      'sign_up_using_google': 'Sign Up Using Google',
+      'sign_up_with_google': 'Sign Up with Google',
       'password': 'Password',
       'please_enter_your_handle': 'Please enter your handle',
       'please_enter_your_email': 'Please enter your email',
@@ -120,6 +120,8 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get useGoogle => _localizedValues[locale.toString()]['use_google'];
 
   String get useEmail => _localizedValues[locale.toString()]['use_email'];
 
@@ -233,9 +235,6 @@ class AppLocalization {
   String get fieldIsRequired =>
       _localizedValues[locale.toString()]['field_is_required'];
 
-  String get doNotHaveAnAccount =>
-      _localizedValues[locale.toString()]['do_not_have_an_account'];
-
   String get pleaseAgreeToTerms =>
       _localizedValues[locale.toString()]['please_agree_to_terms'];
 
@@ -263,8 +262,11 @@ class AppLocalization {
 
   String get signUp => _localizedValues[locale.toString()]['sign_up'];
 
-  String get signUpUsingGoogle =>
-      _localizedValues[locale.toString()]['sign_up_using_google'];
+  String get signUpWithGoogle =>
+      _localizedValues[locale.toString()]['sign_up_with_google'];
+
+  String get loginWithGoogle =>
+      _localizedValues[locale.toString()]['login_with_google'];
 
   String get pleaseEnterYourPassword =>
       _localizedValues[locale.toString()]['please_enter_your_password'];
