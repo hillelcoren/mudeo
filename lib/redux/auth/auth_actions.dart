@@ -27,17 +27,11 @@ class OAuthLoginRequest implements StartLoading {
   OAuthLoginRequest(
       {this.completer,
       this.email,
-      this.token,
-      this.url,
-      this.secret,
-      this.platform});
+      this.token,});
 
   final Completer completer;
   final String email; // TODO remove this property, break up _saveAuthLocal
   final String token;
-  final String url;
-  final String secret;
-  final String platform;
 }
 
 class UserSignUpRequest implements StartLoading {

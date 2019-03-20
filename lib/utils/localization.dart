@@ -98,7 +98,7 @@ class AppLocalization {
       'handle': 'Handle',
       'close': 'Close',
       'please_agree_to_terms':
-          'Please agree to the terms of service to create a new account.',
+          'Please agree to the terms of service and privacy policy to create an account.',
       'do_not_have_an_account':
           'Don\'t have an account? Tap here to create one',
       'play': 'Play',
@@ -263,7 +263,8 @@ class AppLocalization {
 
   String get signUp => _localizedValues[locale.toString()]['sign_up'];
 
-  String get signUpUsingGoogle => _localizedValues[locale.toString()]['sign_up_using_google'];
+  String get signUpUsingGoogle =>
+      _localizedValues[locale.toString()]['sign_up_using_google'];
 
   String get pleaseEnterYourPassword =>
       _localizedValues[locale.toString()]['please_enter_your_password'];

@@ -89,17 +89,24 @@ class _LoginState extends State<LoginScreen> {
       return;
     }
 
+    final viewModel = widget.viewModel;
+
     if (_showLogin) {
-      widget.viewModel.onLoginPressed(context,
+      viewModel.onLoginPressed(context,
           email: _emailController.text,
           password: _passwordController.text,
           oneTimePassword: _oneTimePasswordController.text);
-    } else {
-      widget.viewModel.onSignUpPressed(
+    } else if (_showEmail) {
+      viewModel.onEmailSignUpPressed(
         context,
         handle: _handleController.text,
         email: _emailController.text,
         password: _passwordController.text,
+      );
+    } else {
+      viewModel.onGoogleSignUpPressed(
+        context,
+        handle: _handleController.text,
       );
     }
   }
@@ -186,43 +193,49 @@ class _LoginState extends State<LoginScreen> {
                                         FocusScope.of(context)
                                             .requestFocus(_focusNode1),
                                   ),
-                            _showEmail ? TextFormField(
-                              controller: _emailController,
-                              autocorrect: false,
-                              textInputAction: TextInputAction.next,
-                              decoration: InputDecoration(
-                                labelText: localization.email,
-                                icon: Icon(FontAwesomeIcons.solidEnvelope),
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              autovalidate: _autoValidate,
-                              validator: (val) =>
-                                  val.isEmpty || val.trim().isEmpty
-                                      ? localization.pleaseEnterYourEmail
-                                      : null,
-                              focusNode: _focusNode1,
-                              onFieldSubmitted: (String value) =>
-                                  FocusScope.of(context)
-                                      .requestFocus(_focusNode2),
-                            ) : SizedBox(),
-                            _showEmail ? TextFormField(
-                              controller: _passwordController,
-                              autocorrect: false,
-                              autovalidate: _autoValidate,
-                              decoration: InputDecoration(
-                                labelText: localization.password,
-                                icon: Icon(FontAwesomeIcons.lock),
-                              ),
-                              validator: (val) =>
-                                  val.isEmpty || val.trim().isEmpty
-                                      ? localization.pleaseEnterYourPassword
-                                      : null,
-                              obscureText: true,
-                              focusNode: _focusNode2,
-                              textInputAction: TextInputAction.done,
-                              onFieldSubmitted: (value) =>
-                                  FocusScope.of(context).requestFocus(null),
-                            ) : SizedBox(),
+                            _showEmail
+                                ? TextFormField(
+                                    controller: _emailController,
+                                    autocorrect: false,
+                                    textInputAction: TextInputAction.next,
+                                    decoration: InputDecoration(
+                                      labelText: localization.email,
+                                      icon:
+                                          Icon(FontAwesomeIcons.solidEnvelope),
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    autovalidate: _autoValidate,
+                                    validator: (val) =>
+                                        val.isEmpty || val.trim().isEmpty
+                                            ? localization.pleaseEnterYourEmail
+                                            : null,
+                                    focusNode: _focusNode1,
+                                    onFieldSubmitted: (String value) =>
+                                        FocusScope.of(context)
+                                            .requestFocus(_focusNode2),
+                                  )
+                                : SizedBox(),
+                            _showEmail
+                                ? TextFormField(
+                                    controller: _passwordController,
+                                    autocorrect: false,
+                                    autovalidate: _autoValidate,
+                                    decoration: InputDecoration(
+                                      labelText: localization.password,
+                                      icon: Icon(FontAwesomeIcons.lock),
+                                    ),
+                                    validator: (val) => val.isEmpty ||
+                                            val.trim().isEmpty
+                                        ? localization.pleaseEnterYourPassword
+                                        : null,
+                                    obscureText: true,
+                                    focusNode: _focusNode2,
+                                    textInputAction: TextInputAction.done,
+                                    onFieldSubmitted: (value) =>
+                                        FocusScope.of(context)
+                                            .requestFocus(null),
+                                  )
+                                : SizedBox(),
                             _showLogin
                                 ? SizedBox(
                                     height: 16,
@@ -289,9 +302,10 @@ class _LoginState extends State<LoginScreen> {
                     padding: EdgeInsets.only(top: 12, bottom: 6),
                     isLoading: viewModel.isLoading ||
                         viewModel.authState.isAuthenticated,
-                    label:
-                        (_showLogin ? localization.login : localization.signUpUsingGoogle)
-                            .toUpperCase(),
+                    label: (_showLogin
+                            ? localization.login
+                            : localization.signUpUsingGoogle)
+                        .toUpperCase(),
                     onPressed: () => _submitForm(),
                   ),
                   isOneTimePassword

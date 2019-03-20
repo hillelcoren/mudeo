@@ -39,8 +39,9 @@ class LoginVM {
     @required this.authState,
     @required this.clearAuthError,
     @required this.onLoginPressed,
-    @required this.onSignUpPressed,
+    @required this.onEmailSignUpPressed,
     @required this.onCancel2FAPressed,
+    @required this.onGoogleSignUpPressed,
     @required this.onGoogleLoginPressed,
   });
 
@@ -49,7 +50,9 @@ class LoginVM {
   final Function() clearAuthError;
   final Function() onCancel2FAPressed;
   final Function(BuildContext, {String handle, String email, String password})
-      onSignUpPressed;
+      onEmailSignUpPressed;
+  final Function(BuildContext, {String handle})
+      onGoogleSignUpPressed;
   final Function(BuildContext,
       {String email, String password, String oneTimePassword}) onLoginPressed;
 
@@ -73,6 +76,26 @@ class LoginVM {
         isLoading: store.state.isLoading,
         authState: store.state.authState,
         onCancel2FAPressed: () => store.dispatch(ClearAuthError()),
+        onGoogleSignUpPressed: (BuildContext context, {String handle}) async {
+          try {
+            print('Google sign up');
+            final account = await _googleSignIn.signIn();
+            print('account $account');
+            if (account != null) {
+              account.authentication.then((GoogleSignInAuthentication value) {
+                print('value $value');
+                final Completer<Null> completer = Completer<Null>();
+                store.dispatch(OAuthLoginRequest(
+                  completer: completer,
+                  token: value.idToken,
+                ));
+                completer.future.then((_) => _handleLogin(context));
+              });
+            }
+          } catch (error) {
+            print(error);
+          }
+        },
         onGoogleLoginPressed:
             (BuildContext context, String url, String secret) async {
           try {
@@ -86,9 +109,6 @@ class LoginVM {
                 store.dispatch(OAuthLoginRequest(
                   completer: completer,
                   token: value.idToken,
-                  url: url.trim(),
-                  secret: secret.trim(),
-                  platform: getPlatform(context),
                 ));
                 completer.future.then((_) => _handleLogin(context));
               });
@@ -97,7 +117,7 @@ class LoginVM {
             print(error);
           }
         },
-        onSignUpPressed: (BuildContext context,
+        onEmailSignUpPressed: (BuildContext context,
             {String handle, String email, String password}) {
           if (store.state.isLoading) {
             return;
