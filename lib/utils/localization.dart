@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'open_in_browser': 'Open in Browser',
       'remove': 'Remove',
       'remove_video': 'Remove Video',
       'reset_song': 'Reset Song',
@@ -91,7 +92,6 @@ class AppLocalization {
       'other': 'Other',
       'edit': 'Edit',
       'explore': 'Explore',
-      'create': 'Create',
       'profile': 'Profile',
       'handle': 'Handle',
       'close': 'Close',
@@ -118,6 +118,8 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get openInBrowser => _localizedValues[locale.toString()]['open_in_browser'];
 
   String get remove => _localizedValues[locale.toString()]['remove'];
 
@@ -208,8 +210,6 @@ class AppLocalization {
   String get edit => _localizedValues[locale.toString()]['edit'];
 
   String get explore => _localizedValues[locale.toString()]['explore'];
-
-  String get create => _localizedValues[locale.toString()]['create'];
 
   String get profile => _localizedValues[locale.toString()]['profile'];
 

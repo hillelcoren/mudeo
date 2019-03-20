@@ -15,6 +15,7 @@ import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SongEditScreen extends StatelessWidget {
   const SongEditScreen({Key key}) : super(key: key);
@@ -44,40 +45,48 @@ class SongEditScreen extends StatelessWidget {
               itemBuilder: (BuildContext context) {
                 final actions = [localization.newSong];
                 if (!viewModel.song.isNew || viewModel.song.parentId > 0) {
-                  actions.add(localization.resetSong);
+                  actions.addAll([
+                    localization.resetSong,
+                    localization.openInBrowser,
+                  ]);
                 }
                 return actions
-                    .map((option) => PopupMenuItem(
-                          child: Text(option),
-                          value: option,
+                    .map((action) => PopupMenuItem(
+                          child: Text(action),
+                          value: action,
                         ))
                     .toList();
               },
               onSelected: (String action) {
+                if (action == localization.openInBrowser) {
+                  launch(viewModel.song.url);
+                  return;
+                }
+
                 showDialog<AlertDialog>(
                     context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                          semanticLabel: localization.areYouSure,
-                          title: Text(localization.areYouSure),
-                          content: Text(localization.loseChanges),
-                          actions: <Widget>[
-                            new FlatButton(
-                                child: Text(localization.cancel.toUpperCase()),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                }),
-                            new FlatButton(
-                                child: Text(localization.ok.toUpperCase()),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  if (action == localization.newSong) {
-                                    viewModel.onNewSongPressed(context);
-                                  } else if (action == localization.resetSong) {
-                                    viewModel.onResetSongPressed(context);
-                                  }
-                                })
-                          ],
-                        ));
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        semanticLabel: localization.areYouSure,
+                        title: Text(localization.areYouSure),
+                        content: Text(localization.loseChanges),
+                        actions: <Widget>[
+                          FlatButton(
+                              child: Text(localization.cancel.toUpperCase()),
+                              onPressed: () => Navigator.pop(context)),
+                          FlatButton(
+                              child: Text(localization.ok.toUpperCase()),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                if (action == localization.newSong) {
+                                  viewModel.onNewSongPressed(context);
+                                } else if (action == localization.resetSong) {
+                                  viewModel.onResetSongPressed(context);
+                                }
+                              })
+                        ],
+                      );
+                    });
               },
             ),
             title: Center(

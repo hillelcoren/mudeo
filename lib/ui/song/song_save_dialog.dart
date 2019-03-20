@@ -188,8 +188,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   ProgressButton(
                     isLoading: viewModel.state.isSaving,
                     onPressed: () => _onSubmit(),
-                    label: localization.create,
-                    //label: song.isNew ? localization.upload : localization.save,
+                    label: song.isNew ? localization.upload : localization.save,
                   ),
                 ],
               ),
