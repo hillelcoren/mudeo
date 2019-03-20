@@ -190,10 +190,14 @@ class SongHeader extends StatelessWidget {
                       song.genreId == null || song.genreId == 0
                           ? null
                           : TextSpan(
-                              text: ' • ' +
-                                  localization.lookup(kGenres[song.genreId]),
-                              style: genreStyle,
-                            ),
+                        text: ' • '
+                      ),
+                      song.genreId == null || song.genreId == 0
+                          ? null
+                          : TextSpan(
+                        text: localization.lookup(kGenres[song.genreId]),
+                        style: genreStyle,
+                      ),
 
                       /*
                           TextSpan(
