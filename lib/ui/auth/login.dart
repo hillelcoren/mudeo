@@ -9,7 +9,6 @@ import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
     Key key,
@@ -36,6 +35,7 @@ class _LoginState extends State<LoginScreen> {
   final FocusNode _focusNode2 = new FocusNode();
 
   bool _showLogin = false;
+  bool _showEmail = false;
   bool _termsChecked = false;
   bool _autoValidate = false;
 
@@ -186,7 +186,7 @@ class _LoginState extends State<LoginScreen> {
                                         FocusScope.of(context)
                                             .requestFocus(_focusNode1),
                                   ),
-                            TextFormField(
+                            _showEmail ? TextFormField(
                               controller: _emailController,
                               autocorrect: false,
                               textInputAction: TextInputAction.next,
@@ -204,8 +204,8 @@ class _LoginState extends State<LoginScreen> {
                               onFieldSubmitted: (String value) =>
                                   FocusScope.of(context)
                                       .requestFocus(_focusNode2),
-                            ),
-                            TextFormField(
+                            ) : SizedBox(),
+                            _showEmail ? TextFormField(
                               controller: _passwordController,
                               autocorrect: false,
                               autovalidate: _autoValidate,
@@ -222,13 +222,14 @@ class _LoginState extends State<LoginScreen> {
                               textInputAction: TextInputAction.done,
                               onFieldSubmitted: (value) =>
                                   FocusScope.of(context).requestFocus(null),
-                            ),
+                            ) : SizedBox(),
                             _showLogin
                                 ? SizedBox(
                                     height: 16,
                                   )
                                 : Padding(
-                                    padding: EdgeInsets.only(top: 26, bottom: 8),
+                                    padding:
+                                        EdgeInsets.only(top: 26, bottom: 8),
                                     child: CheckboxListTile(
                                       onChanged: (value) =>
                                           setState(() => _termsChecked = value),
@@ -286,9 +287,10 @@ class _LoginState extends State<LoginScreen> {
                   ProgressButton(
                     width: double.infinity,
                     padding: EdgeInsets.only(top: 12, bottom: 6),
-                    isLoading: viewModel.isLoading || viewModel.authState.isAuthenticated,
+                    isLoading: viewModel.isLoading ||
+                        viewModel.authState.isAuthenticated,
                     label:
-                        (_showLogin ? localization.login : localization.signUp)
+                        (_showLogin ? localization.login : localization.signUpUsingGoogle)
                             .toUpperCase(),
                     onPressed: () => _submitForm(),
                   ),
@@ -297,6 +299,13 @@ class _LoginState extends State<LoginScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
+                            _showLogin
+                                ? SizedBox()
+                                : Expanded(
+                                    child: FlatButton(
+                                        onPressed: () {},
+                                        child: Text(localization.useEmail)),
+                                  ),
                             Expanded(
                               child: FlatButton(
                                 onPressed: () {
@@ -308,7 +317,7 @@ class _LoginState extends State<LoginScreen> {
                                 child: Text(
                                   _showLogin
                                       ? localization.doNotHaveAnAccount
-                                      : localization.alreadyHaveAnAccount,
+                                      : localization.login,
                                 ),
                               ),
                             ),

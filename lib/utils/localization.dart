@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'use_email': 'Use Email',
       'open_in_browser': 'Open in Browser',
       'remove': 'Remove',
       'remove_video': 'Remove Video',
@@ -98,7 +99,6 @@ class AppLocalization {
       'close': 'Close',
       'please_agree_to_terms':
           'Please agree to the terms of service to create a new account.',
-      'already_have_an_account': 'Already have an account? Tap here to login',
       'do_not_have_an_account':
           'Don\'t have an account? Tap here to create one',
       'play': 'Play',
@@ -107,6 +107,7 @@ class AppLocalization {
       'email': 'Email',
       'login': 'Login',
       'sign_up': 'Sign Up',
+      'sign_up_using_google': 'Sign Up Using Google',
       'password': 'Password',
       'please_enter_your_handle': 'Please enter your handle',
       'please_enter_your_email': 'Please enter your email',
@@ -119,6 +120,8 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get useEmail => _localizedValues[locale.toString()]['use_email'];
 
   String get openInBrowser =>
       _localizedValues[locale.toString()]['open_in_browser'];
@@ -236,9 +239,6 @@ class AppLocalization {
   String get pleaseAgreeToTerms =>
       _localizedValues[locale.toString()]['please_agree_to_terms'];
 
-  String get alreadyHaveAnAccount =>
-      _localizedValues[locale.toString()]['already_have_an_account'];
-
   String get iAgreeToThe =>
       _localizedValues[locale.toString()]['i_agree_to_the'];
 
@@ -262,6 +262,8 @@ class AppLocalization {
   String get logout => _localizedValues[locale.toString()]['logout'];
 
   String get signUp => _localizedValues[locale.toString()]['sign_up'];
+
+  String get signUpUsingGoogle => _localizedValues[locale.toString()]['sign_up_using_google'];
 
   String get pleaseEnterYourPassword =>
       _localizedValues[locale.toString()]['please_enter_your_password'];

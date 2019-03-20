@@ -9,6 +9,7 @@ class ProgressButton extends StatelessWidget {
     @required this.onPressed,
     @required this.width,
     this.padding,
+    this.icon,
   }) : super(key: key);
 
   final String label;
@@ -16,6 +17,7 @@ class ProgressButton extends StatelessWidget {
   final Function onPressed;
   final EdgeInsetsGeometry padding;
   final double width;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,8 @@ class ProgressButton extends StatelessWidget {
           : ElevatedButton(
         width: width,
         label: label,
-        onPressed: () => this.onPressed(),
+        icon: icon,
+        onPressed: () => onPressed(),
       ),
     );
   }
