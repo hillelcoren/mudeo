@@ -34,16 +34,10 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   Iterable serialize(Serializers serializers, ArtistEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[];
-    if (object.firstName != null) {
-      result
-        ..add('first_name')
-        ..add(serializers.serialize(object.firstName,
-            specifiedType: const FullType(String)));
-    }
-    if (object.lastName != null) {
+    if (object.name != null) {
       result
         ..add('last_name')
-        ..add(serializers.serialize(object.lastName,
+        ..add(serializers.serialize(object.name,
             specifiedType: const FullType(String)));
     }
     if (object.handle != null) {
@@ -157,12 +151,8 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'first_name':
-          result.firstName = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
         case 'last_name':
-          result.lastName = serializers.deserialize(value,
+          result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'handle':
@@ -279,9 +269,7 @@ class _$ArtistItemResponseSerializer
 
 class _$ArtistEntity extends ArtistEntity {
   @override
-  final String firstName;
-  @override
-  final String lastName;
+  final String name;
   @override
   final String handle;
   @override
@@ -319,8 +307,7 @@ class _$ArtistEntity extends ArtistEntity {
       (new ArtistEntityBuilder()..update(updates)).build();
 
   _$ArtistEntity._(
-      {this.firstName,
-      this.lastName,
+      {this.name,
       this.handle,
       this.email,
       this.token,
@@ -350,8 +337,7 @@ class _$ArtistEntity extends ArtistEntity {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ArtistEntity &&
-        firstName == other.firstName &&
-        lastName == other.lastName &&
+        name == other.name &&
         handle == other.handle &&
         email == other.email &&
         token == other.token &&
@@ -389,11 +375,8 @@ class _$ArtistEntity extends ArtistEntity {
                                                             $jc(
                                                                 $jc(
                                                                     $jc(
-                                                                        $jc(
-                                                                            0,
-                                                                            firstName
-                                                                                .hashCode),
-                                                                        lastName
+                                                                        0,
+                                                                        name
                                                                             .hashCode),
                                                                     handle
                                                                         .hashCode),
@@ -417,8 +400,7 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('ArtistEntity')
-          ..add('firstName', firstName)
-          ..add('lastName', lastName)
+          ..add('name', name)
           ..add('handle', handle)
           ..add('email', email)
           ..add('token', token)
@@ -443,13 +425,9 @@ class ArtistEntityBuilder
     implements Builder<ArtistEntity, ArtistEntityBuilder> {
   _$ArtistEntity _$v;
 
-  String _firstName;
-  String get firstName => _$this._firstName;
-  set firstName(String firstName) => _$this._firstName = firstName;
-
-  String _lastName;
-  String get lastName => _$this._lastName;
-  set lastName(String lastName) => _$this._lastName = lastName;
+  String _name;
+  String get name => _$this._name;
+  set name(String name) => _$this._name = name;
 
   String _handle;
   String get handle => _$this._handle;
@@ -522,8 +500,7 @@ class ArtistEntityBuilder
 
   ArtistEntityBuilder get _$this {
     if (_$v != null) {
-      _firstName = _$v.firstName;
-      _lastName = _$v.lastName;
+      _name = _$v.name;
       _handle = _$v.handle;
       _email = _$v.email;
       _token = _$v.token;
@@ -562,8 +539,7 @@ class ArtistEntityBuilder
   _$ArtistEntity build() {
     final _$result = _$v ??
         new _$ArtistEntity._(
-            firstName: firstName,
-            lastName: lastName,
+            name: name,
             handle: handle,
             email: email,
             token: token,

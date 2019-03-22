@@ -12,8 +12,7 @@ abstract class ArtistEntity extends Object
   factory ArtistEntity({int id}) {
     return _$ArtistEntity._(
       id: id ?? 0,
-      firstName: '',
-      lastName: '',
+      name: '',
       handle: '',
       email: '',
       token: '',
@@ -33,12 +32,8 @@ abstract class ArtistEntity extends Object
   ArtistEntity._();
 
   @nullable
-  @BuiltValueField(wireName: 'first_name')
-  String get firstName;
-
-  @nullable
   @BuiltValueField(wireName: 'last_name')
-  String get lastName;
+  String get name;
 
   @nullable
   @BuiltValueField(wireName: 'handle')
@@ -92,8 +87,6 @@ abstract class ArtistEntity extends Object
   String get listDisplayName {
     return handle;
   }
-
-  String get fullName => '$firstName $lastName';
 
   bool ownsSong(SongEntity song) => song.artistId == id;
 

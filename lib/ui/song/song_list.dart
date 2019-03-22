@@ -24,7 +24,7 @@ class SongList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!viewModel.isLoaded) {
-      return LoadingIndicator();
+      return Container(child: LoadingIndicator());
     }
 
     final dataState = viewModel.state.dataState;
@@ -189,15 +189,13 @@ class SongHeader extends StatelessWidget {
                       ),
                       song.genreId == null || song.genreId == 0
                           ? null
-                          : TextSpan(
-                        text: ' • '
-                      ),
+                          : TextSpan(text: ' • '),
                       song.genreId == null || song.genreId == 0
                           ? null
                           : TextSpan(
-                        text: localization.lookup(kGenres[song.genreId]),
-                        style: genreStyle,
-                      ),
+                              text: localization.lookup(kGenres[song.genreId]),
+                              style: genreStyle,
+                            ),
 
                       /*
                           TextSpan(

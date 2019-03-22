@@ -59,7 +59,17 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         .forEach((dynamic controller) => controller.removeListener(_onChanged));
 
     final artist = widget.viewModel.state.authState.artist;
+    _nameController.text = artist.name;
+    _descriptionController.text = artist.description;
+    _emailController.text = artist.email;
     _handleController.text = artist.handle;
+    _twitchController.text = artist.twitchURL;
+    _facebookController.text = artist.facebookURL;
+    _instagramController.text = artist.instagramURL;
+    _youtubeController.text = artist.youTubeURL;
+    _twitterController.text = artist.twitterURL;
+    _soundCloudController.text = artist.soundCloudURL;
+    _websiteController.text = artist.website;
 
     _controllers
         .forEach((dynamic controller) => controller.addListener(_onChanged));
@@ -81,8 +91,18 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     final viewModel = widget.viewModel;
     final uiState = viewModel.state.uiState;
 
-    final artist = uiState.artist
-        .rebuild((b) => b..handle = _handleController.text.trim());
+    final artist = uiState.artist.rebuild((b) => b
+      ..name = _nameController.text.trim()
+      ..description = _descriptionController.text.trim()
+      ..handle = _handleController.text.trim()
+      ..email = _emailController.text.trim()
+      ..twitchURL = _twitchController.text.trim()
+      ..facebookURL = _facebookController.text.trim()
+      ..instagramURL = _instagramController.text.trim()
+      ..youTubeURL = _youtubeController.text.trim()
+      ..twitterURL = _twitterController.text.trim()
+      ..soundCloudURL = _soundCloudController.text.trim()
+      ..website = _websiteController.text.trim());
 
     if (artist != uiState.artist) {
       viewModel.onChangedArtist(artist);
@@ -90,12 +110,10 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   }
 
   void _onSubmit() {
-    /*
     if (!_formKey.currentState.validate()) {
       return;
     }
-    widget.viewModel.onSavePressed();
-    */
+    widget.viewModel.onSavePressed(context);
   }
 
   @override
@@ -109,9 +127,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.cloud_upload),
-            onPressed: viewModel.isChanged
-                ? () => viewModel.onSavePressed(context)
-                : null,
+            onPressed: viewModel.isChanged ? () => _onSubmit() : null,
           )
         ],
       ),

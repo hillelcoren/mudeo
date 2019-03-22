@@ -16,8 +16,7 @@ class ArtistRepository {
 
   final WebClient webClient;
 
-  Future<ArtistEntity> loadItem(
-      AuthState auth, int entityId) async {
+  Future<ArtistEntity> loadItem(AuthState auth, int entityId) async {
     String url = '$kAppURL/users/$entityId?include=songs';
 
     final dynamic response = await webClient.get(url, auth.artist.token);
@@ -36,6 +35,8 @@ class ArtistRepository {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
     }
 
+    return null;
+
     /*
     final dynamic response = await webClient.get(url, company.token);
 
@@ -46,22 +47,23 @@ class ArtistRepository {
     */
   }
 
-  Future<ArtistEntity> saveData(
-      AuthState auth, ArtistEntity artist,
+  Future<ArtistEntity> saveData(AuthState auth, ArtistEntity artist,
       [EntityAction action]) async {
-    final data = serializers.serializeWith(ArtistEntity.serializer, artist);
-    dynamic response;
 
-    if (artist.isNew) {
-      response = await webClient.post('$kAppURL/users?include=',
-          auth.artist.token, data: json.encode(data));
-    } else {
-      var url = '$kAppURL/users/${artist.id}?include=';
-      if (action != null) {
-        url += '&action=' + action.toString();
-      }
-      response = await webClient.put(url, auth.artist.token, json.encode(data));
+    // TODO remove thmis
+    artist = artist.rebuild((b) => b
+        ..profileImageUrl = ''
+        ..headerImageUrl = ''
+    );
+
+    final data = serializers.serializeWith(ArtistEntity.serializer, artist);
+
+    var url = '$kAppURL/users/${artist.id}?';
+    if (action != null) {
+      url += '&action=' + action.toString();
     }
+    dynamic response =
+        await webClient.put(url, auth.artist.token, json.encode(data));
 
     final ArtistItemResponse artistResponse =
         serializers.deserializeWith(ArtistItemResponse.serializer, response);
