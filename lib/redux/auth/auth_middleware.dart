@@ -50,7 +50,6 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
         .login(
             email: action.email,
             password: action.password,
-            platform: action.platform,
             oneTimePassword: action.oneTimePassword)
         .then((ArtistEntity artist) {
       if (artist.token == null) {

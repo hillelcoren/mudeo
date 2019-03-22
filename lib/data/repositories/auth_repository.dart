@@ -16,7 +16,6 @@ class AuthRepository {
   Future<ArtistEntity> login(
       {String email,
       String password,
-      String platform,
       String oneTimePassword}) async {
     final credentials = {
       'email': email,
@@ -44,11 +43,11 @@ class AuthRepository {
 
   Future<ArtistEntity> googleSignUp(
       {String handle,
-        String email,
-        String oauthToken,
-        String oauthId,
-        String name,
-        String photoUrl}) async {
+      String email,
+      String oauthToken,
+      String oauthId,
+      String name,
+      String photoUrl}) async {
     final credentials = {
       'email': email,
       'handle': handle,

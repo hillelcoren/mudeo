@@ -43,6 +43,7 @@ class GoogleSignUpRequest implements StartLoading {
     this.name,
     this.photoUrl,
     this.oauthToken,
+    this.platform,
   });
 
   final Completer completer;
@@ -52,6 +53,7 @@ class GoogleSignUpRequest implements StartLoading {
   final String oauthId;
   final String photoUrl;
   final String oauthToken;
+  final String platform;
 }
 
 class UserSignUpRequest implements StartLoading {
@@ -60,12 +62,14 @@ class UserSignUpRequest implements StartLoading {
     this.handle,
     this.email,
     this.password,
+    this.platform,
   });
 
   final Completer completer;
   final String handle;
   final String email;
   final String password;
+  final String platform;
 }
 
 class UserLoginRequest implements StartLoading {
