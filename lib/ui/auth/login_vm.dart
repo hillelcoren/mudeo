@@ -83,7 +83,8 @@ class LoginVM {
                 final Completer<Null> completer = Completer<Null>();
                 store.dispatch(GoogleSignUpRequest(
                   completer: completer,
-                  token: value.idToken,
+                  oauthToken: value.accessToken,
+                  oauthId: account.id,
                   handle: handle,
                   email: account.email,
                   name: account.displayName,
@@ -108,7 +109,7 @@ class LoginVM {
                 final Completer<Null> completer = Completer<Null>();
                 store.dispatch(GoogleLoginRequest(
                   completer: completer,
-                  token: value.idToken,
+                  oauthToken: value.idToken,
                 ));
                 completer.future.then((_) => _handleLogin(context));
               });
@@ -129,7 +130,6 @@ class LoginVM {
             handle: handle.trim(),
             email: email.trim(),
             password: password.trim(),
-            platform: getPlatform(context),
           ));
           completer.future.then((_) => _handleLogin(context));
         },

@@ -45,14 +45,16 @@ class AuthRepository {
   Future<ArtistEntity> googleSignUp(
       {String handle,
         String email,
-        String token,
+        String oauthToken,
+        String oauthId,
         String name,
         String photoUrl}) async {
     final credentials = {
       'email': email,
       'handle': handle,
       'name': name,
-      'oauth_user_id': token,
+      'oauth_user_id': oauthId,
+      'oauth_token': oauthToken,
       'header_image_url': photoUrl,
     };
 

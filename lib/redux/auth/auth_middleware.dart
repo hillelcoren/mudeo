@@ -79,7 +79,8 @@ Middleware<AppState> _createGoogleSignUpRequest(AuthRepository repository) {
         .googleSignUp(
       handle: action.handle,
       email: action.email,
-      token: action.token,
+      oauthId: action.oauthId,
+      oauthToken: action.oauthToken,
       name: action.name,
       photoUrl: action.photoUrl,
     )
@@ -123,7 +124,7 @@ Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
         .oauthLogin(
-            token: action.token,
+            token: action.oauthToken,
             secret: action.secret,
             platform: action.platform)
         .then((artist) {

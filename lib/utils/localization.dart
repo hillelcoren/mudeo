@@ -28,7 +28,7 @@ class AppLocalization {
       'reset_song': 'Reset Song',
       'new_song': 'New Song',
       'logout_app': 'Logout App',
-      'logout_app_from_the_app': 'Logout from the app',
+      'logout_from_the_app': 'Logout from the app',
       'version': 'Version',
       'thank_you_for_using_our_app': 'Thank you for using our app!',
       'if_you_like_it': 'If you like it please',

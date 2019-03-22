@@ -27,11 +27,11 @@ class GoogleLoginRequest implements StartLoading {
   GoogleLoginRequest(
       {this.completer,
       this.email,
-      this.token,});
+      this.oauthToken,});
 
   final Completer completer;
   final String email; // TODO remove this property, break up _saveAuthLocal
-  final String token;
+  final String oauthToken;
 }
 
 class GoogleSignUpRequest implements StartLoading {
@@ -39,17 +39,19 @@ class GoogleSignUpRequest implements StartLoading {
     this.completer,
     this.handle,
     this.email,
+    this.oauthId,
     this.name,
     this.photoUrl,
-    this.token,
+    this.oauthToken,
   });
 
   final Completer completer;
   final String handle;
   final String email;
   final String name;
+  final String oauthId;
   final String photoUrl;
-  final String token;
+  final String oauthToken;
 }
 
 class UserSignUpRequest implements StartLoading {
@@ -58,14 +60,12 @@ class UserSignUpRequest implements StartLoading {
     this.handle,
     this.email,
     this.password,
-    this.platform,
   });
 
   final Completer completer;
   final String handle;
   final String email;
   final String password;
-  final String platform;
 }
 
 class UserLoginRequest implements StartLoading {
