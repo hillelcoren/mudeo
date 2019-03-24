@@ -9,6 +9,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
+import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/artist/artist_settings.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
@@ -50,6 +51,11 @@ class ArtistSettingsVM {
   static ArtistSettingsVM fromStore(Store<AppState> store) {
     final state = store.state;
 
+    print('ARTISTS');
+    print(state.authState.artist);
+    print(state.uiState.artist);
+    print('is changed: ${state.authState.artist != state.uiState.artist}');
+
     return ArtistSettingsVM(
       state: state,
       isLoading: state.isLoading,
@@ -63,6 +69,16 @@ class ArtistSettingsVM {
         final completer = Completer<Null>();
         store.dispatch(SaveArtistRequest(
             artist: state.uiState.artist, completer: completer));
+        completer.future.then((_) {
+          Navigator.of(context).pop();
+        }).catchError((Object error) {
+          showDialog<ErrorDialog>(
+              context: context,
+              builder: (BuildContext context) {
+                return ErrorDialog(error);
+              });
+        });
+
       },
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
-import 'package:mudeo/ui/app/LinkText.dart';
+import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/progress_button.dart';

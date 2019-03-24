@@ -8,7 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
-import 'package:mudeo/ui/app/LinkText.dart';
+import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
