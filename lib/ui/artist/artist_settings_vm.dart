@@ -51,11 +51,6 @@ class ArtistSettingsVM {
   static ArtistSettingsVM fromStore(Store<AppState> store) {
     final state = store.state;
 
-    print('ARTISTS');
-    print(state.authState.artist);
-    print(state.uiState.artist);
-    print('is changed: ${state.authState.artist != state.uiState.artist}');
-
     return ArtistSettingsVM(
       state: state,
       isLoading: state.isLoading,
@@ -78,7 +73,6 @@ class ArtistSettingsVM {
                 return ErrorDialog(error);
               });
         });
-
       },
     );
   }

@@ -130,7 +130,8 @@ class _ArtistSettingsState extends State<ArtistSettings> {
             icon: Icons.cloud_upload,
             onPressed: _onSubmit,
             tooltip: localization.save,
-            isDirty: viewModel.isChanged,
+            //isDirty: viewModel.isChanged,
+            isDirty: true,
             isSaving: viewModel.state.isSaving,
           )
         ],
