@@ -93,15 +93,23 @@ class SongEditScreen extends StatelessWidget {
               child: LiveText(
                 () {
                   if (uiState.recordingTimestamp > 0) {
-                    final seconds = uiState.recordingDuration.inSeconds;
+                    int seconds;
+                    if (viewModel.song.tracks.isNotEmpty) {
+                      seconds = (viewModel.song.duration ~/ 1000) -
+                          uiState.recordingDuration.inSeconds;
+                    } else {
+                      seconds = uiState.recordingDuration.inSeconds;
+                    }
+
                     return seconds < 10 ? '00:0$seconds' : '00:$seconds';
                   } else {
                     return viewModel.song.title;
                   }
                 },
                 style: () => TextStyle(
-                    color: uiState.recordingDuration.inMilliseconds >=
-                            kMaxSongDuration - kFirstWarningOffset
+                    color: viewModel.song.tracks.isNotEmpty &&
+                            uiState.recordingDuration.inMilliseconds >=
+                                kMaxSongDuration - kFirstWarningOffset
                         ? (uiState.recordingDuration.inMilliseconds >=
                                 kMaxSongDuration - kSecondWarningOffset
                             ? Colors.redAccent
