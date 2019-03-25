@@ -167,7 +167,7 @@ class SongHeader extends StatelessWidget {
             artist: song.artist,
             onTap: () => onArtistTap(artist),
           ),
-          SizedBox(width: 12),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +204,8 @@ class SongHeader extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: Icon(Icons.play_circle_filled, size: 40),
+            padding: EdgeInsets.only(top: 0),
+            icon: Icon(Icons.play_circle_filled, size: 50),
             tooltip: localization.play,
             onPressed: onPlay,
           ),
