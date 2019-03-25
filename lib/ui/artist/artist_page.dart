@@ -219,38 +219,39 @@ class ArtistPage extends StatelessWidget {
               expandedHeight: 200.0,
               floating: true,
               pinned: false,
-              flexibleSpace: artist.headerImageUrl != null &&
-                      artist.headerImageUrl.isNotEmpty
-                  ? FlexibleSpaceBar(
-                      centerTitle: true,
-                      /*
-                      background: Image.network(
-                        artist.headerImageUrl != null &&
-                                artist.headerImageUrl.isNotEmpty
-                            ? artist.headerImageUrl
-                            : 'https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350',
-                            */
-                      background: Image.network(
-                        'https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350',
-                        fit: BoxFit.cover,
-                      ))
-                  : SizedBox(),
+              flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  background: Image.network(
+                    artist.headerImageUrl != null &&
+                            artist.headerImageUrl.isNotEmpty
+                        ? artist.headerImageUrl
+                        : 'https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350',
+                    fit: BoxFit.cover,
+                  )),
             ),
           ];
         },
-        body: Column(
+        body: ListView(
           children: <Widget>[
             FormCard(
               children: <Widget>[
                 _profileImage(),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    // TODO remove this
-                    artist.handle == null || artist.handle.isEmpty
-                        ? 'handle'
-                        : artist.handle,
-                    style: Theme.of(context).textTheme.headline,
+                  child: Column(
+                    children: <Widget>[
+                      artist.name != null && artist.name.isNotEmpty
+                          ? Text(
+                              artist.name,
+                              style: Theme.of(context).textTheme.headline,
+                            )
+                          : SizedBox(),
+                      SizedBox(height: 6),
+                      Text(
+                        '@${artist.handle}',
+                        style: Theme.of(context).textTheme.subhead,
+                      )
+                    ],
                   ),
                 ),
                 Padding(

@@ -99,7 +99,8 @@ class SaveArtistRequest implements StartSaving {
   final ArtistEntity artist;
 }
 
-class SaveArtistSuccess implements StopSaving, PersistData, PersistUI {
+class SaveArtistSuccess
+    implements StopSaving, PersistData, PersistUI, PersistAuth {
   SaveArtistSuccess(this.artist);
 
   final ArtistEntity artist;
