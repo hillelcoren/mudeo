@@ -50,11 +50,6 @@ class ArtistPage extends StatelessWidget {
           barrierDismissible: true,
           context: context,
           builder: (BuildContext context) {
-            final ThemeData themeData = Theme.of(context);
-            final TextStyle aboutTextStyle = themeData.textTheme.body2;
-            final TextStyle linkStyle = themeData.textTheme.body2
-                .copyWith(color: themeData.accentColor);
-
             return SimpleDialog(
               children: <Widget>[
                 SimpleDialogOption(

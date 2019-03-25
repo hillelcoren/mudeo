@@ -5,10 +5,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
-import 'package:mudeo/ui/artist/artist_settings_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
-import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class MainScreenBuilder extends StatelessWidget {
@@ -64,8 +62,6 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-
     List<Widget> _views = [
       SongListScreen(),
       SongEditScreen(),

@@ -12,7 +12,6 @@ import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/ui/ui_state.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/main_screen.dart';
-import 'package:mudeo/utils/platforms.dart';
 import 'package:redux/redux.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

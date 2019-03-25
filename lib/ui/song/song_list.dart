@@ -3,11 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
-import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
@@ -152,9 +150,7 @@ class SongHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final state = StoreProvider.of<AppState>(context).state;
     final artist = song.artist ?? ArtistEntity();
-    //final artist = state.dataState.artistMap[song.artistId] ?? ArtistEntity();
 
     final ThemeData themeData = Theme.of(context);
     final TextStyle artistStyle = themeData.textTheme.body2

@@ -7,12 +7,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
-import 'package:mudeo/redux/auth/auth_actions.dart';
-import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
-import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:mudeo/ui/artist/artist_settings.dart';
-import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:redux/redux.dart';
 
 class ArtistSettingsScreen extends StatelessWidget {

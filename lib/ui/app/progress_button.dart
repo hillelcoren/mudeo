@@ -7,7 +7,7 @@ class ProgressButton extends StatelessWidget {
     @required this.label,
     @required this.isLoading,
     @required this.onPressed,
-    @required this.width,
+    this.width,
     this.padding,
     this.icon,
   }) : super(key: key);
@@ -38,7 +38,7 @@ class ProgressButton extends StatelessWidget {
         ),
       )
           : ElevatedButton(
-        width: width,
+        width: width ?? double.infinity,
         label: label,
         icon: icon,
         onPressed: () => onPressed(),

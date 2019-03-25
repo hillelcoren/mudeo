@@ -266,7 +266,6 @@ class _SongEditState extends State<SongEdit> {
     if (!value.isInitialized) return SizedBox();
     final isRecording = value.isRecordingVideo;
 
-    final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
     final song = viewModel.song;
     final isEmpty = song.tracks.isEmpty;
@@ -429,7 +428,6 @@ class TrackEditDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final song = viewModel.song;
 
     return Padding(
       padding: EdgeInsets.all(16.0),

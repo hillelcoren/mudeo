@@ -29,15 +29,19 @@ class ArtistRepository {
 
   Future<BuiltList<ArtistEntity>> loadList(
       AuthState auth, int updatedAt) async {
+
+    return null;
+
+
+    /*
+
     String url = '$kAppURL/users?';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
     }
 
-    return null;
 
-    /*
     final dynamic response = await webClient.get(url, company.token);
 
     final ArtistListResponse artistResponse =
