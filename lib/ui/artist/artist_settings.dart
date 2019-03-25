@@ -140,11 +140,11 @@ class _ArtistSettingsState extends State<ArtistSettings> {
             itemBuilder: (BuildContext context) {
               return [
                 PopupMenuItem(
-                  child: Text(localization.updateProfileImage),
+                  child: Text(localization.profileImage),
                   value: kProfileImageHeader,
                 ),
                 PopupMenuItem(
-                  child: Text(localization.updateHeaderImage),
+                  child: Text(localization.headerImage),
                   value: kProfileImageHeader,
                 ),
               ];
