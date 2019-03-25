@@ -41,5 +41,9 @@ AuthState userLoginFailureReducer(
 }
 
 AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
-  return authState.rebuild((b) => b..artist.replace(action.artist));
+  final artist = authState.artist;
+  return authState.rebuild((b) => b..artist.replace(action.artist.rebuild((b) => b
+    ..token = artist.token
+    ..email = artist.email // TODO remove this
+  )));
 }

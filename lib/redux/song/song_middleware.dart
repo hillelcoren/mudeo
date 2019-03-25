@@ -62,7 +62,7 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
       }
     }
 
-    if (state.isLoading) {
+    if (state.isLoading || !state.authState.hasValidToken) {
       next(action);
       return;
     }

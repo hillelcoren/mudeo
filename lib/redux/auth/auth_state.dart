@@ -33,5 +33,7 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
     ..isAuthenticated = false
     ..wasAuthenticated = true);
 
+  bool get hasValidToken => artist.token != null && artist.token.isNotEmpty;
+
   static Serializer<AuthState> get serializer => _$authStateSerializer;
 }
