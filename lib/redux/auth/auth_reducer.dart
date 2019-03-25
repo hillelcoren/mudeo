@@ -1,3 +1,4 @@
+import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:redux/redux.dart';
@@ -8,6 +9,7 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, UserLoginSuccess>(userLoginSuccessReducer),
   TypedReducer<AuthState, UserLoginFailure>(userLoginFailureReducer),
   TypedReducer<AuthState, ClearAuthError>(clearAuthErrorReducer),
+  TypedReducer<AuthState, SaveArtistSuccess>(saveArtistReducer),
 ]);
 
 AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
@@ -36,4 +38,8 @@ AuthState userLoginSuccessReducer(
 AuthState userLoginFailureReducer(
     AuthState authState, UserLoginFailure action) {
   return authState.rebuild((b) => b..error = action.error);
+}
+
+AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
+  return authState.rebuild((b) => b..artist.replace(action.artist));
 }

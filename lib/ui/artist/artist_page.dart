@@ -273,7 +273,7 @@ class ArtistPage extends StatelessWidget {
                 ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                         child: Text(
                           // TODO remove this null check
                           artist.description ?? '',
