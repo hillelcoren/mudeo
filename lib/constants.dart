@@ -21,6 +21,9 @@ const String kCameraDirectionFront = 'front';
 const String kCameraDirectionBack = 'back';
 const String kCameraDirectionExternal = 'external';
 
+const String kProfileImageHeader = 'header_image';
+const String kProfileImageProfile = 'profile_image';
+
 const int kDefaultTrackVolume = 100;
 const int kUpdatedAtBufferSeconds = 600;
 const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes

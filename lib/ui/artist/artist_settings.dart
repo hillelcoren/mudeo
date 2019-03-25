@@ -7,6 +7,7 @@ import 'package:mudeo/ui/app/form_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ArtistSettings extends StatefulWidget {
   const ArtistSettings({
@@ -147,7 +148,11 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                       ))
                   .toList();
             },
-            onSelected: (String action) {},
+            onSelected: (String action) async {
+              var image =
+                  await ImagePicker.pickImage(source: ImageSource.gallery);
+              print('image path: ${image.path}');
+            },
           )
         ],
       ),

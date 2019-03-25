@@ -29,9 +29,7 @@ class ArtistRepository {
 
   Future<BuiltList<ArtistEntity>> loadList(
       AuthState auth, int updatedAt) async {
-
     return null;
-
 
     /*
 
@@ -53,7 +51,6 @@ class ArtistRepository {
 
   Future<ArtistEntity> saveData(AuthState auth, ArtistEntity artist,
       [EntityAction action]) async {
-
     final data = serializers.serializeWith(ArtistEntity.serializer, artist);
 
     var url = '$kAppURL/users/${artist.id}?';
@@ -67,5 +64,16 @@ class ArtistRepository {
         serializers.deserializeWith(ArtistItemResponse.serializer, response);
 
     return artistResponse.data;
+  }
+
+  Future<ArtistEntity> saveImage(
+      AuthState auth, String path, String imageType) async {
+    dynamic response = await webClient.post(
+        '$kAppURL/user/$imageType', auth.artist.token,
+        filePath: path, fileField: 'image');
+
+    print('save image response: $response');
+
+    return null;
   }
 }

@@ -74,7 +74,7 @@ class WebClient {
   }
 
   Future<dynamic> post(String url, String token,
-      {dynamic data, String filePath}) async {
+      {dynamic data, String filePath, String fileField = 'video'}) async {
     url = _checkUrl(url);
     print('POST: $url');
     print('Request: $data');
@@ -90,14 +90,12 @@ class WebClient {
       final file = File(filePath);
       var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
       var length = await file.length();
-      print('url: $url');
-      print('length of file: $length');
 
       headers['Content-Type'] = 'application/json';
 
       final request = http.MultipartRequest('POST', Uri.parse(url))
         ..headers.addAll(headers)
-        ..files.add(http.MultipartFile('video', stream, length,
+        ..files.add(http.MultipartFile(fileField, stream, length,
             filename: basename(file.path)));
 
       response = await http.Response.fromStream(await request.send())

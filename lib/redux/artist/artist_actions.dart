@@ -129,3 +129,15 @@ class SortArtists implements PersistUI {
 
   final String field;
 }
+
+class UpdateArtistProfile {
+  UpdateArtistProfile(this.imagePath);
+
+  final String imagePath;
+}
+
+class UpdateArtistHeader {
+  UpdateArtistHeader(this.imagePath);
+
+  final String imagePath;
+}

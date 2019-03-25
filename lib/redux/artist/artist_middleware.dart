@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/repositories/artist_repository.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
@@ -17,6 +18,8 @@ List<Middleware<AppState>> createStoreArtistsMiddleware([
   final editArtist = _editArtist();
   final loadArtist = _loadArtist(repository);
   final saveArtist = _saveArtist(repository);
+  final updateArtistProfile = _updateArtistProfile(repository);
+  final updateArtistHeader = _updateArtistHeader(repository);
 
   return [
     //TypedMiddleware<AppState, ViewArtistList>(viewArtistList),
@@ -25,6 +28,8 @@ List<Middleware<AppState>> createStoreArtistsMiddleware([
     TypedMiddleware<AppState, EditArtist>(editArtist),
     TypedMiddleware<AppState, LoadArtist>(loadArtist),
     TypedMiddleware<AppState, SaveArtistRequest>(saveArtist),
+    TypedMiddleware<AppState, UpdateArtistProfile>(updateArtistProfile),
+    TypedMiddleware<AppState, UpdateArtistHeader>(updateArtistHeader),
   ];
 }
 
@@ -80,14 +85,48 @@ Middleware<AppState> _viewArtistList() {
 
 Middleware<AppState> _saveArtist(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    repository
-        .saveData(store.state.authState, action.artist)
-        .then((artist) {
+    repository.saveData(store.state.authState, action.artist).then((artist) {
       store.dispatch(SaveArtistSuccess(artist));
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
       store.dispatch(SaveArtistFailure(error));
+      action.completer.completeError(error);
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _updateArtistProfile(ArtistRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    repository
+        .saveImage(
+            store.state.authState, action.imagePath, kProfileImageProfile)
+        .then((artist) {
+      //store.dispatch(SaveArtistSuccess(artist));
+      action.completer.complete(null);
+    }).catchError((Object error) {
+      print(error);
+      //store.dispatch(SaveArtistFailure(error));
+      action.completer.completeError(error);
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _updateArtistHeader(ArtistRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    repository
+        .saveImage(
+        store.state.authState, action.imagePath, kProfileImageHeader)
+        .then((artist) {
+      //store.dispatch(SaveArtistSuccess(artist));
+      action.completer.complete(null);
+    }).catchError((Object error) {
+      print(error);
+      //store.dispatch(SaveArtistFailure(error));
       action.completer.completeError(error);
     });
 
