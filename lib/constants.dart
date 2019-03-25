@@ -21,8 +21,8 @@ const String kCameraDirectionFront = 'front';
 const String kCameraDirectionBack = 'back';
 const String kCameraDirectionExternal = 'external';
 
-const String kProfileImageHeader = 'header_image';
-const String kProfileImageProfile = 'profile_image';
+const String kArtistImageHeader = 'header_image';
+const String kArtistImageProfile = 'profile_image';
 
 const int kDefaultTrackVolume = 100;
 const int kUpdatedAtBufferSeconds = 600;

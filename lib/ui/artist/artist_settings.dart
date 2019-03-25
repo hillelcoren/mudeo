@@ -141,11 +141,11 @@ class _ArtistSettingsState extends State<ArtistSettings> {
               return [
                 PopupMenuItem(
                   child: Text(localization.profileImage),
-                  value: kProfileImageHeader,
+                  value: kArtistImageProfile,
                 ),
                 PopupMenuItem(
                   child: Text(localization.headerImage),
-                  value: kProfileImageHeader,
+                  value: kArtistImageHeader,
                 ),
               ];
             },
