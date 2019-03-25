@@ -40,9 +40,9 @@ class SongRepository {
       response = await webClient.post(kAppURL + '/songs?include=user', auth.artist.token,
           data: json.encode(data));
     } else {
-      var url = kAppURL + '/songs/' + song.id.toString();
+      var url = kAppURL + '/songs/${song.id}?include=user';
       if (action != null) {
-        url += '?action=' + action.toString();
+        url += '&action=' + action.toString();
       }
       response = await webClient.put(url, auth.artist.token, json.encode(data));
     }

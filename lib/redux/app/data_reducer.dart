@@ -6,6 +6,7 @@ Reducer<DataState> dataReducer = combineReducers([
   TypedReducer<DataState, LoadSongsSuccess>(loadSongsSuccessReducer),
   TypedReducer<DataState, LoadSongsFailure>(loadSongsFailureReducer),
   TypedReducer<DataState, AddSongSuccess>(addSongReducer),
+  TypedReducer<DataState, SaveSongSuccess>(saveSongReducer),
 ]);
 
 DataState loadSongsSuccessReducer(
@@ -27,5 +28,9 @@ DataState loadSongsFailureReducer(
 }
 
 DataState addSongReducer(DataState dataState, AddSongSuccess action) {
+  return dataState.rebuild((b) => b..songMap[action.song.id] = action.song);
+}
+
+DataState saveSongReducer(DataState dataState, SaveSongSuccess action) {
   return dataState.rebuild((b) => b..songMap[action.song.id] = action.song);
 }
