@@ -152,8 +152,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
             onSelected: (String type) async {
               var image =
                   await ImagePicker.pickImage(source: ImageSource.gallery);
-              print('image path: ${image.path}');
-              viewModel.onUpdateImage(type, image.path);
+              viewModel.onUpdateImage(context, type, image.path);
             },
           )
         ],

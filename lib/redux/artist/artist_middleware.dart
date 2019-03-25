@@ -17,7 +17,7 @@ List<Middleware<AppState>> createStoreArtistsMiddleware([
   final editArtist = _editArtist();
   final loadArtist = _loadArtist(repository);
   final saveArtist = _saveArtist(repository);
-  final updateArtistImage = _updateArtistImage(repository);
+  final saveArtistImage = _saveArtistImage(repository);
 
   return [
     //TypedMiddleware<AppState, ViewArtistList>(viewArtistList),
@@ -26,7 +26,7 @@ List<Middleware<AppState>> createStoreArtistsMiddleware([
     TypedMiddleware<AppState, EditArtist>(editArtist),
     TypedMiddleware<AppState, LoadArtist>(loadArtist),
     TypedMiddleware<AppState, SaveArtistRequest>(saveArtist),
-    TypedMiddleware<AppState, UpdateArtistImage>(updateArtistImage),
+    TypedMiddleware<AppState, SaveArtistImage>(saveArtistImage),
   ];
 }
 
@@ -95,17 +95,17 @@ Middleware<AppState> _saveArtist(ArtistRepository repository) {
   };
 }
 
-Middleware<AppState> _updateArtistImage(ArtistRepository repository) {
+Middleware<AppState> _saveArtistImage(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
         .saveImage(
             store.state.authState, action.path, action.type)
         .then((artist) {
-      //store.dispatch(SaveArtistSuccess(artist));
+      store.dispatch(SaveArtistSuccess(artist));
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
-      //store.dispatch(SaveArtistFailure(error));
+      store.dispatch(SaveArtistFailure(error));
       action.completer.completeError(error);
     });
 

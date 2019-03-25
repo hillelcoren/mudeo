@@ -8,7 +8,9 @@ import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
+import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_settings.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class ArtistSettingsScreen extends StatelessWidget {
@@ -44,7 +46,7 @@ class ArtistSettingsVM {
   final bool isChanged;
   final Function(BuildContext) onSavePressed;
   final Function(ArtistEntity) onChangedArtist;
-  final Function(String, String) onUpdateImage;
+  final Function(BuildContext, String, String) onUpdateImage;
 
   static ArtistSettingsVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -58,12 +60,29 @@ class ArtistSettingsVM {
       onChangedArtist: (artist) {
         store.dispatch(UpdateArtist(artist));
       },
-      onUpdateImage: (type, path) {
-        //final completer = Completer<Null>();
-        store.dispatch(UpdateArtistImage(
-          path: path,
-          type: type,
-        ));
+      onUpdateImage: (context, type, path) {
+        final localization = AppLocalization.of(context);
+        final completer = Completer<Null>();
+        store.dispatch(
+            SaveArtistImage(path: path, type: type, completer: completer));
+        showDialog<AlertDialog>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(localization.uploading),
+                //content: Text(localization.uploading),
+                content: LoadingIndicator(),
+              );
+            });
+        completer.future.then((_) {
+          Navigator.of(context).pop();
+        }).catchError((Object error) {
+          showDialog<ErrorDialog>(
+              context: context,
+              builder: (BuildContext context) {
+                return ErrorDialog(error);
+              });
+        });
       },
       onSavePressed: (context) {
         final completer = Completer<Null>();

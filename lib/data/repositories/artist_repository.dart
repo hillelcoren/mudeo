@@ -72,8 +72,9 @@ class ArtistRepository {
         '$kAppURL/user/$imageType', auth.artist.token,
         filePath: path, fileField: 'image');
 
-    print('save image response: $response');
+    final ArtistItemResponse artistResponse =
+        serializers.deserializeWith(ArtistItemResponse.serializer, response);
 
-    return null;
+    return artistResponse.data;
   }
 }
