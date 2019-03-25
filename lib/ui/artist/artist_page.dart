@@ -25,7 +25,7 @@ class ArtistPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _profileImage() {
       return ClipRRect(
-        borderRadius: BorderRadius.circular(140.0),
+        borderRadius: BorderRadius.circular(140),
         child: artist.profileImageUrl == null || artist.profileImageUrl.isEmpty
             ? Container(
                 color: Colors.black38,
@@ -34,8 +34,9 @@ class ArtistPage extends StatelessWidget {
               )
             : CachedNetworkImage(
                 imageUrl: artist.profileImageUrl,
-                width: 140.0,
-                height: 140.0,
+                width: 140,
+                height: 140,
+                fit: BoxFit.cover,
               ),
       );
     }
