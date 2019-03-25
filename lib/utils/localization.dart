@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'update_header_image': 'Update Header Image',
+      'update_profile_image': 'Update Profile Image',
       'use_google': 'Use Google',
       'use_email': 'Use Email',
       'open_in_browser': 'Open in Browser',
@@ -118,6 +120,12 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get updateHeaderImage =>
+      _localizedValues[locale.toString()]['update_header_image'];
+
+  String get updateProfileImage =>
+      _localizedValues[locale.toString()]['update_profile_image'];
 
   String get useGoogle => _localizedValues[locale.toString()]['use_google'];
 

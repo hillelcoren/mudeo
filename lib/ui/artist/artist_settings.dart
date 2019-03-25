@@ -22,6 +22,7 @@ class ArtistSettings extends StatefulWidget {
 
 class _ArtistSettingsState extends State<ArtistSettings> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   //final _handleController = TextEditingController();
   //final _emailController = TextEditingController();
   final _nameController = TextEditingController();
@@ -132,6 +133,21 @@ class _ArtistSettingsState extends State<ArtistSettings> {
             //isDirty: viewModel.isChanged,
             isDirty: true,
             isSaving: viewModel.state.isSaving,
+          ),
+          PopupMenuButton<String>(
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (BuildContext context) {
+              return [
+                localization.updateProfileImage,
+                localization.updateHeaderImage
+              ]
+                  .map((action) => PopupMenuItem(
+                        child: Text(action),
+                        value: action,
+                      ))
+                  .toList();
+            },
+            onSelected: (String action) {},
           )
         ],
       ),
