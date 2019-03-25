@@ -223,8 +223,15 @@ class ArtistPage extends StatelessWidget {
                       artist.headerImageUrl.isNotEmpty
                   ? FlexibleSpaceBar(
                       centerTitle: true,
+                      /*
                       background: Image.network(
-                        artist.headerImageUrl,
+                        artist.headerImageUrl != null &&
+                                artist.headerImageUrl.isNotEmpty
+                            ? artist.headerImageUrl
+                            : 'https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350',
+                            */
+                      background: Image.network(
+                        'https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350',
                         fit: BoxFit.cover,
                       ))
                   : SizedBox(),

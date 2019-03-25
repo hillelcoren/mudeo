@@ -36,7 +36,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
     final result = <Object>[];
     if (object.name != null) {
       result
-        ..add('last_name')
+        ..add('name')
         ..add(serializers.serialize(object.name,
             specifiedType: const FullType(String)));
     }
@@ -78,43 +78,43 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
     }
     if (object.twitterURL != null) {
       result
-        ..add('twitter_url')
+        ..add('twitter_social_url')
         ..add(serializers.serialize(object.twitterURL,
             specifiedType: const FullType(String)));
     }
     if (object.facebookURL != null) {
       result
-        ..add('facebook_url')
+        ..add('facebook_social_url')
         ..add(serializers.serialize(object.facebookURL,
             specifiedType: const FullType(String)));
     }
     if (object.instagramURL != null) {
       result
-        ..add('instagram_url')
+        ..add('instagram_social_url')
         ..add(serializers.serialize(object.instagramURL,
             specifiedType: const FullType(String)));
     }
     if (object.youTubeURL != null) {
       result
-        ..add('youTube_url')
+        ..add('youtube_social_url')
         ..add(serializers.serialize(object.youTubeURL,
             specifiedType: const FullType(String)));
     }
     if (object.twitchURL != null) {
       result
-        ..add('twitch_url')
+        ..add('twitch_social_url')
         ..add(serializers.serialize(object.twitchURL,
             specifiedType: const FullType(String)));
     }
     if (object.soundCloudURL != null) {
       result
-        ..add('soundCloud_url')
+        ..add('soundcloud_social_url')
         ..add(serializers.serialize(object.soundCloudURL,
             specifiedType: const FullType(String)));
     }
     if (object.website != null) {
       result
-        ..add('website')
+        ..add('website_social_url')
         ..add(serializers.serialize(object.website,
             specifiedType: const FullType(String)));
     }
@@ -151,7 +151,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'last_name':
+        case 'name':
           result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
@@ -179,31 +179,31 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           result.headerImageUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'twitter_url':
+        case 'twitter_social_url':
           result.twitterURL = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'facebook_url':
+        case 'facebook_social_url':
           result.facebookURL = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'instagram_url':
+        case 'instagram_social_url':
           result.instagramURL = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'youTube_url':
+        case 'youtube_social_url':
           result.youTubeURL = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'twitch_url':
+        case 'twitch_social_url':
           result.twitchURL = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'soundCloud_url':
+        case 'soundcloud_social_url':
           result.soundCloudURL = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'website':
+        case 'website_social_url':
           result.website = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;

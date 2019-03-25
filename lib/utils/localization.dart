@@ -51,8 +51,6 @@ class AppLocalization {
       'name': 'Name',
       'website': 'Website',
       'logout': 'Logout',
-      'first_name': 'First Name',
-      'last_name': 'Last Name',
       'volume': 'Volume',
       'solo': 'Solo',
       'clear': 'Clear',
@@ -188,10 +186,6 @@ class AppLocalization {
   String get name => _localizedValues[locale.toString()]['name'];
 
   String get website => _localizedValues[locale.toString()]['website'];
-
-  String get firstName => _localizedValues[locale.toString()]['first_name'];
-
-  String get lastName => _localizedValues[locale.toString()]['last_name'];
 
   String get volume => _localizedValues[locale.toString()]['volume'];
 

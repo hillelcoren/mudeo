@@ -22,7 +22,7 @@ class ArtistSettings extends StatefulWidget {
 
 class _ArtistSettingsState extends State<ArtistSettings> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final _handleController = TextEditingController();
+  //final _handleController = TextEditingController();
   final _emailController = TextEditingController();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -45,7 +45,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
       _nameController,
       _descriptionController,
       _emailController,
-      _handleController,
+      //_handleController,
       _twitchController,
       _facebookController,
       _instagramController,
@@ -62,7 +62,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     _nameController.text = artist.name;
     _descriptionController.text = artist.description;
     _emailController.text = artist.email;
-    _handleController.text = artist.handle;
+    //_handleController.text = artist.handle;
     _twitchController.text = artist.twitchURL;
     _facebookController.text = artist.facebookURL;
     _instagramController.text = artist.instagramURL;
@@ -94,7 +94,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     final artist = uiState.artist.rebuild((b) => b
       ..name = _nameController.text.trim()
       ..description = _descriptionController.text.trim()
-      ..handle = _handleController.text.trim()
+      //..handle = _handleController.text.trim()
       ..email = _emailController.text.trim()
       ..twitchURL = _twitchController.text.trim()
       ..facebookURL = _facebookController.text.trim()
@@ -144,6 +144,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  /*
                   TextFormField(
                     autocorrect: false,
                     controller: _handleController,
@@ -154,6 +155,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                     validator: (value) =>
                         value.isEmpty ? localization.fieldIsRequired : null,
                   ),
+                  */
                   TextFormField(
                     autocorrect: false,
                     controller: _emailController,

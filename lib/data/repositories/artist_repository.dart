@@ -54,7 +54,7 @@ class ArtistRepository {
   Future<ArtistEntity> saveData(AuthState auth, ArtistEntity artist,
       [EntityAction action]) async {
 
-    // TODO remove thmis
+    // TODO remove this
     artist = artist.rebuild((b) => b
         ..profileImageUrl = ''
         ..headerImageUrl = ''

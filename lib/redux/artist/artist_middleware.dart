@@ -79,18 +79,12 @@ Middleware<AppState> _viewArtistList() {
 }
 */
 
-
 Middleware<AppState> _saveArtist(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
-        .saveData(
-        store.state.authState, action.artist)
-        .then((ArtistEntity artist) {
-      if (action.artist.isNew) {
-        store.dispatch(AddArtistSuccess(artist));
-      } else {
-        store.dispatch(SaveArtistSuccess(artist));
-      }
+        .saveData(store.state.authState, action.artist)
+        .then((artist) {
+      store.dispatch(SaveArtistSuccess(artist));
       action.completer.complete(artist);
     }).catchError((Object error) {
       print(error);
@@ -112,9 +106,7 @@ Middleware<AppState> _loadArtist(ArtistRepository repository) {
     }
 
     store.dispatch(LoadArtistRequest());
-    repository
-        .loadItem(state.authState, action.artistId)
-        .then((artist) {
+    repository.loadItem(state.authState, action.artistId).then((artist) {
       store.dispatch(LoadArtistSuccess(artist));
 
       if (action.completer != null) {

@@ -32,7 +32,7 @@ abstract class ArtistEntity extends Object
   ArtistEntity._();
 
   @nullable
-  @BuiltValueField(wireName: 'last_name')
+  @BuiltValueField(wireName: 'name')
   String get name;
 
   @nullable
@@ -57,30 +57,31 @@ abstract class ArtistEntity extends Object
   String get headerImageUrl;
 
   @nullable
-  @BuiltValueField(wireName: 'twitter_url')
+  @BuiltValueField(wireName: 'twitter_social_url')
   String get twitterURL;
 
   @nullable
-  @BuiltValueField(wireName: 'facebook_url')
+  @BuiltValueField(wireName: 'facebook_social_url')
   String get facebookURL;
 
   @nullable
-  @BuiltValueField(wireName: 'instagram_url')
+  @BuiltValueField(wireName: 'instagram_social_url')
   String get instagramURL;
 
   @nullable
-  @BuiltValueField(wireName: 'youTube_url')
+  @BuiltValueField(wireName: 'youtube_social_url')
   String get youTubeURL;
 
   @nullable
-  @BuiltValueField(wireName: 'twitch_url')
+  @BuiltValueField(wireName: 'twitch_social_url')
   String get twitchURL;
 
   @nullable
-  @BuiltValueField(wireName: 'soundCloud_url')
+  @BuiltValueField(wireName: 'soundcloud_social_url')
   String get soundCloudURL;
 
   @nullable
+  @BuiltValueField(wireName: 'website_social_url')
   String get website;
 
   @override
