@@ -54,12 +54,6 @@ class ArtistRepository {
   Future<ArtistEntity> saveData(AuthState auth, ArtistEntity artist,
       [EntityAction action]) async {
 
-    // TODO remove this
-    artist = artist.rebuild((b) => b
-        ..profileImageUrl = ''
-        ..headerImageUrl = ''
-    );
-
     final data = serializers.serializeWith(ArtistEntity.serializer, artist);
 
     var url = '$kAppURL/users/${artist.id}?';

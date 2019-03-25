@@ -23,7 +23,7 @@ class ArtistSettings extends StatefulWidget {
 class _ArtistSettingsState extends State<ArtistSettings> {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //final _handleController = TextEditingController();
-  final _emailController = TextEditingController();
+  //final _emailController = TextEditingController();
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _twitterController = TextEditingController();
@@ -44,7 +44,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     _controllers = [
       _nameController,
       _descriptionController,
-      _emailController,
+      //_emailController,
       //_handleController,
       _twitchController,
       _facebookController,
@@ -61,7 +61,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     final artist = widget.viewModel.state.authState.artist;
     _nameController.text = artist.name;
     _descriptionController.text = artist.description;
-    _emailController.text = artist.email;
+    //_emailController.text = artist.email;
     //_handleController.text = artist.handle;
     _twitchController.text = artist.twitchURL;
     _facebookController.text = artist.facebookURL;
@@ -95,7 +95,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
       ..name = _nameController.text.trim()
       ..description = _descriptionController.text.trim()
       //..handle = _handleController.text.trim()
-      ..email = _emailController.text.trim()
+      //..email = _emailController.text.trim()
       ..twitchURL = _twitchController.text.trim()
       ..facebookURL = _facebookController.text.trim()
       ..instagramURL = _instagramController.text.trim()
@@ -156,6 +156,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                         value.isEmpty ? localization.fieldIsRequired : null,
                   ),
                   */
+                  /*
                   TextFormField(
                     autocorrect: false,
                     controller: _emailController,
@@ -167,6 +168,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                     validator: (value) =>
                         value.isEmpty ? localization.fieldIsRequired : null,
                   ),
+                  */
                   TextFormField(
                     autocorrect: false,
                     controller: _nameController,
