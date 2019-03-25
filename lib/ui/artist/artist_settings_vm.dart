@@ -35,6 +35,7 @@ class ArtistSettingsVM {
     @required this.isChanged,
     @required this.onSavePressed,
     @required this.onChangedArtist,
+    @required this.onUpdateImage,
   });
 
   final AppState state;
@@ -43,6 +44,7 @@ class ArtistSettingsVM {
   final bool isChanged;
   final Function(BuildContext) onSavePressed;
   final Function(ArtistEntity) onChangedArtist;
+  final Function(String, String) onUpdateImage;
 
   static ArtistSettingsVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -55,6 +57,13 @@ class ArtistSettingsVM {
       isChanged: state.authState.artist != state.uiState.artist,
       onChangedArtist: (artist) {
         store.dispatch(UpdateArtist(artist));
+      },
+      onUpdateImage: (type, path) {
+        //final completer = Completer<Null>();
+        store.dispatch(UpdateArtistImage(
+          path: path,
+          type: type,
+        ));
       },
       onSavePressed: (context) {
         final completer = Completer<Null>();

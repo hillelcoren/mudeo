@@ -139,19 +139,21 @@ class _ArtistSettingsState extends State<ArtistSettings> {
             icon: Icon(Icons.more_vert),
             itemBuilder: (BuildContext context) {
               return [
-                localization.updateProfileImage,
-                localization.updateHeaderImage
-              ]
-                  .map((action) => PopupMenuItem(
-                        child: Text(action),
-                        value: action,
-                      ))
-                  .toList();
+                PopupMenuItem(
+                  child: Text(localization.updateProfileImage),
+                  value: kProfileImageHeader,
+                ),
+                PopupMenuItem(
+                  child: Text(localization.updateHeaderImage),
+                  value: kProfileImageHeader,
+                ),
+              ];
             },
-            onSelected: (String action) async {
+            onSelected: (String type) async {
               var image =
                   await ImagePicker.pickImage(source: ImageSource.gallery);
               print('image path: ${image.path}');
+              viewModel.onUpdateImage(type, image.path);
             },
           )
         ],
