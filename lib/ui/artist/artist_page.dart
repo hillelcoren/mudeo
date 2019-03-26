@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -176,6 +177,22 @@ class ArtistPage extends StatelessWidget {
                       ],
                       */
                     );
+                  },
+                ),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: FontAwesomeIcons.solidEnvelope,
+                      text: localization.emailUs,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    launch(
+                        'mailto:$kContactEmail?subject=Feedback%20-%20${Config.PLATFORM}%20${kAppVersion.split('+')[0]}',
+                        forceSafariVC: false);
                   },
                 ),
                 SimpleDialogOption(
