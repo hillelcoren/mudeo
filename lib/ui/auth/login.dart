@@ -92,22 +92,28 @@ class _LoginState extends State<LoginScreen> {
     final viewModel = widget.viewModel;
 
     if (_showLogin) {
-      viewModel.onLoginPressed(context,
+      if (_showEmail) {
+        viewModel.onLoginPressed(context,
+            email: _emailController.text,
+            password: _passwordController.text,
+            oneTimePassword: _oneTimePasswordController.text);
+      } else {
+        viewModel.onGoogleLoginPressed(context);
+      }
+    } else {
+      if (_showEmail) {
+        viewModel.onEmailSignUpPressed(
+          context,
+          handle: _handleController.text,
           email: _emailController.text,
           password: _passwordController.text,
-          oneTimePassword: _oneTimePasswordController.text);
-    } else if (_showEmail) {
-      viewModel.onEmailSignUpPressed(
-        context,
-        handle: _handleController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-    } else {
-      viewModel.onGoogleSignUpPressed(
-        context,
-        handle: _handleController.text,
-      );
+        );
+      } else {
+        viewModel.onGoogleSignUpPressed(
+          context,
+          handle: _handleController.text,
+        );
+      }
     }
   }
 

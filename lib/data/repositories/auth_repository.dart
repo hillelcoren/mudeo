@@ -62,13 +62,13 @@ class AuthRepository {
   }
 
   Future<ArtistEntity> oauthLogin(
-      {String token, String url, String secret, String platform}) async {
+      {String token}) async {
     final credentials = {
       'token': token,
       'provider': 'google',
     };
 
-    url = '$kAppURL/oauth_login';
+    String url = '$kAppURL/oauth';
 
     return sendRequest(url: url, data: credentials);
   }

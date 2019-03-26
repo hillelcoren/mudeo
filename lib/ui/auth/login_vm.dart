@@ -55,7 +55,7 @@ class LoginVM {
   final Function(BuildContext,
       {String email, String password, String oneTimePassword}) onLoginPressed;
 
-  final Function(BuildContext, String, String) onGoogleLoginPressed;
+  final Function(BuildContext) onGoogleLoginPressed;
 
   static LoginVM fromStore(Store<AppState> store) {
     final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -98,14 +98,11 @@ class LoginVM {
           }
         },
         onGoogleLoginPressed:
-            (BuildContext context, String url, String secret) async {
+            (BuildContext context) async {
           try {
-            print('Google login');
             final account = await _googleSignIn.signIn();
-            print('account $account');
             if (account != null) {
               account.authentication.then((GoogleSignInAuthentication value) {
-                print('value $value');
                 final Completer<Null> completer = Completer<Null>();
                 store.dispatch(GoogleLoginRequest(
                   completer: completer,
