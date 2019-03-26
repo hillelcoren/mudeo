@@ -205,7 +205,7 @@ class SongHeader extends StatelessWidget {
           ),
           IconButton(
             padding: EdgeInsets.only(top: 0),
-            icon: Icon(Icons.play_circle_filled, size: 50),
+            icon: Icon(Icons.play_circle_filled, size: 42),
             tooltip: localization.play,
             onPressed: onPlay,
           ),
