@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:built_collection/built_collection.dart';
-import 'package:mudeo/constants.dart';
+import 'package:mudeo/.env.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
@@ -17,7 +17,7 @@ class ArtistRepository {
   final WebClient webClient;
 
   Future<ArtistEntity> loadItem(AuthState auth, int entityId) async {
-    String url = '$kAppURL/users/$entityId?include=songs';
+    String url = '${Config.API_URL}/users/$entityId?include=songs';
 
     final dynamic response = await webClient.get(url, auth.artist.token);
 
@@ -53,7 +53,7 @@ class ArtistRepository {
       [EntityAction action]) async {
     final data = serializers.serializeWith(ArtistEntity.serializer, artist);
 
-    var url = '$kAppURL/users/${artist.id}?';
+    var url = '${Config.API_URL}/users/${artist.id}?';
     if (action != null) {
       url += '&action=' + action.toString();
     }
@@ -69,7 +69,7 @@ class ArtistRepository {
   Future<ArtistEntity> saveImage(
       AuthState auth, String path, String imageType) async {
     dynamic response = await webClient.post(
-        '$kAppURL/user/$imageType', auth.artist.token,
+        '${Config.API_URL}/user/$imageType', auth.artist.token,
         filePath: path, fileField: 'image');
 
     final ArtistItemResponse artistResponse =

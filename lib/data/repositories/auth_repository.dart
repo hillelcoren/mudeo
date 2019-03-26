@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:mudeo/constants.dart';
+import 'package:mudeo/.env.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/web_client.dart';
@@ -22,7 +22,7 @@ class AuthRepository {
       'one_time_password': oneTimePassword,
     };
 
-    String url = '$kAppURL/auth';
+    String url = '${Config.API_URL}/auth';
 
     return sendRequest(url: url, data: credentials);
   }
@@ -35,7 +35,7 @@ class AuthRepository {
       'handle': handle,
     };
 
-    String url = '$kAppURL/user/create';
+    String url = '${Config.API_URL}/user/create';
 
     return sendRequest(url: url, data: credentials);
   }
@@ -56,7 +56,7 @@ class AuthRepository {
       'header_image_url': photoUrl,
     };
 
-    String url = '$kAppURL/user/create';
+    String url = '${Config.API_URL}/user/create';
 
     return sendRequest(url: url, data: credentials);
   }
@@ -68,14 +68,14 @@ class AuthRepository {
       'provider': 'google',
     };
 
-    String url = '$kAppURL/oauth';
+    String url = '${Config.API_URL}/oauth';
 
     return sendRequest(url: url, data: credentials);
   }
 
   Future<ArtistEntity> refresh(
       {int artistId, String token, String platform}) async {
-    String url = '$kAppURL/user';
+    String url = '${Config.API_URL}/user';
 
     final dynamic response = await webClient.get(url, token);
 

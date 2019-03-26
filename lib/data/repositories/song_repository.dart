@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:built_collection/built_collection.dart';
+import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
@@ -17,7 +18,7 @@ class SongRepository {
   final WebClient webClient;
 
   Future<BuiltList<SongEntity>> loadList(AuthState auth, int updatedAt) async {
-    String url = kAppURL + '/songs?include=user&sort=id|desc';
+    String url = '${Config.API_URL}/songs?include=user&sort=id|desc';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
@@ -37,10 +38,10 @@ class SongRepository {
     dynamic response;
 
     if (song.isNew) {
-      response = await webClient.post(kAppURL + '/songs?include=user', auth.artist.token,
+      response = await webClient.post('${Config.API_URL}/songs?include=user', auth.artist.token,
           data: json.encode(data));
     } else {
-      var url = kAppURL + '/songs/${song.id}?include=user';
+      var url = '${Config.API_URL}/songs/${song.id}?include=user';
       if (action != null) {
         url += '&action=' + action.toString();
       }
@@ -59,10 +60,10 @@ class SongRepository {
     dynamic response;
 
     if (video.isNew) {
-      response = await webClient.post(kAppURL + '/videos', auth.artist.token,
+      response = await webClient.post('${Config.API_URL}/videos', auth.artist.token,
           filePath: await VideoEntity.getPath(video.timestamp));
     } else {
-      var url = kAppURL + '/videos/' + video.id.toString();
+      var url = '${Config.API_URL}/videos/${video.id}';
       if (action != null) {
         url += '?action=' + action.toString();
       }

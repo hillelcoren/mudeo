@@ -13,7 +13,7 @@ class WebClient {
 
   String _checkUrl(String url) {
     if (!url.startsWith('http')) {
-      url = kAppURL + url;
+      url = Config.API_URL + url;
     }
 
     if (!url.contains('?')) {
