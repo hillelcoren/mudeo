@@ -35,7 +35,7 @@ class _LoginState extends State<LoginScreen> {
   final FocusNode _focusNode2 = new FocusNode();
 
   bool _showLogin = false;
-  bool _showEmail = true;
+  bool _showEmail = false;
   bool _termsChecked = false;
   bool _autoValidate = false;
 
@@ -135,11 +135,6 @@ class _LoginState extends State<LoginScreen> {
           child: ClipPath(
             clipper: ArcClipper(),
             child: Container(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 80),
-                child: Image.asset('assets/images/logo-light.png'),
-              ),
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                 colors: [
@@ -156,14 +151,9 @@ class _LoginState extends State<LoginScreen> {
           shrinkWrap: true,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 20),
-              child: SizedBox(
-                height: 100,
-              ),
-              /*
-              child: Image.asset('assets/images/logo.png',
-                  width: 100, height: 100),
-                  */
+              padding: const EdgeInsets.only(
+                  left: 80, top: 60, right: 80, bottom: 20),
+              child: Image.asset('assets/images/logo-dark.png'),
             ),
             Form(
               key: _formKey,
@@ -322,7 +312,6 @@ class _LoginState extends State<LoginScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            /*
                             Expanded(
                               child: FlatButton(
                                   onPressed: () {
@@ -334,7 +323,6 @@ class _LoginState extends State<LoginScreen> {
                                       ? localization.useGoogle
                                       : localization.useEmail)),
                             ),
-                            */
                             Expanded(
                               child: FlatButton(
                                 onPressed: () {
