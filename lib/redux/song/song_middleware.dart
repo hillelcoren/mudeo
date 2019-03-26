@@ -38,7 +38,7 @@ Middleware<AppState> _saveSong(SongRepository repository) {
         } else {
           store.dispatch(SaveSongSuccess(song));
         }
-        action.completer.complete(null);
+        action.completer.complete(song);
       }).catchError((Object error) {
         print(error);
         store.dispatch(SaveSongFailure(error));

@@ -35,7 +35,7 @@ class _LoginState extends State<LoginScreen> {
   final FocusNode _focusNode2 = new FocusNode();
 
   bool _showLogin = false;
-  bool _showEmail = false;
+  bool _showEmail = true;
   bool _termsChecked = false;
   bool _autoValidate = false;
 
@@ -135,6 +135,11 @@ class _LoginState extends State<LoginScreen> {
           child: ClipPath(
             clipper: ArcClipper(),
             child: Container(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 80),
+                child: Image.asset('assets/images/logo-light.png'),
+              ),
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                 colors: [
@@ -317,6 +322,7 @@ class _LoginState extends State<LoginScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
+                            /*
                             Expanded(
                               child: FlatButton(
                                   onPressed: () {
@@ -328,6 +334,7 @@ class _LoginState extends State<LoginScreen> {
                                       ? localization.useGoogle
                                       : localization.useEmail)),
                             ),
+                            */
                             Expanded(
                               child: FlatButton(
                                 onPressed: () {

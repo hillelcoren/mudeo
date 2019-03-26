@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
@@ -33,12 +34,15 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   bool isSaving = false;
   int selectedStackIndex = kStackIndexForm;
   int selectedGenreId = 0;
+  String songUrl;
 
   @override
   void didChangeDependencies() {
     if (_controllers.isNotEmpty) {
       return;
     }
+
+    songUrl = widget.viewModel.song.url;
 
     _controllers = [
       _titleController,
@@ -89,10 +93,11 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       selectedStackIndex = kStackIndexProgress;
     });
 
-    final completer = Completer<Null>();
+    final completer = Completer<SongEntity>();
     widget.viewModel.onSavePressed(completer);
-    completer.future.then((_) {
+    completer.future.then((song) {
       setState(() {
+        songUrl = song.url;
         selectedStackIndex = kStackIndexSuccess;
       });
     }).catchError((Object error) {
@@ -234,15 +239,15 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 style: Theme.of(context).textTheme.title),
             alignment: Alignment.centerLeft,
           ),
-          song.url != null && song.url.isNotEmpty
+          songUrl != null && songUrl.isNotEmpty
               ? Padding(
                   padding: EdgeInsets.only(top: 40),
                   child: FlatButton(
                     onPressed: () {
-                      launch(song.url, forceSafariVC: false);
+                      launch(songUrl, forceSafariVC: false);
                     },
                     child: Text(
-                      song.url.replaceFirst('https://', ''),
+                      songUrl.replaceFirst('https://', ''),
                       style: TextStyle(
                           fontSize: 22, color: Colors.lightBlueAccent),
                     ),
