@@ -15,6 +15,7 @@ const String kSharedPrefToken = 'token';
 const String kSharedPrefAppVersion = 'app_version';
 const String kSharedPrefCameraDirection = 'camera_direction';
 const String kSharedPrefGenreId = 'genre_id';
+const String kSharedPrefHeadphoneWarning = 'headphone_warning';
 
 const String kCameraDirectionFront = 'front';
 const String kCameraDirectionBack = 'back';

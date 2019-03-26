@@ -108,6 +108,34 @@ class _SongEditState extends State<SongEdit> {
     if (countdownTimer > 0) {
       return;
     }
+
+    final localization = AppLocalization.of(context);
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getBool(kSharedPrefHeadphoneWarning) != true) {
+      showDialog<AlertDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(localization.note),
+              content: Text(localization.headphoneWarning),
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FlatButton(
+                    child: Text(AppLocalization.of(context).dismiss),
+                    onPressed: () {
+                      prefs.setBool(kSharedPrefHeadphoneWarning, true);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                )
+              ],
+            );
+          });
+      return;
+    }
+
     setState(() {
       countdownTimer = 3;
       Timer(Duration(seconds: 1), () {

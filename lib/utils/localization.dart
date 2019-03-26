@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'note': 'Note',
+      'headphone_warning':
+          'Please wear headphones when recording to prevent an echo',
       'email_us': 'Email Us',
       'header_image': 'Header Image',
       'profile_image': 'Profile Image',
@@ -122,8 +125,12 @@ class AppLocalization {
     },
   };
 
-  String get headerImage =>
-      _localizedValues[locale.toString()]['header_image'];
+  String get note => _localizedValues[locale.toString()]['note'];
+
+  String get headphoneWarning =>
+      _localizedValues[locale.toString()]['headphone_warning'];
+
+  String get headerImage => _localizedValues[locale.toString()]['header_image'];
 
   String get profileImage =>
       _localizedValues[locale.toString()]['profile_image'];
