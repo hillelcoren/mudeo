@@ -13,7 +13,7 @@ class ArtistProfile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(140),
+        borderRadius: BorderRadius.circular(7),
         child:
             artist.profileImageUrl == null || artist.profileImageUrl.isEmpty
                 ? Container(
@@ -24,8 +24,8 @@ class ArtistProfile extends StatelessWidget {
                 : CachedNetworkImage(
                     imageUrl: artist.profileImageUrl,
                     fit: BoxFit.cover,
-                    width: 45,
-                    height: 45,
+                    width: 50,
+                    height: 50,
                   ),
       ),
     );
