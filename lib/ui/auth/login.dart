@@ -35,7 +35,7 @@ class _LoginState extends State<LoginScreen> {
   final FocusNode _focusNode2 = new FocusNode();
 
   bool _showLogin = false;
-  bool _showEmail = false;
+  bool _showEmail = true;
   bool _termsChecked = false;
   bool _autoValidate = false;
 
@@ -318,6 +318,7 @@ class _LoginState extends State<LoginScreen> {
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
+                            /*
                             Expanded(
                               child: FlatButton(
                                   onPressed: () {
@@ -329,6 +330,7 @@ class _LoginState extends State<LoginScreen> {
                                       ? localization.useGoogle
                                       : localization.useEmail)),
                             ),
+                            */
                             Expanded(
                               child: FlatButton(
                                 onPressed: () {
