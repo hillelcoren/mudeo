@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 const String kAppVersion = '0.0.4+4';
 const String kTermsOfServiceURL = 'https://mudeo.app/terms';
 const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
-const String kRedditURL = 'https://www.reddit.com/r/BedroomBands';
+const String kRedditURL = 'https://www.reddit.com/r/mudeo';
 const String kTwitterURL = 'https://twitter.com/mudeo_app';
 const String kContactEmail = 'contact@mudeo.app';
 

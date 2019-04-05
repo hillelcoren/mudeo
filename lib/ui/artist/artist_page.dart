@@ -209,6 +209,7 @@ class ArtistPage extends StatelessWidget {
                     launch(kTwitterURL, forceSafariVC: false);
                   },
                 ),
+                /*
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -223,6 +224,7 @@ class ArtistPage extends StatelessWidget {
                     launch(kRedditURL, forceSafariVC: false);
                   },
                 ),
+                */
               ],
             );
           });

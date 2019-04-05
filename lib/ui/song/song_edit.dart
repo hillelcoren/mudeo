@@ -30,7 +30,7 @@ class SongEdit extends StatefulWidget {
 class _SongEditState extends State<SongEdit> {
   Map<int, VideoPlayerController> videoPlayers = {};
   CameraController camera;
-  bool isPlaying = false;
+  bool isPlaying = false, isRecording = false;
   bool isPastThreeSeconds = false;
   int countdownTimer = 0;
   String path;
@@ -156,6 +156,7 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void _record() async {
+    setState(() => isRecording = true);
     play();
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -175,6 +176,7 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void stopRecording() async {
+    setState(() => isRecording = false);
     stopPlaying();
     recordTimer?.cancel();
     cancelTimer?.cancel();
@@ -292,8 +294,6 @@ class _SongEditState extends State<SongEdit> {
     if (camera == null) return SizedBox();
     final value = camera.value;
     if (!value.isInitialized) return SizedBox();
-    final isRecording = value.isRecordingVideo;
-
     final viewModel = widget.viewModel;
     final song = viewModel.song;
     final isEmpty = song.tracks.isEmpty;
