@@ -328,77 +328,86 @@ class _SongEditState extends State<SongEdit> {
       }
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
-      child: Column(children: [
-        Expanded(
-            child: AnimatedContainer(
-                duration: Duration(milliseconds: 200),
-                child: Center(
-                  child: AspectRatio(
-                      aspectRatio: value.aspectRatio,
-                      child: CameraPreview(camera)),
-                ),
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    border: isRecording
-                        ? Border.all(color: Colors.red, width: 3)
-                        : null))),
-        Row(children: [
-          ExpandedButton(
-              icon: isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
-              onPressed: isPlaying || isEmpty
-                  ? null
-                  : (isPlaying ? stopPlaying : play)),
-          ExpandedButton(
-              icon: countdownTimer > 0 ? null : _getRecordIcon(),
-              label: countdownTimer > 0 ? countdownTimer.toString() : null,
-              onPressed: _getRecordingFunction(),
-              color: isPlaying || isRecording ? null : Colors.redAccent),
-          availableCameraDirections.keys
-                      .where(
-                          (direction) => availableCameraDirections[direction])
-                      .length >
-                  2
-              ? ExpandedButton(
-                  icon: Icons.camera,
-                  onPressed: isPlaying ? null : onSettingsPressed,
-                )
-              : ExpandedButton(
-                  iconHeight: 26,
-                  icon: cameraDirection == CameraLensDirection.front
-                      ? Icons.camera_front
-                      : Icons.camera_rear,
-                  onPressed: isPlaying
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 50),
+        child: Column(children: [
+          Expanded(
+              child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  child: Center(
+                    child: AspectRatio(
+                        aspectRatio: value.aspectRatio,
+                        child: CameraPreview(camera)),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: isRecording
+                          ? Border.all(color: Colors.red, width: 3)
+                          : null))),
+          Material(
+            color: Colors.black26,
+            //elevation: 8,
+            child: Row(children: [
+              ExpandedButton(
+                  icon:
+                      isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
+                  onPressed: isEmpty || isRecording
                       ? null
-                      : () => selectCameraDirection(
-                          cameraDirection == CameraLensDirection.front
-                              ? CameraLensDirection.back
-                              : CameraLensDirection.front),
-                ),
+                      : (isPlaying ? stopPlaying : play)),
+              ExpandedButton(
+                  icon: countdownTimer > 0 ? null : _getRecordIcon(),
+                  label: countdownTimer > 0 ? countdownTimer.toString() : null,
+                  onPressed: _getRecordingFunction(),
+                  color: isPlaying || isRecording ? null : Colors.redAccent),
+              availableCameraDirections.keys
+                          .where((direction) =>
+                              availableCameraDirections[direction])
+                          .length >
+                      2
+                  ? ExpandedButton(
+                      icon: Icons.camera,
+                      onPressed: isPlaying ? null : onSettingsPressed,
+                    )
+                  : ExpandedButton(
+                      iconHeight: 26,
+                      icon: cameraDirection == CameraLensDirection.front
+                          ? Icons.camera_front
+                          : Icons.camera_rear,
+                      onPressed: isPlaying
+                          ? null
+                          : () => selectCameraDirection(
+                              cameraDirection == CameraLensDirection.front
+                                  ? CameraLensDirection.back
+                                  : CameraLensDirection.front),
+                    ),
+            ]),
+          ),
+          song.tracks.isEmpty
+              ? SizedBox()
+              : Flexible(
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: song.tracks.map((track) {
+                      final videoPlayer = videoPlayers[track.video.id];
+                      return TrackView(
+                        viewModel: viewModel,
+                        videoPlayer: videoPlayer,
+                        aspectRatio: videoPlayer == null
+                            ? 1
+                            : videoPlayer.value.aspectRatio,
+                        track: track,
+                        onDeletePressed: () async {
+                          Navigator.of(context).pop();
+                          videoPlayers.remove(track.video.id);
+                          viewModel.onDeleteVideoPressed(song, track);
+                        },
+                      );
+                    }).toList(),
+                  ),
+                )
         ]),
-        song.tracks.isEmpty
-            ? SizedBox()
-            : Flexible(
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: song.tracks.map((track) {
-                    final videoPlayer = videoPlayers[track.video.id];
-                    return TrackView(
-                      viewModel: viewModel,
-                      videoPlayer: videoPlayer,
-                      aspectRatio: value.aspectRatio,
-                      track: track,
-                      onDeletePressed: () async {
-                        Navigator.of(context).pop();
-                        videoPlayers.remove(track.video.id);
-                        viewModel.onDeleteVideoPressed(song, track);
-                      },
-                    );
-                  }).toList(),
-                ),
-              )
-      ]),
+      ),
     );
   }
 }
@@ -434,7 +443,7 @@ class TrackView extends StatelessWidget {
             });
       },
       child: Card(
-          elevation: 5,
+          elevation: 6,
           margin: const EdgeInsets.symmetric(horizontal: 6),
           child: videoPlayer == null
               ? SizedBox(width: 139)
@@ -463,6 +472,7 @@ class TrackEditDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Material(
+            elevation: 16,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Form(
