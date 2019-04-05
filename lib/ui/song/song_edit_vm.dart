@@ -9,129 +9,20 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
-import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
-import 'package:mudeo/ui/song/song_save_dialog.dart';
-import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SongEditScreen extends StatelessWidget {
   const SongEditScreen({Key key}) : super(key: key);
 
-  void onSavePressed(BuildContext context, SongEditVM viewModel) {
-    showDialog<SongSaveDialog>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return SongSaveDialog(
-              key: ValueKey(viewModel.song.id), viewModel: viewModel);
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-
     return StoreConnector<AppState, SongEditVM>(
       converter: SongEditVM.fromStore,
       builder: (context, viewModel) {
-        final uiState = viewModel.state.uiState;
-        return Scaffold(
-          appBar: AppBar(
-            leading: PopupMenuButton<String>(
-              icon: Icon(Icons.more_vert),
-              itemBuilder: (BuildContext context) {
-                final actions = [localization.newSong];
-                if (!viewModel.song.isNew || viewModel.song.parentId > 0) {
-                  actions.addAll([
-                    localization.resetSong,
-                    localization.openInBrowser,
-                  ]);
-                }
-                return actions
-                    .map((action) => PopupMenuItem(
-                          child: Text(action),
-                          value: action,
-                        ))
-                    .toList();
-              },
-              onSelected: (String action) {
-                if (action == localization.openInBrowser) {
-                  launch(viewModel.song.url);
-                  return;
-                }
-
-                showDialog<AlertDialog>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        semanticLabel: localization.areYouSure,
-                        title: Text(localization.areYouSure),
-                        content: Text(localization.loseChanges),
-                        actions: <Widget>[
-                          FlatButton(
-                              child: Text(localization.cancel.toUpperCase()),
-                              onPressed: () => Navigator.pop(context)),
-                          FlatButton(
-                              child: Text(localization.ok.toUpperCase()),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                if (action == localization.newSong) {
-                                  viewModel.onNewSongPressed(context);
-                                } else if (action == localization.resetSong) {
-                                  viewModel.onResetSongPressed(context);
-                                }
-                              })
-                        ],
-                      );
-                    });
-              },
-            ),
-            title: Center(
-              child: LiveText(
-                () {
-                  if (uiState.recordingTimestamp > 0) {
-                    int seconds;
-                    if (viewModel.song.tracks.isNotEmpty) {
-                      seconds = (viewModel.song.duration ~/ 1000) -
-                          uiState.recordingDuration.inSeconds;
-                    } else {
-                      seconds = uiState.recordingDuration.inSeconds;
-                    }
-
-                    return seconds < 10 ? '00:0$seconds' : '00:$seconds';
-                  } else {
-                    return viewModel.song.title;
-                  }
-                },
-                style: () => TextStyle(
-                    color: viewModel.song.tracks.isNotEmpty &&
-                            uiState.recordingDuration.inMilliseconds >=
-                                kMaxSongDuration - kFirstWarningOffset
-                        ? (uiState.recordingDuration.inMilliseconds >=
-                                kMaxSongDuration - kSecondWarningOffset
-                            ? Colors.redAccent
-                            : Colors.orangeAccent)
-                        : null),
-              ),
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.cloud_upload),
-                tooltip: localization.save,
-                onPressed: !uiState.isRecording &&
-                        (uiState.song.hasNewVideos || !uiState.song.isNew)
-                    ? () => onSavePressed(context, viewModel)
-                    : null,
-              ),
-            ],
-          ),
-          body: SongEdit(
-            viewModel: viewModel,
-            key: ValueKey(viewModel.song.id),
-          ),
+        return SongScaffold(
+          viewModel: viewModel,
         );
       },
     );
