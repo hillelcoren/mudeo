@@ -347,7 +347,7 @@ class _SongEditState extends State<SongEdit> {
         Row(children: [
           ExpandedButton(
               icon: isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
-              onPressed: isRecording || isEmpty
+              onPressed: isPlaying || isEmpty
                   ? null
                   : (isPlaying ? stopPlaying : play)),
           ExpandedButton(
