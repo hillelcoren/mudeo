@@ -29,12 +29,14 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  final SentryClient _sentry = SentryClient(
-      dsn: Config.SENTRY_DNS,
-      environmentAttributes: Event(
-        release: kAppVersion,
-        environment: Config.PLATFORM,
-      ));
+  final SentryClient _sentry = Config.SENTRY_DNS.isEmpty
+      ? null
+      : SentryClient(
+          dsn: Config.SENTRY_DNS,
+          environmentAttributes: Event(
+            release: kAppVersion,
+            environment: Config.PLATFORM,
+          ));
 
   final store = Store<AppState>(appReducer,
       initialState: AppState(),
@@ -60,11 +62,15 @@ void main() async {
     }
   }
 
-  runZoned<Future<void>>(() async {
+  if (_sentry == null) {
     runApp(MudeoApp(store: store));
-  }, onError: (dynamic error, dynamic stackTrace) {
-    _reportError(error, stackTrace);
-  });
+  } else {
+    runZoned<Future<void>>(() async {
+      runApp(MudeoApp(store: store));
+    }, onError: (dynamic error, dynamic stackTrace) {
+      _reportError(error, stackTrace);
+    });
+  }
 
   FlutterError.onError = (FlutterErrorDetails details) {
     if (isInDebugMode) {
