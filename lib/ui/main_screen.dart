@@ -28,23 +28,15 @@ class MainScreenBuilder extends StatelessWidget {
 class MainScreenVM {
   MainScreenVM({
     @required this.state,
-    @required this.isLoading,
-    @required this.isLoaded,
     @required this.onTabChanged,
   });
 
   final AppState state;
-  final bool isLoading;
-  final bool isLoaded;
   final Function(int) onTabChanged;
 
   static MainScreenVM fromStore(Store<AppState> store) {
-    final state = store.state;
-
     return MainScreenVM(
-      state: state,
-      isLoading: state.isLoading,
-      isLoaded: true,
+      state: store.state,
       onTabChanged: (index) => store.dispatch(UpdateTabIndex(index)),
     );
   }
@@ -79,15 +71,12 @@ class MainScreen extends StatelessWidget {
           onTap: (index) => viewModel.onTabChanged(index),
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              //title: Text(localization.explore),
               icon: Icon(Icons.home),
             ),
             BottomNavigationBarItem(
-              //title: Text(localization.create),
               icon: Icon(Icons.videocam),
             ),
             BottomNavigationBarItem(
-              //title: Text(localization.profile),
               icon: Icon(Icons.person),
             ),
           ],
