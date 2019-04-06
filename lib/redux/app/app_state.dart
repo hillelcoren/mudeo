@@ -32,14 +32,6 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   static Serializer<AppState> get serializer => _$appStateSerializer;
 
-  /*
-  bool get isLoaded {
-    return dashboardState.isLoaded &&
-        productState.isLoaded &&
-        clientState.isLoaded;
-  }
-  */
-
   @override
   String toString() {
     //return 'Handle: ${authState.artist?.handle}';

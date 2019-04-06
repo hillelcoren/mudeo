@@ -32,8 +32,6 @@ class ArtistSettingsScreen extends StatelessWidget {
 class ArtistSettingsVM {
   ArtistSettingsVM({
     @required this.state,
-    @required this.isLoading,
-    @required this.isLoaded,
     @required this.isChanged,
     @required this.onSavePressed,
     @required this.onChangedArtist,
@@ -41,8 +39,6 @@ class ArtistSettingsVM {
   });
 
   final AppState state;
-  final bool isLoading;
-  final bool isLoaded;
   final bool isChanged;
   final Function(BuildContext) onSavePressed;
   final Function(ArtistEntity) onChangedArtist;
@@ -53,9 +49,6 @@ class ArtistSettingsVM {
 
     return ArtistSettingsVM(
       state: state,
-      isLoading: state.isLoading,
-      //isLoaded: state.clientState.isLoaded,
-      isLoaded: state.dataState.areSongsLoaded,
       isChanged: state.authState.artist != state.uiState.artist,
       onChangedArtist: (artist) {
         store.dispatch(UpdateArtist(artist));

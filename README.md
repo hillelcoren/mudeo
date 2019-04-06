@@ -24,4 +24,4 @@ Multi-track mu(sic vi)deo recorder
 
 - Run `cp lib/.env.dart.example lib/.env.dart` to create the config file
 
-- Run `cp android/app/build.gradle.test android/app/` to run the code unsigned
+- Run `cp android/app/build.gradle.test android/app/build.gradle` to run the code unsigned

@@ -37,7 +37,6 @@ class SongListScreen extends StatelessWidget {
 class SongListVM {
   SongListVM({
     @required this.state,
-    @required this.isLoading,
     @required this.isLoaded,
     @required this.onArtistTap,
     @required this.onSongEdit,
@@ -45,7 +44,6 @@ class SongListVM {
   });
 
   final AppState state;
-  final bool isLoading;
   final bool isLoaded;
   final Function(BuildContext, ArtistEntity) onArtistTap;
   final Function(BuildContext, SongEntity) onSongEdit;
@@ -56,10 +54,7 @@ class SongListVM {
       if (store.state.isLoading) {
         return Future<Null>(null);
       }
-      /*
-      final completer = snackBarCompleter(
-          context, AppLocalization.of(context).refreshComplete);
-          */
+
       final completer = Completer<Null>();
       store.dispatch(LoadSongs(completer: completer, force: true));
       return completer.future;
@@ -68,10 +63,7 @@ class SongListVM {
     final state = store.state;
 
     return SongListVM(
-      //clientMap: state.clientState.map,
       state: state,
-      isLoading: state.isLoading,
-      //isLoaded: state.clientState.isLoaded,
       isLoaded: state.dataState.areSongsLoaded,
       onArtistTap: (context, artist) {
         store.dispatch(ViewArtist(context: context, artist: artist));

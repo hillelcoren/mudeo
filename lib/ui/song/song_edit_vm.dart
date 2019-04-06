@@ -32,8 +32,6 @@ class SongEditScreen extends StatelessWidget {
 class SongEditVM {
   SongEditVM({
     @required this.state,
-    @required this.isLoading,
-    @required this.isLoaded,
     @required this.song,
     @required this.onStartRecording,
     @required this.onStopRecording,
@@ -47,8 +45,6 @@ class SongEditVM {
   });
 
   final AppState state;
-  final bool isLoading;
-  final bool isLoaded;
   final SongEntity song;
   final Function(int) onStartRecording;
   final Function onStopRecording;
@@ -63,11 +59,7 @@ class SongEditVM {
   static SongEditVM fromStore(Store<AppState> store) {
     return SongEditVM(
       song: store.state.uiState.song,
-      //clientMap: state.clientState.map,
       state: store.state,
-      isLoading: store.state.isLoading,
-      //isLoaded: state.clientState.isLoaded,
-      isLoaded: store.state.dataState.areSongsLoaded,
       onNewSongPressed: (context) async {
         final sharedPrefs = await SharedPreferences.getInstance();
         final genreId = sharedPrefs.getInt(kSharedPrefGenreId);
