@@ -328,9 +328,7 @@ class _SongEditState extends State<SongEdit> {
   void play() {
     if (videoPlayers.isEmpty) return;
     videoPlayers.forEach((int, video) {
-      Theme.of(context).platform == TargetPlatform.iOS
-          ? video.initialize()
-          : video.seekTo(Duration());
+      video.seekTo(Duration());
       video.play();
     });
     setState(() => isPlaying = true);
