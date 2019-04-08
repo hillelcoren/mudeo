@@ -13,6 +13,7 @@ import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -317,6 +318,11 @@ class _SongEditState extends State<SongEdit> {
     await stopRecording();
     VideoPlayerController videoPlayer = VideoPlayerController.file(File(path));
     await videoPlayer.initialize();
+
+    if (isIOS(context)) {
+      await camera.initialize();
+    }
+
     final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
     setState(() {
       isPastThreeSeconds = false;
