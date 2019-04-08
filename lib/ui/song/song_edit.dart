@@ -299,22 +299,22 @@ class _SongEditState extends State<SongEdit> {
     await camera.startVideoRecording(path);
   }
 
-  void stopRecording() async {
+  Future stopRecording() async {
     setState(() => isRecording = false);
     stopPlaying();
     recordTimer?.cancel();
     cancelTimer?.cancel();
-    await camera.stopVideoRecording();
     setState(() {
       isPastThreeSeconds = false;
     });
     widget.viewModel.onStopRecording();
+    return await camera.stopVideoRecording();
   }
 
   void saveRecording() async {
     final timestamp = widget.viewModel.state.uiState.recordingTimestamp;
     final endTimestamp = DateTime.now().millisecondsSinceEpoch;
-    stopRecording();
+    await stopRecording();
     VideoPlayerController videoPlayer = VideoPlayerController.file(File(path));
     await videoPlayer.initialize();
     final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
