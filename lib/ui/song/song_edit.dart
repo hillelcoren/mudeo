@@ -619,7 +619,7 @@ class TrackEditDialog extends StatelessWidget {
                             trackBar: FlutterSliderTrackBar(
                               activeTrackBarColor: Colors.greenAccent,
                               activeTrackBarHeight: 5,
-                              leftInactiveTrackBarColor:
+                              inactiveTrackBarColor:
                                   Colors.grey.withOpacity(0.5),
                             ),
                             tooltip: FlutterSliderTooltip(
