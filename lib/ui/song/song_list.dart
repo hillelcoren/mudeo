@@ -10,6 +10,8 @@ import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
 class SongList extends StatelessWidget {
   const SongList({
@@ -46,7 +48,11 @@ class SongList extends StatelessWidget {
               song: song,
               onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
               onPlay: () {
-                print('play tapped');
+                showDialog<VideoPlayer>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return VideoPlayer(song.videoUrl);
+                    });
               },
               onEdit: () => viewModel.onSongEdit(context, song),
             );
@@ -67,6 +73,8 @@ class SongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
     return Material(
       child: Padding(
         padding: const EdgeInsets.all(8),
@@ -76,8 +84,7 @@ class SongItem extends StatelessWidget {
             children: <Widget>[
               SongHeader(
                 song: song,
-                //onPlay: onPlay,
-                onPlay: onEdit,
+                onPlay: onPlay,
                 onArtistTap: onArtistTap,
               ),
               song.description.isEmpty
@@ -106,7 +113,6 @@ class SongItem extends StatelessWidget {
                       .toList(),
                 ),
               ),
-              /*
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -131,7 +137,6 @@ class SongItem extends StatelessWidget {
                   ),
                 ],
               ),
-              */
             ],
           ),
         ),
@@ -208,6 +213,64 @@ class SongHeader extends StatelessWidget {
             icon: Icon(Icons.play_circle_filled, size: 42),
             tooltip: localization.play,
             onPressed: onPlay,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class VideoPlayer extends StatefulWidget {
+  VideoPlayer(this.videoUrl);
+
+  final String videoUrl;
+
+  @override
+  _VideoPlayerState createState() => _VideoPlayerState();
+}
+
+class _VideoPlayerState extends State<VideoPlayer> {
+  VideoPlayerController videoPlayerController;
+  ChewieController chewieController;
+
+  @override
+  void initState() {
+    super.initState();
+    videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+    chewieController = ChewieController(
+      videoPlayerController: videoPlayerController,
+      aspectRatio: 3 / 2,
+      autoPlay: true,
+      looping: false,
+      showControls: true,
+    );
+  }
+
+  @override
+  void dispose() {
+    videoPlayerController.dispose();
+    chewieController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+            ),
+          ),
+          Chewie(
+            controller: chewieController,
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+            ),
           ),
         ],
       ),

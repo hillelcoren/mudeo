@@ -22,6 +22,7 @@ abstract class SongEntity extends Object
       title: '',
       description: '',
       url: '',
+      videoUrl: '',
       genreId: genreId ?? 0,
       duration: 0,
       countPlay: 0,
@@ -71,6 +72,9 @@ abstract class SongEntity extends Object
 
   @BuiltValueField(wireName: 'is_public')
   bool get isPublic;
+
+  @BuiltValueField(wireName: 'video_url')
+  String get videoUrl;
 
   @BuiltValueField(wireName: 'song_videos')
   BuiltList<TrackEntity> get tracks;

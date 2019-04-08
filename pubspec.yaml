@@ -32,6 +32,7 @@ dependencies:
   font_awesome_flutter: ^8.4.0
   flutter_xlider: ^2.1.0
   image_picker: ^0.4.12+1
+  chewie: ^0.9.7
 
 
 dev_dependencies:

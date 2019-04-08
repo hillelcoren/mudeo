@@ -56,6 +56,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       'is_public',
       serializers.serialize(object.isPublic,
           specifiedType: const FullType(bool)),
+      'video_url',
+      serializers.serialize(object.videoUrl,
+          specifiedType: const FullType(String)),
       'song_videos',
       serializers.serialize(object.tracks,
           specifiedType:
@@ -177,6 +180,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'is_public':
           result.isPublic = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'video_url':
+          result.videoUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'song_videos':
           result.tracks.replace(serializers.deserialize(value,
@@ -543,6 +550,8 @@ class _$SongEntity extends SongEntity {
   @override
   final bool isPublic;
   @override
+  final String videoUrl;
+  @override
   final BuiltList<TrackEntity> tracks;
   @override
   final int id;
@@ -567,6 +576,7 @@ class _$SongEntity extends SongEntity {
       this.countLink,
       this.isFlagged,
       this.isPublic,
+      this.videoUrl,
       this.tracks,
       this.id,
       this.deletedAt,
@@ -589,6 +599,9 @@ class _$SongEntity extends SongEntity {
     }
     if (isPublic == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'isPublic');
+    }
+    if (videoUrl == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'videoUrl');
     }
     if (tracks == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'tracks');
@@ -618,6 +631,7 @@ class _$SongEntity extends SongEntity {
         countLink == other.countLink &&
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
+        videoUrl == other.videoUrl &&
         tracks == other.tracks &&
         id == other.id &&
         deletedAt == other.deletedAt &&
@@ -642,21 +656,23 @@ class _$SongEntity extends SongEntity {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    0,
-                                                                    title
+                                                                    $jc(
+                                                                        0,
+                                                                        title
+                                                                            .hashCode),
+                                                                    description
                                                                         .hashCode),
-                                                                description
-                                                                    .hashCode),
-                                                            url.hashCode),
-                                                        artistId.hashCode),
-                                                    artist.hashCode),
-                                                genreId.hashCode),
-                                            parentId.hashCode),
-                                        duration.hashCode),
-                                    countPlay.hashCode),
-                                countLink.hashCode),
-                            isFlagged.hashCode),
-                        isPublic.hashCode),
+                                                                url.hashCode),
+                                                            artistId.hashCode),
+                                                        artist.hashCode),
+                                                    genreId.hashCode),
+                                                parentId.hashCode),
+                                            duration.hashCode),
+                                        countPlay.hashCode),
+                                    countLink.hashCode),
+                                isFlagged.hashCode),
+                            isPublic.hashCode),
+                        videoUrl.hashCode),
                     tracks.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
@@ -678,6 +694,7 @@ class _$SongEntity extends SongEntity {
           ..add('countLink', countLink)
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
+          ..add('videoUrl', videoUrl)
           ..add('tracks', tracks)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
@@ -738,6 +755,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   bool get isPublic => _$this._isPublic;
   set isPublic(bool isPublic) => _$this._isPublic = isPublic;
 
+  String _videoUrl;
+  String get videoUrl => _$this._videoUrl;
+  set videoUrl(String videoUrl) => _$this._videoUrl = videoUrl;
+
   ListBuilder<TrackEntity> _tracks;
   ListBuilder<TrackEntity> get tracks =>
       _$this._tracks ??= new ListBuilder<TrackEntity>();
@@ -771,6 +792,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _countLink = _$v.countLink;
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
+      _videoUrl = _$v.videoUrl;
       _tracks = _$v.tracks?.toBuilder();
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
@@ -811,6 +833,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               countLink: countLink,
               isFlagged: isFlagged,
               isPublic: isPublic,
+              videoUrl: videoUrl,
               tracks: tracks.build(),
               id: id,
               deletedAt: deletedAt,
