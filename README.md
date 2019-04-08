@@ -4,8 +4,6 @@ Multi-track mu(sic vi)deo recorder
 
 ## Tips
 
-- The app currently runs best on Android devices
-
 - It's important to use headphones to prevent an echo in the recording
 
 - You can tap a video to adjust the volume or remove it

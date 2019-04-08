@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 
+bool isIOS(BuildContext context) =>
+    Theme.of(context).platform == TargetPlatform.iOS;
+
 bool isAndroid(BuildContext context) =>
     Theme.of(context).platform == TargetPlatform.android;
 
