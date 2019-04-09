@@ -84,9 +84,10 @@ class SongItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
 
-    return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Material(
+        elevation: 4,
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

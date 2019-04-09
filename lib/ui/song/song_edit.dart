@@ -69,7 +69,7 @@ class SongScaffold extends StatelessWidget {
             } else if (action == localization.shareSong) {
               viewModel.onSharePressed();
               return;
-            } 
+            }
 
             showDialog<AlertDialog>(
                 context: context,
