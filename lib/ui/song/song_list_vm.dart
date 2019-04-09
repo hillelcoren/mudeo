@@ -12,6 +12,7 @@ import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
+import 'package:share/share.dart';
 
 class SongListScreen extends StatelessWidget {
   const SongListScreen({Key key}) : super(key: key);
@@ -42,6 +43,7 @@ class SongListVM {
     @required this.onSongEdit,
     @required this.onRefreshed,
     @required this.onLikePressed,
+    @required this.onSharePressed,
   });
 
   final AppState state;
@@ -49,7 +51,8 @@ class SongListVM {
   final Function(BuildContext, ArtistEntity) onArtistTap;
   final Function(BuildContext, SongEntity) onSongEdit;
   final Function(BuildContext) onRefreshed;
-  final Function() onLikePressed;
+  final Function(SongEntity) onLikePressed;
+  final Function(SongEntity) onSharePressed;
 
   static SongListVM fromStore(Store<AppState> store) {
     Future<Null> _handleRefresh(BuildContext context) {
@@ -70,10 +73,11 @@ class SongListVM {
       onArtistTap: (context, artist) {
         store.dispatch(ViewArtist(context: context, artist: artist));
       },
-      onLikePressed: () {
-        final song = store.state.uiState.song;
-        print('dispatching...');
+      onLikePressed: (song) {
         store.dispatch(LikeSongRequest(song: song));
+      },
+      onSharePressed: (song) {
+        Share.share(song.url);
       },
       onSongEdit: (context, song) {
         final localization = AppLocalization.of(context);

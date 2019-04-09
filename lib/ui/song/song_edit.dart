@@ -51,6 +51,7 @@ class SongScaffold extends StatelessWidget {
             if (!viewModel.song.isNew || viewModel.song.parentId > 0) {
               actions.addAll([
                 localization.resetSong,
+                localization.shareSong,
                 localization.openInBrowser,
               ]);
             }
@@ -65,7 +66,10 @@ class SongScaffold extends StatelessWidget {
             if (action == localization.openInBrowser) {
               launch(viewModel.song.url);
               return;
-            }
+            } else if (action == localization.shareSong) {
+              viewModel.onSharePressed();
+              return;
+            } 
 
             showDialog<AlertDialog>(
                 context: context,

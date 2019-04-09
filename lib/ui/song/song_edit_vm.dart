@@ -11,6 +11,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
 import 'package:redux/redux.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SongEditScreen extends StatelessWidget {
@@ -42,6 +43,7 @@ class SongEditVM {
     @required this.onResetSongPressed,
     @required this.onBackPressed,
     @required this.onDeleteVideoPressed,
+    @required this.onSharePressed,
   });
 
   final AppState state;
@@ -55,6 +57,7 @@ class SongEditVM {
   final Function(BuildContext) onResetSongPressed;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
   final Function() onBackPressed;
+  final Function() onSharePressed;
 
   static SongEditVM fromStore(Store<AppState> store) {
     return SongEditVM(
@@ -79,6 +82,10 @@ class SongEditVM {
         store.dispatch(UpdateSong(SongEntity()));
         WidgetsBinding.instance
             .addPostFrameCallback((_) => store.dispatch(UpdateSong(song)));
+      },
+      onSharePressed: () {
+        final uiState = store.state.uiState;
+        Share.share(uiState.song.url);
       },
       onStartRecording: (timestamp) {
         store.dispatch(StartRecording(timestamp));

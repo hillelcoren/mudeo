@@ -54,7 +54,8 @@ class SongList extends StatelessWidget {
                       return VideoPlayer(song.videoUrl);
                     });
               },
-              onLikePressed: () => viewModel.onLikePressed(),
+              onLikePressed: () => viewModel.onLikePressed(song),
+              onSharePressed: () => viewModel.onSharePressed(song),
               onEditPressed: () => viewModel.onSongEdit(context, song),
             );
           }),
@@ -68,6 +69,7 @@ class SongItem extends StatelessWidget {
       this.onPlayPressed,
       this.onLikePressed,
       this.onEditPressed,
+      this.onSharePressed,
       this.onArtistTap})
       : super(key: key);
 
@@ -75,6 +77,7 @@ class SongItem extends StatelessWidget {
   final Function onPlayPressed;
   final Function onLikePressed;
   final Function onEditPressed;
+  final Function onSharePressed;
   final Function(ArtistEntity) onArtistTap;
 
   @override
@@ -135,7 +138,7 @@ class SongItem extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.share),
                     tooltip: localization.share,
-                    //onPressed: () => null,
+                    onPressed: onSharePressed,
                   ),
                   IconButton(
                     icon: Icon(Icons.flag),
