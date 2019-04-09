@@ -9,10 +9,14 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
 ]) {
   final loadSongs = _loadSongs(repository);
   final saveSong = _saveSong(repository);
+  final likeSong = _likeSong(repository);
+  final flagSong = _flagSong(repository);
 
   return [
     TypedMiddleware<AppState, LoadSongs>(loadSongs),
     TypedMiddleware<AppState, SaveSongRequest>(saveSong),
+    TypedMiddleware<AppState, LikeSongRequest>(likeSong),
+    TypedMiddleware<AppState, FlagSongRequest>(flagSong),
   ];
 }
 
@@ -78,6 +82,48 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
     }).catchError((Object error) {
       print(error);
       store.dispatch(LoadSongsFailure(error));
+      if (action.completer != null) {
+        action.completer.completeError(error);
+      }
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _likeSong(SongRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    final AppState state = store.state;
+
+    repository.likeSong(state.authState, action.song).then((data) {
+      store.dispatch(LikeSongSuccess(data));
+      if (action.completer != null) {
+        action.completer.complete(null);
+      }
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(LikeSongFailure(error));
+      if (action.completer != null) {
+        action.completer.completeError(error);
+      }
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _flagSong(SongRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    final AppState state = store.state;
+
+    repository.likeSong(state.authState, action.song).then((data) {
+      store.dispatch(FlagSongSuccess(data));
+      if (action.completer != null) {
+        action.completer.complete(null);
+      }
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(FlagSongFailure(error));
       if (action.completer != null) {
         action.completer.completeError(error);
       }

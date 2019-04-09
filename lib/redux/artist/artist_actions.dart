@@ -118,6 +118,27 @@ class SaveArtistFailure implements StopSaving {
   final Object error;
 }
 
+
+class FollowArtistRequest implements StartSaving {
+  FollowArtistRequest({this.artist, this.completer});
+
+  final Completer completer;
+  final ArtistEntity artist;
+}
+
+class FollowArtistSuccess implements StopSaving, PersistAuth {
+  FollowArtistSuccess(this.artist);
+
+  final ArtistEntity artist;
+}
+
+class FollowArtistFailure implements StopSaving {
+  FollowArtistFailure(this.error);
+
+  final Object error;
+}
+
+
 class FilterArtists {
   FilterArtists(this.filter);
 

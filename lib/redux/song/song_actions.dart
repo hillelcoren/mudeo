@@ -67,6 +67,51 @@ class SaveSongSuccess implements StopSaving, PersistData, PersistUI {
   final SongEntity song;
 }
 
+class SaveSongFailure implements StopSaving {
+  SaveSongFailure(this.error);
+
+  final Object error;
+}
+
+class LikeSongRequest implements StartSaving {
+  LikeSongRequest({this.song, this.completer});
+
+  final Completer completer;
+  final SongEntity song;
+}
+
+class LikeSongSuccess implements StopSaving, PersistAuth {
+  LikeSongSuccess(this.song);
+
+  final SongEntity song;
+}
+
+class LikeSongFailure implements StopSaving {
+  LikeSongFailure(this.error);
+
+  final Object error;
+}
+
+class FlagSongRequest implements StartSaving {
+  FlagSongRequest({this.song, this.completer});
+
+  final Completer completer;
+  final SongEntity song;
+}
+
+class FlagSongSuccess implements StopSaving, PersistAuth {
+  FlagSongSuccess(this.song);
+
+  final SongEntity song;
+}
+
+class FlagSongFailure implements StopSaving {
+  FlagSongFailure(this.error);
+
+  final Object error;
+}
+
+
 class SaveVideoSuccess implements StopSaving, PersistData, PersistUI {
   SaveVideoSuccess({this.song, this.video});
 
@@ -86,11 +131,6 @@ class AddSongSuccess implements StopSaving, PersistData, PersistUI {
   final SongEntity song;
 }
 
-class SaveSongFailure implements StopSaving {
-  SaveSongFailure(this.error);
-
-  final Object error;
-}
 
 class FilterSongs {
   FilterSongs(this.filter);

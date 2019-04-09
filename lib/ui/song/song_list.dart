@@ -47,14 +47,15 @@ class SongList extends StatelessWidget {
               context,
               song: song,
               onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
-              onPlay: () {
+              onPlayPressed: () {
                 showDialog<VideoPlayer>(
                     context: context,
                     builder: (BuildContext context) {
                       return VideoPlayer(song.videoUrl);
                     });
               },
-              onEdit: () => viewModel.onSongEdit(context, song),
+              onLikePressed: () => viewModel.onLikePressed(),
+              onEditPressed: () => viewModel.onSongEdit(context, song),
             );
           }),
     );
@@ -63,12 +64,17 @@ class SongList extends StatelessWidget {
 
 class SongItem extends StatelessWidget {
   SongItem(Key key, BuildContext context,
-      {this.song, this.onPlay, this.onEdit, this.onArtistTap})
+      {this.song,
+      this.onPlayPressed,
+      this.onLikePressed,
+      this.onEditPressed,
+      this.onArtistTap})
       : super(key: key);
 
   final SongEntity song;
-  final Function onPlay;
-  final Function onEdit;
+  final Function onPlayPressed;
+  final Function onLikePressed;
+  final Function onEditPressed;
   final Function(ArtistEntity) onArtistTap;
 
   @override
@@ -84,7 +90,7 @@ class SongItem extends StatelessWidget {
             children: <Widget>[
               SongHeader(
                 song: song,
-                onPlay: onPlay,
+                onPlay: onPlayPressed,
                 onArtistTap: onArtistTap,
               ),
               song.description.isEmpty
@@ -119,12 +125,12 @@ class SongItem extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.videocam),
                     tooltip: localization.edit,
-                    onPressed: onEdit,
+                    onPressed: onEditPressed,
                   ),
                   IconButton(
                     icon: Icon(Icons.favorite),
                     tooltip: localization.like,
-                    //onPressed: () => null,
+                    onPressed: onLikePressed,
                   ),
                   IconButton(
                     icon: Icon(Icons.share),

@@ -41,6 +41,7 @@ class SongListVM {
     @required this.onArtistTap,
     @required this.onSongEdit,
     @required this.onRefreshed,
+    @required this.onLikePressed,
   });
 
   final AppState state;
@@ -48,6 +49,7 @@ class SongListVM {
   final Function(BuildContext, ArtistEntity) onArtistTap;
   final Function(BuildContext, SongEntity) onSongEdit;
   final Function(BuildContext) onRefreshed;
+  final Function() onLikePressed;
 
   static SongListVM fromStore(Store<AppState> store) {
     Future<Null> _handleRefresh(BuildContext context) {
@@ -67,6 +69,11 @@ class SongListVM {
       isLoaded: state.dataState.areSongsLoaded,
       onArtistTap: (context, artist) {
         store.dispatch(ViewArtist(context: context, artist: artist));
+      },
+      onLikePressed: () {
+        final song = store.state.uiState.song;
+        print('dispatching...');
+        store.dispatch(LikeSongRequest(song: song));
       },
       onSongEdit: (context, song) {
         final localization = AppLocalization.of(context);

@@ -38,7 +38,8 @@ class SongRepository {
     dynamic response;
 
     if (song.isNew) {
-      response = await webClient.post('${Config.API_URL}/songs?include=user', auth.artist.token,
+      response = await webClient.post(
+          '${Config.API_URL}/songs?include=user', auth.artist.token,
           data: json.encode(data));
     } else {
       var url = '${Config.API_URL}/songs/${song.id}?include=user';
@@ -60,7 +61,8 @@ class SongRepository {
     dynamic response;
 
     if (video.isNew) {
-      response = await webClient.post('${Config.API_URL}/videos', auth.artist.token,
+      response = await webClient.post(
+          '${Config.API_URL}/videos', auth.artist.token,
           filePath: await VideoEntity.getPath(video.timestamp));
     } else {
       var url = '${Config.API_URL}/videos/${video.id}';
@@ -72,6 +74,25 @@ class SongRepository {
 
     final VideoItemResponse songResponse =
         serializers.deserializeWith(VideoItemResponse.serializer, response);
+
+    return songResponse.data;
+  }
+
+  Future<SongEntity> likeSong(AuthState auth, SongEntity song) async {
+    dynamic response;
+
+    print('sending like song request...');
+    var url = '${Config.API_URL}/song_like';
+    var data = {'song_id': song.id};
+    response =
+        await webClient.post(url, auth.artist.token, data: json.encode(data));
+
+    print('response: $response');
+
+    return null;
+
+    final SongItemResponse songResponse =
+        serializers.deserializeWith(SongItemResponse.serializer, response);
 
     return songResponse.data;
   }
