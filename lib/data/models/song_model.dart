@@ -173,6 +173,11 @@ abstract class SongLikeEntity extends Object
   @BuiltValueField(wireName: 'song_id')
   int get songId;
 
+  @override
+  String get listDisplayName {
+    return '$songId';
+  }
+
   static Serializer<SongLikeEntity> get serializer =>
       _$songLikeEntitySerializer;
 }

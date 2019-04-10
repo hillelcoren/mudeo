@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:mudeo/constants.dart';
@@ -84,12 +85,21 @@ abstract class ArtistEntity extends Object
   @BuiltValueField(wireName: 'website_social_url')
   String get website;
 
+  @nullable
+  @BuiltValueField(wireName: 'song_likes')
+  BuiltList<SongLikeEntity> get songLikes;
+
   @override
   String get listDisplayName {
     return handle;
   }
 
   bool ownsSong(SongEntity song) => song.artistId == id;
+
+  bool likedSong(SongEntity song) =>
+      songLikes.firstWhere((songLike) => songLike.songId == song.id,
+          orElse: () => null) !=
+      null;
 
   Map<String, String> get socialLinks {
     final data = Map<String, String>();

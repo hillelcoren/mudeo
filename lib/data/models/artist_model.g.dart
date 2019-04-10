@@ -118,6 +118,13 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add(serializers.serialize(object.website,
             specifiedType: const FullType(String)));
     }
+    if (object.songLikes != null) {
+      result
+        ..add('song_likes')
+        ..add(serializers.serialize(object.songLikes,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(SongLikeEntity)])));
+    }
     if (object.id != null) {
       result
         ..add('id')
@@ -206,6 +213,12 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         case 'website_social_url':
           result.website = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'song_likes':
+          result.songLikes.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(SongLikeEntity)]))
+              as BuiltList);
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -297,6 +310,8 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final String website;
   @override
+  final BuiltList<SongLikeEntity> songLikes;
+  @override
   final int id;
   @override
   final String deletedAt;
@@ -321,6 +336,7 @@ class _$ArtistEntity extends ArtistEntity {
       this.twitchURL,
       this.soundCloudURL,
       this.website,
+      this.songLikes,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -351,6 +367,7 @@ class _$ArtistEntity extends ArtistEntity {
         twitchURL == other.twitchURL &&
         soundCloudURL == other.soundCloudURL &&
         website == other.website &&
+        songLikes == other.songLikes &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -375,23 +392,28 @@ class _$ArtistEntity extends ArtistEntity {
                                                             $jc(
                                                                 $jc(
                                                                     $jc(
-                                                                        0,
-                                                                        name
+                                                                        $jc(
+                                                                            0,
+                                                                            name
+                                                                                .hashCode),
+                                                                        handle
                                                                             .hashCode),
-                                                                    handle
+                                                                    email
                                                                         .hashCode),
-                                                                email.hashCode),
-                                                            token.hashCode),
-                                                        description.hashCode),
-                                                    profileImageUrl.hashCode),
-                                                headerImageUrl.hashCode),
-                                            twitterURL.hashCode),
-                                        facebookURL.hashCode),
-                                    instagramURL.hashCode),
-                                youTubeURL.hashCode),
-                            twitchURL.hashCode),
-                        soundCloudURL.hashCode),
-                    website.hashCode),
+                                                                token.hashCode),
+                                                            description
+                                                                .hashCode),
+                                                        profileImageUrl
+                                                            .hashCode),
+                                                    headerImageUrl.hashCode),
+                                                twitterURL.hashCode),
+                                            facebookURL.hashCode),
+                                        instagramURL.hashCode),
+                                    youTubeURL.hashCode),
+                                twitchURL.hashCode),
+                            soundCloudURL.hashCode),
+                        website.hashCode),
+                    songLikes.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -414,6 +436,7 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('twitchURL', twitchURL)
           ..add('soundCloudURL', soundCloudURL)
           ..add('website', website)
+          ..add('songLikes', songLikes)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -484,6 +507,12 @@ class ArtistEntityBuilder
   String get website => _$this._website;
   set website(String website) => _$this._website = website;
 
+  ListBuilder<SongLikeEntity> _songLikes;
+  ListBuilder<SongLikeEntity> get songLikes =>
+      _$this._songLikes ??= new ListBuilder<SongLikeEntity>();
+  set songLikes(ListBuilder<SongLikeEntity> songLikes) =>
+      _$this._songLikes = songLikes;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -514,6 +543,7 @@ class ArtistEntityBuilder
       _twitchURL = _$v.twitchURL;
       _soundCloudURL = _$v.soundCloudURL;
       _website = _$v.website;
+      _songLikes = _$v.songLikes?.toBuilder();
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -537,25 +567,39 @@ class ArtistEntityBuilder
 
   @override
   _$ArtistEntity build() {
-    final _$result = _$v ??
-        new _$ArtistEntity._(
-            name: name,
-            handle: handle,
-            email: email,
-            token: token,
-            description: description,
-            profileImageUrl: profileImageUrl,
-            headerImageUrl: headerImageUrl,
-            twitterURL: twitterURL,
-            facebookURL: facebookURL,
-            instagramURL: instagramURL,
-            youTubeURL: youTubeURL,
-            twitchURL: twitchURL,
-            soundCloudURL: soundCloudURL,
-            website: website,
-            id: id,
-            deletedAt: deletedAt,
-            updatedAt: updatedAt);
+    _$ArtistEntity _$result;
+    try {
+      _$result = _$v ??
+          new _$ArtistEntity._(
+              name: name,
+              handle: handle,
+              email: email,
+              token: token,
+              description: description,
+              profileImageUrl: profileImageUrl,
+              headerImageUrl: headerImageUrl,
+              twitterURL: twitterURL,
+              facebookURL: facebookURL,
+              instagramURL: instagramURL,
+              youTubeURL: youTubeURL,
+              twitchURL: twitchURL,
+              soundCloudURL: soundCloudURL,
+              website: website,
+              songLikes: _songLikes?.build(),
+              id: id,
+              deletedAt: deletedAt,
+              updatedAt: updatedAt);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'songLikes';
+        _songLikes?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'ArtistEntity', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

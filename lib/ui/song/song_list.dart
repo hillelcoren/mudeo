@@ -39,6 +39,7 @@ class SongList extends StatelessWidget {
           itemCount: songIds.length,
           itemBuilder: (BuildContext context, index) {
             final data = viewModel.state.dataState;
+            final auth = viewModel.state.authState;
             final songId = songIds[index];
             final song = data.songMap[songId];
 
@@ -46,6 +47,7 @@ class SongList extends StatelessWidget {
               ValueKey(songId),
               context,
               song: song,
+              isLiked: auth.artist.likedSong(song),
               onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
               onPlayPressed: () {
                 showDialog<VideoPlayer>(
@@ -66,6 +68,7 @@ class SongList extends StatelessWidget {
 class SongItem extends StatelessWidget {
   SongItem(Key key, BuildContext context,
       {this.song,
+      this.isLiked = false,
       this.onPlayPressed,
       this.onLikePressed,
       this.onEditPressed,
@@ -74,6 +77,7 @@ class SongItem extends StatelessWidget {
       : super(key: key);
 
   final SongEntity song;
+  final bool isLiked;
   final Function onPlayPressed;
   final Function onLikePressed;
   final Function onEditPressed;
@@ -137,6 +141,7 @@ class SongItem extends StatelessWidget {
                       icon: Icon(Icons.favorite),
                       tooltip: localization.like,
                       onPressed: onLikePressed,
+                      color: isLiked ? Colors.redAccent : null,
                     ),
                     IconButton(
                       icon: Icon(Icons.share),

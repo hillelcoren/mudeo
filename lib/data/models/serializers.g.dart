@@ -41,6 +41,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(SongEntity)]),
           () => new ListBuilder<SongEntity>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(SongLikeEntity)]),
+          () => new ListBuilder<SongLikeEntity>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(TrackEntity)]),
           () => new ListBuilder<TrackEntity>())
       ..addBuilderFactory(
