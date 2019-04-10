@@ -96,7 +96,7 @@ Middleware<AppState> _likeSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final AuthState state = store.state.authState;
     final song = action.song;
-    final songLike = state.artist.songLike(song.id);
+    final songLike = state.artist.getSongLike(song.id);
 
     repository.likeSong(state, song, songLike: songLike).then((data) {
       store.dispatch(LikeSongSuccess(data));
@@ -119,7 +119,7 @@ Middleware<AppState> _flagSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final AuthState state = store.state.authState;
     final song = action.song;
-    final songFlag = state.artist.songFlag(song.id);
+    final songFlag = state.artist.getSongFlag(song.id);
 
     repository.flagSong(state, song, songFlag: songFlag).then((data) {
       store.dispatch(FlagSongSuccess(data));

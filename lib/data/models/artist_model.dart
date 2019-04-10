@@ -102,15 +102,15 @@ abstract class ArtistEntity extends Object
 
   bool ownsSong(SongEntity song) => song.artistId == id;
 
-  SongLikeEntity songLike(int songId) => songLikes
+  SongLikeEntity getSongLike(int songId) => songLikes
       .firstWhere((songLike) => songLike.songId == songId, orElse: () => null);
 
-  bool likedSong(int songId) => songLike(songId) != null;
+  bool likedSong(int songId) => getSongLike(songId) != null;
 
-  SongFlagEntity songFlag(int songId) => songFlags
+  SongFlagEntity getSongFlag(int songId) => songFlags
       .firstWhere((songFlag) => songFlag.songId == songId, orElse: () => null);
 
-  bool flaggedSong(int songId) => songFlag(songId) != null;
+  bool flaggedSong(int songId) => getSongFlag(songId) != null;
 
   Map<String, String> get socialLinks {
     final data = Map<String, String>();
