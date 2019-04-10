@@ -138,6 +138,36 @@ class WebClient {
       headers: {
         'X-API-TOKEN': token,
         'X-API-SECRET': Config.API_SECRET,
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('Response: ${response.body}');
+
+    if (response.statusCode >= 300) {
+      print('==== FAILED ====');
+      throw _parseError(response.statusCode, response.body);
+    }
+
+    try {
+      final dynamic jsonResponse = json.decode(response.body);
+      return jsonResponse;
+    } catch (exception) {
+      print(response.body);
+      throw 'An error occurred';
+    }
+  }
+
+  Future<dynamic> delete(String url, String token) async {
+    url = _checkUrl(url);
+    print('DELETE: $url');
+
+    final http.Response response = await http.Client().delete(
+      url,
+      headers: {
+        'X-API-TOKEN': token,
+        'X-API-SECRET': Config.API_SECRET,
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       },

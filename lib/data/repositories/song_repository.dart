@@ -78,16 +78,17 @@ class SongRepository {
     return songResponse.data;
   }
 
-  Future<SongLikeEntity> likeSong(AuthState auth, SongEntity song) async {
+  Future<SongLikeEntity> likeSong(AuthState auth, SongEntity song,
+      {bool unlike = false}) async {
     dynamic response;
 
-    print('sending like song request...');
-    var url = '${Config.API_URL}/song_likes';
-    var data = {'song_id': song.id};
-    response =
-        await webClient.post(url, auth.artist.token, data: json.encode(data));
-
-    print('response: $response');
+    if (unlike) {
+      var url = '${Config.API_URL}/song_likes/${song.id}';
+      response = await webClient.delete(url, auth.artist.token);
+    } else {
+      var url = '${Config.API_URL}/song_likes?song_id=${song.id}';
+      response = await webClient.post(url, auth.artist.token);
+    }
 
     final LikeSongResponse songResponse =
         serializers.deserializeWith(LikeSongResponse.serializer, response);

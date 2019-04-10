@@ -1,6 +1,7 @@
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/data/repositories/song_repository.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:redux/redux.dart';
 
@@ -93,9 +94,12 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
 
 Middleware<AppState> _likeSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    final AppState state = store.state;
+    final AuthState state = store.state.authState;
+    final song = action.song;
 
-    repository.likeSong(state.authState, action.song).then((data) {
+    repository
+        .likeSong(state, song, unlike: state.artist.likedSong(song))
+        .then((data) {
       store.dispatch(LikeSongSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);
