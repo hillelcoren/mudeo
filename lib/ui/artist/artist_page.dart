@@ -241,6 +241,7 @@ class ArtistPage extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
+              leading: showSettings ? SizedBox() : null,
               expandedHeight: 200.0,
               floating: true,
               pinned: false,
