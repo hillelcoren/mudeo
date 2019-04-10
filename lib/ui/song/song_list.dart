@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -151,7 +152,10 @@ class SongItem extends StatelessWidget {
                     PopupMenuButton<String>(
                       icon: Icon(Icons.more_vert),
                       itemBuilder: (BuildContext context) {
-                        final actions = [localization.reportSong];
+                        final actions = [
+                          localization.copyLinkToSong,
+                          localization.reportSong,
+                        ];
                         return actions
                             .map((action) => PopupMenuItem(
                                   child: Text(action),
@@ -160,6 +164,13 @@ class SongItem extends StatelessWidget {
                             .toList();
                       },
                       onSelected: (String action) async {
+                        if (action == localization.copyLinkToSong) {
+                          Clipboard.setData(new ClipboardData(text: song.url));
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text(localization.copiedToClipboard)));
+                          return;
+                        }
+
                         showDialog<AlertDialog>(
                             context: context,
                             builder: (BuildContext context) {

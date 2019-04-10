@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'copied_to_clipboard': 'Copied to clipboard',
+      'copy_link_to_song': 'Copy link to Song',
       'report_song': 'Report Song',
       'share_song': 'Share Song',
       'note': 'Note',
@@ -356,6 +358,12 @@ class AppLocalization {
   String get shareSong => _localizedValues[locale.toString()]['share_song'];
 
   String get reportSong => _localizedValues[locale.toString()]['report_song'];
+
+  String get copyLinkToSong => _localizedValues[locale.toString()]['copy_link_to_song'];
+
+  String get copiedToClipboard => _localizedValues[locale.toString()]['copied_to_clipboard'];
+
+
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

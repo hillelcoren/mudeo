@@ -66,25 +66,27 @@ class MainScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
-        child: CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            currentIndex: viewModel.state.uiState.selectedTabIndex,
-            onTap: (index) => viewModel.onTabChanged(index),
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.videocam),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-              ),
-            ],
+        child: Scaffold(
+          body: CupertinoTabScaffold(
+            tabBar: CupertinoTabBar(
+              currentIndex: viewModel.state.uiState.selectedTabIndex,
+              onTap: (index) => viewModel.onTabChanged(index),
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.videocam),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                ),
+              ],
+            ),
+            tabBuilder: (BuildContext context, int index) {
+              return _views[index];
+            },
           ),
-          tabBuilder: (BuildContext context, int index) {
-            return _views[index];
-          },
         ),
       ),
     );
