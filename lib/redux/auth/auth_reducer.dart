@@ -12,6 +12,7 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, ClearAuthError>(clearAuthErrorReducer),
   TypedReducer<AuthState, SaveArtistSuccess>(saveArtistReducer),
   TypedReducer<AuthState, LikeSongSuccess>(likeSongReducer),
+  TypedReducer<AuthState, FlagSongSuccess>(flagSongReducer),
 ]);
 
 AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
@@ -60,6 +61,19 @@ AuthState likeSongReducer(AuthState authState, LikeSongSuccess action) {
   } else {
     return authState.rebuild((b) => b
       ..artist.songLikes.add(action.songLike)
+    );
+  }
+}
+
+AuthState flagSongReducer(AuthState authState, FlagSongSuccess action) {
+  final artist = authState.artist;
+  if (artist.flaggedSong(action.songFlag.songId)) {
+    return authState.rebuild((b) => b
+      ..artist.songFlags.remove(action.songFlag)
+    );
+  } else {
+    return authState.rebuild((b) => b
+      ..artist.songFlags.add(action.songFlag)
     );
   }
 }

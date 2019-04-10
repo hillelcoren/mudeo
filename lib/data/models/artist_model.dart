@@ -27,6 +27,8 @@ abstract class ArtistEntity extends Object
       website: '',
       profileImageUrl: '',
       headerImageUrl: '',
+      songLikes: BuiltList<SongLikeEntity>(),
+      songFlags: BuiltList<SongFlagEntity>(),
     );
   }
 
@@ -89,6 +91,10 @@ abstract class ArtistEntity extends Object
   @BuiltValueField(wireName: 'song_likes')
   BuiltList<SongLikeEntity> get songLikes;
 
+  @nullable
+  @BuiltValueField(wireName: 'song_flags')
+  BuiltList<SongFlagEntity> get songFlags;
+
   @override
   String get listDisplayName {
     return handle;
@@ -100,6 +106,11 @@ abstract class ArtistEntity extends Object
       .firstWhere((songLike) => songLike.songId == songId, orElse: () => null);
 
   bool likedSong(int songId) => songLike(songId) != null;
+
+  SongFlagEntity songFlag(int songId) => songFlags
+      .firstWhere((songFlag) => songFlag.songId == songId, orElse: () => null);
+
+  bool flaggedSong(int songId) => songFlag(songId) != null;
 
   Map<String, String> get socialLinks {
     final data = Map<String, String>();

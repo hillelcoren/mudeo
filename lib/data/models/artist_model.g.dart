@@ -125,6 +125,13 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
             specifiedType: const FullType(
                 BuiltList, const [const FullType(SongLikeEntity)])));
     }
+    if (object.songFlags != null) {
+      result
+        ..add('song_flags')
+        ..add(serializers.serialize(object.songFlags,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(SongFlagEntity)])));
+    }
     if (object.id != null) {
       result
         ..add('id')
@@ -220,6 +227,12 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
                       BuiltList, const [const FullType(SongLikeEntity)]))
               as BuiltList);
           break;
+        case 'song_flags':
+          result.songFlags.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(SongFlagEntity)]))
+              as BuiltList);
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -312,6 +325,8 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final BuiltList<SongLikeEntity> songLikes;
   @override
+  final BuiltList<SongFlagEntity> songFlags;
+  @override
   final int id;
   @override
   final String deletedAt;
@@ -337,6 +352,7 @@ class _$ArtistEntity extends ArtistEntity {
       this.soundCloudURL,
       this.website,
       this.songLikes,
+      this.songFlags,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -368,6 +384,7 @@ class _$ArtistEntity extends ArtistEntity {
         soundCloudURL == other.soundCloudURL &&
         website == other.website &&
         songLikes == other.songLikes &&
+        songFlags == other.songFlags &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -393,27 +410,31 @@ class _$ArtistEntity extends ArtistEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            0,
-                                                                            name
+                                                                            $jc(
+                                                                                0,
+                                                                                name
+                                                                                    .hashCode),
+                                                                            handle
                                                                                 .hashCode),
-                                                                        handle
+                                                                        email
                                                                             .hashCode),
-                                                                    email
+                                                                    token
                                                                         .hashCode),
-                                                                token.hashCode),
-                                                            description
+                                                                description
+                                                                    .hashCode),
+                                                            profileImageUrl
                                                                 .hashCode),
-                                                        profileImageUrl
+                                                        headerImageUrl
                                                             .hashCode),
-                                                    headerImageUrl.hashCode),
-                                                twitterURL.hashCode),
-                                            facebookURL.hashCode),
-                                        instagramURL.hashCode),
-                                    youTubeURL.hashCode),
-                                twitchURL.hashCode),
-                            soundCloudURL.hashCode),
-                        website.hashCode),
-                    songLikes.hashCode),
+                                                    twitterURL.hashCode),
+                                                facebookURL.hashCode),
+                                            instagramURL.hashCode),
+                                        youTubeURL.hashCode),
+                                    twitchURL.hashCode),
+                                soundCloudURL.hashCode),
+                            website.hashCode),
+                        songLikes.hashCode),
+                    songFlags.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -437,6 +458,7 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('soundCloudURL', soundCloudURL)
           ..add('website', website)
           ..add('songLikes', songLikes)
+          ..add('songFlags', songFlags)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -513,6 +535,12 @@ class ArtistEntityBuilder
   set songLikes(ListBuilder<SongLikeEntity> songLikes) =>
       _$this._songLikes = songLikes;
 
+  ListBuilder<SongFlagEntity> _songFlags;
+  ListBuilder<SongFlagEntity> get songFlags =>
+      _$this._songFlags ??= new ListBuilder<SongFlagEntity>();
+  set songFlags(ListBuilder<SongFlagEntity> songFlags) =>
+      _$this._songFlags = songFlags;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -544,6 +572,7 @@ class ArtistEntityBuilder
       _soundCloudURL = _$v.soundCloudURL;
       _website = _$v.website;
       _songLikes = _$v.songLikes?.toBuilder();
+      _songFlags = _$v.songFlags?.toBuilder();
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -586,6 +615,7 @@ class ArtistEntityBuilder
               soundCloudURL: soundCloudURL,
               website: website,
               songLikes: _songLikes?.build(),
+              songFlags: _songFlags?.build(),
               id: id,
               deletedAt: deletedAt,
               updatedAt: updatedAt);
@@ -594,6 +624,8 @@ class ArtistEntityBuilder
       try {
         _$failedField = 'songLikes';
         _songLikes?.build();
+        _$failedField = 'songFlags';
+        _songFlags?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'ArtistEntity', _$failedField, e.toString());

@@ -102,12 +102,13 @@ class SongRepository {
     dynamic response;
 
     if (songFlag != null) {
-      var url = '${Config.API_URL}/song_flags/${songFlag.songId}';
+      /*
+      var url = '${Config.API_URL}/song_flag/${songFlag.songId}';
       response = await webClient.delete(url, auth.artist.token);
-
+      */
       return songFlag;
     } else {
-      var url = '${Config.API_URL}/song_flags?song_id=${song.id}';
+      var url = '${Config.API_URL}/song_flag?song_id=${song.id}';
       response = await webClient.post(url, auth.artist.token);
       final FlagSongResponse songResponse =
       serializers.deserializeWith(FlagSongResponse.serializer, response);

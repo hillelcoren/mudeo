@@ -26,10 +26,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AuthState.serializer)
       ..add(DataState.serializer)
       ..add(ErrorMessage.serializer)
+      ..add(FlagSongResponse.serializer)
       ..add(LikeSongResponse.serializer)
       ..add(LoginResponse.serializer)
       ..add(LoginResponseData.serializer)
       ..add(SongEntity.serializer)
+      ..add(SongFlagEntity.serializer)
       ..add(SongItemResponse.serializer)
       ..add(SongLikeEntity.serializer)
       ..add(SongListResponse.serializer)
@@ -43,6 +45,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(SongLikeEntity)]),
           () => new ListBuilder<SongLikeEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(SongFlagEntity)]),
+          () => new ListBuilder<SongFlagEntity>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(TrackEntity)]),
           () => new ListBuilder<TrackEntity>())

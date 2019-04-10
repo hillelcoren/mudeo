@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
@@ -28,10 +29,9 @@ class SongList extends StatelessWidget {
       return Container(child: LoadingIndicator());
     }
 
-    final dataState = viewModel.state.dataState;
-    final songIds = dataState.songMap.keys.toList();
-    songIds.sort((songIda, songIdb) =>
-        dataState.songMap[songIdb].id - dataState.songMap[songIda].id);
+    final state = viewModel.state;
+    final songIds =
+        memoizedSongIds(state.dataState.songMap, state.authState.artist);
 
     return RefreshIndicator(
       onRefresh: () => viewModel.onRefreshed(context),
