@@ -24,6 +24,7 @@ part 'serializers.g.dart';
   SongItemResponse,
   VideoItemResponse,
   ArtistItemResponse,
+  LikeSongResponse,
 ])
 final Serializers serializers =
 (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();

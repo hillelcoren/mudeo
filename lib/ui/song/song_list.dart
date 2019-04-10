@@ -87,7 +87,7 @@ class SongItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Material(
-        elevation: 4,
+        elevation: 8,
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,29 +123,32 @@ class SongItem extends StatelessWidget {
                       .toList(),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.videocam),
-                    tooltip: localization.edit,
-                    onPressed: onEditPressed,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.favorite),
-                    tooltip: localization.like,
-                    onPressed: onLikePressed,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.share),
-                    tooltip: localization.share,
-                    onPressed: onSharePressed,
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.flag),
-                    //onPressed: () => null,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.videocam),
+                      tooltip: localization.edit,
+                      onPressed: onEditPressed,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.favorite),
+                      tooltip: localization.like,
+                      onPressed: onLikePressed,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.share),
+                      tooltip: localization.share,
+                      onPressed: onSharePressed,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.flag),
+                      //onPressed: () => null,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

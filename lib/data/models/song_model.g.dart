@@ -21,11 +21,15 @@ part of 'song_model.dart';
 
 Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
 Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
+Serializer<SongLikeEntity> _$songLikeEntitySerializer =
+    new _$SongLikeEntitySerializer();
 Serializer<VideoEntity> _$videoEntitySerializer = new _$VideoEntitySerializer();
 Serializer<SongListResponse> _$songListResponseSerializer =
     new _$SongListResponseSerializer();
 Serializer<SongItemResponse> _$songItemResponseSerializer =
     new _$SongItemResponseSerializer();
+Serializer<LikeSongResponse> _$likeSongResponseSerializer =
+    new _$LikeSongResponseSerializer();
 Serializer<VideoItemResponse> _$videoItemResponseSerializer =
     new _$VideoItemResponseSerializer();
 
@@ -300,6 +304,78 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
   }
 }
 
+class _$SongLikeEntitySerializer
+    implements StructuredSerializer<SongLikeEntity> {
+  @override
+  final Iterable<Type> types = const [SongLikeEntity, _$SongLikeEntity];
+  @override
+  final String wireName = 'SongLikeEntity';
+
+  @override
+  Iterable serialize(Serializers serializers, SongLikeEntity object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'user_id',
+      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+      'song_id',
+      serializers.serialize(object.songId, specifiedType: const FullType(int)),
+    ];
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
+
+    return result;
+  }
+
+  @override
+  SongLikeEntity deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new SongLikeEntityBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'user_id':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'song_id':
+          result.songId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   @override
   final Iterable<Type> types = const [VideoEntity, _$VideoEntity];
@@ -475,6 +551,47 @@ class _$SongItemResponseSerializer
         case 'data':
           result.data.replace(serializers.deserialize(value,
               specifiedType: const FullType(SongEntity)) as SongEntity);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$LikeSongResponseSerializer
+    implements StructuredSerializer<LikeSongResponse> {
+  @override
+  final Iterable<Type> types = const [LikeSongResponse, _$LikeSongResponse];
+  @override
+  final String wireName = 'LikeSongResponse';
+
+  @override
+  Iterable serialize(Serializers serializers, LikeSongResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(SongLikeEntity)),
+    ];
+
+    return result;
+  }
+
+  @override
+  LikeSongResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new LikeSongResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(SongLikeEntity)) as SongLikeEntity);
           break;
       }
     }
@@ -1014,6 +1131,139 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   }
 }
 
+class _$SongLikeEntity extends SongLikeEntity {
+  @override
+  final int id;
+  @override
+  final int userId;
+  @override
+  final int songId;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
+
+  factory _$SongLikeEntity([void updates(SongLikeEntityBuilder b)]) =>
+      (new SongLikeEntityBuilder()..update(updates)).build();
+
+  _$SongLikeEntity._(
+      {this.id, this.userId, this.songId, this.deletedAt, this.updatedAt})
+      : super._() {
+    if (id == null) {
+      throw new BuiltValueNullFieldError('SongLikeEntity', 'id');
+    }
+    if (userId == null) {
+      throw new BuiltValueNullFieldError('SongLikeEntity', 'userId');
+    }
+    if (songId == null) {
+      throw new BuiltValueNullFieldError('SongLikeEntity', 'songId');
+    }
+  }
+
+  @override
+  SongLikeEntity rebuild(void updates(SongLikeEntityBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SongLikeEntityBuilder toBuilder() =>
+      new SongLikeEntityBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SongLikeEntity &&
+        id == other.id &&
+        userId == other.userId &&
+        songId == other.songId &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc($jc($jc(0, id.hashCode), userId.hashCode), songId.hashCode),
+            deletedAt.hashCode),
+        updatedAt.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SongLikeEntity')
+          ..add('id', id)
+          ..add('userId', userId)
+          ..add('songId', songId)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt))
+        .toString();
+  }
+}
+
+class SongLikeEntityBuilder
+    implements Builder<SongLikeEntity, SongLikeEntityBuilder> {
+  _$SongLikeEntity _$v;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
+
+  int _userId;
+  int get userId => _$this._userId;
+  set userId(int userId) => _$this._userId = userId;
+
+  int _songId;
+  int get songId => _$this._songId;
+  set songId(int songId) => _$this._songId = songId;
+
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
+  SongLikeEntityBuilder();
+
+  SongLikeEntityBuilder get _$this {
+    if (_$v != null) {
+      _id = _$v.id;
+      _userId = _$v.userId;
+      _songId = _$v.songId;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SongLikeEntity other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$SongLikeEntity;
+  }
+
+  @override
+  void update(void updates(SongLikeEntityBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$SongLikeEntity build() {
+    final _$result = _$v ??
+        new _$SongLikeEntity._(
+            id: id,
+            userId: userId,
+            songId: songId,
+            deletedAt: deletedAt,
+            updatedAt: updatedAt);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$VideoEntity extends VideoEntity {
   @override
   final int userId;
@@ -1346,6 +1596,98 @@ class SongItemResponseBuilder
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'SongItemResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$LikeSongResponse extends LikeSongResponse {
+  @override
+  final SongLikeEntity data;
+
+  factory _$LikeSongResponse([void updates(LikeSongResponseBuilder b)]) =>
+      (new LikeSongResponseBuilder()..update(updates)).build();
+
+  _$LikeSongResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('LikeSongResponse', 'data');
+    }
+  }
+
+  @override
+  LikeSongResponse rebuild(void updates(LikeSongResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  LikeSongResponseBuilder toBuilder() =>
+      new LikeSongResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is LikeSongResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('LikeSongResponse')..add('data', data))
+        .toString();
+  }
+}
+
+class LikeSongResponseBuilder
+    implements Builder<LikeSongResponse, LikeSongResponseBuilder> {
+  _$LikeSongResponse _$v;
+
+  SongLikeEntityBuilder _data;
+  SongLikeEntityBuilder get data =>
+      _$this._data ??= new SongLikeEntityBuilder();
+  set data(SongLikeEntityBuilder data) => _$this._data = data;
+
+  LikeSongResponseBuilder();
+
+  LikeSongResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(LikeSongResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$LikeSongResponse;
+  }
+
+  @override
+  void update(void updates(LikeSongResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$LikeSongResponse build() {
+    _$LikeSongResponse _$result;
+    try {
+      _$result = _$v ?? new _$LikeSongResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'LikeSongResponse', _$failedField, e.toString());
       }
       rethrow;
     }

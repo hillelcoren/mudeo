@@ -152,6 +152,31 @@ abstract class TrackEntity extends Object
   static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
 }
 
+abstract class SongLikeEntity extends Object
+    with BaseEntity
+    implements Built<SongLikeEntity, SongLikeEntityBuilder> {
+  factory SongLikeEntity() {
+    return _$SongLikeEntity._(
+      id: 0,
+      userId: 0,
+      songId: 0,
+    );
+  }
+
+  SongLikeEntity._();
+
+  int get id;
+
+  @BuiltValueField(wireName: 'user_id')
+  int get userId;
+
+  @BuiltValueField(wireName: 'song_id')
+  int get songId;
+
+  static Serializer<SongLikeEntity> get serializer =>
+      _$songLikeEntitySerializer;
+}
+
 abstract class VideoEntity extends Object
     with BaseEntity
     implements Built<VideoEntity, VideoEntityBuilder> {
@@ -219,6 +244,19 @@ abstract class SongItemResponse
 
   static Serializer<SongItemResponse> get serializer =>
       _$songItemResponseSerializer;
+}
+
+abstract class LikeSongResponse
+    implements Built<LikeSongResponse, LikeSongResponseBuilder> {
+  factory LikeSongResponse([void updates(LikeSongResponseBuilder b)]) =
+      _$LikeSongResponse;
+
+  LikeSongResponse._();
+
+  SongLikeEntity get data;
+
+  static Serializer<LikeSongResponse> get serializer =>
+      _$likeSongResponseSerializer;
 }
 
 abstract class VideoItemResponse

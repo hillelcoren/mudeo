@@ -78,21 +78,19 @@ class SongRepository {
     return songResponse.data;
   }
 
-  Future<SongEntity> likeSong(AuthState auth, SongEntity song) async {
+  Future<SongLikeEntity> likeSong(AuthState auth, SongEntity song) async {
     dynamic response;
 
     print('sending like song request...');
-    var url = '${Config.API_URL}/song_like';
+    var url = '${Config.API_URL}/song_likes';
     var data = {'song_id': song.id};
     response =
         await webClient.post(url, auth.artist.token, data: json.encode(data));
 
     print('response: $response');
 
-    return null;
-
-    final SongItemResponse songResponse =
-        serializers.deserializeWith(SongItemResponse.serializer, response);
+    final LikeSongResponse songResponse =
+        serializers.deserializeWith(LikeSongResponse.serializer, response);
 
     return songResponse.data;
   }
