@@ -105,7 +105,7 @@ class SongItem extends StatelessWidget {
                 onPlay: onPlayPressed,
                 onArtistTap: onArtistTap,
               ),
-              song.description.isEmpty
+              song.description == null || song.description.trim().isEmpty
                   ? SizedBox()
                   : Padding(
                       padding: const EdgeInsets.only(
@@ -228,7 +228,7 @@ class SongHeader extends StatelessWidget {
         artistStyle.copyWith(color: kGenreColors[song.genreId]);
 
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
