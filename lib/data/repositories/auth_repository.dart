@@ -22,7 +22,7 @@ class AuthRepository {
       'one_time_password': oneTimePassword,
     };
 
-    String url = '${Config.API_URL}/auth?include=song_likes,song_flags';
+    String url = '${Config.API_URL}/auth?include=song_likes,song_flags,following';
 
     return sendRequest(url: url, data: credentials);
   }
@@ -68,14 +68,14 @@ class AuthRepository {
       'provider': 'google',
     };
 
-    String url = '${Config.API_URL}/oauth?include=song_likes,song_flags';
+    String url = '${Config.API_URL}/oauth?include=song_likes,song_flags,following';
 
     return sendRequest(url: url, data: credentials);
   }
 
   Future<ArtistEntity> refresh(
       {int artistId, String token, String platform}) async {
-    String url = '${Config.API_URL}/user?include=song_likes,song_flags';
+    String url = '${Config.API_URL}/user?include=song_likes,song_flags,following';
 
     final dynamic response = await webClient.get(url, token);
 

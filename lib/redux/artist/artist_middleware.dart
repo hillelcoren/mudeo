@@ -5,6 +5,7 @@ import 'package:mudeo/data/repositories/artist_repository.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
+import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
 import 'package:redux/redux.dart';
 
@@ -57,7 +58,7 @@ Middleware<AppState> _viewArtist() {
     Navigator.of(action.context).push(
       CupertinoPageRoute<void>(
         builder: (BuildContext context) {
-          return ArtistPage(artist: action.artist);
+          return ArtistScreen(artist: action.artist);
         },
       ),
     );

@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
+import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:redux/redux.dart';
@@ -57,7 +58,7 @@ class MainScreen extends StatelessWidget {
     List<Widget> _views = [
       SongListScreen(),
       SongEditScreen(),
-      ArtistPage(
+      ArtistScreen(
         artist: viewModel.state.authState.artist,
         showSettings: true,
       ),

@@ -12,15 +12,18 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
+import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
-  ArtistPage({this.artist, this.showSettings = false});
+  ArtistPage(
+      {@required this.viewModel, this.artist, this.showSettings = false});
 
   final ArtistEntity artist;
   final bool showSettings;
+  final ArtistPageVM viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -278,19 +281,23 @@ class ArtistPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: showSettings
                       ? RaisedButton(
-                          child: Text(
-                              showSettings
-                                  ? localization.settings
-                                  : localization.follow,
+                          child: Text(localization.settings,
                               style: TextStyle(fontSize: 18)),
-                          onPressed: () => showSettings ? _showMenu() : null,
-                          color:
-                              showSettings ? Colors.black87 : Colors.lightBlue,
+                          onPressed: () => _showMenu(),
+                          color: Colors.black87,
                           padding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 35),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0)))
-                      : SizedBox(),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0)))
+                      : RaisedButton(
+                          child: Text(localization.follow,
+                              style: TextStyle(fontSize: 18)),
+                          onPressed: () => null,
+                          color: Colors.lightBlue,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 35),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0))),
                 ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(
