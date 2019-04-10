@@ -107,19 +107,25 @@ abstract class ArtistEntity extends Object
 
   bool ownsSong(SongEntity song) => song.artistId == id;
 
-  SongLikeEntity getSongLike(int songId) => songLikes
-      .firstWhere((songLike) => songLike.songId == songId, orElse: () => null);
+  SongLikeEntity getSongLike(int songId) => songLikes == null
+      ? null
+      : songLikes.firstWhere((songLike) => songLike.songId == songId,
+          orElse: () => null);
 
   bool likedSong(int songId) => getSongLike(songId) != null;
 
-  SongFlagEntity getSongFlag(int songId) => songFlags
-      .firstWhere((songFlag) => songFlag.songId == songId, orElse: () => null);
+  SongFlagEntity getSongFlag(int songId) => songFlags == null
+      ? null
+      : songFlags.firstWhere((songFlag) => songFlag.songId == songId,
+          orElse: () => null);
 
   bool flaggedSong(int songId) => getSongFlag(songId) != null;
 
-  ArtistFollowingEntity getFollowing(int artistId) => following.firstWhere(
-      (artistFollowing) => artistFollowing.artistFollowingId == artistId,
-      orElse: () => null);
+  ArtistFollowingEntity getFollowing(int artistId) => following == null
+      ? null
+      : following.firstWhere(
+          (artistFollowing) => artistFollowing.artistFollowingId == artistId,
+          orElse: () => null);
 
   bool isFollowing(int artistId) => getFollowing(artistId) != null;
 
