@@ -148,9 +148,40 @@ class SongItem extends StatelessWidget {
                       tooltip: localization.share,
                       onPressed: onSharePressed,
                     ),
-                    IconButton(
-                      icon: Icon(Icons.flag),
-                      //onPressed: () => null,
+                    PopupMenuButton<String>(
+                      icon: Icon(Icons.more_vert),
+                      itemBuilder: (BuildContext context) {
+                        final actions = [localization.reportSong];
+                        return actions
+                            .map((action) => PopupMenuItem(
+                                  child: Text(action),
+                                  value: action,
+                                ))
+                            .toList();
+                      },
+                      onSelected: (String action) async {
+                        showDialog<AlertDialog>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                semanticLabel: localization.areYouSure,
+                                title: Text(localization.areYouSure),
+                                content: Text(localization.reportSong),
+                                actions: <Widget>[
+                                  FlatButton(
+                                      child: Text(
+                                          localization.cancel.toUpperCase()),
+                                      onPressed: () => Navigator.pop(context)),
+                                  FlatButton(
+                                      child:
+                                          Text(localization.ok.toUpperCase()),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      })
+                                ],
+                              );
+                            });
+                      },
                     ),
                   ],
                 ),
