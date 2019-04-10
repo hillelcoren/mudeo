@@ -297,20 +297,24 @@ class ArtistPage extends StatelessWidget {
                               width: 48,
                               height: 48,
                             )
-                          : RaisedButton(
-                              child: Text(
-                                  isFollowing
-                                      ? localization.unfollow
-                                      : localization.follow,
-                                  style: TextStyle(fontSize: 18)),
-                              onPressed: () =>
-                                  viewModel.onFollowPressed(artist),
-                              color:
-                                  isFollowing ? Colors.grey : Colors.lightBlue,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 35),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0))),
+                          : viewModel.state.authState.artist.id == artist.id
+                              ? SizedBox()
+                              : RaisedButton(
+                                  child: Text(
+                                      isFollowing
+                                          ? localization.unfollow
+                                          : localization.follow,
+                                      style: TextStyle(fontSize: 18)),
+                                  onPressed: () =>
+                                      viewModel.onFollowPressed(artist),
+                                  color: isFollowing
+                                      ? Colors.grey
+                                      : Colors.lightBlue,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 35),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(30.0))),
                 ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(
