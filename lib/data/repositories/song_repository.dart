@@ -96,4 +96,23 @@ class SongRepository {
       return songResponse.data;
     }
   }
+
+  Future<SongFlagEntity> flagSong(AuthState auth, SongEntity song,
+      {SongFlagEntity songFlag}) async {
+    dynamic response;
+
+    if (songFlag != null) {
+      var url = '${Config.API_URL}/song_flags/${songFlag.songId}';
+      response = await webClient.delete(url, auth.artist.token);
+
+      return songFlag;
+    } else {
+      var url = '${Config.API_URL}/song_flags?song_id=${song.id}';
+      response = await webClient.post(url, auth.artist.token);
+      final FlagSongResponse songResponse =
+      serializers.deserializeWith(FlagSongResponse.serializer, response);
+
+      return songResponse.data;
+    }
+  }
 }

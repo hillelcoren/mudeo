@@ -119,9 +119,9 @@ Middleware<AppState> _likeSong(SongRepository repository) {
 
 Middleware<AppState> _flagSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    /*
+
     final AppState state = store.state;
-    repository.likeSong(state.authState, action.song).then((data) {
+    repository.flagSong(state.authState, action.song).then((data) {
       store.dispatch(FlagSongSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);
@@ -133,7 +133,7 @@ Middleware<AppState> _flagSong(SongRepository repository) {
         action.completer.completeError(error);
       }
     });
-    */
+
     next(action);
   };
 }

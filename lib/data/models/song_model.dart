@@ -175,11 +175,41 @@ abstract class SongLikeEntity extends Object
 
   @override
   String get listDisplayName {
-    return '$songId';
+    return 'Like $songId';
   }
 
   static Serializer<SongLikeEntity> get serializer =>
       _$songLikeEntitySerializer;
+}
+
+abstract class SongFlagEntity extends Object
+    with BaseEntity
+    implements Built<SongFlagEntity, SongFlagEntityBuilder> {
+  factory SongFlagEntity() {
+    return _$SongFlagEntity._(
+      id: 0,
+      userId: 0,
+      songId: 0,
+    );
+  }
+
+  SongFlagEntity._();
+
+  int get id;
+
+  @BuiltValueField(wireName: 'user_id')
+  int get userId;
+
+  @BuiltValueField(wireName: 'song_id')
+  int get songId;
+
+  @override
+  String get listDisplayName {
+    return 'Flag $songId';
+  }
+
+  static Serializer<SongFlagEntity> get serializer =>
+      _$songFlagEntitySerializer;
 }
 
 abstract class VideoEntity extends Object
@@ -254,7 +284,7 @@ abstract class SongItemResponse
 abstract class LikeSongResponse
     implements Built<LikeSongResponse, LikeSongResponseBuilder> {
   factory LikeSongResponse([void updates(LikeSongResponseBuilder b)]) =
-      _$LikeSongResponse;
+  _$LikeSongResponse;
 
   LikeSongResponse._();
 
@@ -262,6 +292,19 @@ abstract class LikeSongResponse
 
   static Serializer<LikeSongResponse> get serializer =>
       _$likeSongResponseSerializer;
+}
+
+abstract class FlagSongResponse
+    implements Built<FlagSongResponse, FlagSongResponseBuilder> {
+  factory FlagSongResponse([void updates(FlagSongResponseBuilder b)]) =
+  _$FlagSongResponse;
+
+  FlagSongResponse._();
+
+  SongFlagEntity get data;
+
+  static Serializer<FlagSongResponse> get serializer =>
+      _$flagSongResponseSerializer;
 }
 
 abstract class VideoItemResponse

@@ -44,6 +44,7 @@ class SongListVM {
     @required this.onRefreshed,
     @required this.onLikePressed,
     @required this.onSharePressed,
+    @required this.onFlagPressed,
   });
 
   final AppState state;
@@ -53,6 +54,7 @@ class SongListVM {
   final Function(BuildContext) onRefreshed;
   final Function(SongEntity) onLikePressed;
   final Function(SongEntity) onSharePressed;
+  final Function(SongEntity) onFlagPressed;
 
   static SongListVM fromStore(Store<AppState> store) {
     Future<Null> _handleRefresh(BuildContext context) {
@@ -75,6 +77,9 @@ class SongListVM {
       },
       onLikePressed: (song) {
         store.dispatch(LikeSongRequest(song: song));
+      },
+      onFlagPressed: (song) {
+        store.dispatch(FlagSongRequest(song: song));
       },
       onSharePressed: (song) {
         Share.share(song.url);

@@ -100,9 +100,9 @@ class FlagSongRequest implements StartSaving {
 }
 
 class FlagSongSuccess implements StopSaving, PersistAuth {
-  FlagSongSuccess(this.song);
+  FlagSongSuccess(this.songFlag);
 
-  final SongEntity song;
+  final SongFlagEntity songFlag;
 }
 
 class FlagSongFailure implements StopSaving {

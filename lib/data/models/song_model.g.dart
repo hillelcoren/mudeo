@@ -23,6 +23,8 @@ Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
 Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
 Serializer<SongLikeEntity> _$songLikeEntitySerializer =
     new _$SongLikeEntitySerializer();
+Serializer<SongFlagEntity> _$songFlagEntitySerializer =
+    new _$SongFlagEntitySerializer();
 Serializer<VideoEntity> _$videoEntitySerializer = new _$VideoEntitySerializer();
 Serializer<SongListResponse> _$songListResponseSerializer =
     new _$SongListResponseSerializer();
@@ -30,6 +32,8 @@ Serializer<SongItemResponse> _$songItemResponseSerializer =
     new _$SongItemResponseSerializer();
 Serializer<LikeSongResponse> _$likeSongResponseSerializer =
     new _$LikeSongResponseSerializer();
+Serializer<FlagSongResponse> _$flagSongResponseSerializer =
+    new _$FlagSongResponseSerializer();
 Serializer<VideoItemResponse> _$videoItemResponseSerializer =
     new _$VideoItemResponseSerializer();
 
@@ -376,6 +380,78 @@ class _$SongLikeEntitySerializer
   }
 }
 
+class _$SongFlagEntitySerializer
+    implements StructuredSerializer<SongFlagEntity> {
+  @override
+  final Iterable<Type> types = const [SongFlagEntity, _$SongFlagEntity];
+  @override
+  final String wireName = 'SongFlagEntity';
+
+  @override
+  Iterable serialize(Serializers serializers, SongFlagEntity object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'user_id',
+      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+      'song_id',
+      serializers.serialize(object.songId, specifiedType: const FullType(int)),
+    ];
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
+
+    return result;
+  }
+
+  @override
+  SongFlagEntity deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new SongFlagEntityBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'user_id':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'song_id':
+          result.songId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   @override
   final Iterable<Type> types = const [VideoEntity, _$VideoEntity];
@@ -592,6 +668,47 @@ class _$LikeSongResponseSerializer
         case 'data':
           result.data.replace(serializers.deserialize(value,
               specifiedType: const FullType(SongLikeEntity)) as SongLikeEntity);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$FlagSongResponseSerializer
+    implements StructuredSerializer<FlagSongResponse> {
+  @override
+  final Iterable<Type> types = const [FlagSongResponse, _$FlagSongResponse];
+  @override
+  final String wireName = 'FlagSongResponse';
+
+  @override
+  Iterable serialize(Serializers serializers, FlagSongResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(SongFlagEntity)),
+    ];
+
+    return result;
+  }
+
+  @override
+  FlagSongResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new FlagSongResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(SongFlagEntity)) as SongFlagEntity);
           break;
       }
     }
@@ -1264,6 +1381,139 @@ class SongLikeEntityBuilder
   }
 }
 
+class _$SongFlagEntity extends SongFlagEntity {
+  @override
+  final int id;
+  @override
+  final int userId;
+  @override
+  final int songId;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
+
+  factory _$SongFlagEntity([void updates(SongFlagEntityBuilder b)]) =>
+      (new SongFlagEntityBuilder()..update(updates)).build();
+
+  _$SongFlagEntity._(
+      {this.id, this.userId, this.songId, this.deletedAt, this.updatedAt})
+      : super._() {
+    if (id == null) {
+      throw new BuiltValueNullFieldError('SongFlagEntity', 'id');
+    }
+    if (userId == null) {
+      throw new BuiltValueNullFieldError('SongFlagEntity', 'userId');
+    }
+    if (songId == null) {
+      throw new BuiltValueNullFieldError('SongFlagEntity', 'songId');
+    }
+  }
+
+  @override
+  SongFlagEntity rebuild(void updates(SongFlagEntityBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SongFlagEntityBuilder toBuilder() =>
+      new SongFlagEntityBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SongFlagEntity &&
+        id == other.id &&
+        userId == other.userId &&
+        songId == other.songId &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc($jc($jc(0, id.hashCode), userId.hashCode), songId.hashCode),
+            deletedAt.hashCode),
+        updatedAt.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SongFlagEntity')
+          ..add('id', id)
+          ..add('userId', userId)
+          ..add('songId', songId)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt))
+        .toString();
+  }
+}
+
+class SongFlagEntityBuilder
+    implements Builder<SongFlagEntity, SongFlagEntityBuilder> {
+  _$SongFlagEntity _$v;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
+
+  int _userId;
+  int get userId => _$this._userId;
+  set userId(int userId) => _$this._userId = userId;
+
+  int _songId;
+  int get songId => _$this._songId;
+  set songId(int songId) => _$this._songId = songId;
+
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
+  SongFlagEntityBuilder();
+
+  SongFlagEntityBuilder get _$this {
+    if (_$v != null) {
+      _id = _$v.id;
+      _userId = _$v.userId;
+      _songId = _$v.songId;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SongFlagEntity other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$SongFlagEntity;
+  }
+
+  @override
+  void update(void updates(SongFlagEntityBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$SongFlagEntity build() {
+    final _$result = _$v ??
+        new _$SongFlagEntity._(
+            id: id,
+            userId: userId,
+            songId: songId,
+            deletedAt: deletedAt,
+            updatedAt: updatedAt);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$VideoEntity extends VideoEntity {
   @override
   final int userId;
@@ -1688,6 +1938,98 @@ class LikeSongResponseBuilder
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'LikeSongResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$FlagSongResponse extends FlagSongResponse {
+  @override
+  final SongFlagEntity data;
+
+  factory _$FlagSongResponse([void updates(FlagSongResponseBuilder b)]) =>
+      (new FlagSongResponseBuilder()..update(updates)).build();
+
+  _$FlagSongResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('FlagSongResponse', 'data');
+    }
+  }
+
+  @override
+  FlagSongResponse rebuild(void updates(FlagSongResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  FlagSongResponseBuilder toBuilder() =>
+      new FlagSongResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is FlagSongResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('FlagSongResponse')..add('data', data))
+        .toString();
+  }
+}
+
+class FlagSongResponseBuilder
+    implements Builder<FlagSongResponse, FlagSongResponseBuilder> {
+  _$FlagSongResponse _$v;
+
+  SongFlagEntityBuilder _data;
+  SongFlagEntityBuilder get data =>
+      _$this._data ??= new SongFlagEntityBuilder();
+  set data(SongFlagEntityBuilder data) => _$this._data = data;
+
+  FlagSongResponseBuilder();
+
+  FlagSongResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(FlagSongResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$FlagSongResponse;
+  }
+
+  @override
+  void update(void updates(FlagSongResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$FlagSongResponse build() {
+    _$FlagSongResponse _$result;
+    try {
+      _$result = _$v ?? new _$FlagSongResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'FlagSongResponse', _$failedField, e.toString());
       }
       rethrow;
     }

@@ -60,6 +60,7 @@ class SongList extends StatelessWidget {
               onLikePressed: () => viewModel.onLikePressed(song),
               onSharePressed: () => viewModel.onSharePressed(song),
               onEditPressed: () => viewModel.onSongEdit(context, song),
+              onFlagPressed: () => viewModel.onFlagPressed(song),
             );
           }),
     );
@@ -74,6 +75,7 @@ class SongItem extends StatelessWidget {
       this.onLikePressed,
       this.onEditPressed,
       this.onSharePressed,
+      this.onFlagPressed,
       this.onArtistTap})
       : super(key: key);
 
@@ -83,6 +85,7 @@ class SongItem extends StatelessWidget {
   final Function onLikePressed;
   final Function onEditPressed;
   final Function onSharePressed;
+  final Function onFlagPressed;
   final Function(ArtistEntity) onArtistTap;
 
   @override
@@ -187,6 +190,7 @@ class SongItem extends StatelessWidget {
                                       child:
                                           Text(localization.ok.toUpperCase()),
                                       onPressed: () {
+                                        onFlagPressed();
                                         Navigator.pop(context);
                                       })
                                 ],
