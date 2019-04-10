@@ -29,6 +29,7 @@ abstract class ArtistEntity extends Object
       headerImageUrl: '',
       songLikes: BuiltList<SongLikeEntity>(),
       songFlags: BuiltList<SongFlagEntity>(),
+      following: BuiltList<ArtistFollowingEntity>(),
     );
   }
 
@@ -95,6 +96,10 @@ abstract class ArtistEntity extends Object
   @BuiltValueField(wireName: 'song_flags')
   BuiltList<SongFlagEntity> get songFlags;
 
+  @nullable
+  @BuiltValueField(wireName: 'following')
+  BuiltList<ArtistFollowingEntity> get following;
+
   @override
   String get listDisplayName {
     return handle;
@@ -111,6 +116,12 @@ abstract class ArtistEntity extends Object
       .firstWhere((songFlag) => songFlag.songId == songId, orElse: () => null);
 
   bool flaggedSong(int songId) => getSongFlag(songId) != null;
+
+  ArtistFollowingEntity getFollowing(int artistId) => following.firstWhere(
+      (artistFollowing) => artistFollowing.artistFollowingId == artistId,
+      orElse: () => null);
+
+  bool isFollowing(int artistId) => getFollowing(artistId) != null;
 
   Map<String, String> get socialLinks {
     final data = Map<String, String>();
@@ -150,4 +161,43 @@ abstract class ArtistItemResponse
 
   static Serializer<ArtistItemResponse> get serializer =>
       _$artistItemResponseSerializer;
+}
+
+abstract class ArtistFollowingEntity extends Object
+    with BaseEntity
+    implements Built<ArtistFollowingEntity, ArtistFollowingEntityBuilder> {
+  factory ArtistFollowingEntity() {
+    return _$ArtistFollowingEntity._(artistId: 0, artistFollowingId: 0);
+  }
+
+  ArtistFollowingEntity._();
+
+  @BuiltValueField(wireName: 'user_id')
+  int get artistId;
+
+  @BuiltValueField(wireName: 'user_following_id')
+  int get artistFollowingId;
+
+  @override
+  String get listDisplayName {
+    return 'Following: $artistFollowingId';
+  }
+
+  static Serializer<ArtistFollowingEntity> get serializer =>
+      _$artistFollowingEntitySerializer;
+}
+
+abstract class ArtistFollowingItemResponse
+    implements
+        Built<ArtistFollowingItemResponse, ArtistFollowingItemResponseBuilder> {
+  factory ArtistFollowingItemResponse(
+          [void updates(ArtistFollowingItemResponseBuilder b)]) =
+      _$ArtistFollowingItemResponse;
+
+  ArtistFollowingItemResponse._();
+
+  ArtistFollowingEntity get data;
+
+  static Serializer<ArtistFollowingItemResponse> get serializer =>
+      _$artistFollowingItemResponseSerializer;
 }

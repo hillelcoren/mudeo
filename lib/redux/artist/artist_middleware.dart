@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mudeo/data/repositories/artist_repository.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
-import 'package:mudeo/ui/artist/artist_page.dart';
+import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
 import 'package:redux/redux.dart';
@@ -19,6 +19,7 @@ List<Middleware<AppState>> createStoreArtistsMiddleware([
   final loadArtist = _loadArtist(repository);
   final saveArtist = _saveArtist(repository);
   final saveArtistImage = _saveArtistImage(repository);
+  final followArtist = _followArtist(repository);
 
   return [
     //TypedMiddleware<AppState, ViewArtistList>(viewArtistList),
@@ -28,6 +29,7 @@ List<Middleware<AppState>> createStoreArtistsMiddleware([
     TypedMiddleware<AppState, LoadArtist>(loadArtist),
     TypedMiddleware<AppState, SaveArtistRequest>(saveArtist),
     TypedMiddleware<AppState, SaveArtistImage>(saveArtistImage),
+    TypedMiddleware<AppState, FollowArtistRequest>(followArtist),
   ];
 }
 
@@ -184,3 +186,28 @@ Middleware<AppState> _loadArtists(ArtistRepository repository) {
 }
 
  */
+
+
+Middleware<AppState> _followArtist(ArtistRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    final AuthState state = store.state.authState;
+
+    final artist = action.artist;
+    final artistFollowing = state.artist.getFollowing(artist.id);
+
+    repository.followArtist(state, artist, artistFollowing: artistFollowing).then((data) {
+      store.dispatch(FollowArtistSuccess(data));
+      if (action.completer != null) {
+        action.completer.complete(null);
+      }
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(FollowArtistFailure(error));
+      if (action.completer != null) {
+        action.completer.completeError(error);
+      }
+    });
+
+    next(action);
+  };
+}

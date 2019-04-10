@@ -77,4 +77,25 @@ class ArtistRepository {
 
     return artistResponse.data;
   }
+
+  Future<ArtistFollowingEntity> followArtist(AuthState auth, ArtistEntity artist,
+      {ArtistFollowingEntity artistFollowing}) async {
+    dynamic response;
+
+    if (artistFollowing != null) {
+      var url = '${Config.API_URL}/user_follow/${artist.id}';
+      response = await webClient.delete(url, auth.artist.token);
+
+      return artistFollowing;
+    } else {
+      var url = '${Config.API_URL}/user_follow?user_following_id=${artist.id}';
+      response = await webClient.post(url, auth.artist.token);
+
+      final ArtistFollowingItemResponse songResponse =
+      serializers.deserializeWith(ArtistFollowingItemResponse.serializer, response);
+
+      return songResponse.data;
+    }
+  }
+
 }

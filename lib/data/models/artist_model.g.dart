@@ -23,6 +23,11 @@ Serializer<ArtistEntity> _$artistEntitySerializer =
     new _$ArtistEntitySerializer();
 Serializer<ArtistItemResponse> _$artistItemResponseSerializer =
     new _$ArtistItemResponseSerializer();
+Serializer<ArtistFollowingEntity> _$artistFollowingEntitySerializer =
+    new _$ArtistFollowingEntitySerializer();
+Serializer<ArtistFollowingItemResponse>
+    _$artistFollowingItemResponseSerializer =
+    new _$ArtistFollowingItemResponseSerializer();
 
 class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   @override
@@ -132,6 +137,13 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
             specifiedType: const FullType(
                 BuiltList, const [const FullType(SongFlagEntity)])));
     }
+    if (object.following != null) {
+      result
+        ..add('following')
+        ..add(serializers.serialize(object.following,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ArtistFollowingEntity)])));
+    }
     if (object.id != null) {
       result
         ..add('id')
@@ -233,6 +245,12 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
                       BuiltList, const [const FullType(SongFlagEntity)]))
               as BuiltList);
           break;
+        case 'following':
+          result.following.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ArtistFollowingEntity)]))
+              as BuiltList);
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -293,6 +311,135 @@ class _$ArtistItemResponseSerializer
   }
 }
 
+class _$ArtistFollowingEntitySerializer
+    implements StructuredSerializer<ArtistFollowingEntity> {
+  @override
+  final Iterable<Type> types = const [
+    ArtistFollowingEntity,
+    _$ArtistFollowingEntity
+  ];
+  @override
+  final String wireName = 'ArtistFollowingEntity';
+
+  @override
+  Iterable serialize(Serializers serializers, ArtistFollowingEntity object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'user_id',
+      serializers.serialize(object.artistId,
+          specifiedType: const FullType(int)),
+      'user_following_id',
+      serializers.serialize(object.artistFollowingId,
+          specifiedType: const FullType(int)),
+    ];
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
+
+    return result;
+  }
+
+  @override
+  ArtistFollowingEntity deserialize(
+      Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ArtistFollowingEntityBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'user_id':
+          result.artistId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'user_following_id':
+          result.artistFollowingId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ArtistFollowingItemResponseSerializer
+    implements StructuredSerializer<ArtistFollowingItemResponse> {
+  @override
+  final Iterable<Type> types = const [
+    ArtistFollowingItemResponse,
+    _$ArtistFollowingItemResponse
+  ];
+  @override
+  final String wireName = 'ArtistFollowingItemResponse';
+
+  @override
+  Iterable serialize(
+      Serializers serializers, ArtistFollowingItemResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(ArtistFollowingEntity)),
+    ];
+
+    return result;
+  }
+
+  @override
+  ArtistFollowingItemResponse deserialize(
+      Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ArtistFollowingItemResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(ArtistFollowingEntity))
+              as ArtistFollowingEntity);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$ArtistEntity extends ArtistEntity {
   @override
   final String name;
@@ -327,6 +474,8 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final BuiltList<SongFlagEntity> songFlags;
   @override
+  final BuiltList<ArtistFollowingEntity> following;
+  @override
   final int id;
   @override
   final String deletedAt;
@@ -353,6 +502,7 @@ class _$ArtistEntity extends ArtistEntity {
       this.website,
       this.songLikes,
       this.songFlags,
+      this.following,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -385,6 +535,7 @@ class _$ArtistEntity extends ArtistEntity {
         website == other.website &&
         songLikes == other.songLikes &&
         songFlags == other.songFlags &&
+        following == other.following &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -411,30 +562,32 @@ class _$ArtistEntity extends ArtistEntity {
                                                                     $jc(
                                                                         $jc(
                                                                             $jc(
-                                                                                0,
-                                                                                name
+                                                                                $jc(
+                                                                                    0,
+                                                                                    name
+                                                                                        .hashCode),
+                                                                                handle
                                                                                     .hashCode),
-                                                                            handle
+                                                                            email
                                                                                 .hashCode),
-                                                                        email
+                                                                        token
                                                                             .hashCode),
-                                                                    token
+                                                                    description
                                                                         .hashCode),
-                                                                description
+                                                                profileImageUrl
                                                                     .hashCode),
-                                                            profileImageUrl
+                                                            headerImageUrl
                                                                 .hashCode),
-                                                        headerImageUrl
-                                                            .hashCode),
-                                                    twitterURL.hashCode),
-                                                facebookURL.hashCode),
-                                            instagramURL.hashCode),
-                                        youTubeURL.hashCode),
-                                    twitchURL.hashCode),
-                                soundCloudURL.hashCode),
-                            website.hashCode),
-                        songLikes.hashCode),
-                    songFlags.hashCode),
+                                                        twitterURL.hashCode),
+                                                    facebookURL.hashCode),
+                                                instagramURL.hashCode),
+                                            youTubeURL.hashCode),
+                                        twitchURL.hashCode),
+                                    soundCloudURL.hashCode),
+                                website.hashCode),
+                            songLikes.hashCode),
+                        songFlags.hashCode),
+                    following.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -459,6 +612,7 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('website', website)
           ..add('songLikes', songLikes)
           ..add('songFlags', songFlags)
+          ..add('following', following)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -541,6 +695,12 @@ class ArtistEntityBuilder
   set songFlags(ListBuilder<SongFlagEntity> songFlags) =>
       _$this._songFlags = songFlags;
 
+  ListBuilder<ArtistFollowingEntity> _following;
+  ListBuilder<ArtistFollowingEntity> get following =>
+      _$this._following ??= new ListBuilder<ArtistFollowingEntity>();
+  set following(ListBuilder<ArtistFollowingEntity> following) =>
+      _$this._following = following;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -573,6 +733,7 @@ class ArtistEntityBuilder
       _website = _$v.website;
       _songLikes = _$v.songLikes?.toBuilder();
       _songFlags = _$v.songFlags?.toBuilder();
+      _following = _$v.following?.toBuilder();
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -616,6 +777,7 @@ class ArtistEntityBuilder
               website: website,
               songLikes: _songLikes?.build(),
               songFlags: _songFlags?.build(),
+              following: _following?.build(),
               id: id,
               deletedAt: deletedAt,
               updatedAt: updatedAt);
@@ -626,6 +788,8 @@ class ArtistEntityBuilder
         _songLikes?.build();
         _$failedField = 'songFlags';
         _songFlags?.build();
+        _$failedField = 'following';
+        _following?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'ArtistEntity', _$failedField, e.toString());
@@ -721,6 +885,242 @@ class ArtistItemResponseBuilder
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'ArtistItemResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ArtistFollowingEntity extends ArtistFollowingEntity {
+  @override
+  final int artistId;
+  @override
+  final int artistFollowingId;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
+  @override
+  final int id;
+
+  factory _$ArtistFollowingEntity(
+          [void updates(ArtistFollowingEntityBuilder b)]) =>
+      (new ArtistFollowingEntityBuilder()..update(updates)).build();
+
+  _$ArtistFollowingEntity._(
+      {this.artistId,
+      this.artistFollowingId,
+      this.deletedAt,
+      this.updatedAt,
+      this.id})
+      : super._() {
+    if (artistId == null) {
+      throw new BuiltValueNullFieldError('ArtistFollowingEntity', 'artistId');
+    }
+    if (artistFollowingId == null) {
+      throw new BuiltValueNullFieldError(
+          'ArtistFollowingEntity', 'artistFollowingId');
+    }
+  }
+
+  @override
+  ArtistFollowingEntity rebuild(void updates(ArtistFollowingEntityBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ArtistFollowingEntityBuilder toBuilder() =>
+      new ArtistFollowingEntityBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ArtistFollowingEntity &&
+        artistId == other.artistId &&
+        artistFollowingId == other.artistFollowingId &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt &&
+        id == other.id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc(0, artistId.hashCode), artistFollowingId.hashCode),
+                deletedAt.hashCode),
+            updatedAt.hashCode),
+        id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ArtistFollowingEntity')
+          ..add('artistId', artistId)
+          ..add('artistFollowingId', artistFollowingId)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt)
+          ..add('id', id))
+        .toString();
+  }
+}
+
+class ArtistFollowingEntityBuilder
+    implements Builder<ArtistFollowingEntity, ArtistFollowingEntityBuilder> {
+  _$ArtistFollowingEntity _$v;
+
+  int _artistId;
+  int get artistId => _$this._artistId;
+  set artistId(int artistId) => _$this._artistId = artistId;
+
+  int _artistFollowingId;
+  int get artistFollowingId => _$this._artistFollowingId;
+  set artistFollowingId(int artistFollowingId) =>
+      _$this._artistFollowingId = artistFollowingId;
+
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
+
+  ArtistFollowingEntityBuilder();
+
+  ArtistFollowingEntityBuilder get _$this {
+    if (_$v != null) {
+      _artistId = _$v.artistId;
+      _artistFollowingId = _$v.artistFollowingId;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
+      _id = _$v.id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ArtistFollowingEntity other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ArtistFollowingEntity;
+  }
+
+  @override
+  void update(void updates(ArtistFollowingEntityBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ArtistFollowingEntity build() {
+    final _$result = _$v ??
+        new _$ArtistFollowingEntity._(
+            artistId: artistId,
+            artistFollowingId: artistFollowingId,
+            deletedAt: deletedAt,
+            updatedAt: updatedAt,
+            id: id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ArtistFollowingItemResponse extends ArtistFollowingItemResponse {
+  @override
+  final ArtistFollowingEntity data;
+
+  factory _$ArtistFollowingItemResponse(
+          [void updates(ArtistFollowingItemResponseBuilder b)]) =>
+      (new ArtistFollowingItemResponseBuilder()..update(updates)).build();
+
+  _$ArtistFollowingItemResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('ArtistFollowingItemResponse', 'data');
+    }
+  }
+
+  @override
+  ArtistFollowingItemResponse rebuild(
+          void updates(ArtistFollowingItemResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ArtistFollowingItemResponseBuilder toBuilder() =>
+      new ArtistFollowingItemResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ArtistFollowingItemResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ArtistFollowingItemResponse')
+          ..add('data', data))
+        .toString();
+  }
+}
+
+class ArtistFollowingItemResponseBuilder
+    implements
+        Builder<ArtistFollowingItemResponse,
+            ArtistFollowingItemResponseBuilder> {
+  _$ArtistFollowingItemResponse _$v;
+
+  ArtistFollowingEntityBuilder _data;
+  ArtistFollowingEntityBuilder get data =>
+      _$this._data ??= new ArtistFollowingEntityBuilder();
+  set data(ArtistFollowingEntityBuilder data) => _$this._data = data;
+
+  ArtistFollowingItemResponseBuilder();
+
+  ArtistFollowingItemResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ArtistFollowingItemResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ArtistFollowingItemResponse;
+  }
+
+  @override
+  void update(void updates(ArtistFollowingItemResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ArtistFollowingItemResponse build() {
+    _$ArtistFollowingItemResponse _$result;
+    try {
+      _$result = _$v ?? new _$ArtistFollowingItemResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'ArtistFollowingItemResponse', _$failedField, e.toString());
       }
       rethrow;
     }

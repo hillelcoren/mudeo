@@ -13,6 +13,7 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, SaveArtistSuccess>(saveArtistReducer),
   TypedReducer<AuthState, LikeSongSuccess>(likeSongReducer),
   TypedReducer<AuthState, FlagSongSuccess>(flagSongReducer),
+  TypedReducer<AuthState, FollowArtistSuccess>(followArtistReducer),
 ]);
 
 AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
@@ -55,25 +56,30 @@ AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
 AuthState likeSongReducer(AuthState authState, LikeSongSuccess action) {
   final artist = authState.artist;
   if (artist.likedSong(action.songLike.songId)) {
-    return authState.rebuild((b) => b
-      ..artist.songLikes.remove(action.songLike)
-    );
+    return authState
+        .rebuild((b) => b..artist.songLikes.remove(action.songLike));
   } else {
-    return authState.rebuild((b) => b
-      ..artist.songLikes.add(action.songLike)
-    );
+    return authState.rebuild((b) => b..artist.songLikes.add(action.songLike));
   }
 }
 
 AuthState flagSongReducer(AuthState authState, FlagSongSuccess action) {
   final artist = authState.artist;
   if (artist.flaggedSong(action.songFlag.songId)) {
-    return authState.rebuild((b) => b
-      ..artist.songFlags.remove(action.songFlag)
-    );
+    return authState
+        .rebuild((b) => b..artist.songFlags.remove(action.songFlag));
   } else {
-    return authState.rebuild((b) => b
-      ..artist.songFlags.add(action.songFlag)
-    );
+    return authState.rebuild((b) => b..artist.songFlags.add(action.songFlag));
+  }
+}
+
+AuthState followArtistReducer(AuthState authState, FollowArtistSuccess action) {
+  final artist = authState.artist;
+  if (artist.isFollowing(action.artistFollowing.artistFollowingId)) {
+    return authState
+        .rebuild((b) => b..artist.following.remove(action.artistFollowing));
+  } else {
+    return authState
+        .rebuild((b) => b..artist.following.add(action.artistFollowing));
   }
 }

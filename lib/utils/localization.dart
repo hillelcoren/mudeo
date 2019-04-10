@@ -49,6 +49,7 @@ class AppLocalization {
       'your_song_has_been_saved': 'Your song has been saved!',
       'uploading': 'Uploading',
       'follow': 'Follow',
+      'unfollow': 'Unfollow',
       'genre': 'Genre',
       'front': 'Front',
       'back': 'Back',
@@ -184,6 +185,8 @@ class AppLocalization {
   String get uploading => _localizedValues[locale.toString()]['uploading'];
 
   String get follow => _localizedValues[locale.toString()]['follow'];
+
+  String get unfollow => _localizedValues[locale.toString()]['unfollow'];
 
   String get genre => _localizedValues[locale.toString()]['genre'];
 

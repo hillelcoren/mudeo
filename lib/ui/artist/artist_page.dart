@@ -12,6 +12,7 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
+import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -49,6 +50,7 @@ class ArtistPage extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
     final TextStyle linkStyle = themeData.textTheme.body2
         .copyWith(color: themeData.accentColor, fontSize: 18);
+    final isFollowing = viewModel.state.authState.artist.isFollowing(artist.id);
 
     void _showMenu() {
       showDialog<SimpleDialog>(
@@ -289,15 +291,26 @@ class ArtistPage extends StatelessWidget {
                               vertical: 10, horizontal: 35),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0)))
-                      : RaisedButton(
-                          child: Text(localization.follow,
-                              style: TextStyle(fontSize: 18)),
-                          onPressed: () => null,
-                          color: Colors.lightBlue,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 35),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0))),
+                      : viewModel.state.isSaving
+                          ? SizedBox(
+                              child: CircularProgressIndicator(),
+                              width: 48,
+                              height: 48,
+                            )
+                          : RaisedButton(
+                              child: Text(
+                                  isFollowing
+                                      ? localization.unfollow
+                                      : localization.follow,
+                                  style: TextStyle(fontSize: 18)),
+                              onPressed: () =>
+                                  viewModel.onFollowPressed(artist),
+                              color:
+                                  isFollowing ? Colors.grey : Colors.lightBlue,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 35),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0))),
                 ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(
