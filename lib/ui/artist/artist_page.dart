@@ -12,7 +12,6 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
-import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
