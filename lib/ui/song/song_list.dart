@@ -153,7 +153,7 @@ class SongItem extends StatelessWidget {
                       onPressed: onSharePressed,
                     ),
                     PopupMenuButton<String>(
-                      icon: Icon(Icons.more_vert),
+                      icon: Icon(Icons.keyboard_arrow_down, size: 30),
                       itemBuilder: (BuildContext context) {
                         final actions = [
                           localization.copyLinkToSong,
