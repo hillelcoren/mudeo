@@ -1,6 +1,7 @@
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:redux/redux.dart';
 
 Reducer<AuthState> authReducer = combineReducers([
@@ -10,6 +11,7 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, UserLoginFailure>(userLoginFailureReducer),
   TypedReducer<AuthState, ClearAuthError>(clearAuthErrorReducer),
   TypedReducer<AuthState, SaveArtistSuccess>(saveArtistReducer),
+  TypedReducer<AuthState, LikeSongSuccess>(likeSongReducer),
 ]);
 
 AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
@@ -42,8 +44,22 @@ AuthState userLoginFailureReducer(
 
 AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
   final artist = authState.artist;
-  return authState.rebuild((b) => b..artist.replace(action.artist.rebuild((b) => b
-    ..token = artist.token
-    ..email = artist.email // TODO remove this
-  )));
+  return authState.rebuild((b) => b
+    ..artist.replace(action.artist.rebuild((b) => b
+          ..token = artist.token
+          ..email = artist.email // TODO remove this
+        )));
+}
+
+AuthState likeSongReducer(AuthState authState, LikeSongSuccess action) {
+  final artist = authState.artist;
+  if (artist.likedSong(action.songLike.songId)) {
+    return authState.rebuild((b) => b
+      ..artist.songLikes.remove(action.songLike)
+    );
+  } else {
+    return authState.rebuild((b) => b
+      ..artist.songLikes.add(action.songLike)
+    );
+  }
 }

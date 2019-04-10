@@ -81,9 +81,9 @@ class LikeSongRequest implements StartSaving {
 }
 
 class LikeSongSuccess implements StopSaving, PersistAuth {
-  LikeSongSuccess(this.song);
+  LikeSongSuccess(this.songLike);
 
-  final SongLikeEntity song;
+  final SongLikeEntity songLike;
 }
 
 class LikeSongFailure implements StopSaving {

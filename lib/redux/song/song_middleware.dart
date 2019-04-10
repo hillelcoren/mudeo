@@ -37,7 +37,9 @@ Middleware<AppState> _saveSong(SongRepository repository) {
         action.completer.completeError(error);
       });
     } else {
-      repository.saveSong(authState, action.song.updateOrderByIds).then((song) {
+      repository
+          .saveSong(authState, action.song.updateOrderByIds)
+          .then((song) {
         if (action.song.isNew) {
           store.dispatch(AddSongSuccess(song));
         } else {
@@ -96,10 +98,9 @@ Middleware<AppState> _likeSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final AuthState state = store.state.authState;
     final song = action.song;
+    final songLike = state.artist.songLike(song.id);
 
-    repository
-        .likeSong(state, song, unlike: state.artist.likedSong(song))
-        .then((data) {
+    repository.likeSong(state, song, songLike: songLike).then((data) {
       store.dispatch(LikeSongSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);

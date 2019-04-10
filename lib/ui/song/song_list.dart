@@ -47,7 +47,7 @@ class SongList extends StatelessWidget {
               ValueKey(songId),
               context,
               song: song,
-              isLiked: auth.artist.likedSong(song),
+              isLiked: auth.artist.likedSong(song.id),
               onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
               onPlayPressed: () {
                 showDialog<VideoPlayer>(
