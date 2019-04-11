@@ -15,7 +15,6 @@ import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 
@@ -52,7 +51,6 @@ class SongScaffold extends StatelessWidget {
               actions.addAll([
                 localization.resetSong,
                 localization.shareSong,
-                localization.openInBrowser,
               ]);
             }
             return actions
@@ -63,10 +61,7 @@ class SongScaffold extends StatelessWidget {
                 .toList();
           },
           onSelected: (String action) {
-            if (action == localization.openInBrowser) {
-              launch(viewModel.song.url);
-              return;
-            } else if (action == localization.shareSong) {
+            if (action == localization.shareSong) {
               viewModel.onSharePressed();
               return;
             }

@@ -13,6 +13,7 @@ import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:chewie/chewie.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
 class SongList extends StatelessWidget {
@@ -156,6 +157,7 @@ class SongItem extends StatelessWidget {
                       icon: Icon(Icons.keyboard_arrow_down, size: 30),
                       itemBuilder: (BuildContext context) {
                         final actions = [
+                          localization.openInBrowser,
                           localization.copyLinkToSong,
                           localization.reportSong,
                         ];
@@ -167,7 +169,10 @@ class SongItem extends StatelessWidget {
                             .toList();
                       },
                       onSelected: (String action) async {
-                        if (action == localization.copyLinkToSong) {
+                        if (action == localization.openInBrowser) {
+                          launch(song.url);
+                          return;
+                        } else if (action == localization.copyLinkToSong) {
                           Clipboard.setData(new ClipboardData(text: song.url));
                           Scaffold.of(context).showSnackBar(SnackBar(
                               content: Text(localization.copiedToClipboard)));
