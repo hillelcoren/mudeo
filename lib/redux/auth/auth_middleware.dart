@@ -120,10 +120,7 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
 
 Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    repository
-        .oauthLogin(
-            token: action.oauthToken)
-        .then((artist) {
+    repository.oauthLogin(token: action.oauthToken).then((artist) {
       _saveAuthLocal(artist);
     }).catchError((Object error) {
       print(error);

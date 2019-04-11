@@ -300,25 +300,37 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   void initState() {
     super.initState();
+    initVideo();
+  }
+
+  void initVideo() async {
     videoPlayerController = VideoPlayerController.network(widget.videoUrl);
-    chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      aspectRatio: 3 / 2,
-      autoPlay: true,
-      looping: false,
-      showControls: true,
-    );
+    videoPlayerController.initialize().then((_) {
+      setState(() {
+        chewieController = ChewieController(
+          videoPlayerController: videoPlayerController,
+          aspectRatio: videoPlayerController.value.aspectRatio,
+          autoPlay: true,
+          looping: false,
+          showControls: true,
+        );
+      });
+    });
   }
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
-    chewieController.dispose();
+    videoPlayerController?.dispose();
+    chewieController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (chewieController == null) {
+      return LoadingIndicator();
+    }
+
     return Material(
       type: MaterialType.transparency,
       child: Column(
