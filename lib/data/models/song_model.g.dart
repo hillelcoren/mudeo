@@ -102,10 +102,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.countPlay,
             specifiedType: const FullType(int)));
     }
-    if (object.countLink != null) {
+    if (object.countLike != null) {
       result
         ..add('count_like')
-        ..add(serializers.serialize(object.countLink,
+        ..add(serializers.serialize(object.countLike,
             specifiedType: const FullType(int)));
     }
     if (object.id != null) {
@@ -778,7 +778,7 @@ class _$SongEntity extends SongEntity {
   @override
   final int countPlay;
   @override
-  final int countLink;
+  final int countLike;
   @override
   final bool isFlagged;
   @override
@@ -807,7 +807,7 @@ class _$SongEntity extends SongEntity {
       this.parentId,
       this.duration,
       this.countPlay,
-      this.countLink,
+      this.countLike,
       this.isFlagged,
       this.isPublic,
       this.videoUrl,
@@ -862,7 +862,7 @@ class _$SongEntity extends SongEntity {
         parentId == other.parentId &&
         duration == other.duration &&
         countPlay == other.countPlay &&
-        countLink == other.countLink &&
+        countLike == other.countLike &&
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
         videoUrl == other.videoUrl &&
@@ -903,7 +903,7 @@ class _$SongEntity extends SongEntity {
                                                 parentId.hashCode),
                                             duration.hashCode),
                                         countPlay.hashCode),
-                                    countLink.hashCode),
+                                    countLike.hashCode),
                                 isFlagged.hashCode),
                             isPublic.hashCode),
                         videoUrl.hashCode),
@@ -925,7 +925,7 @@ class _$SongEntity extends SongEntity {
           ..add('parentId', parentId)
           ..add('duration', duration)
           ..add('countPlay', countPlay)
-          ..add('countLink', countLink)
+          ..add('countLink', countLike)
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
           ..add('videoUrl', videoUrl)
@@ -1023,7 +1023,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _parentId = _$v.parentId;
       _duration = _$v.duration;
       _countPlay = _$v.countPlay;
-      _countLink = _$v.countLink;
+      _countLink = _$v.countLike;
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
       _videoUrl = _$v.videoUrl;
@@ -1064,7 +1064,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               parentId: parentId,
               duration: duration,
               countPlay: countPlay,
-              countLink: countLink,
+              countLike: countLink,
               isFlagged: isFlagged,
               isPublic: isPublic,
               videoUrl: videoUrl,

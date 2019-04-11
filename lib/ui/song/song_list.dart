@@ -142,11 +142,18 @@ class SongItem extends StatelessWidget {
                       tooltip: localization.edit,
                       onPressed: onEditPressed,
                     ),
-                    IconButton(
-                      icon: Icon(Icons.favorite),
-                      tooltip: localization.like,
-                      onPressed: onLikePressed,
-                      color: isLiked ? Colors.redAccent : null,
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.favorite),
+                          tooltip: localization.like,
+                          onPressed: onLikePressed,
+                          color: isLiked ? Colors.redAccent : null,
+                        ),
+                        song.countLike > 0
+                            ? Text('${song.countLike}')
+                            : SizedBox(),
+                      ],
                     ),
                     IconButton(
                       icon: Icon(Icons.share),
