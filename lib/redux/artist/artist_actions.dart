@@ -127,9 +127,10 @@ class FollowArtistRequest implements StartSaving {
 }
 
 class FollowArtistSuccess implements StopSaving, PersistAuth {
-  FollowArtistSuccess(this.artistFollowing);
+  FollowArtistSuccess({this.artistFollowing, this.unfollow});
 
   final ArtistFollowingEntity artistFollowing;
+  final bool unfollow;
 }
 
 class FollowArtistFailure implements StopSaving {

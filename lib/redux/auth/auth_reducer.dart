@@ -54,8 +54,7 @@ AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
 }
 
 AuthState likeSongReducer(AuthState authState, LikeSongSuccess action) {
-  final artist = authState.artist;
-  if (artist.likedSong(action.songLike.songId)) {
+  if (action.unlike) {
     return authState
         .rebuild((b) => b..artist.songLikes.remove(action.songLike));
   } else {
@@ -64,18 +63,11 @@ AuthState likeSongReducer(AuthState authState, LikeSongSuccess action) {
 }
 
 AuthState flagSongReducer(AuthState authState, FlagSongSuccess action) {
-  final artist = authState.artist;
-  if (artist.flaggedSong(action.songFlag.songId)) {
-    return authState
-        .rebuild((b) => b..artist.songFlags.remove(action.songFlag));
-  } else {
-    return authState.rebuild((b) => b..artist.songFlags.add(action.songFlag));
-  }
+  return authState.rebuild((b) => b..artist.songFlags.add(action.songFlag));
 }
 
 AuthState followArtistReducer(AuthState authState, FollowArtistSuccess action) {
-  final artist = authState.artist;
-  if (artist.isFollowing(action.artistFollowing.artistFollowingId)) {
+  if (action.unfollow) {
     return authState
         .rebuild((b) => b..artist.following.remove(action.artistFollowing));
   } else {

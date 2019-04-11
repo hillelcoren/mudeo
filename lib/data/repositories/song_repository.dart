@@ -97,23 +97,14 @@ class SongRepository {
     }
   }
 
-  Future<SongFlagEntity> flagSong(AuthState auth, SongEntity song,
-      {SongFlagEntity songFlag}) async {
+  Future<SongFlagEntity> flagSong(AuthState auth, SongEntity song) async {
     dynamic response;
 
-    if (songFlag != null) {
-      /*
-      var url = '${Config.API_URL}/song_flag/${songFlag.songId}';
-      response = await webClient.delete(url, auth.artist.token);
-      */
-      return songFlag;
-    } else {
-      var url = '${Config.API_URL}/song_flag?song_id=${song.id}';
-      response = await webClient.post(url, auth.artist.token);
-      final FlagSongResponse songResponse =
-      serializers.deserializeWith(FlagSongResponse.serializer, response);
+    var url = '${Config.API_URL}/song_flag?song_id=${song.id}';
+    response = await webClient.post(url, auth.artist.token);
+    final FlagSongResponse songResponse =
+        serializers.deserializeWith(FlagSongResponse.serializer, response);
 
-      return songResponse.data;
-    }
+    return songResponse.data;
   }
 }

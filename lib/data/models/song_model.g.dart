@@ -178,7 +178,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
               specifiedType: const FullType(int)) as int;
           break;
         case 'count_like':
-          result.countLink = serializers.deserialize(value,
+          result.countLike = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'is_flagged':
@@ -925,7 +925,7 @@ class _$SongEntity extends SongEntity {
           ..add('parentId', parentId)
           ..add('duration', duration)
           ..add('countPlay', countPlay)
-          ..add('countLink', countLike)
+          ..add('countLike', countLike)
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
           ..add('videoUrl', videoUrl)
@@ -977,9 +977,9 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int get countPlay => _$this._countPlay;
   set countPlay(int countPlay) => _$this._countPlay = countPlay;
 
-  int _countLink;
-  int get countLink => _$this._countLink;
-  set countLink(int countLink) => _$this._countLink = countLink;
+  int _countLike;
+  int get countLike => _$this._countLike;
+  set countLike(int countLike) => _$this._countLike = countLike;
 
   bool _isFlagged;
   bool get isFlagged => _$this._isFlagged;
@@ -1023,7 +1023,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _parentId = _$v.parentId;
       _duration = _$v.duration;
       _countPlay = _$v.countPlay;
-      _countLink = _$v.countLike;
+      _countLike = _$v.countLike;
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
       _videoUrl = _$v.videoUrl;
@@ -1064,7 +1064,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               parentId: parentId,
               duration: duration,
               countPlay: countPlay,
-              countLike: countLink,
+              countLike: countLike,
               isFlagged: isFlagged,
               isPublic: isPublic,
               videoUrl: videoUrl,
