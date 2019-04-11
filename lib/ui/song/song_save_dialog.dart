@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
+import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -187,10 +188,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     //color: Colors.grey,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
-                  SizedBox(
-                    width: 8,
-                  ),
                   ProgressButton(
+                    padding: EdgeInsets.all(0),
                     isLoading: viewModel.state.isSaving,
                     onPressed: () => _onSubmit(),
                     label: song.isNew ? localization.upload : localization.save,
