@@ -36,38 +36,36 @@ class SongList extends StatelessWidget {
 
     return RefreshIndicator(
       onRefresh: () => viewModel.onRefreshed(context),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 80),
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: songIds.length,
-            itemBuilder: (BuildContext context, index) {
-              final data = viewModel.state.dataState;
-              final auth = viewModel.state.authState;
-              final songId = songIds[index];
-              final song = data.songMap[songId];
+      child: ListView.builder(
+          padding: const EdgeInsets.only(bottom: 130),
+          shrinkWrap: true,
+          itemCount: songIds.length,
+          itemBuilder: (BuildContext context, index) {
+            final data = viewModel.state.dataState;
+            final auth = viewModel.state.authState;
+            final songId = songIds[index];
+            final song = data.songMap[songId];
 
-              return SongItem(
-                ValueKey(songId),
-                context,
-                song: song,
-                isLiked: auth.artist.likedSong(song.id),
-                isOwned: auth.artist.ownsSong(song),
-                onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
-                onPlayPressed: () {
-                  showDialog<VideoPlayer>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return VideoPlayer(song.videoUrl);
-                      });
-                },
-                onLikePressed: () => viewModel.onLikePressed(song),
-                onSharePressed: () => viewModel.onSharePressed(song),
-                onEditPressed: () => viewModel.onSongEdit(context, song),
-                onFlagPressed: () => viewModel.onFlagPressed(song),
-              );
-            }),
-      ),
+            return SongItem(
+              ValueKey(songId),
+              context,
+              song: song,
+              isLiked: auth.artist.likedSong(song.id),
+              isOwned: auth.artist.ownsSong(song),
+              onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
+              onPlayPressed: () {
+                showDialog<VideoPlayer>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return VideoPlayer(song.videoUrl);
+                    });
+              },
+              onLikePressed: () => viewModel.onLikePressed(song),
+              onSharePressed: () => viewModel.onSharePressed(song),
+              onEditPressed: () => viewModel.onSongEdit(context, song),
+              onFlagPressed: () => viewModel.onFlagPressed(song),
+            );
+          }),
     );
   }
 }
