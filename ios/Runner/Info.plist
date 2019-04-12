@@ -26,9 +26,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Can I use the camera please?</string>
+	<string>The camera is used to record video for your song</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Can I use the mic please?</string>
+	<string>The mic is used to record audio for your song</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>The photo library is used to upload a profile image</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
