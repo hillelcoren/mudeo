@@ -15,6 +15,7 @@ import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
@@ -336,8 +337,8 @@ class ArtistPage extends StatelessWidget {
                             children: <TextSpan>[
                               LinkTextSpan(
                                 style: linkStyle,
-                                text: artist.website,
-                                url: artist.website,
+                                text: formatLinkForHuman(artist.website),
+                                url: formatLinkForBrowser(artist.website),
                               ),
                             ],
                           ),

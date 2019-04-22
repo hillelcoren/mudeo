@@ -189,7 +189,7 @@ class _SongEditState extends State<SongEdit> {
       camera = CameraController(
           cameras
               .firstWhere((camera) => camera.lensDirection == cameraDirection),
-          ResolutionPreset.high)
+          ResolutionPreset.low)
         ..addListener(() {
           if (mounted) setState(() {});
         })
@@ -259,6 +259,8 @@ class _SongEditState extends State<SongEdit> {
           });
       return;
     }
+
+    camera.prepareForVideoRecording();
 
     setState(() {
       countdownTimer = 3;
