@@ -137,6 +137,13 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
             specifiedType: const FullType(
                 BuiltList, const [const FullType(SongFlagEntity)])));
     }
+    if (object.artistFlags != null) {
+      result
+        ..add('user_flags')
+        ..add(serializers.serialize(object.artistFlags,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ArtistFlagEntity)])));
+    }
     if (object.following != null) {
       result
         ..add('following')
@@ -243,6 +250,12 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           result.songFlags.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(SongFlagEntity)]))
+              as BuiltList);
+          break;
+        case 'user_flags':
+          result.artistFlags.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ArtistFlagEntity)]))
               as BuiltList);
           break;
         case 'following':
@@ -474,6 +487,8 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final BuiltList<SongFlagEntity> songFlags;
   @override
+  final BuiltList<ArtistFlagEntity> artistFlags;
+  @override
   final BuiltList<ArtistFollowingEntity> following;
   @override
   final int id;
@@ -502,6 +517,7 @@ class _$ArtistEntity extends ArtistEntity {
       this.website,
       this.songLikes,
       this.songFlags,
+      this.artistFlags,
       this.following,
       this.id,
       this.deletedAt,
@@ -535,6 +551,7 @@ class _$ArtistEntity extends ArtistEntity {
         website == other.website &&
         songLikes == other.songLikes &&
         songFlags == other.songFlags &&
+        artistFlags == other.artistFlags &&
         following == other.following &&
         id == other.id &&
         deletedAt == other.deletedAt &&
@@ -561,32 +578,22 @@ class _$ArtistEntity extends ArtistEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(
-                                                                                $jc(
-                                                                                    0,
-                                                                                    name
-                                                                                        .hashCode),
-                                                                                handle
-                                                                                    .hashCode),
-                                                                            email
-                                                                                .hashCode),
-                                                                        token
-                                                                            .hashCode),
-                                                                    description
-                                                                        .hashCode),
-                                                                profileImageUrl
-                                                                    .hashCode),
-                                                            headerImageUrl
-                                                                .hashCode),
-                                                        twitterURL.hashCode),
-                                                    facebookURL.hashCode),
-                                                instagramURL.hashCode),
-                                            youTubeURL.hashCode),
-                                        twitchURL.hashCode),
-                                    soundCloudURL.hashCode),
-                                website.hashCode),
-                            songLikes.hashCode),
-                        songFlags.hashCode),
+                                                                            $jc($jc($jc(0, name.hashCode), handle.hashCode),
+                                                                                email.hashCode),
+                                                                            token.hashCode),
+                                                                        description.hashCode),
+                                                                    profileImageUrl.hashCode),
+                                                                headerImageUrl.hashCode),
+                                                            twitterURL.hashCode),
+                                                        facebookURL.hashCode),
+                                                    instagramURL.hashCode),
+                                                youTubeURL.hashCode),
+                                            twitchURL.hashCode),
+                                        soundCloudURL.hashCode),
+                                    website.hashCode),
+                                songLikes.hashCode),
+                            songFlags.hashCode),
+                        artistFlags.hashCode),
                     following.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
@@ -612,6 +619,7 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('website', website)
           ..add('songLikes', songLikes)
           ..add('songFlags', songFlags)
+          ..add('artistFlags', artistFlags)
           ..add('following', following)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
@@ -695,6 +703,12 @@ class ArtistEntityBuilder
   set songFlags(ListBuilder<SongFlagEntity> songFlags) =>
       _$this._songFlags = songFlags;
 
+  ListBuilder<ArtistFlagEntity> _artistFlags;
+  ListBuilder<ArtistFlagEntity> get artistFlags =>
+      _$this._artistFlags ??= new ListBuilder<ArtistFlagEntity>();
+  set artistFlags(ListBuilder<ArtistFlagEntity> artistFlags) =>
+      _$this._artistFlags = artistFlags;
+
   ListBuilder<ArtistFollowingEntity> _following;
   ListBuilder<ArtistFollowingEntity> get following =>
       _$this._following ??= new ListBuilder<ArtistFollowingEntity>();
@@ -733,6 +747,7 @@ class ArtistEntityBuilder
       _website = _$v.website;
       _songLikes = _$v.songLikes?.toBuilder();
       _songFlags = _$v.songFlags?.toBuilder();
+      _artistFlags = _$v.artistFlags?.toBuilder();
       _following = _$v.following?.toBuilder();
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
@@ -777,6 +792,7 @@ class ArtistEntityBuilder
               website: website,
               songLikes: _songLikes?.build(),
               songFlags: _songFlags?.build(),
+              artistFlags: _artistFlags?.build(),
               following: _following?.build(),
               id: id,
               deletedAt: deletedAt,
@@ -788,6 +804,8 @@ class ArtistEntityBuilder
         _songLikes?.build();
         _$failedField = 'songFlags';
         _songFlags?.build();
+        _$failedField = 'artistFlags';
+        _artistFlags?.build();
         _$failedField = 'following';
         _following?.build();
       } catch (e) {

@@ -15,6 +15,7 @@ import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -348,11 +349,60 @@ class ArtistPage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: artist.socialLinks.keys
-                          .map((type) => SocialIconButton(
-                              type: type, url: artist.socialLinks[type]))
-                          .toList()),
+                    children: <Widget>[
+                      Expanded(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: artist.socialLinks.keys
+                              .map((type) => SocialIconButton(
+                                  type: type, url: artist.socialLinks[type]))
+                              .toList(),
+                        ),
+                      ),
+                      isAndroid(context) || showSettings
+                          ? SizedBox()
+                          : PopupMenuButton<String>(
+                              icon: Icon(Icons.keyboard_arrow_down, size: 30),
+                              itemBuilder: (BuildContext context) {
+                                final actions = [
+                                  localization.blockArtist,
+                                ];
+                                return actions
+                                    .map((action) => PopupMenuItem(
+                                          child: Text(action),
+                                          value: action,
+                                        ))
+                                    .toList();
+                              },
+                              onSelected: (String action) async {
+                                showDialog<AlertDialog>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        semanticLabel: localization.areYouSure,
+                                        title: Text(localization.areYouSure),
+                                        content: Text(localization.blockArtist),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                              child: Text(localization.cancel
+                                                  .toUpperCase()),
+                                              onPressed: () =>
+                                                  Navigator.pop(context)),
+                                          FlatButton(
+                                              child: Text(localization.ok
+                                                  .toUpperCase()),
+                                              onPressed: () {
+                                                viewModel.onBlockPressed(artist);
+                                                Navigator.pop(context);
+                                              })
+                                        ],
+                                      );
+                                    });
+                              },
+                            ),
+                    ],
+                  ),
                 ),
               ],
             ),

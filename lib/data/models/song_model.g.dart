@@ -25,6 +25,8 @@ Serializer<SongLikeEntity> _$songLikeEntitySerializer =
     new _$SongLikeEntitySerializer();
 Serializer<SongFlagEntity> _$songFlagEntitySerializer =
     new _$SongFlagEntitySerializer();
+Serializer<ArtistFlagEntity> _$artistFlagEntitySerializer =
+    new _$ArtistFlagEntitySerializer();
 Serializer<VideoEntity> _$videoEntitySerializer = new _$VideoEntitySerializer();
 Serializer<SongListResponse> _$songListResponseSerializer =
     new _$SongListResponseSerializer();
@@ -435,6 +437,73 @@ class _$SongFlagEntitySerializer
           break;
         case 'song_id':
           result.songId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ArtistFlagEntitySerializer
+    implements StructuredSerializer<ArtistFlagEntity> {
+  @override
+  final Iterable<Type> types = const [ArtistFlagEntity, _$ArtistFlagEntity];
+  @override
+  final String wireName = 'ArtistFlagEntity';
+
+  @override
+  Iterable serialize(Serializers serializers, ArtistFlagEntity object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'id',
+      serializers.serialize(object.id, specifiedType: const FullType(int)),
+      'user_id',
+      serializers.serialize(object.artistId,
+          specifiedType: const FullType(int)),
+    ];
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
+
+    return result;
+  }
+
+  @override
+  ArtistFlagEntity deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ArtistFlagEntityBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'user_id':
+          result.artistId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'deleted_at':
@@ -1507,6 +1576,124 @@ class SongFlagEntityBuilder
             id: id,
             userId: userId,
             songId: songId,
+            deletedAt: deletedAt,
+            updatedAt: updatedAt);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ArtistFlagEntity extends ArtistFlagEntity {
+  @override
+  final int id;
+  @override
+  final int artistId;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
+
+  factory _$ArtistFlagEntity([void updates(ArtistFlagEntityBuilder b)]) =>
+      (new ArtistFlagEntityBuilder()..update(updates)).build();
+
+  _$ArtistFlagEntity._({this.id, this.artistId, this.deletedAt, this.updatedAt})
+      : super._() {
+    if (id == null) {
+      throw new BuiltValueNullFieldError('ArtistFlagEntity', 'id');
+    }
+    if (artistId == null) {
+      throw new BuiltValueNullFieldError('ArtistFlagEntity', 'artistId');
+    }
+  }
+
+  @override
+  ArtistFlagEntity rebuild(void updates(ArtistFlagEntityBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ArtistFlagEntityBuilder toBuilder() =>
+      new ArtistFlagEntityBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ArtistFlagEntity &&
+        id == other.id &&
+        artistId == other.artistId &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc($jc(0, id.hashCode), artistId.hashCode), deletedAt.hashCode),
+        updatedAt.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ArtistFlagEntity')
+          ..add('id', id)
+          ..add('artistId', artistId)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt))
+        .toString();
+  }
+}
+
+class ArtistFlagEntityBuilder
+    implements Builder<ArtistFlagEntity, ArtistFlagEntityBuilder> {
+  _$ArtistFlagEntity _$v;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
+
+  int _artistId;
+  int get artistId => _$this._artistId;
+  set artistId(int artistId) => _$this._artistId = artistId;
+
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
+  ArtistFlagEntityBuilder();
+
+  ArtistFlagEntityBuilder get _$this {
+    if (_$v != null) {
+      _id = _$v.id;
+      _artistId = _$v.artistId;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ArtistFlagEntity other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$ArtistFlagEntity;
+  }
+
+  @override
+  void update(void updates(ArtistFlagEntityBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$ArtistFlagEntity build() {
+    final _$result = _$v ??
+        new _$ArtistFlagEntity._(
+            id: id,
+            artistId: artistId,
             deletedAt: deletedAt,
             updatedAt: updatedAt);
     replace(_$result);

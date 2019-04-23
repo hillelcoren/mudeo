@@ -1,3 +1,4 @@
+import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
@@ -14,6 +15,7 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, LikeSongSuccess>(likeSongReducer),
   TypedReducer<AuthState, FlagSongSuccess>(flagSongReducer),
   TypedReducer<AuthState, FollowArtistSuccess>(followArtistReducer),
+  TypedReducer<AuthState, FlagArtist>(flagArtistReducer),
 ]);
 
 AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
@@ -64,6 +66,11 @@ AuthState likeSongReducer(AuthState authState, LikeSongSuccess action) {
 
 AuthState flagSongReducer(AuthState authState, FlagSongSuccess action) {
   return authState.rebuild((b) => b..artist.songFlags.add(action.songFlag));
+}
+
+AuthState flagArtistReducer(AuthState authState, FlagArtist action) {
+  return authState.rebuild((b) =>
+      b..artist.artistFlags.add(ArtistFlagEntity(artistId: action.artist.id)));
 }
 
 AuthState followArtistReducer(AuthState authState, FollowArtistSuccess action) {

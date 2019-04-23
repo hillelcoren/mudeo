@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'block_artist': 'Block Artist',
       'copied_to_clipboard': 'Copied to clipboard',
       'copy_link_to_song': 'Copy link to Song',
       'report_song': 'Report Song',
@@ -129,6 +130,8 @@ class AppLocalization {
       'privacy_policy_link': 'privacy policy',
     },
   };
+
+  String get blockArtist => _localizedValues[locale.toString()]['block_artist'];
 
   String get note => _localizedValues[locale.toString()]['note'];
 

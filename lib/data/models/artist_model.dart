@@ -29,6 +29,7 @@ abstract class ArtistEntity extends Object
       headerImageUrl: '',
       songLikes: BuiltList<SongLikeEntity>(),
       songFlags: BuiltList<SongFlagEntity>(),
+      artistFlags: BuiltList<ArtistFlagEntity>(),
       following: BuiltList<ArtistFollowingEntity>(),
     );
   }
@@ -97,6 +98,10 @@ abstract class ArtistEntity extends Object
   BuiltList<SongFlagEntity> get songFlags;
 
   @nullable
+  @BuiltValueField(wireName: 'user_flags')
+  BuiltList<ArtistFlagEntity> get artistFlags;
+
+  @nullable
   @BuiltValueField(wireName: 'following')
   BuiltList<ArtistFollowingEntity> get following;
 
@@ -117,9 +122,16 @@ abstract class ArtistEntity extends Object
   SongFlagEntity getSongFlag(int songId) => songFlags == null
       ? null
       : songFlags.firstWhere((songFlag) => songFlag.songId == songId,
-          orElse: () => null);
+      orElse: () => null);
 
   bool flaggedSong(int songId) => getSongFlag(songId) != null;
+
+  ArtistFlagEntity getArtistFlag(int artistId) => artistFlags == null
+      ? null
+      : artistFlags.firstWhere((artistFlag) => artistFlag.artistId == artistId,
+      orElse: () => null);
+
+  bool flaggedArtist(int artistId) => getArtistFlag(artistId) != null;
 
   ArtistFollowingEntity getFollowing(int artistId) => following == null
       ? null

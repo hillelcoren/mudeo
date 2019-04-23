@@ -119,6 +119,13 @@ class SaveArtistFailure implements StopSaving {
 }
 
 
+class FlagArtist {
+  FlagArtist({this.artist, this.completer});
+
+  final Completer completer;
+  final ArtistEntity artist;
+}
+
 class FollowArtistRequest implements StartSaving {
   FollowArtistRequest({this.artist, this.completer});
 

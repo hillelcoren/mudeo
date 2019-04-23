@@ -35,10 +35,12 @@ class ArtistPageVM {
   ArtistPageVM({
     @required this.state,
     @required this.onFollowPressed,
+    @required this.onBlockPressed,
   });
 
   final AppState state;
   final Function(ArtistEntity) onFollowPressed;
+  final Function(ArtistEntity) onBlockPressed;
 
   static ArtistPageVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -48,6 +50,9 @@ class ArtistPageVM {
       onFollowPressed: (artist) {
         store.dispatch(FollowArtistRequest(artist: artist));
       },
+      onBlockPressed: (artist) {
+        store.dispatch(FlagArtist(artist: artist));
+      }
     );
   }
 }

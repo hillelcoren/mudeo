@@ -212,6 +212,32 @@ abstract class SongFlagEntity extends Object
       _$songFlagEntitySerializer;
 }
 
+abstract class ArtistFlagEntity extends Object
+    with BaseEntity
+    implements Built<ArtistFlagEntity, ArtistFlagEntityBuilder> {
+  factory ArtistFlagEntity({int artistId}) {
+    return _$ArtistFlagEntity._(
+      id: 0,
+      artistId: artistId ?? 0,
+    );
+  }
+
+  ArtistFlagEntity._();
+
+  int get id;
+
+  @BuiltValueField(wireName: 'user_id')
+  int get artistId;
+
+  @override
+  String get listDisplayName {
+    return 'Flag $artistId';
+  }
+
+  static Serializer<ArtistFlagEntity> get serializer =>
+      _$artistFlagEntitySerializer;
+}
+
 abstract class VideoEntity extends Object
     with BaseEntity
     implements Built<VideoEntity, VideoEntityBuilder> {

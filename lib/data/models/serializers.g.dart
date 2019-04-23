@@ -22,6 +22,7 @@ part of 'serializers.dart';
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AppState.serializer)
       ..add(ArtistEntity.serializer)
+      ..add(ArtistFlagEntity.serializer)
       ..add(ArtistFollowingEntity.serializer)
       ..add(ArtistFollowingItemResponse.serializer)
       ..add(ArtistItemResponse.serializer)
@@ -50,6 +51,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(SongFlagEntity)]),
           () => new ListBuilder<SongFlagEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ArtistFlagEntity)]),
+          () => new ListBuilder<ArtistFlagEntity>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(ArtistFollowingEntity)]),
