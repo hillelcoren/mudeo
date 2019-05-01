@@ -51,7 +51,6 @@ class SongList extends StatelessWidget {
               context,
               song: song,
               isLiked: auth.artist.likedSong(song.id),
-              isOwned: auth.artist.ownsSong(song),
               onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
               onPlayPressed: () {
                 showDialog<VideoPlayer>(
@@ -74,7 +73,6 @@ class SongItem extends StatelessWidget {
   SongItem(Key key, BuildContext context,
       {this.song,
       this.isLiked = false,
-      this.isOwned = false,
       this.onPlayPressed,
       this.onLikePressed,
       this.onEditPressed,
@@ -85,7 +83,6 @@ class SongItem extends StatelessWidget {
 
   final SongEntity song;
   final bool isLiked;
-  final bool isOwned;
   final Function onPlayPressed;
   final Function onLikePressed;
   final Function onEditPressed;
@@ -151,7 +148,7 @@ class SongItem extends StatelessWidget {
                         IconButton(
                           icon: Icon(Icons.favorite),
                           tooltip: localization.like,
-                          onPressed: isOwned ? null : onLikePressed,
+                          onPressed: onLikePressed,
                           color: isLiked ? Colors.redAccent : null,
                         ),
                         song.countLike > 0
