@@ -107,8 +107,7 @@ class WebClient {
             url,
             body: data,
             headers: headers,
-          )
-          .timeout(const Duration(seconds: 30));
+          );
     }
 
     print('Response: ${response.body}');

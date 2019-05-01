@@ -12,13 +12,16 @@ class InitScreen extends StatelessWidget {
             store.dispatch(LoadStateRequest(context)),
         builder: (BuildContext context, Store<AppState> store) {
           return Container(
-            color: Colors.white,
+            color: Colors.black26,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Expanded(
-                  //child: Center(child: Image.asset('assets/images/logo.png')),
-                  child: SizedBox(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 80, top: 20, right: 80, bottom: 20),
+                    child: Image.asset('assets/images/logo-dark.png'),
+                  ),
                 ),
                 SizedBox(
                   height: 4.0,

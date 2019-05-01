@@ -30,7 +30,7 @@ const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes
 const int kMillisecondsToRetryData = 1000 * 15; // 10 seconds
 const int kMaxRecordsPerApiPage = 100;
 const int kMaxTracks = 5;
-const int kMaxSongDuration = 60 * 1000; // 1 minute
+const int kMaxSongDuration = 3 * 60 * 1000; // 3 minutes
 const int kFirstWarningOffset = 10 * 1000; // 10 seconds
 const int kSecondWarningOffset = 5 * 1000; // 5 seconds
 
