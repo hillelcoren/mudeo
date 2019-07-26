@@ -7,6 +7,7 @@ const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
 const String kRedditURL = 'https://www.reddit.com/r/mudeo';
 const String kTwitterURL = 'https://twitter.com/mudeo_app';
 const String kContactEmail = 'contact@mudeo.app';
+const String kLatencySamples = 'https://source.android.com/devices/audio/latency/measurements#examples';
 
 const String kAppleStoreUrl = '';
 const String kGoogleStoreUrl = '';
@@ -16,6 +17,7 @@ const String kSharedPrefAppVersion = 'app_version';
 const String kSharedPrefCameraDirection = 'camera_direction';
 const String kSharedPrefGenreId = 'genre_id';
 const String kSharedPrefHeadphoneWarning = 'headphone_warning';
+const String kSharedPrefDelay = 'delay';
 
 const String kCameraDirectionFront = 'front';
 const String kCameraDirectionBack = 'back';
@@ -33,6 +35,8 @@ const int kMaxTracks = 5;
 const int kMaxSongDuration = 3 * 60 * 1000; // 3 minutes
 const int kFirstWarningOffset = 10 * 1000; // 10 seconds
 const int kSecondWarningOffset = 5 * 1000; // 5 seconds
+const int kMaxLatencyDelay = 500;
+const int kMinLatencyDelay = -500;
 
 const List<String> kLanguages = [
   'en',

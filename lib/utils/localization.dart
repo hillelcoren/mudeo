@@ -20,6 +20,10 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'milliseconds': 'Milliseconds',
+      'settings_for_google_devices': 'Settings for Google devices',
+      'audio_latency_help':
+          'This adjustment can help reduce the delay between recorded tracks.',
       'block_artist': 'Block Artist',
       'copied_to_clipboard': 'Copied to clipboard',
       'copy_link_to_song': 'Copy link to Song',
@@ -128,6 +132,7 @@ class AppLocalization {
       'terms_of_service': 'Terms of Service',
       'terms_of_service_link': 'terms of service',
       'privacy_policy_link': 'privacy policy',
+      'audio_latency': 'Audio Latency',
     },
   };
 
@@ -365,10 +370,23 @@ class AppLocalization {
 
   String get reportSong => _localizedValues[locale.toString()]['report_song'];
 
-  String get copyLinkToSong => _localizedValues[locale.toString()]['copy_link_to_song'];
+  String get copyLinkToSong =>
+      _localizedValues[locale.toString()]['copy_link_to_song'];
 
-  String get copiedToClipboard => _localizedValues[locale.toString()]['copied_to_clipboard'];
+  String get copiedToClipboard =>
+      _localizedValues[locale.toString()]['copied_to_clipboard'];
 
+  String get audioLatency =>
+      _localizedValues[locale.toString()]['audio_latency'];
+
+  String get audioLatencyHelp =>
+      _localizedValues[locale.toString()]['audio_latency_help'];
+
+  String get milliseconds =>
+      _localizedValues[locale.toString()]['milliseconds'];
+
+  String get settingsForGoogleDevices =>
+      _localizedValues[locale.toString()]['settings_for_google_devices'];
 
 
   String lookup(String key) {

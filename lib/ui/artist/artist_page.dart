@@ -12,11 +12,13 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
+import 'package:mudeo/ui/artist/artist_audio_latency.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
@@ -76,61 +78,64 @@ class ArtistPage extends StatelessWidget {
                         .dispatch(EditArtist(context: context, artist: artist));
                   },
                 ),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: Icons.volume_up,
+                      text: localization.audioLatency,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    final delay = prefs.getInt(kSharedPrefDelay) ?? 0;
+                    Navigator.of(context).push(
+                      CupertinoPageRoute<void>(
+                        builder: (BuildContext context) {
+                          return ArtistAudioLatency(
+                            delay: delay.toDouble(),
+                            onDelayChanged: (delay) =>
+                                prefs.setInt(kSharedPrefDelay, delay),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
                 Divider(),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: IconText(
-                      icon: Icons.lock,
-                      text: localization.logoutApp,
-                      textStyle: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  onPressed: () {
-                    showDialog<AlertDialog>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                            semanticLabel: localization.areYouSure,
-                            title: Text(localization.areYouSure),
-                            content: Text(localization.logoutFromTheApp),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  child:
-                                      Text(localization.cancel.toUpperCase()),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  }),
-                              new FlatButton(
-                                  child: Text(localization.ok.toUpperCase()),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    final store =
-                                        StoreProvider.of<AppState>(context);
-                                    store.dispatch(UserLogout());
-                                    Navigator.of(context).pushReplacementNamed(
-                                        LoginScreenBuilder.route);
-                                  })
-                            ],
-                          ),
-                    );
-                  },
-                ),
-                /*
-                SimpleDialogOption(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: IconText(
-                      icon: Icons.warning,
-                      text: localization.deleteAccount,
+                      icon: FontAwesomeIcons.solidEnvelope,
+                      text: localization.email,
                       textStyle: TextStyle(fontSize: 18),
                     ),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    launch(
+                        'mailto:$kContactEmail?subject=Feedback%20-%20${Config.PLATFORM}%20${kAppVersion.split('+')[0]}',
+                        forceSafariVC: false);
                   },
                 ),
-                */
-                Divider(),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: FontAwesomeIcons.twitter,
+                      text: kLinkTypeTwitter,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    launch(kTwitterURL, forceSafariVC: false);
+                  },
+                ),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -185,36 +190,6 @@ class ArtistPage extends StatelessWidget {
                     );
                   },
                 ),
-                SimpleDialogOption(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: IconText(
-                      icon: FontAwesomeIcons.solidEnvelope,
-                      text: localization.emailUs,
-                      textStyle: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    launch(
-                        'mailto:$kContactEmail?subject=Feedback%20-%20${Config.PLATFORM}%20${kAppVersion.split('+')[0]}',
-                        forceSafariVC: false);
-                  },
-                ),
-                SimpleDialogOption(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: IconText(
-                      icon: FontAwesomeIcons.twitter,
-                      text: kLinkTypeTwitter,
-                      textStyle: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    launch(kTwitterURL, forceSafariVC: false);
-                  },
-                ),
                 /*
                 SimpleDialogOption(
                   child: Padding(
@@ -228,6 +203,59 @@ class ArtistPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     launch(kRedditURL, forceSafariVC: false);
+                  },
+                ),
+                */
+                Divider(),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: Icons.lock,
+                      text: localization.logoutApp,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    showDialog<AlertDialog>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        semanticLabel: localization.areYouSure,
+                        title: Text(localization.areYouSure),
+                        content: Text(localization.logoutFromTheApp),
+                        actions: <Widget>[
+                          new FlatButton(
+                              child: Text(localization.cancel.toUpperCase()),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              }),
+                          new FlatButton(
+                              child: Text(localization.ok.toUpperCase()),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                final store =
+                                    StoreProvider.of<AppState>(context);
+                                store.dispatch(UserLogout());
+                                Navigator.of(context).pushReplacementNamed(
+                                    LoginScreenBuilder.route);
+                              })
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                /*
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: IconText(
+                      icon: Icons.warning,
+                      text: localization.deleteAccount,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
                   },
                 ),
                 */
@@ -393,7 +421,8 @@ class ArtistPage extends StatelessWidget {
                                               child: Text(localization.ok
                                                   .toUpperCase()),
                                               onPressed: () {
-                                                viewModel.onBlockPressed(artist);
+                                                viewModel
+                                                    .onBlockPressed(artist);
                                                 Navigator.pop(context);
                                               })
                                         ],

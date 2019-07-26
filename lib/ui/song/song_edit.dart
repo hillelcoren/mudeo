@@ -122,7 +122,7 @@ class SongScaffold extends StatelessWidget {
         ),
         actions: <Widget>[
           FlatButton(
-            child: Text('Save'),
+            child: Text(localization.save),
             onPressed: !uiState.isRecording &&
                 (uiState.song.hasNewVideos || !uiState.song.isNew)
                 ? () => onSavePressed(context, viewModel)
@@ -275,7 +275,7 @@ class _SongEditState extends State<SongEdit> {
             countdownTimer = 0;
             _record();
           });
-          Timer(Duration(seconds: 1), () {
+          Timer(Duration(seconds: 4), () {
             play();
           });
         });
