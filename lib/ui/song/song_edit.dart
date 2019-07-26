@@ -275,7 +275,7 @@ class _SongEditState extends State<SongEdit> {
             countdownTimer = 0;
             _record();
           });
-          Timer(Duration(seconds: 3), () {
+          Timer(Duration(seconds: 1), () {
             play();
           });
         });
