@@ -160,6 +160,7 @@ class _SongEditState extends State<SongEdit> {
   String path;
   Timer recordTimer;
   Timer cancelTimer;
+  Timer playTimer;
 
   CameraLensDirection cameraDirection = CameraLensDirection.front;
   Map<CameraLensDirection, bool> availableCameraDirections = {
@@ -292,11 +293,10 @@ class _SongEditState extends State<SongEdit> {
     cancelTimer = Timer(Duration(seconds: 3), () {
       setState(() => isPastThreeSeconds = true);
     });
-
-    if (song.isNew && videoPlayers.isEmpty) {
-      recordTimer = Timer(
-          Duration(milliseconds: kMaxSongDuration), () => saveRecording());
-    }
+    recordTimer = Timer(
+        Duration(
+            milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
+        () => saveRecording());
 
     await camera.startVideoRecording(path);
   }
@@ -335,27 +335,18 @@ class _SongEditState extends State<SongEdit> {
 
   void play() {
     if (videoPlayers.isEmpty) return;
-
-    bool isFirst = true;
     videoPlayers.forEach((int, video) {
       video.seekTo(Duration());
-      video.addListener(() {
-        final bool isPlaying = video.value.isPlaying;
-        if (isFirst && isRecording && this.isPlaying && !isPlaying) {
-          saveRecording();
-          isFirst = false;
-        }
-        if (this.isPlaying != isPlaying) {
-          setState(() => this.isPlaying = isPlaying);
-        }
-      });
       video.play();
     });
     setState(() => isPlaying = true);
+    playTimer = Timer(Duration(milliseconds: widget.viewModel.song.duration),
+        () => setState(() => isPlaying = false));
   }
 
   void stopPlaying() {
     videoPlayers.forEach((int, videoPlayer) => videoPlayer.pause());
+    playTimer?.cancel();
     setState(() => isPlaying = false);
   }
 
