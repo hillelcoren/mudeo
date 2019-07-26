@@ -88,20 +88,40 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                   },
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.black12,
+                      child: Text(
+                        localization.exampleSettings,
+                      ),
+                      onPressed: () =>
+                          launch(kLatencySamples, forceSafariVC: false),
+                    ),
+                  ),
+                  SizedBox(width: 24),
+                  Expanded(
+                    child: RaisedButton(
+                      child: Text(
+                        localization.calibrate,
+                      ),
+                      onPressed: () {
+
+                      },
+                    ),
+                  )
+                ],
+              ),
               SizedBox(height: 20),
               Center(
                   child: Text(
-                    localization.audioLatencyHelp,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subhead,
-                  )),
+                localization.audioLatencyHelp,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subhead,
+              )),
               SizedBox(height: 20),
-              RaisedButton(
-                child: Text(
-                  localization.settingsForGoogleDevices,
-                ),
-                onPressed: () => launch(kLatencySamples, forceSafariVC: false),
-              )
             ],
           ),
         ),

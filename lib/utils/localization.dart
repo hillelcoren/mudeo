@@ -20,8 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'calibrate': 'Calibrate',
       'milliseconds': 'Milliseconds',
-      'settings_for_google_devices': 'Settings for Google devices',
+      'example_settings': 'Example Settings',
       'audio_latency_help':
           'This adjustment can help reduce the delay between recorded tracks.',
       'block_artist': 'Block Artist',
@@ -385,8 +386,11 @@ class AppLocalization {
   String get milliseconds =>
       _localizedValues[locale.toString()]['milliseconds'];
 
-  String get settingsForGoogleDevices =>
-      _localizedValues[locale.toString()]['settings_for_google_devices'];
+  String get exampleSettings =>
+      _localizedValues[locale.toString()]['example_settings'];
+
+  String get calibrate =>
+      _localizedValues[locale.toString()]['calibrate'];
 
 
   String lookup(String key) {
