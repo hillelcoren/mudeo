@@ -625,10 +625,13 @@ class TrackEditDialog extends StatelessWidget {
                                 duration: Duration(milliseconds: 500),
                                 scale: 1.25),
                             trackBar: FlutterSliderTrackBar(
-                              activeTrackBarColor: Colors.greenAccent,
+                              activeTrackBar: BoxDecoration(
+                                color: Colors.greenAccent,
+                              ),
                               activeTrackBarHeight: 5,
-                              inactiveTrackBarColor:
-                                  Colors.grey.withOpacity(0.5),
+                              inactiveTrackBar: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
                             ),
                             tooltip: FlutterSliderTooltip(
                               rightSuffix: Icon(
@@ -658,25 +661,25 @@ class TrackEditDialog extends StatelessWidget {
                             showDialog<AlertDialog>(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
-                                    semanticLabel: localization.areYouSure,
-                                    title: Text(localization.areYouSure),
-                                    content: Text(localization.removeVideo),
-                                    actions: <Widget>[
-                                      new FlatButton(
-                                          child: Text(localization.cancel
-                                              .toUpperCase()),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          }),
-                                      new FlatButton(
-                                          child: Text(
-                                              localization.ok.toUpperCase()),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                            onDeletePressed();
-                                          })
-                                    ],
-                                  ),
+                                semanticLabel: localization.areYouSure,
+                                title: Text(localization.areYouSure),
+                                content: Text(localization.removeVideo),
+                                actions: <Widget>[
+                                  new FlatButton(
+                                      child: Text(
+                                          localization.cancel.toUpperCase()),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                  new FlatButton(
+                                      child:
+                                          Text(localization.ok.toUpperCase()),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        onDeletePressed();
+                                      })
+                                ],
+                              ),
                             );
                           },
                         ),
