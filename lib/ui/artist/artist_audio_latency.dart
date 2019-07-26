@@ -57,7 +57,7 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
             children: <Widget>[
               SizedBox(height: 20),
               Slider(
-                min: kMinLatencyDelay.toDouble(),
+                min: 0,
                 max: kMaxLatencyDelay.toDouble(),
                 value: _delay.toDouble(),
                 onChanged: (value) {
@@ -80,8 +80,8 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                       int delay = int.parse(value);
                       if (delay > kMaxLatencyDelay) {
                         delay = kMaxLatencyDelay;
-                      } else if (delay < kMinLatencyDelay) {
-                        delay = kMinLatencyDelay;
+                      } else if (delay < 0) {
+                        delay = 0;
                       }
                       _delay = delay;
                     });
