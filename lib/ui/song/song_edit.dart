@@ -345,7 +345,9 @@ class _SongEditState extends State<SongEdit> {
           saveRecording();
           isFirst = false;
         }
-        setState(() => this.isPlaying = isPlaying);
+        if (this.isPlaying != isPlaying) {
+          setState(() => this.isPlaying = isPlaying);
+        }
       });
       video.play();
     });
