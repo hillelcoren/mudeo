@@ -127,34 +127,42 @@ class _ArtistSettingsState extends State<ArtistSettings> {
       appBar: AppBar(
         title: Text(localization.editProfile),
         actions: <Widget>[
-          ActionIconButton(
-            icon: Icons.cloud_upload,
-            onPressed: _onSubmit,
-            tooltip: localization.save,
-            //isDirty: viewModel.isChanged,
-            isDirty: true,
-            isSaving: viewModel.state.isSaving,
-          ),
-          PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert),
-            itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  child: Text(localization.profileImage),
-                  value: kArtistImageProfile,
+          viewModel.state.isSaving
+              ? SizedBox()
+              : FlatButton(
+                  child: Text('Save'),
+                  onPressed: _onSubmit,
                 ),
-                PopupMenuItem(
-                  child: Text(localization.headerImage),
-                  value: kArtistImageHeader,
-                ),
-              ];
-            },
-            onSelected: (String type) async {
-              var image =
-                  await ImagePicker.pickImage(source: ImageSource.gallery);
-              viewModel.onUpdateImage(context, type, image.path);
-            },
-          )
+          viewModel.state.isSaving
+              ? Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Center(
+                    child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator()),
+                  ),
+                )
+              : PopupMenuButton<String>(
+                  icon: Icon(Icons.more_vert),
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(
+                        child: Text(localization.profileImage),
+                        value: kArtistImageProfile,
+                      ),
+                      PopupMenuItem(
+                        child: Text(localization.headerImage),
+                        value: kArtistImageHeader,
+                      ),
+                    ];
+                  },
+                  onSelected: (String type) async {
+                    var image = await ImagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    viewModel.onUpdateImage(context, type, image.path);
+                  },
+                )
         ],
       ),
       body: Material(

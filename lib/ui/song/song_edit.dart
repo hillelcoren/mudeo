@@ -121,11 +121,10 @@ class SongScaffold extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.cloud_upload),
-            tooltip: localization.save,
+          FlatButton(
+            child: Text('Save'),
             onPressed: !uiState.isRecording &&
-                    (uiState.song.hasNewVideos || !uiState.song.isNew)
+                (uiState.song.hasNewVideos || !uiState.song.isNew)
                 ? () => onSavePressed(context, viewModel)
                 : null,
           ),
@@ -276,6 +275,9 @@ class _SongEditState extends State<SongEdit> {
             countdownTimer = 0;
             _record();
           });
+          Timer(Duration(seconds: 3), () {
+            play();
+          });
         });
       });
     });
@@ -283,7 +285,6 @@ class _SongEditState extends State<SongEdit> {
 
   void _record() async {
     setState(() => isRecording = true);
-    play();
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     widget.viewModel.onStartRecording(timestamp);
