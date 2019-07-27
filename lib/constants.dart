@@ -7,7 +7,7 @@ const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
 const String kRedditURL = 'https://www.reddit.com/r/mudeo';
 const String kTwitterURL = 'https://twitter.com/mudeo_app';
 const String kContactEmail = 'contact@mudeo.app';
-const String kLatencySamples = 'https://source.android.com/devices/audio/latency/measurements#examples';
+const String kLatencySamples = 'https://superpowered.com/latency#datatable';
 
 const String kAppleStoreUrl = '';
 const String kGoogleStoreUrl = '';

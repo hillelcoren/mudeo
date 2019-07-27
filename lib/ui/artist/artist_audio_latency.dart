@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +18,8 @@ class ArtistAudioLatency extends StatefulWidget {
 class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
   int _delay;
   TextEditingController delayController;
+
+  static const platform = const MethodChannel('mudeo.app/calibrate');
 
   @override
   void initState() {
@@ -68,7 +71,8 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                 },
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 30),
+                padding:
+                    EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 40),
                 child: TextField(
                   keyboardType: TextInputType.number,
                   controller: delayController,
@@ -107,8 +111,13 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                       child: Text(
                         localization.calibrate,
                       ),
-                      onPressed: () {
-
+                      onPressed: () async {
+                        try {
+                          final int result = await platform.invokeMethod('getDelay');
+                          print('Delay: $result');
+                        } on PlatformException catch (e) {
+                          print('Error: ${e.message}');
+                        }
                       },
                     ),
                   )
