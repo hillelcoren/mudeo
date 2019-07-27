@@ -58,6 +58,7 @@ public class MainActivity extends FlutterActivity {
         return frames * 1000000000L / 16000;
     }
 
+    // Source: https://stackoverflow.com/a/52559996/497368
     private long getDelay() {
         long estimatedAudioLatency = AUDIO_LATENCY_NOT_ESTIMATED;
         long audioFramesWritten = 0;
