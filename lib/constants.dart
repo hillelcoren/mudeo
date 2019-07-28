@@ -36,6 +36,7 @@ const int kMaxSongDuration = 3 * 60 * 1000; // 3 minutes
 const int kFirstWarningOffset = 10 * 1000; // 10 seconds
 const int kSecondWarningOffset = 5 * 1000; // 5 seconds
 const int kMaxLatencyDelay = 500;
+const int kMinLatencyDelay = -500;
 
 const List<String> kLanguages = [
   'en',

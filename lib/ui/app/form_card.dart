@@ -17,7 +17,7 @@ class FormCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 12, top: 12, right: 12, bottom: 2),
       child: Card(
-        elevation: 4.0,
+        elevation: 4,
         child: Padding(
           padding: const EdgeInsets.only(
               left: 16.0, top: 20.0, right: 16.0, bottom: 15.0),

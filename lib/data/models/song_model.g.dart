@@ -234,6 +234,12 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       serializers.serialize(object.video,
           specifiedType: const FullType(VideoEntity)),
     ];
+    if (object.delay != null) {
+      result
+        ..add('delay')
+        ..add(serializers.serialize(object.delay,
+            specifiedType: const FullType(int)));
+    }
     if (object.volume != null) {
       result
         ..add('volume')
@@ -279,6 +285,10 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'delay':
+          result.delay = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
         case 'volume':
           result.volume = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -1162,6 +1172,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
 class _$TrackEntity extends TrackEntity {
   @override
+  final int delay;
+  @override
   final int volume;
   @override
   final int orderId;
@@ -1178,7 +1190,8 @@ class _$TrackEntity extends TrackEntity {
       (new TrackEntityBuilder()..update(updates)).build();
 
   _$TrackEntity._(
-      {this.volume,
+      {this.delay,
+      this.volume,
       this.orderId,
       this.video,
       this.deletedAt,
@@ -1201,6 +1214,7 @@ class _$TrackEntity extends TrackEntity {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is TrackEntity &&
+        delay == other.delay &&
         volume == other.volume &&
         orderId == other.orderId &&
         video == other.video &&
@@ -1214,7 +1228,9 @@ class _$TrackEntity extends TrackEntity {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, volume.hashCode), orderId.hashCode),
+                $jc(
+                    $jc($jc($jc(0, delay.hashCode), volume.hashCode),
+                        orderId.hashCode),
                     video.hashCode),
                 deletedAt.hashCode),
             updatedAt.hashCode),
@@ -1224,6 +1240,7 @@ class _$TrackEntity extends TrackEntity {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('TrackEntity')
+          ..add('delay', delay)
           ..add('volume', volume)
           ..add('orderId', orderId)
           ..add('video', video)
@@ -1236,6 +1253,10 @@ class _$TrackEntity extends TrackEntity {
 
 class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   _$TrackEntity _$v;
+
+  int _delay;
+  int get delay => _$this._delay;
+  set delay(int delay) => _$this._delay = delay;
 
   int _volume;
   int get volume => _$this._volume;
@@ -1265,6 +1286,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
   TrackEntityBuilder get _$this {
     if (_$v != null) {
+      _delay = _$v.delay;
       _volume = _$v.volume;
       _orderId = _$v.orderId;
       _video = _$v.video?.toBuilder();
@@ -1295,6 +1317,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
     try {
       _$result = _$v ??
           new _$TrackEntity._(
+              delay: delay,
               volume: volume,
               orderId: orderId,
               video: video.build(),

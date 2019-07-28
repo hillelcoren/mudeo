@@ -124,7 +124,7 @@ class SongScaffold extends StatelessWidget {
           FlatButton(
             child: Text(localization.save),
             onPressed: !uiState.isRecording &&
-                (uiState.song.hasNewVideos || !uiState.song.isNew)
+                    (uiState.song.hasNewVideos || !uiState.song.isNew)
                 ? () => onSavePressed(context, viewModel)
                 : null,
           ),
@@ -275,9 +275,6 @@ class _SongEditState extends State<SongEdit> {
             countdownTimer = 0;
             _record();
           });
-          Timer(Duration(seconds: 4), () {
-            play();
-          });
         });
       });
     });
@@ -285,6 +282,7 @@ class _SongEditState extends State<SongEdit> {
 
   void _record() async {
     setState(() => isRecording = true);
+    play();
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     widget.viewModel.onStartRecording(timestamp);
@@ -336,9 +334,17 @@ class _SongEditState extends State<SongEdit> {
 
   void play() {
     if (videoPlayers.isEmpty) return;
+    final tracks = widget.viewModel.song.tracks;
+    int minDelay = 0;
+    tracks.forEach((track) {
+      if (track.delay < minDelay) minDelay = track.delay;
+    });
+
     videoPlayers.forEach((int, video) {
       video.seekTo(Duration());
-      video.play();
+      final track = tracks.firstWhere((track) => track.id == int);
+      Future.delayed(Duration(milliseconds: (minDelay * -1) + track.delay),
+          () => video.play());
     });
     setState(() => isPlaying = true);
     playTimer = Timer(Duration(milliseconds: widget.viewModel.song.duration),

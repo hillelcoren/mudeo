@@ -130,10 +130,14 @@ abstract class TrackEntity extends Object
       volume: kDefaultTrackVolume,
       orderId: orderId ?? 0,
       video: video ?? VideoEntity(),
+      delay: 0,
     );
   }
 
   TrackEntity._();
+
+  @nullable
+  int get delay;
 
   @nullable
   int get volume;

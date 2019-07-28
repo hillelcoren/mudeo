@@ -55,83 +55,90 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
       ),
       body: SafeArea(
         child: Material(
-          child: ListView(
-            padding: EdgeInsets.all(20),
-            children: <Widget>[
-              SizedBox(height: 20),
-              Slider(
-                min: 0,
-                max: kMaxLatencyDelay.toDouble(),
-                value: _delay.toDouble(),
-                onChanged: (value) {
-                  setState(() {
-                    _delay = value.toInt();
-                    delayController.text = '${value.toInt()}';
-                  });
-                },
-              ),
-              Padding(
-                padding:
-                    EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 40),
-                child: TextField(
-                  keyboardType: TextInputType.number,
-                  controller: delayController,
-                  decoration: InputDecoration(
-                    labelText: localization.milliseconds,
-                  ),
-                  onChanged: (String value) {
-                    setState(() {
-                      int delay = int.parse(value);
-                      if (delay > kMaxLatencyDelay) {
-                        delay = kMaxLatencyDelay;
-                      } else if (delay < 0) {
-                        delay = 0;
-                      }
-                      _delay = delay;
-                    });
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Padding(
+            padding: EdgeInsets.all(14),
+            child: Card(
+              elevation: 10,
+              child: ListView(
+                padding: EdgeInsets.all(20),
                 children: <Widget>[
-                  Expanded(
-                    child: RaisedButton(
-                      color: Colors.black12,
-                      child: Text(
-                        localization.exampleSettings,
-                      ),
-                      onPressed: () =>
-                          launch(kLatencySamples, forceSafariVC: false),
-                    ),
+                  SizedBox(height: 20),
+                  Slider(
+                    min: kMinLatencyDelay.toDouble(),
+                    max: kMaxLatencyDelay.toDouble(),
+                    value: _delay.toDouble(),
+                    onChanged: (value) {
+                      setState(() {
+                        _delay = value.toInt();
+                        delayController.text = '${value.toInt()}';
+                      });
+                    },
                   ),
-                  SizedBox(width: 24),
-                  Expanded(
-                    child: RaisedButton(
-                      child: Text(
-                        localization.calibrate,
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 100, top: 20, right: 100, bottom: 40),
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      controller: delayController,
+                      decoration: InputDecoration(
+                        labelText: localization.milliseconds,
                       ),
-                      onPressed: () async {
-                        try {
-                          final int result = await platform.invokeMethod('getDelay');
-                          print('Delay: $result');
-                        } on PlatformException catch (e) {
-                          print('Error: ${e.message}');
-                        }
+                      onChanged: (String value) {
+                        setState(() {
+                          int delay = int.parse(value);
+                          if (delay > kMaxLatencyDelay) {
+                            delay = kMaxLatencyDelay;
+                          } else if (delay < kMinLatencyDelay) {
+                            delay = kMinLatencyDelay;
+                          }
+                          _delay = delay;
+                        });
                       },
                     ),
-                  )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Expanded(
+                        child: RaisedButton(
+                          color: Colors.black12,
+                          child: Text(
+                            localization.exampleSettings,
+                          ),
+                          onPressed: () =>
+                              launch(kLatencySamples, forceSafariVC: false),
+                        ),
+                      ),
+                      SizedBox(width: 24),
+                      Expanded(
+                        child: RaisedButton(
+                          child: Text(
+                            localization.calibrate,
+                          ),
+                          onPressed: () async {
+                            try {
+                              final int result =
+                                  await platform.invokeMethod('getDelay');
+                              print('Delay: $result');
+                            } on PlatformException catch (e) {
+                              print('Error: ${e.message}');
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Center(
+                      child: Text(
+                    localization.audioLatencyHelp,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subhead,
+                  )),
+                  SizedBox(height: 20),
                 ],
               ),
-              SizedBox(height: 20),
-              Center(
-                  child: Text(
-                localization.audioLatencyHelp,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.subhead,
-              )),
-              SizedBox(height: 20),
-            ],
+            ),
           ),
         ),
       ),
