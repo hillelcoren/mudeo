@@ -682,6 +682,7 @@ class TrackEditDialog extends StatelessWidget {
                           ),
                         ),
                         ElevatedButton(
+                          width: 110,
                           label: localization.adjust,
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -697,8 +698,9 @@ class TrackEditDialog extends StatelessWidget {
                                 });
                           },
                         ),
-                        SizedBox(height: 8),
+                        SizedBox(height: 16),
                         ElevatedButton(
+                          width: 110,
                           label: localization.remove,
                           color: Colors.redAccent,
                           onPressed: () {
