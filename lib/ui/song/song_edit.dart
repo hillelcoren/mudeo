@@ -682,7 +682,7 @@ class TrackEditDialog extends StatelessWidget {
                           ),
                         ),
                         ElevatedButton(
-                          label: localization.delay,
+                          label: localization.adjust,
                           onPressed: () {
                             Navigator.of(context).pop();
                             showDialog<TrackLatency>(

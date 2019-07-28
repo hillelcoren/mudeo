@@ -40,7 +40,7 @@ class _TrackLatencyState extends State<TrackLatency> {
     final localization = AppLocalization.of(context);
 
     return AlertDialog(
-      title: Text(localization.trackDelay),
+      title: Text(localization.trackAdjustment),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

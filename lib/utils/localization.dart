@@ -21,8 +21,8 @@ class AppLocalization {
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
       'done': 'Done',
-      'track_delay': 'Track Delay',
-      'delay': 'Delay',
+      'track_adjustment': 'Track Adjustment',
+      'adjust': 'Adjust',
       'calibrate': 'Calibrate',
       'milliseconds': 'Milliseconds',
       'block_artist': 'Block Artist',
@@ -386,11 +386,11 @@ class AppLocalization {
   String get calibrate =>
       _localizedValues[locale.toString()]['calibrate'];
 
-  String get delay =>
-      _localizedValues[locale.toString()]['delay'];
+  String get adjust =>
+      _localizedValues[locale.toString()]['adjust'];
 
-  String get trackDelay =>
-      _localizedValues[locale.toString()]['track_delay'];
+  String get trackAdjustment =>
+      _localizedValues[locale.toString()]['track_adjustment'];
 
   String get done =>
       _localizedValues[locale.toString()]['done'];
