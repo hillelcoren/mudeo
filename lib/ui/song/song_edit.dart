@@ -55,10 +55,11 @@ class SongScaffold extends StatelessWidget {
               ]);
             }
             return actions
-                .map((action) => PopupMenuItem(
-                      child: Text(action),
-                      value: action,
-                    ))
+                .map((action) =>
+                PopupMenuItem(
+                  child: Text(action),
+                  value: action,
+                ))
                 .toList();
           },
           onSelected: (String action) {
@@ -95,7 +96,7 @@ class SongScaffold extends StatelessWidget {
         ),
         title: Center(
           child: LiveText(
-            () {
+                () {
               if (uiState.recordingTimestamp > 0) {
                 int seconds;
                 if (viewModel.song.tracks.isNotEmpty) {
@@ -110,22 +111,23 @@ class SongScaffold extends StatelessWidget {
                 return viewModel.song.title;
               }
             },
-            style: () => TextStyle(
-                color: viewModel.song.tracks.isNotEmpty &&
+            style: () =>
+                TextStyle(
+                    color: viewModel.song.tracks.isNotEmpty &&
                         uiState.recordingDuration.inMilliseconds >=
                             kMaxSongDuration - kFirstWarningOffset
-                    ? (uiState.recordingDuration.inMilliseconds >=
-                            kMaxSongDuration - kSecondWarningOffset
+                        ? (uiState.recordingDuration.inMilliseconds >=
+                        kMaxSongDuration - kSecondWarningOffset
                         ? Colors.redAccent
                         : Colors.orangeAccent)
-                    : null),
+                        : null),
           ),
         ),
         actions: <Widget>[
           FlatButton(
             child: Text(localization.save),
             onPressed: !uiState.isRecording &&
-                    (uiState.song.hasNewVideos || !uiState.song.isNew)
+                (uiState.song.hasNewVideos || !uiState.song.isNew)
                 ? () => onSavePressed(context, viewModel)
                 : null,
           ),
@@ -154,7 +156,8 @@ class SongEdit extends StatefulWidget {
 class _SongEditState extends State<SongEdit> {
   Map<int, VideoPlayerController> videoPlayers = {};
   CameraController camera;
-  bool isPlaying = false, isRecording = false;
+  bool isPlaying = false,
+      isRecording = false;
   bool isPastThreeSeconds = false;
   int countdownTimer = 0;
   String path;
@@ -247,7 +250,9 @@ class _SongEditState extends State<SongEdit> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: FlatButton(
-                    child: Text(AppLocalization.of(context).dismiss),
+                    child: Text(AppLocalization
+                        .of(context)
+                        .dismiss),
                     onPressed: () {
                       prefs.setBool(kSharedPrefHeadphoneWarning, true);
                       Navigator.of(context).pop();
@@ -285,7 +290,9 @@ class _SongEditState extends State<SongEdit> {
     setState(() => isRecording = true);
     play();
 
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final timestamp = DateTime
+        .now()
+        .millisecondsSinceEpoch;
     widget.viewModel.onStartRecording(timestamp);
 
     final song = widget.viewModel.song;
@@ -296,7 +303,7 @@ class _SongEditState extends State<SongEdit> {
     recordTimer = Timer(
         Duration(
             milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
-        () => saveRecording());
+            () => saveRecording());
 
     await camera.startVideoRecording(path);
   }
@@ -315,7 +322,9 @@ class _SongEditState extends State<SongEdit> {
 
   void saveRecording() async {
     final timestamp = widget.viewModel.state.uiState.recordingTimestamp;
-    final endTimestamp = DateTime.now().millisecondsSinceEpoch;
+    final endTimestamp = DateTime
+        .now()
+        .millisecondsSinceEpoch;
     await stopRecording();
     VideoPlayerController videoPlayer = VideoPlayerController.file(File(path));
     await videoPlayer.initialize();
@@ -345,13 +354,23 @@ class _SongEditState extends State<SongEdit> {
       video.seekTo(Duration());
       final track = tracks.firstWhere((track) => track.video.id == videoId,
           orElse: () => null);
+      final delay = (minDelay * -1) + (track?.delay ?? 0);
+      print('Track: $videoId - Track.delay: ${track?.delay} - Delayed: $delay');
+      final startTime = DateTime
+          .now()
+          .millisecondsSinceEpoch;
       Future.delayed(
-          Duration(milliseconds: (minDelay * -1) + (track?.delay ?? 0)),
-          () => video.play());
+          Duration(milliseconds: delay),
+              () {
+            print('${DateTime
+                .now()
+                .millisecondsSinceEpoch - startTime}: PLAY $videoId');
+            video.play();
+          });
     });
     setState(() => isPlaying = true);
     playTimer = Timer(Duration(milliseconds: widget.viewModel.song.duration),
-        () => setState(() => isPlaying = false));
+            () => setState(() => isPlaying = false));
   }
 
   void stopPlaying() {
@@ -371,51 +390,51 @@ class _SongEditState extends State<SongEdit> {
             children: <Widget>[
               availableCameraDirections[CameraLensDirection.front]
                   ? SimpleDialogOption(
-                      onPressed: () {
-                        selectCameraDirection(CameraLensDirection.front);
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconText(
-                          icon: Icons.camera_front,
-                          text: localization.front,
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    )
+                onPressed: () {
+                  selectCameraDirection(CameraLensDirection.front);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconText(
+                    icon: Icons.camera_front,
+                    text: localization.front,
+                    textStyle: TextStyle(fontSize: 18),
+                  ),
+                ),
+              )
                   : SizedBox(),
               availableCameraDirections[CameraLensDirection.back]
                   ? SimpleDialogOption(
-                      onPressed: () {
-                        selectCameraDirection(CameraLensDirection.back);
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconText(
-                          icon: Icons.camera_rear,
-                          text: localization.back,
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    )
+                onPressed: () {
+                  selectCameraDirection(CameraLensDirection.back);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconText(
+                    icon: Icons.camera_rear,
+                    text: localization.back,
+                    textStyle: TextStyle(fontSize: 18),
+                  ),
+                ),
+              )
                   : SizedBox(),
               availableCameraDirections[CameraLensDirection.external]
                   ? SimpleDialogOption(
-                      onPressed: () {
-                        selectCameraDirection(CameraLensDirection.external);
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconText(
-                          icon: Icons.camera_alt,
-                          text: localization.external,
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    )
+                onPressed: () {
+                  selectCameraDirection(CameraLensDirection.external);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconText(
+                    icon: Icons.camera_alt,
+                    text: localization.external,
+                    textStyle: TextStyle(fontSize: 18),
+                  ),
+                ),
+              )
                   : SizedBox(),
             ],
           );
@@ -494,7 +513,7 @@ class _SongEditState extends State<SongEdit> {
             child: Row(children: [
               ExpandedButton(
                   icon:
-                      isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
+                  isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
                   onPressed: isEmpty || isRecording
                       ? null
                       : (isPlaying ? stopPlaying : play)),
@@ -504,55 +523,56 @@ class _SongEditState extends State<SongEdit> {
                   onPressed: _getRecordingFunction(),
                   color: isPlaying || isRecording ? null : Colors.redAccent),
               availableCameraDirections.keys
-                          .where((direction) =>
-                              availableCameraDirections[direction])
-                          .length >
-                      2
+                  .where((direction) =>
+              availableCameraDirections[direction])
+                  .length >
+                  2
                   ? ExpandedButton(
-                      icon: Icons.camera,
-                      onPressed: isPlaying ? null : onSettingsPressed,
-                    )
+                icon: Icons.camera,
+                onPressed: isPlaying ? null : onSettingsPressed,
+              )
                   : ExpandedButton(
-                      iconHeight: 26,
-                      icon: cameraDirection == CameraLensDirection.front
-                          ? Icons.camera_front
-                          : Icons.camera_rear,
-                      onPressed: isPlaying
-                          ? null
-                          : () => selectCameraDirection(
-                              cameraDirection == CameraLensDirection.front
-                                  ? CameraLensDirection.back
-                                  : CameraLensDirection.front),
-                    ),
+                iconHeight: 26,
+                icon: cameraDirection == CameraLensDirection.front
+                    ? Icons.camera_front
+                    : Icons.camera_rear,
+                onPressed: isPlaying
+                    ? null
+                    : () =>
+                    selectCameraDirection(
+                        cameraDirection == CameraLensDirection.front
+                            ? CameraLensDirection.back
+                            : CameraLensDirection.front),
+              ),
             ]),
           ),
           song.tracks.isEmpty
               ? SizedBox()
               : Flexible(
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: song.tracks.map((track) {
-                      final videoPlayer = videoPlayers[track.video.id];
-                      return TrackView(
-                          viewModel: viewModel,
-                          videoPlayer: videoPlayer,
-                          aspectRatio: videoPlayer == null
-                              ? 1
-                              : videoPlayer.value.aspectRatio,
-                          track: track,
-                          onDeletePressed: () async {
-                            Navigator.of(context).pop();
-                            videoPlayers.remove(track.video.id);
-                            viewModel.onDeleteVideoPressed(song, track);
-                          },
-                          onDelayChanged: (track, delay) {
-                            final song =
-                                viewModel.song.setTrackDelay(track, delay);
-                            viewModel.onChangedSong(song);
-                          });
-                    }).toList(),
-                  ),
-                )
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: song.tracks.map((track) {
+                final videoPlayer = videoPlayers[track.video.id];
+                return TrackView(
+                    viewModel: viewModel,
+                    videoPlayer: videoPlayer,
+                    aspectRatio: videoPlayer == null
+                        ? 1
+                        : videoPlayer.value.aspectRatio,
+                    track: track,
+                    onDeletePressed: () async {
+                      Navigator.of(context).pop();
+                      videoPlayers.remove(track.video.id);
+                      viewModel.onDeleteVideoPressed(song, track);
+                    },
+                    onDelayChanged: (track, delay) {
+                      final song =
+                      viewModel.song.setTrackDelay(track, delay);
+                      viewModel.onChangedSong(song);
+                    });
+              }).toList(),
+            ),
+          )
         ]),
       ),
     );
@@ -599,7 +619,7 @@ class TrackView extends StatelessWidget {
           child: videoPlayer == null
               ? SizedBox(width: 139)
               : AspectRatio(
-                  aspectRatio: aspectRatio, child: VideoPlayer(videoPlayer))),
+              aspectRatio: aspectRatio, child: VideoPlayer(videoPlayer))),
     );
   }
 }
@@ -700,26 +720,28 @@ class TrackEditDialog extends StatelessWidget {
                           onPressed: () {
                             showDialog<AlertDialog>(
                               context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                semanticLabel: localization.areYouSure,
-                                title: Text(localization.areYouSure),
-                                content: Text(localization.removeVideo),
-                                actions: <Widget>[
-                                  new FlatButton(
-                                      child: Text(
-                                          localization.cancel.toUpperCase()),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
-                                  new FlatButton(
-                                      child:
+                              builder: (BuildContext context) =>
+                                  AlertDialog(
+                                    semanticLabel: localization.areYouSure,
+                                    title: Text(localization.areYouSure),
+                                    content: Text(localization.removeVideo),
+                                    actions: <Widget>[
+                                      new FlatButton(
+                                          child: Text(
+                                              localization.cancel
+                                                  .toUpperCase()),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          }),
+                                      new FlatButton(
+                                          child:
                                           Text(localization.ok.toUpperCase()),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        onDeletePressed();
-                                      })
-                                ],
-                              ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            onDeletePressed();
+                                          })
+                                    ],
+                                  ),
                             );
                           },
                         ),
@@ -762,18 +784,18 @@ class ExpandedButton extends StatelessWidget {
         message: icon == Icons.play_arrow
             ? localization.play
             : icon == Icons.stop
-                ? localization.stop
-                : icon == Icons.delete
-                    ? localization.delete
-                    : localization.record,
+            ? localization.stop
+            : icon == Icons.delete
+            ? localization.delete
+            : localization.record,
         child: MaterialButton(
           color: Colors.black26,
           height: 60,
           onPressed: onPressed,
           child: label != null
               ? Text(label,
-                  style: TextStyle(
-                      color: color, fontSize: 24, fontWeight: FontWeight.bold))
+              style: TextStyle(
+                  color: color, fontSize: 24, fontWeight: FontWeight.bold))
               : Icon(icon, size: iconHeight ?? 32, color: color),
           //color: Colors.grey,
         ),
