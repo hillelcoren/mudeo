@@ -100,6 +100,12 @@ abstract class SongEntity extends Object
     return rebuild((b) => b..tracks[index] = updatedTrack);
   }
 
+  SongEntity setTrackDelay(TrackEntity track, int delay) {
+    final index = tracks.indexOf(track);
+    final updatedTrack = track.rebuild((b) => b..delay = delay);
+    return rebuild((b) => b..tracks[index] = updatedTrack);
+  }
+
   bool get canAddTrack => tracks.length < kMaxTracks;
 
   SongEntity get fork => rebuild((b) => b

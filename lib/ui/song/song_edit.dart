@@ -9,6 +9,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
+import 'package:mudeo/ui/artist/artist_audio_latency.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/camera.dart';
@@ -340,10 +341,12 @@ class _SongEditState extends State<SongEdit> {
       if (track.delay < minDelay) minDelay = track.delay;
     });
 
-    videoPlayers.forEach((int, video) {
+    videoPlayers.forEach((videoId, video) {
       video.seekTo(Duration());
-      final track = tracks.firstWhere((track) => track.id == int);
-      Future.delayed(Duration(milliseconds: (minDelay * -1) + track.delay),
+      final track = tracks.firstWhere((track) => track.video.id == videoId,
+          orElse: () => null);
+      Future.delayed(
+          Duration(milliseconds: (minDelay * -1) + (track?.delay ?? 0)),
           () => video.play());
     });
     setState(() => isPlaying = true);
@@ -531,18 +534,22 @@ class _SongEditState extends State<SongEdit> {
                     children: song.tracks.map((track) {
                       final videoPlayer = videoPlayers[track.video.id];
                       return TrackView(
-                        viewModel: viewModel,
-                        videoPlayer: videoPlayer,
-                        aspectRatio: videoPlayer == null
-                            ? 1
-                            : videoPlayer.value.aspectRatio,
-                        track: track,
-                        onDeletePressed: () async {
-                          Navigator.of(context).pop();
-                          videoPlayers.remove(track.video.id);
-                          viewModel.onDeleteVideoPressed(song, track);
-                        },
-                      );
+                          viewModel: viewModel,
+                          videoPlayer: videoPlayer,
+                          aspectRatio: videoPlayer == null
+                              ? 1
+                              : videoPlayer.value.aspectRatio,
+                          track: track,
+                          onDeletePressed: () async {
+                            Navigator.of(context).pop();
+                            videoPlayers.remove(track.video.id);
+                            viewModel.onDeleteVideoPressed(song, track);
+                          },
+                          onDelayChanged: (track, delay) {
+                            final song =
+                                viewModel.song.setTrackDelay(track, delay);
+                            viewModel.onChangedSong(song);
+                          });
                     }).toList(),
                   ),
                 )
@@ -553,18 +560,21 @@ class _SongEditState extends State<SongEdit> {
 }
 
 class TrackView extends StatelessWidget {
-  TrackView(
-      {this.videoPlayer,
-      this.aspectRatio,
-      this.viewModel,
-      this.track,
-      this.onDeletePressed});
+  TrackView({
+    @required this.videoPlayer,
+    @required this.aspectRatio,
+    @required this.viewModel,
+    @required this.track,
+    @required this.onDeletePressed,
+    @required this.onDelayChanged,
+  });
 
   final SongEditVM viewModel;
   final VideoPlayerController videoPlayer;
   final TrackEntity track;
   final double aspectRatio;
   final Function onDeletePressed;
+  final Function(TrackEntity, int) onDelayChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -578,6 +588,7 @@ class TrackView extends StatelessWidget {
                 videoPlayer: videoPlayer,
                 viewModel: viewModel,
                 onDeletePressed: onDeletePressed,
+                onDelayChanged: (delay) => onDelayChanged(track, delay),
                 track: track,
               );
             });
@@ -594,13 +605,19 @@ class TrackView extends StatelessWidget {
 }
 
 class TrackEditDialog extends StatelessWidget {
-  TrackEditDialog(
-      {this.videoPlayer, this.track, this.viewModel, this.onDeletePressed});
+  TrackEditDialog({
+    @required this.videoPlayer,
+    @required this.track,
+    @required this.viewModel,
+    @required this.onDeletePressed,
+    @required this.onDelayChanged,
+  });
 
   final SongEditVM viewModel;
   final VideoPlayerController videoPlayer;
   final TrackEntity track;
   final Function onDeletePressed;
+  final Function(int) onDelayChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -623,7 +640,6 @@ class TrackEditDialog extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          padding: const EdgeInsets.only(bottom: 30),
                           height: 250,
                           child: FlutterSlider(
                             handlerAnimation: FlutterSliderHandlerAnimation(
@@ -649,7 +665,6 @@ class TrackEditDialog extends StatelessWidget {
                             ),
                             axis: Axis.vertical,
                             rtl: true,
-                            //values: [0, 25, 50, 75, 100],
                             values: [track.volume.toDouble()],
                             max: 100,
                             min: 0,
@@ -661,6 +676,24 @@ class TrackEditDialog extends StatelessWidget {
                             },
                           ),
                         ),
+                        ElevatedButton(
+                          label: localization.delay,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              CupertinoPageRoute<void>(
+                                builder: (BuildContext context) {
+                                  return ArtistAudioLatency(
+                                    delay: track.delay,
+                                    onDelayChanged: (delay) =>
+                                        onDelayChanged(delay),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 8),
                         ElevatedButton(
                           label: localization.remove,
                           color: Colors.redAccent,

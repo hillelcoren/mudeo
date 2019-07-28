@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'delay': 'Delay',
       'calibrate': 'Calibrate',
       'milliseconds': 'Milliseconds',
       'example_settings': 'Example Settings',
@@ -391,6 +392,9 @@ class AppLocalization {
 
   String get calibrate =>
       _localizedValues[locale.toString()]['calibrate'];
+
+  String get delay =>
+      _localizedValues[locale.toString()]['delay'];
 
 
   String lookup(String key) {

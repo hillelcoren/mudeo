@@ -43,6 +43,7 @@ class SongEditVM {
     @required this.onResetSongPressed,
     @required this.onBackPressed,
     @required this.onDeleteVideoPressed,
+    @required this.onDelayVideoChanged,
     @required this.onSharePressed,
   });
 
@@ -56,6 +57,7 @@ class SongEditVM {
   final Function(BuildContext) onNewSongPressed;
   final Function(BuildContext) onResetSongPressed;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
+  final Function(SongEntity, TrackEntity) onDelayVideoChanged;
   final Function() onBackPressed;
   final Function() onSharePressed;
 
@@ -93,10 +95,13 @@ class SongEditVM {
       onStopRecording: () {
         store.dispatch(StopRecording());
       },
-      onTrackAdded: (video, duration) {
+      onTrackAdded: (video, duration) async {
         store.dispatch(StopRecording());
         final song = store.state.uiState.song;
-        final track = song.newTrack(video);
+        final prefs = await SharedPreferences.getInstance();
+        final track = song
+            .newTrack(video)
+            .rebuild((b) => b..delay = prefs.getInt(kSharedPrefDelay) ?? 0);
         store.dispatch(AddTrack(
           track: track,
           duration: duration,
@@ -124,6 +129,8 @@ class SongEditVM {
           File(path).deleteSync();
         }
       },
+      onDelayVideoChanged: (song, track) async {
+      }
     );
   }
 }

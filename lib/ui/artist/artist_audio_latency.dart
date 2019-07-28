@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ArtistAudioLatency extends StatefulWidget {
   ArtistAudioLatency({@required this.delay, @required this.onDelayChanged});
 
-  final double delay;
+  final int delay;
   final Function(int) onDelayChanged;
 
   @override
@@ -17,7 +17,7 @@ class ArtistAudioLatency extends StatefulWidget {
 
 class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
   int _delay;
-  TextEditingController delayController;
+  TextEditingController _delayController;
 
   static const platform = const MethodChannel('mudeo.app/calibrate');
 
@@ -26,13 +26,13 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
     super.initState();
 
     _delay = widget.delay.toInt();
-    delayController = TextEditingController();
-    delayController.text = '$_delay';
+    _delayController = TextEditingController();
+    _delayController.text = '$_delay';
   }
 
   @override
   void dispose() {
-    delayController.dispose();
+    _delayController.dispose();
     super.dispose();
   }
 
@@ -70,7 +70,7 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                     onChanged: (value) {
                       setState(() {
                         _delay = value.toInt();
-                        delayController.text = '${value.toInt()}';
+                        _delayController.text = '${value.toInt()}';
                       });
                     },
                   ),
@@ -79,7 +79,7 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                         left: 100, top: 20, right: 100, bottom: 40),
                     child: TextField(
                       keyboardType: TextInputType.number,
-                      controller: delayController,
+                      controller: _delayController,
                       decoration: InputDecoration(
                         labelText: localization.milliseconds,
                       ),
@@ -112,6 +112,18 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                       SizedBox(width: 24),
                       Expanded(
                         child: RaisedButton(
+                          child: Text(localization.clear),
+                          onPressed: () {
+                            setState(() {
+                              _delayController.text = '0';
+                              _delay = 0;
+                            });
+                          },
+                        ),
+                      ),
+                      /*
+                      Expanded(
+                        child: RaisedButton(
                           child: Text(
                             localization.calibrate,
                           ),
@@ -126,6 +138,7 @@ class _ArtistAudioLatencyState extends State<ArtistAudioLatency> {
                           },
                         ),
                       )
+                      */
                     ],
                   ),
                   SizedBox(height: 20),

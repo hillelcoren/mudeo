@@ -96,7 +96,7 @@ class ArtistPage extends StatelessWidget {
                       CupertinoPageRoute<void>(
                         builder: (BuildContext context) {
                           return ArtistAudioLatency(
-                            delay: delay.toDouble(),
+                            delay: delay,
                             onDelayChanged: (delay) =>
                                 prefs.setInt(kSharedPrefDelay, delay),
                           );
