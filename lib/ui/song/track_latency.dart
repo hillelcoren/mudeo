@@ -86,7 +86,7 @@ class _TrackLatencyState extends State<TrackLatency> {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 28),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
