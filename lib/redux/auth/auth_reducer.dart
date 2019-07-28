@@ -50,6 +50,10 @@ AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
   final artist = authState.artist;
   return authState.rebuild((b) => b
     ..artist.replace(action.artist.rebuild((b) => b
+          //..artistFlags.replace(artist.artistFlags)
+          ..songFlags.replace(artist.songFlags)
+          ..songLikes.replace(artist.songLikes)
+          ..following.replace(artist.following)
           ..token = artist.token
           ..email = artist.email // TODO remove this
         )));
