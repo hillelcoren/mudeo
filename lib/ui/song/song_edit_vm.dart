@@ -98,12 +98,7 @@ class SongEditVM {
         onTrackAdded: (video, duration) async {
           store.dispatch(StopRecording());
           final song = store.state.uiState.song;
-          final prefs = await SharedPreferences.getInstance();
-          var track = song.newTrack(video);
-          if (song.tracks.isNotEmpty) {
-            track = track
-                .rebuild((b) => b..delay = prefs.getInt(kSharedPrefDelay) ?? 0);
-          }
+          final track = song.newTrack(video);
           store.dispatch(AddTrack(
             track: track,
             duration: duration,

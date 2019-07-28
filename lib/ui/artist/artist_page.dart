@@ -12,13 +12,11 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
-import 'package:mudeo/ui/artist/artist_audio_latency.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
@@ -76,33 +74,6 @@ class ArtistPage extends StatelessWidget {
                     final store = StoreProvider.of<AppState>(context);
                     store
                         .dispatch(EditArtist(context: context, artist: artist));
-                  },
-                ),
-                SimpleDialogOption(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: IconText(
-                      icon: Icons.volume_up,
-                      text: localization.audioLatency,
-                      textStyle: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    final delay = prefs.getInt(kSharedPrefDelay) ?? 0;
-                    Navigator.of(context).push(
-                      CupertinoPageRoute<void>(
-                        builder: (BuildContext context) {
-                          return ArtistAudioLatency(
-                            delay: delay,
-                            onDelayChanged: (delay) =>
-                                prefs.setInt(kSharedPrefDelay, delay),
-                          );
-                        },
-                      ),
-                    );
                   },
                 ),
                 Divider(),
