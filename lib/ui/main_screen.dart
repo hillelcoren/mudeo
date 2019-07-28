@@ -54,6 +54,8 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final uiState = viewModel.state.uiState;
+
     List<Widget> _views = [
       SongListScreen(),
       SongEditScreen(),
@@ -68,8 +70,9 @@ class MainScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           body: CupertinoTabScaffold(
+            key: ValueKey(uiState.selectedTabIndex),
             tabBar: CupertinoTabBar(
-              currentIndex: viewModel.state.uiState.selectedTabIndex,
+              currentIndex: uiState.selectedTabIndex,
               onTap: (index) => viewModel.onTabChanged(index),
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
