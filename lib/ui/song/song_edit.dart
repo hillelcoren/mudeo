@@ -539,6 +539,7 @@ class _SongEditState extends State<SongEdit> {
                     children: song.tracks.map((track) {
                       final videoPlayer = videoPlayers[track.video.id];
                       return TrackView(
+                          isFirst: song.tracks.indexOf(track) == 0,
                           viewModel: viewModel,
                           videoPlayer: videoPlayer,
                           aspectRatio: videoPlayer == null
@@ -572,6 +573,7 @@ class TrackView extends StatelessWidget {
     @required this.track,
     @required this.onDeletePressed,
     @required this.onDelayChanged,
+    @required this.isFirst,
   });
 
   final SongEditVM viewModel;
@@ -580,6 +582,7 @@ class TrackView extends StatelessWidget {
   final double aspectRatio;
   final Function onDeletePressed;
   final Function(TrackEntity, int) onDelayChanged;
+  final bool isFirst;
 
   @override
   Widget build(BuildContext context) {
@@ -595,6 +598,7 @@ class TrackView extends StatelessWidget {
                 onDeletePressed: onDeletePressed,
                 onDelayChanged: (delay) => onDelayChanged(track, delay),
                 track: track,
+                isFirst: isFirst,
               );
             });
       },
@@ -616,6 +620,7 @@ class TrackEditDialog extends StatelessWidget {
     @required this.viewModel,
     @required this.onDeletePressed,
     @required this.onDelayChanged,
+    @required this.isFirst,
   });
 
   final SongEditVM viewModel;
@@ -623,6 +628,7 @@ class TrackEditDialog extends StatelessWidget {
   final TrackEntity track;
   final Function onDeletePressed;
   final Function(int) onDelayChanged;
+  final bool isFirst;
 
   @override
   Widget build(BuildContext context) {
@@ -681,24 +687,26 @@ class TrackEditDialog extends StatelessWidget {
                             },
                           ),
                         ),
-                        ElevatedButton(
-                          width: 110,
-                          label: localization.adjust,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            showDialog<TrackLatency>(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return TrackLatency(
-                                    delay: track.delay,
-                                    onDelayChanged: (delay) =>
-                                        onDelayChanged(delay),
-                                  );
-                                });
-                          },
-                        ),
-                        SizedBox(height: 16),
+                        isFirst
+                            ? SizedBox()
+                            : ElevatedButton(
+                                width: 110,
+                                label: localization.adjust,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  showDialog<TrackLatency>(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return TrackLatency(
+                                          delay: track.delay,
+                                          onDelayChanged: (delay) =>
+                                              onDelayChanged(delay),
+                                        );
+                                      });
+                                },
+                              ),
+                        isFirst ? SizedBox() : SizedBox(height: 16),
                         ElevatedButton(
                           width: 110,
                           label: localization.remove,
