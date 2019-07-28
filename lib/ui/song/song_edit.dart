@@ -9,7 +9,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
-import 'package:mudeo/ui/artist/artist_audio_latency.dart';
+import 'package:mudeo/ui/song/track_latency.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/utils/camera.dart';
@@ -685,17 +685,15 @@ class TrackEditDialog extends StatelessWidget {
                           label: localization.delay,
                           onPressed: () {
                             Navigator.of(context).pop();
-                            Navigator.of(context).push(
-                              CupertinoPageRoute<void>(
+                            showDialog<TrackLatency>(
+                                context: context,
                                 builder: (BuildContext context) {
-                                  return ArtistAudioLatency(
+                                  return TrackLatency(
                                     delay: track.delay,
                                     onDelayChanged: (delay) =>
                                         onDelayChanged(delay),
                                   );
-                                },
-                              ),
-                            );
+                                });
                           },
                         ),
                         SizedBox(height: 8),

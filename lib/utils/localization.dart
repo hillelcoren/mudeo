@@ -20,12 +20,10 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'track_delay': 'Track Delay',
       'delay': 'Delay',
       'calibrate': 'Calibrate',
       'milliseconds': 'Milliseconds',
-      'example_settings': 'Example Settings',
-      'audio_latency_help':
-          'This adjustment can help reduce the delay between recorded tracks.',
       'block_artist': 'Block Artist',
       'copied_to_clipboard': 'Copied to clipboard',
       'copy_link_to_song': 'Copy link to Song',
@@ -381,20 +379,17 @@ class AppLocalization {
   String get audioLatency =>
       _localizedValues[locale.toString()]['audio_latency'];
 
-  String get audioLatencyHelp =>
-      _localizedValues[locale.toString()]['audio_latency_help'];
-
   String get milliseconds =>
       _localizedValues[locale.toString()]['milliseconds'];
-
-  String get exampleSettings =>
-      _localizedValues[locale.toString()]['example_settings'];
 
   String get calibrate =>
       _localizedValues[locale.toString()]['calibrate'];
 
   String get delay =>
       _localizedValues[locale.toString()]['delay'];
+
+  String get trackDelay =>
+      _localizedValues[locale.toString()]['track_delay'];
 
 
   String lookup(String key) {
