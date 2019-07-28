@@ -343,7 +343,7 @@ class _SongEditState extends State<SongEdit> {
     final tracks = widget.viewModel.song.tracks;
     int minDelay = 0;
     tracks.forEach((track) {
-      if (track.delay < minDelay) minDelay = track.delay;
+      if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
     });
 
     videoPlayers.forEach((videoId, video) async {
@@ -699,7 +699,7 @@ class TrackEditDialog extends StatelessWidget {
                                       barrierDismissible: false,
                                       builder: (BuildContext context) {
                                         return TrackLatency(
-                                          delay: track.delay,
+                                          delay: track.delay ?? 0,
                                           onDelayChanged: (delay) =>
                                               onDelayChanged(delay),
                                         );
