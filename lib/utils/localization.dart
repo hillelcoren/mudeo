@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'done': 'Done',
       'track_delay': 'Track Delay',
       'delay': 'Delay',
       'calibrate': 'Calibrate',
@@ -390,6 +391,9 @@ class AppLocalization {
 
   String get trackDelay =>
       _localizedValues[locale.toString()]['track_delay'];
+
+  String get done =>
+      _localizedValues[locale.toString()]['done'];
 
 
   String lookup(String key) {

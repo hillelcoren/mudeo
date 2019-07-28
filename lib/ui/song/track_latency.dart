@@ -45,50 +45,70 @@ class _TrackLatencyState extends State<TrackLatency> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           SizedBox(height: 20),
-          Slider(
-            min: kMinLatencyDelay.toDouble(),
-            max: kMaxLatencyDelay.toDouble(),
-            value: _delay.toDouble(),
-            onChanged: (value) {
-              setState(() {
-                _delay = value.toInt();
-                _delayController.text = '${value.toInt()}';
-              });
-            },
-          ),
-          Padding(
-            padding:
-                EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 40),
-            child: TextField(
-              keyboardType: TextInputType.number,
-              controller: _delayController,
-              decoration: InputDecoration(
-                labelText: localization.milliseconds,
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Slider(
+                  min: kMinLatencyDelay.toDouble(),
+                  max: kMaxLatencyDelay.toDouble(),
+                  value: _delay.toDouble(),
+                  onChanged: (value) {
+                    setState(() {
+                      _delay = value.toInt();
+                      _delayController.text = '${value.toInt()}';
+                    });
+                  },
+                ),
               ),
-              onChanged: (String value) {
-                setState(() {
-                  int delay = int.parse(value);
-                  if (delay > kMaxLatencyDelay) {
-                    delay = kMaxLatencyDelay;
-                  } else if (delay < kMinLatencyDelay) {
-                    delay = kMinLatencyDelay;
-                  }
-                  _delay = delay;
-                });
-              },
-            ),
+              SizedBox(width: 20),
+              Expanded(
+                flex: 1,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: _delayController,
+                  decoration: InputDecoration(
+                    labelText: localization.milliseconds,
+                  ),
+                  onChanged: (String value) {
+                    setState(() {
+                      int delay = int.parse(value);
+                      if (delay > kMaxLatencyDelay) {
+                        delay = kMaxLatencyDelay;
+                      } else if (delay < kMinLatencyDelay) {
+                        delay = kMinLatencyDelay;
+                      }
+                      _delay = delay;
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Expanded(
                 child: RaisedButton(
+                  color: Colors.grey,
                   child: Text(localization.clear),
                   onPressed: () {
                     setState(() {
                       _delayController.text = '0';
                       _delay = 0;
                     });
+                  },
+                ),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: RaisedButton(
+                  child: Text(localization.done),
+                  onPressed: () {
+                    widget.onDelayChanged(_delay);
+                    Navigator.pop(context);
                   },
                 ),
               ),
@@ -112,7 +132,6 @@ class _TrackLatencyState extends State<TrackLatency> {
                       */
             ],
           ),
-          SizedBox(height: 20),
         ],
       ),
     );
