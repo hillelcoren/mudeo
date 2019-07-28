@@ -93,12 +93,15 @@ class _TrackLatencyState extends State<TrackLatency> {
               Expanded(
                 child: RaisedButton(
                   color: Colors.grey,
-                  child: Text(localization.clear),
+                  child: Text(localization.cancel),
                   onPressed: () {
+                    Navigator.pop(context);
+                    /*
                     setState(() {
                       _delayController.text = '0';
                       _delay = 0;
                     });
+                    */
                   },
                 ),
               ),
