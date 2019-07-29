@@ -4,9 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/artist/artist_actions.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
@@ -14,6 +18,7 @@ import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:chewie/chewie.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -89,9 +94,7 @@ class SongItem extends StatelessWidget {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {
-              onSelected();
-            },
+            //onTap: onSelected,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -100,7 +103,7 @@ class SongItem extends StatelessWidget {
                     border: Border.all(width: 3, color: Colors.transparent),
                     color: Colors.black12.withOpacity(0.3),
                   ),
-                  child: SongHeader(song: song),
+                  child: SongHeader(song),
                 ),
                 Opacity(
                   opacity: isSelected ? 1.0 : 0.0,
@@ -140,6 +143,9 @@ class SongFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final store = StoreProvider.of<AppState>(context);
+    final state = store.state;
+    final artist = state.authState.artist;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -149,15 +155,49 @@ class SongFooter extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.videocam),
             tooltip: localization.edit,
-            onPressed: () => null,
+            onPressed: () {
+              final uiSong = state.uiState.song;
+              SongEntity newSong = song;
+
+              if (!artist.ownsSong(song)) {
+                newSong = song.fork;
+              }
+
+              if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
+                showDialog<AlertDialog>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    semanticLabel: localization.areYouSure,
+                    title: Text(localization.areYouSure),
+                    content: Text(localization.loseChanges),
+                    actions: <Widget>[
+                      new FlatButton(
+                          child: Text(localization.cancel.toUpperCase()),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      new FlatButton(
+                          child: Text(localization.ok.toUpperCase()),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            store.dispatch(
+                                EditSong(song: newSong, context: context));
+                          })
+                    ],
+                  ),
+                );
+              } else {
+                store.dispatch(EditSong(song: newSong, context: context));
+              }
+            },
           ),
           Row(
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.favorite),
                 tooltip: localization.like,
-                onPressed: () => null,
-                //color: isLiked ? Colors.redAccent : null,
+                onPressed: () => store.dispatch(LikeSongRequest(song: song)),
+                color: artist.likedSong(song.id) ? Colors.redAccent : null,
               ),
               song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
             ],
@@ -165,7 +205,7 @@ class SongFooter extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.share),
             tooltip: localization.share,
-            onPressed: () => null,
+            onPressed: () => Share.share(song.url),
           ),
           PopupMenuButton<String>(
             icon: Icon(Icons.keyboard_arrow_down, size: 30),
@@ -207,7 +247,7 @@ class SongFooter extends StatelessWidget {
                         FlatButton(
                             child: Text(localization.ok.toUpperCase()),
                             onPressed: () {
-                              //onFlagPressed();
+                              store.dispatch(FlagSongRequest(song: song));
                               Navigator.pop(context);
                             })
                       ],
@@ -222,16 +262,15 @@ class SongFooter extends StatelessWidget {
 }
 
 class SongHeader extends StatelessWidget {
-  SongHeader({this.song, this.onArtistTap});
+  SongHeader(this.song);
 
   final SongEntity song;
-  final Function onArtistTap;
 
   @override
   Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
     final localization = AppLocalization.of(context);
     final artist = song.artist ?? ArtistEntity();
-
     final ThemeData themeData = Theme.of(context);
     final TextStyle artistStyle = themeData.textTheme.body2
         .copyWith(color: themeData.accentColor, fontSize: 16);
@@ -245,7 +284,8 @@ class SongHeader extends StatelessWidget {
         children: <Widget>[
           ArtistProfile(
             artist: song.artist,
-            onTap: () => onArtistTap(artist),
+            onTap: () =>
+                store.dispatch(ViewArtist(context: context, artist: artist)),
           ),
           SizedBox(width: 16),
           Expanded(
@@ -263,7 +303,8 @@ class SongHeader extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () => onArtistTap(artist),
+                          ..onTap = () => store.dispatch(
+                              ViewArtist(context: context, artist: artist)),
                         style: artistStyle,
                         text: '@${artist.handle}',
                       ),
@@ -284,7 +325,7 @@ class SongHeader extends StatelessWidget {
           ),
           IconButton(
             padding: EdgeInsets.only(top: 0),
-            icon: Icon(Icons.play_circle_filled, size: 42),
+            icon: Icon(Icons.play_circle_filled, size: 50),
             tooltip: localization.play,
             onPressed: () {
               showDialog<VideoPlayer>(
