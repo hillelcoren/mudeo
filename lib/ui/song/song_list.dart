@@ -16,7 +16,7 @@ import 'package:chewie/chewie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
-class SongList extends StatelessWidget {
+class SongList extends StatefulWidget {
   const SongList({
     Key key,
     @required this.viewModel,
@@ -25,28 +25,41 @@ class SongList extends StatelessWidget {
   final SongListVM viewModel;
 
   @override
+  _SongListState createState() => _SongListState();
+}
+
+class _SongListState extends State<SongList> {
+  SongEntity selectedSong;
+
+  @override
   Widget build(BuildContext context) {
-    if (!viewModel.isLoaded) {
+    if (!widget.viewModel.isLoaded) {
       return Container(child: LoadingIndicator());
     }
 
-    final state = viewModel.state;
+    final state = widget.viewModel.state;
     final songIds =
         memoizedSongIds(state.dataState.songMap, state.authState.artist);
 
     return RefreshIndicator(
-      onRefresh: () => viewModel.onRefreshed(context),
+      onRefresh: () => widget.viewModel.onRefreshed(context),
       child: ListView.builder(
           padding: const EdgeInsets.only(bottom: 130),
           shrinkWrap: true,
           itemCount: songIds.length,
           itemBuilder: (BuildContext context, index) {
-            final data = viewModel.state.dataState;
+            final data = widget.viewModel.state.dataState;
             //final auth = viewModel.state.authState;
             final songId = songIds[index];
             final song = data.songMap[songId];
 
-            return SongItem(song);
+            return SongItem(
+              song: song,
+              isSelected: song == selectedSong,
+              onSelected: () => setState(() => song == selectedSong
+                  ? selectedSong = null
+                  : selectedSong = song),
+            );
 
             /*
             return SongItem(
@@ -74,52 +87,58 @@ class SongList extends StatelessWidget {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem(this.song);
+  SongItem({this.song, this.isSelected, this.onSelected});
 
   final SongEntity song;
+  final bool isSelected;
+  final Function() onSelected;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      CachedNetworkImage(
-        fit: BoxFit.cover,
-        height: 350,
-        width: double.infinity,
-        imageUrl: song.tracks.last.video.thumbnailUrl,
-      ),
-      Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => null,
-          child: SizedOverflowBox(
-            size: Size(double.infinity, 350),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 3, color: Colors.transparent),
-                    color: Colors.black12.withOpacity(0.3),
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
+      height: 350,
+      child: Stack(children: <Widget>[
+        CachedNetworkImage(
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,
+          imageUrl: song.tracks.last.video.thumbnailUrl,
+        ),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => onSelected(),
+            child: SizedOverflowBox(
+              size: Size(double.infinity, 350),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 3, color: Colors.transparent),
+                      color: Colors.black12.withOpacity(0.3),
+                    ),
+                    child: SongHeader(
+                      song: song,
+                      onPlay: () => null,
+                      onArtistTap: () => null,
+                    ),
                   ),
-                  child: SongHeader(
-                    song: song,
-                    onPlay: () => null,
-                    onArtistTap: () => null,
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 3, color: Colors.transparent),
+                      color: Colors.black12.withOpacity(0.3),
+                    ),
+                    child: SongFooter(song),
                   ),
-                ),
-                SizedBox(height: 205),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 3, color: Colors.transparent),
-                    color: Colors.black12.withOpacity(0.3),
-                  ),
-                  child: SongFooter(song),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      )
-    ]);
+        )
+      ]),
+    );
   }
 }
 
