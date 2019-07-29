@@ -64,7 +64,7 @@ class _SongListState extends State<SongList> {
             return SongItem(
               song: song,
               isSelected: song == selectedSong,
-              onSelected: () => setState(() => selectedSong = song),
+              onSelected: (newSong) => setState(() => selectedSong = newSong),
             );
           }),
     );
@@ -81,7 +81,7 @@ class SongItem extends StatelessWidget {
   final SongEntity song;
   final bool isSelected;
   final bool enableShowArtist;
-  final Function() onSelected;
+  final Function(SongEntity) onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,7 @@ class SongItem extends StatelessWidget {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: isSelected ? null : onSelected,
+            onTap: isSelected ? null : () => onSelected(song),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -118,17 +118,21 @@ class SongItem extends StatelessWidget {
                   FormCard(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      if (song.description != null &&
-                          song.description.trim().isNotEmpty)
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 6),
-                          child: Text(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
                             song.description,
                             style: Theme.of(context).textTheme.title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ),
+                          IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () => onSelected(null),
+                          ),
+                        ],
+                      ),
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: localization.addAPublicComment,
