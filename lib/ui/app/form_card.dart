@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 
 class FormCard extends StatelessWidget {
   const FormCard({
@@ -17,7 +18,7 @@ class FormCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 12, top: 12, right: 12, bottom: 2),
       child: Card(
-        elevation: 4,
+        elevation: kDefaultElevation,
         child: Padding(
           padding: const EdgeInsets.only(
               left: 16.0, top: 20.0, right: 16.0, bottom: 15.0),

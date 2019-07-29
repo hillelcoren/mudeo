@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({Key key, this.useCard = false, this.height = 200.0})
@@ -15,7 +16,7 @@ class LoadingIndicator extends StatelessWidget {
         child: SizedBox(
           height: 200.0,
           child: Card(
-            elevation: 4.0,
+            elevation: kDefaultElevation,
             child: Center(
               child: CircularProgressIndicator(),
             ),

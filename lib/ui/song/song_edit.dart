@@ -496,7 +496,7 @@ class _SongEditState extends State<SongEdit> {
                           : null))),
           Material(
             color: Colors.black26,
-            //elevation: 8,
+            //elevation: kDefaultElevation,
             child: Row(children: [
               ExpandedButton(
                   icon:
@@ -604,7 +604,7 @@ class TrackView extends StatelessWidget {
             });
       },
       child: Card(
-          elevation: 6,
+          elevation: kDefaultElevation,
           margin: const EdgeInsets.symmetric(horizontal: 6),
           child: videoPlayer == null
               ? SizedBox(width: 139)
@@ -641,7 +641,7 @@ class TrackEditDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Material(
-            elevation: 16,
+            elevation: kDefaultElevation,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Form(

@@ -97,7 +97,7 @@ class SongItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Material(
-        elevation: 4,
+        elevation: kDefaultElevation,
         child: Card(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

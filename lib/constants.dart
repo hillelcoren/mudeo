@@ -25,6 +25,7 @@ const String kCameraDirectionExternal = 'external';
 const String kArtistImageHeader = 'header_image';
 const String kArtistImageProfile = 'profile_image';
 
+const double kDefaultElevation = 6;
 const int kDefaultTrackVolume = 100;
 const int kUpdatedAtBufferSeconds = 600;
 const int kMillisecondsToRefreshData = 1000 * 60 * 15; // 15 minutes
