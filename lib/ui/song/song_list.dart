@@ -88,7 +88,7 @@ class SongItem extends StatelessWidget {
     final localization = AppLocalization.of(context);
 
     return AnimatedContainer(
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: isSelected ? 300 : 500),
       height: isSelected ? 560 : 380,
       child: Stack(children: <Widget>[
         CachedNetworkImage(
@@ -114,69 +114,75 @@ class SongItem extends StatelessWidget {
                     enableShowArtist: enableShowArtist,
                   ),
                 ),
-                if (isSelected)
-                  FormCard(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            song.description,
-                            style: Theme.of(context).textTheme.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () => onSelected(null),
-                          ),
-                        ],
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: localization.addAPublicComment,
-                          //icon: Icon(Icons.comment),
+                AnimatedContainer(
+                  height: isSelected ? 400 : 0,
+                  duration: Duration(milliseconds: isSelected ? 500 : 300),
+                  curve: Curves.easeInOutCubic,
+                  child: SingleChildScrollView(
+                    child: FormCard(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              song.description,
+                              style: Theme.of(context).textTheme.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () => onSelected(null),
+                            ),
+                          ],
                         ),
-                        focusNode: null,
-                        autofocus: false,
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        height: 200,
-                        child: ListView(
-                          shrinkWrap: true,
-                          children: [
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                            'dfasd',
-                          ].map((val) => Text(val)).toList(),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: localization.addAPublicComment,
+                            //icon: Icon(Icons.comment),
+                          ),
+                          focusNode: null,
+                          autofocus: false,
                         ),
-                      )
-                    ],
+                        SizedBox(height: 20),
+                        SizedBox(
+                          height: 200,
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                              'dfasd',
+                            ].map((val) => Text(val)).toList(),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
+                ),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(width: 3, color: Colors.transparent),
