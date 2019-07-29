@@ -125,11 +125,13 @@ class SongItem extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              song.description,
-                              style: Theme.of(context).textTheme.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                            Expanded(
+                              child: Text(
+                                song.description,
+                                style: Theme.of(context).textTheme.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             IconButton(
                               icon: Icon(Icons.close),
