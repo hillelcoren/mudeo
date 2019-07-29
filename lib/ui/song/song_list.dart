@@ -89,7 +89,7 @@ class SongItem extends StatelessWidget {
 
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
-      height: isSelected ? 500 : 380,
+      height: isSelected ? 560 : 380,
       child: Stack(children: <Widget>[
         CachedNetworkImage(
           fit: BoxFit.cover,
@@ -114,18 +114,19 @@ class SongItem extends StatelessWidget {
                     enableShowArtist: enableShowArtist,
                   ),
                 ),
-                Opacity(
-                  opacity: isSelected ? 1.0 : 0.0,
-                  child: FormCard(
+                if (isSelected)
+                  FormCard(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       if (song.description != null &&
                           song.description.trim().isNotEmpty)
                         Padding(
-                          padding: EdgeInsets.only(bottom: 10),
+                          padding: EdgeInsets.only(bottom: 6),
                           child: Text(
                             song.description,
                             style: Theme.of(context).textTheme.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       TextFormField(
@@ -172,7 +173,6 @@ class SongItem extends StatelessWidget {
                       )
                     ],
                   ),
-                ),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(width: 3, color: Colors.transparent),
