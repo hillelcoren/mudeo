@@ -98,8 +98,8 @@ class SongItem extends StatelessWidget {
               ),
               child: SongHeader(
                 song: song,
-                onPlay: null,
-                onArtistTap: null,
+                onPlay: () => null,
+                onArtistTap: () => null,
               ),
             ),
             SizedBox(height: 205),
