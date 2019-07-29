@@ -108,32 +108,31 @@ class SongItem extends StatelessWidget {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () => onSelected(),
-            child: SizedOverflowBox(
-              size: Size(double.infinity, 350),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 3, color: Colors.transparent),
-                      color: Colors.black12.withOpacity(0.3),
-                    ),
-                    child: SongHeader(
-                      song: song,
-                      onPlay: () => null,
-                      onArtistTap: () => null,
-                    ),
+            onTap: () {
+              showDialog<VideoPlayer>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return VideoPlayer(song.videoUrl);
+                  });
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.transparent),
+                    color: Colors.black12.withOpacity(0.3),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 3, color: Colors.transparent),
-                      color: Colors.black12.withOpacity(0.3),
-                    ),
-                    child: SongFooter(song),
+                  child: SongHeader(song: song),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.transparent),
+                    color: Colors.black12.withOpacity(0.3),
                   ),
-                ],
-              ),
+                  child: SongFooter(song),
+                ),
+              ],
             ),
           ),
         )
