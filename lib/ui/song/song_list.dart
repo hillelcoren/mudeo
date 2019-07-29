@@ -32,7 +32,6 @@ class SongList extends StatefulWidget {
   final SongListVM viewModel;
   final ScrollController scrollController;
 
-
   @override
   _SongListState createState() => _SongListState();
 }
@@ -48,7 +47,7 @@ class _SongListState extends State<SongList> {
 
     final state = widget.viewModel.state;
     final songIds =
-        memoizedSongIds(state.dataState.songMap, state.authState.artist);
+        memoizedSongIds(state.dataState.songMap, state.authState.artist, null);
 
     return RefreshIndicator(
       onRefresh: () => widget.viewModel.onRefreshed(context),
@@ -75,7 +74,7 @@ class _SongListState extends State<SongList> {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem({this.song, this.isSelected, this.onSelected});
+  SongItem({this.song, this.isSelected = false, this.onSelected});
 
   final SongEntity song;
   final bool isSelected;

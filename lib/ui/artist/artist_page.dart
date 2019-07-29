@@ -9,11 +9,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
+import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
+import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
@@ -52,6 +54,9 @@ class ArtistPage extends StatelessWidget {
     final TextStyle linkStyle = themeData.textTheme.body2
         .copyWith(color: themeData.accentColor, fontSize: 18);
     final isFollowing = viewModel.state.authState.artist.isFollowing(artist.id);
+    final state = viewModel.state;
+    final songIds = memoizedSongIds(
+        state.dataState.songMap, state.authState.artist, artist.id);
 
     void _showMenu() {
       showDialog<SimpleDialog>(
@@ -406,6 +411,11 @@ class ArtistPage extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 14),
+            for (int songId in songIds)
+              SongItem(
+                song: state.dataState.songMap[songId],
+              )
           ],
         ),
       ),
