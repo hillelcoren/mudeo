@@ -32,8 +32,7 @@ class SongScaffold extends StatelessWidget {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return SongSaveDialog(
-              key: ValueKey(viewModel.song.id), viewModel: viewModel);
+          return SongSaveDialog(viewModel: viewModel);
         });
   }
 

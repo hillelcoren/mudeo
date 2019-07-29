@@ -94,7 +94,8 @@ class _MainScreenState extends State<MainScreen> {
       child: SafeArea(
         child: Scaffold(
           body: CupertinoTabScaffold(
-            key: ValueKey(uiState.selectedTabIndex),
+            //key: ValueKey(uiState.selectedTabIndex),
+            key: ValueKey(uiState.song.id),
             tabBar: CupertinoTabBar(
               currentIndex: uiState.selectedTabIndex,
               onTap: (index) {
@@ -120,7 +121,6 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
             tabBuilder: (BuildContext context, int index) {
-              print('## returning index: $index');
               return _views[index];
             },
           ),
