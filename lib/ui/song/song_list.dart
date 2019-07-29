@@ -96,8 +96,8 @@ class SongItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      height: 350,
+      duration: Duration(milliseconds: 200),
+      height: isSelected ? 370 : 350,
       child: Stack(children: <Widget>[
         CachedNetworkImage(
           fit: BoxFit.cover,
@@ -109,11 +109,14 @@ class SongItem extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
+              onSelected();
+              /*
               showDialog<VideoPlayer>(
                   context: context,
                   builder: (BuildContext context) {
                     return VideoPlayer(song.videoUrl);
                   });
+                  */
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
