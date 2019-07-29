@@ -42,10 +42,13 @@ class SongList extends StatelessWidget {
           itemCount: songIds.length,
           itemBuilder: (BuildContext context, index) {
             final data = viewModel.state.dataState;
-            final auth = viewModel.state.authState;
+            //final auth = viewModel.state.authState;
             final songId = songIds[index];
             final song = data.songMap[songId];
 
+            return SongItem(song);
+
+            /*
             return SongItem(
               ValueKey(songId),
               context,
@@ -64,159 +67,140 @@ class SongList extends StatelessWidget {
               onEditPressed: () => viewModel.onSongEdit(context, song),
               onFlagPressed: () => viewModel.onFlagPressed(song),
             );
+            */
           }),
     );
   }
 }
 
 class SongItem extends StatelessWidget {
-  SongItem(Key key, BuildContext context,
-      {this.song,
-      this.isLiked = false,
-      this.onPlayPressed,
-      this.onLikePressed,
-      this.onEditPressed,
-      this.onSharePressed,
-      this.onFlagPressed,
-      this.onArtistTap})
-      : super(key: key);
+  SongItem(this.song);
 
   final SongEntity song;
-  final bool isLiked;
-  final Function onPlayPressed;
-  final Function onLikePressed;
-  final Function onEditPressed;
-  final Function onSharePressed;
-  final Function onFlagPressed;
-  final Function(ArtistEntity) onArtistTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: <Widget>[
+      CachedNetworkImage(
+        fit: BoxFit.cover,
+        height: 350,
+        width: double.infinity,
+        imageUrl: song.tracks.last.video.thumbnailUrl,
+      ),
+      SizedBox(
+        height: 350,
+        child: Column(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: Colors.transparent),
+                color: Colors.black12.withOpacity(0.3),
+              ),
+              child: SongHeader(
+                song: song,
+                onPlay: null,
+                onArtistTap: null,
+              ),
+            ),
+            SizedBox(height: 203),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 3, color: Colors.transparent),
+                color: Colors.black12.withOpacity(0.3),
+              ),
+              child: SongFooter(song),
+            ),
+          ],
+        ),
+      ),
+    ]);
+  }
+}
+
+class SongFooter extends StatelessWidget {
+  SongFooter(this.song);
+
+  final SongEntity song;
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
 
     return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Material(
-        elevation: kDefaultElevation,
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.videocam),
+            tooltip: localization.edit,
+            //onPressed: onEditPressed,
+          ),
+          Row(
             children: <Widget>[
-              SongHeader(
-                song: song,
-                onPlay: onPlayPressed,
-                onArtistTap: onArtistTap,
+              IconButton(
+                icon: Icon(Icons.favorite),
+                tooltip: localization.like,
+                //onPressed: onLikePressed,
+                //color: isLiked ? Colors.redAccent : null,
               ),
-              song.description == null || song.description.trim().isEmpty
-                  ? SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, bottom: 14, right: 10),
-                      child: Text(song.description),
-                    ),
-              Container(
-                height: 330,
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: (song.tracks)
-                      .map(
-                        (track) => track.video.thumbnailUrl.isEmpty
-                            ? SizedBox(
-                                height: 330,
-                              )
-                            : CachedNetworkImage(
-                                imageUrl: track.video.thumbnailUrl,
-                                height: 330,
-                              ),
-                      )
-                      .toList(),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.videocam),
-                      tooltip: localization.edit,
-                      onPressed: onEditPressed,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.favorite),
-                          tooltip: localization.like,
-                          onPressed: onLikePressed,
-                          color: isLiked ? Colors.redAccent : null,
-                        ),
-                        song.countLike > 0
-                            ? Text('${song.countLike}')
-                            : SizedBox(),
-                      ],
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.share),
-                      tooltip: localization.share,
-                      onPressed: onSharePressed,
-                    ),
-                    PopupMenuButton<String>(
-                      icon: Icon(Icons.keyboard_arrow_down, size: 30),
-                      itemBuilder: (BuildContext context) {
-                        final actions = [
-                          localization.openInBrowser,
-                          localization.copyLinkToSong,
-                          localization.reportSong,
-                        ];
-                        return actions
-                            .map((action) => PopupMenuItem(
-                                  child: Text(action),
-                                  value: action,
-                                ))
-                            .toList();
-                      },
-                      onSelected: (String action) async {
-                        if (action == localization.openInBrowser) {
-                          launch(song.url);
-                          return;
-                        } else if (action == localization.copyLinkToSong) {
-                          Clipboard.setData(new ClipboardData(text: song.url));
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text(localization.copiedToClipboard)));
-                          return;
-                        }
-
-                        showDialog<AlertDialog>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                semanticLabel: localization.areYouSure,
-                                title: Text(localization.areYouSure),
-                                content: Text(localization.reportSong),
-                                actions: <Widget>[
-                                  FlatButton(
-                                      child: Text(
-                                          localization.cancel.toUpperCase()),
-                                      onPressed: () => Navigator.pop(context)),
-                                  FlatButton(
-                                      child:
-                                          Text(localization.ok.toUpperCase()),
-                                      onPressed: () {
-                                        onFlagPressed();
-                                        Navigator.pop(context);
-                                      })
-                                ],
-                              );
-                            });
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
             ],
           ),
-        ),
+          IconButton(
+            icon: Icon(Icons.share),
+            tooltip: localization.share,
+            //onPressed: onSharePressed,
+          ),
+          PopupMenuButton<String>(
+            icon: Icon(Icons.keyboard_arrow_down, size: 30),
+            itemBuilder: (BuildContext context) {
+              final actions = [
+                localization.openInBrowser,
+                localization.copyLinkToSong,
+                localization.reportSong,
+              ];
+              return actions
+                  .map((action) => PopupMenuItem(
+                        child: Text(action),
+                        value: action,
+                      ))
+                  .toList();
+            },
+            onSelected: (String action) async {
+              if (action == localization.openInBrowser) {
+                launch(song.url);
+                return;
+              } else if (action == localization.copyLinkToSong) {
+                Clipboard.setData(new ClipboardData(text: song.url));
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text(localization.copiedToClipboard)));
+                return;
+              }
+
+              showDialog<AlertDialog>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      semanticLabel: localization.areYouSure,
+                      title: Text(localization.areYouSure),
+                      content: Text(localization.reportSong),
+                      actions: <Widget>[
+                        FlatButton(
+                            child: Text(localization.cancel.toUpperCase()),
+                            onPressed: () => Navigator.pop(context)),
+                        FlatButton(
+                            child: Text(localization.ok.toUpperCase()),
+                            onPressed: () {
+                              //onFlagPressed();
+                              Navigator.pop(context);
+                            })
+                      ],
+                    );
+                  });
+            },
+          ),
+        ],
       ),
     );
   }
@@ -241,7 +225,7 @@ class SongHeader extends StatelessWidget {
         artistStyle.copyWith(color: kGenreColors[song.genreId]);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -254,7 +238,11 @@ class SongHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(song.title, style: Theme.of(context).textTheme.title),
+                Text(
+                  song.title,
+                  style: Theme.of(context).textTheme.title,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 SizedBox(height: 6),
                 RichText(
                   text: TextSpan(
