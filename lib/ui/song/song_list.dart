@@ -64,9 +64,7 @@ class _SongListState extends State<SongList> {
             return SongItem(
               song: song,
               isSelected: song == selectedSong,
-              onSelected: () => setState(() => song == selectedSong
-                  ? selectedSong = null
-                  : selectedSong = song),
+              onSelected: () => setState(() => selectedSong = song),
             );
           }),
     );
@@ -102,7 +100,7 @@ class SongItem extends StatelessWidget {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            //onTap: onSelected,
+            onTap: isSelected ? null : onSelected,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -119,14 +117,59 @@ class SongItem extends StatelessWidget {
                 Opacity(
                   opacity: isSelected ? 1.0 : 0.0,
                   child: FormCard(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      if (song.description != null &&
+                          song.description.trim().isNotEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            song.description,
+                            style: Theme.of(context).textTheme.title,
+                          ),
+                        ),
                       TextFormField(
                         decoration: InputDecoration(
                           labelText: localization.addAPublicComment,
                           //icon: Icon(Icons.comment),
                         ),
+                        focusNode: null,
                         autofocus: false,
                       ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 200,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                          ].map((val) => Text(val)).toList(),
+                        ),
+                      )
                     ],
                   ),
                 ),
