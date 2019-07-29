@@ -81,7 +81,7 @@ class SongEditVM {
             final songId = uiState.song.id;
             song = state.dataState.songMap[songId];
           }
-          store.dispatch(UpdateSong(SongEntity()));
+          store.dispatch(UpdateSong(SongEntity(id: 0)));
           WidgetsBinding.instance
               .addPostFrameCallback((_) => store.dispatch(UpdateSong(song)));
         },
