@@ -248,9 +248,10 @@ class _SongEditState extends State<SongEdit> {
                   padding: const EdgeInsets.only(right: 8),
                   child: FlatButton(
                     child: Text(AppLocalization.of(context).dismiss),
-                    onPressed: () {
-                      prefs.setBool(kSharedPrefHeadphoneWarning, true);
+                    onPressed: () async {
+                      await prefs.setBool(kSharedPrefHeadphoneWarning, true);
                       Navigator.of(context).pop();
+                      record();
                     },
                   ),
                 )
