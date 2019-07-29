@@ -74,10 +74,15 @@ class _SongListState extends State<SongList> {
 }
 
 class SongItem extends StatelessWidget {
-  SongItem({this.song, this.isSelected = false, this.onSelected});
+  SongItem(
+      {this.song,
+      this.isSelected = false,
+      this.enableShowArtist = true,
+      this.onSelected});
 
   final SongEntity song;
   final bool isSelected;
+  final bool enableShowArtist;
   final Function() onSelected;
 
   @override
@@ -106,7 +111,10 @@ class SongItem extends StatelessWidget {
                     border: Border.all(width: 3, color: Colors.transparent),
                     color: Colors.black12.withOpacity(0.3),
                   ),
-                  child: SongHeader(song),
+                  child: SongHeader(
+                    song: song,
+                    enableShowArtist: enableShowArtist,
+                  ),
                 ),
                 Opacity(
                   opacity: isSelected ? 1.0 : 0.0,
@@ -265,9 +273,10 @@ class SongFooter extends StatelessWidget {
 }
 
 class SongHeader extends StatelessWidget {
-  SongHeader(this.song);
+  SongHeader({@required this.song, @required this.enableShowArtist});
 
   final SongEntity song;
+  final bool enableShowArtist;
 
   @override
   Widget build(BuildContext context) {
@@ -287,8 +296,9 @@ class SongHeader extends StatelessWidget {
         children: <Widget>[
           ArtistProfile(
             artist: song.artist,
-            onTap: () =>
-                store.dispatch(ViewArtist(context: context, artist: artist)),
+            onTap: () => enableShowArtist
+                ? store.dispatch(ViewArtist(context: context, artist: artist))
+                : null,
           ),
           SizedBox(width: 16),
           Expanded(
@@ -306,8 +316,10 @@ class SongHeader extends StatelessWidget {
                     children: <TextSpan>[
                       TextSpan(
                         recognizer: TapGestureRecognizer()
-                          ..onTap = () => store.dispatch(
-                              ViewArtist(context: context, artist: artist)),
+                          ..onTap = () => enableShowArtist
+                              ? store.dispatch(
+                                  ViewArtist(context: context, artist: artist))
+                              : null,
                         style: artistStyle,
                         text: '@${artist.handle}',
                       ),
