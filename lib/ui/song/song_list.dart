@@ -8,6 +8,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
+import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
@@ -49,7 +50,6 @@ class _SongListState extends State<SongList> {
           itemCount: songIds.length,
           itemBuilder: (BuildContext context, index) {
             final data = widget.viewModel.state.dataState;
-            //final auth = viewModel.state.authState;
             final songId = songIds[index];
             final song = data.songMap[songId];
 
@@ -60,27 +60,6 @@ class _SongListState extends State<SongList> {
                   ? selectedSong = null
                   : selectedSong = song),
             );
-
-            /*
-            return SongItem(
-              ValueKey(songId),
-              context,
-              song: song,
-              isLiked: auth.artist.likedSong(song.id),
-              onArtistTap: (artist) => viewModel.onArtistTap(context, artist),
-              onPlayPressed: () {
-                showDialog<VideoPlayer>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return VideoPlayer(song.videoUrl);
-                    });
-              },
-              onLikePressed: () => viewModel.onLikePressed(song),
-              onSharePressed: () => viewModel.onSharePressed(song),
-              onEditPressed: () => viewModel.onSongEdit(context, song),
-              onFlagPressed: () => viewModel.onFlagPressed(song),
-            );
-            */
           }),
     );
   }
@@ -95,9 +74,11 @@ class SongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
-      height: isSelected ? 370 : 350,
+      height: isSelected ? 500 : 350,
       child: Stack(children: <Widget>[
         CachedNetworkImage(
           fit: BoxFit.cover,
@@ -110,13 +91,6 @@ class SongItem extends StatelessWidget {
           child: InkWell(
             onTap: () {
               onSelected();
-              /*
-              showDialog<VideoPlayer>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return VideoPlayer(song.videoUrl);
-                  });
-                  */
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,6 +101,20 @@ class SongItem extends StatelessWidget {
                     color: Colors.black12.withOpacity(0.3),
                   ),
                   child: SongHeader(song: song),
+                ),
+                Opacity(
+                  opacity: isSelected ? 1.0 : 0.0,
+                  child: FormCard(
+                    children: <Widget>[
+                      TextFormField(
+                        decoration: InputDecoration(
+                          labelText: localization.addAPublicComment,
+                          //icon: Icon(Icons.comment),
+                        ),
+                        autofocus: false,
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -234,10 +222,9 @@ class SongFooter extends StatelessWidget {
 }
 
 class SongHeader extends StatelessWidget {
-  SongHeader({this.song, this.onPlay, this.onArtistTap});
+  SongHeader({this.song, this.onArtistTap});
 
   final SongEntity song;
-  final Function onPlay;
   final Function onArtistTap;
 
   @override
@@ -289,11 +276,6 @@ class SongHeader extends StatelessWidget {
                               text: localization.lookup(kGenres[song.genreId]),
                               style: genreStyle,
                             ),
-                      /*
-                          TextSpan(
-                            text: ' • ${song.countPlay ?? 0} ${localization.views}',
-                          ),
-                          */
                     ],
                   ),
                 ),
@@ -304,7 +286,13 @@ class SongHeader extends StatelessWidget {
             padding: EdgeInsets.only(top: 0),
             icon: Icon(Icons.play_circle_filled, size: 42),
             tooltip: localization.play,
-            onPressed: onPlay,
+            onPressed: () {
+              showDialog<VideoPlayer>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return VideoPlayer(song.videoUrl);
+                  });
+            },
           ),
         ],
       ),
