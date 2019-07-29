@@ -42,7 +42,7 @@ const List<String> kLanguages = [
   'en',
 ];
 
-const int kTabExplore = 0;
+const int kTabList = 0;
 const int kTabCreate = 1;
 const int kTabProfile = 2;
 

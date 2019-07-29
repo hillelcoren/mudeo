@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
@@ -42,7 +43,7 @@ class MainScreenVM {
   }
 }
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   static String route = '/main';
 
   const MainScreen({
@@ -53,14 +54,37 @@ class MainScreen extends StatelessWidget {
   final MainScreenVM viewModel;
 
   @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final uiState = viewModel.state.uiState;
+    final viewModel = widget.viewModel;
+    final state = viewModel.state;
+    final uiState = state.uiState;
 
     List<Widget> _views = [
-      SongListScreen(),
+      SongListScreen(
+        scrollController: _scrollController,
+      ),
       SongEditScreen(),
       ArtistScreen(
-        artist: viewModel.state.authState.artist,
+        artist: state.authState.artist,
         showSettings: true,
       ),
     ];
@@ -73,7 +97,16 @@ class MainScreen extends StatelessWidget {
             key: ValueKey(uiState.selectedTabIndex),
             tabBar: CupertinoTabBar(
               currentIndex: uiState.selectedTabIndex,
-              onTap: (index) => viewModel.onTabChanged(index),
+              onTap: (index) {
+                final currentIndex = state.uiState.selectedTabIndex;
+                if (currentIndex == kTabList && index == kTabList) {
+                  _scrollController.animateTo(
+                      _scrollController.position.minScrollExtent,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOutCubic);
+                }
+                viewModel.onTabChanged(index);
+              },
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
@@ -87,6 +120,7 @@ class MainScreen extends StatelessWidget {
               ],
             ),
             tabBuilder: (BuildContext context, int index) {
+              print('## returning index: $index');
               return _views[index];
             },
           ),

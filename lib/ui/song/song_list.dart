@@ -26,9 +26,12 @@ class SongList extends StatefulWidget {
   const SongList({
     Key key,
     @required this.viewModel,
+    @required this.scrollController,
   }) : super(key: key);
 
   final SongListVM viewModel;
+  final ScrollController scrollController;
+
 
   @override
   _SongListState createState() => _SongListState();
@@ -52,6 +55,7 @@ class _SongListState extends State<SongList> {
       child: ListView.builder(
           padding: const EdgeInsets.only(bottom: 130),
           shrinkWrap: true,
+          controller: widget.scrollController,
           itemCount: songIds.length,
           itemBuilder: (BuildContext context, index) {
             final data = widget.viewModel.state.dataState;

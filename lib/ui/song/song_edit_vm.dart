@@ -108,7 +108,7 @@ class SongEditVM {
           store.dispatch(UpdateSong(song));
         },
         onBackPressed: () {
-          store.dispatch(UpdateTabIndex(kTabExplore));
+          store.dispatch(UpdateTabIndex(kTabList));
         },
         onSavePressed: (completer) {
           final song = store.state.uiState.song;

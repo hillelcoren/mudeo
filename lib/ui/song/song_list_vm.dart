@@ -10,7 +10,11 @@ import 'package:mudeo/ui/song/song_list.dart';
 import 'package:redux/redux.dart';
 
 class SongListScreen extends StatelessWidget {
-  const SongListScreen({Key key}) : super(key: key);
+  const SongListScreen({
+    Key key,
+    @required this.scrollController,
+  }) : super(key: key);
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,10 @@ class SongListScreen extends StatelessWidget {
           },
           converter: SongListVM.fromStore,
           builder: (context, vm) {
-            return SongList(viewModel: vm);
+            return SongList(
+              viewModel: vm,
+              scrollController: scrollController,
+            );
           },
         ),
       );

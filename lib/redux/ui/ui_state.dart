@@ -9,7 +9,7 @@ part 'ui_state.g.dart';
 abstract class UIState implements Built<UIState, UIStateBuilder> {
   factory UIState() {
     return _$UIState._(
-      selectedTabIndex: kTabExplore,
+      selectedTabIndex: kTabList,
       recordingTimestamp: 0,
       song: SongEntity(),
       artist: ArtistEntity(),
