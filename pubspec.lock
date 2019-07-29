@@ -97,10 +97,10 @@ packages:
     description:
       path: "packages/camera"
       ref: HEAD
-      resolved-ref: "3b0cff1e976c91faee7d6feb748956c1e02085a9"
+      resolved-ref: "10daab1aa991fea61143e8fd0c8b9550d7dabb23"
       url: "git://github.com/hillelcoren/plugins.git"
     source: git
-    version: "0.5.0+1"
+    version: "0.5.2+2"
   charcode:
     dependency: transitive
     description:
@@ -500,7 +500,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.6+2"
+    version: "1.1.6+3"
   stack_trace:
     dependency: transitive
     description:
