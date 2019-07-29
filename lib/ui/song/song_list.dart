@@ -213,15 +213,21 @@ class SongFooter extends StatelessWidget {
               song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
             ],
           ),
-          IconButton(
-            icon: Icon(Icons.share),
-            tooltip: localization.share,
-            onPressed: () => Share.share(song.url),
+          Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.message),
+                tooltip: localization.comments,
+                onPressed: () => null,
+              ),
+              //song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
+            ],
           ),
           PopupMenuButton<String>(
             icon: Icon(Icons.more_vert, size: 30),
             itemBuilder: (BuildContext context) {
               final actions = [
+                localization.shareSong,
                 localization.openInBrowser,
                 localization.copyLinkToSong,
                 if (song.parentId > 0) localization.viewOriginal,
@@ -251,6 +257,9 @@ class SongFooter extends StatelessWidget {
                         ArtistEntity(id: originalSong.artistId);
                 store.dispatch(
                     ViewArtist(context: context, artist: originalArtist));
+                return;
+              } else if (action == localization.shareSong) {
+                Share.share(song.url);
                 return;
               }
 
