@@ -94,7 +94,6 @@ class _MainScreenState extends State<MainScreen> {
       child: SafeArea(
         child: Scaffold(
           body: CupertinoTabScaffold(
-            //key: ValueKey(uiState.selectedTabIndex),
             key: ValueKey(uiState.song.id),
             tabBar: CupertinoTabBar(
               currentIndex: uiState.selectedTabIndex,
