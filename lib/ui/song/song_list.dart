@@ -134,14 +134,14 @@ class SongFooter extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.videocam),
             tooltip: localization.edit,
-            //onPressed: onEditPressed,
+            onPressed: () => null,
           ),
           Row(
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.favorite),
                 tooltip: localization.like,
-                //onPressed: onLikePressed,
+                onPressed: () => null,
                 //color: isLiked ? Colors.redAccent : null,
               ),
               song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
@@ -150,7 +150,7 @@ class SongFooter extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.share),
             tooltip: localization.share,
-            //onPressed: onSharePressed,
+            onPressed: () => null,
           ),
           PopupMenuButton<String>(
             icon: Icon(Icons.keyboard_arrow_down, size: 30),
