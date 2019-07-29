@@ -91,7 +91,7 @@ class SongItem extends StatelessWidget {
 
     return AnimatedContainer(
       duration: Duration(milliseconds: 200),
-      height: isSelected ? 500 : 350,
+      height: isSelected ? 500 : 380,
       child: Stack(children: <Widget>[
         CachedNetworkImage(
           fit: BoxFit.cover,
