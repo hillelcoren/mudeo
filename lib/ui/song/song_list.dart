@@ -219,7 +219,7 @@ class SongFooter extends StatelessWidget {
             onPressed: () => Share.share(song.url),
           ),
           PopupMenuButton<String>(
-            icon: Icon(Icons.keyboard_arrow_down, size: 30),
+            icon: Icon(Icons.more_vert, size: 30),
             itemBuilder: (BuildContext context) {
               final actions = [
                 localization.openInBrowser,
