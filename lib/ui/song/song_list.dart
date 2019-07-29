@@ -87,8 +87,8 @@ class SongItem extends StatelessWidget {
         width: double.infinity,
         imageUrl: song.tracks.last.video.thumbnailUrl,
       ),
-      SizedBox(
-        height: 350,
+      SizedOverflowBox(
+        size: Size(double.infinity, 350),
         child: Column(
           children: <Widget>[
             Container(
@@ -102,7 +102,7 @@ class SongItem extends StatelessWidget {
                 onArtistTap: null,
               ),
             ),
-            SizedBox(height: 203),
+            SizedBox(height: 205),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(width: 3, color: Colors.transparent),
