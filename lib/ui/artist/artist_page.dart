@@ -278,10 +278,11 @@ class ArtistPage extends StatelessWidget {
                             )
                           : SizedBox(),
                       SizedBox(height: 6),
-                      Text(
-                        '@${artist.handle}',
-                        style: Theme.of(context).textTheme.subhead,
-                      )
+                      if (artist.handle != null && artist.handle.isNotEmpty)
+                        Text(
+                          '@${artist.handle}',
+                          style: Theme.of(context).textTheme.subhead,
+                        )
                     ],
                   ),
                 ),

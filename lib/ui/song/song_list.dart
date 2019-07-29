@@ -224,6 +224,7 @@ class SongFooter extends StatelessWidget {
               final actions = [
                 localization.openInBrowser,
                 localization.copyLinkToSong,
+                if (song.parentId > 0) localization.viewOriginal,
                 localization.reportSong,
               ];
               return actions
@@ -241,6 +242,15 @@ class SongFooter extends StatelessWidget {
                 Clipboard.setData(new ClipboardData(text: song.url));
                 Scaffold.of(context).showSnackBar(
                     SnackBar(content: Text(localization.copiedToClipboard)));
+                return;
+              } else if (action == localization.viewOriginal) {
+                final originalSong = state.dataState.songMap[song.parentId] ??
+                    SongEntity(id: song.parentId);
+                final originalArtist =
+                    state.dataState.artistMap[originalSong.artistId] ??
+                        ArtistEntity(id: originalSong.artistId);
+                store.dispatch(
+                    ViewArtist(context: context, artist: originalArtist));
                 return;
               }
 
