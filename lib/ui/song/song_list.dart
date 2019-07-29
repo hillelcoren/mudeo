@@ -87,32 +87,38 @@ class SongItem extends StatelessWidget {
         width: double.infinity,
         imageUrl: song.tracks.last.video.thumbnailUrl,
       ),
-      SizedOverflowBox(
-        size: Size(double.infinity, 350),
-        child: Column(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 3, color: Colors.transparent),
-                color: Colors.black12.withOpacity(0.3),
-              ),
-              child: SongHeader(
-                song: song,
-                onPlay: () => null,
-                onArtistTap: () => null,
-              ),
+      Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => null,
+          child: SizedOverflowBox(
+            size: Size(double.infinity, 350),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.transparent),
+                    color: Colors.black12.withOpacity(0.3),
+                  ),
+                  child: SongHeader(
+                    song: song,
+                    onPlay: () => null,
+                    onArtistTap: () => null,
+                  ),
+                ),
+                SizedBox(height: 205),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.transparent),
+                    color: Colors.black12.withOpacity(0.3),
+                  ),
+                  child: SongFooter(song),
+                ),
+              ],
             ),
-            SizedBox(height: 205),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 3, color: Colors.transparent),
-                color: Colors.black12.withOpacity(0.3),
-              ),
-              child: SongFooter(song),
-            ),
-          ],
+          ),
         ),
-      ),
+      )
     ]);
   }
 }
