@@ -64,7 +64,11 @@ class _SongListState extends State<SongList> {
             return SongItem(
               song: song,
               isSelected: song == selectedSong,
-              onSelected: (newSong) => setState(() => selectedSong = newSong),
+              onSelected: (newSong) => setState(() {
+                selectedSong = newSong;
+                //widget.scrollController.en
+                //Scrollable.ensureVisible(context);
+              }),
             );
           }),
     );
@@ -136,8 +140,14 @@ class _SongItemState extends State<SongItem> {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap:
-                widget.isSelected ? null : () => widget.onSelected(widget.song),
+            onTap: widget.isSelected
+                ? null
+                : () {
+                    widget.onSelected(widget.song);
+                    Scrollable.ensureVisible(context,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.easeInOutCubic);
+                  },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
