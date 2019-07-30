@@ -200,33 +200,45 @@ class _SongItemState extends State<SongItem> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              FlatButton(
-                                child: Text(localization.cancel.toUpperCase()),
-                                onPressed: () {
-                                  _textController.clear();
-                                  _textFocusNode.unfocus();
-                                },
-                              ),
+                              if (!state.isSaving)
+                                FlatButton(
+                                  child:
+                                      Text(localization.cancel.toUpperCase()),
+                                  onPressed: () {
+                                    _textController.clear();
+                                    _textFocusNode.unfocus();
+                                  },
+                                ),
                               SizedBox(width: 10),
-                              RaisedButton(
-                                child: Text(localization.comment.toUpperCase()),
-                                onPressed: _enableSubmitButton
-                                    ? () {
-                                        final Completer<Null> completer =
-                                            Completer<Null>();
-                                        final comment = song.newComment(
-                                            state.authState.artist.id,
-                                            _textController.text.trim());
-                                        store.dispatch(SaveCommentRequest(
-                                            completer: completer,
-                                            comment: comment));
-                                        completer.future.then((value) {
-                                          _textController.clear();
-                                          _textFocusNode.unfocus();
-                                        });
-                                      }
-                                    : null,
-                              )
+                              state.isSaving
+                                  ? Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 35, vertical: 10),
+                                      child: SizedBox(
+                                          child: CircularProgressIndicator(),
+                                          width: 20,
+                                          height: 20),
+                                    )
+                                  : RaisedButton(
+                                      child: Text(
+                                          localization.comment.toUpperCase()),
+                                      onPressed: _enableSubmitButton
+                                          ? () {
+                                              final Completer<Null> completer =
+                                                  Completer<Null>();
+                                              final comment = song.newComment(
+                                                  state.authState.artist.id,
+                                                  _textController.text.trim());
+                                              store.dispatch(SaveCommentRequest(
+                                                  completer: completer,
+                                                  comment: comment));
+                                              completer.future.then((value) {
+                                                _textController.clear();
+                                                _textFocusNode.unfocus();
+                                              });
+                                            }
+                                          : null,
+                                    )
                             ],
                           ),
                         ),
