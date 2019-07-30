@@ -27,6 +27,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ArtistFollowingItemResponse.serializer)
       ..add(ArtistItemResponse.serializer)
       ..add(AuthState.serializer)
+      ..add(CommentEntity.serializer)
       ..add(DataState.serializer)
       ..add(ErrorMessage.serializer)
       ..add(FlagSongResponse.serializer)
@@ -61,6 +62,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(TrackEntity)]),
           () => new ListBuilder<TrackEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CommentEntity)]),
+          () => new ListBuilder<CommentEntity>())
       ..addBuilderFactory(
           const FullType(BuiltMap,
               const [const FullType(int), const FullType(SongEntity)]),

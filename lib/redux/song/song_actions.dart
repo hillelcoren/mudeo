@@ -54,6 +54,26 @@ class LoadSongsSuccess implements PersistData, StopLoading {
   }
 }
 
+class SaveCommentRequest implements StartSaving {
+  SaveCommentRequest({this.comment, this.completer});
+
+  final Completer completer;
+  final CommentEntity comment;
+}
+
+class SaveCommentSuccess implements StopSaving, PersistData, PersistUI {
+  SaveCommentSuccess(this.comment);
+
+  final CommentEntity comment;
+}
+
+class SaveCommentFailure implements StopSaving {
+  SaveCommentFailure(this.error);
+
+  final Object error;
+}
+
+
 class SaveSongRequest implements StartSaving {
   SaveSongRequest({this.song, this.completer});
 

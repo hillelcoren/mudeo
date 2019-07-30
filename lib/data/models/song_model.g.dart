@@ -21,6 +21,8 @@ part of 'song_model.dart';
 
 Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
 Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
+Serializer<CommentEntity> _$commentEntitySerializer =
+    new _$CommentEntitySerializer();
 Serializer<SongLikeEntity> _$songLikeEntitySerializer =
     new _$SongLikeEntitySerializer();
 Serializer<SongFlagEntity> _$songFlagEntitySerializer =
@@ -32,6 +34,8 @@ Serializer<SongListResponse> _$songListResponseSerializer =
     new _$SongListResponseSerializer();
 Serializer<SongItemResponse> _$songItemResponseSerializer =
     new _$SongItemResponseSerializer();
+Serializer<CommentItemResponse> _$commentItemResponseSerializer =
+    new _$CommentItemResponseSerializer();
 Serializer<LikeSongResponse> _$likeSongResponseSerializer =
     new _$LikeSongResponseSerializer();
 Serializer<FlagSongResponse> _$flagSongResponseSerializer =
@@ -73,6 +77,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       serializers.serialize(object.tracks,
           specifiedType:
               const FullType(BuiltList, const [const FullType(TrackEntity)])),
+      'comments',
+      serializers.serialize(object.comments,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(CommentEntity)])),
     ];
     if (object.artistId != null) {
       result
@@ -201,6 +209,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
                       BuiltList, const [const FullType(TrackEntity)]))
               as BuiltList);
           break;
+        case 'comments':
+          result.comments.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(CommentEntity)]))
+              as BuiltList);
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -300,6 +314,88 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
         case 'video':
           result.video.replace(serializers.deserialize(value,
               specifiedType: const FullType(VideoEntity)) as VideoEntity);
+          break;
+        case 'deleted_at':
+          result.deletedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'updated_at':
+          result.updatedAt = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
+  @override
+  final Iterable<Type> types = const [CommentEntity, _$CommentEntity];
+  @override
+  final String wireName = 'CommentEntity';
+
+  @override
+  Iterable serialize(Serializers serializers, CommentEntity object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'user_id',
+      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+      'song_id',
+      serializers.serialize(object.songId, specifiedType: const FullType(int)),
+      'description',
+      serializers.serialize(object.description,
+          specifiedType: const FullType(String)),
+    ];
+    if (object.deletedAt != null) {
+      result
+        ..add('deleted_at')
+        ..add(serializers.serialize(object.deletedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.updatedAt != null) {
+      result
+        ..add('updated_at')
+        ..add(serializers.serialize(object.updatedAt,
+            specifiedType: const FullType(String)));
+    }
+    if (object.id != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(object.id,
+            specifiedType: const FullType(int)));
+    }
+
+    return result;
+  }
+
+  @override
+  CommentEntity deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new CommentEntityBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'user_id':
+          result.userId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'song_id':
+          result.songId = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
@@ -714,6 +810,50 @@ class _$SongItemResponseSerializer
   }
 }
 
+class _$CommentItemResponseSerializer
+    implements StructuredSerializer<CommentItemResponse> {
+  @override
+  final Iterable<Type> types = const [
+    CommentItemResponse,
+    _$CommentItemResponse
+  ];
+  @override
+  final String wireName = 'CommentItemResponse';
+
+  @override
+  Iterable serialize(Serializers serializers, CommentItemResponse object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data,
+          specifiedType: const FullType(CommentEntity)),
+    ];
+
+    return result;
+  }
+
+  @override
+  CommentItemResponse deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new CommentItemResponseBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(CommentEntity)) as CommentEntity);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$LikeSongResponseSerializer
     implements StructuredSerializer<LikeSongResponse> {
   @override
@@ -867,6 +1007,8 @@ class _$SongEntity extends SongEntity {
   @override
   final BuiltList<TrackEntity> tracks;
   @override
+  final BuiltList<CommentEntity> comments;
+  @override
   final int id;
   @override
   final String deletedAt;
@@ -891,6 +1033,7 @@ class _$SongEntity extends SongEntity {
       this.isPublic,
       this.videoUrl,
       this.tracks,
+      this.comments,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -919,6 +1062,9 @@ class _$SongEntity extends SongEntity {
     if (tracks == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'tracks');
     }
+    if (comments == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'comments');
+    }
   }
 
   @override
@@ -946,6 +1092,7 @@ class _$SongEntity extends SongEntity {
         isPublic == other.isPublic &&
         videoUrl == other.videoUrl &&
         tracks == other.tracks &&
+        comments == other.comments &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -970,23 +1117,27 @@ class _$SongEntity extends SongEntity {
                                                             $jc(
                                                                 $jc(
                                                                     $jc(
-                                                                        0,
-                                                                        title
+                                                                        $jc(
+                                                                            0,
+                                                                            title
+                                                                                .hashCode),
+                                                                        description
                                                                             .hashCode),
-                                                                    description
+                                                                    url
                                                                         .hashCode),
-                                                                url.hashCode),
-                                                            artistId.hashCode),
-                                                        artist.hashCode),
-                                                    genreId.hashCode),
-                                                parentId.hashCode),
-                                            duration.hashCode),
-                                        countPlay.hashCode),
-                                    countLike.hashCode),
-                                isFlagged.hashCode),
-                            isPublic.hashCode),
-                        videoUrl.hashCode),
-                    tracks.hashCode),
+                                                                artistId
+                                                                    .hashCode),
+                                                            artist.hashCode),
+                                                        genreId.hashCode),
+                                                    parentId.hashCode),
+                                                duration.hashCode),
+                                            countPlay.hashCode),
+                                        countLike.hashCode),
+                                    isFlagged.hashCode),
+                                isPublic.hashCode),
+                            videoUrl.hashCode),
+                        tracks.hashCode),
+                    comments.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -1009,6 +1160,7 @@ class _$SongEntity extends SongEntity {
           ..add('isPublic', isPublic)
           ..add('videoUrl', videoUrl)
           ..add('tracks', tracks)
+          ..add('comments', comments)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -1077,6 +1229,12 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _$this._tracks ??= new ListBuilder<TrackEntity>();
   set tracks(ListBuilder<TrackEntity> tracks) => _$this._tracks = tracks;
 
+  ListBuilder<CommentEntity> _comments;
+  ListBuilder<CommentEntity> get comments =>
+      _$this._comments ??= new ListBuilder<CommentEntity>();
+  set comments(ListBuilder<CommentEntity> comments) =>
+      _$this._comments = comments;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -1107,6 +1265,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _isPublic = _$v.isPublic;
       _videoUrl = _$v.videoUrl;
       _tracks = _$v.tracks?.toBuilder();
+      _comments = _$v.comments?.toBuilder();
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -1148,6 +1307,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               isPublic: isPublic,
               videoUrl: videoUrl,
               tracks: tracks.build(),
+              comments: comments.build(),
               id: id,
               deletedAt: deletedAt,
               updatedAt: updatedAt);
@@ -1159,6 +1319,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
         _$failedField = 'tracks';
         tracks.build();
+        _$failedField = 'comments';
+        comments.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'SongEntity', _$failedField, e.toString());
@@ -1335,6 +1497,157 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
       }
       rethrow;
     }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CommentEntity extends CommentEntity {
+  @override
+  final int userId;
+  @override
+  final int songId;
+  @override
+  final String description;
+  @override
+  final String deletedAt;
+  @override
+  final String updatedAt;
+  @override
+  final int id;
+
+  factory _$CommentEntity([void updates(CommentEntityBuilder b)]) =>
+      (new CommentEntityBuilder()..update(updates)).build();
+
+  _$CommentEntity._(
+      {this.userId,
+      this.songId,
+      this.description,
+      this.deletedAt,
+      this.updatedAt,
+      this.id})
+      : super._() {
+    if (userId == null) {
+      throw new BuiltValueNullFieldError('CommentEntity', 'userId');
+    }
+    if (songId == null) {
+      throw new BuiltValueNullFieldError('CommentEntity', 'songId');
+    }
+    if (description == null) {
+      throw new BuiltValueNullFieldError('CommentEntity', 'description');
+    }
+  }
+
+  @override
+  CommentEntity rebuild(void updates(CommentEntityBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CommentEntityBuilder toBuilder() => new CommentEntityBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CommentEntity &&
+        userId == other.userId &&
+        songId == other.songId &&
+        description == other.description &&
+        deletedAt == other.deletedAt &&
+        updatedAt == other.updatedAt &&
+        id == other.id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc($jc($jc(0, userId.hashCode), songId.hashCode),
+                    description.hashCode),
+                deletedAt.hashCode),
+            updatedAt.hashCode),
+        id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('CommentEntity')
+          ..add('userId', userId)
+          ..add('songId', songId)
+          ..add('description', description)
+          ..add('deletedAt', deletedAt)
+          ..add('updatedAt', updatedAt)
+          ..add('id', id))
+        .toString();
+  }
+}
+
+class CommentEntityBuilder
+    implements Builder<CommentEntity, CommentEntityBuilder> {
+  _$CommentEntity _$v;
+
+  int _userId;
+  int get userId => _$this._userId;
+  set userId(int userId) => _$this._userId = userId;
+
+  int _songId;
+  int get songId => _$this._songId;
+  set songId(int songId) => _$this._songId = songId;
+
+  String _description;
+  String get description => _$this._description;
+  set description(String description) => _$this._description = description;
+
+  String _deletedAt;
+  String get deletedAt => _$this._deletedAt;
+  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+
+  String _updatedAt;
+  String get updatedAt => _$this._updatedAt;
+  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+
+  int _id;
+  int get id => _$this._id;
+  set id(int id) => _$this._id = id;
+
+  CommentEntityBuilder();
+
+  CommentEntityBuilder get _$this {
+    if (_$v != null) {
+      _userId = _$v.userId;
+      _songId = _$v.songId;
+      _description = _$v.description;
+      _deletedAt = _$v.deletedAt;
+      _updatedAt = _$v.updatedAt;
+      _id = _$v.id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CommentEntity other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$CommentEntity;
+  }
+
+  @override
+  void update(void updates(CommentEntityBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$CommentEntity build() {
+    final _$result = _$v ??
+        new _$CommentEntity._(
+            userId: userId,
+            songId: songId,
+            description: description,
+            deletedAt: deletedAt,
+            updatedAt: updatedAt,
+            id: id);
     replace(_$result);
     return _$result;
   }
@@ -2056,6 +2369,98 @@ class SongItemResponseBuilder
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'SongItemResponse', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$CommentItemResponse extends CommentItemResponse {
+  @override
+  final CommentEntity data;
+
+  factory _$CommentItemResponse([void updates(CommentItemResponseBuilder b)]) =>
+      (new CommentItemResponseBuilder()..update(updates)).build();
+
+  _$CommentItemResponse._({this.data}) : super._() {
+    if (data == null) {
+      throw new BuiltValueNullFieldError('CommentItemResponse', 'data');
+    }
+  }
+
+  @override
+  CommentItemResponse rebuild(void updates(CommentItemResponseBuilder b)) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  CommentItemResponseBuilder toBuilder() =>
+      new CommentItemResponseBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is CommentItemResponse && data == other.data;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, data.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('CommentItemResponse')
+          ..add('data', data))
+        .toString();
+  }
+}
+
+class CommentItemResponseBuilder
+    implements Builder<CommentItemResponse, CommentItemResponseBuilder> {
+  _$CommentItemResponse _$v;
+
+  CommentEntityBuilder _data;
+  CommentEntityBuilder get data => _$this._data ??= new CommentEntityBuilder();
+  set data(CommentEntityBuilder data) => _$this._data = data;
+
+  CommentItemResponseBuilder();
+
+  CommentItemResponseBuilder get _$this {
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(CommentItemResponse other) {
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
+    _$v = other as _$CommentItemResponse;
+  }
+
+  @override
+  void update(void updates(CommentItemResponseBuilder b)) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$CommentItemResponse build() {
+    _$CommentItemResponse _$result;
+    try {
+      _$result = _$v ?? new _$CommentItemResponse._(data: data.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'data';
+        data.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'CommentItemResponse', _$failedField, e.toString());
       }
       rethrow;
     }

@@ -30,6 +30,7 @@ abstract class SongEntity extends Object
       isFlagged: false,
       isPublic: false,
       tracks: BuiltList<TrackEntity>(),
+      comments: BuiltList<CommentEntity>(),
     );
   }
 
@@ -78,6 +79,8 @@ abstract class SongEntity extends Object
 
   @BuiltValueField(wireName: 'song_videos')
   BuiltList<TrackEntity> get tracks;
+
+  BuiltList<CommentEntity> get comments;
 
   @override
   String get listDisplayName {
@@ -161,6 +164,37 @@ abstract class TrackEntity extends Object
 
   static Serializer<TrackEntity> get serializer => _$trackEntitySerializer;
 }
+
+abstract class CommentEntity extends Object
+    with BaseEntity
+    implements Built<CommentEntity, CommentEntityBuilder> {
+  factory CommentEntity({int id, int orderId, VideoEntity video}) {
+    return _$CommentEntity._(
+      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+      userId: 0,
+      songId: 0,
+      description: '',
+    );
+  }
+
+  CommentEntity._();
+
+  @BuiltValueField(wireName: 'user_id')
+  int get userId;
+
+  @BuiltValueField(wireName: 'song_id')
+  int get songId;
+
+  String get description;
+
+  @override
+  String get listDisplayName {
+    return description;
+  }
+
+  static Serializer<CommentEntity> get serializer => _$commentEntitySerializer;
+}
+
 
 abstract class SongLikeEntity extends Object
     with BaseEntity
@@ -315,6 +349,19 @@ abstract class SongItemResponse
 
   static Serializer<SongItemResponse> get serializer =>
       _$songItemResponseSerializer;
+}
+
+abstract class CommentItemResponse
+    implements Built<CommentItemResponse, CommentItemResponseBuilder> {
+  factory CommentItemResponse([void updates(CommentItemResponseBuilder b)]) =
+  _$CommentItemResponse;
+
+  CommentItemResponse._();
+
+  CommentEntity get data;
+
+  static Serializer<CommentItemResponse> get serializer =>
+      _$commentItemResponseSerializer;
 }
 
 abstract class LikeSongResponse

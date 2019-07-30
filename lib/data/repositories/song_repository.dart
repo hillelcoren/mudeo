@@ -78,6 +78,31 @@ class SongRepository {
     return songResponse.data;
   }
 
+  Future<CommentEntity> saveComment(
+      AuthState auth, CommentEntity comment) async {
+    final data = serializers.serializeWith(CommentEntity.serializer, comment);
+    dynamic response;
+
+    if (comment.isNew) {
+      response = await webClient.post(
+          '${Config.API_URL}/song_comments?include=user', auth.artist.token,
+          data: json.encode(data));
+    } else {
+      /*
+      var url = '${Config.API_URL}/song_comments/${comment.id}?include=user';
+      if (action != null) {
+        url += '&action=' + action.toString();
+      }
+      response = await webClient.put(url, auth.artist.token, json.encode(data));
+      */
+    }
+
+    final CommentItemResponse commentResponse =
+        serializers.deserializeWith(CommentItemResponse.serializer, response);
+
+    return commentResponse.data;
+  }
+
   Future<SongLikeEntity> likeSong(AuthState auth, SongEntity song,
       {SongLikeEntity songLike}) async {
     dynamic response;
