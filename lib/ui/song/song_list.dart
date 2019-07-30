@@ -183,6 +183,11 @@ class _SongItemState extends State<SongItem> {
                         ),
                         TextFormField(
                           autofocus: false,
+                          minLines: 1,
+                          maxLines: 3,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(kMaxCommentLength),
+                          ],
                           controller: _textController,
                           focusNode: _textFocusNode,
                           decoration: InputDecoration(
@@ -192,14 +197,27 @@ class _SongItemState extends State<SongItem> {
                         ),
                         Visibility(
                           visible: _showSubmitButton,
-                          child: Row(
-                            children: <Widget>[
-                              RaisedButton(
-                                child: Text(localization.comment.toUpperCase()),
-                                onPressed:
-                                    _enableSubmitButton ? () => null : null,
-                              )
-                            ],
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                FlatButton(
+                                  child:
+                                      Text(localization.cancel.toUpperCase()),
+                                  onPressed: () {
+                                    _textController.clear();
+                                    _textFocusNode.unfocus();
+                                  },
+                                ),
+                                RaisedButton(
+                                  child:
+                                      Text(localization.comment.toUpperCase()),
+                                  onPressed:
+                                      _enableSubmitButton ? () => null : null,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
