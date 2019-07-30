@@ -71,7 +71,7 @@ class _SongListState extends State<SongList> {
   }
 }
 
-class SongItem extends StatelessWidget {
+class SongItem extends StatefulWidget {
   SongItem(
       {this.song,
       this.isSelected = false,
@@ -84,23 +84,60 @@ class SongItem extends StatelessWidget {
   final Function(SongEntity) onSelected;
 
   @override
+  _SongItemState createState() => _SongItemState();
+}
+
+class _SongItemState extends State<SongItem> {
+  TextEditingController _textController;
+  FocusNode _textFocusNode;
+
+  bool _showSubmitButton = false;
+  bool _enableSubmitButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _textFocusNode = FocusNode();
+    _textFocusNode.addListener(() {
+      if (_showSubmitButton != _textFocusNode.hasFocus) {
+        setState(() => _showSubmitButton = _textFocusNode.hasFocus);
+      }
+    });
+
+    _textController = TextEditingController();
+    _textController.addListener(() {
+      if (_enableSubmitButton != _textController.text.isNotEmpty) {
+        setState(() => _enableSubmitButton = _textController.text.isNotEmpty);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _textFocusNode.dispose();
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
 
     return AnimatedContainer(
-      duration: Duration(milliseconds: isSelected ? 300 : 500),
-      height: isSelected ? 560 : 380,
+      duration: Duration(milliseconds: widget.isSelected ? 300 : 500),
+      height: widget.isSelected ? 560 : 380,
       child: Stack(children: <Widget>[
         CachedNetworkImage(
           fit: BoxFit.cover,
           height: double.infinity,
           width: double.infinity,
-          imageUrl: song.tracks.last.video.thumbnailUrl,
+          imageUrl: widget.song.tracks.last.video.thumbnailUrl,
         ),
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: isSelected ? null : () => onSelected(song),
+            onTap:
+                widget.isSelected ? null : () => widget.onSelected(widget.song),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -110,13 +147,14 @@ class SongItem extends StatelessWidget {
                     color: Colors.black12.withOpacity(0.3),
                   ),
                   child: SongHeader(
-                    song: song,
-                    enableShowArtist: enableShowArtist,
+                    song: widget.song,
+                    enableShowArtist: widget.enableShowArtist,
                   ),
                 ),
                 AnimatedContainer(
-                  height: isSelected ? 400 : 0,
-                  duration: Duration(milliseconds: isSelected ? 500 : 300),
+                  height: widget.isSelected ? 400 : 0,
+                  duration:
+                      Duration(milliseconds: widget.isSelected ? 500 : 300),
                   curve: Curves.easeInOutCubic,
                   child: SingleChildScrollView(
                     child: FormCard(
@@ -127,7 +165,7 @@ class SongItem extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: Text(
-                                song.description,
+                                widget.song.description,
                                 style: Theme.of(context).textTheme.title,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -135,17 +173,34 @@ class SongItem extends StatelessWidget {
                             ),
                             IconButton(
                               icon: Icon(Icons.close),
-                              onPressed: () => onSelected(null),
+                              onPressed: () {
+                                _textController.clear();
+                                _textFocusNode.unfocus();
+                                widget.onSelected(null);
+                              },
                             ),
                           ],
                         ),
                         TextFormField(
+                          autofocus: false,
+                          controller: _textController,
+                          focusNode: _textFocusNode,
                           decoration: InputDecoration(
                             labelText: localization.addAPublicComment,
                             //icon: Icon(Icons.comment),
                           ),
-                          focusNode: null,
-                          autofocus: false,
+                        ),
+                        Visibility(
+                          visible: _showSubmitButton,
+                          child: Row(
+                            children: <Widget>[
+                              RaisedButton(
+                                child: Text(localization.comment.toUpperCase()),
+                                onPressed:
+                                    _enableSubmitButton ? () => null : null,
+                              )
+                            ],
+                          ),
                         ),
                         SizedBox(height: 20),
                         SizedBox(
@@ -190,7 +245,7 @@ class SongItem extends StatelessWidget {
                     border: Border.all(width: 3, color: Colors.transparent),
                     color: Colors.black12.withOpacity(0.3),
                   ),
-                  child: SongFooter(song),
+                  child: SongFooter(widget.song),
                 ),
               ],
             ),

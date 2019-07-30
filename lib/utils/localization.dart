@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'comment': 'Comment',
       'comments': 'Comments',
       'view_original': 'View Original',
       'add_a_public_comment': 'Add a public comment...',
@@ -406,6 +407,9 @@ class AppLocalization {
 
   String get comments =>
       _localizedValues[locale.toString()]['comments'];
+
+  String get comment =>
+      _localizedValues[locale.toString()]['comment'];
 
 
   String lookup(String key) {
