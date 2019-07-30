@@ -260,6 +260,7 @@ class _SongItemState extends State<SongItem> {
                                 shrinkWrap: true,
                                 children: song.comments.reversed
                                     .map((comment) => CommentRow(
+                                          key: ValueKey(comment.id),
                                           song: song,
                                           comment: comment,
                                         ))
@@ -588,7 +589,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
 }
 
 class CommentRow extends StatefulWidget {
-  CommentRow({this.comment, this.song});
+  CommentRow({Key key, this.comment, this.song}) : super(key: key);
 
   final SongEntity song;
   final CommentEntity comment;
@@ -634,10 +635,14 @@ class _CommentRowState extends State<CommentRow> {
                   ),
                 ),
               ),
-              if (isSelected)
+              if (isSelected && !state.isSaving)
                 RaisedButton(
-                  color: Colors.red,
+                  color: Colors.redAccent,
                   child: Text(AppLocalization.of(context).delete.toUpperCase()),
+                  onPressed: () {
+                    store.dispatch(
+                        DeleteCommentRequest(comment: widget.comment));
+                  },
                 ),
             ],
           ),

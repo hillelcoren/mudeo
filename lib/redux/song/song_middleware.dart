@@ -13,6 +13,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
   final likeSong = _likeSong(repository);
   final flagSong = _flagSong(repository);
   final saveComment = _saveComment(repository);
+  final deleteComment = _deleteComment(repository);
 
   return [
     TypedMiddleware<AppState, LoadSongs>(loadSongs),
@@ -20,6 +21,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
     TypedMiddleware<AppState, LikeSongRequest>(likeSong),
     TypedMiddleware<AppState, FlagSongRequest>(flagSong),
     TypedMiddleware<AppState, SaveCommentRequest>(saveComment),
+    TypedMiddleware<AppState, DeleteCommentRequest>(deleteComment),
   ];
 }
 
@@ -159,6 +161,28 @@ Middleware<AppState> _saveComment(SongRepository repository) {
       print(error);
       store.dispatch(SaveCommentFailure(error));
       action.completer.completeError(error);
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _deleteComment(SongRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    CommentEntity comment = action.comment;
+    final authState = store.state.authState;
+
+    repository.deleteComment(authState, comment).then((data) {
+      store.dispatch(DeleteCommentSuccess(comment));
+      if (action.completer) {
+        action.completer.complete();
+      }
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(DeleteCommentFailure(error));
+      if (action.completer) {
+        action.completer.completeError(error);
+      }
     });
 
     next(action);

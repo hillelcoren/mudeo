@@ -73,6 +73,25 @@ class SaveCommentFailure implements StopSaving {
   final Object error;
 }
 
+class DeleteCommentRequest implements StartSaving {
+  DeleteCommentRequest({this.comment, this.completer});
+
+  final Completer completer;
+  final CommentEntity comment;
+}
+
+class DeleteCommentSuccess implements StopSaving, PersistData, PersistUI {
+  DeleteCommentSuccess(this.comment);
+
+  final CommentEntity comment;
+}
+
+class DeleteCommentFailure implements StopSaving {
+  DeleteCommentFailure(this.error);
+
+  final Object error;
+}
+
 
 class SaveSongRequest implements StartSaving {
   SaveSongRequest({this.song, this.completer});

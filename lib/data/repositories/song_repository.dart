@@ -18,7 +18,8 @@ class SongRepository {
   final WebClient webClient;
 
   Future<BuiltList<SongEntity>> loadList(AuthState auth, int updatedAt) async {
-    String url = '${Config.API_URL}/songs?include=user,comments.user&sort=id|desc';
+    String url =
+        '${Config.API_URL}/songs?include=user,comments.user&sort=id|desc';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
@@ -96,6 +97,19 @@ class SongRepository {
       response = await webClient.put(url, auth.artist.token, json.encode(data));
       */
     }
+
+    final CommentItemResponse commentResponse =
+        serializers.deserializeWith(CommentItemResponse.serializer, response);
+
+    return commentResponse.data;
+  }
+
+  Future<CommentEntity> deleteComment(
+      AuthState auth, CommentEntity comment) async {
+    dynamic response;
+
+    response = await webClient.delete(
+        '${Config.API_URL}/song_comments/${comment.id}', auth.artist.token);
 
     final CommentItemResponse commentResponse =
         serializers.deserializeWith(CommentItemResponse.serializer, response);
