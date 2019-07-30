@@ -592,18 +592,15 @@ class CommentRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 4, bottom: 6),
+      padding: EdgeInsets.symmetric(vertical: 8),
       child: RichText(
         text: TextSpan(
           children: <TextSpan>[
             TextSpan(
-                style: Theme.of(context)
-                    .textTheme
-                    .subhead
-                    .copyWith(color: Colors.grey),
+                style: TextStyle(color: Colors.grey, fontSize: 17),
                 text: comment.artist.displayName),
             TextSpan(
-              style: Theme.of(context).textTheme.subhead,
+              style: TextStyle(fontSize: 17),
               text: '   ${comment.description}',
             ),
           ],
