@@ -87,6 +87,12 @@ abstract class SongEntity extends Object
     return title;
   }
 
+  CommentEntity newComment(int artistId, String comment) =>
+      CommentEntity(description: comment).rebuild((b) => b
+        ..songId = id
+        ..artistId = artistId
+      );
+
   TrackEntity newTrack(VideoEntity video) =>
       TrackEntity(video: video, orderId: tracks.length);
 
@@ -168,19 +174,19 @@ abstract class TrackEntity extends Object
 abstract class CommentEntity extends Object
     with BaseEntity
     implements Built<CommentEntity, CommentEntityBuilder> {
-  factory CommentEntity({int id, int orderId, VideoEntity video}) {
+  factory CommentEntity({int id, String description}) {
     return _$CommentEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
-      userId: 0,
+      artistId: 0,
       songId: 0,
-      description: '',
+      description: description ?? '',
     );
   }
 
   CommentEntity._();
 
   @BuiltValueField(wireName: 'user_id')
-  int get userId;
+  int get artistId;
 
   @BuiltValueField(wireName: 'song_id')
   int get songId;
@@ -194,7 +200,6 @@ abstract class CommentEntity extends Object
 
   static Serializer<CommentEntity> get serializer => _$commentEntitySerializer;
 }
-
 
 abstract class SongLikeEntity extends Object
     with BaseEntity
@@ -354,7 +359,7 @@ abstract class SongItemResponse
 abstract class CommentItemResponse
     implements Built<CommentItemResponse, CommentItemResponseBuilder> {
   factory CommentItemResponse([void updates(CommentItemResponseBuilder b)]) =
-  _$CommentItemResponse;
+      _$CommentItemResponse;
 
   CommentItemResponse._();
 
@@ -367,7 +372,7 @@ abstract class CommentItemResponse
 abstract class LikeSongResponse
     implements Built<LikeSongResponse, LikeSongResponseBuilder> {
   factory LikeSongResponse([void updates(LikeSongResponseBuilder b)]) =
-  _$LikeSongResponse;
+      _$LikeSongResponse;
 
   LikeSongResponse._();
 
@@ -380,7 +385,7 @@ abstract class LikeSongResponse
 abstract class FlagSongResponse
     implements Built<FlagSongResponse, FlagSongResponseBuilder> {
   factory FlagSongResponse([void updates(FlagSongResponseBuilder b)]) =
-  _$FlagSongResponse;
+      _$FlagSongResponse;
 
   FlagSongResponse._();
 

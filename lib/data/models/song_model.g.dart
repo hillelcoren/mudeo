@@ -345,7 +345,8 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'user_id',
-      serializers.serialize(object.userId, specifiedType: const FullType(int)),
+      serializers.serialize(object.artistId,
+          specifiedType: const FullType(int)),
       'song_id',
       serializers.serialize(object.songId, specifiedType: const FullType(int)),
       'description',
@@ -386,7 +387,7 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
       final dynamic value = iterator.current;
       switch (key) {
         case 'user_id':
-          result.userId = serializers.deserialize(value,
+          result.artistId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
           break;
         case 'song_id':
@@ -1504,7 +1505,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
 class _$CommentEntity extends CommentEntity {
   @override
-  final int userId;
+  final int artistId;
   @override
   final int songId;
   @override
@@ -1520,15 +1521,15 @@ class _$CommentEntity extends CommentEntity {
       (new CommentEntityBuilder()..update(updates)).build();
 
   _$CommentEntity._(
-      {this.userId,
+      {this.artistId,
       this.songId,
       this.description,
       this.deletedAt,
       this.updatedAt,
       this.id})
       : super._() {
-    if (userId == null) {
-      throw new BuiltValueNullFieldError('CommentEntity', 'userId');
+    if (artistId == null) {
+      throw new BuiltValueNullFieldError('CommentEntity', 'artistId');
     }
     if (songId == null) {
       throw new BuiltValueNullFieldError('CommentEntity', 'songId');
@@ -1549,7 +1550,7 @@ class _$CommentEntity extends CommentEntity {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is CommentEntity &&
-        userId == other.userId &&
+        artistId == other.artistId &&
         songId == other.songId &&
         description == other.description &&
         deletedAt == other.deletedAt &&
@@ -1562,7 +1563,7 @@ class _$CommentEntity extends CommentEntity {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, userId.hashCode), songId.hashCode),
+                $jc($jc($jc(0, artistId.hashCode), songId.hashCode),
                     description.hashCode),
                 deletedAt.hashCode),
             updatedAt.hashCode),
@@ -1572,7 +1573,7 @@ class _$CommentEntity extends CommentEntity {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('CommentEntity')
-          ..add('userId', userId)
+          ..add('artistId', artistId)
           ..add('songId', songId)
           ..add('description', description)
           ..add('deletedAt', deletedAt)
@@ -1586,9 +1587,9 @@ class CommentEntityBuilder
     implements Builder<CommentEntity, CommentEntityBuilder> {
   _$CommentEntity _$v;
 
-  int _userId;
-  int get userId => _$this._userId;
-  set userId(int userId) => _$this._userId = userId;
+  int _artistId;
+  int get artistId => _$this._artistId;
+  set artistId(int artistId) => _$this._artistId = artistId;
 
   int _songId;
   int get songId => _$this._songId;
@@ -1614,7 +1615,7 @@ class CommentEntityBuilder
 
   CommentEntityBuilder get _$this {
     if (_$v != null) {
-      _userId = _$v.userId;
+      _artistId = _$v.artistId;
       _songId = _$v.songId;
       _description = _$v.description;
       _deletedAt = _$v.deletedAt;
@@ -1642,7 +1643,7 @@ class CommentEntityBuilder
   _$CommentEntity build() {
     final _$result = _$v ??
         new _$CommentEntity._(
-            userId: userId,
+            artistId: artistId,
             songId: songId,
             description: description,
             deletedAt: deletedAt,

@@ -85,7 +85,7 @@ class SongRepository {
 
     if (comment.isNew) {
       response = await webClient.post(
-          '${Config.API_URL}/song_comments?include=user', auth.artist.token,
+          '${Config.API_URL}/song_comments', auth.artist.token,
           data: json.encode(data));
     } else {
       /*

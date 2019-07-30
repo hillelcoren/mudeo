@@ -145,7 +145,7 @@ Middleware<AppState> _saveComment(SongRepository repository) {
     CommentEntity comment = action.comment;
     final authState = store.state.authState;
 
-    repository.saveComment(authState, comment).then((song) {
+    repository.saveComment(authState, comment).then((data) {
       /*
       if (action.song.isNew) {
         store.dispatch(AddSongSuccess(song));
@@ -154,10 +154,10 @@ Middleware<AppState> _saveComment(SongRepository repository) {
       }
       */
       store.dispatch(SaveCommentSuccess(comment));
-      action.completer.complete(song);
+      action.completer.complete();
     }).catchError((Object error) {
       print(error);
-      store.dispatch(SaveSongFailure(error));
+      store.dispatch(SaveCommentFailure(error));
       action.completer.completeError(error);
     });
 

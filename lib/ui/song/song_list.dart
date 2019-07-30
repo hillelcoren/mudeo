@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -118,6 +120,8 @@ class _SongItemState extends State<SongItem> {
     final song = widget.song;
     final tracks = song.tracks;
     final lastTrack = tracks.isNotEmpty ? tracks.last : null;
+    final store = StoreProvider.of<AppState>(context);
+    final state = store.state;
 
     return AnimatedContainer(
       duration: Duration(milliseconds: _showComments ? 300 : 500),
@@ -206,8 +210,22 @@ class _SongItemState extends State<SongItem> {
                               SizedBox(width: 10),
                               RaisedButton(
                                 child: Text(localization.comment.toUpperCase()),
-                                onPressed:
-                                    _enableSubmitButton ? () => null : null,
+                                onPressed: _enableSubmitButton
+                                    ? () {
+                                        final Completer<Null> completer =
+                                            Completer<Null>();
+                                        final comment = song.newComment(
+                                            state.authState.artist.id,
+                                            _textController.text.trim());
+                                        store.dispatch(SaveCommentRequest(
+                                            completer: completer,
+                                            comment: comment));
+                                        completer.future.then((value) {
+                                          _textController.clear();
+                                          _textFocusNode.unfocus();
+                                        });
+                                      }
+                                    : null,
                               )
                             ],
                           ),
