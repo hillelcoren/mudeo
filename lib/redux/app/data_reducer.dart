@@ -8,6 +8,7 @@ Reducer<DataState> dataReducer = combineReducers([
   TypedReducer<DataState, AddSongSuccess>(addSongReducer),
   TypedReducer<DataState, SaveSongSuccess>(saveSongReducer),
   TypedReducer<DataState, LikeSongSuccess>(likeSongReducer),
+  TypedReducer<DataState, SaveCommentSuccess>(saveCommentReducer),
 ]);
 
 DataState loadSongsSuccessReducer(
@@ -41,4 +42,11 @@ DataState likeSongReducer(DataState dataState, LikeSongSuccess action) {
   return dataState.rebuild((b) => b
     ..songMap[action.songLike.songId] = song.rebuild(
         (b) => b..countLike = song.countLike + (action.unlike ? -1 : 1)));
+}
+
+DataState saveCommentReducer(DataState dataState, SaveCommentSuccess action) {
+  return dataState.rebuild((b) => b
+    ..songMap[action.comment.songId]
+        .comments
+        .rebuild((b) => b..add(action.comment)));
 }
