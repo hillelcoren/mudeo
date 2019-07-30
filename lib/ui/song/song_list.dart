@@ -259,7 +259,10 @@ class _SongItemState extends State<SongItem> {
                             : ListView(
                                 shrinkWrap: true,
                                 children: song.comments.reversed
-                                    .map((comment) => CommentRow(comment))
+                                    .map((comment) => CommentRow(
+                                          song: song,
+                                          comment: comment,
+                                        ))
                                     .toList(),
                               ),
                       )
@@ -584,26 +587,60 @@ class _VideoPlayerState extends State<VideoPlayer> {
   }
 }
 
-class CommentRow extends StatelessWidget {
-  CommentRow(this.comment);
+class CommentRow extends StatefulWidget {
+  CommentRow({this.comment, this.song});
 
+  final SongEntity song;
   final CommentEntity comment;
 
   @override
+  _CommentRowState createState() => _CommentRowState();
+}
+
+class _CommentRowState extends State<CommentRow> {
+  bool isSelected = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
-      child: RichText(
-        text: TextSpan(
-          children: <TextSpan>[
-            TextSpan(
-                style: TextStyle(color: Colors.grey, fontSize: 17),
-                text: comment.artist.displayName),
-            TextSpan(
-              style: TextStyle(fontSize: 17),
-              text: '   ${comment.description}',
-            ),
-          ],
+    final store = StoreProvider.of<AppState>(context);
+    final state = store.state;
+    final authArtistId = state.authState.artist.id;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: widget.comment.artistId == authArtistId ||
+                widget.song.artistId == authArtistId
+            ? () {
+                setState(() => isSelected = !isSelected);
+              }
+            : null,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                          style: TextStyle(color: Colors.grey, fontSize: 17),
+                          text: widget.comment.artist.displayName),
+                      TextSpan(
+                        style: TextStyle(fontSize: 17),
+                        text: '   ${widget.comment.description}',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              if (isSelected)
+                RaisedButton(
+                  color: Colors.red,
+                  child: Text(AppLocalization.of(context).delete.toUpperCase()),
+                ),
+            ],
+          ),
         ),
       ),
     );
