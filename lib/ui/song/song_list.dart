@@ -146,7 +146,7 @@ class _SongItemState extends State<SongItem> {
                     widget.onSelected(widget.song);
                     Scrollable.ensureVisible(context,
                         duration: Duration(milliseconds: 500),
-                        curve: Curves.easeInOutCubic);
+                        curve: Curves.easeInOut);
                   },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,7 +165,7 @@ class _SongItemState extends State<SongItem> {
                   height: widget.isSelected ? 400 : 0,
                   duration:
                       Duration(milliseconds: widget.isSelected ? 500 : 300),
-                  curve: Curves.easeInOutCubic,
+                  curve: Curves.easeInOut,
                   child: SingleChildScrollView(
                     child: FormCard(
                       crossAxisAlignment: CrossAxisAlignment.start,

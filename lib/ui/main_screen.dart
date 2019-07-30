@@ -103,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
                   _scrollController.animateTo(
                       _scrollController.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic);
+                      curve: Curves.easeInOut);
                 }
                 viewModel.onTabChanged(index);
               },
