@@ -22,7 +22,7 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
-class SongList extends StatefulWidget {
+class SongList extends StatelessWidget {
   const SongList({
     Key key,
     @required this.viewModel,
@@ -33,59 +33,40 @@ class SongList extends StatefulWidget {
   final ScrollController scrollController;
 
   @override
-  _SongListState createState() => _SongListState();
-}
-
-class _SongListState extends State<SongList> {
-  SongEntity selectedSong;
-
-  @override
   Widget build(BuildContext context) {
-    if (!widget.viewModel.isLoaded) {
+    if (!viewModel.isLoaded) {
       return Container(child: LoadingIndicator());
     }
 
-    final state = widget.viewModel.state;
+    final state = viewModel.state;
     final songIds =
         memoizedSongIds(state.dataState.songMap, state.authState.artist, null);
 
     return RefreshIndicator(
-      onRefresh: () => widget.viewModel.onRefreshed(context),
-      child: ListView.builder(
-          padding: const EdgeInsets.only(bottom: 130),
-          shrinkWrap: true,
-          controller: widget.scrollController,
-          itemCount: songIds.length,
-          itemBuilder: (BuildContext context, index) {
-            final data = widget.viewModel.state.dataState;
-            final songId = songIds[index];
-            final song = data.songMap[songId];
+        onRefresh: () => viewModel.onRefreshed(context),
+        child: ListView.builder(
+            padding: const EdgeInsets.only(bottom: 130),
+            shrinkWrap: true,
+            controller: scrollController,
+            itemCount: songIds.length,
+            itemBuilder: (BuildContext context, index) {
+              final data = viewModel.state.dataState;
+              final songId = songIds[index];
+              final song = data.songMap[songId];
 
-            return SongItem(
-              song: song,
-              isSelected: song == selectedSong,
-              onSelected: (newSong) => setState(() {
-                selectedSong = newSong;
-                //widget.scrollController.en
-                //Scrollable.ensureVisible(context);
-              }),
-            );
-          }),
-    );
+              return SongItem(song: song);
+            }));
   }
 }
 
 class SongItem extends StatefulWidget {
-  SongItem(
-      {this.song,
-      this.isSelected = false,
-      this.enableShowArtist = true,
-      this.onSelected});
+  SongItem({
+    this.song,
+    this.enableShowArtist = true,
+  });
 
   final SongEntity song;
-  final bool isSelected;
   final bool enableShowArtist;
-  final Function(SongEntity) onSelected;
 
   @override
   _SongItemState createState() => _SongItemState();
@@ -95,6 +76,7 @@ class _SongItemState extends State<SongItem> {
   TextEditingController _textController;
   FocusNode _textFocusNode;
 
+  bool _showComments = false;
   bool _showSubmitButton = false;
   bool _enableSubmitButton = false;
 
@@ -123,13 +105,20 @@ class _SongItemState extends State<SongItem> {
     super.dispose();
   }
 
+  void onMessageTap() {
+    setState(() => _showComments = !_showComments);
+
+    Scrollable.ensureVisible(context,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInOutCubic);
+  }
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
 
     return AnimatedContainer(
-      duration: Duration(milliseconds: widget.isSelected ? 300 : 500),
-      height: widget.isSelected ? 560 : 380,
+      duration: Duration(milliseconds: _showComments ? 300 : 500),
+      height: _showComments ? 560 : 380,
       child: Stack(children: <Widget>[
         CachedNetworkImage(
           fit: BoxFit.cover,
@@ -139,144 +128,133 @@ class _SongItemState extends State<SongItem> {
         ),
         Material(
           color: Colors.transparent,
-          child: InkWell(
-            onTap: widget.isSelected
-                ? null
-                : () {
-                    widget.onSelected(widget.song);
-                    Scrollable.ensureVisible(context,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.easeInOutCubic);
-                  },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 3, color: Colors.transparent),
-                    color: Colors.black12.withOpacity(0.3),
-                  ),
-                  child: SongHeader(
-                    song: widget.song,
-                    enableShowArtist: widget.enableShowArtist,
-                  ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 3, color: Colors.transparent),
+                  color: Colors.black12.withOpacity(0.3),
                 ),
-                AnimatedContainer(
-                  height: widget.isSelected ? 400 : 0,
-                  duration:
-                      Duration(milliseconds: widget.isSelected ? 500 : 300),
-                  curve: Curves.easeInOutCubic,
-                  child: SingleChildScrollView(
-                    child: FormCard(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                widget.song.description,
-                                style: Theme.of(context).textTheme.title,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
+                child: SongHeader(
+                  song: widget.song,
+                  enableShowArtist: widget.enableShowArtist,
+                ),
+              ),
+              AnimatedContainer(
+                height: _showComments ? 400 : 0,
+                duration: Duration(milliseconds: _showComments ? 500 : 300),
+                curve: Curves.easeInOutCubic,
+                child: SingleChildScrollView(
+                  child: FormCard(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              widget.song.description,
+                              style: Theme.of(context).textTheme.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () {
+                              _textController.clear();
+                              _textFocusNode.unfocus();
+                              setState(() => _showComments = false);
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      TextFormField(
+                        autofocus: false,
+                        minLines: 1,
+                        maxLines: 3,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(kMaxCommentLength),
+                        ],
+                        controller: _textController,
+                        focusNode: _textFocusNode,
+                        decoration: InputDecoration(
+                          labelText: localization.addAPublicComment,
+                          //icon: Icon(Icons.comment),
+                        ),
+                      ),
+                      Visibility(
+                        visible: _showSubmitButton,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              FlatButton(
+                                child: Text(localization.cancel.toUpperCase()),
+                                onPressed: () {
+                                  _textController.clear();
+                                  _textFocusNode.unfocus();
+                                },
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.close),
-                              onPressed: () {
-                                _textController.clear();
-                                _textFocusNode.unfocus();
-                                widget.onSelected(null);
-                              },
-                            ),
-                          ],
-                        ),
-                        TextFormField(
-                          autofocus: false,
-                          minLines: 1,
-                          maxLines: 3,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(kMaxCommentLength),
-                          ],
-                          controller: _textController,
-                          focusNode: _textFocusNode,
-                          decoration: InputDecoration(
-                            labelText: localization.addAPublicComment,
-                            //icon: Icon(Icons.comment),
+                              SizedBox(width: 10),
+                              RaisedButton(
+                                child: Text(localization.comment.toUpperCase()),
+                                onPressed:
+                                    _enableSubmitButton ? () => null : null,
+                              )
+                            ],
                           ),
                         ),
-                        Visibility(
-                          visible: _showSubmitButton,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 4),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                FlatButton(
-                                  child:
-                                      Text(localization.cancel.toUpperCase()),
-                                  onPressed: () {
-                                    _textController.clear();
-                                    _textFocusNode.unfocus();
-                                  },
-                                ),
-                                RaisedButton(
-                                  child:
-                                      Text(localization.comment.toUpperCase()),
-                                  onPressed:
-                                      _enableSubmitButton ? () => null : null,
-                                )
-                              ],
-                            ),
-                          ),
+                      ),
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 200,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                            'dfasd',
+                          ].map((val) => Text(val)).toList(),
                         ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          height: 200,
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                              'dfasd',
-                            ].map((val) => Text(val)).toList(),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 3, color: Colors.transparent),
-                    color: Colors.black12.withOpacity(0.3),
-                  ),
-                  child: SongFooter(widget.song),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 3, color: Colors.transparent),
+                  color: Colors.black12.withOpacity(0.3),
                 ),
-              ],
-            ),
+                child: SongFooter(widget.song, onMessageTap),
+              ),
+            ],
           ),
         )
       ]),
@@ -285,9 +263,10 @@ class _SongItemState extends State<SongItem> {
 }
 
 class SongFooter extends StatelessWidget {
-  SongFooter(this.song);
+  SongFooter(this.song, this.onMessagePressed);
 
   final SongEntity song;
+  final Function onMessagePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -356,7 +335,7 @@ class SongFooter extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.message),
                 tooltip: localization.comments,
-                onPressed: () => null,
+                onPressed: onMessagePressed,
               ),
               //song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
             ],
