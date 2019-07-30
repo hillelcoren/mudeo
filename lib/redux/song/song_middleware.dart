@@ -174,13 +174,13 @@ Middleware<AppState> _deleteComment(SongRepository repository) {
 
     repository.deleteComment(authState, comment).then((data) {
       store.dispatch(DeleteCommentSuccess(comment));
-      if (action.completer) {
+      if (action.completer != null) {
         action.completer.complete();
       }
     }).catchError((Object error) {
       print(error);
       store.dispatch(DeleteCommentFailure(error));
-      if (action.completer) {
+      if (action.completer != null) {
         action.completer.completeError(error);
       }
     });
