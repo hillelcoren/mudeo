@@ -234,12 +234,22 @@ class _SongItemState extends State<SongItem> {
                       SizedBox(height: 20),
                       SizedBox(
                         height: 200,
-                        child: ListView(
-                          shrinkWrap: true,
-                          children: song.comments
-                              .map((comment) => Text(comment.description))
-                              .toList(),
-                        ),
+                        child: song.comments.isEmpty
+                            ? Center(
+                                child: Text(
+                                  localization.noComments,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              )
+                            : ListView(
+                                shrinkWrap: true,
+                                children: song.comments.reversed
+                                    .map((comment) => CommentRow(comment))
+                                    .toList(),
+                              ),
                       )
                     ],
                   ),
@@ -557,6 +567,35 @@ class _VideoPlayerState extends State<VideoPlayer> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CommentRow extends StatelessWidget {
+  CommentRow(this.comment);
+
+  final CommentEntity comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 4, bottom: 6),
+      child: RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+                style: Theme.of(context)
+                    .textTheme
+                    .subhead
+                    .copyWith(color: Colors.grey),
+                text: comment.artist.displayName),
+            TextSpan(
+              style: Theme.of(context).textTheme.subhead,
+              text: '   ${comment.description}',
+            ),
+          ],
+        ),
       ),
     );
   }

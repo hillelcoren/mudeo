@@ -177,6 +177,7 @@ abstract class CommentEntity extends Object
   factory CommentEntity({int id, String description}) {
     return _$CommentEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+      artist: ArtistEntity(),
       artistId: 0,
       songId: 0,
       description: description ?? '',
@@ -184,6 +185,9 @@ abstract class CommentEntity extends Object
   }
 
   CommentEntity._();
+
+  @BuiltValueField(wireName: 'user', serialize: false)
+  ArtistEntity get artist;
 
   @BuiltValueField(wireName: 'user_id')
   int get artistId;

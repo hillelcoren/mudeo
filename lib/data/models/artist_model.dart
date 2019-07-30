@@ -110,6 +110,9 @@ abstract class ArtistEntity extends Object
     return handle;
   }
 
+  String get displayName =>
+      name != null && name.isNotEmpty ? name : handle;
+
   bool ownsSong(SongEntity song) => song.artistId == id;
 
   SongLikeEntity getSongLike(int songId) => songLikes == null
@@ -122,14 +125,14 @@ abstract class ArtistEntity extends Object
   SongFlagEntity getSongFlag(int songId) => songFlags == null
       ? null
       : songFlags.firstWhere((songFlag) => songFlag.songId == songId,
-      orElse: () => null);
+          orElse: () => null);
 
   bool flaggedSong(int songId) => getSongFlag(songId) != null;
 
   ArtistFlagEntity getArtistFlag(int artistId) => artistFlags == null
       ? null
       : artistFlags.firstWhere((artistFlag) => artistFlag.artistId == artistId,
-      orElse: () => null);
+          orElse: () => null);
 
   bool flaggedArtist(int artistId) => getArtistFlag(artistId) != null;
 

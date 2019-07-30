@@ -1505,6 +1505,8 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
 class _$CommentEntity extends CommentEntity {
   @override
+  final ArtistEntity artist;
+  @override
   final int artistId;
   @override
   final int songId;
@@ -1521,13 +1523,17 @@ class _$CommentEntity extends CommentEntity {
       (new CommentEntityBuilder()..update(updates)).build();
 
   _$CommentEntity._(
-      {this.artistId,
+      {this.artist,
+      this.artistId,
       this.songId,
       this.description,
       this.deletedAt,
       this.updatedAt,
       this.id})
       : super._() {
+    if (artist == null) {
+      throw new BuiltValueNullFieldError('CommentEntity', 'artist');
+    }
     if (artistId == null) {
       throw new BuiltValueNullFieldError('CommentEntity', 'artistId');
     }
@@ -1550,6 +1556,7 @@ class _$CommentEntity extends CommentEntity {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is CommentEntity &&
+        artist == other.artist &&
         artistId == other.artistId &&
         songId == other.songId &&
         description == other.description &&
@@ -1563,7 +1570,9 @@ class _$CommentEntity extends CommentEntity {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, artistId.hashCode), songId.hashCode),
+                $jc(
+                    $jc($jc($jc(0, artist.hashCode), artistId.hashCode),
+                        songId.hashCode),
                     description.hashCode),
                 deletedAt.hashCode),
             updatedAt.hashCode),
@@ -1573,6 +1582,7 @@ class _$CommentEntity extends CommentEntity {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('CommentEntity')
+          ..add('artist', artist)
           ..add('artistId', artistId)
           ..add('songId', songId)
           ..add('description', description)
@@ -1586,6 +1596,11 @@ class _$CommentEntity extends CommentEntity {
 class CommentEntityBuilder
     implements Builder<CommentEntity, CommentEntityBuilder> {
   _$CommentEntity _$v;
+
+  ArtistEntityBuilder _artist;
+  ArtistEntityBuilder get artist =>
+      _$this._artist ??= new ArtistEntityBuilder();
+  set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
 
   int _artistId;
   int get artistId => _$this._artistId;
@@ -1615,6 +1630,7 @@ class CommentEntityBuilder
 
   CommentEntityBuilder get _$this {
     if (_$v != null) {
+      _artist = _$v.artist?.toBuilder();
       _artistId = _$v.artistId;
       _songId = _$v.songId;
       _description = _$v.description;
@@ -1641,14 +1657,28 @@ class CommentEntityBuilder
 
   @override
   _$CommentEntity build() {
-    final _$result = _$v ??
-        new _$CommentEntity._(
-            artistId: artistId,
-            songId: songId,
-            description: description,
-            deletedAt: deletedAt,
-            updatedAt: updatedAt,
-            id: id);
+    _$CommentEntity _$result;
+    try {
+      _$result = _$v ??
+          new _$CommentEntity._(
+              artist: artist.build(),
+              artistId: artistId,
+              songId: songId,
+              description: description,
+              deletedAt: deletedAt,
+              updatedAt: updatedAt,
+              id: id);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'artist';
+        artist.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'CommentEntity', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

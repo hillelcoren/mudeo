@@ -45,8 +45,8 @@ DataState likeSongReducer(DataState dataState, LikeSongSuccess action) {
 }
 
 DataState saveCommentReducer(DataState dataState, SaveCommentSuccess action) {
-  return dataState.rebuild((b) => b
+  return dataState
     ..songMap[action.comment.songId]
         .comments
-        .rebuild((b) => b..add(action.comment)));
+        .rebuild((b) => b..add(action.comment));
 }
