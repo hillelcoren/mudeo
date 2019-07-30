@@ -606,6 +606,7 @@ class _CommentRowState extends State<CommentRow> {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
     final authArtistId = state.authState.artist.id;
+    final localization = AppLocalization.of(context);
 
     return Material(
       color: Colors.transparent,
@@ -640,8 +641,28 @@ class _CommentRowState extends State<CommentRow> {
                   color: Colors.redAccent,
                   child: Text(AppLocalization.of(context).delete.toUpperCase()),
                   onPressed: () {
-                    store.dispatch(
-                        DeleteCommentRequest(comment: widget.comment));
+                    showDialog<AlertDialog>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            semanticLabel: localization.areYouSure,
+                            title: Text(localization.areYouSure),
+                            content: Text(localization.deleteComment),
+                            actions: <Widget>[
+                              FlatButton(
+                                  child:
+                                      Text(localization.cancel.toUpperCase()),
+                                  onPressed: () => Navigator.pop(context)),
+                              FlatButton(
+                                  child: Text(localization.ok.toUpperCase()),
+                                  onPressed: () {
+                                    store.dispatch(DeleteCommentRequest(
+                                        comment: widget.comment));
+                                    Navigator.pop(context);
+                                  })
+                            ],
+                          );
+                        });
                   },
                 ),
             ],

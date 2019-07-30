@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'delete_comment': 'Delete Comment',
       'no_comments': 'No Comments',
       'comment': 'Comment',
       'comments': 'Comments',
@@ -414,6 +415,9 @@ class AppLocalization {
 
   String get noComments =>
       _localizedValues[locale.toString()]['no_comments'];
+
+  String get deleteComment =>
+      _localizedValues[locale.toString()]['delete_comment'];
 
 
   String lookup(String key) {
