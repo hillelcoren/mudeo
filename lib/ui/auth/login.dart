@@ -40,14 +40,6 @@ class _LoginState extends State<LoginScreen> {
   bool _autoValidate = false;
 
   @override
-  void didChangeDependencies() {
-    final state = widget.viewModel.authState;
-    _showLogin = _showLogin || state.wasAuthenticated;
-
-    super.didChangeDependencies();
-  }
-
-  @override
   void dispose() {
     _handleController.dispose();
     _emailController.dispose();
@@ -232,9 +224,11 @@ class _LoginState extends State<LoginScreen> {
                                     obscureText: true,
                                     focusNode: _focusNode2,
                                     textInputAction: TextInputAction.done,
+                                    /*
                                     onFieldSubmitted: (value) =>
                                         FocusScope.of(context)
                                             .requestFocus(null),
+                                            */
                                   )
                                 : SizedBox(),
                             _showLogin

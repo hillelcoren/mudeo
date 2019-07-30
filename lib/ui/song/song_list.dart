@@ -115,17 +115,21 @@ class _SongItemState extends State<SongItem> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final song = widget.song;
+    final tracks = song.tracks;
+    final lastTrack = tracks.isNotEmpty ? tracks.last : null;
 
     return AnimatedContainer(
       duration: Duration(milliseconds: _showComments ? 300 : 500),
       height: _showComments ? 560 : 380,
       child: Stack(children: <Widget>[
-        CachedNetworkImage(
-          fit: BoxFit.cover,
-          height: double.infinity,
-          width: double.infinity,
-          imageUrl: widget.song.tracks.last.video.thumbnailUrl,
-        ),
+        if (lastTrack != null)
+          CachedNetworkImage(
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            imageUrl: lastTrack != null ? lastTrack.video.thumbnailUrl : null,
+          ),
         Material(
           color: Colors.transparent,
           child: Column(

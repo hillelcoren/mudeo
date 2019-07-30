@@ -37,8 +37,7 @@ AuthState userLoginSuccessReducer(
   return authState.rebuild((b) => b
     ..artist.replace(action.artist)
     ..error = null
-    ..isAuthenticated = true
-    ..wasAuthenticated = true);
+    ..isAuthenticated = true);
 }
 
 AuthState userLoginFailureReducer(
