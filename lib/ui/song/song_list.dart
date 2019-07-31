@@ -162,7 +162,10 @@ class _SongItemState extends State<SongItem> {
                         children: <Widget>[
                           Expanded(
                             child: Text(
-                              widget.song.description,
+                              song.description != null &&
+                                      song.description.trim().isNotEmpty
+                                  ? song.description
+                                  : song.title,
                               style: Theme.of(context).textTheme.title,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -178,7 +181,6 @@ class _SongItemState extends State<SongItem> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 4),
                       TextFormField(
                         autofocus: false,
                         minLines: 1,
@@ -638,8 +640,7 @@ class _CommentRowState extends State<CommentRow> {
                   ),
                 ),
               ),
-              if (isSelected && !state.isSaving)
-                SizedBox(width: 10),
+              if (isSelected && !state.isSaving) SizedBox(width: 10),
               if (isSelected && !state.isSaving)
                 RaisedButton(
                   color: Colors.redAccent,
