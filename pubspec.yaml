@@ -1,6 +1,6 @@
 name: mudeo
 description: Make music together!
-version: 0.0.14+14
+version: 0.0.15+15
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
