@@ -43,7 +43,7 @@ class SongRepository {
           '${Config.API_URL}/songs?include=user', auth.artist.token,
           data: json.encode(data));
     } else {
-      var url = '${Config.API_URL}/songs/${song.id}?include=user';
+      var url = '${Config.API_URL}/songs/${song.id}?include=user,comments';
       if (action != null) {
         url += '&action=' + action.toString();
       }
