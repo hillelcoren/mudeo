@@ -42,7 +42,7 @@ class GoogleSignUpRequest implements StartLoading {
     this.oauthId,
     this.name,
     this.photoUrl,
-    this.oauthToken,
+    this.oauthToken, // TODO remove this field
     this.platform,
   });
 

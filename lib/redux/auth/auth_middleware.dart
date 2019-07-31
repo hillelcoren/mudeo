@@ -107,7 +107,6 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
         .then((ArtistEntity artist) {
       _saveAuthLocal(artist);
       store.dispatch(UserLoginSuccess(artist));
-
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
@@ -122,6 +121,8 @@ Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository.oauthLogin(token: action.oauthToken).then((artist) {
       _saveAuthLocal(artist);
+      store.dispatch(UserLoginSuccess(artist));
+      action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));

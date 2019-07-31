@@ -83,7 +83,7 @@ class LoginVM {
                 final Completer<Null> completer = Completer<Null>();
                 store.dispatch(GoogleSignUpRequest(
                   completer: completer,
-                  oauthToken: value.accessToken,
+                  //oauthToken: value.accessToken,
                   oauthId: account.id,
                   handle: handle,
                   email: account.email,

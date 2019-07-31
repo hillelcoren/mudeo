@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:mudeo/.env.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/web_client.dart';
@@ -52,6 +53,7 @@ class AuthRepository {
       'handle': handle,
       'name': name,
       'oauth_user_id': oauthId,
+      'oauth_provider_id': kOAuthProviderGoogle,
       'oauth_token': oauthToken,
       'header_image_url': photoUrl,
     };

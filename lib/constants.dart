@@ -12,6 +12,8 @@ const String kLatencySamples = 'https://superpowered.com/latency#datatable';
 const String kAppleStoreUrl = '';
 const String kGoogleStoreUrl = '';
 
+const int kOAuthProviderGoogle = 1;
+
 const String kSharedPrefToken = 'token';
 const String kSharedPrefAppVersion = 'app_version';
 const String kSharedPrefCameraDirection = 'camera_direction';
