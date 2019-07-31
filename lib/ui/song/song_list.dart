@@ -361,7 +361,9 @@ class SongFooter extends StatelessWidget {
                 tooltip: localization.comments,
                 onPressed: onMessagePressed,
               ),
-              //song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
+              song.comments.length > 0
+                  ? Text('${song.comments.length}')
+                  : SizedBox(),
             ],
           ),
           PopupMenuButton<String>(
