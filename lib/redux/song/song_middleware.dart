@@ -144,10 +144,10 @@ Middleware<AppState> _flagSong(SongRepository repository) {
 
 Middleware<AppState> _saveComment(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    CommentEntity comment = action.comment;
+    CommentEntity origComment = action.comment;
     final authState = store.state.authState;
 
-    repository.saveComment(authState, comment).then((data) {
+    repository.saveComment(authState, origComment).then((comment) {
       /*
       if (action.song.isNew) {
         store.dispatch(AddSongSuccess(song));
