@@ -639,6 +639,8 @@ class _CommentRowState extends State<CommentRow> {
                 ),
               ),
               if (isSelected && !state.isSaving)
+                SizedBox(width: 10),
+              if (isSelected && !state.isSaving)
                 RaisedButton(
                   color: Colors.redAccent,
                   child: Text(AppLocalization.of(context).delete.toUpperCase()),

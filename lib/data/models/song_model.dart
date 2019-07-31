@@ -186,7 +186,7 @@ abstract class CommentEntity extends Object
 
   CommentEntity._();
 
-  @BuiltValueField(wireName: 'user', serialize: false)
+  @BuiltValueField(wireName: 'user')
   ArtistEntity get artist;
 
   @BuiltValueField(wireName: 'user_id')

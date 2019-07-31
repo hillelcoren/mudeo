@@ -344,6 +344,9 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
   Iterable serialize(Serializers serializers, CommentEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
+      'user',
+      serializers.serialize(object.artist,
+          specifiedType: const FullType(ArtistEntity)),
       'user_id',
       serializers.serialize(object.artistId,
           specifiedType: const FullType(int)),
@@ -386,6 +389,10 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'user':
+          result.artist.replace(serializers.deserialize(value,
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
+          break;
         case 'user_id':
           result.artistId = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
