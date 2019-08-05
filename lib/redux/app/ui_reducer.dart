@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
@@ -45,9 +47,22 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
   final index = song.tracks.indexOf(oldTrack);
   final newTrack = oldTrack.rebuild((b) => b..video.replace(video));
 
-  return uiState.rebuild((b) => b
+  var state = uiState.rebuild((b) => b
     ..song.tracks[index] = newTrack
     ..song.updatedAt = DateTime.now().millisecondsSinceEpoch.toString());
+
+  if (video.isRemoteVideo) {
+    if (song.title == null || song.title.isEmpty) {
+      state = state.rebuild((b) => b..song.title = video.description);
+    }
+
+    if (song.duration == null || song.duration == 0) {
+      state = state.rebuild(
+          (b) => b..song.duration = min(video.duration, kMaxSongDuration));
+    }
+  }
+
+  return state;
 }
 
 UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {

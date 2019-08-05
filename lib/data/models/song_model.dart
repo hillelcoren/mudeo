@@ -301,6 +301,8 @@ abstract class VideoEntity extends Object
       timestamp: 0,
       url: '',
       thumbnailUrl: '',
+      description: '',
+      duration: 0,
     );
   }
 
@@ -327,6 +329,12 @@ abstract class VideoEntity extends Object
   String get listDisplayName {
     return timestamp.toString();
   }
+
+  @nullable
+  String get description;
+
+  @nullable
+  int get duration;
 
   bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.isNotEmpty;
 

@@ -134,12 +134,22 @@ class SongScaffold extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-          FlatButton(
-            child: Text(localization.save),
-            onPressed: !uiState.isRecording
-                ? () => onSavePressed(context, viewModel)
-                : null,
-          ),
+          viewModel.state.isSaving
+              ? Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: Center(
+                    child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator()),
+                  ),
+                )
+              : FlatButton(
+                  child: Text(localization.save),
+                  onPressed: !uiState.isRecording
+                      ? () => onSavePressed(context, viewModel)
+                      : null,
+                ),
         ],
       ),
       body: SongEdit(

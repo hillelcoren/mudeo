@@ -672,6 +672,18 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         ..add(serializers.serialize(object.remoteVideoId,
             specifiedType: const FullType(String)));
     }
+    if (object.description != null) {
+      result
+        ..add('description')
+        ..add(serializers.serialize(object.description,
+            specifiedType: const FullType(String)));
+    }
+    if (object.duration != null) {
+      result
+        ..add('duration')
+        ..add(serializers.serialize(object.duration,
+            specifiedType: const FullType(int)));
+    }
     if (object.deletedAt != null) {
       result
         ..add('deleted_at')
@@ -724,6 +736,14 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         case 'remote_video_id':
           result.remoteVideoId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'description':
+          result.description = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'duration':
+          result.duration = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
@@ -2097,6 +2117,10 @@ class _$VideoEntity extends VideoEntity {
   @override
   final String remoteVideoId;
   @override
+  final String description;
+  @override
+  final int duration;
+  @override
   final String deletedAt;
   @override
   final String updatedAt;
@@ -2112,6 +2136,8 @@ class _$VideoEntity extends VideoEntity {
       this.url,
       this.thumbnailUrl,
       this.remoteVideoId,
+      this.description,
+      this.duration,
       this.deletedAt,
       this.updatedAt,
       this.id})
@@ -2137,6 +2163,8 @@ class _$VideoEntity extends VideoEntity {
         url == other.url &&
         thumbnailUrl == other.thumbnailUrl &&
         remoteVideoId == other.remoteVideoId &&
+        description == other.description &&
+        duration == other.duration &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt &&
         id == other.id;
@@ -2149,10 +2177,16 @@ class _$VideoEntity extends VideoEntity {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, userId.hashCode), timestamp.hashCode),
-                            url.hashCode),
-                        thumbnailUrl.hashCode),
-                    remoteVideoId.hashCode),
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc($jc(0, userId.hashCode),
+                                        timestamp.hashCode),
+                                    url.hashCode),
+                                thumbnailUrl.hashCode),
+                            remoteVideoId.hashCode),
+                        description.hashCode),
+                    duration.hashCode),
                 deletedAt.hashCode),
             updatedAt.hashCode),
         id.hashCode));
@@ -2166,6 +2200,8 @@ class _$VideoEntity extends VideoEntity {
           ..add('url', url)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('remoteVideoId', remoteVideoId)
+          ..add('description', description)
+          ..add('duration', duration)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt)
           ..add('id', id))
@@ -2197,6 +2233,14 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   set remoteVideoId(String remoteVideoId) =>
       _$this._remoteVideoId = remoteVideoId;
 
+  String _description;
+  String get description => _$this._description;
+  set description(String description) => _$this._description = description;
+
+  int _duration;
+  int get duration => _$this._duration;
+  set duration(int duration) => _$this._duration = duration;
+
   String _deletedAt;
   String get deletedAt => _$this._deletedAt;
   set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
@@ -2218,6 +2262,8 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
       _url = _$v.url;
       _thumbnailUrl = _$v.thumbnailUrl;
       _remoteVideoId = _$v.remoteVideoId;
+      _description = _$v.description;
+      _duration = _$v.duration;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
       _id = _$v.id;
@@ -2248,6 +2294,8 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
             url: url,
             thumbnailUrl: thumbnailUrl,
             remoteVideoId: remoteVideoId,
+            description: description,
+            duration: duration,
             deletedAt: deletedAt,
             updatedAt: updatedAt,
             id: id);
