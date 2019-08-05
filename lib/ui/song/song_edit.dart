@@ -847,6 +847,16 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
 
   bool isValidVideoId(String value) => convertToVideoId(value).length == 11;
 
+  void submitForm() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+
+    Navigator.pop(context);
+    widget.onVideoSelected(convertToVideoId(_textController.text));
+    _textController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
@@ -855,7 +865,9 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
       content: Form(
         key: _formKey,
         child: TextFormField(
+          //autofocus: true, // TODO enable after fix for #33293
           controller: _textController,
+          textInputAction: TextInputAction.done,
           validator: (value) {
             if (value.isEmpty) {
               return localization.pleaseProvideAValue;
@@ -868,6 +880,9 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
             labelText: localization.videoUrlOrId,
             icon: Icon(FontAwesomeIcons.youtube),
           ),
+          onEditingComplete: () {
+            submitForm();
+          },
         ),
       ),
       actions: <Widget>[
@@ -878,14 +893,9 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
               _textController.clear();
             }),
         FlatButton(
-            child: Text(localization.ok.toUpperCase()),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                Navigator.pop(context);
-                widget.onVideoSelected(convertToVideoId(_textController.text));
-                _textController.clear();
-              }
-            })
+          child: Text(localization.ok.toUpperCase()),
+          onPressed: submitForm,
+        ),
       ],
     );
   }
