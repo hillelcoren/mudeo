@@ -324,6 +324,8 @@ abstract class VideoEntity extends Object
     return timestamp.toString();
   }
 
+  bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.isNotEmpty;
+
   static Future<String> getPath(int timestamp) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/videos';

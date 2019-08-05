@@ -127,7 +127,7 @@ class _SongItemState extends State<SongItem> {
       duration: Duration(milliseconds: _showComments ? 300 : 500),
       height: _showComments ? 560 : 380,
       child: Stack(children: <Widget>[
-        if (lastTrack != null)
+        if (lastTrack != null && lastTrack.video.hasThumbnail)
           CachedNetworkImage(
             fit: BoxFit.cover,
             height: double.infinity,
