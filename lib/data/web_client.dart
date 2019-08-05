@@ -102,6 +102,7 @@ class WebClient {
           .timeout(const Duration(minutes: 10));
     } else {
       headers['Content-Type'] = 'application/json';
+
       response = await http.Client()
           .post(
             url,

@@ -64,7 +64,10 @@ class SongRepository {
     if (video.isNew) {
       response = await webClient.post(
           '${Config.API_URL}/videos', auth.artist.token,
-          filePath: await VideoEntity.getPath(video.timestamp));
+          data: json.encode(data),
+          filePath: video.remoteVideoId != null
+              ? null
+              : await VideoEntity.getPath(video.timestamp));
     } else {
       var url = '${Config.API_URL}/videos/${video.id}';
       if (action != null) {
