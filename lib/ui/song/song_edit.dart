@@ -807,9 +807,9 @@ class ExpandedButton extends StatelessWidget {
 }
 
 class AddRemoteVideo extends StatefulWidget {
-  AddRemoteVideo(this.onVideoEntered);
+  AddRemoteVideo(this.onVideoSelected);
 
-  final Function onVideoEntered;
+  final Function onVideoSelected;
 
   @override
   _AddRemoteVideoState createState() => _AddRemoteVideoState();
@@ -817,6 +817,7 @@ class AddRemoteVideo extends StatefulWidget {
 
 class _AddRemoteVideoState extends State<AddRemoteVideo> {
   TextEditingController _textController;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -841,16 +842,30 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
     return value;
   }
 
+  bool isValidVideoId(String value) => convertToVideoId(value).length == 11;
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
 
     return AlertDialog(
-      content: TextFormField(
-        controller: _textController,
-        decoration: InputDecoration(
-          labelText: localization.videoUrlOrId,
-          icon: Icon(FontAwesomeIcons.youtube),
+      content: Form(
+        key: _formKey,
+        child: TextFormField(
+          autofocus: true,
+          controller: _textController,
+          validator: (value) {
+            if (value.isEmpty) {
+              return localization.pleaseProvideAValue;
+            } else if (!isValidVideoId(value)) {
+              return localization.errorInvalidValue;
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            labelText: localization.videoUrlOrId,
+            icon: Icon(FontAwesomeIcons.youtube),
+          ),
         ),
       ),
       actions: <Widget>[
@@ -863,9 +878,12 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
         FlatButton(
             child: Text(localization.ok.toUpperCase()),
             onPressed: () {
-              Navigator.pop(context);
-              String value = _textController.text;
-              _textController.clear();
+              if (_formKey.currentState.validate()) {
+                Navigator.pop(context);
+
+                widget.onVideoSelected(convertToVideoId(_textController.text));
+                _textController.clear();
+              }
             })
       ],
     );
