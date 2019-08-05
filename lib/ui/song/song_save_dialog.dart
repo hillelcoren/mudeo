@@ -143,8 +143,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   onChanged: (value) {
                     SharedPreferences.getInstance().then(
                         (prefs) => prefs.setInt(kSharedPrefGenreId, value));
-                    viewModel
-                        .onChangedSong(song.rebuild((b) => b..genreId = value));
+                    viewModel.onChangedSong(song.rebuild((b) => b
+                      ..genreId = value
+                      ..title = _titleController.text.trim()
+                      ..description = _descriptionController.text.trim()));
                     setState(() {
                       selectedGenreId = value;
                     });
