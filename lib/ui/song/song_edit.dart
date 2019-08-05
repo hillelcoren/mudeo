@@ -883,7 +883,6 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 Navigator.pop(context);
-
                 widget.onVideoSelected(convertToVideoId(_textController.text));
                 _textController.clear();
               }

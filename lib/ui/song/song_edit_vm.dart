@@ -10,8 +10,6 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
-import 'package:mudeo/utils/completers.dart';
-import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -132,12 +130,8 @@ class SongEditVM {
       },
       onDelayVideoChanged: (song, track) async {},
       onAddVideoPressed: (context, videoId) {
-        final localization = AppLocalization.of(context);
         final song = store.state.uiState.song;
-        final video = VideoEntity().rebuild((b) =>
-        b
-          ..remoteVideoId = videoId
-        );
+        final video = VideoEntity().rebuild((b) => b..remoteVideoId = videoId);
 
         final track = song.newTrack(video);
         store.dispatch(AddTrack(
@@ -146,10 +140,9 @@ class SongEditVM {
         ));
 
         store.dispatch(SaveVideoRequest(
-            completer:
-            snackBarCompleter(context, localization.successfullyAddedVideo),
-            song: song,
-            video: video,
+          completer: Completer<Null>(),
+          song: song.rebuild((b) => b..tracks.add(track)),
+          video: video,
         ));
       },
     );
