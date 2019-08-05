@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'video_url_or_id': 'Video URL or Id',
+      'add_video': 'Add Video',
       'delete_comment': 'Delete Comment',
       'no_comments': 'No Comments',
       'comment': 'Comment',
@@ -419,6 +421,11 @@ class AppLocalization {
   String get deleteComment =>
       _localizedValues[locale.toString()]['delete_comment'];
 
+  String get addVideo =>
+      _localizedValues[locale.toString()]['add_video'];
+
+  String get videoUrlOrId =>
+      _localizedValues[locale.toString()]['video_url_or_id'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

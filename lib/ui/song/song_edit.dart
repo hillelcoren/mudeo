@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
@@ -46,7 +47,10 @@ class SongScaffold extends StatelessWidget {
         leading: PopupMenuButton<String>(
           icon: Icon(Icons.more_vert),
           itemBuilder: (BuildContext context) {
-            final actions = [localization.newSong];
+            final actions = [
+              localization.newSong,
+              localization.addVideo,
+            ];
             if (!viewModel.song.isNew || viewModel.song.parentId > 0) {
               actions.addAll([
                 localization.resetSong,
@@ -64,32 +68,38 @@ class SongScaffold extends StatelessWidget {
             if (action == localization.shareSong) {
               viewModel.onSharePressed();
               return;
+            } else if (action == localization.addVideo) {
+              showDialog<AddRemoteVideo>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AddRemoteVideo((videoId) {});
+                  });
+            } else {
+              showDialog<AlertDialog>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      semanticLabel: localization.areYouSure,
+                      title: Text(localization.areYouSure),
+                      content: Text(localization.loseChanges),
+                      actions: <Widget>[
+                        FlatButton(
+                            child: Text(localization.cancel.toUpperCase()),
+                            onPressed: () => Navigator.pop(context)),
+                        FlatButton(
+                            child: Text(localization.ok.toUpperCase()),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              if (action == localization.newSong) {
+                                viewModel.onNewSongPressed(context);
+                              } else if (action == localization.resetSong) {
+                                viewModel.onResetSongPressed(context);
+                              }
+                            })
+                      ],
+                    );
+                  });
             }
-
-            showDialog<AlertDialog>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    semanticLabel: localization.areYouSure,
-                    title: Text(localization.areYouSure),
-                    content: Text(localization.loseChanges),
-                    actions: <Widget>[
-                      FlatButton(
-                          child: Text(localization.cancel.toUpperCase()),
-                          onPressed: () => Navigator.pop(context)),
-                      FlatButton(
-                          child: Text(localization.ok.toUpperCase()),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            if (action == localization.newSong) {
-                              viewModel.onNewSongPressed(context);
-                            } else if (action == localization.resetSong) {
-                              viewModel.onResetSongPressed(context);
-                            }
-                          })
-                    ],
-                  );
-                });
           },
         ),
         title: Center(
@@ -792,6 +802,72 @@ class ExpandedButton extends StatelessWidget {
           //color: Colors.grey,
         ),
       ),
+    );
+  }
+}
+
+class AddRemoteVideo extends StatefulWidget {
+  AddRemoteVideo(this.onVideoEntered);
+
+  final Function onVideoEntered;
+
+  @override
+  _AddRemoteVideoState createState() => _AddRemoteVideoState();
+}
+
+class _AddRemoteVideoState extends State<AddRemoteVideo> {
+  TextEditingController _textController;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  String convertToVideoId(String value) {
+    if (value.contains('v=')) {
+      int index = value.indexOf('v=') + 2;
+      value = value.substring(index, index + 11);
+    } else if (value.contains('/')) {
+      value = value.substring(value.lastIndexOf('/') + 1);
+    }
+
+    return value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
+    return AlertDialog(
+      content: TextFormField(
+        controller: _textController,
+        decoration: InputDecoration(
+          labelText: localization.videoUrlOrId,
+          icon: Icon(FontAwesomeIcons.youtube),
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+            child: Text(localization.cancel.toUpperCase()),
+            onPressed: () {
+              Navigator.pop(context);
+              _textController.clear();
+            }),
+        FlatButton(
+            child: Text(localization.ok.toUpperCase()),
+            onPressed: () {
+              Navigator.pop(context);
+              String value = _textController.text;
+              _textController.clear();
+            })
+      ],
     );
   }
 }
