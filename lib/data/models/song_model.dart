@@ -319,6 +319,10 @@ abstract class VideoEntity extends Object
   @BuiltValueField(wireName: 'thumbnail_url')
   String get thumbnailUrl;
 
+  @nullable
+  @BuiltValueField(wireName: 'remote_video_id')
+  String get remoteVideoId;
+
   @override
   String get listDisplayName {
     return timestamp.toString();

@@ -63,11 +63,10 @@ Middleware<AppState> _saveSong(SongRepository repository) {
 
 Middleware<AppState> _saveVideo(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    SongEntity song = action.song;
     final authState = store.state.authState;
 
-    repository.saveVideo(authState, song.newVideo).then((video) {
-      store.dispatch(SaveVideoSuccess(song: song, video: video));
+    repository.saveVideo(authState, action.video).then((video) {
+      store.dispatch(SaveVideoSuccess(song: action.song, video: video));
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);

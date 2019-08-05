@@ -153,10 +153,11 @@ class FlagSongFailure implements StopSaving {
 
 
 class SaveVideoRequest implements StartSaving {
-  SaveVideoRequest({this.videoId, this.completer});
+  SaveVideoRequest({this.song, this.video, this.completer});
 
   final Completer completer;
-  final String videoId;
+  final SongEntity song;
+  final VideoEntity video;
 }
 
 class SaveVideoSuccess implements StopSaving, PersistData, PersistUI {

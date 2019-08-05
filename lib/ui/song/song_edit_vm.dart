@@ -133,10 +133,23 @@ class SongEditVM {
       onDelayVideoChanged: (song, track) async {},
       onAddVideoPressed: (context, videoId) {
         final localization = AppLocalization.of(context);
+        final song = store.state.uiState.song;
+        final video = VideoEntity().rebuild((b) =>
+        b
+          ..remoteVideoId = videoId
+        );
+
+        final track = song.newTrack(video);
+        store.dispatch(AddTrack(
+          track: track,
+          duration: 0,
+        ));
+
         store.dispatch(SaveVideoRequest(
-          completer:
-              snackBarCompleter(context, localization.successfullyAddedVideo),
-          videoId: videoId,
+            completer:
+            snackBarCompleter(context, localization.successfullyAddedVideo),
+            song: song,
+            video: video,
         ));
       },
     );

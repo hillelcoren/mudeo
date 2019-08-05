@@ -834,6 +834,8 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
   }
 
   String convertToVideoId(String value) {
+    value = value.trim();
+
     if (value.contains('v=')) {
       int index = value.indexOf('v=') + 2;
       value = value.substring(index, index + 11);
