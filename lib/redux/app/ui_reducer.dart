@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -13,6 +14,7 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, EditSong>(editSongReducer),
   TypedReducer<UIState, UpdateTabIndex>(mainTabChangedReducer),
   TypedReducer<UIState, SaveVideoSuccess>(saveVideoReducer),
+  TypedReducer<UIState, DeleteSongSuccess>(deleteSongReducer),
   TypedReducer<UIState, SaveSongSuccess>(saveSongReducer),
   TypedReducer<UIState, AddSongSuccess>(addSongReducer),
   TypedReducer<UIState, EditArtist>(editArtistReducer),
@@ -67,6 +69,13 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
 
 UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {
   return uiState.rebuild((b) => b..song.replace(action.song));
+}
+
+UIState deleteSongReducer(UIState uiState, DeleteSongSuccess action) {
+  return uiState.rebuild((b) => b
+    ..song.replace(SongEntity())
+    ..selectedTabIndex = kTabList
+  );
 }
 
 UIState addSongReducer(UIState uiState, AddSongSuccess action) {
