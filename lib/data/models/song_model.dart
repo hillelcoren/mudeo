@@ -330,6 +330,10 @@ abstract class VideoEntity extends Object
 
   bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.isNotEmpty;
 
+  bool get isRemoteVideo => remoteVideoId != null && remoteVideoId.isNotEmpty;
+
+  String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
+
   static Future<String> getPath(int timestamp) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/videos';

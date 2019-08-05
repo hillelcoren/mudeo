@@ -17,6 +17,7 @@ import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 
@@ -700,24 +701,40 @@ class TrackEditDialog extends StatelessWidget {
                         ),
                         isFirst
                             ? SizedBox()
-                            : ElevatedButton(
-                                width: 110,
-                                label: localization.adjust,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  showDialog<TrackLatency>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return TrackLatency(
-                                          delay: track.delay ?? 0,
-                                          onDelayChanged: (delay) =>
-                                              onDelayChanged(delay),
-                                        );
-                                      });
-                                },
+                            : Padding(
+                                padding: EdgeInsets.only(bottom: 16),
+                                child: ElevatedButton(
+                                  width: 110,
+                                  label: localization.adjust,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    showDialog<TrackLatency>(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return TrackLatency(
+                                            delay: track.delay ?? 0,
+                                            onDelayChanged: (delay) =>
+                                                onDelayChanged(delay),
+                                          );
+                                        });
+                                  },
+                                ),
                               ),
-                        isFirst ? SizedBox() : SizedBox(height: 16),
+                        track.video.isRemoteVideo
+                            ? Padding(
+                                padding: EdgeInsets.only(bottom: 16),
+                                child: ElevatedButton(
+                                  width: 110,
+                                  label: localization.source,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    launch(track.video.remoteVideoUrl,
+                                        forceSafariVC: false);
+                                  },
+                                ),
+                              )
+                            : SizedBox(),
                         ElevatedButton(
                           width: 110,
                           label: localization.remove,
