@@ -72,7 +72,9 @@ class SongScaffold extends StatelessWidget {
               showDialog<AddRemoteVideo>(
                   context: context,
                   builder: (BuildContext context) {
-                    return AddRemoteVideo((videoId) {});
+                    return AddRemoteVideo((videoId) {
+                      viewModel.onAddVideoPressed(context, videoId);
+                    });
                   });
             } else {
               showDialog<AlertDialog>(
@@ -852,7 +854,6 @@ class _AddRemoteVideoState extends State<AddRemoteVideo> {
       content: Form(
         key: _formKey,
         child: TextFormField(
-          autofocus: true,
           controller: _textController,
           validator: (value) {
             if (value.isEmpty) {

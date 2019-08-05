@@ -10,6 +10,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
 ]) {
   final loadSongs = _loadSongs(repository);
   final saveSong = _saveSong(repository);
+  final saveVideo = _saveVideo(repository);
   final likeSong = _likeSong(repository);
   final flagSong = _flagSong(repository);
   final saveComment = _saveComment(repository);
@@ -22,6 +23,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
     TypedMiddleware<AppState, FlagSongRequest>(flagSong),
     TypedMiddleware<AppState, SaveCommentRequest>(saveComment),
     TypedMiddleware<AppState, DeleteCommentRequest>(deleteComment),
+    TypedMiddleware<AppState, SaveVideoRequest>(saveVideo),
   ];
 }
 
@@ -54,6 +56,24 @@ Middleware<AppState> _saveSong(SongRepository repository) {
         action.completer.completeError(error);
       });
     }
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _saveVideo(SongRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    SongEntity song = action.song;
+    final authState = store.state.authState;
+
+    repository.saveVideo(authState, song.newVideo).then((video) {
+      store.dispatch(SaveVideoSuccess(song: song, video: video));
+      action.completer.complete(null);
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(SaveVideoFailure(error));
+      action.completer.completeError(error);
+    });
 
     next(action);
   };
@@ -140,7 +160,6 @@ Middleware<AppState> _flagSong(SongRepository repository) {
     next(action);
   };
 }
-
 
 Middleware<AppState> _saveComment(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {

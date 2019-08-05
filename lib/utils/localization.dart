@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'successfully_added_video': 'Successfully added video',
       'error_invalid_value': 'Error: Invalid value',
       'please_provide_a_value': 'Please provide a value',
       'video_url_or_id': 'Video URL or Id',
@@ -435,6 +436,8 @@ class AppLocalization {
   String get errorInvalidValue =>
       _localizedValues[locale.toString()]['error_invalid_value'];
 
+  String get successfullyAddedVideo =>
+      _localizedValues[locale.toString()]['successfully_added_video'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

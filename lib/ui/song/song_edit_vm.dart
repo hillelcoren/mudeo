@@ -10,6 +10,8 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
+import 'package:mudeo/utils/completers.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,6 +47,7 @@ class SongEditVM {
     @required this.onDeleteVideoPressed,
     @required this.onDelayVideoChanged,
     @required this.onSharePressed,
+    @required this.onAddVideoPressed,
   });
 
   final AppState state;
@@ -56,6 +59,7 @@ class SongEditVM {
   final Function(Completer) onSavePressed;
   final Function(BuildContext) onNewSongPressed;
   final Function(BuildContext) onResetSongPressed;
+  final Function(BuildContext, String) onAddVideoPressed;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
   final Function(SongEntity, TrackEntity) onDelayVideoChanged;
   final Function() onBackPressed;
@@ -63,69 +67,78 @@ class SongEditVM {
 
   static SongEditVM fromStore(Store<AppState> store) {
     return SongEditVM(
-        song: store.state.uiState.song,
-        state: store.state,
-        onNewSongPressed: (context) async {
-          final sharedPrefs = await SharedPreferences.getInstance();
-          final genreId = sharedPrefs.getInt(kSharedPrefGenreId);
-          store.dispatch(UpdateSong(SongEntity(genreId: genreId)));
-        },
-        onResetSongPressed: (context) {
-          final state = store.state;
-          final uiState = state.uiState;
-          SongEntity song;
-          if (state.uiState.song.isNew) {
-            final songId = uiState.song.parentId;
-            song = state.dataState.songMap[songId].fork;
-          } else {
-            final songId = uiState.song.id;
-            song = state.dataState.songMap[songId];
-          }
-          store.dispatch(UpdateSong(SongEntity(id: 0)));
-          WidgetsBinding.instance
-              .addPostFrameCallback((_) => store.dispatch(UpdateSong(song)));
-        },
-        onSharePressed: () {
-          final uiState = store.state.uiState;
-          Share.share(uiState.song.url);
-        },
-        onStartRecording: (timestamp) {
-          store.dispatch(StartRecording(timestamp));
-        },
-        onStopRecording: () {
-          store.dispatch(StopRecording());
-        },
-        onTrackAdded: (video, duration) async {
-          store.dispatch(StopRecording());
-          final song = store.state.uiState.song;
-          final track = song.newTrack(video);
-          store.dispatch(AddTrack(
-            track: track,
-            duration: duration,
-          ));
-        },
-        onChangedSong: (song) {
-          store.dispatch(UpdateSong(song));
-        },
-        onBackPressed: () {
-          store.dispatch(UpdateTabIndex(kTabList));
-        },
-        onSavePressed: (completer) {
-          final song = store.state.uiState.song;
-          store.dispatch(SaveSongRequest(song: song, completer: completer));
-        },
-        onDeleteVideoPressed: (song, track) async {
-          final int index = song.tracks.indexOf(track);
-          song = song.rebuild((b) => b..tracks.removeAt(index));
-          if (song.tracks.isEmpty) {
-            song = song.rebuild((b) => b..duration = 0);
-          }
-          store.dispatch(UpdateSong(song));
-          String path = await VideoEntity.getPath(track.video.timestamp);
-          if (File(path).existsSync()) {
-            File(path).deleteSync();
-          }
-        },
-        onDelayVideoChanged: (song, track) async {});
+      song: store.state.uiState.song,
+      state: store.state,
+      onNewSongPressed: (context) async {
+        final sharedPrefs = await SharedPreferences.getInstance();
+        final genreId = sharedPrefs.getInt(kSharedPrefGenreId);
+        store.dispatch(UpdateSong(SongEntity(genreId: genreId)));
+      },
+      onResetSongPressed: (context) {
+        final state = store.state;
+        final uiState = state.uiState;
+        SongEntity song;
+        if (state.uiState.song.isNew) {
+          final songId = uiState.song.parentId;
+          song = state.dataState.songMap[songId].fork;
+        } else {
+          final songId = uiState.song.id;
+          song = state.dataState.songMap[songId];
+        }
+        store.dispatch(UpdateSong(SongEntity(id: 0)));
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => store.dispatch(UpdateSong(song)));
+      },
+      onSharePressed: () {
+        final uiState = store.state.uiState;
+        Share.share(uiState.song.url);
+      },
+      onStartRecording: (timestamp) {
+        store.dispatch(StartRecording(timestamp));
+      },
+      onStopRecording: () {
+        store.dispatch(StopRecording());
+      },
+      onTrackAdded: (video, duration) async {
+        store.dispatch(StopRecording());
+        final song = store.state.uiState.song;
+        final track = song.newTrack(video);
+        store.dispatch(AddTrack(
+          track: track,
+          duration: duration,
+        ));
+      },
+      onChangedSong: (song) {
+        store.dispatch(UpdateSong(song));
+      },
+      onBackPressed: () {
+        store.dispatch(UpdateTabIndex(kTabList));
+      },
+      onSavePressed: (completer) {
+        final song = store.state.uiState.song;
+        store.dispatch(SaveSongRequest(song: song, completer: completer));
+      },
+      onDeleteVideoPressed: (song, track) async {
+        final int index = song.tracks.indexOf(track);
+        song = song.rebuild((b) => b..tracks.removeAt(index));
+        if (song.tracks.isEmpty) {
+          song = song.rebuild((b) => b..duration = 0);
+        }
+        store.dispatch(UpdateSong(song));
+        String path = await VideoEntity.getPath(track.video.timestamp);
+        if (File(path).existsSync()) {
+          File(path).deleteSync();
+        }
+      },
+      onDelayVideoChanged: (song, track) async {},
+      onAddVideoPressed: (context, videoId) {
+        final localization = AppLocalization.of(context);
+        store.dispatch(SaveVideoRequest(
+          completer:
+              snackBarCompleter(context, localization.successfullyAddedVideo),
+          videoId: videoId,
+        ));
+      },
+    );
   }
 }
