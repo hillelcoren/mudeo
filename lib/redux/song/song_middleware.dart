@@ -15,6 +15,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
   final flagSong = _flagSong(repository);
   final saveComment = _saveComment(repository);
   final deleteComment = _deleteComment(repository);
+  final deleteSong = _deleteSong(repository);
 
   return [
     TypedMiddleware<AppState, LoadSongs>(loadSongs),
@@ -24,6 +25,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
     TypedMiddleware<AppState, SaveCommentRequest>(saveComment),
     TypedMiddleware<AppState, DeleteCommentRequest>(deleteComment),
     TypedMiddleware<AppState, SaveVideoRequest>(saveVideo),
+    TypedMiddleware<AppState, DeleteSongRequest>(deleteSong),
   ];
 }
 
@@ -151,6 +153,28 @@ Middleware<AppState> _flagSong(SongRepository repository) {
     }).catchError((Object error) {
       print(error);
       store.dispatch(FlagSongFailure(error));
+      if (action.completer != null) {
+        action.completer.completeError(error);
+      }
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _deleteSong(SongRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    SongEntity song = action.song;
+    final authState = store.state.authState;
+
+    repository.deleteSong(authState, song).then((data) {
+      store.dispatch(DeleteSongSuccess(data));
+      if (action.completer != null) {
+        action.completer.complete();
+      }
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(DeleteCommentFailure(error));
       if (action.completer != null) {
         action.completer.completeError(error);
       }

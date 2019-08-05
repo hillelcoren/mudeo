@@ -129,6 +129,7 @@ abstract class BaseEntity implements SelectableEntity {
 
   bool get isNew => id == null || id < 0;
 
+  bool get isDeleted => deletedAt != null && deletedAt.isNotEmpty;
 
 /*
   List<EntityAction> getBaseActions({UserEntity user}) {

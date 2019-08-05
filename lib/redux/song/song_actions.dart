@@ -92,6 +92,24 @@ class DeleteCommentFailure implements StopSaving {
   final Object error;
 }
 
+class DeleteSongRequest implements StartSaving {
+  DeleteSongRequest({this.song, this.completer});
+
+  final Completer completer;
+  final SongEntity song;
+}
+
+class DeleteSongSuccess implements StopSaving, PersistData, PersistUI {
+  DeleteSongSuccess(this.song);
+
+  final SongEntity song;
+}
+
+class DeleteSongFailure implements StopSaving {
+  DeleteSongFailure(this.error);
+
+  final Object error;
+}
 
 class SaveSongRequest implements StartSaving {
   SaveSongRequest({this.song, this.completer});
@@ -151,7 +169,6 @@ class FlagSongFailure implements StopSaving {
   final Object error;
 }
 
-
 class SaveVideoRequest implements StartSaving {
   SaveVideoRequest({this.song, this.video, this.completer});
 
@@ -179,7 +196,6 @@ class AddSongSuccess implements StopSaving, PersistData, PersistUI {
   final SongEntity song;
 }
 
-
 class FilterSongs {
   FilterSongs(this.filter);
 
@@ -201,6 +217,8 @@ class AddTrack implements PersistUI {
 
 class StartRecording {
   StartRecording(this.timestamp);
+
   final int timestamp;
 }
+
 class StopRecording {}

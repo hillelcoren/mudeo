@@ -46,6 +46,7 @@ class SongEditVM {
     @required this.onDelayVideoChanged,
     @required this.onSharePressed,
     @required this.onAddVideoPressed,
+    @required this.onDeleteSongPressed,
   });
 
   final AppState state;
@@ -60,6 +61,7 @@ class SongEditVM {
   final Function(BuildContext, String) onAddVideoPressed;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
   final Function(SongEntity, TrackEntity) onDelayVideoChanged;
+  final Function(SongEntity) onDeleteSongPressed;
   final Function() onBackPressed;
   final Function() onSharePressed;
 
@@ -144,6 +146,12 @@ class SongEditVM {
           completer: completer,
           song: song.rebuild((b) => b..tracks.add(track)),
           video: video,
+        ));
+      },
+      onDeleteSongPressed: (song) {
+        store.dispatch(DeleteSongRequest(
+          song: song,
+          completer: Completer<Null>(),
         ));
       },
     );

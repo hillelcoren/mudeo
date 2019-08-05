@@ -42,6 +42,8 @@ class SongScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final uiState = viewModel.state.uiState;
+    final song = viewModel.song;
+    final authArtist = viewModel.state.authState.artist;
 
     return Scaffold(
       appBar: AppBar(
@@ -52,11 +54,11 @@ class SongScaffold extends StatelessWidget {
               localization.newSong,
               localization.addVideo,
             ];
-            if (!viewModel.song.isNew || viewModel.song.parentId > 0) {
-              actions.addAll([
-                localization.resetSong,
-                localization.shareSong,
-              ]);
+            if (!song.isNew || song.parentId > 0) {
+              actions.add(localization.resetSong);
+            }
+            if (!song.isNew && authArtist.ownsSong(song)) {
+              actions.add(localization.deleteSong);
             }
             return actions
                 .map((action) => PopupMenuItem(
@@ -66,10 +68,7 @@ class SongScaffold extends StatelessWidget {
                 .toList();
           },
           onSelected: (String action) {
-            if (action == localization.shareSong) {
-              viewModel.onSharePressed();
-              return;
-            } else if (action == localization.addVideo) {
+            if (action == localization.addVideo) {
               showDialog<AddRemoteVideo>(
                   context: context,
                   builder: (BuildContext context) {
@@ -97,6 +96,8 @@ class SongScaffold extends StatelessWidget {
                                 viewModel.onNewSongPressed(context);
                               } else if (action == localization.resetSong) {
                                 viewModel.onResetSongPressed(context);
+                              } else if (action == localization.deleteSong) {
+                                viewModel.onDeleteSongPressed(song);
                               }
                             })
                       ],

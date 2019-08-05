@@ -149,4 +149,17 @@ class SongRepository {
 
     return songResponse.data;
   }
+
+  Future<SongEntity> deleteSong(
+      AuthState auth, SongEntity song) async {
+    dynamic response;
+
+    response = await webClient.delete(
+        '${Config.API_URL}/songs/${song.id}', auth.artist.token);
+
+    final SongItemResponse songResponse =
+    serializers.deserializeWith(SongItemResponse.serializer, response);
+
+    return songResponse.data;
+  }
 }

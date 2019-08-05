@@ -16,6 +16,10 @@ List<int> songIdsSelector(BuiltMap<int, SongEntity> songMap,
       return false;
     }
 
+    if (song.isDeleted) {
+      return false;
+    }
+
     return !artist.flaggedSong(songId) && !artist.flaggedArtist(song.artistId);
   }).toList();
 
