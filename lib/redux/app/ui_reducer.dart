@@ -45,7 +45,9 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
   final index = song.tracks.indexOf(oldTrack);
   final newTrack = oldTrack.rebuild((b) => b..video.replace(video));
 
-  return uiState.rebuild((b) => b..song.tracks[index] = newTrack);
+  return uiState.rebuild((b) => b
+    ..song.tracks[index] = newTrack
+    ..song.updatedAt = DateTime.now().millisecondsSinceEpoch.toString());
 }
 
 UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {
@@ -69,13 +71,10 @@ UIState updateSongReducer(UIState uiState, UpdateSong action) {
 }
 
 UIState editSongReducer(UIState uiState, EditSong action) {
-  UIState state = uiState.rebuild((b) => b
-    ..selectedTabIndex = kTabCreate);
+  UIState state = uiState.rebuild((b) => b..selectedTabIndex = kTabCreate);
 
   if (uiState.song.id != action.song.id) {
-    state = state.rebuild((b) => b
-      ..song.replace(action.song)
-    );
+    state = state.rebuild((b) => b..song.replace(action.song));
   }
 
   return state;

@@ -135,8 +135,7 @@ class SongScaffold extends StatelessWidget {
         actions: <Widget>[
           FlatButton(
             child: Text(localization.save),
-            onPressed: !uiState.isRecording &&
-                    (uiState.song.hasNewVideos || !uiState.song.isNew)
+            onPressed: !uiState.isRecording
                 ? () => onSavePressed(context, viewModel)
                 : null,
           ),
@@ -144,7 +143,7 @@ class SongScaffold extends StatelessWidget {
       ),
       body: SongEdit(
         viewModel: viewModel,
-        key: ValueKey(viewModel.song.id),
+        key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
       ),
     );
   }
