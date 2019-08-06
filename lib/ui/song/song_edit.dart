@@ -78,8 +78,8 @@ class SongScaffold extends StatelessWidget {
                       onRemoteVideoSelected: (videoId) {
                         viewModel.onAddRemoteVideo(context, videoId);
                       },
-                      onTrackSelected: (video) {
-                        viewModel.addVideoFromTrack(context, video);
+                      onTrackSelected: (track) async {
+                        viewModel.addVideoFromTrack(context, track);
                       },
                     );
                   });
@@ -355,12 +355,12 @@ class _SongEditState extends State<SongEdit> {
       await camera.initialize();
     }
 
-    final track = VideoEntity().rebuild((b) => b..timestamp = timestamp);
+    final video = VideoEntity().rebuild((b) => b..timestamp = timestamp);
     setState(() {
       isPastThreeSeconds = false;
-      videoPlayers[track.id] = videoPlayer;
+      videoPlayers[video.id] = videoPlayer;
     });
-    widget.viewModel.onTrackAdded(track, endTimestamp - timestamp);
+    widget.viewModel.onVideoAdded(video, endTimestamp - timestamp);
   }
 
   void play() {

@@ -36,7 +36,7 @@ class SongEditVM {
     @required this.song,
     @required this.onStartRecording,
     @required this.onStopRecording,
-    @required this.onTrackAdded,
+    @required this.onVideoAdded,
     @required this.onChangedSong,
     @required this.onSavePressed,
     @required this.onNewSongPressed,
@@ -54,7 +54,7 @@ class SongEditVM {
   final SongEntity song;
   final Function(int) onStartRecording;
   final Function onStopRecording;
-  final Function(VideoEntity, int) onTrackAdded;
+  final Function(VideoEntity, int) onVideoAdded;
   final Function(SongEntity) onChangedSong;
   final Function(Completer) onSavePressed;
   final Function(BuildContext) onNewSongPressed;
@@ -101,7 +101,7 @@ class SongEditVM {
       onStopRecording: () {
         store.dispatch(StopRecording());
       },
-      onTrackAdded: (video, duration) async {
+      onVideoAdded: (video, duration) async {
         store.dispatch(StopRecording());
         final song = store.state.uiState.song;
         final track = song.newTrack(video);
