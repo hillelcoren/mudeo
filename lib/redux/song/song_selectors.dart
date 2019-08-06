@@ -39,7 +39,7 @@ List<int> childSongIdsSelector(
   List<int> songIds = [];
 
   songMap.forEach((key, value) {
-    if (value.parentId == song.parentId && value.isActive) {
+    if (value.hasParent && value.parentId == song.parentId && value.isActive) {
       songIds.add(song.id);
     }
   });

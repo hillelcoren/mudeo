@@ -58,12 +58,13 @@ class MudeoVideoSelector extends StatelessWidget {
     final localization = AppLocalization.of(context);
     final store = StoreProvider.of<AppState>(context);
     final songMap = store.state.dataState.songMap;
+    final parentSong = song.hasParent ? songMap[song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
 
-    if (song.hasParent || childSongIds.isNotEmpty) {
+    if (parentSong != null || childSongIds.isNotEmpty) {
       return ListView(
         children: <Widget>[
-          if (song.hasParent) MudeoVideoListItem(song),
+          if (parentSong != null) MudeoVideoListItem(parentSong),
           ...childSongIds.map((songId) => MudeoVideoListItem(songMap[song.id]))
         ],
       );
