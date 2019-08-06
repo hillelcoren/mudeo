@@ -113,7 +113,7 @@ class MudeoVideoListItem extends StatelessWidget {
                       Text(song.title, style: theme.headline),
                       SizedBox(height: 6),
                       Text(song.artist.displayName, style: theme.subhead),
-                      SizedBox(height: 10),
+                      SizedBox(height: 14),
                     ],
                   ),
                 ],
