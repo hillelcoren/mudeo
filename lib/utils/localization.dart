@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'parent': 'Parent',
+      'child': 'Child',
       'delete_song': 'Delete Song',
       'source': 'Source',
       'successfully_added_video': 'Successfully added video',
@@ -446,6 +448,12 @@ class AppLocalization {
 
   String get deleteSong =>
       _localizedValues[locale.toString()]['delete_song'];
+
+  String get parent =>
+      _localizedValues[locale.toString()]['parent'];
+
+  String get child =>
+      _localizedValues[locale.toString()]['child'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
