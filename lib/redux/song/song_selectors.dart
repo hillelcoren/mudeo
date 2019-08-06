@@ -38,8 +38,8 @@ List<int> childSongIdsSelector(
     BuiltMap<int, SongEntity> songMap, SongEntity song) {
   List<int> songIds = [];
 
-  songMap.forEach((key, value) {
-    if (value.hasParent && value.parentId == song.parentId && value.isActive) {
+  songMap.forEach((key, child) {
+    if (child.hasParent && child.parentId == song.id && child.isActive) {
       songIds.add(song.id);
     }
   });
