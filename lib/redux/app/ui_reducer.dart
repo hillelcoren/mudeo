@@ -51,6 +51,7 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
 
   var state = uiState.rebuild((b) => b
     ..song.tracks[index] = newTrack
+  // TODO remove this workaround
     ..song.updatedAt = DateTime.now().millisecondsSinceEpoch.toString());
 
   if (video.isRemoteVideo) {
@@ -74,8 +75,7 @@ UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {
 UIState deleteSongReducer(UIState uiState, DeleteSongSuccess action) {
   return uiState.rebuild((b) => b
     ..song.replace(SongEntity())
-    ..selectedTabIndex = kTabList
-  );
+    ..selectedTabIndex = kTabList);
 }
 
 UIState addSongReducer(UIState uiState, AddSongSuccess action) {
@@ -85,8 +85,13 @@ UIState addSongReducer(UIState uiState, AddSongSuccess action) {
 UIState addTrackReducer(UIState uiState, AddTrack action) {
   final song = uiState.song;
   final track = action.track;
+
   return uiState.rebuild((b) => b
     ..song.duration = song.duration == 0 ? action.duration : song.duration
+    // TODO remove this workaround
+    ..song.updatedAt = track.video.isOld
+        ? DateTime.now().millisecondsSinceEpoch.toString()
+        : song.updatedAt
     ..song.tracks.add(track));
 }
 
