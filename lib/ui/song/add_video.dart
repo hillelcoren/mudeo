@@ -1,40 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class AddVideo extends StatelessWidget {
   AddVideo({
-    this.onRemoteVideoSelected,
-    this.onChildVideoSelected,
+    @required this.song,
+    @required this.onRemoteVideoSelected,
+    @required this.onChildVideoSelected,
   });
 
+  final SongEntity song;
   final Function(String) onRemoteVideoSelected;
   final Function(VideoEntity) onChildVideoSelected;
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    
+
     return Padding(
       padding: const EdgeInsets.all(40),
       child: DefaultTabController(
-          length: 3,
+          length: 2,
           child: Scaffold(
             appBar: AppBar(
               leading: SizedBox(),
               flexibleSpace: TabBar(
                 tabs: [
-                  Tab(text: localization.parent),
-                  Tab(text: localization.child),
+                  Tab(text: 'mudeo'),
                   Tab(text: 'YouTube'),
                 ],
               ),
             ),
             body: TabBarView(
               children: [
-                MudeoVideoSelector(),
-                MudeoVideoSelector(),
+                MudeoVideoSelector(song),
                 YouTubeVideoSelector(
                   onRemoteVideoSelected: onRemoteVideoSelected,
                 )
@@ -46,19 +49,59 @@ class AddVideo extends StatelessWidget {
 }
 
 class MudeoVideoSelector extends StatelessWidget {
+  MudeoVideoSelector(this.song);
 
-  MudeoVideoSelector({this.songs});
-  final List<SongEntity> songs;
+  final SongEntity song;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final localization = AppLocalization.of(context);
+    final store = StoreProvider.of<AppState>(context);
+    final songMap = store.state.dataState.songMap;
+    final childSongIds = memoizedChildSongIds(songMap, song);
+
+    if (song.hasParent || childSongIds.isNotEmpty) {
+      return ListView(
+        children: <Widget>[
+          if (song.hasParent) MudeoVideoListItem(song),
+          ...childSongIds.map((songId) => MudeoVideoListItem(songMap[song.id]))
+        ],
+      );
+    } else {
+      return Center(
+        child: Text(
+          localization.noVideos,
+          style: TextStyle(
+              fontSize: 18, color: Colors.grey, fontWeight: FontWeight.w300),
+        ),
+      );
+    }
   }
 }
 
+class MudeoVideoListItem extends StatelessWidget {
+  MudeoVideoListItem(this.song);
+
+  final SongEntity song;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(song.title),
+        Row(
+          children: song.tracks
+              .map((track) => Text(track.video.id.toString()))
+              .toList(),
+        )
+      ],
+    );
+  }
+}
 
 class YouTubeVideoSelector extends StatefulWidget {
   YouTubeVideoSelector({this.onRemoteVideoSelected});
+
   final Function(String) onRemoteVideoSelected;
 
   @override

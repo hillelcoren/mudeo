@@ -100,6 +100,8 @@ abstract class SongEntity extends Object
 
   bool get hasNewVideos => newVideo != null;
 
+  bool get hasParent => parentId != null && parentId > 0;
+
   TrackEntity get trackWithNewVideo =>
       tracks.firstWhere((track) => track.video.isNew, orElse: () => null);
 
