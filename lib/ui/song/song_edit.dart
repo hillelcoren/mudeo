@@ -4,12 +4,12 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
+import 'package:mudeo/ui/song/add_video.dart';
 import 'package:mudeo/ui/song/track_latency.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
@@ -70,12 +70,17 @@ class SongScaffold extends StatelessWidget {
           },
           onSelected: (String action) {
             if (action == localization.addVideo) {
-              showDialog<AddRemoteVideo>(
+              showDialog<AddVideo>(
                   context: context,
                   builder: (BuildContext context) {
-                    return AddRemoteVideo((videoId) {
-                      viewModel.onAddVideoPressed(context, videoId);
-                    });
+                    return AddVideo(
+                      onRemoteVideoSelected: (videoId) {
+                        viewModel.onAddRemoteVideo(context, videoId);
+                      },
+                      onChildVideoSelected: (video) {
+                        viewModel.onAddChildVideo(context, video);
+                      },
+                    );
                   });
             } else {
               showDialog<AlertDialog>(
@@ -832,100 +837,6 @@ class ExpandedButton extends StatelessWidget {
           //color: Colors.grey,
         ),
       ),
-    );
-  }
-}
-
-class AddRemoteVideo extends StatefulWidget {
-  AddRemoteVideo(this.onVideoSelected);
-
-  final Function onVideoSelected;
-
-  @override
-  _AddRemoteVideoState createState() => _AddRemoteVideoState();
-}
-
-class _AddRemoteVideoState extends State<AddRemoteVideo> {
-  TextEditingController _textController;
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _textController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-
-  String convertToVideoId(String value) {
-    value = value.trim();
-
-    if (value.contains('v=')) {
-      int index = value.indexOf('v=') + 2;
-      value = value.substring(index, index + 11);
-    } else if (value.contains('/')) {
-      value = value.substring(value.lastIndexOf('/') + 1);
-    }
-
-    return value;
-  }
-
-  bool isValidVideoId(String value) => convertToVideoId(value).length == 11;
-
-  void submitForm() {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
-
-    Navigator.pop(context);
-    widget.onVideoSelected(convertToVideoId(_textController.text));
-    _textController.clear();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-
-    return AlertDialog(
-      content: Form(
-        key: _formKey,
-        child: TextFormField(
-          //autofocus: true, // TODO enable after fix for #33293
-          controller: _textController,
-          textInputAction: TextInputAction.done,
-          validator: (value) {
-            if (value.isEmpty) {
-              return localization.pleaseProvideAValue;
-            } else if (!isValidVideoId(value)) {
-              return localization.errorInvalidValue;
-            }
-            return null;
-          },
-          decoration: InputDecoration(
-            labelText: localization.videoUrlOrId,
-            icon: Icon(FontAwesomeIcons.youtube),
-          ),
-          onEditingComplete: () {
-            submitForm();
-          },
-        ),
-      ),
-      actions: <Widget>[
-        FlatButton(
-            child: Text(localization.cancel.toUpperCase()),
-            onPressed: () {
-              Navigator.pop(context);
-              _textController.clear();
-            }),
-        FlatButton(
-          child: Text(localization.ok.toUpperCase()),
-          onPressed: submitForm,
-        ),
-      ],
     );
   }
 }

@@ -45,8 +45,9 @@ class SongEditVM {
     @required this.onDeleteVideoPressed,
     @required this.onDelayVideoChanged,
     @required this.onSharePressed,
-    @required this.onAddVideoPressed,
+    @required this.onAddRemoteVideo,
     @required this.onDeleteSongPressed,
+    @required this.onAddChildVideo,
   });
 
   final AppState state;
@@ -58,7 +59,8 @@ class SongEditVM {
   final Function(Completer) onSavePressed;
   final Function(BuildContext) onNewSongPressed;
   final Function(BuildContext) onResetSongPressed;
-  final Function(BuildContext, String) onAddVideoPressed;
+  final Function(BuildContext, String) onAddRemoteVideo;
+  final Function(BuildContext, VideoEntity) onAddChildVideo;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
   final Function(SongEntity, TrackEntity) onDelayVideoChanged;
   final Function(SongEntity) onDeleteSongPressed;
@@ -131,7 +133,7 @@ class SongEditVM {
         }
       },
       onDelayVideoChanged: (song, track) async {},
-      onAddVideoPressed: (context, videoId) {
+      onAddRemoteVideo: (context, videoId) {
         final song = store.state.uiState.song;
         final video = VideoEntity().rebuild((b) => b..remoteVideoId = videoId);
 
@@ -147,6 +149,9 @@ class SongEditVM {
           song: song.rebuild((b) => b..tracks.add(track)),
           video: video,
         ));
+      },
+      onAddChildVideo: (context, video) {
+        print('Child video selected: ${video.id}');
       },
       onDeleteSongPressed: (song) {
         store.dispatch(DeleteSongRequest(
