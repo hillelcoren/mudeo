@@ -19,16 +19,20 @@ class AddVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-
     return Padding(
       padding: const EdgeInsets.all(40),
       child: DefaultTabController(
           length: 2,
           child: Scaffold(
             appBar: AppBar(
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
               leading: SizedBox(),
-              flexibleSpace: TabBar(
+              bottom: TabBar(
                 tabs: [
                   Tab(text: 'mudeo'),
                   Tab(text: 'YouTube'),
