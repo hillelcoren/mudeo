@@ -112,7 +112,7 @@ abstract class ArtistEntity extends Object
 
   String get displayName => name != null && name.isNotEmpty ? name : handle;
 
-  bool ownsSong(SongEntity song) => isAdmin || song.artistId == id;
+  bool ownsSong(SongEntity song) => song.artistId == id;
 
   bool get isAdmin => id == 1 || id == 2;
 

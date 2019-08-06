@@ -57,7 +57,8 @@ class SongScaffold extends StatelessWidget {
             if (!song.isNew || song.parentId > 0) {
               actions.add(localization.resetSong);
             }
-            if (!song.isNew && authArtist.ownsSong(song)) {
+            if (!song.isNew &&
+                (authArtist.ownsSong(song) || authArtist.isAdmin)) {
               actions.add(localization.deleteSong);
             }
             return actions
