@@ -49,7 +49,7 @@ const List<String> kLanguages = [
 ];
 
 const int kTabList = 0;
-const int kTabCreate = 1;
+const int kTabEdit = 1;
 const int kTabProfile = 2;
 
 const String kLinkTypeFacebook = 'Facebook';

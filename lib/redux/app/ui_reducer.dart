@@ -95,7 +95,7 @@ UIState updateSongReducer(UIState uiState, UpdateSong action) {
 }
 
 UIState editSongReducer(UIState uiState, EditSong action) {
-  UIState state = uiState.rebuild((b) => b..selectedTabIndex = kTabCreate);
+  UIState state = uiState.rebuild((b) => b..selectedTabIndex = kTabEdit);
 
   if (uiState.song.id != action.song.id) {
     state = state.rebuild((b) => b..song.replace(action.song));
