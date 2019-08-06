@@ -15,7 +15,7 @@ class AddVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-
+    
     return Padding(
       padding: const EdgeInsets.all(40),
       child: DefaultTabController(
@@ -33,8 +33,8 @@ class AddVideo extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                Icon(Icons.directions_car),
-                Icon(Icons.directions_transit),
+                MudeoVideoSelector(),
+                MudeoVideoSelector(),
                 YouTubeVideoSelector(
                   onRemoteVideoSelected: onRemoteVideoSelected,
                 )
@@ -45,9 +45,20 @@ class AddVideo extends StatelessWidget {
   }
 }
 
+class MudeoVideoSelector extends StatelessWidget {
+
+  MudeoVideoSelector({this.songs});
+  final List<SongEntity> songs;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
 class YouTubeVideoSelector extends StatefulWidget {
   YouTubeVideoSelector({this.onRemoteVideoSelected});
-
   final Function(String) onRemoteVideoSelected;
 
   @override
