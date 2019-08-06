@@ -56,7 +56,10 @@ class AddVideo extends StatelessWidget {
 }
 
 class MudeoVideoSelector extends StatelessWidget {
-  MudeoVideoSelector({@required this.song, @required this.onTrackSelected,});
+  MudeoVideoSelector({
+    @required this.song,
+    @required this.onTrackSelected,
+  });
 
   final SongEntity song;
   final Function(TrackEntity) onTrackSelected;
@@ -69,6 +72,7 @@ class MudeoVideoSelector extends StatelessWidget {
     final songMap = dataState.songMap;
     final parentSong = song.hasParent ? songMap[song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
+    final usedVideoIds = song.videoIds;
 
     if (parentSong != null || childSongIds.isNotEmpty) {
       return ListView(
@@ -76,12 +80,13 @@ class MudeoVideoSelector extends StatelessWidget {
           if (parentSong != null)
             MudeoVideoListItem(
               song: parentSong,
+              usedVideoIds: usedVideoIds,
               relationship: kVideoRelationshipParent,
               onTrackSelected: onTrackSelected,
             ),
-          ...childSongIds.map((songId) =>
-              MudeoVideoListItem(
+          ...childSongIds.map((songId) => MudeoVideoListItem(
                 song: songMap[songId],
+                usedVideoIds: usedVideoIds,
                 relationship: kVideoRelationshipChild,
                 onTrackSelected: onTrackSelected,
               ))
@@ -102,19 +107,19 @@ class MudeoVideoSelector extends StatelessWidget {
 class MudeoVideoListItem extends StatelessWidget {
   MudeoVideoListItem({
     @required this.song,
+    @required this.usedVideoIds,
     @required this.relationship,
     @required this.onTrackSelected,
   });
 
   final SongEntity song;
+  final List<int> usedVideoIds;
   final String relationship;
   final Function(TrackEntity) onTrackSelected;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme
-        .of(context)
-        .textTheme;
+    final theme = Theme.of(context).textTheme;
 
     return Column(
       children: <Widget>[
@@ -139,9 +144,20 @@ class MudeoVideoListItem extends StatelessWidget {
                 height: 180,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: song.tracks
-                      .map((track) =>
-                      InkWell(
+                  children: song.tracks.map((track) {
+                    if (usedVideoIds.contains(track.video.id)) {
+                      return Opacity(
+                        opacity: .2,
+                        child: Card(
+                          margin: EdgeInsets.all(4),
+                          elevation: kDefaultElevation,
+                          child: CachedNetworkImage(
+                            imageUrl: track.video.thumbnailUrl,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return InkWell(
                         onTap: () {
                           onTrackSelected(track);
                           Navigator.pop(context);
@@ -153,8 +169,9 @@ class MudeoVideoListItem extends StatelessWidget {
                             imageUrl: track.video.thumbnailUrl,
                           ),
                         ),
-                      ))
-                      .toList(),
+                      );
+                    }
+                  }).toList(),
                 ),
               ),
             ],
