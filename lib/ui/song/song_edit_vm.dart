@@ -47,7 +47,7 @@ class SongEditVM {
     @required this.onSharePressed,
     @required this.onAddRemoteVideo,
     @required this.onDeleteSongPressed,
-    @required this.onAddChildVideo,
+    @required this.addVideoFromTrack,
   });
 
   final AppState state;
@@ -60,7 +60,7 @@ class SongEditVM {
   final Function(BuildContext) onNewSongPressed;
   final Function(BuildContext) onResetSongPressed;
   final Function(BuildContext, String) onAddRemoteVideo;
-  final Function(BuildContext, VideoEntity) onAddChildVideo;
+  final Function(BuildContext, TrackEntity) addVideoFromTrack;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
   final Function(SongEntity, TrackEntity) onDelayVideoChanged;
   final Function(SongEntity) onDeleteSongPressed;
@@ -150,8 +150,8 @@ class SongEditVM {
           video: video,
         ));
       },
-      onAddChildVideo: (context, video) {
-        print('Child video selected: ${video.id}');
+      addVideoFromTrack: (context, track) {
+        print('Child video selected: ${track.id}');
       },
       onDeleteSongPressed: (song) {
         store.dispatch(DeleteSongRequest(
