@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -96,14 +97,45 @@ class MudeoVideoListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+
     return Column(
       children: <Widget>[
-        Text(song.title + ' ' + song.artist.displayName + ' ' + relationship),
-        Row(
-          children: song.tracks
-              .map((track) => Text(track.video.id.toString()))
-              .toList(),
-        )
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(song.title, style: theme.headline),
+                      SizedBox(height: 6),
+                      Text(song.artist.displayName, style: theme.subhead),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ],
+              ),
+              Container(
+                height: 180,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: song.tracks
+                      .map((track) => Padding(
+                            padding: const EdgeInsets.only(right: 15),
+                            child: CachedNetworkImage(
+                              imageUrl: track.video.thumbnailUrl,
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Divider(height: 1),
       ],
     );
   }

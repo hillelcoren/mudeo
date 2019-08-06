@@ -110,7 +110,8 @@ abstract class ArtistEntity extends Object
     return handle;
   }
 
-  String get displayName => name != null && name.isNotEmpty ? name : handle;
+  String get displayName =>
+      name != null && name.trim().isNotEmpty ? name : handle;
 
   bool ownsSong(SongEntity song) => song.artistId == id;
 
