@@ -153,6 +153,10 @@ abstract class TrackEntity extends Object
 
   TrackEntity._();
 
+  TrackEntity get clone => rebuild((b) => b
+    ..id = DateTime.now().millisecondsSinceEpoch * -1,
+  );
+
   @nullable
   int get delay;
 

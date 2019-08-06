@@ -151,7 +151,10 @@ class SongEditVM {
         ));
       },
       addVideoFromTrack: (context, track) {
-        print('Child video selected: ${track.id}');
+        store.dispatch(AddTrack(
+          track: track.clone,
+          duration: 0,
+        ));
       },
       onDeleteSongPressed: (song) {
         store.dispatch(DeleteSongRequest(

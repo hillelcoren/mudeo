@@ -142,7 +142,10 @@ class MudeoVideoListItem extends StatelessWidget {
                   children: song.tracks
                       .map((track) =>
                       InkWell(
-                        onTap: () => onTrackSelected(track),
+                        onTap: () {
+                          onTrackSelected(track);
+                          Navigator.pop(context);
+                        },
                         child: Card(
                           margin: EdgeInsets.all(4),
                           elevation: kDefaultElevation,
