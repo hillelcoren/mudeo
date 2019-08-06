@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
@@ -61,15 +62,18 @@ class MudeoVideoSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final store = StoreProvider.of<AppState>(context);
-    final songMap = store.state.dataState.songMap;
+    final dataState = store.state.dataState;
+    final songMap = dataState.songMap;
     final parentSong = song.hasParent ? songMap[song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
 
     if (parentSong != null || childSongIds.isNotEmpty) {
       return ListView(
         children: <Widget>[
-          if (parentSong != null) MudeoVideoListItem(parentSong),
-          ...childSongIds.map((songId) => MudeoVideoListItem(songMap[song.id]))
+          if (parentSong != null)
+            MudeoVideoListItem(parentSong, kVideoRelationshipParent),
+          ...childSongIds.map((songId) =>
+              MudeoVideoListItem(songMap[songId], kVideoRelationshipChild))
         ],
       );
     } else {
@@ -85,15 +89,16 @@ class MudeoVideoSelector extends StatelessWidget {
 }
 
 class MudeoVideoListItem extends StatelessWidget {
-  MudeoVideoListItem(this.song);
+  MudeoVideoListItem(this.song, this.relationship);
 
   final SongEntity song;
+  final String relationship;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(song.title),
+        Text(song.title + ' ' + song.artist.displayName + ' ' + relationship),
         Row(
           children: song.tracks
               .map((track) => Text(track.video.id.toString()))
