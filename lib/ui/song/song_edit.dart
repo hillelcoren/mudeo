@@ -50,14 +50,14 @@ class SongScaffold extends StatelessWidget {
         leading: PopupMenuButton<String>(
           icon: Icon(Icons.more_vert),
           itemBuilder: (BuildContext context) {
-            final actions = [
-              localization.newSong,
-              localization.addVideo,
-            ];
-            if (!song.isNew || song.parentId > 0) {
+            final actions = [localization.newSong];
+            if (song.canAddTrack) {
+              actions.add(localization.addVideo);
+            }
+            if (song.isOld || song.parentId > 0) {
               actions.add(localization.resetSong);
             }
-            if (!song.isNew &&
+            if (song.isOld &&
                 (authArtist.ownsSong(song) || authArtist.isAdmin)) {
               actions.add(localization.deleteSong);
             }
