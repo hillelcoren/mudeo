@@ -120,6 +120,7 @@ class MudeoVideoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final localization = AppLocalization.of(context);
 
     return Column(
       children: <Widget>[
@@ -128,15 +129,28 @@ class MudeoVideoListItem extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(song.title, style: theme.headline),
-                      SizedBox(height: 6),
-                      Text(song.artist.displayName, style: theme.subhead),
-                      SizedBox(height: 14),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          song.title + ' dsfasd asdfasd sdfsad',
+                          style: theme.headline.copyWith(fontSize: 20),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 6),
+                        Text(song.artist.displayName, style: theme.subhead),
+                        SizedBox(height: 14),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 6),
+                  IconButton(
+                    icon: Icon(Icons.add_circle_outline),
+                    tooltip: localization.addAll,
+                    onPressed: () => null,
                   ),
                 ],
               ),
