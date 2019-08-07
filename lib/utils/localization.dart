@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'youtube_warning': 'Note: The YouTube video can be used as a backing track but will not be included in the rendered mudeo video.',
       'add_all': 'Add All',
       'parent': 'Parent',
       'child': 'Child',
@@ -462,6 +463,10 @@ class AppLocalization {
 
   String get addAll =>
       _localizedValues[locale.toString()]['add_all'];
+
+  String get youtubeWarning =>
+      _localizedValues[locale.toString()]['youtube_warning'];
+
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

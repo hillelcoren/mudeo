@@ -309,7 +309,12 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
                 onPressed: submitForm,
               ),
             ],
-          )
+          ),
+          SizedBox(height: 20),
+          Text(
+            localization.youtubeWarning,
+            style: TextStyle(fontSize: 16),
+          ),
         ],
       ),
     );
