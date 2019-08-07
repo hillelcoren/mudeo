@@ -164,6 +164,7 @@ class SongEditVM {
         final song = store.state.uiState.song;
         final video = VideoEntity().rebuild((b) => b..url = sourceSong.videoUrl);
         final track = song.newTrack(video);
+
         store.dispatch(AddTrack(
           track: track,
           duration: 0,

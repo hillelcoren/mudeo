@@ -79,7 +79,7 @@ class MudeoVideoSelector extends StatelessWidget {
     final songMap = dataState.songMap;
     final parentSong = song.hasParent ? songMap[song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
-    final usedVideoIds = song.videoIds;
+    final usedVideoURLs = song.videoURLs;
 
     if (parentSong != null || childSongIds.isNotEmpty) {
       return ListView(
@@ -87,14 +87,14 @@ class MudeoVideoSelector extends StatelessWidget {
           if (parentSong != null)
             MudeoVideoListItem(
               song: parentSong,
-              usedVideoIds: usedVideoIds,
+              usedVideoURLs: usedVideoURLs,
               relationship: kVideoRelationshipParent,
               onTrackSelected: onTrackSelected,
               onSongSelected: onSongSelected,
             ),
           ...childSongIds.map((songId) => MudeoVideoListItem(
                 song: songMap[songId],
-                usedVideoIds: usedVideoIds,
+                usedVideoURLs: usedVideoURLs,
                 relationship: kVideoRelationshipChild,
                 onTrackSelected: onTrackSelected,
                 onSongSelected: onSongSelected,
@@ -116,14 +116,14 @@ class MudeoVideoSelector extends StatelessWidget {
 class MudeoVideoListItem extends StatelessWidget {
   MudeoVideoListItem({
     @required this.song,
-    @required this.usedVideoIds,
+    @required this.usedVideoURLs,
     @required this.relationship,
     @required this.onTrackSelected,
     @required this.onSongSelected,
   });
 
   final SongEntity song;
-  final List<int> usedVideoIds;
+  final List<String> usedVideoURLs;
   final String relationship;
   final Function(TrackEntity) onTrackSelected;
   final Function(SongEntity) onSongSelected;
@@ -157,7 +157,8 @@ class MudeoVideoListItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (song.tracks.length > 1)
+                  if (song.tracks.length > 1 &&
+                      !usedVideoURLs.contains(song.videoUrl))
                     IconButton(
                       padding: EdgeInsets.only(left: 8),
                       icon: Icon(Icons.add_circle_outline),
@@ -174,7 +175,7 @@ class MudeoVideoListItem extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: song.tracks.map((track) {
-                    if (usedVideoIds.contains(track.video.id)) {
+                    if (usedVideoURLs.contains(track.video.url)) {
                       return Opacity(
                         opacity: .2,
                         child: Card(

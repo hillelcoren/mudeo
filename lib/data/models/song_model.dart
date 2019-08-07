@@ -90,8 +90,7 @@ abstract class SongEntity extends Object
   CommentEntity newComment(int artistId, String comment) =>
       CommentEntity(description: comment).rebuild((b) => b
         ..songId = id
-        ..artistId = artistId
-      );
+        ..artistId = artistId);
 
   TrackEntity newTrack(VideoEntity video) =>
       TrackEntity(video: video, orderId: tracks.length);
@@ -117,7 +116,7 @@ abstract class SongEntity extends Object
     return rebuild((b) => b..tracks[index] = updatedTrack);
   }
 
-  List<int> get videoIds => tracks.map((track) => track.video.id).toList();
+  List<String> get videoURLs => tracks.map((track) => track.video.url).toList();
 
   bool get canAddTrack => tracks.length < kMaxTracks;
 
@@ -155,9 +154,9 @@ abstract class TrackEntity extends Object
 
   TrackEntity._();
 
-  TrackEntity get clone => rebuild((b) => b
-    ..id = DateTime.now().millisecondsSinceEpoch * -1,
-  );
+  TrackEntity get clone => rebuild(
+        (b) => b..id = DateTime.now().millisecondsSinceEpoch * -1,
+      );
 
   @nullable
   int get delay;
