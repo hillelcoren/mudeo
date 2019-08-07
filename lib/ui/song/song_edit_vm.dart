@@ -11,7 +11,6 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -173,8 +172,8 @@ class SongEditVM {
 
         // store stacked video locally so it can be re-uploaded when saved
         final response = await http.Client().get(Uri.parse(sourceSong.videoUrl));
-        String dir = (await getApplicationDocumentsDirectory()).path;
-        File file = new File('$dir/videos/${track.video.timestamp}.mp4');
+        String path = await VideoEntity.getPath(track.video.timestamp);
+        File file = new File(path);
         file.writeAsBytes(response.bodyBytes);
       },
       onDeleteSongPressed: (song) {
