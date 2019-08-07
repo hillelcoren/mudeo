@@ -186,7 +186,6 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   Spacer(),
                   FlatButton(
                     child: Text(localization.close),
-                    //color: Colors.grey,
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   ProgressButton(

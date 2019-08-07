@@ -6,6 +6,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
+import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class AddVideo extends StatelessWidget {
@@ -266,6 +267,7 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final store = StoreProvider.of<AppState>(context);
 
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -304,9 +306,12 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
                     Navigator.pop(context);
                     _textController.clear();
                   }),
-              FlatButton(
-                child: Text(localization.ok.toUpperCase()),
+              SizedBox(width: 8),
+              ProgressButton(
+                padding: EdgeInsets.all(0),
+                isLoading: store.state.isSaving,
                 onPressed: submitForm,
+                label: localization.save,
               ),
             ],
           ),

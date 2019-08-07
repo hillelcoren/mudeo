@@ -34,6 +34,10 @@ Middleware<AppState> _saveSong(SongRepository repository) {
     SongEntity song = action.song;
     final authState = store.state.authState;
 
+    if (store.state.isSaving) {
+      next(action);
+    }
+
     if (song.hasNewVideos) {
       repository.saveVideo(authState, song.newVideo).then((video) {
         store.dispatch(SaveVideoSuccess(song: song, video: video));
@@ -66,6 +70,10 @@ Middleware<AppState> _saveSong(SongRepository repository) {
 Middleware<AppState> _saveVideo(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final authState = store.state.authState;
+
+    if (store.state.isSaving) {
+      next(action);
+    }
 
     repository.saveVideo(authState, action.video).then((video) {
       store.dispatch(SaveVideoSuccess(song: action.song, video: video));
@@ -188,6 +196,10 @@ Middleware<AppState> _saveComment(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     CommentEntity origComment = action.comment;
     final authState = store.state.authState;
+
+    if (store.state.isSaving) {
+      next(action);
+    }
 
     repository.saveComment(authState, origComment).then((comment) {
       /*
