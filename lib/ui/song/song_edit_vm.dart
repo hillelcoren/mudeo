@@ -156,6 +156,7 @@ class SongEditVM {
         store.dispatch(AddTrack(
           track: track.clone,
           duration: 0,
+          refreshUI: true,
         ));
       },
       addVideoFromSong: (context, song) {
@@ -164,6 +165,7 @@ class SongEditVM {
         store.dispatch(AddTrack(
           track: track,
           duration: 0,
+          refreshUI: true,
         ));
       },
       onDeleteSongPressed: (song) {

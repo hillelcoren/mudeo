@@ -209,10 +209,15 @@ class SortSongs implements PersistUI {
 }
 
 class AddTrack implements PersistUI {
-  AddTrack({this.track, this.duration});
+  AddTrack({
+    this.track,
+    this.duration,
+    this.refreshUI = false,
+  });
 
   final TrackEntity track;
   final int duration;
+  final bool refreshUI; // TODO remove this
 }
 
 class StartRecording {

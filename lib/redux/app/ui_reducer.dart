@@ -89,7 +89,7 @@ UIState addTrackReducer(UIState uiState, AddTrack action) {
   return uiState.rebuild((b) => b
     ..song.duration = song.duration == 0 ? action.duration : song.duration
     // TODO remove this workaround
-    ..song.updatedAt = track.video.isOld
+    ..song.updatedAt = action.refreshUI
         ? DateTime.now().millisecondsSinceEpoch.toString()
         : song.updatedAt
     ..song.tracks.add(track));
