@@ -157,15 +157,16 @@ class MudeoVideoListItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(width: 6),
-                  IconButton(
-                    icon: Icon(Icons.add_circle_outline),
-                    tooltip: localization.addAll,
-                    onPressed: () {
-                      Navigator.pop(context);
-                      onSongSelected(song);
-                    },
-                  ),
+                  if (song.tracks.length > 1)
+                    IconButton(
+                      padding: EdgeInsets.only(left: 8),
+                      icon: Icon(Icons.add_circle_outline),
+                      tooltip: localization.addAll,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onSongSelected(song);
+                      },
+                    ),
                 ],
               ),
               Container(
