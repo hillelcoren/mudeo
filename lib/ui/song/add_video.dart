@@ -13,11 +13,13 @@ class AddVideo extends StatelessWidget {
     @required this.song,
     @required this.onRemoteVideoSelected,
     @required this.onTrackSelected,
+    @required this.onSongSelected,
   });
 
   final SongEntity song;
   final Function(String) onRemoteVideoSelected;
   final Function(TrackEntity) onTrackSelected;
+  final Function(SongEntity) onSongSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,10 @@ class AddVideo extends StatelessWidget {
             body: TabBarView(
               children: [
                 MudeoVideoSelector(
-                    song: song, onTrackSelected: onTrackSelected),
+                  song: song,
+                  onTrackSelected: onTrackSelected,
+                  onSongSelected: onSongSelected,
+                ),
                 YouTubeVideoSelector(
                   onRemoteVideoSelected: onRemoteVideoSelected,
                 )
@@ -59,10 +64,12 @@ class MudeoVideoSelector extends StatelessWidget {
   MudeoVideoSelector({
     @required this.song,
     @required this.onTrackSelected,
+    @required this.onSongSelected,
   });
 
   final SongEntity song;
   final Function(TrackEntity) onTrackSelected;
+  final Function(SongEntity) onSongSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +90,14 @@ class MudeoVideoSelector extends StatelessWidget {
               usedVideoIds: usedVideoIds,
               relationship: kVideoRelationshipParent,
               onTrackSelected: onTrackSelected,
+              onSongSelected: onSongSelected,
             ),
           ...childSongIds.map((songId) => MudeoVideoListItem(
                 song: songMap[songId],
                 usedVideoIds: usedVideoIds,
                 relationship: kVideoRelationshipChild,
                 onTrackSelected: onTrackSelected,
+                onSongSelected: onSongSelected,
               ))
         ],
       );
@@ -110,12 +119,14 @@ class MudeoVideoListItem extends StatelessWidget {
     @required this.usedVideoIds,
     @required this.relationship,
     @required this.onTrackSelected,
+    @required this.onSongSelected,
   });
 
   final SongEntity song;
   final List<int> usedVideoIds;
   final String relationship;
   final Function(TrackEntity) onTrackSelected;
+  final Function(SongEntity) onSongSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +161,7 @@ class MudeoVideoListItem extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.add_circle_outline),
                     tooltip: localization.addAll,
-                    onPressed: () => null,
+                    onPressed: () => onSongSelected(song),
                   ),
                 ],
               ),

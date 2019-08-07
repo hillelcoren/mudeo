@@ -75,12 +75,12 @@ class SongScaffold extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AddVideo(
                       song: song,
-                      onRemoteVideoSelected: (videoId) {
-                        viewModel.onAddRemoteVideo(context, videoId);
-                      },
-                      onTrackSelected: (track) async {
-                        viewModel.addVideoFromTrack(context, track);
-                      },
+                      onRemoteVideoSelected: (videoId) =>
+                          viewModel.onAddRemoteVideo(context, videoId),
+                      onTrackSelected: (track) =>
+                          viewModel.addVideoFromTrack(context, track),
+                      onSongSelected: (song) =>
+                          viewModel.addVideoFromSong(context, song),
                     );
                   });
             } else {
