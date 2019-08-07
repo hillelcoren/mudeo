@@ -159,7 +159,12 @@ class SongEditVM {
         ));
       },
       addVideoFromSong: (context, song) {
-        
+        final video = VideoEntity().rebuild((b) => b..url = song.videoUrl);
+        final track = song.newTrack(video);
+        store.dispatch(AddTrack(
+          track: track,
+          duration: 0,
+        ));
       },
       onDeleteSongPressed: (song) {
         store.dispatch(DeleteSongRequest(

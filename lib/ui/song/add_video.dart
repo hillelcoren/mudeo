@@ -161,7 +161,10 @@ class MudeoVideoListItem extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.add_circle_outline),
                     tooltip: localization.addAll,
-                    onPressed: () => onSongSelected(song),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      onSongSelected(song);
+                    },
                   ),
                 ],
               ),
