@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -10,6 +11,7 @@ import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -159,14 +161,21 @@ class SongEditVM {
           refreshUI: true,
         ));
       },
-      addVideoFromSong: (context, song) {
-        final video = VideoEntity().rebuild((b) => b..url = song.videoUrl);
+      addVideoFromSong: (context, sourceSong) async {
+        final song = store.state.uiState.song;
+        final video = VideoEntity().rebuild((b) => b..url = sourceSong.videoUrl);
         final track = song.newTrack(video);
         store.dispatch(AddTrack(
           track: track,
           duration: 0,
           refreshUI: true,
         ));
+
+        // store stacked video locally so it can be saved
+        final response = await http.Client().get(Uri.parse(sourceSong.videoUrl));
+        String dir = (await getApplicationDocumentsDirectory()).path;
+        File file = new File('$dir/videos/${track.video.timestamp}.mp4');
+        file.writeAsBytes(response.bodyBytes);
       },
       onDeleteSongPressed: (song) {
         store.dispatch(DeleteSongRequest(

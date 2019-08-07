@@ -306,7 +306,7 @@ abstract class VideoEntity extends Object
     return _$VideoEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       userId: 0,
-      timestamp: 0,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
       url: '',
       thumbnailUrl: '',
       description: '',
