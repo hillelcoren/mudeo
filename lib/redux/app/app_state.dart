@@ -34,11 +34,6 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   @override
   String toString() {
-    final keys = dataState.songMap.keys;
-    if (keys.isNotEmpty) {
-      return 'Num comments ${dataState.songMap[keys.first].comments.length}';
-    } else {
-      return 'Recording Timestamp: ${uiState.recordingTimestamp}';
-    }
+    return 'Duration: ${uiState.song?.duration}';
   }
 }

@@ -127,7 +127,7 @@ class SongEditVM {
       onDeleteVideoPressed: (song, track) async {
         final int index = song.tracks.indexOf(track);
         song = song.rebuild((b) => b..tracks.removeAt(index));
-        if (song.tracks.isEmpty) {
+        if (!song.hasParent && song.tracks.isEmpty) {
           song = song.rebuild((b) => b..duration = 0);
         }
         store.dispatch(UpdateSong(song));
@@ -171,7 +171,7 @@ class SongEditVM {
           refreshUI: true,
         ));
 
-        // store stacked video locally so it can be saved
+        // store stacked video locally so it can be re-uploaded when saved
         final response = await http.Client().get(Uri.parse(sourceSong.videoUrl));
         String dir = (await getApplicationDocumentsDirectory()).path;
         File file = new File('$dir/videos/${track.video.timestamp}.mp4');
