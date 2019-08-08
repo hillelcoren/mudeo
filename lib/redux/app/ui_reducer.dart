@@ -51,8 +51,10 @@ UIState saveVideoReducer(UIState uiState, SaveVideoSuccess action) {
 
   var state = uiState.rebuild((b) => b
     ..song.tracks[index] = newTrack
-  // TODO remove this workaround
-    ..song.updatedAt = DateTime.now().millisecondsSinceEpoch.toString());
+    // TODO remove this workaround
+    ..song.updatedAt = action.refreshUI
+        ? DateTime.now().millisecondsSinceEpoch.toString()
+        : song.updatedAt);
 
   if (video.isRemoteVideo) {
     if (song.title == null || song.title.isEmpty) {

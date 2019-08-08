@@ -178,8 +178,9 @@ class SaveVideoRequest implements StartSaving {
 }
 
 class SaveVideoSuccess implements StopSaving, PersistData, PersistUI {
-  SaveVideoSuccess({this.song, this.video});
+  SaveVideoSuccess({this.song, this.video, this.refreshUI = false});
 
+  final bool refreshUI;
   final SongEntity song;
   final VideoEntity video;
 }

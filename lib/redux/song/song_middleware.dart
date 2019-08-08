@@ -76,7 +76,8 @@ Middleware<AppState> _saveVideo(SongRepository repository) {
     }
 
     repository.saveVideo(authState, action.video).then((video) {
-      store.dispatch(SaveVideoSuccess(song: action.song, video: video));
+      store.dispatch(
+          SaveVideoSuccess(song: action.song, video: video, refreshUI: true));
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
