@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'row': 'Row',
+      'column': 'Column',
+      'grid': 'Grid',
       'fork_song': 'Fork Song',
       'youtube_warning': 'Note: The YouTube video can be used as a backing track but will not be included in the rendered mudeo video.',
       'add_all': 'Add All',
@@ -470,6 +473,15 @@ class AppLocalization {
 
   String get forkSong =>
       _localizedValues[locale.toString()]['fork_song'];
+
+  String get row =>
+      _localizedValues[locale.toString()]['row'];
+
+  String get column =>
+      _localizedValues[locale.toString()]['column'];
+
+  String get grid =>
+      _localizedValues[locale.toString()]['grid'];
 
 
   String lookup(String key) {

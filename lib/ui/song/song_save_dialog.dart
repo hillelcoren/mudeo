@@ -35,6 +35,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   int selectedStackIndex = kStackIndexForm;
   int selectedGenreId = 0;
   String songUrl;
+  String layout = kVideoLayoutRow;
 
   @override
   void didChangeDependencies() {
@@ -56,6 +57,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     _titleController.text = song.title;
     _descriptionController.text = song.description;
     selectedGenreId = song.genreId;
+    layout = song.layout;
 
     _controllers
         .forEach((dynamic controller) => controller.addListener(_onChanged));
@@ -73,11 +75,17 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     super.dispose();
   }
 
+  void _setLayout(String value) {
+    setState(() => layout = value);
+    _onChanged();
+  }
+
   void _onChanged() {
     final song = widget.viewModel.song.rebuild((b) => b
       ..title = _titleController.text.trim()
       ..description = _descriptionController.text.trim()
-      ..genreId = selectedGenreId);
+      ..genreId = selectedGenreId
+      ..layout = layout);
 
     if (song != widget.viewModel.song) {
       widget.viewModel.onChangedSong(song);
@@ -145,6 +153,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                         (prefs) => prefs.setInt(kSharedPrefGenreId, value));
                     viewModel.onChangedSong(song.rebuild((b) => b
                       ..genreId = value
+                      ..layout = layout
                       ..title = _titleController.text.trim()
                       ..description = _descriptionController.text.trim()));
                     setState(() {
@@ -160,6 +169,39 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             child: Text(localization.lookup(kGenres[id])),
                           ))
                       .toList()),
+            ),
+            Row(
+              children: <Widget>[
+                Radio(
+                  onChanged: _setLayout,
+                  value: kVideoLayoutRow,
+                  groupValue: layout,
+                  activeColor: Colors.lightBlueAccent,
+                ),
+                GestureDetector(
+                    onTap: () => _setLayout(kVideoLayoutRow),
+                    child: Text(localization.row)),
+                SizedBox(width: 15),
+                Radio(
+                  onChanged: _setLayout,
+                  value: kVideoLayoutColumn,
+                  groupValue: layout,
+                  activeColor: Colors.lightBlueAccent,
+                ),
+                GestureDetector(
+                    onTap: () => _setLayout(kVideoLayoutRow),
+                    child: Text(localization.column)),
+                SizedBox(width: 15),
+                Radio(
+                  onChanged: _setLayout,
+                  value: kVideoLayoutGrid,
+                  groupValue: layout,
+                  activeColor: Colors.lightBlueAccent,
+                ),
+                GestureDetector(
+                    onTap: () => _setLayout(kVideoLayoutGrid),d
+                    child: Text(localization.grid)),
+              ],
             ),
             TextFormField(
               autocorrect: false,
