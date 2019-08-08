@@ -569,24 +569,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     return Material(
       type: MaterialType.transparency,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Chewie(
-              controller: chewieController,
-            ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () => Navigator.of(context).pop(),
-            ),
-          ),
-        ],
+      child: FittedBox(
+        fit: BoxFit.contain,
+        child: Chewie(
+          controller: chewieController,
+        ),
       ),
     );
   }
