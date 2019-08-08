@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
+import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -127,119 +128,128 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final song = viewModel.song;
 
     Widget _form() {
-      return Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              autocorrect: false,
-              controller: _titleController,
-              autofocus: true,
-              decoration: InputDecoration(
-                labelText: localization.title,
-              ),
-              validator: (value) =>
-                  value.isEmpty ? localization.fieldIsRequired : null,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: DropdownButton<int>(
-                  key: ValueKey(song.genreId),
-                  isExpanded: true,
-                  hint: Text(localization.genre),
-                  onChanged: (value) {
-                    SharedPreferences.getInstance().then(
-                        (prefs) => prefs.setInt(kSharedPrefGenreId, value));
-                    viewModel.onChangedSong(song.rebuild((b) => b
-                      ..genreId = value
-                      ..layout = layout
-                      ..title = _titleController.text.trim()
-                      ..description = _descriptionController.text.trim()));
-                    setState(() {
-                      selectedGenreId = value;
-                    });
-                  },
-                  value: selectedGenreId > 0
-                      ? selectedGenreId
-                      : song.genreId > 0 ? song.genreId : null,
-                  items: kGenres.keys
-                      .map((id) => DropdownMenuItem(
-                            value: id,
-                            child: Text(localization.lookup(kGenres[id])),
-                          ))
-                      .toList()),
-            ),
-            Row(
-              children: <Widget>[
-                Radio(
-                  onChanged: _setLayout,
-                  value: kVideoLayoutRow,
-                  groupValue: layout,
-                  activeColor: Colors.lightBlueAccent,
+      return SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                autocorrect: false,
+                controller: _titleController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: localization.title,
                 ),
-                GestureDetector(
-                    onTap: () => _setLayout(kVideoLayoutRow),
-                    child: Text(localization.row)),
-                SizedBox(width: 15),
-                Radio(
-                  onChanged: _setLayout,
-                  value: kVideoLayoutColumn,
-                  groupValue: layout,
-                  activeColor: Colors.lightBlueAccent,
-                ),
-                GestureDetector(
-                    onTap: () => _setLayout(kVideoLayoutRow),
-                    child: Text(localization.column)),
-                SizedBox(width: 15),
-                Radio(
-                  onChanged: _setLayout,
-                  value: kVideoLayoutGrid,
-                  groupValue: layout,
-                  activeColor: Colors.lightBlueAccent,
-                ),
-                GestureDetector(
-                    onTap: () => _setLayout(kVideoLayoutGrid),d
-                    child: Text(localization.grid)),
-              ],
-            ),
-            TextFormField(
-              autocorrect: false,
-              controller: _descriptionController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                labelText: localization.description,
+                validator: (value) =>
+                    value.isEmpty ? localization.fieldIsRequired : null,
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.public,
-                    color: Colors.white70,
-                    size: 20,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    localization.public,
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  Spacer(),
-                  FlatButton(
-                    child: Text(localization.close),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                  ProgressButton(
-                    padding: EdgeInsets.all(0),
-                    isLoading: viewModel.state.isSaving,
-                    onPressed: () => _onSubmit(),
-                    label: song.isNew ? localization.upload : localization.save,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: DropdownButton<int>(
+                    key: ValueKey(song.genreId),
+                    isExpanded: true,
+                    hint: Text(localization.genre),
+                    onChanged: (value) {
+                      SharedPreferences.getInstance().then(
+                          (prefs) => prefs.setInt(kSharedPrefGenreId, value));
+                      viewModel.onChangedSong(song.rebuild((b) => b
+                        ..genreId = value
+                        ..layout = layout
+                        ..title = _titleController.text.trim()
+                        ..description = _descriptionController.text.trim()));
+                      setState(() {
+                        selectedGenreId = value;
+                      });
+                    },
+                    value: selectedGenreId > 0
+                        ? selectedGenreId
+                        : song.genreId > 0 ? song.genreId : null,
+                    items: kGenres.keys
+                        .map((id) => DropdownMenuItem(
+                              value: id,
+                              child: Text(localization.lookup(kGenres[id])),
+                            ))
+                        .toList()),
               ),
-            )
-          ],
+              TextFormField(
+                autocorrect: false,
+                controller: _descriptionController,
+                maxLines: 2,
+                decoration: InputDecoration(
+                  labelText: localization.description,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: 20,
+                  bottom: 6,
+                ),
+                child: Text(
+                  localization.layout,
+                  style: TextStyle(color: Colors.grey, fontSize: 15),
+                ),
+              ),
+              if (song.tracks.length > 1)
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: RaisedButton(
+                        child: Text(localization.row),
+                        onPressed: layout == kVideoLayoutRow
+                            ? null
+                            : () => _setLayout(kVideoLayoutRow),
+                      ),
+                    ),
+                    Expanded(
+                      child: RaisedButton(
+                        child: Text(localization.column),
+                        onPressed: layout == kVideoLayoutColumn
+                            ? null
+                            : () => _setLayout(kVideoLayoutColumn),
+                      ),
+                    ),
+                    Expanded(
+                      child: RaisedButton(
+                        child: Text(localization.grid),
+                        onPressed: layout == kVideoLayoutGrid
+                            ? null
+                            : () => _setLayout(kVideoLayoutGrid),
+                      ),
+                    ),
+                  ],
+                ),
+              Padding(
+                padding: EdgeInsets.only(top: 26),
+                child: Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.public,
+                      color: Colors.white70,
+                      size: 20,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      localization.public,
+                      style: TextStyle(color: Colors.white70),
+                    ),
+                    Spacer(),
+                    FlatButton(
+                      child: Text(localization.close),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    ProgressButton(
+                      padding: EdgeInsets.all(0),
+                      isLoading: viewModel.state.isSaving,
+                      onPressed: () => _onSubmit(),
+                      label:
+                          song.isNew ? localization.upload : localization.save,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       );
     }
