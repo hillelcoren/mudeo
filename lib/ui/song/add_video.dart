@@ -204,7 +204,15 @@ class MudeoVideoListItem extends StatelessWidget {
                         child: Card(
                           margin: EdgeInsets.all(4),
                           elevation: kDefaultElevation,
-                          child: CachedNetworkImage(
+                          child: track.video.isRemoteVideo ? Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Text(
+                                localization.backingTrack,
+                                style: TextStyle(color: Colors.grey, fontSize: 20),
+                              ),
+                            ),
+                          ) : CachedNetworkImage(
                             imageUrl: track.video.thumbnailUrl,
                           ),
                         ),
