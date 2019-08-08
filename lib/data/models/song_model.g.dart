@@ -81,6 +81,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       serializers.serialize(object.comments,
           specifiedType:
               const FullType(BuiltList, const [const FullType(CommentEntity)])),
+      'layout',
+      serializers.serialize(object.layout,
+          specifiedType: const FullType(String)),
     ];
     if (object.artistId != null) {
       result
@@ -214,6 +217,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(CommentEntity)]))
               as BuiltList);
+          break;
+        case 'layout':
+          result.layout = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -1047,6 +1054,8 @@ class _$SongEntity extends SongEntity {
   @override
   final BuiltList<CommentEntity> comments;
   @override
+  final String layout;
+  @override
   final int id;
   @override
   final String deletedAt;
@@ -1072,6 +1081,7 @@ class _$SongEntity extends SongEntity {
       this.videoUrl,
       this.tracks,
       this.comments,
+      this.layout,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -1103,6 +1113,9 @@ class _$SongEntity extends SongEntity {
     if (comments == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'comments');
     }
+    if (layout == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'layout');
+    }
   }
 
   @override
@@ -1131,6 +1144,7 @@ class _$SongEntity extends SongEntity {
         videoUrl == other.videoUrl &&
         tracks == other.tracks &&
         comments == other.comments &&
+        layout == other.layout &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -1156,26 +1170,23 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            0,
-                                                                            title
-                                                                                .hashCode),
-                                                                        description
-                                                                            .hashCode),
-                                                                    url
-                                                                        .hashCode),
-                                                                artistId
-                                                                    .hashCode),
-                                                            artist.hashCode),
-                                                        genreId.hashCode),
-                                                    parentId.hashCode),
-                                                duration.hashCode),
-                                            countPlay.hashCode),
-                                        countLike.hashCode),
-                                    isFlagged.hashCode),
-                                isPublic.hashCode),
-                            videoUrl.hashCode),
-                        tracks.hashCode),
-                    comments.hashCode),
+                                                                            $jc(0,
+                                                                                title.hashCode),
+                                                                            description.hashCode),
+                                                                        url.hashCode),
+                                                                    artistId.hashCode),
+                                                                artist.hashCode),
+                                                            genreId.hashCode),
+                                                        parentId.hashCode),
+                                                    duration.hashCode),
+                                                countPlay.hashCode),
+                                            countLike.hashCode),
+                                        isFlagged.hashCode),
+                                    isPublic.hashCode),
+                                videoUrl.hashCode),
+                            tracks.hashCode),
+                        comments.hashCode),
+                    layout.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -1199,6 +1210,7 @@ class _$SongEntity extends SongEntity {
           ..add('videoUrl', videoUrl)
           ..add('tracks', tracks)
           ..add('comments', comments)
+          ..add('layout', layout)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -1273,6 +1285,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   set comments(ListBuilder<CommentEntity> comments) =>
       _$this._comments = comments;
 
+  String _layout;
+  String get layout => _$this._layout;
+  set layout(String layout) => _$this._layout = layout;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -1304,6 +1320,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _videoUrl = _$v.videoUrl;
       _tracks = _$v.tracks?.toBuilder();
       _comments = _$v.comments?.toBuilder();
+      _layout = _$v.layout;
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -1346,6 +1363,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               videoUrl: videoUrl,
               tracks: tracks.build(),
               comments: comments.build(),
+              layout: layout,
               id: id,
               deletedAt: deletedAt,
               updatedAt: updatedAt);

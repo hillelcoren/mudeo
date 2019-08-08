@@ -308,7 +308,7 @@ class SongFooter extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.videocam),
-            tooltip: localization.edit,
+            tooltip: localization.forkSong,
             onPressed: () {
               final uiSong = state.uiState.song;
               SongEntity newSong = song;

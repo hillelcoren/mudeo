@@ -54,6 +54,9 @@ class SongScaffold extends StatelessWidget {
             if (song.canAddTrack) {
               actions.add(localization.addVideo);
             }
+            if (authArtist.ownsSong(song)) {
+              actions.add(localization.forkSong);
+            }
             if (song.isOld || song.parentId > 0) {
               actions.add(localization.resetSong);
             }
@@ -105,6 +108,8 @@ class SongScaffold extends StatelessWidget {
                                 viewModel.onResetSongPressed(context);
                               } else if (action == localization.deleteSong) {
                                 viewModel.onDeleteSongPressed(song);
+                              } else if (action == localization.forkSong) {
+                                viewModel.onForkSongPressed(song);
                               }
                             })
                       ],

@@ -30,6 +30,10 @@ const String kArtistImageProfile = 'profile_image';
 const String kVideoRelationshipParent = 'parent';
 const String kVideoRelationshipChild = 'child';
 
+const String kVideoLayoutRow = 'row';
+const String kVideoLayoutColumn = 'column';
+const String kVideoLayoutGrid = 'grid';
+
 const double kDefaultElevation = 6;
 const int kDefaultTrackVolume = 100;
 const int kUpdatedAtBufferSeconds = 600;

@@ -17,6 +17,7 @@ abstract class SongEntity extends Object
   factory SongEntity({int id, int genreId}) {
     return _$SongEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+      layout: kVideoLayoutRow,
       artistId: 0,
       parentId: 0,
       title: '',
@@ -81,6 +82,8 @@ abstract class SongEntity extends Object
   BuiltList<TrackEntity> get tracks;
 
   BuiltList<CommentEntity> get comments;
+
+  String get layout;
 
   @override
   String get listDisplayName {
