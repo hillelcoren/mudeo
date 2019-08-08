@@ -642,8 +642,24 @@ class TrackView extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 6),
           child: videoPlayer == null
               ? SizedBox(width: 139)
-              : AspectRatio(
-                  aspectRatio: aspectRatio, child: VideoPlayer(videoPlayer))),
+              : track.video.isRemoteVideo
+                  ? Stack(
+                      children: <Widget>[
+                        AspectRatio(
+                            aspectRatio: aspectRatio,
+                            child: VideoPlayer(videoPlayer)),
+                        Container(
+                          width: videoPlayer.value.size.width,
+                          color: Colors.black,
+                          child: Center(
+                            child: Text(AppLocalization.of(context).backingTrack),
+                          ),
+                        )
+                      ],
+                    )
+                  : AspectRatio(
+                      aspectRatio: aspectRatio,
+                      child: VideoPlayer(videoPlayer))),
     );
   }
 }

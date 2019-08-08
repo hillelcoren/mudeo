@@ -127,13 +127,19 @@ class _SongItemState extends State<SongItem> {
       duration: Duration(milliseconds: _showComments ? 300 : 500),
       height: _showComments ? 560 : 380,
       child: Stack(children: <Widget>[
-        if (lastTrack != null && lastTrack.video.hasThumbnail)
-          CachedNetworkImage(
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            imageUrl: lastTrack != null ? lastTrack.video.thumbnailUrl : null,
-          ),
+        lastTrack.video.isRemoteVideo
+            ? Center(
+                child: Text(localization.backingTrack),
+              )
+            : (lastTrack != null && lastTrack.video.hasThumbnail)
+                ? CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                    width: double.infinity,
+                    imageUrl:
+                        lastTrack != null ? lastTrack.video.thumbnailUrl : null,
+                  )
+                : SizedBox(),
         Material(
           color: Colors.transparent,
           child: Column(

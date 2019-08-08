@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'backing_track': 'Backing Track',
       'layout': 'Layout',
       'row': 'Row',
       'column': 'Column',
@@ -486,6 +487,10 @@ class AppLocalization {
 
   String get layout =>
       _localizedValues[locale.toString()]['layout'];
+
+  String get backingTrack =>
+      _localizedValues[locale.toString()]['backing_track'];
+
 
 
   String lookup(String key) {
