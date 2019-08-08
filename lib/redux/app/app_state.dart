@@ -34,6 +34,11 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   @override
   String toString() {
+    String str = '';
+    uiState.song.tracks.forEach((track) {
+      str += '${track.id} - ';
+    });
+    return str;
     return 'Duration: ${uiState.song?.duration}';
   }
 }

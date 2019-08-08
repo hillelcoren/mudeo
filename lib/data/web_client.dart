@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
@@ -47,7 +48,7 @@ class WebClient {
 
   Future<dynamic> get(String url, String token) async {
     url = _checkUrl(url);
-    print('GET: $url TOKEN: $token');
+    debugPrint('GET: $url TOKEN: $token');
 
     url += '&per_page=$kMaxRecordsPerApiPage';
 
@@ -59,16 +60,16 @@ class WebClient {
       },
     );
 
-    print('Response: ${response.body}');
+    debugPrint('Response: ${response.body}');
 
     if (response.statusCode >= 400) {
-      print('==== FAILED ====');
+      debugPrint('==== FAILED ====');
       throw _parseError(response.statusCode, response.body);
     }
 
     final dynamic jsonResponse = json.decode(response.body);
 
-    //print(jsonResponse);
+    //debugPrint(jsonResponse);
 
     return jsonResponse;
   }
@@ -76,8 +77,8 @@ class WebClient {
   Future<dynamic> post(String url, String token,
       {dynamic data, String filePath, String fileField = 'video'}) async {
     url = _checkUrl(url);
-    print('POST: $url');
-    print('Request: $data');
+    debugPrint('POST: $url');
+    debugPrint('Request: $data');
     http.Response response;
 
     Map<String, String> headers = {
@@ -111,10 +112,10 @@ class WebClient {
           );
     }
 
-    print('Response: ${response.body}');
+    debugPrint('Response: ${response.body}');
 
     if (response.statusCode >= 300) {
-      print('==== FAILED ====');
+      debugPrint('==== FAILED ====');
       throw _parseError(response.statusCode, response.body);
     }
 
@@ -122,15 +123,15 @@ class WebClient {
       final dynamic jsonResponse = json.decode(response.body);
       return jsonResponse;
     } catch (exception) {
-      print(response.body);
+      debugPrint(response.body);
       throw 'An error occurred';
     }
   }
 
   Future<dynamic> put(String url, String token, dynamic data) async {
     url = _checkUrl(url);
-    print('PUT: $url');
-    print('Request: $data');
+    debugPrint('PUT: $url');
+    debugPrint('Request: $data');
 
     final http.Response response = await http.Client().put(
       url,
@@ -143,10 +144,10 @@ class WebClient {
       },
     );
 
-    print('Response: ${response.body}');
+    debugPrint('Response: ${response.body}');
 
     if (response.statusCode >= 300) {
-      print('==== FAILED ====');
+      debugPrint('==== FAILED ====');
       throw _parseError(response.statusCode, response.body);
     }
 
@@ -154,14 +155,14 @@ class WebClient {
       final dynamic jsonResponse = json.decode(response.body);
       return jsonResponse;
     } catch (exception) {
-      print(response.body);
+      debugPrint(response.body);
       throw 'An error occurred';
     }
   }
 
   Future<dynamic> delete(String url, String token) async {
     url = _checkUrl(url);
-    print('DELETE: $url');
+    debugPrint('DELETE: $url');
 
     final http.Response response = await http.Client().delete(
       url,
@@ -173,10 +174,10 @@ class WebClient {
       },
     );
 
-    print('Response: ${response.body}');
+    debugPrint('Response: ${response.body}');
 
     if (response.statusCode >= 300) {
-      print('==== FAILED ====');
+      debugPrint('==== FAILED ====');
       throw _parseError(response.statusCode, response.body);
     }
 
@@ -184,7 +185,7 @@ class WebClient {
       final dynamic jsonResponse = json.decode(response.body);
       return jsonResponse;
     } catch (exception) {
-      print(response.body);
+      debugPrint(response.body);
       throw 'An error occurred';
     }
   }
