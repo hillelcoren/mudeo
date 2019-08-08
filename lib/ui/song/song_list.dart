@@ -129,7 +129,10 @@ class _SongItemState extends State<SongItem> {
       child: Stack(children: <Widget>[
         lastTrack.video.isRemoteVideo
             ? Center(
-                child: Text(localization.backingTrack),
+                child: Text(
+                  localization.backingTrack,
+                  style: TextStyle(color: Colors.grey, fontSize: 20),
+                ),
               )
             : (lastTrack != null && lastTrack.video.hasThumbnail)
                 ? CachedNetworkImage(

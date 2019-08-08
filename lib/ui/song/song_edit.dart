@@ -652,7 +652,10 @@ class TrackView extends StatelessWidget {
                           width: videoPlayer.value.size.width,
                           color: Colors.black,
                           child: Center(
-                            child: Text(AppLocalization.of(context).backingTrack),
+                            child: Text(
+                                AppLocalization.of(context).backingTrack,
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 20)),
                           ),
                         )
                       ],
