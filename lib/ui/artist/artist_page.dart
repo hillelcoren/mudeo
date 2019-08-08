@@ -87,7 +87,7 @@ class ArtistPage extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     child: IconText(
                       icon: FontAwesomeIcons.solidEnvelope,
-                      text: localization.email,
+                      text: localization.contactUs,
                       textStyle: TextStyle(fontSize: 18),
                     ),
                   ),
@@ -133,7 +133,7 @@ class ArtistPage extends StatelessWidget {
                                           ),
                                           */
                       applicationVersion:
-                          '${localization.version} ${kAppVersion.split('+')[0]}',
+                          '${localization.version} ${kAppVersion.split('+')[0]}\n\n${localization.pronounced}: moo-day-oh  😊',
                       applicationLegalese: '© 2019 mudeo',
                       /*
                       children: <Widget>[

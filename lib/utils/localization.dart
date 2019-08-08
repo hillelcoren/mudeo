@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'pronounced': 'Pronounced',
+      'contact_us': 'Contact Us',
       'backing_track': 'Backing Track',
       'layout': 'Layout',
       'row': 'Row',
@@ -490,6 +492,13 @@ class AppLocalization {
 
   String get backingTrack =>
       _localizedValues[locale.toString()]['backing_track'];
+
+  String get contactUs =>
+      _localizedValues[locale.toString()]['contact_us'];
+
+  String get pronounced =>
+      _localizedValues[locale.toString()]['pronounced'];
+
 
 
 
