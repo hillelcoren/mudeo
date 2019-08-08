@@ -180,47 +180,56 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   labelText: localization.description,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 20,
-                  bottom: 6,
+              if (song.tracks.length > 1)
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 22,
+                    bottom: 8,
+                  ),
+                  child: Text(
+                    localization.layout,
+                    style: TextStyle(color: Colors.grey, fontSize: 15),
+                  ),
                 ),
-                child: Text(
-                  localization.layout,
-                  style: TextStyle(color: Colors.grey, fontSize: 15),
-                ),
-              ),
               if (song.tracks.length > 1)
                 Row(
                   children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        child: Text(localization.row),
-                        onPressed: layout == kVideoLayoutRow
-                            ? null
-                            : () => _setLayout(kVideoLayoutRow),
-                      ),
+                    Radio(
+                      value: kVideoLayoutRow,
+                      groupValue: layout,
+                      activeColor: Colors.lightBlueAccent,
+                      onChanged: _setLayout,
                     ),
-                    Expanded(
-                      child: RaisedButton(
-                        child: Text(localization.column),
-                        onPressed: layout == kVideoLayoutColumn
-                            ? null
-                            : () => _setLayout(kVideoLayoutColumn),
-                      ),
+                    GestureDetector(
+                      child: Text(localization.row),
+                      onTap: () => _setLayout(kVideoLayoutRow),
                     ),
-                    Expanded(
-                      child: RaisedButton(
-                        child: Text(localization.grid),
-                        onPressed: layout == kVideoLayoutGrid
-                            ? null
-                            : () => _setLayout(kVideoLayoutGrid),
-                      ),
+                    SizedBox(width: 10),
+                    Radio(
+                      value: kVideoLayoutColumn,
+                      groupValue: layout,
+                      activeColor: Colors.lightBlueAccent,
+                      onChanged: _setLayout,
+                    ),
+                    GestureDetector(
+                      child: Text(localization.column),
+                      onTap: () => _setLayout(kVideoLayoutColumn),
+                    ),
+                    SizedBox(width: 10),
+                    Radio(
+                      value: kVideoLayoutGrid,
+                      groupValue: layout,
+                      activeColor: Colors.lightBlueAccent,
+                      onChanged: _setLayout,
+                    ),
+                    GestureDetector(
+                      child: Text(localization.grid),
+                      onTap: () => _setLayout(kVideoLayoutGrid),
                     ),
                   ],
                 ),
               Padding(
-                padding: EdgeInsets.only(top: 26),
+                padding: EdgeInsets.only(top: 20),
                 child: Row(
                   children: <Widget>[
                     Icon(
