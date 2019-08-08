@@ -54,7 +54,7 @@ class SongScaffold extends StatelessWidget {
             if (song.canAddTrack) {
               actions.add(localization.addVideo);
             }
-            if (authArtist.ownsSong(song)) {
+            if (song.isOld && authArtist.ownsSong(song)) {
               actions.add(localization.forkSong);
             }
             if (song.isOld || song.parentId > 0) {

@@ -107,7 +107,7 @@ class MudeoVideoSelector extends StatelessWidget {
         child: Text(
           localization.noVideos,
           style: TextStyle(
-              fontSize: 18, color: Colors.grey, fontWeight: FontWeight.w300),
+              fontSize: 20, color: Colors.grey),
         ),
       );
     }
@@ -182,7 +182,15 @@ class MudeoVideoListItem extends StatelessWidget {
                         child: Card(
                           margin: EdgeInsets.all(4),
                           elevation: kDefaultElevation,
-                          child: CachedNetworkImage(
+                          child: track.video.isRemoteVideo ? Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Text(
+                                localization.backingTrack,
+                                style: TextStyle(color: Colors.grey, fontSize: 20),
+                              ),
+                            ),
+                          ) : CachedNetworkImage(
                             imageUrl: track.video.thumbnailUrl,
                           ),
                         ),
@@ -270,7 +278,7 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
     final store = StoreProvider.of<AppState>(context);
 
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 22),
       child: Column(
         children: <Widget>[
           Form(
@@ -296,7 +304,7 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
               },
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -315,7 +323,7 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
           Text(
             localization.youtubeWarning,
             style: TextStyle(fontSize: 16),

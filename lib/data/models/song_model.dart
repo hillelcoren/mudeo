@@ -119,7 +119,8 @@ abstract class SongEntity extends Object
     return rebuild((b) => b..tracks[index] = updatedTrack);
   }
 
-  List<String> get videoURLs => tracks.map((track) => track.video.url).toList();
+  List<String> get videoURLs =>
+      tracks.map((track) => track.video.url).toList()..add(videoUrl);
 
   bool get canAddTrack => tracks.length < kMaxTracks;
 

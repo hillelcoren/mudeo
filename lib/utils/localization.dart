@@ -26,7 +26,7 @@ class AppLocalization {
       'column': 'Column',
       'grid': 'Grid',
       'fork_song': 'Fork Song',
-      'youtube_warning': 'Note: The YouTube video can be used as a backing track but will not be included in the rendered mudeo video.',
+      'youtube_warning': 'Note: The YouTube video can be used as a backing track but will not be included in the rendered video.',
       'add_all': 'Add All',
       'parent': 'Parent',
       'child': 'Child',
