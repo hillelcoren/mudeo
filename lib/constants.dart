@@ -28,6 +28,7 @@ const String kArtistImageHeader = 'header_image';
 const String kArtistImageProfile = 'profile_image';
 
 const String kVideoRelationshipParent = 'parent';
+const String kVideoRelationshipSelf = 'self';
 const String kVideoRelationshipChild = 'child';
 
 const String kVideoLayoutRow = 'row';

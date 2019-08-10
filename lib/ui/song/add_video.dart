@@ -80,7 +80,6 @@ class MudeoVideoSelector extends StatelessWidget {
     final songMap = dataState.songMap;
     final parentSong = song.hasParent ? songMap[song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
-    final usedVideoURLs = song.videoURLs;
 
     if (parentSong != null || childSongIds.isNotEmpty) {
       return ListView(
@@ -88,14 +87,18 @@ class MudeoVideoSelector extends StatelessWidget {
           if (parentSong != null)
             MudeoVideoListItem(
               song: parentSong,
-              usedVideoURLs: usedVideoURLs,
               relationship: kVideoRelationshipParent,
               onTrackSelected: onTrackSelected,
               onSongSelected: onSongSelected,
             ),
+          MudeoVideoListItem(
+            song: song,
+            relationship: kVideoRelationshipSelf,
+            onTrackSelected: onTrackSelected,
+            onSongSelected: onSongSelected,
+          ),
           ...childSongIds.map((songId) => MudeoVideoListItem(
                 song: songMap[songId],
-                usedVideoURLs: usedVideoURLs,
                 relationship: kVideoRelationshipChild,
                 onTrackSelected: onTrackSelected,
                 onSongSelected: onSongSelected,
@@ -117,14 +120,12 @@ class MudeoVideoSelector extends StatelessWidget {
 class MudeoVideoListItem extends StatelessWidget {
   MudeoVideoListItem({
     @required this.song,
-    @required this.usedVideoURLs,
     @required this.relationship,
     @required this.onTrackSelected,
     @required this.onSongSelected,
   });
 
   final SongEntity song;
-  final List<String> usedVideoURLs;
   final String relationship;
   final Function(TrackEntity) onTrackSelected;
   final Function(SongEntity) onSongSelected;
@@ -158,8 +159,7 @@ class MudeoVideoListItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (song.tracks.length > 1 &&
-                      !usedVideoURLs.contains(song.videoUrl))
+                  if (song.tracks.length > 1)
                     IconButton(
                       padding: EdgeInsets.only(left: 8),
                       icon: Icon(Icons.add_circle_outline),
@@ -176,48 +176,27 @@ class MudeoVideoListItem extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: song.tracks.map((track) {
-                    if (usedVideoURLs.contains(track.video.url)) {
-                      return Opacity(
-                        opacity: .2,
-                        child: Card(
-                          margin: EdgeInsets.all(4),
-                          elevation: kDefaultElevation,
-                          child: track.video.isRemoteVideo ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Text(
-                                localization.backingTrack,
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
-                              ),
+                    return InkWell(
+                      onTap: () {
+                        onTrackSelected(track);
+                        Navigator.pop(context);
+                      },
+                      child: Card(
+                        margin: EdgeInsets.all(4),
+                        elevation: kDefaultElevation,
+                        child: track.video.isRemoteVideo ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Text(
+                              localization.backingTrack,
+                              style: TextStyle(color: Colors.grey, fontSize: 20),
                             ),
-                          ) : CachedNetworkImage(
-                            imageUrl: track.video.thumbnailUrl,
                           ),
+                        ) : CachedNetworkImage(
+                          imageUrl: track.video.thumbnailUrl,
                         ),
-                      );
-                    } else {
-                      return InkWell(
-                        onTap: () {
-                          onTrackSelected(track);
-                          Navigator.pop(context);
-                        },
-                        child: Card(
-                          margin: EdgeInsets.all(4),
-                          elevation: kDefaultElevation,
-                          child: track.video.isRemoteVideo ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Text(
-                                localization.backingTrack,
-                                style: TextStyle(color: Colors.grey, fontSize: 20),
-                              ),
-                            ),
-                          ) : CachedNetworkImage(
-                            imageUrl: track.video.thumbnailUrl,
-                          ),
-                        ),
-                      );
-                    }
+                      ),
+                    );
                   }).toList(),
                 ),
               ),
