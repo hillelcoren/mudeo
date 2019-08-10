@@ -571,7 +571,9 @@ class _SongEditState extends State<SongEdit> {
               : Flexible(
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: song.tracks.map((track) {
+                    children: song.tracks
+                        .where((track) => track.isIncluded)
+                        .map((track) {
                       final videoPlayer = videoPlayers[track.video.id];
                       return TrackView(
                           isFirst: song.tracks.indexOf(track) == 0,
