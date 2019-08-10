@@ -255,6 +255,12 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       serializers.serialize(object.video,
           specifiedType: const FullType(VideoEntity)),
     ];
+    if (object.isIncluded != null) {
+      result
+        ..add('is_included')
+        ..add(serializers.serialize(object.isIncluded,
+            specifiedType: const FullType(bool)));
+    }
     if (object.delay != null) {
       result
         ..add('delay')
@@ -306,6 +312,10 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'is_included':
+          result.isIncluded = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
         case 'delay':
           result.delay = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
@@ -1390,6 +1400,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
 class _$TrackEntity extends TrackEntity {
   @override
+  final bool isIncluded;
+  @override
   final int delay;
   @override
   final int volume;
@@ -1408,7 +1420,8 @@ class _$TrackEntity extends TrackEntity {
       (new TrackEntityBuilder()..update(updates)).build();
 
   _$TrackEntity._(
-      {this.delay,
+      {this.isIncluded,
+      this.delay,
       this.volume,
       this.orderId,
       this.video,
@@ -1432,6 +1445,7 @@ class _$TrackEntity extends TrackEntity {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is TrackEntity &&
+        isIncluded == other.isIncluded &&
         delay == other.delay &&
         volume == other.volume &&
         orderId == other.orderId &&
@@ -1447,7 +1461,9 @@ class _$TrackEntity extends TrackEntity {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, delay.hashCode), volume.hashCode),
+                    $jc(
+                        $jc($jc($jc(0, isIncluded.hashCode), delay.hashCode),
+                            volume.hashCode),
                         orderId.hashCode),
                     video.hashCode),
                 deletedAt.hashCode),
@@ -1458,6 +1474,7 @@ class _$TrackEntity extends TrackEntity {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('TrackEntity')
+          ..add('isIncluded', isIncluded)
           ..add('delay', delay)
           ..add('volume', volume)
           ..add('orderId', orderId)
@@ -1471,6 +1488,10 @@ class _$TrackEntity extends TrackEntity {
 
 class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   _$TrackEntity _$v;
+
+  bool _isIncluded;
+  bool get isIncluded => _$this._isIncluded;
+  set isIncluded(bool isIncluded) => _$this._isIncluded = isIncluded;
 
   int _delay;
   int get delay => _$this._delay;
@@ -1504,6 +1525,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
   TrackEntityBuilder get _$this {
     if (_$v != null) {
+      _isIncluded = _$v.isIncluded;
       _delay = _$v.delay;
       _volume = _$v.volume;
       _orderId = _$v.orderId;
@@ -1535,6 +1557,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
     try {
       _$result = _$v ??
           new _$TrackEntity._(
+              isIncluded: isIncluded,
               delay: delay,
               volume: volume,
               orderId: orderId,

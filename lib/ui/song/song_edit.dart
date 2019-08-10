@@ -779,32 +779,38 @@ class TrackEditDialog extends StatelessWidget {
                             : SizedBox(),
                         ElevatedButton(
                           width: 110,
-                          label: localization.remove,
+                          label: track.video.isOld
+                              ? localization.remove
+                              : localization.delete,
                           color: Colors.redAccent,
                           onPressed: () {
-                            showDialog<AlertDialog>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                semanticLabel: localization.areYouSure,
-                                title: Text(localization.areYouSure),
-                                content: Text(localization.removeVideo),
-                                actions: <Widget>[
-                                  new FlatButton(
-                                      child: Text(
-                                          localization.cancel.toUpperCase()),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
-                                  new FlatButton(
-                                      child:
-                                          Text(localization.ok.toUpperCase()),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        onDeletePressed();
-                                      })
-                                ],
-                              ),
-                            );
+                            if (track.video.isOld) {
+                              onDeletePressed();
+                            } else {
+                              showDialog<AlertDialog>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  semanticLabel: localization.areYouSure,
+                                  title: Text(localization.areYouSure),
+                                  content: Text(localization.removeVideo),
+                                  actions: <Widget>[
+                                    new FlatButton(
+                                        child: Text(
+                                            localization.cancel.toUpperCase()),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        }),
+                                    new FlatButton(
+                                        child:
+                                            Text(localization.ok.toUpperCase()),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          onDeletePressed();
+                                        })
+                                  ],
+                                ),
+                              );
+                            }
                           },
                         ),
                       ],

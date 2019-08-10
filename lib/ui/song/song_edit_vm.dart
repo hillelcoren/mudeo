@@ -127,7 +127,12 @@ class SongEditVM {
         },
         onDeleteVideoPressed: (song, track) async {
           final int index = song.tracks.indexOf(track);
-          song = song.rebuild((b) => b..tracks.removeAt(index));
+          if (track.video.isNew) {
+            song = song.rebuild((b) => b..tracks.removeAt(index));
+          } else {
+            song = song.rebuild((b) =>
+                b..tracks[index] = track.rebuild((b) => b..isIncluded = false));
+          }
           if (!song.hasParent && song.tracks.isEmpty) {
             song = song.rebuild((b) => b..duration = 0);
           }
@@ -175,10 +180,12 @@ class SongEditVM {
             refreshUI: true,
           ));
 
-          // store stacked video locally so it can be re-uploaded when saved
+// store stacked video locally so it can be re-uploaded when saved
           final response =
               await http.Client().get(Uri.parse(sourceSong.videoUrl));
+
           String path = await VideoEntity.getPath(track.video.timestamp);
+
           File file = new File(path);
           file.writeAsBytes(response.bodyBytes);
         },

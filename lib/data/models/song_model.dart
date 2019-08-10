@@ -151,6 +151,7 @@ abstract class TrackEntity extends Object
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       volume: kDefaultTrackVolume,
       orderId: orderId ?? 0,
+      isIncluded: true,
       video: video ?? VideoEntity(),
       delay: 0,
     );
@@ -161,6 +162,11 @@ abstract class TrackEntity extends Object
   TrackEntity get clone => rebuild(
         (b) => b..id = DateTime.now().millisecondsSinceEpoch * -1,
       );
+
+
+  @nullable
+  @BuiltValueField(wireName: 'is_included')
+  bool get isIncluded;
 
   @nullable
   int get delay;
