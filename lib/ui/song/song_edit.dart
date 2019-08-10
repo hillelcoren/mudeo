@@ -54,9 +54,11 @@ class SongScaffold extends StatelessWidget {
             if (song.canAddTrack) {
               actions.add(localization.addVideo);
             }
+            /*
             if (song.isOld && authArtist.ownsSong(song)) {
               actions.add(localization.forkSong);
             }
+            */
             if (song.isOld || song.parentId > 0) {
               actions.add(localization.resetSong);
             }
@@ -187,6 +189,7 @@ class SongEdit extends StatefulWidget {
 
 class _SongEditState extends State<SongEdit> {
   Map<int, VideoPlayerController> videoPlayers = {};
+  Map<int, VideoPlayerController> allVideoPlayers = {};
   CameraController camera;
   bool isPlaying = false, isRecording = false;
   bool isPastThreeSeconds = false;
@@ -248,7 +251,7 @@ class _SongEditState extends State<SongEdit> {
         player = VideoPlayerController.asset(null);
       }
       setState(() {
-        videoPlayers[track.video.id] = player;
+        allVideoPlayers[track.id] = videoPlayers[track.id] = player;
       });
     });
 
@@ -257,7 +260,7 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void dispose() {
-    videoPlayers.forEach((int, videoPlayer) => videoPlayer.dispose());
+    allVideoPlayers.forEach((int, videoPlayer) => videoPlayer.dispose());
     camera.dispose();
     super.dispose();
   }
@@ -361,11 +364,12 @@ class _SongEditState extends State<SongEdit> {
     }
 
     final video = VideoEntity().rebuild((b) => b..timestamp = timestamp);
+    final trackId =
+        await widget.viewModel.onVideoAdded(video, endTimestamp - timestamp);
     setState(() {
       isPastThreeSeconds = false;
-      videoPlayers[video.id] = videoPlayer;
+      allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
-    widget.viewModel.onVideoAdded(video, endTimestamp - timestamp);
   }
 
   void play() {
@@ -381,12 +385,12 @@ class _SongEditState extends State<SongEdit> {
       if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
     });
 
-    videoPlayers.forEach((videoId, video) async {
-      final track = tracks.firstWhere((track) => track.video.id == videoId,
-          orElse: () => null);
+    videoPlayers.forEach((trackId, videoPlayer) async {
+      final track =
+          tracks.firstWhere((track) => track.id == trackId, orElse: () => null);
       final delay = (minDelay * -1) + (track?.delay ?? 0);
-      video.seekTo(Duration());
-      Future.delayed(Duration(milliseconds: delay), () => video.play());
+      videoPlayer.seekTo(Duration());
+      Future.delayed(Duration(milliseconds: delay), () => videoPlayer.play());
     });
 
     setState(() => isPlaying = true);
@@ -574,7 +578,7 @@ class _SongEditState extends State<SongEdit> {
                     children: song.tracks
                         .where((track) => track.isIncluded ?? true)
                         .map((track) {
-                      final videoPlayer = videoPlayers[track.video.id];
+                      final videoPlayer = videoPlayers[track.id];
                       return TrackView(
                           isFirst: song.tracks.indexOf(track) == 0,
                           viewModel: viewModel,
@@ -585,7 +589,7 @@ class _SongEditState extends State<SongEdit> {
                           track: track,
                           onDeletePressed: () async {
                             Navigator.of(context).pop();
-                            videoPlayers.remove(track.video.id);
+                            videoPlayers.remove(track.id);
                             viewModel.onDeleteVideoPressed(song, track);
                           },
                           onDelayChanged: (track, delay) {

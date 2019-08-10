@@ -41,7 +41,7 @@ class AppLocalization {
       'add_video': 'Add Video',
       'delete_comment': 'Delete Comment',
       'no_comments': 'No Comments',
-      'no_videos': 'No Videos',
+      'no_saved_videos': 'No Saved Videos',
       'comment': 'Comment',
       'comments': 'Comments',
       'view_original': 'View Original',
@@ -436,8 +436,8 @@ class AppLocalization {
   String get noComments =>
       _localizedValues[locale.toString()]['no_comments'];
 
-  String get noVideos =>
-      _localizedValues[locale.toString()]['no_videos'];
+  String get noSavedVideos =>
+      _localizedValues[locale.toString()]['no_saved_videos'];
 
   String get deleteComment =>
       _localizedValues[locale.toString()]['delete_comment'];

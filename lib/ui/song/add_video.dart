@@ -81,7 +81,7 @@ class MudeoVideoSelector extends StatelessWidget {
     final parentSong = song.hasParent ? songMap[song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
 
-    if (parentSong != null || childSongIds.isNotEmpty) {
+    if (parentSong != null || childSongIds.isNotEmpty || song.isOld) {
       return ListView(
         children: <Widget>[
           if (parentSong != null)
@@ -108,7 +108,7 @@ class MudeoVideoSelector extends StatelessWidget {
     } else {
       return Center(
         child: Text(
-          localization.noVideos,
+          localization.noSavedVideos,
           style: TextStyle(
               fontSize: 20, color: Colors.grey),
         ),
@@ -134,6 +134,7 @@ class MudeoVideoListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final localization = AppLocalization.of(context);
+    final videoIds = [];
 
     return Column(
       children: <Widget>[
@@ -176,6 +177,11 @@ class MudeoVideoListItem extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: song.tracks.map((track) {
+                    if (videoIds.contains(track.video.id)) {
+                      return SizedBox();
+                    }
+                    videoIds.add(track.video.id);
+
                     return InkWell(
                       onTap: () {
                         onTrackSelected(track);

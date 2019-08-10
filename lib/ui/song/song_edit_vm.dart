@@ -114,6 +114,8 @@ class SongEditVM {
             track: track,
             duration: duration,
           ));
+
+          return track.id;
         },
         onChangedSong: (song) {
           store.dispatch(UpdateSong(song));
