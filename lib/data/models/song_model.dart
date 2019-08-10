@@ -122,7 +122,8 @@ abstract class SongEntity extends Object
   List<String> get videoURLs =>
       tracks.map((track) => track.video.url).toList()..add(videoUrl);
 
-  bool get canAddTrack => tracks.length < kMaxTracks;
+  bool get canAddTrack =>
+      tracks.where((track) => track.isIncluded).length < kMaxTracks;
 
   SongEntity get fork => rebuild((b) => b
     ..parentId = id
@@ -162,7 +163,6 @@ abstract class TrackEntity extends Object
   TrackEntity get clone => rebuild(
         (b) => b..id = DateTime.now().millisecondsSinceEpoch * -1,
       );
-
 
   @nullable
   @BuiltValueField(wireName: 'is_included')

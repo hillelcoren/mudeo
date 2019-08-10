@@ -572,7 +572,7 @@ class _SongEditState extends State<SongEdit> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: song.tracks
-                        .where((track) => track.isIncluded)
+                        .where((track) => track.isIncluded ?? true)
                         .map((track) {
                       final videoPlayer = videoPlayers[track.video.id];
                       return TrackView(
