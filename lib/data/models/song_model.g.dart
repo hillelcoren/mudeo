@@ -73,6 +73,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       'video_url',
       serializers.serialize(object.videoUrl,
           specifiedType: const FullType(String)),
+      'thumbnail_url',
+      serializers.serialize(object.thumbnailUrl,
+          specifiedType: const FullType(String)),
       'song_videos',
       serializers.serialize(object.tracks,
           specifiedType:
@@ -204,6 +207,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'video_url':
           result.videoUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'thumbnail_url':
+          result.thumbnailUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'song_videos':
@@ -1060,6 +1067,8 @@ class _$SongEntity extends SongEntity {
   @override
   final String videoUrl;
   @override
+  final String thumbnailUrl;
+  @override
   final BuiltList<TrackEntity> tracks;
   @override
   final BuiltList<CommentEntity> comments;
@@ -1089,6 +1098,7 @@ class _$SongEntity extends SongEntity {
       this.isFlagged,
       this.isPublic,
       this.videoUrl,
+      this.thumbnailUrl,
       this.tracks,
       this.comments,
       this.layout,
@@ -1116,6 +1126,9 @@ class _$SongEntity extends SongEntity {
     }
     if (videoUrl == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'videoUrl');
+    }
+    if (thumbnailUrl == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'thumbnailUrl');
     }
     if (tracks == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'tracks');
@@ -1152,6 +1165,7 @@ class _$SongEntity extends SongEntity {
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
         videoUrl == other.videoUrl &&
+        thumbnailUrl == other.thumbnailUrl &&
         tracks == other.tracks &&
         comments == other.comments &&
         layout == other.layout &&
@@ -1180,20 +1194,20 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(0,
-                                                                                title.hashCode),
-                                                                            description.hashCode),
-                                                                        url.hashCode),
-                                                                    artistId.hashCode),
-                                                                artist.hashCode),
-                                                            genreId.hashCode),
-                                                        parentId.hashCode),
-                                                    duration.hashCode),
-                                                countPlay.hashCode),
-                                            countLike.hashCode),
-                                        isFlagged.hashCode),
-                                    isPublic.hashCode),
-                                videoUrl.hashCode),
+                                                                            $jc($jc(0, title.hashCode),
+                                                                                description.hashCode),
+                                                                            url.hashCode),
+                                                                        artistId.hashCode),
+                                                                    artist.hashCode),
+                                                                genreId.hashCode),
+                                                            parentId.hashCode),
+                                                        duration.hashCode),
+                                                    countPlay.hashCode),
+                                                countLike.hashCode),
+                                            isFlagged.hashCode),
+                                        isPublic.hashCode),
+                                    videoUrl.hashCode),
+                                thumbnailUrl.hashCode),
                             tracks.hashCode),
                         comments.hashCode),
                     layout.hashCode),
@@ -1218,6 +1232,7 @@ class _$SongEntity extends SongEntity {
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
           ..add('videoUrl', videoUrl)
+          ..add('thumbnailUrl', thumbnailUrl)
           ..add('tracks', tracks)
           ..add('comments', comments)
           ..add('layout', layout)
@@ -1284,6 +1299,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   String get videoUrl => _$this._videoUrl;
   set videoUrl(String videoUrl) => _$this._videoUrl = videoUrl;
 
+  String _thumbnailUrl;
+  String get thumbnailUrl => _$this._thumbnailUrl;
+  set thumbnailUrl(String thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
+
   ListBuilder<TrackEntity> _tracks;
   ListBuilder<TrackEntity> get tracks =>
       _$this._tracks ??= new ListBuilder<TrackEntity>();
@@ -1328,6 +1347,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
       _videoUrl = _$v.videoUrl;
+      _thumbnailUrl = _$v.thumbnailUrl;
       _tracks = _$v.tracks?.toBuilder();
       _comments = _$v.comments?.toBuilder();
       _layout = _$v.layout;
@@ -1371,6 +1391,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               isFlagged: isFlagged,
               isPublic: isPublic,
               videoUrl: videoUrl,
+              thumbnailUrl: thumbnailUrl,
               tracks: tracks.build(),
               comments: comments.build(),
               layout: layout,

@@ -24,6 +24,7 @@ abstract class SongEntity extends Object
       description: '',
       url: '',
       videoUrl: '',
+      thumbnailUrl: '',
       genreId: genreId ?? 0,
       duration: 0,
       countPlay: 0,
@@ -78,6 +79,9 @@ abstract class SongEntity extends Object
   @BuiltValueField(wireName: 'video_url')
   String get videoUrl;
 
+  @BuiltValueField(wireName: 'thumbnail_url')
+  String get thumbnailUrl;
+
   @BuiltValueField(wireName: 'song_videos')
   BuiltList<TrackEntity> get tracks;
 
@@ -123,7 +127,7 @@ abstract class SongEntity extends Object
       tracks.map((track) => track.video.url).toList()..add(videoUrl);
 
   bool get canAddTrack =>
-      tracks.where((track) => track.isIncluded).length < kMaxTracks;
+      tracks.where((track) => track.isIncluded ?? true).length < kMaxTracks;
 
   SongEntity get fork => rebuild((b) => b
     ..parentId = id
