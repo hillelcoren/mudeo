@@ -515,6 +515,8 @@ class _SongEditState extends State<SongEdit> {
       }
     }
 
+    print('Tracks: ${song.tracks}');
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(bottom: 50),
