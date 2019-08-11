@@ -109,8 +109,7 @@ class MudeoVideoSelector extends StatelessWidget {
       return Center(
         child: Text(
           localization.noSavedVideos,
-          style: TextStyle(
-              fontSize: 20, color: Colors.grey),
+          style: TextStyle(fontSize: 20, color: Colors.grey),
         ),
       );
     }
@@ -133,7 +132,6 @@ class MudeoVideoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final localization = AppLocalization.of(context);
     final videoIds = [];
 
     return Column(
@@ -161,14 +159,9 @@ class MudeoVideoListItem extends StatelessWidget {
                     ),
                   ),
                   if (song.tracks.length > 1)
-                    IconButton(
-                      padding: EdgeInsets.only(left: 8),
-                      icon: Icon(Icons.add_circle_outline),
-                      tooltip: localization.addAll,
-                      onPressed: () {
-                        Navigator.pop(context);
-                        onSongSelected(song);
-                      },
+                    ThumbnailIcon(
+                      onSelected: () => onSongSelected(song),
+                      url: song.thumbnailUrl,
                     ),
                 ],
               ),
@@ -182,26 +175,10 @@ class MudeoVideoListItem extends StatelessWidget {
                     }
                     videoIds.add(track.video.id);
 
-                    return InkWell(
-                      onTap: () {
-                        onTrackSelected(track);
-                        Navigator.pop(context);
-                      },
-                      child: Card(
-                        margin: EdgeInsets.all(4),
-                        elevation: kDefaultElevation,
-                        child: track.video.isRemoteVideo ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Text(
-                              localization.backingTrack,
-                              style: TextStyle(color: Colors.grey, fontSize: 20),
-                            ),
-                          ),
-                        ) : CachedNetworkImage(
-                          imageUrl: track.video.thumbnailUrl,
-                        ),
-                      ),
+                    return ThumbnailIcon(
+                      url: track.video.thumbnailUrl,
+                      onSelected: () => onTrackSelected(track),
+                      isBackingTrack: track.video.isRemoteVideo,
                     );
                   }).toList(),
                 ),
@@ -322,6 +299,71 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
             style: TextStyle(fontSize: 16),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ThumbnailIcon extends StatelessWidget {
+  ThumbnailIcon({
+    @required this.onSelected,
+    @required this.url,
+    this.isBackingTrack = false,
+  });
+
+  final Function onSelected;
+  final String url;
+  final bool isBackingTrack;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+    const double height = 170;
+    const double width = 90;
+
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+        onSelected();
+      },
+      child: Card(
+        margin: EdgeInsets.all(4),
+        elevation: kDefaultElevation,
+        child: Stack(
+          children: <Widget>[
+            SizedBox(
+              height: height,
+              width: width,
+              child: isBackingTrack
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text(
+                          localization.backingTrack,
+                          style: TextStyle(color: Colors.grey, fontSize: 20),
+                        ),
+                      ),
+                    )
+                  : CachedNetworkImage(
+                      fit: BoxFit.contain,
+                      alignment: Alignment.center,
+                      height: height,
+                      width: width,
+                      imageUrl: url,
+                    ),
+            ),
+            SizedBox(
+              height: height,
+              width: width,
+              child: Center(
+                child: Icon(
+                  Icons.add_circle_outline,
+                  size: 34,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
