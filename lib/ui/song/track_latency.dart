@@ -5,9 +5,14 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class TrackLatency extends StatefulWidget {
-  TrackLatency({@required this.delay, @required this.onDelayChanged});
+  TrackLatency({
+    @required this.delay,
+    @required this.onDelayAccepted,
+    @required this.onDelayChanged,
+  });
 
   final int delay;
+  final Function(int) onDelayAccepted;
   final Function(int) onDelayChanged;
 
   @override
@@ -59,6 +64,7 @@ class _TrackLatencyState extends State<TrackLatency> {
                       _delay = value.toInt();
                       _delayController.text = '${value.toInt()}';
                     });
+                    widget.onDelayChanged(_delay);
                   },
                 ),
               ),
@@ -110,7 +116,7 @@ class _TrackLatencyState extends State<TrackLatency> {
                 child: RaisedButton(
                   child: Text(localization.done),
                   onPressed: () {
-                    widget.onDelayChanged(_delay);
+                    widget.onDelayAccepted(_delay);
                     Navigator.pop(context);
                   },
                 ),

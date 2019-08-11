@@ -578,23 +578,33 @@ class _SongEditState extends State<SongEdit> {
                         .map((track) {
                       final videoPlayer = videoPlayers[track.id];
                       return TrackView(
-                          isFirst: song.tracks.indexOf(track) == 0,
-                          viewModel: viewModel,
-                          videoPlayer: videoPlayer,
-                          aspectRatio: videoPlayer == null
-                              ? 1
-                              : videoPlayer.value.aspectRatio,
-                          track: track,
-                          onDeletePressed: () async {
-                            Navigator.of(context).pop();
-                            videoPlayers.remove(track.id);
-                            viewModel.onDeleteVideoPressed(song, track);
-                          },
-                          onDelayChanged: (track, delay) {
-                            final song =
-                                viewModel.song.setTrackDelay(track, delay);
-                            viewModel.onChangedSong(song);
-                          });
+                        isFirst: song.tracks.indexOf(track) == 0,
+                        viewModel: viewModel,
+                        videoPlayer: videoPlayer,
+                        aspectRatio: videoPlayer == null
+                            ? 1
+                            : videoPlayer.value.aspectRatio,
+                        track: track,
+                        onDeletePressed: () async {
+                          Navigator.of(context).pop();
+                          videoPlayers.remove(track.id);
+                          viewModel.onDeleteVideoPressed(song, track);
+                        },
+                        onDelayAccepted: (track, delay) {
+                          final song =
+                              viewModel.song.setTrackDelay(track, delay);
+                          viewModel.onChangedSong(song);
+                        },
+                        onDelayChanged: (track, delay) {
+                          /*
+                          if (isPlaying) {
+                            stopPlaying();
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((_) => play());
+                          }
+                          */
+                        },
+                      );
                     }).toList(),
                   ),
                 )
@@ -611,6 +621,7 @@ class TrackView extends StatelessWidget {
     @required this.viewModel,
     @required this.track,
     @required this.onDeletePressed,
+    @required this.onDelayAccepted,
     @required this.onDelayChanged,
     @required this.isFirst,
   });
@@ -620,6 +631,7 @@ class TrackView extends StatelessWidget {
   final TrackEntity track;
   final double aspectRatio;
   final Function onDeletePressed;
+  final Function(TrackEntity, int) onDelayAccepted;
   final Function(TrackEntity, int) onDelayChanged;
   final bool isFirst;
 
@@ -635,6 +647,7 @@ class TrackView extends StatelessWidget {
                 videoPlayer: videoPlayer,
                 viewModel: viewModel,
                 onDeletePressed: onDeletePressed,
+                onDelayAccepted: (delay) => onDelayAccepted(track, delay),
                 onDelayChanged: (delay) => onDelayChanged(track, delay),
                 track: track,
                 isFirst: isFirst,
@@ -677,6 +690,7 @@ class TrackEditDialog extends StatelessWidget {
     @required this.track,
     @required this.viewModel,
     @required this.onDeletePressed,
+    @required this.onDelayAccepted,
     @required this.onDelayChanged,
     @required this.isFirst,
   });
@@ -685,6 +699,7 @@ class TrackEditDialog extends StatelessWidget {
   final VideoPlayerController videoPlayer;
   final TrackEntity track;
   final Function onDeletePressed;
+  final Function(int) onDelayAccepted;
   final Function(int) onDelayChanged;
   final bool isFirst;
 
@@ -760,6 +775,8 @@ class TrackEditDialog extends StatelessWidget {
                                         builder: (BuildContext context) {
                                           return TrackLatency(
                                             delay: track.delay ?? 0,
+                                            onDelayAccepted: (delay) =>
+                                                onDelayAccepted(delay),
                                             onDelayChanged: (delay) =>
                                                 onDelayChanged(delay),
                                           );
