@@ -132,7 +132,7 @@ class SongScaffold extends StatelessWidget {
 
                 return seconds < 10 ? '00:0$seconds' : '00:$seconds';
               } else {
-                return viewModel.song.title;
+                return song.isNew ? localization.newSong : song.title;
               }
             },
             style: () => TextStyle(
