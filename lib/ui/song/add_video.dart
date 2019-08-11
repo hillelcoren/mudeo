@@ -159,10 +159,10 @@ class MudeoVideoListItem extends StatelessWidget {
                     ),
                   ),
                   if (song.tracks.length > 1)
-                    ThumbnailIcon(
+                    (song.isRendered ?? false) ? ThumbnailIcon(
                       onSelected: () => onSongSelected(song),
                       url: song.thumbnailUrl,
-                    ),
+                    ) : Text(AppLocalization.of(context).rendering + '...'),
                 ],
               ),
               SizedBox(height: 20),

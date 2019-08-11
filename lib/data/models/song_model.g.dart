@@ -87,6 +87,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       'layout',
       serializers.serialize(object.layout,
           specifiedType: const FullType(String)),
+      'is_rendered',
+      serializers.serialize(object.isRendered,
+          specifiedType: const FullType(bool)),
     ];
     if (object.artistId != null) {
       result
@@ -228,6 +231,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'layout':
           result.layout = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'is_rendered':
+          result.isRendered = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -1075,6 +1082,8 @@ class _$SongEntity extends SongEntity {
   @override
   final String layout;
   @override
+  final bool isRendered;
+  @override
   final int id;
   @override
   final String deletedAt;
@@ -1102,6 +1111,7 @@ class _$SongEntity extends SongEntity {
       this.tracks,
       this.comments,
       this.layout,
+      this.isRendered,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -1139,6 +1149,9 @@ class _$SongEntity extends SongEntity {
     if (layout == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'layout');
     }
+    if (isRendered == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'isRendered');
+    }
   }
 
   @override
@@ -1169,6 +1182,7 @@ class _$SongEntity extends SongEntity {
         tracks == other.tracks &&
         comments == other.comments &&
         layout == other.layout &&
+        isRendered == other.isRendered &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -1194,23 +1208,23 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc(0, title.hashCode),
-                                                                                description.hashCode),
-                                                                            url.hashCode),
-                                                                        artistId.hashCode),
-                                                                    artist.hashCode),
-                                                                genreId.hashCode),
-                                                            parentId.hashCode),
-                                                        duration.hashCode),
-                                                    countPlay.hashCode),
-                                                countLike.hashCode),
-                                            isFlagged.hashCode),
-                                        isPublic.hashCode),
-                                    videoUrl.hashCode),
-                                thumbnailUrl.hashCode),
-                            tracks.hashCode),
-                        comments.hashCode),
-                    layout.hashCode),
+                                                                            $jc($jc($jc(0, title.hashCode), description.hashCode),
+                                                                                url.hashCode),
+                                                                            artistId.hashCode),
+                                                                        artist.hashCode),
+                                                                    genreId.hashCode),
+                                                                parentId.hashCode),
+                                                            duration.hashCode),
+                                                        countPlay.hashCode),
+                                                    countLike.hashCode),
+                                                isFlagged.hashCode),
+                                            isPublic.hashCode),
+                                        videoUrl.hashCode),
+                                    thumbnailUrl.hashCode),
+                                tracks.hashCode),
+                            comments.hashCode),
+                        layout.hashCode),
+                    isRendered.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -1236,6 +1250,7 @@ class _$SongEntity extends SongEntity {
           ..add('tracks', tracks)
           ..add('comments', comments)
           ..add('layout', layout)
+          ..add('isRendered', isRendered)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -1318,6 +1333,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   String get layout => _$this._layout;
   set layout(String layout) => _$this._layout = layout;
 
+  bool _isRendered;
+  bool get isRendered => _$this._isRendered;
+  set isRendered(bool isRendered) => _$this._isRendered = isRendered;
+
   int _id;
   int get id => _$this._id;
   set id(int id) => _$this._id = id;
@@ -1351,6 +1370,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _tracks = _$v.tracks?.toBuilder();
       _comments = _$v.comments?.toBuilder();
       _layout = _$v.layout;
+      _isRendered = _$v.isRendered;
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -1395,6 +1415,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               tracks: tracks.build(),
               comments: comments.build(),
               layout: layout,
+              isRendered: isRendered,
               id: id,
               deletedAt: deletedAt,
               updatedAt: updatedAt);

@@ -26,6 +26,7 @@ abstract class SongEntity extends Object
       videoUrl: '',
       thumbnailUrl: '',
       genreId: genreId ?? 0,
+      isRendered: false,
       duration: 0,
       countPlay: 0,
       countLike: 0,
@@ -88,6 +89,10 @@ abstract class SongEntity extends Object
   BuiltList<CommentEntity> get comments;
 
   String get layout;
+
+  @BuiltValueField(wireName: 'is_rendered')
+  bool get isRendered;
+
 
   @override
   String get listDisplayName {
