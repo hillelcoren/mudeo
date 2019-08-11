@@ -94,6 +94,8 @@ abstract class SongEntity extends Object
     return title;
   }
 
+  bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
+
   CommentEntity newComment(int artistId, String comment) =>
       CommentEntity(description: comment).rebuild((b) => b
         ..songId = id
@@ -359,9 +361,9 @@ abstract class VideoEntity extends Object
   @nullable
   int get duration;
 
-  bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.isNotEmpty;
+  bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
 
-  bool get isRemoteVideo => remoteVideoId != null && remoteVideoId.isNotEmpty;
+  bool get isRemoteVideo => remoteVideoId != null && remoteVideoId.trim().isNotEmpty;
 
   String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
 
