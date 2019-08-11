@@ -311,6 +311,17 @@ class SongFooter extends StatelessWidget {
     final state = store.state;
     final artist = state.authState.artist;
 
+    _editSong({SongEntity song, BuildContext context}) {
+      // TODO remove this workaround for selecting selected song in list view
+      if (state.uiState.song.id == song.id) {
+        store.dispatch(EditSong(song: SongEntity(), context: context));
+        WidgetsBinding.instance.addPostFrameCallback(
+            (_) => store.dispatch(EditSong(song: song, context: context)));
+      } else {
+        store.dispatch(EditSong(song: song, context: context));
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -344,14 +355,13 @@ class SongFooter extends StatelessWidget {
                           child: Text(localization.ok.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
-                            store.dispatch(
-                                EditSong(song: newSong, context: context));
+                            _editSong(song: newSong, context: context);
                           })
                     ],
                   ),
                 );
               } else {
-                store.dispatch(EditSong(song: newSong, context: context));
+                _editSong(song: newSong, context: context);
               }
             },
           ),
