@@ -136,7 +136,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               TextFormField(
                 autocorrect: false,
                 controller: _titleController,
-                autofocus: true,
+                autofocus: _titleController.text.isEmpty ? true : false,
                 decoration: InputDecoration(
                   labelText: localization.title,
                 ),
