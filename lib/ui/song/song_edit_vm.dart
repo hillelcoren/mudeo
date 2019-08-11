@@ -167,15 +167,16 @@ class SongEditVM {
         },
         addVideoFromTrack: (context, track) {
           bool hasVideo = false;
-          store.state.uiState.song.tracks.forEach((songTrack) {
+          store.state.uiState.song.tracks
+              .where((track) => track.isIncluded)
+              .forEach((songTrack) {
             if (songTrack.video.id == track.video.id) {
               hasVideo = true;
             }
           });
 
           store.dispatch(AddTrack(
-            track: track.clone
-                .rebuild((b) => b..volume = hasVideo ? 0 : 100),
+            track: track.clone.rebuild((b) => b..volume = hasVideo ? 0 : 100),
             duration: 0,
             refreshUI: true,
           ));
