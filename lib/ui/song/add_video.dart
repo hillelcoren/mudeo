@@ -165,14 +165,17 @@ class MudeoVideoListItem extends StatelessWidget {
                     ),
                 ],
               ),
+              SizedBox(height: 20),
               Container(
                 height: 180,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: song.tracks.map((track) {
-                    if (videoIds.contains(track.video.id)) {
+                    if (videoIds.contains(track.video.id) ||
+                        !track.video.hasThumbnail) {
                       return SizedBox();
                     }
+
                     videoIds.add(track.video.id);
 
                     return ThumbnailIcon(
@@ -318,7 +321,7 @@ class ThumbnailIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    const double height = 170;
+    const double height = 180;
     const double width = 90;
 
     return InkWell(
