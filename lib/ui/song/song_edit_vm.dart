@@ -10,7 +10,9 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
+import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -176,20 +178,28 @@ class SongEditVM {
               VideoEntity().rebuild((b) => b..url = sourceSong.videoUrl);
           final track = song.newTrack(video);
 
-          store.dispatch(AddTrack(
-            track: track,
-            duration: 0,
-            refreshUI: true,
-          ));
-
-// store stacked video locally so it can be re-uploaded when saved
+          // store stacked video locally so it can be re-uploaded when saved
           final response =
               await http.Client().get(Uri.parse(sourceSong.videoUrl));
 
-          String path = await VideoEntity.getPath(track.video.timestamp);
+          if (response.statusCode >= 300) {
+            showDialog<ErrorDialog>(
+                context: context,
+                builder: (BuildContext context) {
+                  return ErrorDialog(
+                      AppLocalization.of(context).errorVideoNotReady);
+                });
+          } else {
+            String path = await VideoEntity.getPath(track.video.timestamp);
+            File file = new File(path);
+            file.writeAsBytes(response.bodyBytes);
 
-          File file = new File(path);
-          file.writeAsBytes(response.bodyBytes);
+            store.dispatch(AddTrack(
+              track: track,
+              duration: 0,
+              refreshUI: true,
+            ));
+          }
         },
         onDeleteSongPressed: (song) {
           store.dispatch(DeleteSongRequest(

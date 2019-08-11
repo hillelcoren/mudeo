@@ -75,7 +75,7 @@ class SongScaffold extends StatelessWidget {
             if (action == localization.addVideo) {
               showDialog<AddVideo>(
                   context: context,
-                  builder: (BuildContext context) {
+                  builder: (BuildContext childContext) {
                     return AddVideo(
                       song: song,
                       onRemoteVideoSelected: (videoId) =>
