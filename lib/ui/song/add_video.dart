@@ -80,6 +80,7 @@ class MudeoVideoSelector extends StatelessWidget {
     final songMap = dataState.songMap;
     final parentSong = song.hasParent ? songMap[song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
+    final usedVideoIds = <int>[];
 
     if (parentSong != null || childSongIds.isNotEmpty || song.isOld) {
       return ListView(
@@ -90,18 +91,21 @@ class MudeoVideoSelector extends StatelessWidget {
               relationship: kVideoRelationshipParent,
               onTrackSelected: onTrackSelected,
               onSongSelected: onSongSelected,
+              usedVideoIds: usedVideoIds,
             ),
           MudeoVideoListItem(
             song: song,
             relationship: kVideoRelationshipSelf,
             onTrackSelected: onTrackSelected,
             onSongSelected: onSongSelected,
+            usedVideoIds: usedVideoIds,
           ),
           ...childSongIds.map((songId) => MudeoVideoListItem(
                 song: songMap[songId],
                 relationship: kVideoRelationshipChild,
                 onTrackSelected: onTrackSelected,
                 onSongSelected: onSongSelected,
+                usedVideoIds: usedVideoIds,
               ))
         ],
       );
@@ -122,17 +126,18 @@ class MudeoVideoListItem extends StatelessWidget {
     @required this.relationship,
     @required this.onTrackSelected,
     @required this.onSongSelected,
+    @required this.usedVideoIds,
   });
 
   final SongEntity song;
   final String relationship;
   final Function(TrackEntity) onTrackSelected;
   final Function(SongEntity) onSongSelected;
+  final List<int> usedVideoIds;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final videoIds = [];
 
     return Column(
       children: <Widget>[
@@ -171,12 +176,12 @@ class MudeoVideoListItem extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: song.tracks.map((track) {
-                    if (videoIds.contains(track.video.id) ||
+                    if (usedVideoIds.contains(track.video.id) ||
                         !track.video.hasThumbnail) {
                       return SizedBox();
                     }
 
-                    videoIds.add(track.video.id);
+                    usedVideoIds.add(track.video.id);
 
                     return ThumbnailIcon(
                       url: track.video.thumbnailUrl,
