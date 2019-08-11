@@ -138,6 +138,7 @@ class MudeoVideoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final localization = AppLocalization.of(context);
 
     return Column(
       children: <Widget>[
@@ -159,7 +160,11 @@ class MudeoVideoListItem extends StatelessWidget {
                         ),
                         SizedBox(height: 6),
                         Text(song.artist.displayName, style: theme.subhead),
-                        SizedBox(height: 14),
+                        SizedBox(height: 6),
+                        Text(localization.lookup(song.layout) +
+                            (relationship != kVideoRelationshipSelf
+                                ? ' • ' + localization.lookup(relationship)
+                                : '')),
                       ],
                     ),
                   ),
