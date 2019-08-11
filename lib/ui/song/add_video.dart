@@ -159,13 +159,16 @@ class MudeoVideoListItem extends StatelessWidget {
                     ),
                   ),
                   if (song.tracks.length > 1)
-                    (song.isRendered ?? false) ? ThumbnailIcon(
-                      onSelected: () => onSongSelected(song),
-                      url: song.thumbnailUrl,
-                    ) : Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(AppLocalization.of(context).rendering + '...'),
-                    ),
+                    (song.isRendered ?? false)
+                        ? ThumbnailIcon(
+                            onSelected: () => onSongSelected(song),
+                            url: song.thumbnailUrl,
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Text(
+                                AppLocalization.of(context).rendering + '...'),
+                          ),
                 ],
               ),
               SizedBox(height: 20),
@@ -332,40 +335,43 @@ class ThumbnailIcon extends StatelessWidget {
         Navigator.pop(context);
         onSelected();
       },
-      child: Stack(
-        children: <Widget>[
-          SizedBox(
-            height: height,
-            width: width,
-            child: isBackingTrack
-                ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Text(
-                  localization.backingTrack,
-                  style: TextStyle(color: Colors.grey, fontSize: 20),
+      child: Padding(
+        padding: const EdgeInsets.only(right: 12),
+        child: Stack(
+          children: <Widget>[
+            SizedBox(
+              height: height,
+              width: width,
+              child: isBackingTrack
+                  ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text(
+                          localization.backingTrack,
+                          style: TextStyle(color: Colors.grey, fontSize: 20),
+                        ),
+                      ),
+                    )
+                  : CachedNetworkImage(
+                      fit: BoxFit.contain,
+                      alignment: Alignment.center,
+                      height: height,
+                      width: width,
+                      imageUrl: url,
+                    ),
+            ),
+            SizedBox(
+              height: height,
+              width: width,
+              child: Center(
+                child: Icon(
+                  Icons.add_circle_outline,
+                  size: 34,
                 ),
               ),
             )
-                : CachedNetworkImage(
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
-              height: height,
-              width: width,
-              imageUrl: url,
-            ),
-          ),
-          SizedBox(
-            height: height,
-            width: width,
-            child: Center(
-              child: Icon(
-                Icons.add_circle_outline,
-                size: 34,
-              ),
-            ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
