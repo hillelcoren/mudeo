@@ -666,6 +666,7 @@ class TrackView extends StatelessWidget {
                             aspectRatio: aspectRatio,
                             child: VideoPlayer(videoPlayer)),
                         Container(
+                          // TODO FIX if video download failed size will be null
                           width: videoPlayer.value.size.width,
                           color: Colors.black,
                           child: Center(
