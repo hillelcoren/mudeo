@@ -587,8 +587,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       return LoadingIndicator();
     }
 
-    return Material(
-      type: MaterialType.transparency,
+    return Dialog(
       child: FittedBox(
         fit: BoxFit.contain,
         child: Chewie(
