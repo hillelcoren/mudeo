@@ -29,6 +29,31 @@ class AddVideo extends StatelessWidget {
       child: DefaultTabController(
           length: 2,
           child: Scaffold(
+              appBar: AppBar(
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+                leading: SizedBox(),
+              ),
+              body: MudeoVideoSelector(
+                song: song,
+                onTrackSelected: onTrackSelected,
+                onSongSelected: onSongSelected,
+              ))),
+    );
+  }
+
+/*
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(40),
+      child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
             appBar: AppBar(
               actions: <Widget>[
                 IconButton(
@@ -59,6 +84,7 @@ class AddVideo extends StatelessWidget {
           )),
     );
   }
+  */
 }
 
 class MudeoVideoSelector extends StatelessWidget {
