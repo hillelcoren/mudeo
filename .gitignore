@@ -76,3 +76,5 @@ GoogleService-Info.plist
 ios/Runner/Info.plist
 android/app/build.gradle
 android/app/release/
+.flutter-plugins-dependencies
+ios/Flutter/flutter_export_environment.sh

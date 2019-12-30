@@ -31,7 +31,7 @@ dependencies:
   google_sign_in: ^4.0.4
   firebase_auth: ^0.11.1+12
   sentry: ^2.2.0
-  intl: ^0.15.7
+  intl: any
   font_awesome_flutter: ^8.4.0
   flutter_xlider: ^2.1.0
   image_picker: ^0.4.12+1
