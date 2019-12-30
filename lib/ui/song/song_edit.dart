@@ -474,11 +474,6 @@ class _SongEditState extends State<SongEdit> {
     });
   }
 
-  void _showTrackSyncer() {
-
-  }
-
-
   @override
   Widget build(BuildContext context) {
     if (camera == null) return SizedBox();
@@ -487,6 +482,49 @@ class _SongEditState extends State<SongEdit> {
     final viewModel = widget.viewModel;
     final song = viewModel.song;
     final isEmpty = song.tracks.isEmpty;
+    final localization = AppLocalization.of(context);
+
+    void _showTrackSyncer() {
+      showDialog<AlertDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(AppLocalization.of(context).trackAdjustment),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ...song.tracks
+                      .map((track) => Text(track.video.url))
+                      .toList(),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Expanded(
+                        child: RaisedButton(
+                          color: Colors.grey,
+                          child: Text(localization.cancel),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: RaisedButton(
+                          child: Text(localization.done),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          });
+    }
 
     IconData _getRecordIcon() {
       if (isRecording && isEmpty) {
