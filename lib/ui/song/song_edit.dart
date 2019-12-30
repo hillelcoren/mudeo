@@ -474,6 +474,11 @@ class _SongEditState extends State<SongEdit> {
     });
   }
 
+  void _showTrackSyncer() {
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     if (camera == null) return SizedBox();
@@ -566,6 +571,12 @@ class _SongEditState extends State<SongEdit> {
                                   ? CameraLensDirection.back
                                   : CameraLensDirection.front),
                     ),
+              if (song.tracks.length > 1)
+                ExpandedButton(
+                  icon: Icons.timer,
+                  iconHeight: 26,
+                  onPressed: isPlaying ? null : () => _showTrackSyncer(),
+                )
             ]),
           ),
           song.tracks.isEmpty
