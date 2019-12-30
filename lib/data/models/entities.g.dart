@@ -6,19 +6,6 @@ part of 'entities.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-// ignore_for_file: unnecessary_const
-// ignore_for_file: unnecessary_new
-// ignore_for_file: test_types_in_equals
-
 const EntityAction _$like = const EntityAction._('like');
 
 EntityAction _$valueOf(String name) {
@@ -69,7 +56,7 @@ class _$ErrorMessageSerializer implements StructuredSerializer<ErrorMessage> {
   final String wireName = 'ErrorMessage';
 
   @override
-  Iterable serialize(Serializers serializers, ErrorMessage object,
+  Iterable<Object> serialize(Serializers serializers, ErrorMessage object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'message',
@@ -81,7 +68,7 @@ class _$ErrorMessageSerializer implements StructuredSerializer<ErrorMessage> {
   }
 
   @override
-  ErrorMessage deserialize(Serializers serializers, Iterable serialized,
+  ErrorMessage deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ErrorMessageBuilder();
 
@@ -109,7 +96,7 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
   final String wireName = 'LoginResponse';
 
   @override
-  Iterable serialize(Serializers serializers, LoginResponse object,
+  Iterable<Object> serialize(Serializers serializers, LoginResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -122,12 +109,12 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
         ..add(serializers.serialize(object.error,
             specifiedType: const FullType(ErrorMessage)));
     }
-
     return result;
   }
 
   @override
-  LoginResponse deserialize(Serializers serializers, Iterable serialized,
+  LoginResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LoginResponseBuilder();
 
@@ -161,7 +148,7 @@ class _$LoginResponseDataSerializer
   final String wireName = 'LoginResponseData';
 
   @override
-  Iterable serialize(Serializers serializers, LoginResponseData object,
+  Iterable<Object> serialize(Serializers serializers, LoginResponseData object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'version',
@@ -173,7 +160,8 @@ class _$LoginResponseDataSerializer
   }
 
   @override
-  LoginResponseData deserialize(Serializers serializers, Iterable serialized,
+  LoginResponseData deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LoginResponseDataBuilder();
 
@@ -201,7 +189,7 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
   final String wireName = 'DataState';
 
   @override
-  Iterable serialize(Serializers serializers, DataState object,
+  Iterable<Object> serialize(Serializers serializers, DataState object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'songsFailedAt',
@@ -224,7 +212,7 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
   }
 
   @override
-  DataState deserialize(Serializers serializers, Iterable serialized,
+  DataState deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new DataStateBuilder();
 
@@ -247,14 +235,14 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(int),
                 const FullType(SongEntity)
-              ])) as BuiltMap);
+              ])) as BuiltMap<dynamic, dynamic>);
           break;
         case 'artistMap':
           result.artistMap.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(int),
                 const FullType(ArtistEntity)
-              ])) as BuiltMap);
+              ])) as BuiltMap<dynamic, dynamic>);
           break;
       }
     }
@@ -301,7 +289,7 @@ class _$ErrorMessage extends ErrorMessage {
   @override
   final String message;
 
-  factory _$ErrorMessage([void updates(ErrorMessageBuilder b)]) =>
+  factory _$ErrorMessage([void Function(ErrorMessageBuilder) updates]) =>
       (new ErrorMessageBuilder()..update(updates)).build();
 
   _$ErrorMessage._({this.message}) : super._() {
@@ -311,7 +299,7 @@ class _$ErrorMessage extends ErrorMessage {
   }
 
   @override
-  ErrorMessage rebuild(void updates(ErrorMessageBuilder b)) =>
+  ErrorMessage rebuild(void Function(ErrorMessageBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -363,7 +351,7 @@ class ErrorMessageBuilder
   }
 
   @override
-  void update(void updates(ErrorMessageBuilder b)) {
+  void update(void Function(ErrorMessageBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -381,7 +369,7 @@ class _$LoginResponse extends LoginResponse {
   @override
   final ErrorMessage error;
 
-  factory _$LoginResponse([void updates(LoginResponseBuilder b)]) =>
+  factory _$LoginResponse([void Function(LoginResponseBuilder) updates]) =>
       (new LoginResponseBuilder()..update(updates)).build();
 
   _$LoginResponse._({this.data, this.error}) : super._() {
@@ -391,7 +379,7 @@ class _$LoginResponse extends LoginResponse {
   }
 
   @override
-  LoginResponse rebuild(void updates(LoginResponseBuilder b)) =>
+  LoginResponse rebuild(void Function(LoginResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -450,7 +438,7 @@ class LoginResponseBuilder
   }
 
   @override
-  void update(void updates(LoginResponseBuilder b)) {
+  void update(void Function(LoginResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -482,7 +470,8 @@ class _$LoginResponseData extends LoginResponseData {
   @override
   final String version;
 
-  factory _$LoginResponseData([void updates(LoginResponseDataBuilder b)]) =>
+  factory _$LoginResponseData(
+          [void Function(LoginResponseDataBuilder) updates]) =>
       (new LoginResponseDataBuilder()..update(updates)).build();
 
   _$LoginResponseData._({this.version}) : super._() {
@@ -492,7 +481,7 @@ class _$LoginResponseData extends LoginResponseData {
   }
 
   @override
-  LoginResponseData rebuild(void updates(LoginResponseDataBuilder b)) =>
+  LoginResponseData rebuild(void Function(LoginResponseDataBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -545,7 +534,7 @@ class LoginResponseDataBuilder
   }
 
   @override
-  void update(void updates(LoginResponseDataBuilder b)) {
+  void update(void Function(LoginResponseDataBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -567,7 +556,7 @@ class _$DataState extends DataState {
   @override
   final BuiltMap<int, ArtistEntity> artistMap;
 
-  factory _$DataState([void updates(DataStateBuilder b)]) =>
+  factory _$DataState([void Function(DataStateBuilder) updates]) =>
       (new DataStateBuilder()..update(updates)).build();
 
   _$DataState._(
@@ -588,7 +577,7 @@ class _$DataState extends DataState {
   }
 
   @override
-  DataState rebuild(void updates(DataStateBuilder b)) =>
+  DataState rebuild(void Function(DataStateBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -667,7 +656,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   }
 
   @override
-  void update(void updates(DataStateBuilder b)) {
+  void update(void Function(DataStateBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -698,3 +687,5 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

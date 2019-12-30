@@ -333,6 +333,14 @@ abstract class VideoEntity extends Object
       thumbnailUrl: '',
       description: '',
       duration: 0,
+      /*
+      volumeData: {
+        '0': 0,
+        '80': 2,
+        '120': 10,
+        '180': 50,
+      }
+       */
     );
   }
 
@@ -354,6 +362,10 @@ abstract class VideoEntity extends Object
   @nullable
   @BuiltValueField(wireName: 'remote_video_id')
   String get remoteVideoId;
+
+  @nullable
+  @BuiltValueField(wireName: 'volume_data')
+  BuiltMap<String, double> get volumeData;
 
   @override
   String get listDisplayName {

@@ -6,19 +6,6 @@ part of 'artist_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-// ignore_for_file: unnecessary_const
-// ignore_for_file: unnecessary_new
-// ignore_for_file: test_types_in_equals
-
 Serializer<ArtistEntity> _$artistEntitySerializer =
     new _$ArtistEntitySerializer();
 Serializer<ArtistItemResponse> _$artistItemResponseSerializer =
@@ -36,7 +23,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
   final String wireName = 'ArtistEntity';
 
   @override
-  Iterable serialize(Serializers serializers, ArtistEntity object,
+  Iterable<Object> serialize(Serializers serializers, ArtistEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[];
     if (object.name != null) {
@@ -169,12 +156,11 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add(serializers.serialize(object.updatedAt,
             specifiedType: const FullType(String)));
     }
-
     return result;
   }
 
   @override
-  ArtistEntity deserialize(Serializers serializers, Iterable serialized,
+  ArtistEntity deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ArtistEntityBuilder();
 
@@ -244,25 +230,25 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           result.songLikes.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(SongLikeEntity)]))
-              as BuiltList);
+              as BuiltList<dynamic>);
           break;
         case 'song_flags':
           result.songFlags.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(SongFlagEntity)]))
-              as BuiltList);
+              as BuiltList<dynamic>);
           break;
         case 'user_flags':
           result.artistFlags.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(ArtistFlagEntity)]))
-              as BuiltList);
+              as BuiltList<dynamic>);
           break;
         case 'following':
           result.following.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(ArtistFollowingEntity)]))
-              as BuiltList);
+              as BuiltList<dynamic>);
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -291,7 +277,7 @@ class _$ArtistItemResponseSerializer
   final String wireName = 'ArtistItemResponse';
 
   @override
-  Iterable serialize(Serializers serializers, ArtistItemResponse object,
+  Iterable<Object> serialize(Serializers serializers, ArtistItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -303,7 +289,8 @@ class _$ArtistItemResponseSerializer
   }
 
   @override
-  ArtistItemResponse deserialize(Serializers serializers, Iterable serialized,
+  ArtistItemResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ArtistItemResponseBuilder();
 
@@ -335,7 +322,8 @@ class _$ArtistFollowingEntitySerializer
   final String wireName = 'ArtistFollowingEntity';
 
   @override
-  Iterable serialize(Serializers serializers, ArtistFollowingEntity object,
+  Iterable<Object> serialize(
+      Serializers serializers, ArtistFollowingEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'user_id',
@@ -363,13 +351,12 @@ class _$ArtistFollowingEntitySerializer
         ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
-
     return result;
   }
 
   @override
   ArtistFollowingEntity deserialize(
-      Serializers serializers, Iterable serialized,
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ArtistFollowingEntityBuilder();
 
@@ -417,7 +404,7 @@ class _$ArtistFollowingItemResponseSerializer
   final String wireName = 'ArtistFollowingItemResponse';
 
   @override
-  Iterable serialize(
+  Iterable<Object> serialize(
       Serializers serializers, ArtistFollowingItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
@@ -431,7 +418,7 @@ class _$ArtistFollowingItemResponseSerializer
 
   @override
   ArtistFollowingItemResponse deserialize(
-      Serializers serializers, Iterable serialized,
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ArtistFollowingItemResponseBuilder();
 
@@ -497,7 +484,7 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final String updatedAt;
 
-  factory _$ArtistEntity([void updates(ArtistEntityBuilder b)]) =>
+  factory _$ArtistEntity([void Function(ArtistEntityBuilder) updates]) =>
       (new ArtistEntityBuilder()..update(updates)).build();
 
   _$ArtistEntity._(
@@ -525,7 +512,7 @@ class _$ArtistEntity extends ArtistEntity {
       : super._();
 
   @override
-  ArtistEntity rebuild(void updates(ArtistEntityBuilder b)) =>
+  ArtistEntity rebuild(void Function(ArtistEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -766,7 +753,7 @@ class ArtistEntityBuilder
   }
 
   @override
-  void update(void updates(ArtistEntityBuilder b)) {
+  void update(void Function(ArtistEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -823,7 +810,8 @@ class _$ArtistItemResponse extends ArtistItemResponse {
   @override
   final ArtistEntity data;
 
-  factory _$ArtistItemResponse([void updates(ArtistItemResponseBuilder b)]) =>
+  factory _$ArtistItemResponse(
+          [void Function(ArtistItemResponseBuilder) updates]) =>
       (new ArtistItemResponseBuilder()..update(updates)).build();
 
   _$ArtistItemResponse._({this.data}) : super._() {
@@ -833,7 +821,8 @@ class _$ArtistItemResponse extends ArtistItemResponse {
   }
 
   @override
-  ArtistItemResponse rebuild(void updates(ArtistItemResponseBuilder b)) =>
+  ArtistItemResponse rebuild(
+          void Function(ArtistItemResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -886,7 +875,7 @@ class ArtistItemResponseBuilder
   }
 
   @override
-  void update(void updates(ArtistItemResponseBuilder b)) {
+  void update(void Function(ArtistItemResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -924,7 +913,7 @@ class _$ArtistFollowingEntity extends ArtistFollowingEntity {
   final int id;
 
   factory _$ArtistFollowingEntity(
-          [void updates(ArtistFollowingEntityBuilder b)]) =>
+          [void Function(ArtistFollowingEntityBuilder) updates]) =>
       (new ArtistFollowingEntityBuilder()..update(updates)).build();
 
   _$ArtistFollowingEntity._(
@@ -944,7 +933,8 @@ class _$ArtistFollowingEntity extends ArtistFollowingEntity {
   }
 
   @override
-  ArtistFollowingEntity rebuild(void updates(ArtistFollowingEntityBuilder b)) =>
+  ArtistFollowingEntity rebuild(
+          void Function(ArtistFollowingEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -1032,7 +1022,7 @@ class ArtistFollowingEntityBuilder
   }
 
   @override
-  void update(void updates(ArtistFollowingEntityBuilder b)) {
+  void update(void Function(ArtistFollowingEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -1055,7 +1045,7 @@ class _$ArtistFollowingItemResponse extends ArtistFollowingItemResponse {
   final ArtistFollowingEntity data;
 
   factory _$ArtistFollowingItemResponse(
-          [void updates(ArtistFollowingItemResponseBuilder b)]) =>
+          [void Function(ArtistFollowingItemResponseBuilder) updates]) =>
       (new ArtistFollowingItemResponseBuilder()..update(updates)).build();
 
   _$ArtistFollowingItemResponse._({this.data}) : super._() {
@@ -1066,7 +1056,7 @@ class _$ArtistFollowingItemResponse extends ArtistFollowingItemResponse {
 
   @override
   ArtistFollowingItemResponse rebuild(
-          void updates(ArtistFollowingItemResponseBuilder b)) =>
+          void Function(ArtistFollowingItemResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -1122,7 +1112,7 @@ class ArtistFollowingItemResponseBuilder
   }
 
   @override
-  void update(void updates(ArtistFollowingItemResponseBuilder b)) {
+  void update(void Function(ArtistFollowingItemResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -1146,3 +1136,5 @@ class ArtistFollowingItemResponseBuilder
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

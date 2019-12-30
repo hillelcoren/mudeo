@@ -6,19 +6,6 @@ part of 'song_model.dart';
 // BuiltValueGenerator
 // **************************************************************************
 
-// ignore_for_file: always_put_control_body_on_new_line
-// ignore_for_file: annotate_overrides
-// ignore_for_file: avoid_annotating_with_dynamic
-// ignore_for_file: avoid_catches_without_on_clauses
-// ignore_for_file: avoid_returning_this
-// ignore_for_file: lines_longer_than_80_chars
-// ignore_for_file: omit_local_variable_types
-// ignore_for_file: prefer_expression_function_bodies
-// ignore_for_file: sort_constructors_first
-// ignore_for_file: unnecessary_const
-// ignore_for_file: unnecessary_new
-// ignore_for_file: test_types_in_equals
-
 Serializer<SongEntity> _$songEntitySerializer = new _$SongEntitySerializer();
 Serializer<TrackEntity> _$trackEntitySerializer = new _$TrackEntitySerializer();
 Serializer<CommentEntity> _$commentEntitySerializer =
@@ -50,7 +37,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
   final String wireName = 'SongEntity';
 
   @override
-  Iterable serialize(Serializers serializers, SongEntity object,
+  Iterable<Object> serialize(Serializers serializers, SongEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'title',
@@ -145,12 +132,11 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.updatedAt,
             specifiedType: const FullType(String)));
     }
-
     return result;
   }
 
   @override
-  SongEntity deserialize(Serializers serializers, Iterable serialized,
+  SongEntity deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongEntityBuilder();
 
@@ -220,13 +206,13 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           result.tracks.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(TrackEntity)]))
-              as BuiltList);
+              as BuiltList<dynamic>);
           break;
         case 'comments':
           result.comments.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(CommentEntity)]))
-              as BuiltList);
+              as BuiltList<dynamic>);
           break;
         case 'layout':
           result.layout = serializers.deserialize(value,
@@ -262,7 +248,7 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
   final String wireName = 'TrackEntity';
 
   @override
-  Iterable serialize(Serializers serializers, TrackEntity object,
+  Iterable<Object> serialize(Serializers serializers, TrackEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'video',
@@ -311,12 +297,11 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
         ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
-
     return result;
   }
 
   @override
-  TrackEntity deserialize(Serializers serializers, Iterable serialized,
+  TrackEntity deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new TrackEntityBuilder();
 
@@ -372,7 +357,7 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
   final String wireName = 'CommentEntity';
 
   @override
-  Iterable serialize(Serializers serializers, CommentEntity object,
+  Iterable<Object> serialize(Serializers serializers, CommentEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'user',
@@ -405,12 +390,12 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
         ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
-
     return result;
   }
 
   @override
-  CommentEntity deserialize(Serializers serializers, Iterable serialized,
+  CommentEntity deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new CommentEntityBuilder();
 
@@ -463,7 +448,7 @@ class _$SongLikeEntitySerializer
   final String wireName = 'SongLikeEntity';
 
   @override
-  Iterable serialize(Serializers serializers, SongLikeEntity object,
+  Iterable<Object> serialize(Serializers serializers, SongLikeEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
@@ -485,12 +470,12 @@ class _$SongLikeEntitySerializer
         ..add(serializers.serialize(object.updatedAt,
             specifiedType: const FullType(String)));
     }
-
     return result;
   }
 
   @override
-  SongLikeEntity deserialize(Serializers serializers, Iterable serialized,
+  SongLikeEntity deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongLikeEntityBuilder();
 
@@ -535,7 +520,7 @@ class _$SongFlagEntitySerializer
   final String wireName = 'SongFlagEntity';
 
   @override
-  Iterable serialize(Serializers serializers, SongFlagEntity object,
+  Iterable<Object> serialize(Serializers serializers, SongFlagEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
@@ -557,12 +542,12 @@ class _$SongFlagEntitySerializer
         ..add(serializers.serialize(object.updatedAt,
             specifiedType: const FullType(String)));
     }
-
     return result;
   }
 
   @override
-  SongFlagEntity deserialize(Serializers serializers, Iterable serialized,
+  SongFlagEntity deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongFlagEntityBuilder();
 
@@ -607,7 +592,7 @@ class _$ArtistFlagEntitySerializer
   final String wireName = 'ArtistFlagEntity';
 
   @override
-  Iterable serialize(Serializers serializers, ArtistFlagEntity object,
+  Iterable<Object> serialize(Serializers serializers, ArtistFlagEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'id',
@@ -628,12 +613,12 @@ class _$ArtistFlagEntitySerializer
         ..add(serializers.serialize(object.updatedAt,
             specifiedType: const FullType(String)));
     }
-
     return result;
   }
 
   @override
-  ArtistFlagEntity deserialize(Serializers serializers, Iterable serialized,
+  ArtistFlagEntity deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ArtistFlagEntityBuilder();
 
@@ -673,7 +658,7 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   final String wireName = 'VideoEntity';
 
   @override
-  Iterable serialize(Serializers serializers, VideoEntity object,
+  Iterable<Object> serialize(Serializers serializers, VideoEntity object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'user_id',
@@ -702,6 +687,13 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         ..add('remote_video_id')
         ..add(serializers.serialize(object.remoteVideoId,
             specifiedType: const FullType(String)));
+    }
+    if (object.volumeData != null) {
+      result
+        ..add('volume_data')
+        ..add(serializers.serialize(object.volumeData,
+            specifiedType: const FullType(BuiltMap,
+                const [const FullType(String), const FullType(double)])));
     }
     if (object.description != null) {
       result
@@ -733,12 +725,11 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         ..add(serializers.serialize(object.id,
             specifiedType: const FullType(int)));
     }
-
     return result;
   }
 
   @override
-  VideoEntity deserialize(Serializers serializers, Iterable serialized,
+  VideoEntity deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new VideoEntityBuilder();
 
@@ -767,6 +758,13 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         case 'remote_video_id':
           result.remoteVideoId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'volume_data':
+          result.volumeData.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(String),
+                const FullType(double)
+              ])) as BuiltMap<dynamic, dynamic>);
           break;
         case 'description':
           result.description = serializers.deserialize(value,
@@ -803,7 +801,7 @@ class _$SongListResponseSerializer
   final String wireName = 'SongListResponse';
 
   @override
-  Iterable serialize(Serializers serializers, SongListResponse object,
+  Iterable<Object> serialize(Serializers serializers, SongListResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -816,7 +814,8 @@ class _$SongListResponseSerializer
   }
 
   @override
-  SongListResponse deserialize(Serializers serializers, Iterable serialized,
+  SongListResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongListResponseBuilder();
 
@@ -828,8 +827,9 @@ class _$SongListResponseSerializer
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(
-                  BuiltList, const [const FullType(SongEntity)])) as BuiltList);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(SongEntity)]))
+              as BuiltList<dynamic>);
           break;
       }
     }
@@ -846,7 +846,7 @@ class _$SongItemResponseSerializer
   final String wireName = 'SongItemResponse';
 
   @override
-  Iterable serialize(Serializers serializers, SongItemResponse object,
+  Iterable<Object> serialize(Serializers serializers, SongItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -858,7 +858,8 @@ class _$SongItemResponseSerializer
   }
 
   @override
-  SongItemResponse deserialize(Serializers serializers, Iterable serialized,
+  SongItemResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongItemResponseBuilder();
 
@@ -890,7 +891,8 @@ class _$CommentItemResponseSerializer
   final String wireName = 'CommentItemResponse';
 
   @override
-  Iterable serialize(Serializers serializers, CommentItemResponse object,
+  Iterable<Object> serialize(
+      Serializers serializers, CommentItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -902,7 +904,8 @@ class _$CommentItemResponseSerializer
   }
 
   @override
-  CommentItemResponse deserialize(Serializers serializers, Iterable serialized,
+  CommentItemResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new CommentItemResponseBuilder();
 
@@ -931,7 +934,7 @@ class _$LikeSongResponseSerializer
   final String wireName = 'LikeSongResponse';
 
   @override
-  Iterable serialize(Serializers serializers, LikeSongResponse object,
+  Iterable<Object> serialize(Serializers serializers, LikeSongResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -943,7 +946,8 @@ class _$LikeSongResponseSerializer
   }
 
   @override
-  LikeSongResponse deserialize(Serializers serializers, Iterable serialized,
+  LikeSongResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LikeSongResponseBuilder();
 
@@ -972,7 +976,7 @@ class _$FlagSongResponseSerializer
   final String wireName = 'FlagSongResponse';
 
   @override
-  Iterable serialize(Serializers serializers, FlagSongResponse object,
+  Iterable<Object> serialize(Serializers serializers, FlagSongResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -984,7 +988,8 @@ class _$FlagSongResponseSerializer
   }
 
   @override
-  FlagSongResponse deserialize(Serializers serializers, Iterable serialized,
+  FlagSongResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new FlagSongResponseBuilder();
 
@@ -1013,7 +1018,7 @@ class _$VideoItemResponseSerializer
   final String wireName = 'VideoItemResponse';
 
   @override
-  Iterable serialize(Serializers serializers, VideoItemResponse object,
+  Iterable<Object> serialize(Serializers serializers, VideoItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'data',
@@ -1025,7 +1030,8 @@ class _$VideoItemResponseSerializer
   }
 
   @override
-  VideoItemResponse deserialize(Serializers serializers, Iterable serialized,
+  VideoItemResponse deserialize(
+      Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new VideoItemResponseBuilder();
 
@@ -1090,7 +1096,7 @@ class _$SongEntity extends SongEntity {
   @override
   final String updatedAt;
 
-  factory _$SongEntity([void updates(SongEntityBuilder b)]) =>
+  factory _$SongEntity([void Function(SongEntityBuilder) updates]) =>
       (new SongEntityBuilder()..update(updates)).build();
 
   _$SongEntity._(
@@ -1155,7 +1161,7 @@ class _$SongEntity extends SongEntity {
   }
 
   @override
-  SongEntity rebuild(void updates(SongEntityBuilder b)) =>
+  SongEntity rebuild(void Function(SongEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -1388,7 +1394,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   }
 
   @override
-  void update(void updates(SongEntityBuilder b)) {
+  void update(void Function(SongEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -1458,7 +1464,7 @@ class _$TrackEntity extends TrackEntity {
   @override
   final int id;
 
-  factory _$TrackEntity([void updates(TrackEntityBuilder b)]) =>
+  factory _$TrackEntity([void Function(TrackEntityBuilder) updates]) =>
       (new TrackEntityBuilder()..update(updates)).build();
 
   _$TrackEntity._(
@@ -1477,7 +1483,7 @@ class _$TrackEntity extends TrackEntity {
   }
 
   @override
-  TrackEntity rebuild(void updates(TrackEntityBuilder b)) =>
+  TrackEntity rebuild(void Function(TrackEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -1589,7 +1595,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   }
 
   @override
-  void update(void updates(TrackEntityBuilder b)) {
+  void update(void Function(TrackEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -1639,7 +1645,7 @@ class _$CommentEntity extends CommentEntity {
   @override
   final int id;
 
-  factory _$CommentEntity([void updates(CommentEntityBuilder b)]) =>
+  factory _$CommentEntity([void Function(CommentEntityBuilder) updates]) =>
       (new CommentEntityBuilder()..update(updates)).build();
 
   _$CommentEntity._(
@@ -1666,7 +1672,7 @@ class _$CommentEntity extends CommentEntity {
   }
 
   @override
-  CommentEntity rebuild(void updates(CommentEntityBuilder b)) =>
+  CommentEntity rebuild(void Function(CommentEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -1771,7 +1777,7 @@ class CommentEntityBuilder
   }
 
   @override
-  void update(void updates(CommentEntityBuilder b)) {
+  void update(void Function(CommentEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -1816,7 +1822,7 @@ class _$SongLikeEntity extends SongLikeEntity {
   @override
   final String updatedAt;
 
-  factory _$SongLikeEntity([void updates(SongLikeEntityBuilder b)]) =>
+  factory _$SongLikeEntity([void Function(SongLikeEntityBuilder) updates]) =>
       (new SongLikeEntityBuilder()..update(updates)).build();
 
   _$SongLikeEntity._(
@@ -1834,7 +1840,7 @@ class _$SongLikeEntity extends SongLikeEntity {
   }
 
   @override
-  SongLikeEntity rebuild(void updates(SongLikeEntityBuilder b)) =>
+  SongLikeEntity rebuild(void Function(SongLikeEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -1919,7 +1925,7 @@ class SongLikeEntityBuilder
   }
 
   @override
-  void update(void updates(SongLikeEntityBuilder b)) {
+  void update(void Function(SongLikeEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -1949,7 +1955,7 @@ class _$SongFlagEntity extends SongFlagEntity {
   @override
   final String updatedAt;
 
-  factory _$SongFlagEntity([void updates(SongFlagEntityBuilder b)]) =>
+  factory _$SongFlagEntity([void Function(SongFlagEntityBuilder) updates]) =>
       (new SongFlagEntityBuilder()..update(updates)).build();
 
   _$SongFlagEntity._(
@@ -1967,7 +1973,7 @@ class _$SongFlagEntity extends SongFlagEntity {
   }
 
   @override
-  SongFlagEntity rebuild(void updates(SongFlagEntityBuilder b)) =>
+  SongFlagEntity rebuild(void Function(SongFlagEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2052,7 +2058,7 @@ class SongFlagEntityBuilder
   }
 
   @override
-  void update(void updates(SongFlagEntityBuilder b)) {
+  void update(void Function(SongFlagEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2080,7 +2086,8 @@ class _$ArtistFlagEntity extends ArtistFlagEntity {
   @override
   final String updatedAt;
 
-  factory _$ArtistFlagEntity([void updates(ArtistFlagEntityBuilder b)]) =>
+  factory _$ArtistFlagEntity(
+          [void Function(ArtistFlagEntityBuilder) updates]) =>
       (new ArtistFlagEntityBuilder()..update(updates)).build();
 
   _$ArtistFlagEntity._({this.id, this.artistId, this.deletedAt, this.updatedAt})
@@ -2094,7 +2101,7 @@ class _$ArtistFlagEntity extends ArtistFlagEntity {
   }
 
   @override
-  ArtistFlagEntity rebuild(void updates(ArtistFlagEntityBuilder b)) =>
+  ArtistFlagEntity rebuild(void Function(ArtistFlagEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2171,7 +2178,7 @@ class ArtistFlagEntityBuilder
   }
 
   @override
-  void update(void updates(ArtistFlagEntityBuilder b)) {
+  void update(void Function(ArtistFlagEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2200,6 +2207,8 @@ class _$VideoEntity extends VideoEntity {
   @override
   final String remoteVideoId;
   @override
+  final BuiltMap<String, double> volumeData;
+  @override
   final String description;
   @override
   final int duration;
@@ -2210,7 +2219,7 @@ class _$VideoEntity extends VideoEntity {
   @override
   final int id;
 
-  factory _$VideoEntity([void updates(VideoEntityBuilder b)]) =>
+  factory _$VideoEntity([void Function(VideoEntityBuilder) updates]) =>
       (new VideoEntityBuilder()..update(updates)).build();
 
   _$VideoEntity._(
@@ -2219,6 +2228,7 @@ class _$VideoEntity extends VideoEntity {
       this.url,
       this.thumbnailUrl,
       this.remoteVideoId,
+      this.volumeData,
       this.description,
       this.duration,
       this.deletedAt,
@@ -2231,7 +2241,7 @@ class _$VideoEntity extends VideoEntity {
   }
 
   @override
-  VideoEntity rebuild(void updates(VideoEntityBuilder b)) =>
+  VideoEntity rebuild(void Function(VideoEntityBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2246,6 +2256,7 @@ class _$VideoEntity extends VideoEntity {
         url == other.url &&
         thumbnailUrl == other.thumbnailUrl &&
         remoteVideoId == other.remoteVideoId &&
+        volumeData == other.volumeData &&
         description == other.description &&
         duration == other.duration &&
         deletedAt == other.deletedAt &&
@@ -2263,11 +2274,13 @@ class _$VideoEntity extends VideoEntity {
                         $jc(
                             $jc(
                                 $jc(
-                                    $jc($jc(0, userId.hashCode),
-                                        timestamp.hashCode),
-                                    url.hashCode),
-                                thumbnailUrl.hashCode),
-                            remoteVideoId.hashCode),
+                                    $jc(
+                                        $jc($jc(0, userId.hashCode),
+                                            timestamp.hashCode),
+                                        url.hashCode),
+                                    thumbnailUrl.hashCode),
+                                remoteVideoId.hashCode),
+                            volumeData.hashCode),
                         description.hashCode),
                     duration.hashCode),
                 deletedAt.hashCode),
@@ -2283,6 +2296,7 @@ class _$VideoEntity extends VideoEntity {
           ..add('url', url)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('remoteVideoId', remoteVideoId)
+          ..add('volumeData', volumeData)
           ..add('description', description)
           ..add('duration', duration)
           ..add('deletedAt', deletedAt)
@@ -2316,6 +2330,12 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   set remoteVideoId(String remoteVideoId) =>
       _$this._remoteVideoId = remoteVideoId;
 
+  MapBuilder<String, double> _volumeData;
+  MapBuilder<String, double> get volumeData =>
+      _$this._volumeData ??= new MapBuilder<String, double>();
+  set volumeData(MapBuilder<String, double> volumeData) =>
+      _$this._volumeData = volumeData;
+
   String _description;
   String get description => _$this._description;
   set description(String description) => _$this._description = description;
@@ -2345,6 +2365,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
       _url = _$v.url;
       _thumbnailUrl = _$v.thumbnailUrl;
       _remoteVideoId = _$v.remoteVideoId;
+      _volumeData = _$v.volumeData?.toBuilder();
       _description = _$v.description;
       _duration = _$v.duration;
       _deletedAt = _$v.deletedAt;
@@ -2364,24 +2385,38 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   }
 
   @override
-  void update(void updates(VideoEntityBuilder b)) {
+  void update(void Function(VideoEntityBuilder) updates) {
     if (updates != null) updates(this);
   }
 
   @override
   _$VideoEntity build() {
-    final _$result = _$v ??
-        new _$VideoEntity._(
-            userId: userId,
-            timestamp: timestamp,
-            url: url,
-            thumbnailUrl: thumbnailUrl,
-            remoteVideoId: remoteVideoId,
-            description: description,
-            duration: duration,
-            deletedAt: deletedAt,
-            updatedAt: updatedAt,
-            id: id);
+    _$VideoEntity _$result;
+    try {
+      _$result = _$v ??
+          new _$VideoEntity._(
+              userId: userId,
+              timestamp: timestamp,
+              url: url,
+              thumbnailUrl: thumbnailUrl,
+              remoteVideoId: remoteVideoId,
+              volumeData: _volumeData?.build(),
+              description: description,
+              duration: duration,
+              deletedAt: deletedAt,
+              updatedAt: updatedAt,
+              id: id);
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'volumeData';
+        _volumeData?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'VideoEntity', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }
@@ -2391,7 +2426,8 @@ class _$SongListResponse extends SongListResponse {
   @override
   final BuiltList<SongEntity> data;
 
-  factory _$SongListResponse([void updates(SongListResponseBuilder b)]) =>
+  factory _$SongListResponse(
+          [void Function(SongListResponseBuilder) updates]) =>
       (new SongListResponseBuilder()..update(updates)).build();
 
   _$SongListResponse._({this.data}) : super._() {
@@ -2401,7 +2437,7 @@ class _$SongListResponse extends SongListResponse {
   }
 
   @override
-  SongListResponse rebuild(void updates(SongListResponseBuilder b)) =>
+  SongListResponse rebuild(void Function(SongListResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2454,7 +2490,7 @@ class SongListResponseBuilder
   }
 
   @override
-  void update(void updates(SongListResponseBuilder b)) {
+  void update(void Function(SongListResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2483,7 +2519,8 @@ class _$SongItemResponse extends SongItemResponse {
   @override
   final SongEntity data;
 
-  factory _$SongItemResponse([void updates(SongItemResponseBuilder b)]) =>
+  factory _$SongItemResponse(
+          [void Function(SongItemResponseBuilder) updates]) =>
       (new SongItemResponseBuilder()..update(updates)).build();
 
   _$SongItemResponse._({this.data}) : super._() {
@@ -2493,7 +2530,7 @@ class _$SongItemResponse extends SongItemResponse {
   }
 
   @override
-  SongItemResponse rebuild(void updates(SongItemResponseBuilder b)) =>
+  SongItemResponse rebuild(void Function(SongItemResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2545,7 +2582,7 @@ class SongItemResponseBuilder
   }
 
   @override
-  void update(void updates(SongItemResponseBuilder b)) {
+  void update(void Function(SongItemResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2574,7 +2611,8 @@ class _$CommentItemResponse extends CommentItemResponse {
   @override
   final CommentEntity data;
 
-  factory _$CommentItemResponse([void updates(CommentItemResponseBuilder b)]) =>
+  factory _$CommentItemResponse(
+          [void Function(CommentItemResponseBuilder) updates]) =>
       (new CommentItemResponseBuilder()..update(updates)).build();
 
   _$CommentItemResponse._({this.data}) : super._() {
@@ -2584,7 +2622,8 @@ class _$CommentItemResponse extends CommentItemResponse {
   }
 
   @override
-  CommentItemResponse rebuild(void updates(CommentItemResponseBuilder b)) =>
+  CommentItemResponse rebuild(
+          void Function(CommentItemResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2637,7 +2676,7 @@ class CommentItemResponseBuilder
   }
 
   @override
-  void update(void updates(CommentItemResponseBuilder b)) {
+  void update(void Function(CommentItemResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2666,7 +2705,8 @@ class _$LikeSongResponse extends LikeSongResponse {
   @override
   final SongLikeEntity data;
 
-  factory _$LikeSongResponse([void updates(LikeSongResponseBuilder b)]) =>
+  factory _$LikeSongResponse(
+          [void Function(LikeSongResponseBuilder) updates]) =>
       (new LikeSongResponseBuilder()..update(updates)).build();
 
   _$LikeSongResponse._({this.data}) : super._() {
@@ -2676,7 +2716,7 @@ class _$LikeSongResponse extends LikeSongResponse {
   }
 
   @override
-  LikeSongResponse rebuild(void updates(LikeSongResponseBuilder b)) =>
+  LikeSongResponse rebuild(void Function(LikeSongResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2729,7 +2769,7 @@ class LikeSongResponseBuilder
   }
 
   @override
-  void update(void updates(LikeSongResponseBuilder b)) {
+  void update(void Function(LikeSongResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2758,7 +2798,8 @@ class _$FlagSongResponse extends FlagSongResponse {
   @override
   final SongFlagEntity data;
 
-  factory _$FlagSongResponse([void updates(FlagSongResponseBuilder b)]) =>
+  factory _$FlagSongResponse(
+          [void Function(FlagSongResponseBuilder) updates]) =>
       (new FlagSongResponseBuilder()..update(updates)).build();
 
   _$FlagSongResponse._({this.data}) : super._() {
@@ -2768,7 +2809,7 @@ class _$FlagSongResponse extends FlagSongResponse {
   }
 
   @override
-  FlagSongResponse rebuild(void updates(FlagSongResponseBuilder b)) =>
+  FlagSongResponse rebuild(void Function(FlagSongResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2821,7 +2862,7 @@ class FlagSongResponseBuilder
   }
 
   @override
-  void update(void updates(FlagSongResponseBuilder b)) {
+  void update(void Function(FlagSongResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2850,7 +2891,8 @@ class _$VideoItemResponse extends VideoItemResponse {
   @override
   final VideoEntity data;
 
-  factory _$VideoItemResponse([void updates(VideoItemResponseBuilder b)]) =>
+  factory _$VideoItemResponse(
+          [void Function(VideoItemResponseBuilder) updates]) =>
       (new VideoItemResponseBuilder()..update(updates)).build();
 
   _$VideoItemResponse._({this.data}) : super._() {
@@ -2860,7 +2902,7 @@ class _$VideoItemResponse extends VideoItemResponse {
   }
 
   @override
-  VideoItemResponse rebuild(void updates(VideoItemResponseBuilder b)) =>
+  VideoItemResponse rebuild(void Function(VideoItemResponseBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
@@ -2912,7 +2954,7 @@ class VideoItemResponseBuilder
   }
 
   @override
-  void update(void updates(VideoItemResponseBuilder b)) {
+  void update(void Function(VideoItemResponseBuilder) updates) {
     if (updates != null) updates(this);
   }
 
@@ -2936,3 +2978,5 @@ class VideoItemResponseBuilder
     return _$result;
   }
 }
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
