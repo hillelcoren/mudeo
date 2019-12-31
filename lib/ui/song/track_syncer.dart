@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -88,25 +90,25 @@ class _TrackSyncerState extends State<TrackSyncer> {
           for (int i = 0; i < _song.tracks.length; i++)
             GestureDetector(
               onHorizontalDragUpdate: (details) {
-                print('## UPDATE: ${details.delta}, timeSpan: $_timeSpan');
                 final track = _song.tracks[i];
-                final delay = track.delay +
-                    (details.primaryDelta.toInt() * _timeSpan.floor());
                 if (i == 0) {
-                  //
+                  setState(() {
+                    final value = _timeStart + details.primaryDelta.toInt() * _timeSpan.floor();
+                    _timeStart = min(value, 0);
+                  });
                 } else {
+                  final delay = track.delay +
+                      (details.primaryDelta.toInt() * _timeSpan.floor());
                   widget.onDelayChanged(track, delay);
                   setState(() {
                     _song = _song.setTrackDelay(track, delay);
                   });
                 }
               },
-              onHorizontalDragEnd: (details) {
-                print('## END: ${details.primaryVelocity}');
-              },
               child: TrackVolume(
                 track: _song.tracks[i],
                 timeSpan: _timeSpan * 1000,
+                timeStart: _timeStart,
                 isSyncing: i == 0 ? false : _isSyncing[i],
               ),
             ),
@@ -144,12 +146,14 @@ class TrackVolume extends StatelessWidget {
   const TrackVolume({
     @required this.track,
     @required this.timeSpan,
+    @required this.timeStart,
     @required this.isSyncing,
   });
 
   final TrackEntity track;
   final double timeSpan;
   final bool isSyncing;
+  final int timeStart;
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +172,7 @@ class TrackVolume extends StatelessWidget {
                 painter: VolumePainter(
                   track: track,
                   timeSpan: timeSpan,
+                  timeStart: timeStart,
                   color: isSyncing ? Colors.yellowAccent : Colors.white,
                 ),
               ),
@@ -180,12 +185,17 @@ class TrackVolume extends StatelessWidget {
 }
 
 class VolumePainter extends CustomPainter {
-  const VolumePainter(
-      {@required this.track, @required this.timeSpan, @required this.color});
+  const VolumePainter({
+    @required this.track,
+    @required this.timeSpan,
+    @required this.timeStart,
+    @required this.color,
+  });
 
   final TrackEntity track;
   final double timeSpan;
   final Color color;
+  final int timeStart;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -202,7 +212,7 @@ class VolumePainter extends CustomPainter {
 
     double volume = 0;
 
-    for (int i = 0; i <= timeSpan; i++) {
+    for (int i = timeStart; i <= timeSpan; i++) {
       var time = (i - track.delay).toString();
 
       if (volumeData.containsKey(time)) {
@@ -217,7 +227,7 @@ class VolumePainter extends CustomPainter {
 
       final seconds = (timeSpan / 1000).round();
       if (i % seconds == 0) {
-        final x = i * (11 - seconds);
+        final x = (i + timeStart) * (11 - seconds);
 
         if (x > 10000) {
           return;
