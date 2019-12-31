@@ -121,6 +121,7 @@ class MudeoAppState extends State<MudeoApp> {
           theme: ThemeData(
             brightness: Brightness.dark,
             accentColor: Colors.lightBlueAccent,
+            textSelectionHandleColor: Colors.lightBlueAccent,
           ),
           title: 'mudeo',
           routes: {
