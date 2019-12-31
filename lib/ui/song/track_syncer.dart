@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/song_model.dart';
-import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class TrackSyncer extends StatefulWidget {
@@ -59,7 +57,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
           totalDiff += diff;
         }
 
-        //print('total diff: $totalDiff');
         if (totalDiff < minDiff) {
           minDiff = totalDiff;
           minDiffDelay = j;
@@ -78,7 +75,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final state = StoreProvider.of<AppState>(context).state;
 
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
