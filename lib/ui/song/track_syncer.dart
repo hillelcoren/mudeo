@@ -101,11 +101,13 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     setState(() {
                       final value = _timeStart +
                           details.primaryDelta.toInt() * _timeSpan.floor();
-                      _timeStart = min(value, 0);
+                      _timeStart = value > 0 ? 0 : value;
                     });
                   } else {
-                    final delay = track.delay +
+                    var delay = track.delay +
                         (details.primaryDelta.toInt() * _timeSpan.floor());
+                    delay = max(-1000, min(1000, delay));
+                    print('## DELAY: $delay');
                     widget.onDelayChanged(track, delay);
                     setState(() {
                       _song = _song.setTrackDelay(track, delay);
