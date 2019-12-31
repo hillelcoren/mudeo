@@ -123,177 +123,189 @@ class _SongItemState extends State<SongItem> {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
 
-    return AnimatedContainer(
-      duration: Duration(milliseconds: _showComments ? 300 : 500),
-      height: _showComments ? 560 : 380,
-      child: Stack(children: <Widget>[
-        !song.hasThumbnail && lastTrack.video.isRemoteVideo
-            ? Center(
-                child: Text(
-                  localization.backingTrack,
-                  style: TextStyle(color: Colors.grey, fontSize: 20),
-                ),
-              )
-            : (song.isRendered && song.hasThumbnail) ||
-                    lastTrack.video.hasThumbnail
-                ? CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    width: double.infinity,
-                    imageUrl: (song.isRendered && song.hasThumbnail)
-                        ? song.thumbnailUrl
-                        : lastTrack.video.thumbnailUrl)
-                : SizedBox(),
-        Material(
-          color: Colors.transparent,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 3, color: Colors.transparent),
-                  color: Colors.black12.withOpacity(0.3),
-                ),
-                child: SongHeader(
-                  song: widget.song,
-                  enableShowArtist: widget.enableShowArtist,
-                ),
-              ),
-              AnimatedContainer(
-                height: _showComments ? 400 : 0,
-                duration: Duration(milliseconds: _showComments ? 500 : 300),
-                curve: Curves.easeInOutCubic,
-                child: SingleChildScrollView(
-                  child: FormCard(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              song.description != null &&
-                                      song.description.trim().isNotEmpty
-                                  ? song.description
-                                  : song.title,
-                              style: Theme.of(context).textTheme.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () {
-                              _textController.clear();
-                              _textFocusNode.unfocus();
-                              setState(() => _showComments = false);
-                            },
-                          ),
-                        ],
-                      ),
-                      TextFormField(
-                        autofocus: false,
-                        minLines: 1,
-                        maxLines: 3,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(kMaxCommentLength),
-                        ],
-                        controller: _textController,
-                        focusNode: _textFocusNode,
-                        decoration: InputDecoration(
-                          labelText: localization.addAPublicComment,
-                          //icon: Icon(Icons.comment),
-                        ),
-                      ),
-                      Visibility(
-                        visible: _showSubmitButton,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 4),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              if (!state.isSaving)
-                                FlatButton(
-                                  child:
-                                      Text(localization.cancel.toUpperCase()),
-                                  onPressed: () {
-                                    _textController.clear();
-                                    _textFocusNode.unfocus();
-                                  },
-                                ),
-                              SizedBox(width: 10),
-                              state.isSaving
-                                  ? Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 35, vertical: 10),
-                                      child: SizedBox(
-                                          child: CircularProgressIndicator(),
-                                          width: 20,
-                                          height: 20),
-                                    )
-                                  : RaisedButton(
-                                      child: Text(
-                                          localization.comment.toUpperCase()),
-                                      onPressed: _enableSubmitButton
-                                          ? () {
-                                              final Completer<Null> completer =
-                                                  Completer<Null>();
-                                              final comment = song.newComment(
-                                                  state.authState.artist.id,
-                                                  _textController.text.trim());
-                                              store.dispatch(SaveCommentRequest(
-                                                  completer: completer,
-                                                  comment: comment));
-                                              completer.future.then((value) {
-                                                _textController.clear();
-                                                _textFocusNode.unfocus();
-                                              });
-                                            }
-                                          : null,
-                                    )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      SizedBox(
-                        height: 200,
-                        child: song.comments.isEmpty
-                            ? Center(
-                                child: Text(
-                                  localization.noComments,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.grey,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                              )
-                            : ListView(
-                                shrinkWrap: true,
-                                children: song.comments.reversed
-                                    .map((comment) => CommentRow(
-                                          key: ValueKey(comment.id),
-                                          song: song,
-                                          comment: comment,
-                                        ))
-                                    .toList(),
-                              ),
-                      )
-                    ],
+    return GestureDetector(
+      onTap: () {
+        showDialog<VideoPlayer>(
+            context: context,
+            builder: (BuildContext context) {
+              return VideoPlayer(song.videoUrl);
+            });
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: _showComments ? 300 : 500),
+        height: _showComments ? 560 : 380,
+        child: Stack(children: <Widget>[
+          !song.hasThumbnail && lastTrack.video.isRemoteVideo
+              ? Center(
+                  child: Text(
+                    localization.backingTrack,
+                    style: TextStyle(color: Colors.grey, fontSize: 20),
+                  ),
+                )
+              : (song.isRendered && song.hasThumbnail) ||
+                      lastTrack.video.hasThumbnail
+                  ? CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      height: double.infinity,
+                      width: double.infinity,
+                      imageUrl: (song.isRendered && song.hasThumbnail)
+                          ? song.thumbnailUrl
+                          : lastTrack.video.thumbnailUrl)
+                  : SizedBox(),
+          Material(
+            color: Colors.transparent,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.transparent),
+                    color: Colors.black12.withOpacity(0.3),
+                  ),
+                  child: SongHeader(
+                    song: widget.song,
+                    enableShowArtist: widget.enableShowArtist,
                   ),
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 3, color: Colors.transparent),
-                  color: Colors.black12.withOpacity(0.3),
+                AnimatedContainer(
+                  height: _showComments ? 400 : 0,
+                  duration: Duration(milliseconds: _showComments ? 500 : 300),
+                  curve: Curves.easeInOutCubic,
+                  child: SingleChildScrollView(
+                    child: FormCard(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Expanded(
+                              child: Text(
+                                song.description != null &&
+                                        song.description.trim().isNotEmpty
+                                    ? song.description
+                                    : song.title,
+                                style: Theme.of(context).textTheme.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () {
+                                _textController.clear();
+                                _textFocusNode.unfocus();
+                                setState(() => _showComments = false);
+                              },
+                            ),
+                          ],
+                        ),
+                        TextFormField(
+                          autofocus: false,
+                          minLines: 1,
+                          maxLines: 3,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(kMaxCommentLength),
+                          ],
+                          controller: _textController,
+                          focusNode: _textFocusNode,
+                          decoration: InputDecoration(
+                            labelText: localization.addAPublicComment,
+                            //icon: Icon(Icons.comment),
+                          ),
+                        ),
+                        Visibility(
+                          visible: _showSubmitButton,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 4),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                if (!state.isSaving)
+                                  FlatButton(
+                                    child:
+                                        Text(localization.cancel.toUpperCase()),
+                                    onPressed: () {
+                                      _textController.clear();
+                                      _textFocusNode.unfocus();
+                                    },
+                                  ),
+                                SizedBox(width: 10),
+                                state.isSaving
+                                    ? Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 35, vertical: 10),
+                                        child: SizedBox(
+                                            child: CircularProgressIndicator(),
+                                            width: 20,
+                                            height: 20),
+                                      )
+                                    : RaisedButton(
+                                        child: Text(
+                                            localization.comment.toUpperCase()),
+                                        onPressed: _enableSubmitButton
+                                            ? () {
+                                                final Completer<Null>
+                                                    completer =
+                                                    Completer<Null>();
+                                                final comment = song.newComment(
+                                                    state.authState.artist.id,
+                                                    _textController.text
+                                                        .trim());
+                                                store.dispatch(
+                                                    SaveCommentRequest(
+                                                        completer: completer,
+                                                        comment: comment));
+                                                completer.future.then((value) {
+                                                  _textController.clear();
+                                                  _textFocusNode.unfocus();
+                                                });
+                                              }
+                                            : null,
+                                      )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          height: 200,
+                          child: song.comments.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    localization.noComments,
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                )
+                              : ListView(
+                                  shrinkWrap: true,
+                                  children: song.comments.reversed
+                                      .map((comment) => CommentRow(
+                                            key: ValueKey(comment.id),
+                                            song: song,
+                                            comment: comment,
+                                          ))
+                                      .toList(),
+                                ),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
-                child: SongFooter(widget.song, onMessageTap),
-              ),
-            ],
-          ),
-        )
-      ]),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 3, color: Colors.transparent),
+                    color: Colors.black12.withOpacity(0.3),
+                  ),
+                  child: SongFooter(widget.song, onMessageTap),
+                ),
+              ],
+            ),
+          )
+        ]),
+      ),
     );
   }
 }
@@ -522,6 +534,7 @@ class SongHeader extends StatelessWidget {
               ],
             ),
           ),
+          /*
           IconButton(
             padding: EdgeInsets.only(top: 0),
             icon: Icon(Icons.play_circle_filled, size: 50),
@@ -534,6 +547,7 @@ class SongHeader extends StatelessWidget {
                   });
             },
           ),
+           */
         ],
       ),
     );
