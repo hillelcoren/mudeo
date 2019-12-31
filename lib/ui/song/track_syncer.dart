@@ -155,6 +155,7 @@ class VolumePainter extends CustomPainter {
     final volumeData = video.volumeData;
 
     double volume = 0;
+
     for (int i = 0; i <= timeSpan; i++) {
       var time = (i - track.delay).toString();
 
