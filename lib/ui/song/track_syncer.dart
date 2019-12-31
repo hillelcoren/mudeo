@@ -85,10 +85,29 @@ class _TrackSyncerState extends State<TrackSyncer> {
             ],
           ),
           for (int i = 0; i < _song.tracks.length; i++)
-            TrackVolume(
-              track: _song.tracks[i],
-              timeSpan: _timeSpan * 1000,
-              isSyncing: i == 0 ? false : _isSyncing[i],
+            GestureDetector(
+              onHorizontalDragUpdate: (details) {
+                print('## UPDATE: ${details.delta}, timeSpan: $_timeSpan');
+                final track = _song.tracks[i];
+                final delay = track.delay +
+                    (details.primaryDelta.toInt() * _timeSpan.floor());
+                if (i == 0) {
+                  //
+                } else {
+                  widget.onDelayChanged(track, delay);
+                  setState(() {
+                    _song = _song.setTrackDelay(track, delay);
+                  });
+                }
+              },
+              onHorizontalDragEnd: (details) {
+                print('## END: ${details.primaryVelocity}');
+              },
+              child: TrackVolume(
+                track: _song.tracks[i],
+                timeSpan: _timeSpan * 1000,
+                isSyncing: i == 0 ? false : _isSyncing[i],
+              ),
             ),
           SizedBox(height: 10),
           Row(
