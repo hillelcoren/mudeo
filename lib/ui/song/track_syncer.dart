@@ -93,7 +93,8 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 final track = _song.tracks[i];
                 if (i == 0) {
                   setState(() {
-                    final value = _timeStart + details.primaryDelta.toInt() * _timeSpan.floor();
+                    final value = _timeStart +
+                        details.primaryDelta.toInt() * _timeSpan.floor();
                     _timeStart = min(value, 0);
                   });
                 } else {
