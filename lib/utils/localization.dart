@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'sync': 'Sync',
       'error_video_not_ready': 'The video is still processing, please try again soon',
       'rendering': 'Rendering',
       'pronounced': 'Pronounced',
@@ -506,6 +507,9 @@ class AppLocalization {
 
   String get errorVideoNotReady =>
       _localizedValues[locale.toString()]['error_video_not_ready'];
+
+  String get sync =>
+      _localizedValues[locale.toString()]['sync'];
 
 
   String lookup(String key) {

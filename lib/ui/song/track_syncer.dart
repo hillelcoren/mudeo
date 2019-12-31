@@ -15,6 +15,22 @@ class _TrackSyncerState extends State<TrackSyncer> {
   int timeSpan = 1000 * 10;
   int timeStart = 0;
 
+  void _syncVideos() {
+    final song = widget.song;
+
+    if (song.tracks.length < 2) {
+      return;
+    }
+
+    final firstVideo = song.tracks.first.video;
+
+    for (int i = 1; i <= song.tracks.length - 1; i++) {
+      final track = song.tracks[i];
+      final video = track.video;
+      print('Comparing video $i to first video: ${track.delay}');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
@@ -26,7 +42,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
         children: [
           ...widget.song.tracks
               .map((track) => TrackVolume(
-                    video: track.video,
+                    track: track,
                     timeSpan: timeSpan,
                   ))
               .toList(),
@@ -37,16 +53,14 @@ class _TrackSyncerState extends State<TrackSyncer> {
               Expanded(
                 child: RaisedButton(
                   color: Colors.grey,
-                  child: Text(localization.cancel),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  child: Text(localization.sync.toUpperCase()),
+                  onPressed: () => _syncVideos(),
                 ),
               ),
               SizedBox(width: 20),
               Expanded(
                 child: RaisedButton(
-                  child: Text(localization.done),
+                  child: Text(localization.done.toUpperCase()),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -61,9 +75,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
 }
 
 class TrackVolume extends StatelessWidget {
-  const TrackVolume({this.video, this.timeSpan});
+  const TrackVolume({this.track, this.timeSpan});
 
-  final VideoEntity video;
+  final TrackEntity track;
   final int timeSpan;
 
   @override
@@ -79,7 +93,7 @@ class TrackVolume extends StatelessWidget {
             color: Colors.black38,
             child: CustomPaint(
               painter: VolumePainter(
-                video: video,
+                track: track,
                 timeSpan: timeSpan,
               ),
             ),
@@ -91,13 +105,14 @@ class TrackVolume extends StatelessWidget {
 }
 
 class VolumePainter extends CustomPainter {
-  const VolumePainter({this.video, this.timeSpan});
+  const VolumePainter({this.track, this.timeSpan});
 
-  final VideoEntity video;
+  final TrackEntity track;
   final int timeSpan;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final video = track.video;
     var paint = Paint();
     paint.color = Colors.white;
     paint.style = PaintingStyle.fill;
@@ -111,8 +126,10 @@ class VolumePainter extends CustomPainter {
 
     double volume = 0;
     for (int i = 0; i <= timeSpan; i++) {
-      if (volumeData.containsKey('$i')) {
-        volume = volumeData['$i'];
+      var time = (i - track.delay).toString();
+
+      if (volumeData.containsKey(time)) {
+        volume = volumeData[time];
       }
 
       if (volume > 120) {

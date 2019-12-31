@@ -579,7 +579,7 @@ class _SongEditState extends State<SongEdit> {
                     ),
               if (song.tracks.length > 1)
                 ExpandedButton(
-                  icon: Icons.timer,
+                  icon: Icons.swap_horizontal_circle,
                   iconHeight: 26,
                   onPressed: isPlaying ? null : () => _showTrackSyncer(),
                 )
