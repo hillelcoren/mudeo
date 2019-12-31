@@ -135,18 +135,21 @@ class TrackVolume extends StatelessWidget {
   Widget build(BuildContext context) {
     return FittedBox(
       fit: BoxFit.cover,
-      child: SizedBox(
-        height: 1400,
-        width: timeSpan.toDouble(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 100),
-          child: Container(
-            color: Colors.black38,
-            child: CustomPaint(
-              painter: VolumePainter(
-                track: track,
-                timeSpan: timeSpan,
-                color: isSyncing ? Colors.yellowAccent : Colors.white,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: 1400),
+        child: SizedBox(
+          height: 1400,
+          width: 10000,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 100),
+            child: Container(
+              color: Colors.black38,
+              child: CustomPaint(
+                painter: VolumePainter(
+                  track: track,
+                  timeSpan: timeSpan,
+                  color: isSyncing ? Colors.yellowAccent : Colors.white,
+                ),
               ),
             ),
           ),
