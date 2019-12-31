@@ -50,39 +50,41 @@ class _TrackSyncerState extends State<TrackSyncer> {
             _isSyncing[i] = true;
           });
 
-          final track = _song.tracks[i];
-          final compareVideo = track.video;
-          final compareMap = compareVideo.volumeMap;
-          print('Comparing video $i to first video - delay: ${track.delay}');
+          Timer(Duration(milliseconds: 500), () {
+            final track = _song.tracks[i];
+            final compareVideo = track.video;
+            final compareMap = compareVideo.volumeMap;
+            print('Comparing video $i to first video - delay: ${track.delay}');
 
-          double minDiff = 999999999;
-          int minDiffDelay = 0;
+            double minDiff = 999999999;
+            int minDiffDelay = 0;
 
-          for (int j = -1000; j <= 1000; j++) {
-            double totalDiff = 0;
+            for (int j = -1000; j <= 1000; j++) {
+              double totalDiff = 0;
 
-            for (int k = 1000; k <= 9000; k++) {
-              final oldVolume = volumeMap[k];
-              final newVolume = compareMap[k + j];
-              final diff = oldVolume > newVolume
-                  ? oldVolume - newVolume
-                  : newVolume - oldVolume;
+              for (int k = 1000; k <= 9000; k++) {
+                final oldVolume = volumeMap[k];
+                final newVolume = compareMap[k + j];
+                final diff = oldVolume > newVolume
+                    ? oldVolume - newVolume
+                    : newVolume - oldVolume;
 
-              totalDiff += diff;
+                totalDiff += diff;
+              }
+
+              if (totalDiff < minDiff) {
+                minDiff = totalDiff;
+                minDiffDelay = j;
+              }
             }
 
-            if (totalDiff < minDiff) {
-              minDiff = totalDiff;
-              minDiffDelay = j;
-            }
-          }
-
-          final delay = minDiffDelay * -1;
-          print('Set delay to: $delay');
-          widget.onDelayChanged(track, delay);
-          setState(() {
-            _song = _song.setTrackDelay(track, delay);
-            _isSyncing[i] = false;
+            final delay = minDiffDelay * -1;
+            print('Set delay to: $delay');
+            widget.onDelayChanged(track, delay);
+            setState(() {
+              _song = _song.setTrackDelay(track, delay);
+              _isSyncing[i] = false;
+            });
           });
         }
       });
@@ -147,6 +149,7 @@ class TrackVolume extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('## VOLUM: isSyncing $isSyncing');
     return FittedBox(
       fit: BoxFit.cover,
       child: SizedBox(
@@ -160,7 +163,7 @@ class TrackVolume extends StatelessWidget {
               painter: VolumePainter(
                 track: track,
                 timeSpan: timeSpan,
-                color: isSyncing ? Theme.of(context).accentColor : Colors.white,
+                color: isSyncing ? Colors.blueAccent : Colors.white,
               ),
             ),
           ),
