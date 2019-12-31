@@ -395,8 +395,6 @@ abstract class VideoEntity extends Object
 
     double volume = 20;
 
-    print('Start: $start, End: $end');
-
     for (int i = start; i <= end; i++) {
       var time = (i).toString();
 

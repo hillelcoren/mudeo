@@ -48,14 +48,13 @@ class _TrackSyncerState extends State<TrackSyncer> {
       });
 
       final track = _song.tracks[i];
-      print('Time State: $_timeStart, Time Span: $_timeSpan');
       final start = _timeStart * -1;
       final end = _timeSpan.floor() * 1000;
-      print('Time State: $_timeStart, Time Span: $_timeSpan => $start - $end');
       int delay = await compute(getMinDelay, [
         _song.tracks[0].video.getVolumeMap(start, end),
         _song.tracks[i].video.getVolumeMap(start, end),
       ]);
+      print('Time State: $_timeStart, Time Span: $_timeSpan => $start - $end = $delay');
       widget.onDelayChanged(track, delay);
       setState(() {
         _song = _song.setTrackDelay(track, delay);
