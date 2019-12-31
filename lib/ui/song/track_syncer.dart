@@ -126,7 +126,7 @@ class TrackVolume extends StatelessWidget {
               painter: VolumePainter(
                 track: track,
                 timeSpan: timeSpan,
-                color: isSyncing ? Colors.blueAccent : Colors.white,
+                color: isSyncing ? Colors.yellowAccent : Colors.white,
               ),
             ),
           ),
