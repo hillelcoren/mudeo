@@ -45,12 +45,8 @@ class _TrackSyncerState extends State<TrackSyncer> {
       });
 
       final track = _song.tracks[i];
-      print('Comparing video $i to first video - delay: ${track.delay}');
-
       int delay = await compute(getMinDelay,
           [_song.tracks[0].video.volumeMap, _song.tracks[i].video.volumeMap]);
-
-      print('Set delay to: $delay');
       widget.onDelayChanged(track, delay);
       setState(() {
         _song = _song.setTrackDelay(track, delay);
@@ -117,7 +113,6 @@ class TrackVolume extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('## VOLUM: isSyncing $isSyncing');
     return FittedBox(
       fit: BoxFit.cover,
       child: SizedBox(
@@ -157,7 +152,6 @@ class VolumePainter extends CustomPainter {
     paint.style = PaintingStyle.fill;
 
     if (video == null || video.volumeData == null) {
-      print('## SKIPPING');
       return;
     }
 
