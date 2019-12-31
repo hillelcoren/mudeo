@@ -390,6 +390,30 @@ abstract class VideoEntity extends Object
     return '$folder/$timestamp.mp4';
   }
 
+  Map<int, double> get volumeMap {
+    final map = Map<int, double>();
+
+    double volume = 20;
+
+    for (int i = 0; i <= 10000; i++) {
+      var time = (i).toString();
+
+      if (volumeData.containsKey(time)) {
+        volume = volumeData[time];
+      }
+
+      if (volume > 120) {
+        volume = 120;
+      } else if (volume < 20) {
+        volume = 20;
+      }
+
+      map[i] = volume;
+    }
+
+    return map;
+  }
+
   static Serializer<VideoEntity> get serializer => _$videoEntitySerializer;
 }
 

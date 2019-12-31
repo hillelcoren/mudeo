@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -23,11 +24,40 @@ class _TrackSyncerState extends State<TrackSyncer> {
     }
 
     final firstVideo = song.tracks.first.video;
+    final volumeMap = firstVideo.volumeMap;
 
     for (int i = 1; i <= song.tracks.length - 1; i++) {
       final track = song.tracks[i];
-      final video = track.video;
-      print('Comparing video $i to first video: ${track.delay}');
+      final compareVideo = track.video;
+      final compareMap = compareVideo.volumeMap;
+      print('Comparing video $i to first video - delay: ${track.delay}');
+
+      int delay = 0;
+      double minDiff = 999999999;
+      int minDiffDelay = 0;
+
+      for (int j = -1000; j <= 1000; j++) {
+        double totalDiff = 0;
+
+        for (int k = 1000; k <= 9000; k++) {
+          final oldVolume = volumeMap[k];
+          final newVolume = compareMap[k + j];
+          final diff = oldVolume > newVolume
+              ? oldVolume - newVolume
+              : newVolume - oldVolume;
+
+          totalDiff += diff;
+        }
+
+        //print('total diff: $totalDiff');
+        if (totalDiff < minDiff) {
+          minDiff = totalDiff;
+          minDiffDelay = j;
+        }
+      }
+
+      print('min diff: $minDiff, delay: $minDiffDelay');
+      //break;
     }
   }
 
