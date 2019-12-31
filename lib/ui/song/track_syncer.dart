@@ -19,6 +19,7 @@ class TrackSyncer extends StatefulWidget {
 class _TrackSyncerState extends State<TrackSyncer> {
   double _timeSpan = 10;
   int _timeStart = 0;
+  double _zoomLevel = 1;
   Map<int, bool> _isSyncing = {
     1: false,
     2: false,
@@ -71,10 +72,11 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 child: Slider(
                   min: 1,
                   max: 10,
-                  value: _timeSpan,
+                  value: _zoomLevel,
                   onChanged: (value) {
                     setState(() {
-                      _timeSpan = value;
+                      _zoomLevel = value;
+                      _timeSpan = 11 - _zoomLevel;
                     });
                   },
                 ),
