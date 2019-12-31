@@ -120,7 +120,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   isSyncing: i == 0 ? false : _isSyncing[i],
                 ),
               ),
-            SizedBox(height: 16),
+            SizedBox(height: 18),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
