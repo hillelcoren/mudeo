@@ -54,7 +54,8 @@ class _TrackSyncerState extends State<TrackSyncer> {
         _song.tracks[0].video.getVolumeMap(start, end),
         _song.tracks[i].video.getVolumeMap(start, end),
       ]);
-      print('## SYNC: Start: $_timeStart, Span: $_timeSpan => $start - $end = $delay');
+      print(
+          '## SYNC: Start: $_timeStart, Span: $_timeSpan => $start - $end = $delay');
       widget.onDelayChanged(track, delay);
       setState(() {
         _song = _song.setTrackDelay(track, delay);
@@ -238,7 +239,7 @@ class VolumePainter extends CustomPainter {
       if (i % seconds == 0) {
         final x = (i + timeStart) * (11 - seconds);
 
-        if (x > 10000) {
+        if (i > 10000) {
           return;
         }
 
