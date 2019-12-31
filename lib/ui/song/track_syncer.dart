@@ -220,7 +220,8 @@ class VolumePainter extends CustomPainter {
 
     double volume = 0;
 
-    for (int i = timeStart; i <= timeSpan; i++) {
+    print('time start: $timeStart, time span: $timeSpan');
+    for (int i = timeStart; i <= timeSpan - timeStart; i++) {
       var time = (i - track.delay).toString();
 
       if (volumeData.containsKey(time)) {
