@@ -110,16 +110,15 @@ class VolumePainter extends CustomPainter {
     final volumeData = video.volumeData;
 
     double volume = 0;
-    double lastVolume = 0;
     for (int i = 0; i <= timeSpan; i++) {
       if (volumeData.containsKey('$i')) {
         volume = volumeData['$i'];
       }
 
       if (volume > 120) {
-        volume = lastVolume < 40 ? 20 : 120;
+        volume = 120;
       } else if (volume < 20) {
-        volume = lastVolume < 40 ? 20 : 20;
+        volume = 20;
       }
 
       if (i % 10 == 0) {
@@ -128,8 +127,6 @@ class VolumePainter extends CustomPainter {
             height - ((volume - 20) * 10));
         canvas.drawRect(rect, paint);
       }
-
-      lastVolume = volume;
     }
   }
 
