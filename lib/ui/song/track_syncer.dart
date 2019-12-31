@@ -48,8 +48,14 @@ class _TrackSyncerState extends State<TrackSyncer> {
       });
 
       final track = _song.tracks[i];
-      int delay = await compute(getMinDelay,
-          [_song.tracks[0].video.volumeMap, _song.tracks[i].video.volumeMap]);
+      print('Time State: $_timeStart, Time Span: $_timeSpan');
+      final start = _timeStart * -1;
+      final end = _timeSpan.floor() * 1000;
+      print('Time State: $_timeStart, Time Span: $_timeSpan => $start - $end');
+      int delay = await compute(getMinDelay, [
+        _song.tracks[0].video.getVolumeMap(start, end),
+        _song.tracks[i].video.getVolumeMap(start, end),
+      ]);
       widget.onDelayChanged(track, delay);
       setState(() {
         _song = _song.setTrackDelay(track, delay);
@@ -260,12 +266,15 @@ int getMinDelay(List<Map<int, double>> maps) {
     double totalDiff = 0;
 
     for (int k = 1000; k <= 9000; k++) {
-      final oldVolume = video1Map[k];
-      final newVolume = video2Map[k + j];
-      final diff =
-          oldVolume > newVolume ? oldVolume - newVolume : newVolume - oldVolume;
+      if (video1Map.containsKey(k) && video2Map.containsKey(k + j)) {
+        final oldVolume = video1Map[k];
+        final newVolume = video2Map[k + j];
+        final diff = oldVolume > newVolume
+            ? oldVolume - newVolume
+            : newVolume - oldVolume;
 
-      totalDiff += diff;
+        totalDiff += diff;
+      }
     }
 
     if (totalDiff < minDiff) {

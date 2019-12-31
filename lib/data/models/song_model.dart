@@ -390,12 +390,14 @@ abstract class VideoEntity extends Object
     return '$folder/$timestamp.mp4';
   }
 
-  Map<int, double> get volumeMap {
+  Map<int, double> getVolumeMap(int start, int end) {
     final map = Map<int, double>();
 
     double volume = 20;
 
-    for (int i = 0; i <= 10000; i++) {
+    print('Start: $start, End: $end');
+
+    for (int i = start; i <= end; i++) {
       var time = (i).toString();
 
       if (volumeData.containsKey(time)) {
