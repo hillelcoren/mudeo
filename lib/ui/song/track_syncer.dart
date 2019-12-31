@@ -39,23 +39,13 @@ class _TrackSyncerState extends State<TrackSyncer> {
       return;
     }
 
-    final firstVideo = _song.tracks.first.video;
-    final volumeMap = firstVideo.volumeMap;
-
     for (int i = 1; i <= _song.tracks.length - 1; i++) {
       setState(() {
         _isSyncing[i] = true;
       });
 
       final track = _song.tracks[i];
-      final compareVideo = track.video;
-      final compareMap = compareVideo.volumeMap;
       print('Comparing video $i to first video - delay: ${track.delay}');
-
-      double minDiff = 999999999;
-      int minDiffDelay = 0;
-
-      //int result = await compute(loop, 1000000000000000000);
 
       int delay = await compute(getMinDelay,
           [_song.tracks[0].video.volumeMap, _song.tracks[i].video.volumeMap]);
