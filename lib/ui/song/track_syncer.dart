@@ -174,7 +174,7 @@ class VolumePainter extends CustomPainter {
 
       if (i % 10 == 0) {
         final height = 1200.0;
-        final rect = Rect.fromLTRB(i.toDouble(), height, i.toDouble() + 7,
+        final rect = Rect.fromLTRB(i.toDouble(), height, i.toDouble() + 10,
             height - ((volume - 20) * 10));
         canvas.drawRect(rect, paint);
       }
