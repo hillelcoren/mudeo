@@ -123,29 +123,32 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 ),
               ),
             SizedBox(height: 18),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Expanded(
-                  child: RaisedButton(
-                    color: Colors.grey,
-                    child: Text(localization.sync.toUpperCase()),
-                    onPressed: _isSyncing.values.contains(true)
-                        ? null
-                        : () => _syncVideos(),
+            _isSyncing.values.contains(true)
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 22),
+                    child: LinearProgressIndicator(),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Expanded(
+                        child: RaisedButton(
+                          color: Colors.grey,
+                          child: Text(localization.sync.toUpperCase()),
+                          onPressed: () => _syncVideos(),
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: RaisedButton(
+                          child: Text(localization.done.toUpperCase()),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: RaisedButton(
-                    child: Text(localization.done.toUpperCase()),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
