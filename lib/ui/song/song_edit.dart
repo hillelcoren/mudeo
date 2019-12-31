@@ -495,7 +495,6 @@ class _SongEditState extends State<SongEdit> {
                 updatedSong = updatedSong.setTrackDelay(track, delay);
                 print('onDelayChanged: $delay');
                 viewModel.onChangedSong(updatedSong);
-                setState(() {});
               },
             );
           });

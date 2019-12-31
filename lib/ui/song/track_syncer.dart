@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class TrackSyncer extends StatefulWidget {
@@ -19,9 +21,15 @@ class _TrackSyncerState extends State<TrackSyncer> {
   int timeSpan = 1000 * 10;
   int timeStart = 0;
 
-  void _syncVideos() {
-    final song = widget.song;
+  SongEntity song;
 
+  @override
+  void initState() {
+    super.initState();
+    song = widget.song;
+  }
+
+  void _syncVideos() {
     if (song.tracks.length < 2) {
       return;
     }
@@ -58,22 +66,26 @@ class _TrackSyncerState extends State<TrackSyncer> {
         }
       }
 
-      widget.onDelayChanged(track, minDiffDelay * -1);
-      print('Set delay to: ${minDiffDelay * -1}');
-      setState(() {});
+      final delay = minDiffDelay * -1;
+      print('Set delay to: $delay');
+      widget.onDelayChanged(track, delay);
+      setState(() {
+        song = song.setTrackDelay(track, delay);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final state = StoreProvider.of<AppState>(context).state;
 
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ...widget.song.tracks
+          ...song.tracks
               .map((track) => TrackVolume(
                     track: track,
                     timeSpan: timeSpan,
@@ -153,7 +165,7 @@ class VolumePainter extends CustomPainter {
     if (video == null || video.volumeData == null) {
       print('## SKIPPING');
       return;
-    } else {}
+    }
 
     final volumeData = video.volumeData;
 
