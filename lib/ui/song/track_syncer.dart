@@ -49,12 +49,12 @@ class _TrackSyncerState extends State<TrackSyncer> {
 
       final track = _song.tracks[i];
       final start = _timeStart * -1;
-      final end = _timeSpan.floor() * 1000;
+      final end = start + (_timeSpan.floor() * 1000);
       int delay = await compute(getMinDelay, [
         _song.tracks[0].video.getVolumeMap(start, end),
         _song.tracks[i].video.getVolumeMap(start, end),
       ]);
-      print('Time State: $_timeStart, Time Span: $_timeSpan => $start - $end = $delay');
+      print('## SYNC: Start: $_timeStart, Span: $_timeSpan => $start - $end = $delay');
       widget.onDelayChanged(track, delay);
       setState(() {
         _song = _song.setTrackDelay(track, delay);
@@ -107,7 +107,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     var delay = track.delay +
                         (details.primaryDelta.toInt() * _timeSpan.floor());
                     delay = max(-1000, min(1000, delay));
-                    print('## DELAY: $delay');
                     widget.onDelayChanged(track, delay);
                     setState(() {
                       _song = _song.setTrackDelay(track, delay);
@@ -222,7 +221,6 @@ class VolumePainter extends CustomPainter {
 
     double volume = 0;
 
-    print('time start: $timeStart, time span: $timeSpan');
     for (int i = timeStart; i <= timeSpan - timeStart; i++) {
       var time = (i - track.delay).toString();
 
