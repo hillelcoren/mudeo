@@ -46,7 +46,6 @@ class SongEditVM {
     @required this.onResetSongPressed,
     @required this.onBackPressed,
     @required this.onDeleteVideoPressed,
-    @required this.onDelayVideoChanged,
     @required this.onSharePressed,
     @required this.onAddRemoteVideo,
     @required this.onDeleteSongPressed,
@@ -68,7 +67,6 @@ class SongEditVM {
   final Function(BuildContext, TrackEntity) addVideoFromTrack;
   final Function(BuildContext, SongEntity) addVideoFromSong;
   final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
-  final Function(SongEntity, TrackEntity) onDelayVideoChanged;
   final Function(SongEntity) onDeleteSongPressed;
   final Function(SongEntity) onForkSongPressed;
   final Function() onBackPressed;
@@ -146,7 +144,6 @@ class SongEditVM {
             File(path).deleteSync();
           }
         },
-        onDelayVideoChanged: (song, track) async {},
         onAddRemoteVideo: (context, videoId) {
           final song = store.state.uiState.song;
           final video =

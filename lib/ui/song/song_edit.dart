@@ -485,11 +485,18 @@ class _SongEditState extends State<SongEdit> {
     final isEmpty = song.tracks.isEmpty;
 
     void _showTrackSyncer() {
+      var updatedSong = song;
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
             return TrackSyncer(
-              song: song,
+              song: updatedSong,
+              onDelayChanged: (track, delay) {
+                updatedSong = updatedSong.setTrackDelay(track, delay);
+                print('onDelayChanged: $delay');
+                viewModel.onChangedSong(updatedSong);
+                setState(() {});
+              },
             );
           });
     }

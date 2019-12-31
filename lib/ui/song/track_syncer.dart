@@ -1,12 +1,15 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class TrackSyncer extends StatefulWidget {
-  const TrackSyncer({this.song});
+  const TrackSyncer({
+    @required this.song,
+    @required this.onDelayChanged,
+  });
 
   final SongEntity song;
+  final Function(TrackEntity, int) onDelayChanged;
 
   @override
   _TrackSyncerState createState() => _TrackSyncerState();
@@ -32,7 +35,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
       final compareMap = compareVideo.volumeMap;
       print('Comparing video $i to first video - delay: ${track.delay}');
 
-      int delay = 0;
       double minDiff = 999999999;
       int minDiffDelay = 0;
 
@@ -56,8 +58,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
         }
       }
 
-      print('min diff: $minDiff, delay: $minDiffDelay');
-      //break;
+      widget.onDelayChanged(track, minDiffDelay * -1);
+      print('Set delay to: ${minDiffDelay * -1}');
+      setState(() {});
     }
   }
 
