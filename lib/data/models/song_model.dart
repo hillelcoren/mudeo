@@ -326,19 +326,14 @@ abstract class VideoEntity extends Object
     implements Built<VideoEntity, VideoEntityBuilder> {
   factory VideoEntity({int id}) {
     return _$VideoEntity._(
-        id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
-        userId: 0,
-        timestamp: DateTime.now().millisecondsSinceEpoch,
-        url: '',
-        thumbnailUrl: '',
-        description: '',
-        duration: 0,
-        volumeData: BuiltMap<String, double>({
-          '0': 0,
-          '80': 2,
-          '120': 10,
-          '180': 50,
-        }));
+      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+      userId: 0,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+      url: '',
+      thumbnailUrl: '',
+      description: '',
+      duration: 0,
+    );
   }
 
   VideoEntity._();

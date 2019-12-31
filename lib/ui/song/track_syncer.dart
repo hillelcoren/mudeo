@@ -47,20 +47,21 @@ class _TrackSyncerState extends State<TrackSyncer> {
         _isSyncing[i] = true;
       });
 
-      final track = _song.tracks[i];
-      final start = _timeStart * -1;
-      final end = start + (_timeSpan.floor() * 1000);
-      int delay = await compute(getMinDelay, [
-        _song.tracks[0].video.getVolumeMap(start, end),
-        _song.tracks[i].video.getVolumeMap(start, end),
-      ]);
-      print(
-          '## SYNC: Start: $_timeStart, Span: $_timeSpan => $start - $end = $delay');
-      widget.onDelayChanged(track, delay);
-      setState(() {
-        _song = _song.setTrackDelay(track, delay);
-        _isSyncing[i] = false;
-      });
+      if (_song.tracks[i].video.volumeData != null) {
+        final track = _song.tracks[i];
+        final start = _timeStart * -1;
+        final end = start + (_timeSpan.floor() * 1000);
+
+        int delay = await compute(getMinDelay, [
+          _song.tracks[0].video.getVolumeMap(start, end),
+          _song.tracks[i].video.getVolumeMap(start, end),
+        ]);
+        widget.onDelayChanged(track, delay);
+        setState(() {
+          _song = _song.setTrackDelay(track, delay);
+          _isSyncing[i] = false;
+        });
+      }
     }
   }
 
@@ -167,6 +168,21 @@ class TrackVolume extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (track.video.volumeData == null) {
+      return Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            AppLocalization.of(context).saveVideoToProcessAudio,
+            style: Theme.of(context).textTheme.caption,
+          ),
+        ),
+        alignment: Alignment.centerLeft,
+        color: Colors.black38,
+        height: 40,
+      );
+    }
+
     return FittedBox(
       fit: BoxFit.cover,
       child: ConstrainedBox(

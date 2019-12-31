@@ -96,6 +96,7 @@ class _MainScreenState extends State<MainScreen> {
           body: CupertinoTabScaffold(
             key: ValueKey(uiState.song.id),
             tabBar: CupertinoTabBar(
+              backgroundColor: Colors.black38,
               currentIndex: uiState.selectedTabIndex,
               onTap: (index) {
                 final currentIndex = state.uiState.selectedTabIndex;

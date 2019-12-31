@@ -493,7 +493,6 @@ class _SongEditState extends State<SongEdit> {
               song: updatedSong,
               onDelayChanged: (track, delay) {
                 updatedSong = updatedSong.setTrackDelay(track, delay);
-                print('onDelayChanged: $delay');
                 viewModel.onChangedSong(updatedSong);
               },
             );
@@ -902,7 +901,7 @@ class ExpandedButton extends StatelessWidget {
                     ? localization.delete
                     : localization.record,
         child: MaterialButton(
-          color: Colors.black26,
+          color: Colors.black38,
           height: 60,
           onPressed: onPressed,
           child: label != null

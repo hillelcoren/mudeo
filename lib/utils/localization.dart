@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'save_video_to_process_audio': 'Save video to process audio',
       'zoom': 'Zoom',
       'sync': 'Sync',
       'error_video_not_ready': 'The video is still processing, please try again soon',
@@ -514,6 +515,11 @@ class AppLocalization {
 
   String get zoom =>
       _localizedValues[locale.toString()]['zoom'];
+
+  String get saveVideoToProcessAudio =>
+      _localizedValues[locale.toString()]['save_video_to_process_audio'];
+
+
 
 
   String lookup(String key) {
