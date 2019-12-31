@@ -64,80 +64,82 @@ class _TrackSyncerState extends State<TrackSyncer> {
 
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: <Widget>[
-              Text(localization.zoom.toUpperCase()),
-              Expanded(
-                child: Slider(
-                  min: 1,
-                  max: 10,
-                  value: _zoomLevel,
-                  onChanged: (value) {
-                    setState(() {
-                      _zoomLevel = value;
-                      _timeSpan = 11 - _zoomLevel;
-                    });
-                  },
+      content: ClipRect(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: <Widget>[
+                Text(localization.zoom.toUpperCase()),
+                Expanded(
+                  child: Slider(
+                    min: 1,
+                    max: 10,
+                    value: _zoomLevel,
+                    onChanged: (value) {
+                      setState(() {
+                        _zoomLevel = value;
+                        _timeSpan = 11 - _zoomLevel;
+                      });
+                    },
+                  ),
                 ),
-              ),
-              Icon(Icons.zoom_in),
-            ],
-          ),
-          SizedBox(height: 6),
-          for (int i = 0; i < _song.tracks.length; i++)
-            GestureDetector(
-              onHorizontalDragUpdate: (details) {
-                final track = _song.tracks[i];
-                if (i == 0) {
-                  setState(() {
-                    final value = _timeStart +
-                        details.primaryDelta.toInt() * _timeSpan.floor();
-                    _timeStart = min(value, 0);
-                  });
-                } else {
-                  final delay = track.delay +
-                      (details.primaryDelta.toInt() * _timeSpan.floor());
-                  widget.onDelayChanged(track, delay);
-                  setState(() {
-                    _song = _song.setTrackDelay(track, delay);
-                  });
-                }
-              },
-              child: TrackVolume(
-                track: _song.tracks[i],
-                timeSpan: _timeSpan * 1000,
-                timeStart: _timeStart,
-                isSyncing: i == 0 ? false : _isSyncing[i],
-              ),
+                Icon(Icons.zoom_in),
+              ],
             ),
-          SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Expanded(
-                child: RaisedButton(
-                  color: Colors.grey,
-                  child: Text(localization.sync.toUpperCase()),
-                  onPressed: _isSyncing.values.contains(true)
-                      ? null
-                      : () => _syncVideos(),
+            SizedBox(height: 6),
+            for (int i = 0; i < _song.tracks.length; i++)
+              GestureDetector(
+                onHorizontalDragUpdate: (details) {
+                  final track = _song.tracks[i];
+                  if (i == 0) {
+                    setState(() {
+                      final value = _timeStart +
+                          details.primaryDelta.toInt() * _timeSpan.floor();
+                      _timeStart = min(value, 0);
+                    });
+                  } else {
+                    final delay = track.delay +
+                        (details.primaryDelta.toInt() * _timeSpan.floor());
+                    widget.onDelayChanged(track, delay);
+                    setState(() {
+                      _song = _song.setTrackDelay(track, delay);
+                    });
+                  }
+                },
+                child: TrackVolume(
+                  track: _song.tracks[i],
+                  timeSpan: _timeSpan * 1000,
+                  timeStart: _timeStart,
+                  isSyncing: i == 0 ? false : _isSyncing[i],
                 ),
               ),
-              SizedBox(width: 20),
-              Expanded(
-                child: RaisedButton(
-                  child: Text(localization.done.toUpperCase()),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+            SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Expanded(
+                  child: RaisedButton(
+                    color: Colors.grey,
+                    child: Text(localization.sync.toUpperCase()),
+                    onPressed: _isSyncing.values.contains(true)
+                        ? null
+                        : () => _syncVideos(),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                SizedBox(width: 20),
+                Expanded(
+                  child: RaisedButton(
+                    child: Text(localization.done.toUpperCase()),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
