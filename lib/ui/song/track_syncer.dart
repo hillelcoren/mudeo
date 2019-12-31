@@ -84,6 +84,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
               Icon(Icons.zoom_in),
             ],
           ),
+          SizedBox(height: 6),
           for (int i = 0; i < _song.tracks.length; i++)
             GestureDetector(
               onHorizontalDragUpdate: (details) {
@@ -109,7 +110,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 isSyncing: i == 0 ? false : _isSyncing[i],
               ),
             ),
-          SizedBox(height: 10),
+          SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
