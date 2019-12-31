@@ -13,6 +13,7 @@ import 'package:mudeo/ui/song/add_video.dart';
 import 'package:mudeo/ui/song/track_latency.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
+import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
@@ -482,46 +483,13 @@ class _SongEditState extends State<SongEdit> {
     final viewModel = widget.viewModel;
     final song = viewModel.song;
     final isEmpty = song.tracks.isEmpty;
-    final localization = AppLocalization.of(context);
 
     void _showTrackSyncer() {
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(AppLocalization.of(context).trackAdjustment),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ...song.tracks
-                      .map((track) => Text(track.video.url))
-                      .toList(),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          color: Colors.grey,
-                          child: Text(localization.cancel),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: RaisedButton(
-                          child: Text(localization.done),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+            return TrackSyncer(
+              song: song,
             );
           });
     }

@@ -93,13 +93,13 @@ abstract class SongEntity extends Object
   @BuiltValueField(wireName: 'is_rendered')
   bool get isRendered;
 
-
   @override
   String get listDisplayName {
     return title;
   }
 
-  bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
+  bool get hasThumbnail =>
+      thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
 
   CommentEntity newComment(int artistId, String comment) =>
       CommentEntity(description: comment).rebuild((b) => b
@@ -326,22 +326,19 @@ abstract class VideoEntity extends Object
     implements Built<VideoEntity, VideoEntityBuilder> {
   factory VideoEntity({int id}) {
     return _$VideoEntity._(
-      id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
-      userId: 0,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-      url: '',
-      thumbnailUrl: '',
-      description: '',
-      duration: 0,
-      /*
-      volumeData: {
-        '0': 0,
-        '80': 2,
-        '120': 10,
-        '180': 50,
-      }
-       */
-    );
+        id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
+        userId: 0,
+        timestamp: DateTime.now().millisecondsSinceEpoch,
+        url: '',
+        thumbnailUrl: '',
+        description: '',
+        duration: 0,
+        volumeData: BuiltMap<String, double>({
+          '0': 0,
+          '80': 2,
+          '120': 10,
+          '180': 50,
+        }));
   }
 
   VideoEntity._();
@@ -378,9 +375,11 @@ abstract class VideoEntity extends Object
   @nullable
   int get duration;
 
-  bool get hasThumbnail => thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
+  bool get hasThumbnail =>
+      thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
 
-  bool get isRemoteVideo => remoteVideoId != null && remoteVideoId.trim().isNotEmpty;
+  bool get isRemoteVideo =>
+      remoteVideoId != null && remoteVideoId.trim().isNotEmpty;
 
   String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
 

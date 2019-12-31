@@ -24,6 +24,7 @@ import 'package:redux_logging/redux_logging.dart';
 import 'package:screen/screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Screen.keepOn(true);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
