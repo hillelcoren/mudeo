@@ -17,7 +17,7 @@ class TrackSyncer extends StatefulWidget {
 }
 
 class _TrackSyncerState extends State<TrackSyncer> {
-  int _timeSpan = 1000 * 10;
+  double _timeSpan = 10;
   int _timeStart = 0;
   Map<int, bool> _isSyncing = {
     1: false,
@@ -64,10 +64,28 @@ class _TrackSyncerState extends State<TrackSyncer> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Row(
+            children: <Widget>[
+              Text(localization.zoom.toUpperCase()),
+              Expanded(
+                child: Slider(
+                  min: 1,
+                  max: 10,
+                  value: _timeSpan,
+                  onChanged: (value) {
+                    setState(() {
+                      _timeSpan = value;
+                    });
+                  },
+                ),
+              ),
+              Icon(Icons.zoom_in),
+            ],
+          ),
           for (int i = 0; i < _song.tracks.length; i++)
             TrackVolume(
               track: _song.tracks[i],
-              timeSpan: _timeSpan,
+              timeSpan: _timeSpan * 1000,
               isSyncing: i == 0 ? false : _isSyncing[i],
             ),
           SizedBox(height: 10),
@@ -108,7 +126,7 @@ class TrackVolume extends StatelessWidget {
   });
 
   final TrackEntity track;
-  final int timeSpan;
+  final double timeSpan;
   final bool isSyncing;
 
   @override
@@ -141,7 +159,7 @@ class VolumePainter extends CustomPainter {
       {@required this.track, @required this.timeSpan, @required this.color});
 
   final TrackEntity track;
-  final int timeSpan;
+  final double timeSpan;
   final Color color;
 
   @override
