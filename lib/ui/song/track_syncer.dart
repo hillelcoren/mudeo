@@ -198,7 +198,12 @@ class VolumePainter extends CustomPainter {
       final seconds = (timeSpan / 1000).round();
       if (i % seconds == 0) {
         final x = i * (11 - seconds);
-        final width = 10 * (11 - seconds);
+
+        if (x > 10000) {
+          return;
+        }
+
+        final width = 9 * (11 - seconds);
         final height = 1200.0;
         final rect = Rect.fromLTRB(x.toDouble(), height, x.toDouble() + width,
             height - ((volume - 20) * 10));
