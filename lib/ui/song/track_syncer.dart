@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -18,7 +20,12 @@ class TrackSyncer extends StatefulWidget {
 class _TrackSyncerState extends State<TrackSyncer> {
   int _timeSpan = 1000 * 10;
   int _timeStart = 0;
-  bool _isSyncing = false;
+  Map<int, bool> _isSyncing = {
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+  };
 
   SongEntity _song;
 
@@ -34,13 +41,15 @@ class _TrackSyncerState extends State<TrackSyncer> {
     }
 
     setState(() {
-      _isSyncing = true;
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      Timer(Duration(milliseconds: 500), () {
         final firstVideo = _song.tracks.first.video;
         final volumeMap = firstVideo.volumeMap;
 
         for (int i = 1; i <= _song.tracks.length - 1; i++) {
+          setState(() {
+            _isSyncing[i] = true;
+          });
+
           final track = _song.tracks[i];
           final compareVideo = track.video;
           final compareMap = compareVideo.volumeMap;
@@ -73,12 +82,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
           widget.onDelayChanged(track, delay);
           setState(() {
             _song = _song.setTrackDelay(track, delay);
+            _isSyncing[i] = false;
           });
         }
-
-        setState(() {
-          _isSyncing = false;
-        });
       });
     });
   }
@@ -92,12 +98,12 @@ class _TrackSyncerState extends State<TrackSyncer> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ..._song.tracks
-              .map((track) => TrackVolume(
-                    track: track,
-                    timeSpan: _timeSpan,
-                  ))
-              .toList(),
+          for (int i = 0; i < _song.tracks.length; i++)
+            TrackVolume(
+              track: _song.tracks[i],
+              timeSpan: _timeSpan,
+              isSyncing: i == 0 ? false : _isSyncing[i],
+            ),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -106,7 +112,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 child: RaisedButton(
                   color: Colors.grey,
                   child: Text(localization.sync.toUpperCase()),
-                  onPressed: _isSyncing ? null : () => _syncVideos(),
+                  onPressed: _isSyncing.values.contains(true)
+                      ? null
+                      : () => _syncVideos(),
                 ),
               ),
               SizedBox(width: 20),
@@ -127,10 +135,15 @@ class _TrackSyncerState extends State<TrackSyncer> {
 }
 
 class TrackVolume extends StatelessWidget {
-  const TrackVolume({this.track, this.timeSpan});
+  const TrackVolume({
+    @required this.track,
+    @required this.timeSpan,
+    @required this.isSyncing,
+  });
 
   final TrackEntity track;
   final int timeSpan;
+  final bool isSyncing;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +160,7 @@ class TrackVolume extends StatelessWidget {
               painter: VolumePainter(
                 track: track,
                 timeSpan: timeSpan,
+                color: isSyncing ? Theme.of(context).accentColor : Colors.white,
               ),
             ),
           ),
@@ -157,16 +171,18 @@ class TrackVolume extends StatelessWidget {
 }
 
 class VolumePainter extends CustomPainter {
-  const VolumePainter({this.track, this.timeSpan});
+  const VolumePainter(
+      {@required this.track, @required this.timeSpan, @required this.color});
 
   final TrackEntity track;
   final int timeSpan;
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final video = track.video;
     var paint = Paint();
-    paint.color = Colors.white;
+    paint.color = color;
     paint.style = PaintingStyle.fill;
 
     if (video == null || video.volumeData == null) {
