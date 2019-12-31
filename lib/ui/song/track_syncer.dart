@@ -16,60 +16,71 @@ class TrackSyncer extends StatefulWidget {
 }
 
 class _TrackSyncerState extends State<TrackSyncer> {
-  int timeSpan = 1000 * 10;
-  int timeStart = 0;
+  int _timeSpan = 1000 * 10;
+  int _timeStart = 0;
+  bool _isSyncing = false;
 
-  SongEntity song;
+  SongEntity _song;
 
   @override
   void initState() {
     super.initState();
-    song = widget.song;
+    _song = widget.song;
   }
 
   void _syncVideos() {
-    if (song.tracks.length < 2) {
+    if (_song.tracks.length < 2) {
       return;
     }
 
-    final firstVideo = song.tracks.first.video;
-    final volumeMap = firstVideo.volumeMap;
+    setState(() {
+      _isSyncing = true;
 
-    for (int i = 1; i <= song.tracks.length - 1; i++) {
-      final track = song.tracks[i];
-      final compareVideo = track.video;
-      final compareMap = compareVideo.volumeMap;
-      print('Comparing video $i to first video - delay: ${track.delay}');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final firstVideo = _song.tracks.first.video;
+        final volumeMap = firstVideo.volumeMap;
 
-      double minDiff = 999999999;
-      int minDiffDelay = 0;
+        for (int i = 1; i <= _song.tracks.length - 1; i++) {
+          final track = _song.tracks[i];
+          final compareVideo = track.video;
+          final compareMap = compareVideo.volumeMap;
+          print('Comparing video $i to first video - delay: ${track.delay}');
 
-      for (int j = -1000; j <= 1000; j++) {
-        double totalDiff = 0;
+          double minDiff = 999999999;
+          int minDiffDelay = 0;
 
-        for (int k = 1000; k <= 9000; k++) {
-          final oldVolume = volumeMap[k];
-          final newVolume = compareMap[k + j];
-          final diff = oldVolume > newVolume
-              ? oldVolume - newVolume
-              : newVolume - oldVolume;
+          for (int j = -1000; j <= 1000; j++) {
+            double totalDiff = 0;
 
-          totalDiff += diff;
+            for (int k = 1000; k <= 9000; k++) {
+              final oldVolume = volumeMap[k];
+              final newVolume = compareMap[k + j];
+              final diff = oldVolume > newVolume
+                  ? oldVolume - newVolume
+                  : newVolume - oldVolume;
+
+              totalDiff += diff;
+            }
+
+            if (totalDiff < minDiff) {
+              minDiff = totalDiff;
+              minDiffDelay = j;
+            }
+          }
+
+          final delay = minDiffDelay * -1;
+          print('Set delay to: $delay');
+          widget.onDelayChanged(track, delay);
+          setState(() {
+            _song = _song.setTrackDelay(track, delay);
+          });
         }
 
-        if (totalDiff < minDiff) {
-          minDiff = totalDiff;
-          minDiffDelay = j;
-        }
-      }
-
-      final delay = minDiffDelay * -1;
-      print('Set delay to: $delay');
-      widget.onDelayChanged(track, delay);
-      setState(() {
-        song = song.setTrackDelay(track, delay);
+        setState(() {
+          _isSyncing = false;
+        });
       });
-    }
+    });
   }
 
   @override
@@ -81,10 +92,10 @@ class _TrackSyncerState extends State<TrackSyncer> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ...song.tracks
+          ..._song.tracks
               .map((track) => TrackVolume(
                     track: track,
-                    timeSpan: timeSpan,
+                    timeSpan: _timeSpan,
                   ))
               .toList(),
           SizedBox(height: 10),
@@ -95,7 +106,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 child: RaisedButton(
                   color: Colors.grey,
                   child: Text(localization.sync.toUpperCase()),
-                  onPressed: () => _syncVideos(),
+                  onPressed: _isSyncing ? null : () => _syncVideos(),
                 ),
               ),
               SizedBox(width: 20),
