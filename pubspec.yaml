@@ -20,7 +20,8 @@ dependencies:
   screen: ^0.0.4
   flutter_redux: ^0.5.3
   redux_logging: ^0.3.0
-  http: ^0.12.0+1
+  #http: ^0.12.0+1 https://github.com/dart-lang/http/issues/351
+  http: 0.12.0+2
   shared_preferences: ^0.5.1+1
   built_value: ^7.0.0
   built_collection: ^4.3.0

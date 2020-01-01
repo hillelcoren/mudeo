@@ -85,6 +85,7 @@ class WebClient {
       'X-API-TOKEN': token,
       'X-API-SECRET': Config.API_SECRET,
       'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/json',
     };
 
     if (filePath != null) {
@@ -92,7 +93,6 @@ class WebClient {
       var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
       var length = await file.length();
 
-      headers['Content-Type'] = 'application/json';
       final request = http.MultipartRequest('POST', Uri.parse(url))
         ..headers.addAll(headers)
         ..files.add(http.MultipartFile(fileField, stream, length,
@@ -102,7 +102,6 @@ class WebClient {
           .timeout(const Duration(minutes: 10));
     } else {
       debugPrint('Request: $data');
-      headers['Content-Type'] = 'application/json';
 
       response = await http.Client()
           .post(
