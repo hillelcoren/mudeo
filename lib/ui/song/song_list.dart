@@ -128,7 +128,8 @@ class _SongItemState extends State<SongItem> {
         showDialog<VideoPlayer>(
             context: context,
             builder: (BuildContext context) {
-              return VideoPlayer('${song.videoUrl}?updated_at=${song.updatedAt}');
+              return VideoPlayer(
+                  '${song.videoUrl}?updated_at=${song.updatedAt}');
             });
       },
       child: AnimatedContainer(
