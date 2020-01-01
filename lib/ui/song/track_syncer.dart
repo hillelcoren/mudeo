@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/utils/localization.dart';
 
@@ -108,7 +109,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   } else {
                     var delay = track.delay +
                         (details.primaryDelta.toInt() * _timeSpan.floor());
-                    delay = max(-1000, min(1000, delay));
+                    delay = max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
                     widget.onDelayChanged(track, delay);
                     setState(() {
                       _song = _song.setTrackDelay(track, delay);
