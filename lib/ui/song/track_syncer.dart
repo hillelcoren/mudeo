@@ -190,9 +190,9 @@ class TrackVolume extends StatelessWidget {
     return FittedBox(
       fit: BoxFit.cover,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 1400),
+        constraints: BoxConstraints(maxHeight: 2000),
         child: SizedBox(
-          height: 1400,
+          height: 2000,
           width: 10000,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 100),
@@ -264,7 +264,7 @@ class VolumePainter extends CustomPainter {
         }
 
         final width = 20 * (11 - seconds);
-        final height = 1200.0;
+        final height = 1780.0;
         final rect = Rect.fromLTRB(x.toDouble(), height, x.toDouble() + width,
             height - ((volume - 20) * 10));
         canvas.drawRect(rect, paint);
