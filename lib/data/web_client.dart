@@ -79,7 +79,6 @@ class WebClient {
       {dynamic data, String filePath, String fileField = 'video'}) async {
     url = _checkUrl(url);
     debugPrint('POST: $url');
-    debugPrint('Request: $data');
     http.Response response;
 
     Map<String, String> headers = {
@@ -94,7 +93,6 @@ class WebClient {
       var length = await file.length();
 
       headers['Content-Type'] = 'application/json';
-
       final request = http.MultipartRequest('POST', Uri.parse(url))
         ..headers.addAll(headers)
         ..files.add(http.MultipartFile(fileField, stream, length,
@@ -103,6 +101,7 @@ class WebClient {
       response = await http.Response.fromStream(await request.send())
           .timeout(const Duration(minutes: 10));
     } else {
+      debugPrint('Request: $data');
       headers['Content-Type'] = 'application/json';
 
       response = await http.Client()
