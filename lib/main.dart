@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -36,7 +37,7 @@ void main() async {
           dsn: Config.SENTRY_DNS,
           environmentAttributes: Event(
             release: kAppVersion,
-            environment: Config.PLATFORM,
+            environment: Platform.localeName,
           ));
 
   final store = Store<AppState>(appReducer,
