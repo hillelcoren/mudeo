@@ -124,7 +124,7 @@ class _SongItemState extends State<SongItem> {
     final state = store.state;
 
     return GestureDetector(
-      onTap: () {
+      onTap: _showComments ? null : () {
         showDialog<VideoPlayer>(
             context: context,
             builder: (BuildContext context) {
