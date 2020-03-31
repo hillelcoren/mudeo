@@ -232,17 +232,13 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
           break;
         case 'songMap':
           result.songMap.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(int),
-                const FullType(SongEntity)
-              ])) as BuiltMap<dynamic, dynamic>);
+              specifiedType: const FullType(BuiltMap,
+                  const [const FullType(int), const FullType(SongEntity)])));
           break;
         case 'artistMap':
           result.artistMap.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(int),
-                const FullType(ArtistEntity)
-              ])) as BuiltMap<dynamic, dynamic>);
+              specifiedType: const FullType(BuiltMap,
+                  const [const FullType(int), const FullType(ArtistEntity)])));
           break;
       }
     }

@@ -27,6 +27,7 @@ abstract class SongEntity extends Object
       thumbnailUrl: '',
       genreId: genreId ?? 0,
       isRendered: false,
+      isApproved: false,
       duration: 0,
       countPlay: 0,
       countLike: 0,
@@ -77,8 +78,15 @@ abstract class SongEntity extends Object
   @BuiltValueField(wireName: 'is_public')
   bool get isPublic;
 
+  @BuiltValueField(wireName: 'is_approved')
+  bool get isApproved;
+
   @BuiltValueField(wireName: 'video_url')
   String get videoUrl;
+
+  @nullable
+  @BuiltValueField(wireName: 'youtube_id')
+  String get youTubeId;
 
   @BuiltValueField(wireName: 'thumbnail_url')
   String get thumbnailUrl;

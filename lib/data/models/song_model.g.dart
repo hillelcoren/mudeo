@@ -57,6 +57,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       'is_public',
       serializers.serialize(object.isPublic,
           specifiedType: const FullType(bool)),
+      'is_approved',
+      serializers.serialize(object.isApproved,
+          specifiedType: const FullType(bool)),
       'video_url',
       serializers.serialize(object.videoUrl,
           specifiedType: const FullType(String)),
@@ -113,6 +116,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add('count_like')
         ..add(serializers.serialize(object.countLike,
             specifiedType: const FullType(int)));
+    }
+    if (object.youTubeId != null) {
+      result
+        ..add('youtube_id')
+        ..add(serializers.serialize(object.youTubeId,
+            specifiedType: const FullType(String)));
     }
     if (object.id != null) {
       result
@@ -194,8 +203,16 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           result.isPublic = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
+        case 'is_approved':
+          result.isApproved = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
         case 'video_url':
           result.videoUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'youtube_id':
+          result.youTubeId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'thumbnail_url':
@@ -206,13 +223,13 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           result.tracks.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(TrackEntity)]))
-              as BuiltList<dynamic>);
+              as BuiltList<Object>);
           break;
         case 'comments':
           result.comments.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(CommentEntity)]))
-              as BuiltList<dynamic>);
+              as BuiltList<Object>);
           break;
         case 'layout':
           result.layout = serializers.deserialize(value,
@@ -761,10 +778,8 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
           break;
         case 'volume_data':
           result.volumeData.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap, const [
-                const FullType(String),
-                const FullType(double)
-              ])) as BuiltMap<dynamic, dynamic>);
+              specifiedType: const FullType(BuiltMap,
+                  const [const FullType(String), const FullType(double)])));
           break;
         case 'description':
           result.description = serializers.deserialize(value,
@@ -829,7 +844,7 @@ class _$SongListResponseSerializer
           result.data.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(SongEntity)]))
-              as BuiltList<dynamic>);
+              as BuiltList<Object>);
           break;
       }
     }
@@ -1078,7 +1093,11 @@ class _$SongEntity extends SongEntity {
   @override
   final bool isPublic;
   @override
+  final bool isApproved;
+  @override
   final String videoUrl;
+  @override
+  final String youTubeId;
   @override
   final String thumbnailUrl;
   @override
@@ -1112,7 +1131,9 @@ class _$SongEntity extends SongEntity {
       this.countLike,
       this.isFlagged,
       this.isPublic,
+      this.isApproved,
       this.videoUrl,
+      this.youTubeId,
       this.thumbnailUrl,
       this.tracks,
       this.comments,
@@ -1139,6 +1160,9 @@ class _$SongEntity extends SongEntity {
     }
     if (isPublic == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'isPublic');
+    }
+    if (isApproved == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'isApproved');
     }
     if (videoUrl == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'videoUrl');
@@ -1183,7 +1207,9 @@ class _$SongEntity extends SongEntity {
         countLike == other.countLike &&
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
+        isApproved == other.isApproved &&
         videoUrl == other.videoUrl &&
+        youTubeId == other.youTubeId &&
         thumbnailUrl == other.thumbnailUrl &&
         tracks == other.tracks &&
         comments == other.comments &&
@@ -1214,18 +1240,18 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc(0, title.hashCode), description.hashCode),
-                                                                                url.hashCode),
-                                                                            artistId.hashCode),
-                                                                        artist.hashCode),
-                                                                    genreId.hashCode),
-                                                                parentId.hashCode),
-                                                            duration.hashCode),
-                                                        countPlay.hashCode),
-                                                    countLike.hashCode),
-                                                isFlagged.hashCode),
-                                            isPublic.hashCode),
-                                        videoUrl.hashCode),
+                                                                            $jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), artistId.hashCode),
+                                                                                artist.hashCode),
+                                                                            genreId.hashCode),
+                                                                        parentId.hashCode),
+                                                                    duration.hashCode),
+                                                                countPlay.hashCode),
+                                                            countLike.hashCode),
+                                                        isFlagged.hashCode),
+                                                    isPublic.hashCode),
+                                                isApproved.hashCode),
+                                            videoUrl.hashCode),
+                                        youTubeId.hashCode),
                                     thumbnailUrl.hashCode),
                                 tracks.hashCode),
                             comments.hashCode),
@@ -1251,7 +1277,9 @@ class _$SongEntity extends SongEntity {
           ..add('countLike', countLike)
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
+          ..add('isApproved', isApproved)
           ..add('videoUrl', videoUrl)
+          ..add('youTubeId', youTubeId)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('tracks', tracks)
           ..add('comments', comments)
@@ -1316,9 +1344,17 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   bool get isPublic => _$this._isPublic;
   set isPublic(bool isPublic) => _$this._isPublic = isPublic;
 
+  bool _isApproved;
+  bool get isApproved => _$this._isApproved;
+  set isApproved(bool isApproved) => _$this._isApproved = isApproved;
+
   String _videoUrl;
   String get videoUrl => _$this._videoUrl;
   set videoUrl(String videoUrl) => _$this._videoUrl = videoUrl;
+
+  String _youTubeId;
+  String get youTubeId => _$this._youTubeId;
+  set youTubeId(String youTubeId) => _$this._youTubeId = youTubeId;
 
   String _thumbnailUrl;
   String get thumbnailUrl => _$this._thumbnailUrl;
@@ -1371,7 +1407,9 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _countLike = _$v.countLike;
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
+      _isApproved = _$v.isApproved;
       _videoUrl = _$v.videoUrl;
+      _youTubeId = _$v.youTubeId;
       _thumbnailUrl = _$v.thumbnailUrl;
       _tracks = _$v.tracks?.toBuilder();
       _comments = _$v.comments?.toBuilder();
@@ -1416,7 +1454,9 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               countLike: countLike,
               isFlagged: isFlagged,
               isPublic: isPublic,
+              isApproved: isApproved,
               videoUrl: videoUrl,
+              youTubeId: youTubeId,
               thumbnailUrl: thumbnailUrl,
               tracks: tracks.build(),
               comments: comments.build(),

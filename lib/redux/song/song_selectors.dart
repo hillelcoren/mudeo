@@ -14,8 +14,14 @@ List<int> songIdsSelector(
   final songIds = songMap.keys.where((songId) {
     final song = songMap[songId];
 
-    if (filterArtistId != null && song.artistId != filterArtistId) {
-      return false;
+    if (filterArtistId != null) {
+      if (song.artistId != filterArtistId) {
+        return false;
+      }
+    } else {
+      if (!song.isApproved) {
+        return false;
+      }
     }
 
     if (song.isDeleted) {
