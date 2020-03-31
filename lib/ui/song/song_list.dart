@@ -185,7 +185,7 @@ class _SongItemState extends State<SongItem> {
                                         song.description.trim().isNotEmpty
                                     ? song.description
                                     : song.title,
-                                style: Theme.of(context).textTheme.title,
+                                style: Theme.of(context).textTheme.headline6,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -481,7 +481,7 @@ class SongHeader extends StatelessWidget {
     final localization = AppLocalization.of(context);
     final artist = song.artist ?? ArtistEntity();
     final ThemeData themeData = Theme.of(context);
-    final TextStyle artistStyle = themeData.textTheme.body2
+    final TextStyle artistStyle = themeData.textTheme.bodyText1
         .copyWith(color: themeData.accentColor, fontSize: 16);
     final TextStyle genreStyle =
         artistStyle.copyWith(color: kGenreColors[song.genreId]);
@@ -504,7 +504,7 @@ class SongHeader extends StatelessWidget {
               children: <Widget>[
                 Text(
                   song.title,
-                  style: Theme.of(context).textTheme.title,
+                  style: Theme.of(context).textTheme.headline6,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 6),

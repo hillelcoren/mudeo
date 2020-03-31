@@ -181,11 +181,11 @@ class MudeoVideoListItem extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           song.title,
-                          style: theme.headline.copyWith(fontSize: 20),
+                          style: theme.headline5.copyWith(fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 6),
-                        Text(song.artist.displayName, style: theme.subhead),
+                        Text(song.artist.displayName, style: theme.subtitle1),
                         SizedBox(height: 6),
                         Text(localization.lookup(song.layout) +
                             (relationship != kVideoRelationshipSelf

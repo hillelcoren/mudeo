@@ -268,7 +268,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
         children: <Widget>[
           Align(
             child: Text('${localization.uploading}...',
-                style: Theme.of(context).textTheme.title),
+                style: Theme.of(context).textTheme.headline6),
             alignment: Alignment.centerLeft,
           ),
           Padding(
@@ -295,7 +295,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
         children: <Widget>[
           Align(
             child: Text(localization.yourSongHasBeenSaved,
-                style: Theme.of(context).textTheme.title),
+                style: Theme.of(context).textTheme.headline6),
             alignment: Alignment.centerLeft,
           ),
           songUrl != null && songUrl.isNotEmpty

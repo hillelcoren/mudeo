@@ -51,7 +51,7 @@ class ArtistPage extends StatelessWidget {
 
     final localization = AppLocalization.of(context);
     final ThemeData themeData = Theme.of(context);
-    final TextStyle linkStyle = themeData.textTheme.body2
+    final TextStyle linkStyle = themeData.textTheme.bodyText1
         .copyWith(color: themeData.accentColor, fontSize: 18);
     final isFollowing = viewModel.state.authState.artist.isFollowing(artist.id);
     final state = viewModel.state;
@@ -274,14 +274,14 @@ class ArtistPage extends StatelessWidget {
                       artist.name != null && artist.name.isNotEmpty
                           ? Text(
                               artist.name,
-                              style: Theme.of(context).textTheme.headline,
+                              style: Theme.of(context).textTheme.headline5,
                             )
                           : SizedBox(),
                       SizedBox(height: 6),
                       if (artist.handle != null && artist.handle.isNotEmpty)
                         Text(
                           '@${artist.handle}',
-                          style: Theme.of(context).textTheme.subhead,
+                          style: Theme.of(context).textTheme.subtitle1,
                         )
                     ],
                   ),
