@@ -320,7 +320,7 @@ class _SongEditState extends State<SongEdit> {
 
   void _record() async {
     setState(() => isRecording = true);
-    play(justFirst: true);
+    play();
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     widget.viewModel.onStartRecording(timestamp);
@@ -371,7 +371,7 @@ class _SongEditState extends State<SongEdit> {
     });
   }
 
-  void play({bool justFirst = false}) {
+  void play() {
     if (videoPlayers.isEmpty) return;
 
     // This is required to get the videos to start playing in sync
@@ -384,16 +384,14 @@ class _SongEditState extends State<SongEdit> {
       if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
     });
 
-    bool isFirst = true;
     videoPlayers.forEach((trackId, videoPlayer) async {
-      if (isFirst || justFirst == false) {
-        final track = tracks.firstWhere((track) => track.id == trackId,
-            orElse: () => null);
-        final delay = (minDelay * -1) + (track?.delay ?? 0);
+      final track =
+          tracks.firstWhere((track) => track.id == trackId, orElse: () => null);
+      if (track != null) {
+        final delay = (minDelay * -1) + (track.delay ?? 0);
         videoPlayer.seekTo(Duration());
         Future.delayed(Duration(milliseconds: delay), () => videoPlayer.play());
       }
-      isFirst = false;
     });
 
     setState(() => isPlaying = true);
