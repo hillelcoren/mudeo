@@ -23,7 +23,7 @@ class _TrackLatencyState extends State<TrackLatency> {
   int _delay;
   TextEditingController _delayController;
 
-  static const platform = const MethodChannel('mudeo.app/calibrate');
+  //static const platform = const MethodChannel('mudeo.app/calibrate');
 
   @override
   void initState() {
