@@ -63,14 +63,14 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   build_runner_core:
     dependency: transitive
     description:
       name: build_runner_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.3"
+    version: "5.0.0"
   built_collection:
     dependency: "direct main"
     description:
@@ -102,10 +102,12 @@ packages:
   camera:
     dependency: "direct main"
     description:
-      name: camera
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.7+4"
+      path: "packages/camera"
+      ref: HEAD
+      resolved-ref: "81f2ae9548bae6e08e6c0ba13a2f2364dda10fe3"
+      url: "git://github.com/hillelcoren/plugins.git"
+    source: git
+    version: "0.5.7+5"
   charcode:
     dependency: transitive
     description:
