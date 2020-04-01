@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'require_account_to_upload': 'To upload a song please first create an account',
+      'require_account_to_like': 'To like a song please first create an account',
+      'require_account_to_comment': 'To post a comment please first create an account',
       'save_video_to_process_audio': 'Save video to process audio',
       'zoom': 'Zoom',
       'sync': 'Sync',
@@ -519,6 +522,14 @@ class AppLocalization {
   String get saveVideoToProcessAudio =>
       _localizedValues[locale.toString()]['save_video_to_process_audio'];
 
+  String get requireAccountToUpload =>
+      _localizedValues[locale.toString()]['require_account_to_upload'];
+
+  String get requireAccountToLike =>
+      _localizedValues[locale.toString()]['require_account_to_like'];
+
+  String get requireAccountToComment =>
+      _localizedValues[locale.toString()]['require_account_to_comment'];
 
 
 
