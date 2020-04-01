@@ -116,7 +116,7 @@ class MudeoAppState extends State<MudeoApp> {
             const AppLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
           ],
-          home: InitScreen(),
+          initialRoute: MainScreen.route,
           //locale: AppLocalization.createLocale(localeSelector(state)),
           locale: AppLocalization.createLocale('en'),
           theme: ThemeData(

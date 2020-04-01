@@ -101,7 +101,7 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
       }
     }
 
-    if (state.isLoading || !state.authState.hasValidToken) {
+    if (state.isLoading) {
       next(action);
       return;
     }
@@ -110,7 +110,6 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
 
     store.dispatch(LoadSongsRequest());
     repository.loadList(state.authState, updatedAt).then((data) {
-      print('here...');
       store.dispatch(LoadSongsSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);
