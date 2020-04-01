@@ -24,10 +24,15 @@ class UpdateSong implements PersistUI {
 }
 
 class LoadSongs {
-  LoadSongs({this.completer, this.force = false});
+  LoadSongs({
+    this.completer,
+    this.force = false,
+    this.clearCache = false,
+  });
 
   final Completer completer;
   final bool force;
+  final bool clearCache;
 }
 
 class LoadSongsRequest implements StartLoading {}

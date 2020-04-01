@@ -93,7 +93,7 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final AppState state = store.state;
 
-    if (!action.force) {
+    if (!action.force && !action.clearCache) {
       if (!state.dataState.areSongsStale ||
           state.dataState.loadFailedRecently) {
         next(action);
@@ -106,7 +106,8 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
       return;
     }
 
-    final int updatedAt = (state.dataState.songsUpdateAt / 1000).round();
+    final int updatedAt =
+        action.clearCache ? 0 : (state.dataState.songsUpdateAt / 1000).round();
 
     store.dispatch(LoadSongsRequest());
     repository.loadList(state.authState, updatedAt).then((data) {

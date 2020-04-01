@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/login.dart';
 import 'package:mudeo/utils/platforms.dart';
@@ -65,6 +66,7 @@ class LoginVM {
 
     void _handleLogin(BuildContext context) {
       AppBuilder.of(context).rebuild();
+      store.dispatch(LoadSongs(clearCache: true));
     }
 
     return LoginVM(
