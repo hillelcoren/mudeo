@@ -20,13 +20,14 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'require_account_to_collaborate': 'Please login to collaborate',
       'require_account_to_upload': 'Please login to upload a song',
       'require_account_to_like': 'Please login to like a song',
-      'require_account_to_comment': 'Please login to post a comment',
       'save_video_to_process_audio': 'Save video to process audio',
       'zoom': 'Zoom',
       'sync': 'Sync',
-      'error_video_not_ready': 'The video is still processing, please try again soon',
+      'error_video_not_ready':
+          'The video is still processing, please try again soon',
       'rendering': 'Rendering',
       'pronounced': 'Pronounced',
       'contact_us': 'Contact Us',
@@ -36,7 +37,8 @@ class AppLocalization {
       'column': 'Column',
       'grid': 'Grid',
       'fork_song': 'Fork Song',
-      'youtube_warning': 'Note: The YouTube video can be used as a backing track but will not be included in the rendered video.',
+      'youtube_warning':
+          'Note: The YouTube video can be used as a backing track but will not be included in the rendered video.',
       'add_all': 'Add All',
       'parent': 'Parent',
       'child': 'Child',
@@ -417,17 +419,14 @@ class AppLocalization {
   String get milliseconds =>
       _localizedValues[locale.toString()]['milliseconds'];
 
-  String get calibrate =>
-      _localizedValues[locale.toString()]['calibrate'];
+  String get calibrate => _localizedValues[locale.toString()]['calibrate'];
 
-  String get adjust =>
-      _localizedValues[locale.toString()]['adjust'];
+  String get adjust => _localizedValues[locale.toString()]['adjust'];
 
   String get trackAdjustment =>
       _localizedValues[locale.toString()]['track_adjustment'];
 
-  String get done =>
-      _localizedValues[locale.toString()]['done'];
+  String get done => _localizedValues[locale.toString()]['done'];
 
   String get addAPublicComment =>
       _localizedValues[locale.toString()]['add_a_public_comment'];
@@ -435,14 +434,11 @@ class AppLocalization {
   String get viewOriginal =>
       _localizedValues[locale.toString()]['view_original'];
 
-  String get comments =>
-      _localizedValues[locale.toString()]['comments'];
+  String get comments => _localizedValues[locale.toString()]['comments'];
 
-  String get comment =>
-      _localizedValues[locale.toString()]['comment'];
+  String get comment => _localizedValues[locale.toString()]['comment'];
 
-  String get noComments =>
-      _localizedValues[locale.toString()]['no_comments'];
+  String get noComments => _localizedValues[locale.toString()]['no_comments'];
 
   String get noSavedVideos =>
       _localizedValues[locale.toString()]['no_saved_videos'];
@@ -450,8 +446,7 @@ class AppLocalization {
   String get deleteComment =>
       _localizedValues[locale.toString()]['delete_comment'];
 
-  String get addVideo =>
-      _localizedValues[locale.toString()]['add_video'];
+  String get addVideo => _localizedValues[locale.toString()]['add_video'];
 
   String get videoUrlOrId =>
       _localizedValues[locale.toString()]['video_url_or_id'];
@@ -465,59 +460,44 @@ class AppLocalization {
   String get successfullyAddedVideo =>
       _localizedValues[locale.toString()]['successfully_added_video'];
 
-  String get source =>
-      _localizedValues[locale.toString()]['source'];
+  String get source => _localizedValues[locale.toString()]['source'];
 
-  String get deleteSong =>
-      _localizedValues[locale.toString()]['delete_song'];
+  String get deleteSong => _localizedValues[locale.toString()]['delete_song'];
 
-  String get parent =>
-      _localizedValues[locale.toString()]['parent'];
+  String get parent => _localizedValues[locale.toString()]['parent'];
 
-  String get child =>
-      _localizedValues[locale.toString()]['child'];
+  String get child => _localizedValues[locale.toString()]['child'];
 
-  String get addAll =>
-      _localizedValues[locale.toString()]['add_all'];
+  String get addAll => _localizedValues[locale.toString()]['add_all'];
 
   String get youtubeWarning =>
       _localizedValues[locale.toString()]['youtube_warning'];
 
-  String get forkSong =>
-      _localizedValues[locale.toString()]['fork_song'];
+  String get forkSong => _localizedValues[locale.toString()]['fork_song'];
 
-  String get row =>
-      _localizedValues[locale.toString()]['row'];
+  String get row => _localizedValues[locale.toString()]['row'];
 
-  String get column =>
-      _localizedValues[locale.toString()]['column'];
+  String get column => _localizedValues[locale.toString()]['column'];
 
-  String get grid =>
-      _localizedValues[locale.toString()]['grid'];
+  String get grid => _localizedValues[locale.toString()]['grid'];
 
-  String get layout =>
-      _localizedValues[locale.toString()]['layout'];
+  String get layout => _localizedValues[locale.toString()]['layout'];
 
   String get backingTrack =>
       _localizedValues[locale.toString()]['backing_track'];
 
-  String get contactUs =>
-      _localizedValues[locale.toString()]['contact_us'];
+  String get contactUs => _localizedValues[locale.toString()]['contact_us'];
 
-  String get pronounced =>
-      _localizedValues[locale.toString()]['pronounced'];
+  String get pronounced => _localizedValues[locale.toString()]['pronounced'];
 
-  String get rendering =>
-      _localizedValues[locale.toString()]['rendering'];
+  String get rendering => _localizedValues[locale.toString()]['rendering'];
 
   String get errorVideoNotReady =>
       _localizedValues[locale.toString()]['error_video_not_ready'];
 
-  String get sync =>
-      _localizedValues[locale.toString()]['sync'];
+  String get sync => _localizedValues[locale.toString()]['sync'];
 
-  String get zoom =>
-      _localizedValues[locale.toString()]['zoom'];
+  String get zoom => _localizedValues[locale.toString()]['zoom'];
 
   String get saveVideoToProcessAudio =>
       _localizedValues[locale.toString()]['save_video_to_process_audio'];
@@ -528,10 +508,8 @@ class AppLocalization {
   String get requireAccountToLike =>
       _localizedValues[locale.toString()]['require_account_to_like'];
 
-  String get requireAccountToComment =>
-      _localizedValues[locale.toString()]['require_account_to_comment'];
-
-
+  String get requireAccountToCollaborate =>
+      _localizedValues[locale.toString()]['require_account_to_collaborate'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

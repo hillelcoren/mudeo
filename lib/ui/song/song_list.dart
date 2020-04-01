@@ -359,6 +359,18 @@ class SongFooter extends StatelessWidget {
             icon: Icon(Icons.videocam),
             tooltip: localization.forkSong,
             onPressed: () {
+              if (!state.authState.hasValidToken) {
+                showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Text(AppLocalization.of(context)
+                            .requireAccountToCollaborate),
+                      );
+                    });
+                return;
+              }
+
               final uiSong = state.uiState.song;
               SongEntity newSong = song;
 
@@ -398,7 +410,21 @@ class SongFooter extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.favorite),
                 tooltip: localization.like,
-                onPressed: () => store.dispatch(LikeSongRequest(song: song)),
+                onPressed: () {
+                  if (!state.authState.hasValidToken) {
+                    showDialog<AlertDialog>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Text(AppLocalization.of(context)
+                                .requireAccountToLike),
+                          );
+                        });
+                    return;
+                  }
+
+                  store.dispatch(LikeSongRequest(song: song));
+                },
                 color: artist.likedSong(song.id) ? Colors.redAccent : null,
               ),
               song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
