@@ -122,10 +122,6 @@ class _LoginState extends State<LoginScreen> {
     final TextStyle linkStyle =
         themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
 
-    if (!viewModel.authState.isInitialized) {
-      return Container();
-    }
-
     return Stack(
       children: <Widget>[
         SizedBox(

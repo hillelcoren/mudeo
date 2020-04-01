@@ -8,15 +8,12 @@ import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
 import 'package:mudeo/ui/auth/login.dart';
-import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:redux/redux.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreenBuilder extends StatelessWidget {
   const LoginScreenBuilder({Key key}) : super(key: key);
-
-  static const String route = '/login';
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +65,6 @@ class LoginVM {
 
     void _handleLogin(BuildContext context) {
       AppBuilder.of(context).rebuild();
-      Navigator.of(context).pushReplacementNamed(MainScreen.route);
     }
 
     return LoginVM(

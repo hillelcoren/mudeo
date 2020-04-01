@@ -6,6 +6,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
+import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:redux/redux.dart';
@@ -83,10 +84,13 @@ class _MainScreenState extends State<MainScreen> {
         scrollController: _scrollController,
       ),
       SongEditScreen(),
-      ArtistScreen(
-        artist: state.authState.artist,
-        showSettings: true,
-      ),
+      if (state.authState.hasValidToken)
+        ArtistScreen(
+          artist: state.authState.artist,
+          showSettings: true,
+        )
+      else
+        LoginScreenBuilder(),
     ];
 
     return WillPopScope(

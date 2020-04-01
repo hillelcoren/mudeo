@@ -21,9 +21,6 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
       'artist',
       serializers.serialize(object.artist,
           specifiedType: const FullType(ArtistEntity)),
-      'isInitialized',
-      serializers.serialize(object.isInitialized,
-          specifiedType: const FullType(bool)),
       'isAuthenticated',
       serializers.serialize(object.isAuthenticated,
           specifiedType: const FullType(bool)),
@@ -52,10 +49,6 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
           result.artist.replace(serializers.deserialize(value,
               specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
           break;
-        case 'isInitialized':
-          result.isInitialized = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
-          break;
         case 'isAuthenticated':
           result.isAuthenticated = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
@@ -75,8 +68,6 @@ class _$AuthState extends AuthState {
   @override
   final ArtistEntity artist;
   @override
-  final bool isInitialized;
-  @override
   final bool isAuthenticated;
   @override
   final String error;
@@ -84,14 +75,9 @@ class _$AuthState extends AuthState {
   factory _$AuthState([void Function(AuthStateBuilder) updates]) =>
       (new AuthStateBuilder()..update(updates)).build();
 
-  _$AuthState._(
-      {this.artist, this.isInitialized, this.isAuthenticated, this.error})
-      : super._() {
+  _$AuthState._({this.artist, this.isAuthenticated, this.error}) : super._() {
     if (artist == null) {
       throw new BuiltValueNullFieldError('AuthState', 'artist');
-    }
-    if (isInitialized == null) {
-      throw new BuiltValueNullFieldError('AuthState', 'isInitialized');
     }
     if (isAuthenticated == null) {
       throw new BuiltValueNullFieldError('AuthState', 'isAuthenticated');
@@ -110,16 +96,13 @@ class _$AuthState extends AuthState {
     if (identical(other, this)) return true;
     return other is AuthState &&
         artist == other.artist &&
-        isInitialized == other.isInitialized &&
         isAuthenticated == other.isAuthenticated &&
         error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc($jc(0, artist.hashCode), isInitialized.hashCode),
-            isAuthenticated.hashCode),
+    return $jf($jc($jc($jc(0, artist.hashCode), isAuthenticated.hashCode),
         error.hashCode));
   }
 
@@ -127,7 +110,6 @@ class _$AuthState extends AuthState {
   String toString() {
     return (newBuiltValueToStringHelper('AuthState')
           ..add('artist', artist)
-          ..add('isInitialized', isInitialized)
           ..add('isAuthenticated', isAuthenticated)
           ..add('error', error))
         .toString();
@@ -141,11 +123,6 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   ArtistEntityBuilder get artist =>
       _$this._artist ??= new ArtistEntityBuilder();
   set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
-
-  bool _isInitialized;
-  bool get isInitialized => _$this._isInitialized;
-  set isInitialized(bool isInitialized) =>
-      _$this._isInitialized = isInitialized;
 
   bool _isAuthenticated;
   bool get isAuthenticated => _$this._isAuthenticated;
@@ -161,7 +138,6 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   AuthStateBuilder get _$this {
     if (_$v != null) {
       _artist = _$v.artist?.toBuilder();
-      _isInitialized = _$v.isInitialized;
       _isAuthenticated = _$v.isAuthenticated;
       _error = _$v.error;
       _$v = null;
@@ -189,7 +165,6 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
       _$result = _$v ??
           new _$AuthState._(
               artist: artist.build(),
-              isInitialized: isInitialized,
               isAuthenticated: isAuthenticated,
               error: error);
     } catch (_) {

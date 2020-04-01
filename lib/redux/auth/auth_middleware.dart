@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 List<Middleware<AppState>> createStoreAuthMiddleware([
   AuthRepository repository = const AuthRepository(),
 ]) {
-  final loginInit = _createLoginInit();
   final loginRequest = _createLoginRequest(repository);
   final signUpRequest = _createSignUpRequest(repository);
   final googleSignUpRequest = _createGoogleSignUpRequest(repository);
@@ -20,7 +19,6 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
   final refreshRequest = _createRefreshRequest(repository);
 
   return [
-    TypedMiddleware<AppState, LoadUserLogin>(loginInit),
     TypedMiddleware<AppState, UserLoginRequest>(loginRequest),
     TypedMiddleware<AppState, UserSignUpRequest>(signUpRequest),
     TypedMiddleware<AppState, GoogleSignUpRequest>(googleSignUpRequest),
@@ -32,15 +30,6 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
 void _saveAuthLocal(ArtistEntity artist) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString(kSharedPrefToken, artist.token ?? '');
-}
-
-Middleware<AppState> _createLoginInit() {
-  return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    Navigator.of(action.context).pushReplacementNamed(LoginScreenBuilder.route);
-    //Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
-
-    next(action);
-  };
 }
 
 Middleware<AppState> _createLoginRequest(AuthRepository repository) {

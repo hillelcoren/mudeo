@@ -9,15 +9,12 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
     return _$AuthState._(
       artist: ArtistEntity(),
       isAuthenticated: false,
-      isInitialized: false,
     );
   }
 
   AuthState._();
 
   ArtistEntity get artist;
-
-  bool get isInitialized;
 
   bool get isAuthenticated;
 
@@ -26,7 +23,6 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   AuthState get reset => rebuild((b) => b
     ..artist.replace(ArtistEntity())
-    ..isInitialized = true
     ..isAuthenticated = false);
 
   bool get hasValidToken => artist.token != null && artist.token.isNotEmpty;

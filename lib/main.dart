@@ -12,8 +12,6 @@ import 'package:mudeo/redux/auth/auth_middleware.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_middleware.dart';
 import 'package:mudeo/ui/app/app_builder.dart';
-import 'package:mudeo/ui/auth/init_screen.dart';
-import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
@@ -126,9 +124,6 @@ class MudeoAppState extends State<MudeoApp> {
           ),
           title: 'mudeo',
           routes: {
-            LoginScreenBuilder.route: (context) {
-              return LoginScreenBuilder();
-            },
             MainScreen.route: (context) {
               final state = widget.store.state.dataState;
               if (state.areSongsLoaded && state.areSongsStale) {

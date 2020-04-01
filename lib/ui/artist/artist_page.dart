@@ -213,8 +213,7 @@ class ArtistPage extends StatelessWidget {
                                 final store =
                                     StoreProvider.of<AppState>(context);
                                 store.dispatch(UserLogout());
-                                Navigator.of(context).pushReplacementNamed(
-                                    LoginScreenBuilder.route);
+                                Navigator.of(context).pop();
                               })
                         ],
                       ),
