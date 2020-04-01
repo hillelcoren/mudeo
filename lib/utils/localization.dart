@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'options': 'Options',
       'require_account_to_collaborate': 'Please login to collaborate',
       'require_account_to_upload': 'Please login to upload a song',
       'require_account_to_like': 'Please login to like a song',
@@ -514,6 +515,8 @@ class AppLocalization {
 
   String get requireAccountToCollaborate =>
       _localizedValues[locale.toString()]['require_account_to_collaborate'];
+
+  String get options => _localizedValues[locale.toString()]['options'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

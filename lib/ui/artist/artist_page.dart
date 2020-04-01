@@ -65,6 +65,7 @@ class ArtistPage extends StatelessWidget {
           builder: (BuildContext context) {
             return SimpleDialog(
               children: <Widget>[
+                /*
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -81,7 +82,7 @@ class ArtistPage extends StatelessWidget {
                         .dispatch(EditArtist(context: context, artist: artist));
                   },
                 ),
-                Divider(),
+                 */
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -287,41 +288,61 @@ class ArtistPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: showSettings
-                      ? RaisedButton(
-                          child: Text(localization.settings,
-                              style: TextStyle(fontSize: 18)),
-                          onPressed: () => _showMenu(),
-                          color: Colors.black87,
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 35),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0)))
-                      : viewModel.state.isSaving
-                          ? SizedBox(
-                              child: CircularProgressIndicator(),
-                              width: 48,
-                              height: 48,
-                            )
-                          : (viewModel.state.authState.artist.id == artist.id ||
-                                  !viewModel.state.authState.hasValidToken)
-                              ? SizedBox()
-                              : RaisedButton(
-                                  child: Text(
-                                      isFollowing
-                                          ? localization.unfollow
-                                          : localization.follow,
-                                      style: TextStyle(fontSize: 18)),
-                                  onPressed: () =>
-                                      viewModel.onFollowPressed(artist),
-                                  color: isFollowing
-                                      ? Colors.grey
-                                      : Colors.lightBlue,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 35),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      if (showSettings)
+                        RaisedButton(
+                            child: Text(localization.editProfile,
+                                style: TextStyle(fontSize: 18)),
+                            onPressed: () {
+                              final store = StoreProvider.of<AppState>(context);
+                              store
+                                  .dispatch(EditArtist(context: context, artist: artist));
+                            },
+                            color: Colors.black87,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 35),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0))),
+                      showSettings
+                          ? RaisedButton(
+                              child: Text(localization.options,
+                                  style: TextStyle(fontSize: 18)),
+                              onPressed: () => _showMenu(),
+                              color: Colors.black87,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 35),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)))
+                          : viewModel.state.isSaving
+                              ? SizedBox(
+                                  child: CircularProgressIndicator(),
+                                  width: 48,
+                                  height: 48,
+                                )
+                              : (viewModel.state.authState.artist.id ==
+                                          artist.id ||
+                                      !viewModel.state.authState.hasValidToken)
+                                  ? SizedBox()
+                                  : RaisedButton(
+                                      child: Text(
+                                          isFollowing
+                                              ? localization.unfollow
+                                              : localization.follow,
+                                          style: TextStyle(fontSize: 18)),
+                                      onPressed: () =>
+                                          viewModel.onFollowPressed(artist),
+                                      color: isFollowing
+                                          ? Colors.grey
+                                          : Colors.lightBlue,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 35),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0))),
+                    ],
+                  ),
                 ),
                 artist.description != null && artist.description.isNotEmpty
                     ? Padding(
