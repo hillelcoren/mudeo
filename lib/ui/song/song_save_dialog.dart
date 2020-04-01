@@ -246,16 +246,25 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                       child: Text(localization.close),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
-                    ProgressButton(
-                      padding: EdgeInsets.all(0),
-                      isLoading: viewModel.state.isSaving,
-                      onPressed: () => _onSubmit(),
-                      label:
-                          song.isNew ? localization.upload : localization.save,
-                    ),
+                    if (viewModel.state.authState.hasValidToken)
+                      ProgressButton(
+                        padding: EdgeInsets.all(0),
+                        isLoading: viewModel.state.isSaving,
+                        onPressed: () => _onSubmit(),
+                        label: song.isNew
+                            ? localization.upload
+                            : localization.save,
+                      ),
                   ],
                 ),
-              )
+              ),
+              if (!viewModel.state.authState.hasValidToken)
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(localization.requireAccountToUpload),
+                  ),
+                )
             ],
           ),
         ),

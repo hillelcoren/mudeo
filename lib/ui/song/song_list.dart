@@ -165,7 +165,7 @@ class _SongItemState extends State<SongItem> {
                       height: double.infinity,
                       width: double.infinity,
                       imageUrl: (song.isRendered && song.hasThumbnail)
-                          ? song.thumbnailUrl
+                          ? song.openThumbnailUrl
                           : lastTrack.video.thumbnailUrl)
                   : SizedBox(),
           Material(

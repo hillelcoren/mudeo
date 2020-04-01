@@ -106,8 +106,21 @@ abstract class SongEntity extends Object
     return title;
   }
 
+  String get openThumbnailUrl {
+    if (hasYouTubeId) {
+      return 'https://img.youtube.com/vi/$youTubeId/hqdefault.jpg';
+    } else if (isRendered && hasThumbnail) {
+      return thumbnailUrl;
+    }
+
+    return null;
+  }
+
+  bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
+
   bool get hasThumbnail =>
-      thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
+      (thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty) ||
+      (youTubeId ?? '').isNotEmpty;
 
   CommentEntity newComment(int artistId, String comment) =>
       CommentEntity(description: comment).rebuild((b) => b

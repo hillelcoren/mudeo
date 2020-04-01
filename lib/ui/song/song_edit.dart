@@ -31,17 +31,6 @@ class SongScaffold extends StatelessWidget {
   final SongEditVM viewModel;
 
   void onSavePressed(BuildContext context, SongEditVM viewModel) {
-    if (!viewModel.state.authState.hasValidToken) {
-      showDialog<AlertDialog>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              content: Text(AppLocalization.of(context).requireAccountToUpload),
-            );
-          });
-      return;
-    }
-
     showDialog<SongSaveDialog>(
         context: context,
         barrierDismissible: false,
