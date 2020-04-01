@@ -7,6 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -19,6 +20,7 @@ import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/.env.dart';
 import 'package:chewie/chewie.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -124,14 +126,27 @@ class _SongItemState extends State<SongItem> {
     final state = store.state;
 
     return GestureDetector(
-      onTap: _showComments ? null : () {
-        showDialog<VideoPlayer>(
-            context: context,
-            builder: (BuildContext context) {
-              return VideoPlayer(
-                  '${song.videoUrl}?updated_at=${song.updatedAt}');
-            });
-      },
+      onTap: _showComments
+          ? null
+          : () {
+              if ((song.youTubeId ?? '').isEmpty) {
+                showDialog<VideoPlayer>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return VideoPlayer(
+                          '${song.videoUrl}?updated_at=${song.updatedAt}');
+                    });
+              } else {
+                FlutterYoutube.playYoutubeVideoById(
+                  apiKey: Config.YOU_TUBE_API_KEY,
+                  videoId: song.youTubeId,
+                  autoPlay: true,
+                  //fullScreen: true,
+                  appBarColor: Colors.black12,
+                  backgroundColor: Colors.black,
+                );
+              }
+            },
       child: AnimatedContainer(
         duration: Duration(milliseconds: _showComments ? 300 : 500),
         height: _showComments ? 560 : 380,
