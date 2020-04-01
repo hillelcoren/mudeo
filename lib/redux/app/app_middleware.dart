@@ -80,13 +80,6 @@ Middleware<AppState> _createLoadState(
       }
 
       authState = await authRepository.loadAuthState();
-
-      if ((authState.artist.token ?? '') == '') {
-        store.dispatch(UserLogout());
-        store.dispatch(LoadUserLogin(action.context));
-        return;
-      }
-
       uiState = await uiRepository.loadUIState();
       dataState = await dataRepository.loadDataState();
 

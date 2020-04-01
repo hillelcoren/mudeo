@@ -69,6 +69,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final hasVolumeData =
+        _song.tracks.where((track) => track.video.volumeData != null).length >
+            1;
 
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
@@ -76,25 +79,26 @@ class _TrackSyncerState extends State<TrackSyncer> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: <Widget>[
-                Text(localization.zoom.toUpperCase()),
-                Expanded(
-                  child: Slider(
-                    min: 1,
-                    max: 10,
-                    value: _zoomLevel,
-                    onChanged: (value) {
-                      setState(() {
-                        _zoomLevel = value;
-                        _timeSpan = 11 - _zoomLevel;
-                      });
-                    },
+            if (hasVolumeData)
+              Row(
+                children: <Widget>[
+                  Text(localization.zoom.toUpperCase()),
+                  Expanded(
+                    child: Slider(
+                      min: 1,
+                      max: 10,
+                      value: _zoomLevel,
+                      onChanged: (value) {
+                        setState(() {
+                          _zoomLevel = value;
+                          _timeSpan = 11 - _zoomLevel;
+                        });
+                      },
+                    ),
                   ),
-                ),
-                Icon(Icons.zoom_in),
-              ],
-            ),
+                  Icon(Icons.zoom_in),
+                ],
+              ),
             SizedBox(height: 6),
             for (int i = 0; i < _song.tracks.length; i++)
               GestureDetector(
@@ -132,14 +136,17 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          color: Colors.grey,
-                          child: Text(localization.sync.toUpperCase()),
-                          onPressed: () => _syncVideos(),
+                      if (hasVolumeData)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 20),
+                          child: Expanded(
+                            child: RaisedButton(
+                              color: Colors.grey,
+                              child: Text(localization.sync.toUpperCase()),
+                              onPressed: () => _syncVideos(),
+                            ),
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 20),
                       Expanded(
                         child: RaisedButton(
                           child: Text(localization.done.toUpperCase()),

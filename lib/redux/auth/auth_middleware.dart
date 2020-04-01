@@ -5,13 +5,14 @@ import 'package:mudeo/data/repositories/auth_repository.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
-import 'package:mudeo/ui/auth/login_vm.dart';
+import 'package:mudeo/ui/main_screen.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 List<Middleware<AppState>> createStoreAuthMiddleware([
   AuthRepository repository = const AuthRepository(),
 ]) {
+  final appInit = _createAppInit();
   final loginRequest = _createLoginRequest(repository);
   final signUpRequest = _createSignUpRequest(repository);
   final googleSignUpRequest = _createGoogleSignUpRequest(repository);
@@ -19,12 +20,21 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
   final refreshRequest = _createRefreshRequest(repository);
 
   return [
+    TypedMiddleware<AppState, LoadUserLogin>(appInit),
     TypedMiddleware<AppState, UserLoginRequest>(loginRequest),
     TypedMiddleware<AppState, UserSignUpRequest>(signUpRequest),
     TypedMiddleware<AppState, GoogleSignUpRequest>(googleSignUpRequest),
     TypedMiddleware<AppState, GoogleLoginRequest>(oauthRequest),
     TypedMiddleware<AppState, RefreshData>(refreshRequest),
   ];
+}
+
+Middleware<AppState> _createAppInit() {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) {
+    Navigator.of(action.context).pushReplacementNamed(MainScreen.route);
+
+    next(action);
+  };
 }
 
 void _saveAuthLocal(ArtistEntity artist) async {

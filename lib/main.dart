@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/.env.dart';
+import 'package:mudeo/ui/auth/init_screen.dart';
 import 'package:sentry/sentry.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
 import 'package:mudeo/redux/artist/artist_middleware.dart';
@@ -51,7 +53,7 @@ void main() async {
 
   Future<void> _reportError(dynamic error, dynamic stackTrace) async {
     print('Caught error: $error');
-    if (isInDebugMode) {
+    if (kDebugMode) {
       print(stackTrace);
       return;
     } else {
@@ -73,18 +75,12 @@ void main() async {
   }
 
   FlutterError.onError = (FlutterErrorDetails details) {
-    if (isInDebugMode) {
+    if (kDebugMode) {
       FlutterError.dumpErrorToConsole(details);
     } else {
       Zone.current.handleUncaughtError(details.exception, details.stack);
     }
   };
-}
-
-bool get isInDebugMode {
-  bool inDebugMode = false;
-  assert(inDebugMode = true);
-  return inDebugMode;
 }
 
 class MudeoApp extends StatefulWidget {
@@ -114,7 +110,8 @@ class MudeoAppState extends State<MudeoApp> {
             const AppLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
           ],
-          initialRoute: MainScreen.route,
+          home: InitScreen(),
+          //initialRoute: MainScreen.route,
           //locale: AppLocalization.createLocale(localeSelector(state)),
           locale: AppLocalization.createLocale('en'),
           theme: ThemeData(
