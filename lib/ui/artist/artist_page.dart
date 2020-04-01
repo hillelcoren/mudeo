@@ -303,7 +303,8 @@ class ArtistPage extends StatelessWidget {
                               width: 48,
                               height: 48,
                             )
-                          : viewModel.state.authState.artist.id == artist.id
+                          : (viewModel.state.authState.artist.id == artist.id ||
+                                  !viewModel.state.authState.hasValidToken)
                               ? SizedBox()
                               : RaisedButton(
                                   child: Text(

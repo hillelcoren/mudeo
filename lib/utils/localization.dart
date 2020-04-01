@@ -23,6 +23,7 @@ class AppLocalization {
       'require_account_to_collaborate': 'Please login to collaborate',
       'require_account_to_upload': 'Please login to upload a song',
       'require_account_to_like': 'Please login to like a song',
+      'require_account_to_report': 'Please login to report a song',
       'save_video_to_process_audio': 'Save video to process audio',
       'zoom': 'Zoom',
       'sync': 'Sync',
@@ -507,6 +508,9 @@ class AppLocalization {
 
   String get requireAccountToLike =>
       _localizedValues[locale.toString()]['require_account_to_like'];
+
+  String get requireAccountToReport =>
+      _localizedValues[locale.toString()]['require_account_to_report'];
 
   String get requireAccountToCollaborate =>
       _localizedValues[locale.toString()]['require_account_to_collaborate'];

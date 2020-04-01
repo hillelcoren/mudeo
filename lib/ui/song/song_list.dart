@@ -215,20 +215,22 @@ class _SongItemState extends State<SongItem> {
                             ),
                           ],
                         ),
-                        TextFormField(
-                          autofocus: false,
-                          minLines: 1,
-                          maxLines: 3,
-                          inputFormatters: [
-                            LengthLimitingTextInputFormatter(kMaxCommentLength),
-                          ],
-                          controller: _textController,
-                          focusNode: _textFocusNode,
-                          decoration: InputDecoration(
-                            labelText: localization.addAPublicComment,
-                            //icon: Icon(Icons.comment),
+                        if (state.authState.hasValidToken)
+                          TextFormField(
+                            autofocus: false,
+                            minLines: 1,
+                            maxLines: 3,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(
+                                  kMaxCommentLength),
+                            ],
+                            controller: _textController,
+                            focusNode: _textFocusNode,
+                            decoration: InputDecoration(
+                              labelText: localization.addAPublicComment,
+                              //icon: Icon(Icons.comment),
+                            ),
                           ),
-                        ),
                         Visibility(
                           visible: _showSubmitButton,
                           child: Padding(
@@ -479,6 +481,18 @@ class SongFooter extends StatelessWidget {
                 return;
               } else if (action == localization.shareSong) {
                 Share.share(song.url);
+                return;
+              }
+
+              if (!state.authState.hasValidToken) {
+                showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Text(
+                            AppLocalization.of(context).requireAccountToReport),
+                      );
+                    });
                 return;
               }
 
