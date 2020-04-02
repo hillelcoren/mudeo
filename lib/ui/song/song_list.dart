@@ -141,7 +141,7 @@ class _SongItemState extends State<SongItem> {
                   apiKey: Config.YOU_TUBE_API_KEY,
                   videoId: song.youTubeId,
                   autoPlay: true,
-                  //fullScreen: true,
+                  fullScreen: true,
                   appBarColor: Colors.black12,
                   backgroundColor: Colors.black,
                 );
