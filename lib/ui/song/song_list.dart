@@ -25,6 +25,8 @@ import 'package:chewie/chewie.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:mudeo/utils/web_stub.dart'
+    if (dart.library.html) 'package:mudeo/utils/web.dart';
 
 class SongList extends StatelessWidget {
   const SongList({
@@ -145,14 +147,24 @@ class _SongItemState extends State<SongItem> {
                           '${song.videoUrl}?updated_at=${song.updatedAt}');
                     });
               } else {
-                FlutterYoutube.playYoutubeVideoById(
-                  apiKey: Config.YOU_TUBE_API_KEY,
-                  videoId: song.youTubeId,
-                  autoPlay: true,
-                  fullScreen: true,
-                  appBarColor: Colors.black12,
-                  backgroundColor: Colors.black,
-                );
+                if (kIsWeb) {
+                  print('## SHOW WEB VIDEO');
+                  registerWebView(song.youTubeEmbedUrl);
+                  showDialog<HtmlElementView>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return HtmlElementView(viewType: song.youTubeEmbedUrl);
+                      });
+                } else {
+                  FlutterYoutube.playYoutubeVideoById(
+                    apiKey: Config.YOU_TUBE_API_KEY,
+                    videoId: song.youTubeId,
+                    autoPlay: true,
+                    fullScreen: true,
+                    appBarColor: Colors.black12,
+                    backgroundColor: Colors.black,
+                  );
+                }
               }
             },
       child: AnimatedContainer(

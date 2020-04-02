@@ -123,6 +123,8 @@ abstract class SongEntity extends Object
 
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
 
+  String get youTubeEmbedUrl => 'https://www.youtube.com/embed/$youTubeId';
+
   bool get hasThumbnail =>
       (thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty) ||
       (youTubeId ?? '').isNotEmpty;
