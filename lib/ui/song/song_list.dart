@@ -60,7 +60,10 @@ class SongList extends StatelessWidget {
               final songId = songIds[index];
               final song = data.songMap[songId];
 
-              return SongItem(song: song);
+              return SongItem(
+                song: song,
+                enableShowArtist: !kIsWeb,
+              );
             }));
   }
 }
