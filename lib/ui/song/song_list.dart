@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -193,14 +194,22 @@ class _SongItemState extends State<SongItem> {
                     style: TextStyle(color: Colors.grey, fontSize: 20),
                   ),
                 )
-              : (song.isRendered && song.hasThumbnail) ||
-                      lastVideo.hasThumbnail
+              : (song.isRendered && song.hasThumbnail) || lastVideo.hasThumbnail
                   ? kIsWeb
                       ? Image.network(
                           imageUrl,
                           fit: BoxFit.cover,
                           height: double.infinity,
                           width: double.infinity,
+                          /*
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },                          
+                           */
                         )
                       : CachedNetworkImage(
                           fit: BoxFit.cover,

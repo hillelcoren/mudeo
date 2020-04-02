@@ -108,6 +108,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.parentId,
             specifiedType: const FullType(int)));
     }
+    if (object.blurhash != null) {
+      result
+        ..add('blurhash')
+        ..add(serializers.serialize(object.blurhash,
+            specifiedType: const FullType(String)));
+    }
     if (object.countPlay != null) {
       result
         ..add('count_play')
@@ -189,6 +195,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'duration':
           result.duration = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
+          break;
+        case 'blurhash':
+          result.blurhash = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'count_play':
           result.countPlay = serializers.deserialize(value,
@@ -1092,6 +1102,8 @@ class _$SongEntity extends SongEntity {
   @override
   final int duration;
   @override
+  final String blurhash;
+  @override
   final int countPlay;
   @override
   final int countLike;
@@ -1136,6 +1148,7 @@ class _$SongEntity extends SongEntity {
       this.genreId,
       this.parentId,
       this.duration,
+      this.blurhash,
       this.countPlay,
       this.countLike,
       this.isFlagged,
@@ -1216,6 +1229,7 @@ class _$SongEntity extends SongEntity {
         genreId == other.genreId &&
         parentId == other.parentId &&
         duration == other.duration &&
+        blurhash == other.blurhash &&
         countPlay == other.countPlay &&
         countLike == other.countLike &&
         isFlagged == other.isFlagged &&
@@ -1254,10 +1268,10 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), artistId.hashCode), artist.hashCode),
-                                                                                genreId.hashCode),
-                                                                            parentId.hashCode),
-                                                                        duration.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode),
+                                                                                parentId.hashCode),
+                                                                            duration.hashCode),
+                                                                        blurhash.hashCode),
                                                                     countPlay.hashCode),
                                                                 countLike.hashCode),
                                                             isFlagged.hashCode),
@@ -1287,6 +1301,7 @@ class _$SongEntity extends SongEntity {
           ..add('genreId', genreId)
           ..add('parentId', parentId)
           ..add('duration', duration)
+          ..add('blurhash', blurhash)
           ..add('countPlay', countPlay)
           ..add('countLike', countLike)
           ..add('isFlagged', isFlagged)
@@ -1342,6 +1357,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int _duration;
   int get duration => _$this._duration;
   set duration(int duration) => _$this._duration = duration;
+
+  String _blurhash;
+  String get blurhash => _$this._blurhash;
+  set blurhash(String blurhash) => _$this._blurhash = blurhash;
 
   int _countPlay;
   int get countPlay => _$this._countPlay;
@@ -1422,6 +1441,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _genreId = _$v.genreId;
       _parentId = _$v.parentId;
       _duration = _$v.duration;
+      _blurhash = _$v.blurhash;
       _countPlay = _$v.countPlay;
       _countLike = _$v.countLike;
       _isFlagged = _$v.isFlagged;
@@ -1470,6 +1490,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               genreId: genreId,
               parentId: parentId,
               duration: duration,
+              blurhash: blurhash,
               countPlay: countPlay,
               countLike: countLike,
               isFlagged: isFlagged,

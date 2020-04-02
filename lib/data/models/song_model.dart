@@ -67,6 +67,9 @@ abstract class SongEntity extends Object
   int get duration;
 
   @nullable
+  String get blurhash;
+
+  @nullable
   @BuiltValueField(wireName: 'count_play')
   int get countPlay;
 
