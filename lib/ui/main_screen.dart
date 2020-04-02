@@ -13,6 +13,7 @@ import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainScreenBuilder extends StatelessWidget {
   const MainScreenBuilder({Key key}) : super(key: key);
@@ -266,7 +267,7 @@ class CustomPlaceholder extends StatelessWidget {
                     width: 150,
                   ),
                   onTap: () {
-                    //
+                    launch(kGoogleStoreUrl, forceSafariVC: false);
                   },
                 ),
                 SizedBox(width: 20),
@@ -276,7 +277,7 @@ class CustomPlaceholder extends StatelessWidget {
                     width: 150,
                   ),
                   onTap: () {
-                    //
+                    launch(kAppleStoreUrl, forceSafariVC: false);
                   },
                 )
               ],
@@ -293,12 +294,12 @@ class CustomPlaceholder extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Icon(FontAwesomeIcons.twitter),
-                  SizedBox(width: 10),
+                  SizedBox(width: 12),
                   Text('@hillelcoren'),
                 ],
               ),
               onPressed: () {
-                //
+                launch(kDeveloperURL, forceSafariVC: false);
               },
             ),
             SizedBox(height: 50),
@@ -313,12 +314,12 @@ class CustomPlaceholder extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Icon(FontAwesomeIcons.github),
-                  SizedBox(width: 10),
-                  Text('GitHub Issue #'),
+                  SizedBox(width: 12),
+                  Text('GitHub Issue #45297'),
                 ],
               ),
               onPressed: () {
-                //
+                launch('https://github.com/flutter/flutter/issues/45297', forceSafariVC: false);
               },
             ),
           ],

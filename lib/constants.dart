@@ -6,11 +6,12 @@ const String kTermsOfServiceURL = 'https://mudeo.app/terms';
 const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
 const String kRedditURL = 'https://www.reddit.com/r/mudeo';
 const String kTwitterURL = 'https://twitter.com/mudeo_app';
+const String kDeveloperURL = 'https://twitter.com/hillelcoren';
 const String kContactEmail = 'contact@mudeo.app';
 const String kLatencySamples = 'https://superpowered.com/latency#datatable';
 
-const String kAppleStoreUrl = '';
-const String kGoogleStoreUrl = '';
+const String kAppleStoreUrl = 'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
+const String kGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=app.mudeo.mudeo';
 
 const int kOAuthProviderGoogle = 1;
 
