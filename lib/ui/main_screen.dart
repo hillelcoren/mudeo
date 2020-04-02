@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -76,12 +77,60 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = widget.viewModel;
+
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      if (constraints.maxWidth > 700.0) {
+        return DesktopScreen(
+          viewModel: viewModel,
+          scrollController: _scrollController,
+        );
+      } else {
+        return MobileScreen(
+          viewModel: viewModel,
+          scrollController: _scrollController,
+        );
+      }
+    });
+  }
+}
+
+class DesktopScreen extends StatelessWidget {
+  const DesktopScreen({this.viewModel, this.scrollController});
+
+  final MainScreenVM viewModel;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        SizedBox(
+          width: 500,
+          child: SongListScreen(
+            scrollController: scrollController,
+          ),
+        ),
+        Expanded(child: kIsWeb ? CustomPlaceholder() : SongEditScreen()),
+      ],
+    );
+  }
+}
+
+class MobileScreen extends StatelessWidget {
+  const MobileScreen({this.viewModel, this.scrollController});
+
+  final MainScreenVM viewModel;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
     final state = viewModel.state;
     final uiState = state.uiState;
 
     List<Widget> _views = [
       SongListScreen(
-        scrollController: _scrollController,
+        scrollController: scrollController,
       ),
       SongEditScreen(),
       if (state.authState.hasValidToken)
@@ -105,8 +154,8 @@ class _MainScreenState extends State<MainScreen> {
               onTap: (index) {
                 final currentIndex = state.uiState.selectedTabIndex;
                 if (currentIndex == kTabList && index == kTabList) {
-                  _scrollController.animateTo(
-                      _scrollController.position.minScrollExtent,
+                  scrollController.animateTo(
+                      scrollController.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),
                       curve: Curves.easeInOutCubic);
                 }
@@ -128,6 +177,28 @@ class _MainScreenState extends State<MainScreen> {
               return _views[index];
             },
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('Help'),
+            RaisedButton(
+              child: Text('Click'),
+              onPressed: () {
+                //
+              },
+            )
+          ],
         ),
       ),
     );
