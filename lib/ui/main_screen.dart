@@ -10,6 +10,7 @@ import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class MainScreenBuilder extends StatelessWidget {
@@ -95,23 +96,77 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-class DesktopScreen extends StatelessWidget {
+class DesktopScreen extends StatefulWidget {
   const DesktopScreen({this.viewModel, this.scrollController});
 
   final MainScreenVM viewModel;
   final ScrollController scrollController;
 
   @override
+  _DesktopScreenState createState() => _DesktopScreenState();
+}
+
+class _DesktopScreenState extends State<DesktopScreen>
+    with SingleTickerProviderStateMixin {
+  TabController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
     return Row(
       children: <Widget>[
-        SizedBox(
-          width: 500,
-          child: SongListScreen(
-            scrollController: scrollController,
+        Expanded(
+          flex: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              bottom: TabBar(
+                controller: _controller,
+                tabs: <Widget>[
+                  Tab(
+                    text: localization.featured,
+                  ),
+                  Tab(
+                    text: localization.newest,
+                  ),
+                  /*
+                  Tab(
+                    text: localization.profile,
+                  ),
+                   */
+                ],
+              ),
+            ),
+            body: TabBarView(
+              controller: _controller,
+              children: <Widget>[
+                SongListScreen(
+                  scrollController: widget.scrollController,
+                ),
+                SongListScreen(
+                  scrollController: widget.scrollController,
+                ),
+              ],
+            ),
           ),
         ),
-        Expanded(child: kIsWeb ? CustomPlaceholder() : SongEditScreen()),
+        Expanded(
+          child: kIsWeb ? CustomPlaceholder() : SongEditScreen(),
+          flex: 3,
+        ),
       ],
     );
   }

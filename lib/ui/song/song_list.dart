@@ -456,7 +456,7 @@ class SongFooter extends StatelessWidget {
             icon: Icon(Icons.more_vert, size: 30),
             itemBuilder: (BuildContext context) {
               final actions = [
-                localization.shareSong,
+                if (!kIsWeb) localization.shareSong,
                 localization.openInBrowser,
                 localization.copyLinkToSong,
                 if (song.parentId > 0) localization.viewOriginal,
