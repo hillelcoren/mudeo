@@ -289,7 +289,7 @@ class CustomPlaceholder extends StatelessWidget {
                 Column(
                   children: <Widget>[
                     Text(
-                      'Source Code',
+                      'Follow Us',
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 10),
@@ -298,13 +298,13 @@ class CustomPlaceholder extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Icon(FontAwesomeIcons.github),
+                          Icon(FontAwesomeIcons.twitter),
                           SizedBox(width: 12),
-                          Text('hillelcoren/mudeo'),
+                          Text('@mudeo_app'),
                         ],
                       ),
                       onPressed: () {
-                        launch('https://github.com/hillelcoren/mudeo', forceSafariVC: false);
+                        launch(kTwitterURL, forceSafariVC: false);
                       },
                     ),
                   ],
@@ -337,7 +337,7 @@ class CustomPlaceholder extends StatelessWidget {
             ),
             SizedBox(height: 50),
             Text(
-              'If you have a GitHub account please consider\nupvoting this issue to help finish the app 👍',
+              'If you have a GitHub account please consider\nupvoting this issue to help complete the app 👍',
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 15),

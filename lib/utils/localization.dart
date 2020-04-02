@@ -72,7 +72,7 @@ class AppLocalization {
       'milliseconds': 'Milliseconds',
       'block_artist': 'Block Artist',
       'copied_to_clipboard': 'Copied to clipboard',
-      'copy_link_to_song': 'Copy link to Song',
+      'copy_link_to_song': 'Copy link to song',
       'report_song': 'Report Song',
       'share_song': 'Share Song',
       'note': 'Note',
