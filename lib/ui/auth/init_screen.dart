@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -20,7 +21,9 @@ class InitScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 80, top: 20, right: 80, bottom: 20),
-                    child: Image.asset('assets/images/logo-dark.png'),
+                    child: kIsWeb
+                        ? SizedBox()
+                        : Image.asset('assets/images/logo-dark.png'),
                   ),
                 ),
                 SizedBox(

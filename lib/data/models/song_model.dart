@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/entities.dart';
@@ -400,6 +401,11 @@ abstract class VideoEntity extends Object
   String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
 
   static Future<String> getPath(int timestamp) async {
+    // TODO add web support
+    if (kIsWeb) {
+      return null;
+    }
+
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/videos';
     await Directory(folder).create(recursive: true);
