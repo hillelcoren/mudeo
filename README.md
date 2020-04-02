@@ -20,6 +20,8 @@ Multi-track mu(sic vi)deo recorder
 
 ## Developer Notes
 
+Testing the app requires setting up a backend instance: https://github.com/turbo124/mudeo
+
 - Run `cp lib/.env.dart.example lib/.env.dart` to create the config file
 
 - Run `cp android/app/build.gradle.dev android/app/build.gradle` to support running the code unsigned
