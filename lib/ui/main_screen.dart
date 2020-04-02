@@ -133,21 +133,25 @@ class _DesktopScreenState extends State<DesktopScreen>
           flex: 2,
           child: Scaffold(
             appBar: AppBar(
-              bottom: TabBar(
-                controller: _controller,
-                tabs: <Widget>[
-                  Tab(
-                    text: localization.featured,
-                  ),
-                  Tab(
-                    text: localization.newest,
-                  ),
-                  /*
+              title: null,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(0), // here the desired height
+                child: TabBar(
+                  controller: _controller,
+                  tabs: <Widget>[
+                    Tab(
+                      text: localization.featured,
+                    ),
+                    Tab(
+                      text: localization.newest,
+                    ),
+                    /*
                   Tab(
                     text: localization.profile,
                   ),
                    */
-                ],
+                  ],
+                ),
               ),
             ),
             body: TabBarView(
