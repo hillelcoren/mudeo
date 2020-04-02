@@ -252,12 +252,33 @@ class CustomPlaceholder extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Help'),
-            RaisedButton(
-              child: Text('Click'),
-              onPressed: () {
-                //
-              },
+            Text('Thanks for checkout out the app!'),
+            SizedBox(height: 10),
+            Text('To collaborate plese download the mobile app'),
+            SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                  child: Image.asset(
+                    'assets/images/google.png',
+                    width: 150,
+                  ),
+                  onTap: () {
+                    //
+                  },
+                ),
+                SizedBox(width: 20),
+                InkWell(
+                  child: Image.asset(
+                    'assets/images/apple.png',
+                    width: 150,
+                  ),
+                  onTap: () {
+                    //
+                  },
+                )
+              ],
             )
           ],
         ),
