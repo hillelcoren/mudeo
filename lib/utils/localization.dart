@@ -79,6 +79,7 @@ class AppLocalization {
       'use_google': 'Use Google',
       'use_email': 'Use Email',
       'open_in_browser': 'Open in Browser',
+      'open_in_new_tab': 'Open in new tab',
       'remove': 'Remove',
       'remove_video': 'Remove Video',
       'reset_song': 'Reset Song',
@@ -197,6 +198,9 @@ class AppLocalization {
 
   String get openInBrowser =>
       _localizedValues[locale.toString()]['open_in_browser'];
+
+  String get openInNewTab =>
+      _localizedValues[locale.toString()]['open_in_new_tab'];
 
   String get remove => _localizedValues[locale.toString()]['remove'];
 

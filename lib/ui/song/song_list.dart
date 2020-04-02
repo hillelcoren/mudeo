@@ -457,10 +457,12 @@ class SongFooter extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               final actions = [
                 if (!kIsWeb) localization.shareSong,
-                localization.openInBrowser,
+                (kIsWeb)
+                    ? localization.openInNewTab
+                    : localization.openInBrowser,
                 localization.copyLinkToSong,
                 if (song.parentId > 0) localization.viewOriginal,
-                localization.reportSong,
+                if (!kIsWeb) localization.reportSong,
               ];
               return actions
                   .map((action) => PopupMenuItem(
@@ -470,7 +472,8 @@ class SongFooter extends StatelessWidget {
                   .toList();
             },
             onSelected: (String action) async {
-              if (action == localization.openInBrowser) {
+              if (action == localization.openInBrowser ||
+                  action == localization.openInNewTab) {
                 launch(song.url);
                 return;
               } else if (action == localization.copyLinkToSong) {
