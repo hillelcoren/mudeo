@@ -196,13 +196,14 @@ class MobileScreen extends StatelessWidget {
         scrollController: scrollController,
       ),
       SongEditScreen(),
-      if (state.authState.hasValidToken)
-        ArtistScreen(
-          artist: state.authState.artist,
-          showSettings: true,
-        )
-      else
-        LoginScreenBuilder(),
+      if (!kIsWeb)
+        if (state.authState.hasValidToken)
+          ArtistScreen(
+            artist: state.authState.artist,
+            showSettings: true,
+          )
+        else
+          LoginScreenBuilder(),
     ];
 
     return WillPopScope(
@@ -231,9 +232,10 @@ class MobileScreen extends StatelessWidget {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.videocam),
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                ),
+                if (!kIsWeb)
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                  ),
               ],
             ),
             tabBuilder: (BuildContext context, int index) {
