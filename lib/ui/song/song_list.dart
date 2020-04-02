@@ -732,7 +732,7 @@ class _CommentRowState extends State<CommentRow> {
                           style: TextStyle(color: Colors.grey, fontSize: 17),
                           text: widget.comment.artist.displayName),
                       TextSpan(
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 17, color: Colors.white),
                         text: '   ${widget.comment.description}',
                       ),
                     ],

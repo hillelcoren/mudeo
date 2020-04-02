@@ -283,7 +283,7 @@ class CustomPlaceholder extends StatelessWidget {
             ),
             SizedBox(height: 60),
             Text(
-              'If you have an account on GitHub please\nconsider giving this issue an upvote',
+              'If you have an account on GitHub\nplease consider giving this issue an\nupvote to help us finish the app',
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 10),
