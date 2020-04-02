@@ -148,12 +148,20 @@ class _SongItemState extends State<SongItem> {
                     });
               } else {
                 if (kIsWeb) {
-                  print('## SHOW WEB VIDEO');
                   registerWebView(song.youTubeEmbedUrl);
-                  showDialog<HtmlElementView>(
+                  showDialog<Scaffold>(
                       context: context,
                       builder: (BuildContext context) {
-                        return HtmlElementView(viewType: song.youTubeEmbedUrl);
+                        return Scaffold(
+                          appBar: AppBar(
+                            title: Text('mudeo'),
+                            leading: IconButton(
+                              icon: Icon(Icons.arrow_back),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ),
+                          body: HtmlElementView(viewType: song.youTubeEmbedUrl),
+                        );
                       });
                 } else {
                   FlutterYoutube.playYoutubeVideoById(
