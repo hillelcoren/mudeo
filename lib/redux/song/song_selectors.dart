@@ -1,16 +1,17 @@
 import 'package:memoize/memoize.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
 
-var memoizedSongIds = memo3(
+var memoizedSongIds = memo4(
     (BuiltMap<int, SongEntity> songMap, ArtistEntity artist,
-            [int filterArtistId]) =>
-        songIdsSelector(songMap, artist, filterArtistId));
+            [int filterArtistId, String filter]) =>
+        songIdsSelector(songMap, artist, filterArtistId, filter));
 
 List<int> songIdsSelector(
     BuiltMap<int, SongEntity> songMap, ArtistEntity artist,
-    [int filterArtistId]) {
+    [int filterArtistId, String filter]) {
   final songIds = songMap.keys.where((songId) {
     final song = songMap[songId];
 
@@ -20,6 +21,12 @@ List<int> songIdsSelector(
       }
     } else {
       if (!song.isApproved) {
+        return false;
+      }
+
+      if (filter == kSongFilterFeatured && !song.isFeatured) {
+        return false;
+      } else if (filter == kSongFilterNewest && song.isFeatured) {
         return false;
       }
     }

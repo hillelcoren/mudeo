@@ -159,9 +159,11 @@ class _DesktopScreenState extends State<DesktopScreen>
               children: <Widget>[
                 SongListScreen(
                   scrollController: widget.scrollController,
+                  filter: kSongFilterFeatured,
                 ),
                 SongListScreen(
                   scrollController: widget.scrollController,
+                  filter: kSongFilterNewest,
                 ),
               ],
             ),

@@ -14,6 +14,9 @@ const String kGoogleStoreUrl = '';
 
 const int kOAuthProviderGoogle = 1;
 
+const String kSongFilterFeatured = 'featured';
+const String kSongFilterNewest = 'newest';
+
 const String kSharedPrefToken = 'token';
 const String kSharedPrefAppVersion = 'app_version';
 const String kSharedPrefCameraDirection = 'camera_direction';

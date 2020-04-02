@@ -31,8 +31,10 @@ class SongList extends StatelessWidget {
     Key key,
     @required this.viewModel,
     @required this.scrollController,
+    @required this.filter,
   }) : super(key: key);
 
+  final String filter;
   final SongListVM viewModel;
   final ScrollController scrollController;
 
@@ -43,8 +45,8 @@ class SongList extends StatelessWidget {
     }
 
     final state = viewModel.state;
-    final songIds =
-        memoizedSongIds(state.dataState.songMap, state.authState.artist, null);
+    final songIds = memoizedSongIds(
+        state.dataState.songMap, state.authState.artist, null, filter);
 
     return RefreshIndicator(
         onRefresh: () => viewModel.onRefreshed(context),
@@ -557,6 +559,7 @@ class SongHeader extends StatelessWidget {
         .copyWith(color: themeData.accentColor, fontSize: 16);
     final TextStyle genreStyle =
         artistStyle.copyWith(color: kGenreColors[song.genreId]);
+    final TextStyle dotStyle = artistStyle.copyWith(color: Colors.white);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
@@ -594,7 +597,7 @@ class SongHeader extends StatelessWidget {
                       ),
                       song.genreId == null || song.genreId == 0
                           ? TextSpan()
-                          : TextSpan(text: ' • '),
+                          : TextSpan(text: ' • ', style: dotStyle),
                       song.genreId == null || song.genreId == 0
                           ? TextSpan()
                           : TextSpan(

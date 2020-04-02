@@ -64,7 +64,7 @@ class ArtistPage extends StatelessWidget {
     final isFollowing = viewModel.state.authState.artist.isFollowing(artist.id);
     final state = viewModel.state;
     final songIds = memoizedSongIds(
-        state.dataState.songMap, state.authState.artist, artist.id);
+        state.dataState.songMap, state.authState.artist, artist.id, null);
 
     void _showMenu() {
       showDialog<SimpleDialog>(

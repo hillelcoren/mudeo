@@ -60,6 +60,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       'is_approved',
       serializers.serialize(object.isApproved,
           specifiedType: const FullType(bool)),
+      'is_featured',
+      serializers.serialize(object.isFeatured,
+          specifiedType: const FullType(bool)),
       'video_url',
       serializers.serialize(object.videoUrl,
           specifiedType: const FullType(String)),
@@ -205,6 +208,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'is_approved':
           result.isApproved = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'is_featured':
+          result.isFeatured = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
         case 'video_url':
@@ -1095,6 +1102,8 @@ class _$SongEntity extends SongEntity {
   @override
   final bool isApproved;
   @override
+  final bool isFeatured;
+  @override
   final String videoUrl;
   @override
   final String youTubeId;
@@ -1132,6 +1141,7 @@ class _$SongEntity extends SongEntity {
       this.isFlagged,
       this.isPublic,
       this.isApproved,
+      this.isFeatured,
       this.videoUrl,
       this.youTubeId,
       this.thumbnailUrl,
@@ -1163,6 +1173,9 @@ class _$SongEntity extends SongEntity {
     }
     if (isApproved == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'isApproved');
+    }
+    if (isFeatured == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'isFeatured');
     }
     if (videoUrl == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'videoUrl');
@@ -1208,6 +1221,7 @@ class _$SongEntity extends SongEntity {
         isFlagged == other.isFlagged &&
         isPublic == other.isPublic &&
         isApproved == other.isApproved &&
+        isFeatured == other.isFeatured &&
         videoUrl == other.videoUrl &&
         youTubeId == other.youTubeId &&
         thumbnailUrl == other.thumbnailUrl &&
@@ -1240,16 +1254,16 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), artistId.hashCode),
-                                                                                artist.hashCode),
-                                                                            genreId.hashCode),
-                                                                        parentId.hashCode),
-                                                                    duration.hashCode),
-                                                                countPlay.hashCode),
-                                                            countLike.hashCode),
-                                                        isFlagged.hashCode),
-                                                    isPublic.hashCode),
-                                                isApproved.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), artistId.hashCode), artist.hashCode),
+                                                                                genreId.hashCode),
+                                                                            parentId.hashCode),
+                                                                        duration.hashCode),
+                                                                    countPlay.hashCode),
+                                                                countLike.hashCode),
+                                                            isFlagged.hashCode),
+                                                        isPublic.hashCode),
+                                                    isApproved.hashCode),
+                                                isFeatured.hashCode),
                                             videoUrl.hashCode),
                                         youTubeId.hashCode),
                                     thumbnailUrl.hashCode),
@@ -1278,6 +1292,7 @@ class _$SongEntity extends SongEntity {
           ..add('isFlagged', isFlagged)
           ..add('isPublic', isPublic)
           ..add('isApproved', isApproved)
+          ..add('isFeatured', isFeatured)
           ..add('videoUrl', videoUrl)
           ..add('youTubeId', youTubeId)
           ..add('thumbnailUrl', thumbnailUrl)
@@ -1348,6 +1363,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   bool get isApproved => _$this._isApproved;
   set isApproved(bool isApproved) => _$this._isApproved = isApproved;
 
+  bool _isFeatured;
+  bool get isFeatured => _$this._isFeatured;
+  set isFeatured(bool isFeatured) => _$this._isFeatured = isFeatured;
+
   String _videoUrl;
   String get videoUrl => _$this._videoUrl;
   set videoUrl(String videoUrl) => _$this._videoUrl = videoUrl;
@@ -1408,6 +1427,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _isFlagged = _$v.isFlagged;
       _isPublic = _$v.isPublic;
       _isApproved = _$v.isApproved;
+      _isFeatured = _$v.isFeatured;
       _videoUrl = _$v.videoUrl;
       _youTubeId = _$v.youTubeId;
       _thumbnailUrl = _$v.thumbnailUrl;
@@ -1455,6 +1475,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               isFlagged: isFlagged,
               isPublic: isPublic,
               isApproved: isApproved,
+              isFeatured: isFeatured,
               videoUrl: videoUrl,
               youTubeId: youTubeId,
               thumbnailUrl: thumbnailUrl,

@@ -29,6 +29,7 @@ abstract class SongEntity extends Object
       genreId: genreId ?? 0,
       isRendered: false,
       isApproved: false,
+      isFeatured: false,
       duration: 0,
       countPlay: 0,
       countLike: 0,
@@ -81,6 +82,9 @@ abstract class SongEntity extends Object
 
   @BuiltValueField(wireName: 'is_approved')
   bool get isApproved;
+
+  @BuiltValueField(wireName: 'is_featured')
+  bool get isFeatured;
 
   @BuiltValueField(wireName: 'video_url')
   String get videoUrl;
