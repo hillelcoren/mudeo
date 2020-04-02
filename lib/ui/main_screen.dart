@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -279,7 +280,28 @@ class CustomPlaceholder extends StatelessWidget {
                   },
                 )
               ],
-            )
+            ),
+            SizedBox(height: 60),
+            Text(
+              'If you have an account on GitHub please\nconsider giving this issue an upvote',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10),
+            RaisedButton(
+              //child: Text('GitHub'),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Icon(FontAwesomeIcons.github),
+                  SizedBox(width: 10),
+                  Text('GitHub Issue #'),
+                ],
+              ),
+              onPressed: () {
+                //
+              },
+            ),
+            SizedBox(height: 15),
           ],
         ),
       ),
