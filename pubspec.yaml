@@ -38,6 +38,7 @@ dependencies:
   image_picker: ^0.6.4
   chewie: ^0.9.10
   flutter_youtube: ^2.0.0
+  draggable_scrollbar: ^0.0.4
 
 
 dev_dependencies:

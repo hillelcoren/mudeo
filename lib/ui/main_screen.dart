@@ -254,9 +254,9 @@ class CustomPlaceholder extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Thanks for checking out the app!'),
+            Text('Thank you for checking out the app!'),
             SizedBox(height: 10),
-            Text('To record plese download the mobile app'),
+            Text('To record please download the mobile app'),
             SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -337,10 +337,10 @@ class CustomPlaceholder extends StatelessWidget {
             ),
             SizedBox(height: 50),
             Text(
-              'If you have a GitHub account please consider\nupvoting this issue to help us finish the app 👍',
+              'If you have a GitHub account please consider\nupvoting this issue to help finish the app 👍',
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 15),
             RaisedButton(
               color: Colors.black,
               child: Row(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -51,22 +52,27 @@ class SongList extends StatelessWidget {
         state.dataState.songMap, state.authState.artist, null, filter);
 
     return RefreshIndicator(
-        onRefresh: () => viewModel.onRefreshed(context),
+      onRefresh: () => viewModel.onRefreshed(context),
+      child: DraggableScrollbar.arrows(
+        controller: scrollController,
+        alwaysVisibleScrollThumb: true,
         child: ListView.builder(
-            padding: const EdgeInsets.only(bottom: 130),
-            shrinkWrap: true,
-            controller: scrollController,
-            itemCount: songIds.length,
-            itemBuilder: (BuildContext context, index) {
-              final data = viewModel.state.dataState;
-              final songId = songIds[index];
-              final song = data.songMap[songId];
-
-              return SongItem(
-                song: song,
-                enableShowArtist: !kIsWeb,
-              );
-            }));
+          padding: const EdgeInsets.only(bottom: 130),
+          shrinkWrap: true,
+          controller: scrollController,
+          itemCount: songIds.length,
+          itemBuilder: (BuildContext context, index) {
+            final data = viewModel.state.dataState;
+            final songId = songIds[index];
+            final song = data.songMap[songId];
+            return SongItem(
+              song: song,
+              enableShowArtist: !kIsWeb,
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -131,9 +137,10 @@ class _SongItemState extends State<SongItem> {
     final lastTrack = tracks.isNotEmpty ? tracks.last : null;
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
+    final lastVideo = lastTrack?.video ?? VideoEntity();
     final imageUrl = (song.isRendered && song.hasThumbnail)
         ? song.openThumbnailUrl
-        : lastTrack.video.thumbnailUrl;
+        : lastVideo.thumbnailUrl;
 
     return GestureDetector(
       onTap: _showComments
@@ -179,7 +186,7 @@ class _SongItemState extends State<SongItem> {
         duration: Duration(milliseconds: _showComments ? 300 : 500),
         height: _showComments ? 560 : 380,
         child: Stack(children: <Widget>[
-          !song.hasThumbnail && lastTrack.video.isRemoteVideo
+          !song.hasThumbnail && lastVideo.isRemoteVideo
               ? Center(
                   child: Text(
                     localization.backingTrack,
@@ -187,7 +194,7 @@ class _SongItemState extends State<SongItem> {
                   ),
                 )
               : (song.isRendered && song.hasThumbnail) ||
-                      lastTrack.video.hasThumbnail
+                      lastVideo.hasThumbnail
                   ? kIsWeb
                       ? Image.network(
                           imageUrl,
