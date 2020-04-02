@@ -373,9 +373,11 @@ class SongFooter extends StatelessWidget {
                 showDialog<AlertDialog>(
                     context: context,
                     builder: (BuildContext context) {
+                      final localization = AppLocalization.of(context);
                       return AlertDialog(
-                        content: Text(AppLocalization.of(context)
-                            .requireAccountToCollaborate),
+                        content: Text(kIsWeb
+                            ? localization.requireMobileToCollaborate
+                            : localization.requireAccountToCollaborate),
                       );
                     });
                 return;
@@ -425,9 +427,11 @@ class SongFooter extends StatelessWidget {
                     showDialog<AlertDialog>(
                         context: context,
                         builder: (BuildContext context) {
+                          final localization = AppLocalization.of(context);
                           return AlertDialog(
-                            content: Text(AppLocalization.of(context)
-                                .requireAccountToLike),
+                            content: Text(kIsWeb
+                                ? localization.requireMobileToLike
+                                : localization.requireAccountToLike),
                           );
                         });
                     return;
@@ -499,9 +503,11 @@ class SongFooter extends StatelessWidget {
                 showDialog<AlertDialog>(
                     context: context,
                     builder: (BuildContext context) {
+                      final localization = AppLocalization.of(context);
                       return AlertDialog(
-                        content: Text(
-                            AppLocalization.of(context).requireAccountToReport),
+                        content: Text(kIsWeb
+                            ? localization.requireMobileToReport
+                            : localization.requireAccountToReport),
                       );
                     });
                 return;

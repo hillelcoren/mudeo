@@ -23,6 +23,11 @@ class AppLocalization {
       'newest': 'Newest',
       'featured': 'Featured',
       'options': 'Options',
+      'require_mobile_to_collaborate':
+          'Please download the mobile app to collaborate',
+      'require_mobile_to_like': 'Please download the mobile app like a song',
+      'require_mobile_to_report':
+          'Please download the mobile app report a song',
       'require_account_to_collaborate': 'Please login to collaborate',
       'require_account_to_upload': 'Please login to upload a song',
       'require_account_to_like': 'Please login to like a song',
@@ -521,6 +526,15 @@ class AppLocalization {
 
   String get requireAccountToCollaborate =>
       _localizedValues[locale.toString()]['require_account_to_collaborate'];
+
+  String get requireMobileToCollaborate =>
+      _localizedValues[locale.toString()]['require_mobile_to_collaborate'];
+
+  String get requireMobileToLike =>
+      _localizedValues[locale.toString()]['require_mobile_to_like'];
+
+  String get requireMobileToReport =>
+      _localizedValues[locale.toString()]['require_mobile_to_report'];
 
   String get options => _localizedValues[locale.toString()]['options'];
 
