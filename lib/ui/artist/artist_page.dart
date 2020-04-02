@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -40,12 +41,19 @@ class ArtistPage extends StatelessWidget {
                 padding: EdgeInsets.all(15),
                 child: Icon(Icons.person, size: 70),
               )
-            : CachedNetworkImage(
-                imageUrl: artist.profileImageUrl,
-                width: 140,
-                height: 140,
-                fit: BoxFit.cover,
-              ),
+            : kIsWeb
+                ? Image.network(
+                    artist.profileImageUrl,
+                    width: 140,
+                    height: 140,
+                    fit: BoxFit.cover,
+                  )
+                : CachedNetworkImage(
+                    imageUrl: artist.profileImageUrl,
+                    width: 140,
+                    height: 140,
+                    fit: BoxFit.cover,
+                  ),
       );
     }
 
@@ -297,8 +305,8 @@ class ArtistPage extends StatelessWidget {
                                 style: TextStyle(fontSize: 18)),
                             onPressed: () {
                               final store = StoreProvider.of<AppState>(context);
-                              store
-                                  .dispatch(EditArtist(context: context, artist: artist));
+                              store.dispatch(
+                                  EditArtist(context: context, artist: artist));
                             },
                             color: Colors.black87,
                             padding: EdgeInsets.symmetric(

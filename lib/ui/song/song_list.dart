@@ -124,6 +124,9 @@ class _SongItemState extends State<SongItem> {
     final lastTrack = tracks.isNotEmpty ? tracks.last : null;
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
+    final imageUrl = (song.isRendered && song.hasThumbnail)
+        ? song.openThumbnailUrl
+        : lastTrack.video.thumbnailUrl;
 
     return GestureDetector(
       onTap: _showComments
@@ -160,13 +163,18 @@ class _SongItemState extends State<SongItem> {
                 )
               : (song.isRendered && song.hasThumbnail) ||
                       lastTrack.video.hasThumbnail
-                  ? CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                      imageUrl: (song.isRendered && song.hasThumbnail)
-                          ? song.openThumbnailUrl
-                          : lastTrack.video.thumbnailUrl)
+                  ? kIsWeb
+                      ? Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                        )
+                      : CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                          imageUrl: imageUrl)
                   : SizedBox(),
           Material(
             color: Colors.transparent,

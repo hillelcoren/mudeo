@@ -37,7 +37,7 @@ void main() async {
           dsn: Config.SENTRY_DNS,
           environmentAttributes: Event(
             release: kAppVersion,
-            environment: Platform.localeName,
+            environment: kIsWeb ? 'Web' : Platform.localeName,
           ));
 
   final store = Store<AppState>(appReducer,
