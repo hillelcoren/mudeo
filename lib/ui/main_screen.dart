@@ -283,24 +283,57 @@ class CustomPlaceholder extends StatelessWidget {
               ],
             ),
             SizedBox(height: 50),
-            Text(
-              'Developed By',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 10),
-            RaisedButton(
-              color: Colors.black,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Icon(FontAwesomeIcons.twitter),
-                  SizedBox(width: 12),
-                  Text('@hillelcoren'),
-                ],
-              ),
-              onPressed: () {
-                launch(kDeveloperURL, forceSafariVC: false);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Source Code',
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    RaisedButton(
+                      color: Colors.black,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(FontAwesomeIcons.github),
+                          SizedBox(width: 12),
+                          Text('hillelcoren/mudeo'),
+                        ],
+                      ),
+                      onPressed: () {
+                        launch('https://github.com/hillelcoren/mudeo', forceSafariVC: false);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(width: 20),
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Developed By',
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    RaisedButton(
+                      color: Colors.black,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(FontAwesomeIcons.twitter),
+                          SizedBox(width: 12),
+                          Text('@hillelcoren'),
+                        ],
+                      ),
+                      onPressed: () {
+                        launch(kDeveloperURL, forceSafariVC: false);
+                      },
+                    ),
+                  ],
+                )
+              ],
             ),
             SizedBox(height: 50),
             Text(
@@ -319,7 +352,8 @@ class CustomPlaceholder extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                launch('https://github.com/flutter/flutter/issues/45297', forceSafariVC: false);
+                launch('https://github.com/flutter/flutter/issues/45297',
+                    forceSafariVC: false);
               },
             ),
           ],
