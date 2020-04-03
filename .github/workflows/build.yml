@@ -1,8 +1,8 @@
 name: Build Web
-on:
-  push:
-    branches:
-      - master
+#on:
+#  push:
+#    branches:
+#      - master
 jobs:
   build:
     name: Build Web
