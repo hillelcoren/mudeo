@@ -143,7 +143,7 @@ class ArtistPage extends StatelessWidget {
                                           */
                       applicationVersion:
                           '${localization.version} ${kAppVersion.split('+')[0]}\n\n${localization.pronounced}: moo-day-oh  😊',
-                      applicationLegalese: '© 2019 mudeo',
+                      applicationLegalese: '© 2020 mudeo',
                       /*
                       children: <Widget>[
                         Padding(
@@ -248,209 +248,197 @@ class ArtistPage extends StatelessWidget {
           });
     }
 
-    return CupertinoPageScaffold(
-        child: Material(
-      child: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              leading: showSettings ? SizedBox() : null,
-              expandedHeight: 200.0,
-              floating: true,
-              pinned: false,
-              flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  background: Image.network(
-                    artist.headerImageUrl != null &&
-                            artist.headerImageUrl.isNotEmpty
-                        ? artist.headerImageUrl
-                        : 'https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350',
-                    fit: BoxFit.cover,
-                  )),
-            ),
-          ];
-        },
-        body: ListView(
-          children: <Widget>[
-            FormCard(
-              children: <Widget>[
-                _profileImage(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: Column(
-                    children: <Widget>[
-                      artist.name != null && artist.name.isNotEmpty
-                          ? Text(
-                              artist.name,
-                              style: Theme.of(context).textTheme.headline5,
-                            )
-                          : SizedBox(),
-                      SizedBox(height: 6),
-                      if (artist.handle != null && artist.handle.isNotEmpty)
-                        Text(
-                          '@${artist.handle}',
-                          style: Theme.of(context).textTheme.subtitle1,
-                        )
-                    ],
-                  ),
+    return Scaffold(
+      appBar: showSettings ? null : AppBar(
+        title: Text(artist.name),
+      ),
+      body: ListView(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              if (artist.headerImageUrl != null &&
+                  artist.headerImageUrl.isNotEmpty)
+                Image.network(
+                  artist.headerImageUrl,
+                  fit: BoxFit.cover,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      if (showSettings)
-                        RaisedButton(
-                            child: Text(localization.editProfile,
-                                style: TextStyle(fontSize: 18)),
-                            onPressed: () {
-                              final store = StoreProvider.of<AppState>(context);
-                              store.dispatch(
-                                  EditArtist(context: context, artist: artist));
-                            },
-                            color: Colors.black87,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 35),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0))),
-                      showSettings
-                          ? RaisedButton(
-                              child: Text(localization.options,
+              FormCard(
+                children: <Widget>[
+                  _profileImage(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: Column(
+                      children: <Widget>[
+                        if (artist.handle != null && artist.handle.isNotEmpty)
+                          Text(
+                            '@${artist.handle}',
+                            style: Theme.of(context).textTheme.subtitle1,
+                          )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        if (showSettings)
+                          RaisedButton(
+                              child: Text(localization.editProfile,
                                   style: TextStyle(fontSize: 18)),
-                              onPressed: () => _showMenu(),
+                              onPressed: () {
+                                final store =
+                                    StoreProvider.of<AppState>(context);
+                                store.dispatch(EditArtist(
+                                    context: context, artist: artist));
+                              },
                               color: Colors.black87,
                               padding: EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 35),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0)))
-                          : viewModel.state.isSaving
-                              ? SizedBox(
-                                  child: CircularProgressIndicator(),
-                                  width: 48,
-                                  height: 48,
-                                )
-                              : (viewModel.state.authState.artist.id ==
-                                          artist.id ||
-                                      !viewModel.state.authState.hasValidToken)
-                                  ? SizedBox()
-                                  : RaisedButton(
-                                      child: Text(
-                                          isFollowing
-                                              ? localization.unfollow
-                                              : localization.follow,
-                                          style: TextStyle(fontSize: 18)),
-                                      onPressed: () =>
-                                          viewModel.onFollowPressed(artist),
-                                      color: isFollowing
-                                          ? Colors.grey
-                                          : Colors.lightBlue,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 35),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0))),
-                    ],
+                                  borderRadius: BorderRadius.circular(30.0))),
+                        showSettings
+                            ? RaisedButton(
+                                child: Text(localization.options,
+                                    style: TextStyle(fontSize: 18)),
+                                onPressed: () => _showMenu(),
+                                color: Colors.black87,
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 35),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0)))
+                            : viewModel.state.isSaving
+                                ? SizedBox(
+                                    child: CircularProgressIndicator(),
+                                    width: 48,
+                                    height: 48,
+                                  )
+                                : (viewModel.state.authState.artist.id ==
+                                            artist.id ||
+                                        !viewModel
+                                            .state.authState.hasValidToken)
+                                    ? SizedBox()
+                                    : RaisedButton(
+                                        child: Text(
+                                            isFollowing
+                                                ? localization.unfollow
+                                                : localization.follow,
+                                            style: TextStyle(fontSize: 18)),
+                                        onPressed: () =>
+                                            viewModel.onFollowPressed(artist),
+                                        color: isFollowing
+                                            ? Colors.grey
+                                            : Colors.lightBlue,
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 35),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0))),
+                      ],
+                    ),
                   ),
-                ),
-                artist.description != null && artist.description.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: Text(
-                          // TODO remove this null check
-                          artist.description ?? '',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      )
-                    : SizedBox(),
-                artist.website != null && artist.website.isNotEmpty
-                    ? Padding(
-                        padding: EdgeInsets.only(top: 12, bottom: 6),
-                        child: RichText(
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              LinkTextSpan(
-                                style: linkStyle,
-                                text: formatLinkForHuman(artist.website),
-                                url: formatLinkForBrowser(artist.website),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : SizedBox(),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: artist.socialLinks.keys
-                              .map((type) => SocialIconButton(
-                                  type: type, url: artist.socialLinks[type]))
-                              .toList(),
-                        ),
-                      ),
-                      isAndroid(context) || showSettings
-                          ? SizedBox()
-                          : PopupMenuButton<String>(
-                              icon: Icon(Icons.keyboard_arrow_down, size: 30),
-                              itemBuilder: (BuildContext context) {
-                                final actions = [
-                                  localization.blockArtist,
-                                ];
-                                return actions
-                                    .map((action) => PopupMenuItem(
-                                          child: Text(action),
-                                          value: action,
-                                        ))
-                                    .toList();
-                              },
-                              onSelected: (String action) async {
-                                showDialog<AlertDialog>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        semanticLabel: localization.areYouSure,
-                                        title: Text(localization.areYouSure),
-                                        content: Text(localization.blockArtist),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                              child: Text(localization.cancel
-                                                  .toUpperCase()),
-                                              onPressed: () =>
-                                                  Navigator.pop(context)),
-                                          FlatButton(
-                                              child: Text(localization.ok
-                                                  .toUpperCase()),
-                                              onPressed: () {
-                                                viewModel
-                                                    .onBlockPressed(artist);
-                                                Navigator.pop(context);
-                                              })
-                                        ],
-                                      );
-                                    });
-                              },
+                  artist.description != null && artist.description.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: Text(
+                            // TODO remove this null check
+                            artist.description ?? '',
+                            style: TextStyle(
+                              fontSize: 16,
                             ),
-                    ],
+                          ),
+                        )
+                      : SizedBox(),
+                  artist.website != null && artist.website.isNotEmpty
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 12, bottom: 6),
+                          child: RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                LinkTextSpan(
+                                  style: linkStyle,
+                                  text: formatLinkForHuman(artist.website),
+                                  url: formatLinkForBrowser(artist.website),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: artist.socialLinks.keys
+                                .map((type) => SocialIconButton(
+                                    type: type, url: artist.socialLinks[type]))
+                                .toList(),
+                          ),
+                        ),
+                        isAndroid(context) || showSettings
+                            ? SizedBox()
+                            : PopupMenuButton<String>(
+                                icon: Icon(Icons.keyboard_arrow_down, size: 30),
+                                itemBuilder: (BuildContext context) {
+                                  final actions = [
+                                    localization.blockArtist,
+                                  ];
+                                  return actions
+                                      .map((action) => PopupMenuItem(
+                                            child: Text(action),
+                                            value: action,
+                                          ))
+                                      .toList();
+                                },
+                                onSelected: (String action) async {
+                                  showDialog<AlertDialog>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          semanticLabel:
+                                              localization.areYouSure,
+                                          title: Text(localization.areYouSure),
+                                          content:
+                                              Text(localization.blockArtist),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                                child: Text(localization.cancel
+                                                    .toUpperCase()),
+                                                onPressed: () =>
+                                                    Navigator.pop(context)),
+                                            FlatButton(
+                                                child: Text(localization.ok
+                                                    .toUpperCase()),
+                                                onPressed: () {
+                                                  viewModel
+                                                      .onBlockPressed(artist);
+                                                  Navigator.pop(context);
+                                                })
+                                          ],
+                                        );
+                                      });
+                                },
+                              ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 14),
-            for (int songId in songIds)
-              SongItem(
-                song: state.dataState.songMap[songId],
-                enableShowArtist: false,
-              )
-          ],
-        ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 14),
+          for (int songId in songIds)
+            SongItem(
+              song: state.dataState.songMap[songId],
+              enableShowArtist: false,
+            )
+        ],
       ),
-    ));
+    );
   }
 }
 
