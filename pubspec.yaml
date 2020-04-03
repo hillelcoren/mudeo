@@ -11,7 +11,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   camera: 0.5.2+2
-  #camera: ^0.5.7+4 #39109
+  #camera: ^0.5.7+4 #39109  
   #camera:
   #  git:
   #    url: git://github.com/hillelcoren/plugins.git
