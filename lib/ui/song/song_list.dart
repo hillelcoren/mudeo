@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:mudeo/constants.dart';
@@ -269,20 +270,21 @@ class _SongItemState extends State<SongItem> {
                           fit: BoxFit.cover,
                           height: double.infinity,
                           width: double.infinity,
-                          /*
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },                          
-                           */
                         )
                       : CachedNetworkImage(
                           fit: BoxFit.cover,
                           height: double.infinity,
                           width: double.infinity,
+                          placeholder: (context, _) =>
+                              (song.blurhash ?? '').isNotEmpty
+                                  ? Container(
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      child: BlurHash(
+                                        hash: song.blurhash,
+                                      ),
+                                    )
+                                  : SizedBox(),
                           imageUrl: imageUrl)
                   : SizedBox(),
           Material(
