@@ -578,6 +578,8 @@ class SongFooter extends StatelessWidget {
                 localization.copyLinkToSong,
                 if (song.parentId > 0) localization.viewOriginal,
                 if (!kIsWeb) localization.reportSong,
+                if (song.artistId == state.authState.artist.id)
+                  localization.deleteSong
               ];
               return actions
                   .map((action) => PopupMenuItem(
@@ -607,6 +609,31 @@ class SongFooter extends StatelessWidget {
                 return;
               } else if (action == localization.shareSong) {
                 Share.share(song.url);
+                return;
+              } else if (action == localization.deleteSong) {
+                showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        semanticLabel: localization.areYouSure,
+                        title: Text(localization.areYouSure),
+                        content: Text(localization.deleteSong),
+                        actions: <Widget>[
+                          FlatButton(
+                              child: Text(localization.cancel.toUpperCase()),
+                              onPressed: () => Navigator.pop(context)),
+                          FlatButton(
+                              child: Text(localization.ok.toUpperCase()),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                store.dispatch(DeleteSongRequest(
+                                  song: song,
+                                  completer: Completer<Null>(),
+                                ));
+                              })
+                        ],
+                      );
+                    });
                 return;
               }
 
