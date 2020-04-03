@@ -11,7 +11,6 @@ import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
-import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -108,67 +107,15 @@ class DesktopScreen extends StatefulWidget {
   _DesktopScreenState createState() => _DesktopScreenState();
 }
 
-class _DesktopScreenState extends State<DesktopScreen>
-    with SingleTickerProviderStateMixin {
-  TabController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = TabController(vsync: this, length: 2);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class _DesktopScreenState extends State<DesktopScreen> {
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-
     return Row(
       children: <Widget>[
         Expanded(
           flex: 2,
-          child: Scaffold(
-            appBar: AppBar(
-              title: null,
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(0), // here the desired height
-                child: TabBar(
-                  controller: _controller,
-                  tabs: <Widget>[
-                    Tab(
-                      text: localization.featured,
-                    ),
-                    Tab(
-                      text: localization.newest,
-                    ),
-                    /*
-                  Tab(
-                    text: localization.profile,
-                  ),
-                   */
-                  ],
-                ),
-              ),
-            ),
-            body: TabBarView(
-              controller: _controller,
-              children: <Widget>[
-                SongListScreen(
-                  scrollController: widget.scrollController,
-                  filter: kSongFilterFeatured,
-                ),
-                SongListScreen(
-                  scrollController: widget.scrollController,
-                  filter: kSongFilterNewest,
-                ),
-              ],
-            ),
+          child: SongListScreen(
+            scrollController: widget.scrollController,
           ),
         ),
         Expanded(
@@ -190,6 +137,12 @@ class MobileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = viewModel.state;
     final uiState = state.uiState;
+
+    if (kIsWeb) {
+      return SongListScreen(
+        scrollController: scrollController,
+      );
+    }
 
     List<Widget> _views = [
       SongListScreen(

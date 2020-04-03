@@ -13,11 +13,9 @@ class SongListScreen extends StatelessWidget {
   const SongListScreen({
     Key key,
     @required this.scrollController,
-    @required this.filter,
   }) : super(key: key);
 
   final ScrollController scrollController;
-  final String filter;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,6 @@ class SongListScreen extends StatelessWidget {
           builder: (context, vm) {
             return SongList(
               viewModel: vm,
-              filter: filter,
               scrollController: scrollController,
             );
           },
