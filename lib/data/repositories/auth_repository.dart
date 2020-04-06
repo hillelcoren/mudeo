@@ -55,7 +55,7 @@ class AuthRepository {
       'oauth_user_id': oauthId,
       'oauth_provider_id': kOAuthProviderGoogle,
       'oauth_token': oauthToken,
-      'header_image_url': photoUrl,
+      'profile_image_url': photoUrl,
     };
 
     String url = '${Config.API_URL}/user/create';

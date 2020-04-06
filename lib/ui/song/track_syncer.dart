@@ -128,7 +128,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   track: _song.tracks[i],
                   timeSpan: _timeSpan * 1000,
                   timeStart: _timeStart,
-                  isSyncing: i == 0 ? false : _isSyncing[i],
+                  isSyncing: i == 0 ? false : (_isSyncing[i] ?? false),
                 ),
               ),
             SizedBox(height: 18),
