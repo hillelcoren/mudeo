@@ -252,8 +252,8 @@ class _SongItemState extends State<SongItem> {
                 }
               }
             },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: _showComments ? 300 : 500),
+      child: Container(
+        color: Colors.black,
         height: _showComments ? 560 : 380,
         child: Stack(children: <Widget>[
           !song.hasThumbnail && lastVideo.isRemoteVideo

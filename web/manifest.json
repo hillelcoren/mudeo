@@ -5,9 +5,16 @@
     "display": "minimal-ui",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "make music together",
     "orientation": "portrait-primary",
-    "prefer_related_applications": false,
+    "prefer_related_applications": true,
+    "related_applications": [
+        {
+            "platform": "play",
+            "id": "app.mudeo.mudeo",
+            "url": "https://play.google.com/store/apps/details?id=app.mudeo.mudeo"
+        }
+    ],
     "icons": [
         {
             "src": "icons/Icon-192.png",
