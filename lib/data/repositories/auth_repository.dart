@@ -98,7 +98,7 @@ class AuthRepository {
     return loginResponse;
   }
 
-  Future<String> deleteAccount(
+  Future<dynamic> deleteAccount(
       {int artistId, String token}) async {
     String url = '${Config.API_URL}/users/$artistId';
 

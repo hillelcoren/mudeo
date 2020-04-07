@@ -171,9 +171,7 @@ Middleware<AppState> _createDeleteRequest(AuthRepository repository) {
       token: token,
     )
         .then((response) {
-      if (response == 'SUCCESS') {
-        store.dispatch(UserLogout());
-      }
+      store.dispatch(UserLogout());
     }).catchError((Object error) {
       print(error);
       store.dispatch(DeleteAccountFailure(error.toString()));
