@@ -14,16 +14,15 @@ class AuthRepository {
   final WebClient webClient;
 
   Future<ArtistEntity> login(
-      {String email,
-      String password,
-      String oneTimePassword}) async {
+      {String email, String password, String oneTimePassword}) async {
     final credentials = {
       'email': email,
       'password': password,
       'one_time_password': oneTimePassword,
     };
 
-    String url = '${Config.API_URL}/auth?include=song_likes,song_flags,following';
+    String url =
+        '${Config.API_URL}/auth?include=song_likes,song_flags,following';
 
     return sendRequest(url: url, data: credentials);
   }
@@ -63,21 +62,22 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<ArtistEntity> oauthLogin(
-      {String token}) async {
+  Future<ArtistEntity> oauthLogin({String token}) async {
     final credentials = {
       'token': token,
       'provider': 'google',
     };
 
-    String url = '${Config.API_URL}/oauth?include=song_likes,song_flags,following';
+    String url =
+        '${Config.API_URL}/oauth?include=song_likes,song_flags,following';
 
     return sendRequest(url: url, data: credentials);
   }
 
   Future<ArtistEntity> refresh(
       {int artistId, String token, String platform}) async {
-    String url = '${Config.API_URL}/user?include=song_likes,song_flags,following';
+    String url =
+        '${Config.API_URL}/user?include=song_likes,song_flags,following';
 
     final dynamic response = await webClient.get(url, token);
 
@@ -96,5 +96,14 @@ class AuthRepository {
         serializers.deserializeWith(ArtistEntity.serializer, response);
 
     return loginResponse;
+  }
+
+  Future<String> deleteAccount(
+      {int artistId, String token}) async {
+    String url = '${Config.API_URL}/users/$artistId';
+
+    final dynamic response = await webClient.delete(url, token);
+
+    return response;
   }
 }

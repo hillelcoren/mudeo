@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
+import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:redux/redux.dart';
 
@@ -36,11 +37,13 @@ class ArtistPageVM {
     @required this.state,
     @required this.onFollowPressed,
     @required this.onBlockPressed,
+    @required this.onDeleteAccountPressed,
   });
 
   final AppState state;
   final Function(ArtistEntity) onFollowPressed;
   final Function(ArtistEntity) onBlockPressed;
+  final Function onDeleteAccountPressed;
 
   static ArtistPageVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -52,7 +55,10 @@ class ArtistPageVM {
       },
       onBlockPressed: (artist) {
         store.dispatch(FlagArtist(artist: artist));
-      }
+      },
+      onDeleteAccountPressed: () {
+        store.dispatch(DeleteAccount());
+      },
     );
   }
 }

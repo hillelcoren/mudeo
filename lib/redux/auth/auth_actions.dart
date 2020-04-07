@@ -24,10 +24,11 @@ class LoadUserLogin {
 }
 
 class GoogleLoginRequest implements StartLoading {
-  GoogleLoginRequest(
-      {this.completer,
-      this.email,
-      this.oauthToken,});
+  GoogleLoginRequest({
+    this.completer,
+    this.email,
+    this.oauthToken,
+  });
 
   final Completer completer;
   final String email; // TODO remove this property, break up _saveAuthLocal
@@ -89,6 +90,7 @@ class UserLoginRequest implements StartLoading {
 
 class UserLoginSuccess implements StopLoading, PersistAuth {
   UserLoginSuccess(this.artist);
+
   final ArtistEntity artist;
 }
 
@@ -101,3 +103,14 @@ class UserLoginFailure implements StopLoading {
 class UserLogout implements PersistData, PersistAuth, PersistUI {}
 
 class ClearAuthError {}
+
+class DeleteAccount implements StartLoading {}
+
+class DeleteAccountSuccess
+    implements StopLoading, PersistData, PersistAuth, PersistUI {}
+
+class DeleteAccountFailure implements StopLoading {
+  DeleteAccountFailure(this.error);
+
+  final Object error;
+}

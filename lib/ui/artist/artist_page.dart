@@ -17,6 +17,7 @@ import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/song/song_list.dart';
+import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
@@ -191,7 +192,6 @@ class ArtistPage extends StatelessWidget {
                   },
                 ),
                 */
-                Divider(),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -228,7 +228,7 @@ class ArtistPage extends StatelessWidget {
                     );
                   },
                 ),
-                /*
+                Divider(),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -240,18 +240,25 @@ class ArtistPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
+                    confirmCallback(
+                        context: context,
+                        message: localization.deleteAccount,
+                        callback: () {
+                          viewModel.onDeleteAccountPressed();
+                        });
                   },
                 ),
-                */
               ],
             );
           });
     }
 
     return Scaffold(
-      appBar: showSettings ? null : AppBar(
-        title: Text(artist.name),
-      ),
+      appBar: showSettings
+          ? null
+          : AppBar(
+              title: Text(artist.name),
+            ),
       body: ListView(
         children: <Widget>[
           Stack(
@@ -269,6 +276,11 @@ class ArtistPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Column(
                       children: <Widget>[
+                        Text(
+                          artist.name,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                        SizedBox(height: 8),
                         if (artist.handle != null && artist.handle.isNotEmpty)
                           Text(
                             '@${artist.handle}',

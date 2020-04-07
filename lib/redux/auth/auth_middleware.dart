@@ -18,6 +18,7 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
   final googleSignUpRequest = _createGoogleSignUpRequest(repository);
   final oauthRequest = _createOAuthRequest(repository);
   final refreshRequest = _createRefreshRequest(repository);
+  final deleteRequest = _createDeleteRequest(repository);
 
   return [
     TypedMiddleware<AppState, LoadUserLogin>(appInit),
@@ -26,6 +27,7 @@ List<Middleware<AppState>> createStoreAuthMiddleware([
     TypedMiddleware<AppState, GoogleSignUpRequest>(googleSignUpRequest),
     TypedMiddleware<AppState, GoogleLoginRequest>(oauthRequest),
     TypedMiddleware<AppState, RefreshData>(refreshRequest),
+    TypedMiddleware<AppState, DeleteAccount>(deleteRequest),
   ];
 }
 
@@ -152,6 +154,34 @@ Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
       if (action.completer != null) {
         action.completer.completeError(error);
       }
+    });
+  };
+}
+
+Middleware<AppState> _createDeleteRequest(AuthRepository repository) {
+  return (Store<AppState> store, dynamic action, NextDispatcher next) async {
+    next(action);
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString(kSharedPrefToken);
+
+    repository
+        .deleteAccount(
+      artistId: store.state.authState.artist.id,
+      token: token,
+    )
+        .then((response) {
+      if (response == 'SUCCESS') {
+        store.dispatch(UserLogout());
+      }
+    }).catchError((Object error) {
+      print(error);
+      store.dispatch(DeleteAccountFailure(error.toString()));
+      /*
+      if (action.completer != null) {
+        action.completer.completeError(error);
+      }      
+       */
     });
   };
 }

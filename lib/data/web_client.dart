@@ -173,9 +173,9 @@ class WebClient {
       },
     );
 
-    debugPrint('Response: ${response.body}');
+    debugPrint('Response: ${response.statusCode} - ${response.body}');
 
-    if (response.statusCode >= 300) {
+    if (response.statusCode >= 400) {
       debugPrint('==== FAILED ====');
       throw _parseError(response.statusCode, response.body);
     }

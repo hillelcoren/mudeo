@@ -577,9 +577,10 @@ class SongFooter extends StatelessWidget {
                     : localization.openInBrowser,
                 localization.copyLinkToSong,
                 if (song.parentId > 0) localization.viewOriginal,
-                if (!kIsWeb) localization.reportSong,
                 if (song.artistId == state.authState.artist.id)
                   localization.deleteSong
+                else if (!kIsWeb)
+                  localization.reportSong,
               ];
               return actions
                   .map((action) => PopupMenuItem(
