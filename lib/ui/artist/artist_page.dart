@@ -296,7 +296,7 @@ class ArtistPage extends StatelessWidget {
                       children: <Widget>[
                         if (showSettings)
                           RaisedButton(
-                              child: Text(localization.editProfile,
+                              child: Text(localization.profile,
                                   style: TextStyle(fontSize: 18)),
                               onPressed: () {
                                 final store =
