@@ -88,6 +88,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       serializers.serialize(object.isRendered,
           specifiedType: const FullType(bool)),
     ];
+    if (object.color != null) {
+      result
+        ..add('color')
+        ..add(serializers.serialize(object.color,
+            specifiedType: const FullType(String)));
+    }
     if (object.artistId != null) {
       result
         ..add('user_id')
@@ -187,6 +193,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'height':
           result.height = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int;
+          break;
+        case 'color':
+          result.color = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'user_id':
           result.artistId = serializers.deserialize(value,
@@ -1108,6 +1118,8 @@ class _$SongEntity extends SongEntity {
   @override
   final int height;
   @override
+  final String color;
+  @override
   final int artistId;
   @override
   final ArtistEntity artist;
@@ -1161,6 +1173,7 @@ class _$SongEntity extends SongEntity {
       this.url,
       this.width,
       this.height,
+      this.color,
       this.artistId,
       this.artist,
       this.genreId,
@@ -1250,6 +1263,7 @@ class _$SongEntity extends SongEntity {
         url == other.url &&
         width == other.width &&
         height == other.height &&
+        color == other.color &&
         artistId == other.artistId &&
         artist == other.artist &&
         genreId == other.genreId &&
@@ -1294,7 +1308,7 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), color.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode),
                                                                                 parentId.hashCode),
                                                                             duration.hashCode),
                                                                         blurhash.hashCode),
@@ -1324,6 +1338,7 @@ class _$SongEntity extends SongEntity {
           ..add('url', url)
           ..add('width', width)
           ..add('height', height)
+          ..add('color', color)
           ..add('artistId', artistId)
           ..add('artist', artist)
           ..add('genreId', genreId)
@@ -1372,6 +1387,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   int _height;
   int get height => _$this._height;
   set height(int height) => _$this._height = height;
+
+  String _color;
+  String get color => _$this._color;
+  set color(String color) => _$this._color = color;
 
   int _artistId;
   int get artistId => _$this._artistId;
@@ -1474,6 +1493,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _url = _$v.url;
       _width = _$v.width;
       _height = _$v.height;
+      _color = _$v.color;
       _artistId = _$v.artistId;
       _artist = _$v.artist?.toBuilder();
       _genreId = _$v.genreId;
@@ -1525,6 +1545,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               url: url,
               width: width,
               height: height,
+              color: color,
               artistId: artistId,
               artist: _artist?.build(),
               genreId: genreId,

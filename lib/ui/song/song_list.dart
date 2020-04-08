@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,6 +21,7 @@ import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/utils/colors.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/.env.dart';
 import 'package:chewie/chewie.dart';
@@ -899,21 +901,26 @@ class SongImage extends StatelessWidget {
     if (song.width > 0 && song.height > 0) {
       aspectRation = (song.width / song.height);
       if (song.width > song.height) {
-        aspectRation *= 1.1;
+        aspectRation *= 1.2;
       } else {
-        aspectRation *= .9;
+        aspectRation *= .8;
       }
     }
 
     return Stack(
       children: <Widget>[
-        (song.blurhash ?? '').isNotEmpty
-            ? Container(
-                height: double.infinity,
-                width: double.infinity,
-                child: BlurHash(hash: song.blurhash),
-              )
-            : SizedBox(),
+        if (kIsWeb)
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: convertHexStringToColor(song.color),
+          )
+        else if ((song.blurhash ?? '').isNotEmpty)
+          Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: BlurHash(hash: song.blurhash),
+          ),
         Center(
           child: AspectRatio(
             aspectRatio: aspectRation,

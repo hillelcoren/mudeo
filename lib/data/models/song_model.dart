@@ -37,6 +37,7 @@ abstract class SongEntity extends Object
       isPublic: false,
       width: 0,
       height: 0,
+      color: '',
       tracks: BuiltList<TrackEntity>(),
       comments: BuiltList<CommentEntity>(),
     );
@@ -53,6 +54,9 @@ abstract class SongEntity extends Object
   int get width;
 
   int get height;
+
+  @nullable
+  String get color;
 
   @nullable
   @BuiltValueField(wireName: 'user_id')
