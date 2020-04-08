@@ -53,6 +53,9 @@ const int kMinLatencyDelay = -2000;
 const int kMaxLatencyDelay = 2000;
 const int kMaxCommentLength = 300;
 
+const double kSongHeight = 380;
+const double kSongHeightWithComments = 560;
+
 const List<String> kLanguages = [
   'en',
 ];

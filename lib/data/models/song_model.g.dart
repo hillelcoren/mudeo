@@ -48,6 +48,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           specifiedType: const FullType(String)),
       'url',
       serializers.serialize(object.url, specifiedType: const FullType(String)),
+      'width',
+      serializers.serialize(object.width, specifiedType: const FullType(int)),
+      'height',
+      serializers.serialize(object.height, specifiedType: const FullType(int)),
       'duration',
       serializers.serialize(object.duration,
           specifiedType: const FullType(int)),
@@ -175,6 +179,14 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'url':
           result.url = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'width':
+          result.width = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
+        case 'height':
+          result.height = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
         case 'user_id':
           result.artistId = serializers.deserialize(value,
@@ -1092,6 +1104,10 @@ class _$SongEntity extends SongEntity {
   @override
   final String url;
   @override
+  final int width;
+  @override
+  final int height;
+  @override
   final int artistId;
   @override
   final ArtistEntity artist;
@@ -1143,6 +1159,8 @@ class _$SongEntity extends SongEntity {
       {this.title,
       this.description,
       this.url,
+      this.width,
+      this.height,
       this.artistId,
       this.artist,
       this.genreId,
@@ -1174,6 +1192,12 @@ class _$SongEntity extends SongEntity {
     }
     if (url == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'url');
+    }
+    if (width == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'width');
+    }
+    if (height == null) {
+      throw new BuiltValueNullFieldError('SongEntity', 'height');
     }
     if (duration == null) {
       throw new BuiltValueNullFieldError('SongEntity', 'duration');
@@ -1224,6 +1248,8 @@ class _$SongEntity extends SongEntity {
         title == other.title &&
         description == other.description &&
         url == other.url &&
+        width == other.width &&
+        height == other.height &&
         artistId == other.artistId &&
         artist == other.artist &&
         genreId == other.genreId &&
@@ -1268,7 +1294,7 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode),
                                                                                 parentId.hashCode),
                                                                             duration.hashCode),
                                                                         blurhash.hashCode),
@@ -1296,6 +1322,8 @@ class _$SongEntity extends SongEntity {
           ..add('title', title)
           ..add('description', description)
           ..add('url', url)
+          ..add('width', width)
+          ..add('height', height)
           ..add('artistId', artistId)
           ..add('artist', artist)
           ..add('genreId', genreId)
@@ -1336,6 +1364,14 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   String _url;
   String get url => _$this._url;
   set url(String url) => _$this._url = url;
+
+  int _width;
+  int get width => _$this._width;
+  set width(int width) => _$this._width = width;
+
+  int _height;
+  int get height => _$this._height;
+  set height(int height) => _$this._height = height;
 
   int _artistId;
   int get artistId => _$this._artistId;
@@ -1436,6 +1472,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _title = _$v.title;
       _description = _$v.description;
       _url = _$v.url;
+      _width = _$v.width;
+      _height = _$v.height;
       _artistId = _$v.artistId;
       _artist = _$v.artist?.toBuilder();
       _genreId = _$v.genreId;
@@ -1485,6 +1523,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               title: title,
               description: description,
               url: url,
+              width: width,
+              height: height,
               artistId: artistId,
               artist: _artist?.build(),
               genreId: genreId,

@@ -35,6 +35,8 @@ abstract class SongEntity extends Object
       countLike: 0,
       isFlagged: false,
       isPublic: false,
+      width: 0,
+      height: 0,
       tracks: BuiltList<TrackEntity>(),
       comments: BuiltList<CommentEntity>(),
     );
@@ -47,6 +49,10 @@ abstract class SongEntity extends Object
   String get description;
 
   String get url;
+
+  int get width;
+
+  int get height;
 
   @nullable
   @BuiltValueField(wireName: 'user_id')
@@ -112,6 +118,16 @@ abstract class SongEntity extends Object
   @override
   String get listDisplayName {
     return title;
+  }
+
+  String get imageUrl {
+    if (isRendered && hasThumbnail) {
+      return openThumbnailUrl;
+    } else {
+      final lastTrack = tracks.isNotEmpty ? tracks.last : null;
+      final lastVideo = lastTrack?.video ?? VideoEntity();
+      return lastVideo.thumbnailUrl;
+    }
   }
 
   String get openThumbnailUrl {

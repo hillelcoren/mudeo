@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -208,9 +207,6 @@ class _SongItemState extends State<SongItem> {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
     final lastVideo = lastTrack?.video ?? VideoEntity();
-    final imageUrl = (song.isRendered && song.hasThumbnail)
-        ? song.openThumbnailUrl
-        : lastVideo.thumbnailUrl;
 
     return GestureDetector(
       onTap: _showComments
@@ -254,7 +250,7 @@ class _SongItemState extends State<SongItem> {
             },
       child: Container(
         color: Colors.black,
-        height: _showComments ? 560 : 380,
+        height: _showComments ? kSongHeightWithComments : kSongHeight,
         child: Stack(children: <Widget>[
           !song.hasThumbnail && lastVideo.isRemoteVideo
               ? Center(
@@ -264,28 +260,7 @@ class _SongItemState extends State<SongItem> {
                   ),
                 )
               : (song.isRendered && song.hasThumbnail) || lastVideo.hasThumbnail
-                  ? kIsWeb
-                      ? Image.network(
-                          imageUrl,
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                          width: double.infinity,
-                        )
-                      : CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                          width: double.infinity,
-                          placeholder: (context, _) =>
-                              (song.blurhash ?? '').isNotEmpty
-                                  ? Container(
-                                      height: double.infinity,
-                                      width: double.infinity,
-                                      child: BlurHash(
-                                        hash: song.blurhash,
-                                      ),
-                                    )
-                                  : SizedBox(),
-                          imageUrl: imageUrl)
+                  ? SongImage(song: song)
                   : SizedBox(),
           Material(
             color: Colors.transparent,
@@ -907,6 +882,54 @@ class _CommentRowState extends State<CommentRow> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SongImage extends StatelessWidget {
+  const SongImage({
+    @required this.song,
+  });
+
+  final SongEntity song;
+
+  @override
+  Widget build(BuildContext context) {
+    double aspectRation = 1;
+    if (song.width > 0 && song.height > 0) {
+      aspectRation = (song.width / song.height);
+      if (song.width > song.height) {
+        aspectRation *= 1.1;
+      } else {
+        aspectRation *= .9;
+      }
+    }
+
+    return Stack(
+      children: <Widget>[
+        (song.blurhash ?? '').isNotEmpty
+            ? Container(
+                height: double.infinity,
+                width: double.infinity,
+                child: BlurHash(hash: song.blurhash),
+              )
+            : SizedBox(),
+        Center(
+          child: AspectRatio(
+            aspectRatio: aspectRation,
+            child: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                fit: song.width > song.height
+                    ? BoxFit.fitWidth
+                    : BoxFit.fitHeight,
+                alignment: Alignment.center,
+                image: NetworkImage(song.imageUrl),
+              )),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
