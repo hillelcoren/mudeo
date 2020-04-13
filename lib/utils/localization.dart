@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'past_prchases': 'Past Purchases',
+      'private_storage': 'Private Storage',
       'newest': 'Newest',
       'featured': 'Featured',
       'options': 'Options',
@@ -541,6 +543,13 @@ class AppLocalization {
   String get newest => _localizedValues[locale.toString()]['newest'];
 
   String get featured => _localizedValues[locale.toString()]['featured'];
+
+  String get privateStorage =>
+      _localizedValues[locale.toString()]['private_storage'];
+
+  String get pastPurchases =>
+      _localizedValues[locale.toString()]['past_purchases'];
+
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

@@ -110,6 +110,18 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add(serializers.serialize(object.website,
             specifiedType: const FullType(String)));
     }
+    if (object.orderId != null) {
+      result
+        ..add('order_id')
+        ..add(serializers.serialize(object.orderId,
+            specifiedType: const FullType(String)));
+    }
+    if (object.orderExpires != null) {
+      result
+        ..add('order_expires')
+        ..add(serializers.serialize(object.orderExpires,
+            specifiedType: const FullType(String)));
+    }
     if (object.songLikes != null) {
       result
         ..add('song_likes')
@@ -224,6 +236,14 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           break;
         case 'website_social_url':
           result.website = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'order_id':
+          result.orderId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'order_expires':
+          result.orderExpires = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'song_likes':
@@ -470,6 +490,10 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final String website;
   @override
+  final String orderId;
+  @override
+  final String orderExpires;
+  @override
   final BuiltList<SongLikeEntity> songLikes;
   @override
   final BuiltList<SongFlagEntity> songFlags;
@@ -502,6 +526,8 @@ class _$ArtistEntity extends ArtistEntity {
       this.twitchURL,
       this.soundCloudURL,
       this.website,
+      this.orderId,
+      this.orderExpires,
       this.songLikes,
       this.songFlags,
       this.artistFlags,
@@ -536,6 +562,8 @@ class _$ArtistEntity extends ArtistEntity {
         twitchURL == other.twitchURL &&
         soundCloudURL == other.soundCloudURL &&
         website == other.website &&
+        orderId == other.orderId &&
+        orderExpires == other.orderExpires &&
         songLikes == other.songLikes &&
         songFlags == other.songFlags &&
         artistFlags == other.artistFlags &&
@@ -565,19 +593,19 @@ class _$ArtistEntity extends ArtistEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc(0, name.hashCode), handle.hashCode),
-                                                                                email.hashCode),
-                                                                            token.hashCode),
-                                                                        description.hashCode),
-                                                                    profileImageUrl.hashCode),
-                                                                headerImageUrl.hashCode),
-                                                            twitterURL.hashCode),
-                                                        facebookURL.hashCode),
-                                                    instagramURL.hashCode),
-                                                youTubeURL.hashCode),
-                                            twitchURL.hashCode),
-                                        soundCloudURL.hashCode),
-                                    website.hashCode),
+                                                                            $jc($jc($jc($jc($jc(0, name.hashCode), handle.hashCode), email.hashCode), token.hashCode),
+                                                                                description.hashCode),
+                                                                            profileImageUrl.hashCode),
+                                                                        headerImageUrl.hashCode),
+                                                                    twitterURL.hashCode),
+                                                                facebookURL.hashCode),
+                                                            instagramURL.hashCode),
+                                                        youTubeURL.hashCode),
+                                                    twitchURL.hashCode),
+                                                soundCloudURL.hashCode),
+                                            website.hashCode),
+                                        orderId.hashCode),
+                                    orderExpires.hashCode),
                                 songLikes.hashCode),
                             songFlags.hashCode),
                         artistFlags.hashCode),
@@ -604,6 +632,8 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('twitchURL', twitchURL)
           ..add('soundCloudURL', soundCloudURL)
           ..add('website', website)
+          ..add('orderId', orderId)
+          ..add('orderExpires', orderExpires)
           ..add('songLikes', songLikes)
           ..add('songFlags', songFlags)
           ..add('artistFlags', artistFlags)
@@ -678,6 +708,14 @@ class ArtistEntityBuilder
   String get website => _$this._website;
   set website(String website) => _$this._website = website;
 
+  String _orderId;
+  String get orderId => _$this._orderId;
+  set orderId(String orderId) => _$this._orderId = orderId;
+
+  String _orderExpires;
+  String get orderExpires => _$this._orderExpires;
+  set orderExpires(String orderExpires) => _$this._orderExpires = orderExpires;
+
   ListBuilder<SongLikeEntity> _songLikes;
   ListBuilder<SongLikeEntity> get songLikes =>
       _$this._songLikes ??= new ListBuilder<SongLikeEntity>();
@@ -732,6 +770,8 @@ class ArtistEntityBuilder
       _twitchURL = _$v.twitchURL;
       _soundCloudURL = _$v.soundCloudURL;
       _website = _$v.website;
+      _orderId = _$v.orderId;
+      _orderExpires = _$v.orderExpires;
       _songLikes = _$v.songLikes?.toBuilder();
       _songFlags = _$v.songFlags?.toBuilder();
       _artistFlags = _$v.artistFlags?.toBuilder();
@@ -777,6 +817,8 @@ class ArtistEntityBuilder
               twitchURL: twitchURL,
               soundCloudURL: soundCloudURL,
               website: website,
+              orderId: orderId,
+              orderExpires: orderExpires,
               songLikes: _songLikes?.build(),
               songFlags: _songFlags?.build(),
               artistFlags: _artistFlags?.build(),

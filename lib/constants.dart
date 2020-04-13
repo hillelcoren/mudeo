@@ -15,6 +15,8 @@ const String kGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=ap
 
 const int kOAuthProviderGoogle = 1;
 
+const String kProductPrivateStorage = 'month_private_storage';
+
 const String kSongFilterFeatured = 'featured';
 const String kSongFilterNewest = 'newest';
 
