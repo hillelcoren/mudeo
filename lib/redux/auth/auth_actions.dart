@@ -115,7 +115,7 @@ class DeleteAccountFailure implements StopLoading {
   final Object error;
 }
 
-class EnablePrivateStorage {
+class EnablePrivateStorage  implements PersistAuth {
   EnablePrivateStorage({this.expires});
   final String expires;
 }

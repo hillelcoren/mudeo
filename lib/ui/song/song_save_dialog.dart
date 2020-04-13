@@ -89,7 +89,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       ..title = _titleController.text.trim()
       ..description = _descriptionController.text.trim()
       ..genreId = selectedGenreId
-      ..layout = layout);
+      ..layout = layout
+      ..isPublic = !isPrivate);
 
     if (song != widget.viewModel.song) {
       widget.viewModel.onChangedSong(song);
@@ -256,7 +257,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                         ],
                         onChanged: (value) {
                           if (state.artist.hasPrivateStorage) {
-                            isPrivate = true;
+                            setState(() => isPrivate = value);
+                            _onChanged();
                           } else {
                             showDialog<UpgradeDialog>(
                                 context: context,

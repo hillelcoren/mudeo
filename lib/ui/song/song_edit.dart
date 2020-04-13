@@ -34,6 +34,7 @@ class SongScaffold extends StatelessWidget {
     showDialog<SongSaveDialog>(
         context: context,
         barrierDismissible: false,
+        useRootNavigator: true,
         builder: (BuildContext context) {
           return SongSaveDialog(viewModel: viewModel);
         });
