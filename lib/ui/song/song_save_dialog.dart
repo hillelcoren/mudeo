@@ -358,11 +358,12 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   ),
                 )
               : SizedBox(),
-          if (!song.isPublic)
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(localization.privateSongLinkHelp),
-            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(song.isPublic
+                ? localization.videoProcessingHelp
+                : localization.privateSongLinkHelp),
+          ),
           SizedBox(
             height: 20,
           ),
