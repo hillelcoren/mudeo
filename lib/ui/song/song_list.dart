@@ -271,8 +271,12 @@ class _SongItemState extends State<SongItem> {
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(width: 3, color: Colors.transparent),
-                    color: Colors.black12.withOpacity(0.3),
+                    gradient: LinearGradient(
+                      colors: [Colors.black, Colors.transparent],
+                      stops: [0, 1],
+                      begin: Alignment(0, -1),
+                      end: Alignment(0, 1),
+                    ),
                   ),
                   child: SongHeader(
                     song: widget.song,
@@ -410,8 +414,12 @@ class _SongItemState extends State<SongItem> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    border: Border.all(width: 3, color: Colors.transparent),
-                    color: Colors.black12.withOpacity(0.3),
+                    gradient: LinearGradient(
+                      colors: [Colors.black, Colors.transparent],
+                      stops: [0, 1],
+                      begin: Alignment(0, 1),
+                      end: Alignment(0, -1),
+                    ),
                   ),
                   child: SongFooter(widget.song, onMessageTap),
                 ),
@@ -897,6 +905,15 @@ class SongImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    return Image.network(
+      song.imageUrl,
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+    );
+
+    /*
     double aspectRation = 1;
     if (song.width > 0 && song.height > 0) {
       aspectRation = (song.width / song.height);
@@ -938,5 +955,6 @@ class SongImage extends StatelessWidget {
         ),
       ],
     );
+     */
   }
 }
