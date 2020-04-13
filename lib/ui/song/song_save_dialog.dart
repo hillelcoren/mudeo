@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
+import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
+import 'package:mudeo/ui/auth/upgrade_dialog.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +34,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
 
   List<TextEditingController> _controllers = [];
   bool isSaving = false;
+  bool isPrivate = false;
   int selectedStackIndex = kStackIndexForm;
   int selectedGenreId = 0;
   String songUrl;
@@ -124,6 +127,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
+    final state = viewModel.state;
     final song = viewModel.song;
 
     Widget _form() {
@@ -231,15 +235,37 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
                   children: <Widget>[
-                    Icon(
-                      Icons.public,
-                      color: Colors.white70,
-                      size: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      localization.public,
-                      style: TextStyle(color: Colors.white70),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        items: [
+                          DropdownMenuItem(
+                            child: IconText(
+                              text: localization.public,
+                              icon: Icons.public,
+                            ),
+                            value: false,
+                          ),
+                          DropdownMenuItem(
+                            child: IconText(
+                              text: localization.private,
+                              icon: Icons.account_circle,
+                            ),
+                            value: true,
+                          ),
+                        ],
+                        onChanged: (value) {
+                          if (state.artist.hasPrivateStorage) {
+                            isPrivate = true;
+                          } else {
+                            showDialog<UpgradeDialog>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return UpgradeDialog();
+                                });
+                          }
+                        },
+                        value: false,
+                      ),
                     ),
                     Spacer(),
                     FlatButton(

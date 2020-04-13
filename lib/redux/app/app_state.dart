@@ -1,5 +1,6 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
 import 'package:mudeo/redux/ui/ui_state.dart';
@@ -29,6 +30,8 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
   DataState get dataState;
 
   UIState get uiState;
+
+  ArtistEntity get artist => authState.artist;
 
   static Serializer<AppState> get serializer => _$appStateSerializer;
 

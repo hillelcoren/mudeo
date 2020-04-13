@@ -154,6 +154,20 @@ abstract class ArtistEntity extends Object
 
   bool isFollowing(int artistId) => getFollowing(artistId) != null;
 
+  bool get hasPrivateStorage {
+    if ((orderExpires ?? '').isEmpty) {
+      return false;
+    }
+
+    final dateExpires = DateTime.tryParse(orderExpires);
+
+    if (dateExpires == null) {
+      return false;
+    }
+
+    return dateExpires.isAfter(DateTime.now());
+  }
+
   Map<String, String> get socialLinks {
     final data = Map<String, String>();
     if (twitterURL != null && twitterURL.isNotEmpty) {
