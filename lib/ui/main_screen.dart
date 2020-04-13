@@ -133,6 +133,10 @@ class MobileScreen extends StatelessWidget {
   final MainScreenVM viewModel;
   final ScrollController scrollController;
 
+  static const TAB_LIST = 0;
+  static const TAB_EDIT = 1;
+  static const TAB_PROFILE = 2;
+
   @override
   Widget build(BuildContext context) {
     final state = viewModel.state;
@@ -158,6 +162,7 @@ class MobileScreen extends StatelessWidget {
         else
           LoginScreenBuilder(),
     ];
+    final currentIndex = state.uiState.selectedTabIndex;
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -180,14 +185,18 @@ class MobileScreen extends StatelessWidget {
               },
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
+                  icon: Icon(Icons.home,
+                      color: currentIndex == TAB_LIST ? null : Colors.white),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.videocam),
+                  icon: Icon(Icons.videocam,
+                      color: currentIndex == TAB_EDIT ? null : Colors.white),
                 ),
                 if (!kIsWeb)
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
+                    icon: Icon(Icons.person,
+                        color:
+                            currentIndex == TAB_PROFILE ? null : Colors.white),
                   ),
               ],
             ),
