@@ -121,6 +121,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     final bool available = await InAppPurchaseConnection.instance.isAvailable();
 
     if (!available) {
+      Navigator.of(context).pop();
       showDialog<ErrorDialog>(
           context: context,
           builder: (BuildContext context) {
