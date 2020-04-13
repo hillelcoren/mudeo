@@ -263,6 +263,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             setState(() => isPublic = value);
                             _onChanged();
                           } else {
+                            setState(() => isPublic = true);
+                            _onChanged();
                             showDialog<UpgradeDialog>(
                                 context: context,
                                 builder: (BuildContext context) {

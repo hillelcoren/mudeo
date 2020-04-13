@@ -34,7 +34,7 @@ abstract class SongEntity extends Object
       countPlay: 0,
       countLike: 0,
       isFlagged: false,
-      isPublic: false,
+      isPublic: true,
       width: 0,
       height: 0,
       color: '',
