@@ -23,7 +23,7 @@ class AppLocalization {
       'private_song_link_help': 'The link will be live once the song is made public',
       'thank_you_for_your_purchase': 'Thank you for your purchase',
       'private': 'Private',
-      'past_prchases': 'Past Purchases',
+      'past_purchases': 'Past Purchases',
       'private_storage': 'Private Storage',
       'newest': 'Newest',
       'featured': 'Featured',
