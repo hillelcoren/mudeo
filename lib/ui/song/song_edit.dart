@@ -250,8 +250,13 @@ class _SongEditState extends State<SongEdit> {
       } else {
         player = VideoPlayerController.asset(null);
       }
-      setState(() {
-        allVideoPlayers[track.id] = videoPlayers[track.id] = player;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            allVideoPlayers[track.id] = videoPlayers[track.id] = player;
+          });
+        }
       });
     });
 

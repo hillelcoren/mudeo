@@ -257,6 +257,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             ),
                         ],
                         onChanged: (value) {
+                          print('## has storage: ${state.artist.orderExpires} ${state.artist.hasPrivateStorage}');
                           if (state.artist.hasPrivateStorage) {
                             setState(() => isPublic = value);
                             _onChanged();
