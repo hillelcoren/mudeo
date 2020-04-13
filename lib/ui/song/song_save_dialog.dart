@@ -34,7 +34,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
 
   List<TextEditingController> _controllers = [];
   bool isSaving = false;
-  bool isPrivate = false;
+  bool isPublic = true;
   int selectedStackIndex = kStackIndexForm;
   int selectedGenreId = 0;
   String songUrl;
@@ -61,7 +61,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     _descriptionController.text = song.description;
     selectedGenreId = song.genreId;
     layout = song.layout;
-    isPrivate = song.isOld && !song.isPublic;
+    isPublic = song.isPublic;
 
     _controllers
         .forEach((dynamic controller) => controller.addListener(_onChanged));
@@ -90,7 +90,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       ..description = _descriptionController.text.trim()
       ..genreId = selectedGenreId
       ..layout = layout
-      ..isPublic = !isPrivate);
+      ..isPublic = isPublic);
 
     if (song != widget.viewModel.song) {
       widget.viewModel.onChangedSong(song);
@@ -245,19 +245,19 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                               text: localization.public,
                               icon: Icons.public,
                             ),
-                            value: false,
+                            value: true,
                           ),
                           DropdownMenuItem(
                             child: IconText(
                               text: localization.private,
                               icon: Icons.account_circle,
                             ),
-                            value: true,
+                            value: false,
                           ),
                         ],
                         onChanged: (value) {
                           if (state.artist.hasPrivateStorage) {
-                            setState(() => isPrivate = value);
+                            setState(() => isPublic = value);
                             _onChanged();
                           } else {
                             showDialog<UpgradeDialog>(
@@ -267,7 +267,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                                 });
                           }
                         },
-                        value: isPrivate,
+                        value: isPublic,
                       ),
                     ),
                     Spacer(),
