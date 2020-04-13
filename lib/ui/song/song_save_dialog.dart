@@ -257,7 +257,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             ),
                         ],
                         onChanged: (value) {
-                          print('## has storage: ${state.artist.orderExpires} ${state.artist.hasPrivateStorage}');
+                          print(
+                              '## has storage: ${state.artist.orderExpires} ${state.artist.hasPrivateStorage}');
                           if (state.artist.hasPrivateStorage) {
                             setState(() => isPublic = value);
                             _onChanged();
@@ -332,29 +333,36 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     Widget _success() {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Align(
             child: Text(localization.yourSongHasBeenSaved,
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.headline5),
             alignment: Alignment.centerLeft,
           ),
           songUrl != null && songUrl.isNotEmpty
               ? Padding(
-                  padding: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.only(top: 15),
                   child: FlatButton(
+                    padding: const EdgeInsets.all(0),
                     onPressed: () {
                       launch(songUrl, forceSafariVC: false);
                     },
                     child: Text(
                       songUrl.replaceFirst('https://', ''),
                       style: TextStyle(
-                          fontSize: 22, color: Colors.lightBlueAccent),
+                          fontSize: 20, color: Colors.lightBlueAccent),
                     ),
                   ),
                 )
               : SizedBox(),
+          if (!song.isPublic)
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(localization.privateSongLinkHelp),
+            ),
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
