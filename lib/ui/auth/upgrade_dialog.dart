@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/web_client.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
@@ -62,17 +63,24 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
       print('## RESPONSE: $response');
       final String message = response['message'];
 
-      if (message == 'success') {
-        /*
-        showDialog<MessageDialog>(
+      if (message == 'SUCCESS') {
+        store.dispatch(EnablePrivateStorage(expires: response['expires']));
+        showDialog<AlertDialog>(
             context: context,
             builder: (BuildContext context) {
-              return MessageDialog(localization.thankYouForYourPurchase,
-                  onDismiss: () {
-                    store.dispatch(RefreshData());
-                  });
+              final localization = AppLocalization.of(context);
+              return AlertDialog(
+                content: Text(localization.thankYouForYourPurchase),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(localization.dismiss.toUpperCase()),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
             });
-        */
         if (Platform.isIOS) {
           InAppPurchaseConnection.instance.completePurchase(purchase);
         }
@@ -210,12 +218,9 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
         if (_showPastPurchases)
           ..._purchases.map((purchase) => ListTile(
                 title: Text(purchase.purchaseID),
-                /*
-                subtitle: Text(formatDate(
-                    convertTimestampToDateString(
-                        (int.parse(purchase.transactionDate) / 1000).floor()),
-                    context)),                    
-                 */
+                subtitle: Text(DateTime.fromMillisecondsSinceEpoch(
+                        int.tryParse(purchase.transactionDate))
+                    .toString()),
                 onTap: () => redeemPurchase(purchase),
               )),
         if (_purchases != null)

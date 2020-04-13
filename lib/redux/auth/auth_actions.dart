@@ -114,3 +114,8 @@ class DeleteAccountFailure implements StopLoading {
 
   final Object error;
 }
+
+class EnablePrivateStorage {
+  EnablePrivateStorage({this.expires});
+  final String expires;
+}

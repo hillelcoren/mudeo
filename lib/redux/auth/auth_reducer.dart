@@ -16,7 +16,13 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, FlagSongSuccess>(flagSongReducer),
   TypedReducer<AuthState, FollowArtistSuccess>(followArtistReducer),
   TypedReducer<AuthState, FlagArtist>(flagArtistReducer),
+  TypedReducer<AuthState, EnablePrivateStorage>(enablePrivateStorageReducer),
 ]);
+
+AuthState enablePrivateStorageReducer(
+    AuthState authState, EnablePrivateStorage action) {
+  return authState.rebuild((b) => b..artist.orderExpires = action.expires);
+}
 
 AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
   return authState.rebuild((b) => b..error = null);
