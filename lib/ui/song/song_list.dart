@@ -21,7 +21,6 @@ import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
-import 'package:mudeo/utils/colors.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/.env.dart';
 import 'package:chewie/chewie.dart';
@@ -905,12 +904,23 @@ class SongImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Image.network(
       song.imageUrl,
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent loadingProgress) {
+        if (loadingProgress == null) return child;
+        if (!kIsWeb && (song.blurhash ?? '').isNotEmpty)
+          return Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: BlurHash(hash: song.blurhash),
+          );
+        else
+          return Container();
+      },
     );
 
     /*
