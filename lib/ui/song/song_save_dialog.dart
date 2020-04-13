@@ -247,13 +247,14 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             ),
                             value: true,
                           ),
-                          DropdownMenuItem(
-                            child: IconText(
-                              text: localization.private,
-                              icon: Icons.account_circle,
+                          if (song.isNew || !song.isPublic)
+                            DropdownMenuItem(
+                              child: IconText(
+                                text: localization.private,
+                                icon: Icons.account_circle,
+                              ),
+                              value: false,
                             ),
-                            value: false,
-                          ),
                         ],
                         onChanged: (value) {
                           if (state.artist.hasPrivateStorage) {
