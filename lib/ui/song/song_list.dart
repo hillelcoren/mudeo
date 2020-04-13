@@ -462,7 +462,7 @@ class SongFooter extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.videocam),
-            tooltip: localization.forkSong,
+            tooltip: localization.cloneSong,
             onPressed: () {
               if (!state.authState.hasValidToken) {
                 showDialog<AlertDialog>(

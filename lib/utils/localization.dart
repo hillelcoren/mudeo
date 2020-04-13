@@ -50,7 +50,7 @@ class AppLocalization {
       'row': 'Row',
       'column': 'Column',
       'grid': 'Grid',
-      'fork_song': 'Fork Song',
+      'clone_song': 'Clone Song',
       'youtube_warning':
           'Note: The YouTube video can be used as a backing track but will not be included in the rendered video.',
       'add_all': 'Add All',
@@ -491,7 +491,7 @@ class AppLocalization {
   String get youtubeWarning =>
       _localizedValues[locale.toString()]['youtube_warning'];
 
-  String get forkSong => _localizedValues[locale.toString()]['fork_song'];
+  String get cloneSong => _localizedValues[locale.toString()]['clone_song'];
 
   String get row => _localizedValues[locale.toString()]['row'];
 

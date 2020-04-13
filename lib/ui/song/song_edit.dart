@@ -57,7 +57,7 @@ class SongScaffold extends StatelessWidget {
               actions.add(localization.addVideo);
             }
             if (song.isOld && authArtist.ownsSong(song)) {
-              actions.add(localization.forkSong);
+              actions.add(localization.cloneSong);
             }
             if (song.isOld || song.parentId > 0) {
               actions.add(localization.resetSong);
@@ -110,7 +110,7 @@ class SongScaffold extends StatelessWidget {
                                 viewModel.onResetSongPressed(context);
                               } else if (action == localization.deleteSong) {
                                 viewModel.onDeleteSongPressed(song);
-                              } else if (action == localization.forkSong) {
+                              } else if (action == localization.cloneSong) {
                                 viewModel.onForkSongPressed(song);
                               }
                             })
