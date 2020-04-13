@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
@@ -25,6 +26,7 @@ import 'package:redux_logging/redux_logging.dart';
 import 'package:screen/screen.dart';
 
 void main() async {
+  InAppPurchaseConnection.enablePendingPurchases();
   WidgetsFlutterBinding.ensureInitialized();
   Screen.keepOn(true);
   SystemChrome.setPreferredOrientations([

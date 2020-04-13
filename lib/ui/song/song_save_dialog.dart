@@ -61,6 +61,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     _descriptionController.text = song.description;
     selectedGenreId = song.genreId;
     layout = song.layout;
+    isPrivate = song.isOld && !song.isPublic;
 
     _controllers
         .forEach((dynamic controller) => controller.addListener(_onChanged));
@@ -264,7 +265,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                                 });
                           }
                         },
-                        value: false,
+                        value: isPrivate,
                       ),
                     ),
                     Spacer(),
