@@ -261,6 +261,7 @@ class ArtistPage extends StatelessWidget {
                     confirmCallback(
                         context: context,
                         message: localization.deleteAccount,
+                        help: localization.deleteAccountWarning,
                         callback: () {
                           viewModel.onDeleteAccountPressed();
                         });

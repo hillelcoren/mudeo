@@ -122,6 +122,7 @@ class AppLocalization {
       'select_camera': 'Select Camera',
       'edit_profile': 'Edit Profile',
       'delete_account': 'Delete Account',
+      'delete_account_warning': 'WARNING: There is no undo, all data will be permanently erased',
       'preview': 'Preview',
       'name': 'Name',
       'website': 'Website',
@@ -275,6 +276,9 @@ class AppLocalization {
 
   String get deleteAccount =>
       _localizedValues[locale.toString()]['delete_account'];
+
+  String get deleteAccountWarning =>
+      _localizedValues[locale.toString()]['delete_account_warning'];
 
   String get preview => _localizedValues[locale.toString()]['preview'];
 
