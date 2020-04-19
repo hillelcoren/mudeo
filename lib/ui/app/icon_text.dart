@@ -11,7 +11,7 @@ class IconText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Icon(icon, color: textStyle.color),
+        Icon(icon),
         SizedBox(width: 20.0),
         Text(
           text,

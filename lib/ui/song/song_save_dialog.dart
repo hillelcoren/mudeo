@@ -225,11 +225,19 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                       value: kVideoLayoutGrid,
                       groupValue: layout,
                       activeColor: Colors.lightBlueAccent,
-                      onChanged: _setLayout,
+                      onChanged: song.tracks.length == 4 ? _setLayout : null,
                     ),
                     GestureDetector(
-                      child: Text(localization.grid),
-                      onTap: () => _setLayout(kVideoLayoutGrid),
+                      child: Text(
+                        localization.grid,
+                        style: TextStyle(
+                            color: song.tracks.length == 4
+                                ? Colors.white
+                                : Colors.grey),
+                      ),
+                      onTap: song.tracks.length == 4
+                          ? () => _setLayout(kVideoLayoutGrid)
+                          : null,
                     ),
                   ],
                 ),
