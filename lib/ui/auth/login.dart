@@ -274,10 +274,11 @@ class _LoginState extends State<LoginScreen> {
                                   ),
                           ],
                         ),
+                  SizedBox(height: 20),
                   viewModel.authState.error == null || error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
-                          padding: EdgeInsets.only(top: 10, bottom: 20),
+                          padding: EdgeInsets.only(bottom: 20),
                           child: Center(
                             child: Text(
                               viewModel.authState.error,
@@ -299,7 +300,7 @@ class _LoginState extends State<LoginScreen> {
                         .toUpperCase(),
                     onPressed: () => _submitForm(),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   isOneTimePassword
                       ? Container()
                       : Row(
@@ -313,8 +314,12 @@ class _LoginState extends State<LoginScreen> {
                                     });
                                   },
                                   child: Text(_showEmail
-                                      ? localization.googleLogin
-                                      : localization.emailLogin)),
+                                      ? (_showLogin
+                                          ? localization.googleLogin
+                                          : localization.googleSignUp)
+                                      : (_showLogin
+                                          ? localization.emailLogin
+                                          : localization.emailSignUp))),
                             ),
                             Expanded(
                               child: FlatButton(
@@ -326,8 +331,12 @@ class _LoginState extends State<LoginScreen> {
                                 },
                                 child: Text(
                                   _showLogin
-                                      ? localization.signUp
-                                      : localization.login,
+                                      ? (_showEmail
+                                          ? localization.emailSignUp
+                                          : localization.googleSignUp)
+                                      : (_showEmail
+                                          ? localization.emailLogin
+                                          : localization.googleLogin),
                                 ),
                               ),
                             ),
@@ -348,6 +357,7 @@ class _LoginState extends State<LoginScreen> {
                           ),
                         )
                       : Container(),
+                  SizedBox(height: 10),
                 ],
               ),
             ),

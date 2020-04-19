@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'google_sign_up': 'Google Sign Up',
+      'email_sign_up': 'Email Sign Up',
       'email_login': 'Email Login',
       'video_processing_help': 'The video will take a few minutes to process',
       'private_song_link_help': 'The link will be live once the song is made public',
@@ -569,6 +571,11 @@ class AppLocalization {
   String get emailLogin =>
       _localizedValues[locale.toString()]['email_login'];
 
+  String get googleSignUp =>
+      _localizedValues[locale.toString()]['google_sign_up'];
+
+  String get emailSignUp =>
+      _localizedValues[locale.toString()]['email_sign_up'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
