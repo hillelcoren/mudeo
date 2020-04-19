@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -22,13 +21,12 @@ import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:mudeo/.env.dart';
 import 'package:chewie/chewie.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'package:mudeo/utils/web_stub.dart'
-    if (dart.library.html) 'package:mudeo/utils/web.dart';
+//import 'package:mudeo/utils/web_stub.dart'
+//    if (dart.library.html) 'package:mudeo/utils/web.dart';
 
 class SongList extends StatefulWidget {
   const SongList({
@@ -213,6 +211,13 @@ class _SongItemState extends State<SongItem> {
       onTap: _showComments
           ? null
           : () {
+              showDialog<VideoPlayer>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return VideoPlayer(
+                        '${song.videoUrl}?updated_at=${song.updatedAt}');
+                  });
+              /*
               if ((song.youTubeId ?? '').isEmpty) {
                 showDialog<VideoPlayer>(
                     context: context,
@@ -248,6 +253,7 @@ class _SongItemState extends State<SongItem> {
                   );
                 }
               }
+               */
             },
       child: Container(
         color: Colors.black,
@@ -799,6 +805,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     }
 
     return Dialog(
+      insetPadding: const EdgeInsets.all(0),
       child: FittedBox(
         fit: BoxFit.contain,
         child: Chewie(
