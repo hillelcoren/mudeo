@@ -251,7 +251,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             DropdownMenuItem(
                               child: IconText(
                                 text: localization.private,
-                                icon: Icons.account_circle,
+                                icon: Icons.lock,
                               ),
                               value: false,
                             ),
