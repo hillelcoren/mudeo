@@ -13,7 +13,6 @@ import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/app/link_text.dart';
-import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/song/song_list.dart';
@@ -275,17 +274,23 @@ class ArtistPage extends StatelessWidget {
               title: Text(artist.name),
             ),
       body: ListView(
+        shrinkWrap: true,
         children: <Widget>[
           Stack(
+            fit: StackFit.loose,
+            //alignment: Alignment.center,
             children: <Widget>[
               if (artist.headerImageUrl != null &&
                   artist.headerImageUrl.isNotEmpty)
                 Image.network(
                   artist.headerImageUrl,
+                  height: 400,
+                  width: double.infinity,
                   fit: BoxFit.cover,
                 ),
-              FormCard(
+              Column(
                 children: <Widget>[
+                  SizedBox(height: 20),
                   _profileImage(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -457,7 +462,6 @@ class ArtistPage extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 14),
           for (int songId in songIds)
             SongItem(
               song: state.dataState.songMap[songId],
