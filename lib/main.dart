@@ -102,6 +102,10 @@ class MudeoAppState extends State<MudeoApp> {
         //final state = widget.store.state;
         Intl.defaultLocale = 'en';
         //final localization = AppLocalization(Locale(Intl.defaultLocale));
+        final pageTransitionsTheme = PageTransitionsTheme(builders: {
+          TargetPlatform.android: ZoomPageTransitionsBuilder(),
+        });
+        final fontFamily = kIsWeb ? 'Roboto' : null;
 
         return MaterialApp(
           supportedLocales: kLanguages
@@ -117,9 +121,11 @@ class MudeoAppState extends State<MudeoApp> {
           //locale: AppLocalization.createLocale(localeSelector(state)),
           locale: AppLocalization.createLocale('en'),
           theme: ThemeData(
+            pageTransitionsTheme: pageTransitionsTheme,
             brightness: Brightness.dark,
             accentColor: Colors.lightBlueAccent,
             textSelectionHandleColor: Colors.lightBlueAccent,
+            fontFamily: fontFamily,
           ),
           title: 'mudeo',
           routes: {

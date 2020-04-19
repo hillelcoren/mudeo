@@ -1,13 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
-import 'package:mudeo/ui/app/animated_button.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -33,6 +35,7 @@ class _LoginState extends State<LoginScreen> {
 
   final FocusNode _focusNode1 = new FocusNode();
   final FocusNode _focusNode2 = new FocusNode();
+  final _buttonController = RoundedLoadingButtonController();
 
   bool _showLogin = false;
   bool _showEmail = false;
@@ -49,6 +52,10 @@ class _LoginState extends State<LoginScreen> {
   }
 
   void _submitForm() {
+    if (widget.viewModel.isLoading) {
+      return;
+    }
+
     final localization = AppLocalization.of(context);
     final bool isValid = _formKey.currentState.validate();
 
@@ -57,10 +64,12 @@ class _LoginState extends State<LoginScreen> {
     });
 
     if (!isValid) {
+      _buttonController.reset();
       return;
     }
 
     if (!_showLogin && !_termsChecked) {
+      _buttonController.reset();
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
@@ -82,15 +91,22 @@ class _LoginState extends State<LoginScreen> {
     }
 
     final viewModel = widget.viewModel;
+    final Completer<Null> completer = Completer<Null>();
+    completer.future
+        .then((_) => _buttonController.success())
+        .catchError((_) => _buttonController.reset());
 
     if (_showLogin) {
       if (_showEmail) {
-        viewModel.onLoginPressed(context,
-            email: _emailController.text,
-            password: _passwordController.text,
-            oneTimePassword: _oneTimePasswordController.text);
+        viewModel.onLoginPressed(
+          context,
+          email: _emailController.text,
+          password: _passwordController.text,
+          oneTimePassword: _oneTimePasswordController.text,
+          completer: completer,
+        );
       } else {
-        viewModel.onGoogleLoginPressed(context);
+        viewModel.onGoogleLoginPressed(context, completer: completer);
       }
     } else {
       if (_showEmail) {
@@ -99,11 +115,13 @@ class _LoginState extends State<LoginScreen> {
           handle: _handleController.text,
           email: _emailController.text,
           password: _passwordController.text,
+          completer: completer,
         );
       } else {
         viewModel.onGoogleSignUpPressed(
           context,
           handle: _handleController.text,
+          completer: completer,
         );
       }
     }
@@ -289,15 +307,18 @@ class _LoginState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                  AnimatedButton(
-                    text: (_showLogin
+                  RoundedLoadingButton(
+                    height: 38,
+                    color: Theme.of(context).buttonColor,
+                    controller: _buttonController,
+                    child: Text((_showLogin
                             ? (_showEmail
                                 ? localization.emailLogin
                                 : localization.loginWithGoogle)
                             : (_showEmail
                                 ? localization.signUp
                                 : localization.signUpWithGoogle))
-                        .toUpperCase(),
+                        .toUpperCase()),
                     onPressed: () => _submitForm(),
                   ),
                   SizedBox(height: 15),

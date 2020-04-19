@@ -47,13 +47,20 @@ class LoginVM {
   AuthState authState;
   final Function() clearAuthError;
   final Function() onCancel2FAPressed;
-  final Function(BuildContext, {String handle, String email, String password})
-      onEmailSignUpPressed;
-  final Function(BuildContext, {String handle}) onGoogleSignUpPressed;
   final Function(BuildContext,
-      {String email, String password, String oneTimePassword}) onLoginPressed;
-
-  final Function(BuildContext) onGoogleLoginPressed;
+      {String handle,
+      String email,
+      String password,
+      Completer<Null> completer}) onEmailSignUpPressed;
+  final Function(BuildContext, {String handle, Completer<Null> completer})
+      onGoogleSignUpPressed;
+  final Function(BuildContext,
+      {String email,
+      String password,
+      String oneTimePassword,
+      Completer<Null> completer}) onLoginPressed;
+  final Function(BuildContext, {Completer<Null> completer})
+      onGoogleLoginPressed;
 
   static LoginVM fromStore(Store<AppState> store) {
     final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -73,12 +80,12 @@ class LoginVM {
         isLoading: store.state.isLoading,
         authState: store.state.authState,
         onCancel2FAPressed: () => store.dispatch(ClearAuthError()),
-        onGoogleSignUpPressed: (BuildContext context, {String handle}) async {
+        onGoogleSignUpPressed: (BuildContext context,
+            {String handle, Completer<Null> completer}) async {
           try {
             final account = await _googleSignIn.signIn();
             if (account != null) {
               account.authentication.then((GoogleSignInAuthentication value) {
-                final Completer<Null> completer = Completer<Null>();
                 store.dispatch(GoogleSignUpRequest(
                   completer: completer,
                   //oauthToken: value.accessToken,
@@ -95,13 +102,12 @@ class LoginVM {
             print(error);
           }
         },
-        onGoogleLoginPressed:
-            (BuildContext context) async {
+        onGoogleLoginPressed: (BuildContext context,
+            {Completer<Null> completer}) async {
           try {
             final account = await _googleSignIn.signIn();
             if (account != null) {
               account.authentication.then((GoogleSignInAuthentication value) {
-                final Completer<Null> completer = Completer<Null>();
                 store.dispatch(GoogleLoginRequest(
                   completer: completer,
                   oauthToken: value.idToken,
@@ -114,12 +120,14 @@ class LoginVM {
           }
         },
         onEmailSignUpPressed: (BuildContext context,
-            {String handle, String email, String password}) {
+            {String handle,
+            String email,
+            String password,
+            Completer<Null> completer}) {
           if (store.state.isLoading) {
             return;
           }
 
-          final Completer<Null> completer = Completer<Null>();
           store.dispatch(UserSignUpRequest(
             completer: completer,
             handle: handle.trim(),
@@ -130,12 +138,14 @@ class LoginVM {
         },
         clearAuthError: () => store.dispatch(ClearAuthError()),
         onLoginPressed: (BuildContext context,
-            {String email, String password, String oneTimePassword}) async {
+            {String email,
+            String password,
+            String oneTimePassword,
+            Completer<Null> completer}) async {
           if (store.state.isLoading) {
             return;
           }
 
-          final Completer<Null> completer = Completer<Null>();
           store.dispatch(UserLoginRequest(
             completer: completer,
             email: email.trim(),

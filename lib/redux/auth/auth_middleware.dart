@@ -66,6 +66,7 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
       } else {
         store.dispatch(UserLoginFailure(error.toString()));
       }
+      action.completer.completeError(error);
     });
 
     next(action);
@@ -91,6 +92,7 @@ Middleware<AppState> _createGoogleSignUpRequest(AuthRepository repository) {
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));
+      action.completer.completeError(error);
     });
 
     next(action);
@@ -112,6 +114,7 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));
+      action.completer.completeError(error);
     });
 
     next(action);
@@ -127,6 +130,7 @@ Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
     }).catchError((Object error) {
       print(error);
       store.dispatch(UserLoginFailure(error.toString()));
+      action.completer.completeError(error);
     });
 
     next(action);
