@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,6 +7,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
+import 'package:mudeo/utils/sentry.dart';
 import 'package:sentry/sentry.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
 import 'package:mudeo/redux/artist/artist_middleware.dart';
@@ -37,10 +37,7 @@ void main() async {
       ? null
       : SentryClient(
           dsn: Config.SENTRY_DNS,
-          environmentAttributes: Event(
-            release: kAppVersion,
-            environment: kIsWeb ? 'Web' : Platform.localeName,
-          ));
+          environmentAttributes: await getSentryEvent());
 
   final store = Store<AppState>(appReducer,
       initialState: AppState(),
@@ -53,29 +50,24 @@ void main() async {
           LoggingMiddleware<dynamic>.printer(),
         ]));
 
-  Future<void> _reportError(dynamic error, dynamic stackTrace) async {
-    print('Caught error: $error');
-    if (kDebugMode) {
-      print(stackTrace);
-      return;
-    } else {
-      _sentry.captureException(
-        exception: error,
-        stackTrace: stackTrace,
-      );
-    }
-  }
-
   if (_sentry == null) {
     runApp(MudeoApp(store: store));
   } else {
     runZoned<Future<void>>(() async {
       runApp(MudeoApp(store: store));
-    }, onError: (dynamic error, dynamic stackTrace) {
-      _reportError(error, stackTrace);
+    }, onError: (dynamic exception, dynamic stackTrace) async {
+      if (kDebugMode) {
+        print(stackTrace);
+      } else {
+        final event = await getSentryEvent(
+          state: store.state,
+          exception: exception,
+          stackTrace: stackTrace,
+        );
+        _sentry.capture(event: event);
+      }
     });
   }
-
   FlutterError.onError = (FlutterErrorDetails details) {
     if (kDebugMode) {
       FlutterError.dumpErrorToConsole(details);

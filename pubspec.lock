@@ -582,7 +582,7 @@ packages:
       name: sentry
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
+    version: "3.0.1"
   share:
     dependency: "direct main"
     description:
