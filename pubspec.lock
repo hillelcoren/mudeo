@@ -109,10 +109,12 @@ packages:
   camera:
     dependency: "direct main"
     description:
-      name: camera
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.2+2"
+      path: "packages/camera"
+      ref: HEAD
+      resolved-ref: a81579e5146c67b2c64d1f5988df0f8bf6bbb3c3
+      url: "git://github.com/hillelcoren/plugins.git"
+    source: git
+    version: "0.5.8"
   charcode:
     dependency: transitive
     description:
