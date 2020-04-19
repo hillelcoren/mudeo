@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'view_on_youtube': 'View on YouTube',
+      'view_on_twitter': 'View on Twitter',
       'google_sign_up': 'Google Sign Up',
       'email_sign_up': 'Email Sign Up',
       'email_login': 'Email Login',
@@ -576,6 +578,13 @@ class AppLocalization {
 
   String get emailSignUp =>
       _localizedValues[locale.toString()]['email_sign_up'];
+
+  String get viewOnYouTube =>
+      _localizedValues[locale.toString()]['view_on_youtube'];
+
+  String get viewOnTwitter =>
+      _localizedValues[locale.toString()]['view_on_twitter'];
+
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

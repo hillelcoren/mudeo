@@ -106,6 +106,10 @@ abstract class SongEntity extends Object
   @BuiltValueField(wireName: 'youtube_id')
   String get youTubeId;
 
+  @nullable
+  @BuiltValueField(wireName: 'twitter_id')
+  String get twitterId;
+
   @BuiltValueField(wireName: 'thumbnail_url')
   String get thumbnailUrl;
 
@@ -135,6 +139,10 @@ abstract class SongEntity extends Object
   }
 
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
+
+  String get twitterUrl => 'https://twitter.com/mudeo_app/status/$twitterId';
+
+  String get youTubeUrl => 'https://www.youtube.com/watch?v=$youTubeId';
 
   String get youTubeEmbedUrl =>
       'https://www.youtube.com/embed/$youTubeId?autoplay=1&modestbranding=1&rel=0';

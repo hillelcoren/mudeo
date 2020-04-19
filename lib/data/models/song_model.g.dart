@@ -142,6 +142,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.youTubeId,
             specifiedType: const FullType(String)));
     }
+    if (object.twitterId != null) {
+      result
+        ..add('twitter_id')
+        ..add(serializers.serialize(object.twitterId,
+            specifiedType: const FullType(String)));
+    }
     if (object.id != null) {
       result
         ..add('id')
@@ -252,6 +258,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'youtube_id':
           result.youTubeId = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'twitter_id':
+          result.twitterId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'thumbnail_url':
@@ -1148,6 +1158,8 @@ class _$SongEntity extends SongEntity {
   @override
   final String youTubeId;
   @override
+  final String twitterId;
+  @override
   final String thumbnailUrl;
   @override
   final BuiltList<TrackEntity> tracks;
@@ -1188,6 +1200,7 @@ class _$SongEntity extends SongEntity {
       this.isFeatured,
       this.videoUrl,
       this.youTubeId,
+      this.twitterId,
       this.thumbnailUrl,
       this.tracks,
       this.comments,
@@ -1278,6 +1291,7 @@ class _$SongEntity extends SongEntity {
         isFeatured == other.isFeatured &&
         videoUrl == other.videoUrl &&
         youTubeId == other.youTubeId &&
+        twitterId == other.twitterId &&
         thumbnailUrl == other.thumbnailUrl &&
         tracks == other.tracks &&
         comments == other.comments &&
@@ -1308,18 +1322,18 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), color.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode),
-                                                                                parentId.hashCode),
-                                                                            duration.hashCode),
-                                                                        blurhash.hashCode),
-                                                                    countPlay.hashCode),
-                                                                countLike.hashCode),
-                                                            isFlagged.hashCode),
-                                                        isPublic.hashCode),
-                                                    isApproved.hashCode),
-                                                isFeatured.hashCode),
-                                            videoUrl.hashCode),
-                                        youTubeId.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), color.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode), parentId.hashCode),
+                                                                                duration.hashCode),
+                                                                            blurhash.hashCode),
+                                                                        countPlay.hashCode),
+                                                                    countLike.hashCode),
+                                                                isFlagged.hashCode),
+                                                            isPublic.hashCode),
+                                                        isApproved.hashCode),
+                                                    isFeatured.hashCode),
+                                                videoUrl.hashCode),
+                                            youTubeId.hashCode),
+                                        twitterId.hashCode),
                                     thumbnailUrl.hashCode),
                                 tracks.hashCode),
                             comments.hashCode),
@@ -1353,6 +1367,7 @@ class _$SongEntity extends SongEntity {
           ..add('isFeatured', isFeatured)
           ..add('videoUrl', videoUrl)
           ..add('youTubeId', youTubeId)
+          ..add('twitterId', twitterId)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('tracks', tracks)
           ..add('comments', comments)
@@ -1449,6 +1464,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   String get youTubeId => _$this._youTubeId;
   set youTubeId(String youTubeId) => _$this._youTubeId = youTubeId;
 
+  String _twitterId;
+  String get twitterId => _$this._twitterId;
+  set twitterId(String twitterId) => _$this._twitterId = twitterId;
+
   String _thumbnailUrl;
   String get thumbnailUrl => _$this._thumbnailUrl;
   set thumbnailUrl(String thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
@@ -1508,6 +1527,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _isFeatured = _$v.isFeatured;
       _videoUrl = _$v.videoUrl;
       _youTubeId = _$v.youTubeId;
+      _twitterId = _$v.twitterId;
       _thumbnailUrl = _$v.thumbnailUrl;
       _tracks = _$v.tracks?.toBuilder();
       _comments = _$v.comments?.toBuilder();
@@ -1560,6 +1580,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               isFeatured: isFeatured,
               videoUrl: videoUrl,
               youTubeId: youTubeId,
+              twitterId: twitterId,
               thumbnailUrl: thumbnailUrl,
               tracks: tracks.build(),
               comments: comments.build(),
