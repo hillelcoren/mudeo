@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -98,6 +100,8 @@ class MudeoAppState extends State<MudeoApp> {
           TargetPlatform.android: ZoomPageTransitionsBuilder(),
         });
         final fontFamily = kIsWeb ? 'Roboto' : null;
+        final analytics = FirebaseAnalytics();
+
 
         return MaterialApp(
           supportedLocales: kLanguages
@@ -107,6 +111,9 @@ class MudeoAppState extends State<MudeoApp> {
           localizationsDelegates: [
             const AppLocalizationsDelegate(),
             GlobalMaterialLocalizations.delegate,
+          ],
+          navigatorObservers: [
+            FirebaseAnalyticsObserver(analytics: analytics),
           ],
           home: InitScreen(),
           //initialRoute: MainScreen.route,

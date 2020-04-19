@@ -44,6 +44,7 @@ dependencies:
   in_app_purchase: ^0.3.1+1
   rounded_loading_button: ^1.0.0
   device_info: ^0.4.2+1
+  firebase_analytics: ^5.0.11
 
 dev_dependencies:
   #flutter_test:
