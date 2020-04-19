@@ -142,26 +142,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                         child: CircularProgressIndicator()),
                   ),
                 )
-              : PopupMenuButton<String>(
-                  icon: Icon(Icons.more_vert),
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      PopupMenuItem(
-                        child: Text(localization.profileImage),
-                        value: kArtistImageProfile,
-                      ),
-                      PopupMenuItem(
-                        child: Text(localization.headerImage),
-                        value: kArtistImageHeader,
-                      ),
-                    ];
-                  },
-                  onSelected: (String type) async {
-                    var image = await ImagePicker.pickImage(
-                        source: ImageSource.gallery);
-                    viewModel.onUpdateImage(context, type, image.path);
-                  },
-                )
+              : SizedBox()
         ],
       ),
       body: Material(
@@ -217,6 +198,33 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                   ),
                 ],
               ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FlatButton(
+                    child: Text(localization.profileImage,
+                        style: TextStyle(fontSize: 18)),
+                    onPressed: () async {
+                      var image = await ImagePicker.pickImage(
+                          source: ImageSource.gallery);
+                      viewModel.onUpdateImage(
+                          context, kArtistImageProfile, image.path);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(localization.headerImage,
+                        style: TextStyle(fontSize: 18)),
+                    onPressed: () async {
+                      var image = await ImagePicker.pickImage(
+                          source: ImageSource.gallery);
+                      viewModel.onUpdateImage(
+                          context, kArtistImageHeader, image.path);
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
               FormCard(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
