@@ -274,7 +274,7 @@ class _LoginState extends State<LoginScreen> {
                                   ),
                           ],
                         ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   viewModel.authState.error == null || error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
@@ -300,7 +300,7 @@ class _LoginState extends State<LoginScreen> {
                         .toUpperCase(),
                     onPressed: () => _submitForm(),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   isOneTimePassword
                       ? Container()
                       : Row(
