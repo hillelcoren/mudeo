@@ -490,8 +490,8 @@ class SongFooter extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     semanticLabel: localization.areYouSure,
-                    title: Text(localization.areYouSure),
-                    content: Text(localization.loseChanges),
+                    title: Text(localization.loseChanges),
+                    content: Text(localization.areYouSure),
                     actions: <Widget>[
                       new FlatButton(
                           child: Text(localization.cancel.toUpperCase()),
@@ -601,8 +601,8 @@ class SongFooter extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         semanticLabel: localization.areYouSure,
-                        title: Text(localization.areYouSure),
-                        content: Text(localization.deleteSong),
+                        title: Text(localization.deleteSong),
+                        content: Text(localization.areYouSure),
                         actions: <Widget>[
                           FlatButton(
                               child: Text(localization.cancel.toUpperCase()),
@@ -641,8 +641,8 @@ class SongFooter extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       semanticLabel: localization.areYouSure,
-                      title: Text(localization.areYouSure),
-                      content: Text(localization.reportSong),
+                      title: Text(localization.reportSong),
+                      content: Text(localization.areYouSure),
                       actions: <Widget>[
                         FlatButton(
                             child: Text(localization.cancel.toUpperCase()),
@@ -868,8 +868,8 @@ class _CommentRowState extends State<CommentRow> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             semanticLabel: localization.areYouSure,
-                            title: Text(localization.areYouSure),
-                            content: Text(localization.deleteComment),
+                            title: Text(localization.deleteComment),
+                            content: Text(localization.areYouSure),
                             actions: <Widget>[
                               FlatButton(
                                   child:

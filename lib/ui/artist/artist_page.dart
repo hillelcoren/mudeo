@@ -206,8 +206,8 @@ class ArtistPage extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         semanticLabel: localization.areYouSure,
-                        title: Text(localization.areYouSure),
-                        content: Text(localization.logoutFromTheApp),
+                        title: Text(localization.logoutFromTheApp),
+                        content: Text(localization.areYouSure),
                         actions: <Widget>[
                           new FlatButton(
                               child: Text(localization.cancel.toUpperCase()),
@@ -413,9 +413,8 @@ class ArtistPage extends StatelessWidget {
                                         return AlertDialog(
                                           semanticLabel:
                                               localization.areYouSure,
-                                          title: Text(localization.areYouSure),
-                                          content:
-                                              Text(localization.blockArtist),
+                                          title: Text(localization.blockArtist),
+                                          content: Text(localization.areYouSure),
                                           actions: <Widget>[
                                             FlatButton(
                                                 child: Text(localization.cancel

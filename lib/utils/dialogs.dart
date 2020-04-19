@@ -12,8 +12,8 @@ void confirmCallback({
     context: context,
     builder: (BuildContext context) => AlertDialog(
       semanticLabel: localization.areYouSure,
-      title: Text(message == null ? localization.areYouSure : message),
-      content: message == null ? null : Text(localization.areYouSure),
+      title: message == null ? null : Text(message),
+      content: Text(localization.areYouSure),
       actions: <Widget>[
         FlatButton(
             child: Text(localization.cancel.toUpperCase()),

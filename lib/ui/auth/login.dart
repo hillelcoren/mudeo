@@ -6,7 +6,6 @@ import 'package:mudeo/ui/app/animated_button.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
-import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 

@@ -94,8 +94,8 @@ class SongScaffold extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       semanticLabel: localization.areYouSure,
-                      title: Text(localization.areYouSure),
-                      content: Text(localization.loseChanges),
+                      title: Text(localization.loseChanges),
+                      content: Text(localization.areYouSure),
                       actions: <Widget>[
                         FlatButton(
                             child: Text(localization.cancel.toUpperCase()),
@@ -843,8 +843,8 @@ class TrackEditDialog extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
                                   semanticLabel: localization.areYouSure,
-                                  title: Text(localization.areYouSure),
-                                  content: Text(localization.removeVideo),
+                                  title: Text(localization.removeVideo),
+                                  content: Text(localization.areYouSure),
                                   actions: <Widget>[
                                     new FlatButton(
                                         child: Text(
