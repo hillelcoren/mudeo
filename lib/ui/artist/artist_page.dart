@@ -61,8 +61,8 @@ class ArtistPage extends StatelessWidget {
     final localization = AppLocalization.of(context);
     final ThemeData themeData = Theme.of(context);
     final TextStyle aboutTextStyle = themeData.textTheme.bodyText2;
-    final TextStyle linkStyle = themeData.textTheme.bodyText1
-        .copyWith(color: themeData.accentColor);
+    final TextStyle linkStyle =
+        themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
 
     final isFollowing = viewModel.state.authState.artist.isFollowing(artist.id);
     final state = viewModel.state;
@@ -79,7 +79,7 @@ class ArtistPage extends StatelessWidget {
                 /*
                 SimpleDialogOption(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
                     child: IconText(
                       icon: Icons.person,
                       text: localization.editProfile,
@@ -96,7 +96,7 @@ class ArtistPage extends StatelessWidget {
                  */
                 SimpleDialogOption(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
                     child: IconText(
                       icon: FontAwesomeIcons.solidEnvelope,
                       text: localization.contactUs,
@@ -112,7 +112,7 @@ class ArtistPage extends StatelessWidget {
                 ),
                 SimpleDialogOption(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
                     child: IconText(
                       icon: FontAwesomeIcons.twitter,
                       text: kLinkTypeTwitter,
@@ -126,7 +126,22 @@ class ArtistPage extends StatelessWidget {
                 ),
                 SimpleDialogOption(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
+                    child: IconText(
+                      icon: FontAwesomeIcons.youtube,
+                      text: kLinkTypeYouTube,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    launch(kYouTubeURL, forceSafariVC: false);
+                  },
+                ),
+                Divider(),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
                     child: IconText(
                       icon: Icons.info_outline,
                       text: localization.about,
@@ -179,7 +194,7 @@ class ArtistPage extends StatelessWidget {
                 /*
                 SimpleDialogOption(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
                     child: IconText(
                       icon: FontAwesomeIcons.redditAlien,
                       text: kLinkTypeReddit,
@@ -194,7 +209,7 @@ class ArtistPage extends StatelessWidget {
                 */
                 SimpleDialogOption(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
                     child: IconText(
                       icon: Icons.lock,
                       text: localization.logoutApp,
@@ -231,7 +246,7 @@ class ArtistPage extends StatelessWidget {
                 Divider(),
                 SimpleDialogOption(
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(10),
                     child: IconText(
                       icon: Icons.warning,
                       text: localization.deleteAccount,

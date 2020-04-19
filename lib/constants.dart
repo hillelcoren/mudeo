@@ -6,6 +6,7 @@ const String kTermsOfServiceURL = 'https://mudeo.app/terms';
 const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
 const String kRedditURL = 'https://www.reddit.com/r/mudeo';
 const String kTwitterURL = 'https://twitter.com/mudeo_app';
+const String kYouTubeURL = 'https://www.youtube.com/channel/UCX5ONbOAOG3bYe3vTXrWgPA';
 const String kDeveloperURL = 'https://twitter.com/hillelcoren';
 const String kContactEmail = 'contact@mudeo.app';
 const String kLatencySamples = 'https://superpowered.com/latency#datatable';
