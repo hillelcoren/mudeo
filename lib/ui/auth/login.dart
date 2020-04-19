@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/ui/app/animated_button.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
@@ -277,7 +278,7 @@ class _LoginState extends State<LoginScreen> {
                   viewModel.authState.error == null || error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
-                          padding: EdgeInsets.only(top: 16, bottom: 16),
+                          padding: EdgeInsets.only(top: 10, bottom: 20),
                           child: Center(
                             child: Text(
                               viewModel.authState.error,
@@ -288,14 +289,10 @@ class _LoginState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                  ProgressButton(
-                    width: double.infinity,
-                    padding: EdgeInsets.only(top: 4, bottom: 6),
-                    isLoading: viewModel.isLoading ||
-                        viewModel.authState.isAuthenticated,
-                    label: (_showLogin
+                  AnimatedButton(
+                    text: (_showLogin
                             ? (_showEmail
-                                ? localization.login
+                                ? localization.emailLogin
                                 : localization.loginWithGoogle)
                             : (_showEmail
                                 ? localization.signUp
@@ -303,6 +300,7 @@ class _LoginState extends State<LoginScreen> {
                         .toUpperCase(),
                     onPressed: () => _submitForm(),
                   ),
+                  SizedBox(height: 10),
                   isOneTimePassword
                       ? Container()
                       : Row(
@@ -316,8 +314,8 @@ class _LoginState extends State<LoginScreen> {
                                     });
                                   },
                                   child: Text(_showEmail
-                                      ? localization.useGoogle
-                                      : localization.useEmail)),
+                                      ? localization.googleLogin
+                                      : localization.emailLogin)),
                             ),
                             Expanded(
                               child: FlatButton(

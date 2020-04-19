@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'email_login': 'Email Login',
       'video_processing_help': 'The video will take a few minutes to process',
       'private_song_link_help': 'The link will be live once the song is made public',
       'thank_you_for_your_purchase': 'Thank you for your purchase',
@@ -565,7 +566,8 @@ class AppLocalization {
   String get videoProcessingHelp =>
       _localizedValues[locale.toString()]['video_processing_help'];
 
-
+  String get emailLogin =>
+      _localizedValues[locale.toString()]['email_login'];
 
 
   String lookup(String key) {
