@@ -11,7 +11,8 @@ const String kContactEmail = 'contact@mudeo.app';
 const String kLatencySamples = 'https://superpowered.com/latency#datatable';
 
 const String kAppleStoreUrl = 'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
-const String kGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=app.mudeo.mudeo';
+//const String kGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=app.mudeo.mudeo';
+const String kGoogleStoreUrl = 'market://details?id=app.mudeo.mudeo';
 
 const int kOAuthProviderGoogle = 1;
 

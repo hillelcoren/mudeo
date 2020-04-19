@@ -60,8 +60,10 @@ class ArtistPage extends StatelessWidget {
 
     final localization = AppLocalization.of(context);
     final ThemeData themeData = Theme.of(context);
+    final TextStyle aboutTextStyle = themeData.textTheme.bodyText2;
     final TextStyle linkStyle = themeData.textTheme.bodyText1
-        .copyWith(color: themeData.accentColor, fontSize: 18);
+        .copyWith(color: themeData.accentColor);
+
     final isFollowing = viewModel.state.authState.artist.isFollowing(artist.id);
     final state = viewModel.state;
     final songIds = memoizedSongIds(
@@ -145,10 +147,9 @@ class ArtistPage extends StatelessWidget {
                       applicationVersion:
                           '${localization.version} ${kAppVersion.split('+')[0]}\n\n${localization.pronounced}: moo-day-oh  😊',
                       applicationLegalese: '© 2020 mudeo',
-                      /*
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
+                          padding: const EdgeInsets.only(top: 40),
                           child: RichText(
                             text: TextSpan(
                               children: <TextSpan>[
@@ -172,7 +173,6 @@ class ArtistPage extends StatelessWidget {
                           ),
                         ),
                       ],
-                      */
                     );
                   },
                 ),
@@ -414,7 +414,8 @@ class ArtistPage extends StatelessWidget {
                                           semanticLabel:
                                               localization.areYouSure,
                                           title: Text(localization.blockArtist),
-                                          content: Text(localization.areYouSure),
+                                          content:
+                                              Text(localization.areYouSure),
                                           actions: <Widget>[
                                             FlatButton(
                                                 child: Text(localization.cancel

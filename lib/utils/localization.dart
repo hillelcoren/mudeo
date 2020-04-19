@@ -101,7 +101,7 @@ class AppLocalization {
       'logout_app': 'Logout App',
       'logout_from_the_app': 'Logout from the app',
       'version': 'Version',
-      'thank_you_for_using_our_app': 'Thank you for using our app!',
+      'thank_you_for_using_our_app': 'Thank you for using the app!',
       'if_you_like_it': 'If you like it please',
       'click_here': 'click here',
       'to_rate_it': 'to rate it.',
