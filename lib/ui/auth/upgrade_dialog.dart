@@ -51,9 +51,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     final webClient = WebClient();
     final data = {
       'order_id': purchase.purchaseID,
-      'timestamp': Platform.isIOS
-          ? (int.parse(purchase.transactionDate) / 1000).floor()
-          : purchase.transactionDate,
+      'timestamp': (int.parse(purchase.transactionDate) / 1000).floor(),
     };
 
     try {
@@ -190,7 +188,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
       title: Column(
         children: <Widget>[
           Text(localization.privateStorage),
-          SizedBox(height: 8),
+          SizedBox(height: 15),
           if (Platform.isIOS)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),

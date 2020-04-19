@@ -247,29 +247,29 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             ),
                             value: true,
                           ),
-                          if (song.isNew || !song.isPublic)
-                            DropdownMenuItem(
-                              child: IconText(
-                                text: localization.private,
-                                icon: Icons.lock,
-                              ),
-                              value: false,
+                          DropdownMenuItem(
+                            child: IconText(
+                              text: localization.private,
+                              icon: Icons.lock,
                             ),
+                            value: false,
+                          ),
                         ],
                         onChanged: (value) {
-                          print(
-                              '## has storage: ${state.artist.orderExpires} ${state.artist.hasPrivateStorage}');
                           if (state.artist.hasPrivateStorage) {
                             setState(() => isPublic = value);
                             _onChanged();
                           } else {
                             setState(() => isPublic = true);
                             _onChanged();
-                            showDialog<UpgradeDialog>(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return UpgradeDialog();
-                                });
+                            if (!value) {
+                              Navigator.of(context).pop();
+                              showDialog<UpgradeDialog>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return UpgradeDialog();
+                                  });
+                            }
                           }
                         },
                         value: isPublic,
