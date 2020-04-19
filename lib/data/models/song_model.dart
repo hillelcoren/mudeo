@@ -126,22 +126,12 @@ abstract class SongEntity extends Object
 
   String get imageUrl {
     if (isRendered && hasThumbnail) {
-      return openThumbnailUrl;
+      return thumbnailUrl;
     } else {
       final lastTrack = tracks.isNotEmpty ? tracks.last : null;
       final lastVideo = lastTrack?.video ?? VideoEntity();
       return lastVideo.thumbnailUrl;
     }
-  }
-
-  String get openThumbnailUrl {
-    if (hasYouTubeId) {
-      return 'https://img.youtube.com/vi/$youTubeId/hqdefault.jpg';
-    } else if (isRendered && hasThumbnail) {
-      return thumbnailUrl;
-    }
-
-    return null;
   }
 
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
@@ -150,8 +140,7 @@ abstract class SongEntity extends Object
       'https://www.youtube.com/embed/$youTubeId?autoplay=1&modestbranding=1&rel=0';
 
   bool get hasThumbnail =>
-      (thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty) ||
-      (youTubeId ?? '').isNotEmpty;
+      thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
 
   CommentEntity newComment(int artistId, String comment) =>
       CommentEntity(description: comment).rebuild((b) => b
