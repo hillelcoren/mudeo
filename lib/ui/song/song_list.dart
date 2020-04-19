@@ -25,6 +25,7 @@ import 'package:chewie/chewie.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+
 //import 'package:mudeo/utils/web_stub.dart'
 //    if (dart.library.html) 'package:mudeo/utils/web.dart';
 
@@ -206,6 +207,7 @@ class _SongItemState extends State<SongItem> {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
     final lastVideo = lastTrack?.video ?? VideoEntity();
+    final gradientColor = Colors.black12.withOpacity(.75);
 
     return GestureDetector(
       onTap: _showComments
@@ -277,7 +279,7 @@ class _SongItemState extends State<SongItem> {
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.black, Colors.transparent],
+                      colors: [gradientColor, Colors.transparent],
                       stops: [0, 1],
                       begin: Alignment(0, -1),
                       end: Alignment(0, 1),
@@ -420,7 +422,10 @@ class _SongItemState extends State<SongItem> {
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Colors.black, Colors.transparent],
+                      colors: [
+                        gradientColor,
+                        Colors.transparent,
+                      ],
                       stops: [0, 1],
                       begin: Alignment(0, 1),
                       end: Alignment(0, -1),
