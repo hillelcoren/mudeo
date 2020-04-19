@@ -570,7 +570,10 @@ class SongFooter extends StatelessWidget {
                 (kIsWeb)
                     ? localization.openInNewTab
                     : localization.openInBrowser,
-                localization.copyLinkToSong,
+                if (song.isPublic)
+                  localization.copyLinkToSong
+                else
+                  localization.copyLinkToVideo,
                 if ((song.twitterId ?? '').isNotEmpty)
                   localization.viewOnTwitter,
                 if ((song.youTubeId ?? '').isNotEmpty)
@@ -601,6 +604,11 @@ class SongFooter extends StatelessWidget {
                 return;
               } else if (action == localization.copyLinkToSong) {
                 Clipboard.setData(new ClipboardData(text: song.url));
+                Scaffold.of(context).showSnackBar(
+                    SnackBar(content: Text(localization.copiedToClipboard)));
+                return;
+              } else if (action == localization.copyLinkToVideo) {
+                Clipboard.setData(new ClipboardData(text: song.videoUrl));
                 Scaffold.of(context).showSnackBar(
                     SnackBar(content: Text(localization.copiedToClipboard)));
                 return;

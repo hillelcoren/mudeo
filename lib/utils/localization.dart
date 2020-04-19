@@ -84,6 +84,7 @@ class AppLocalization {
       'block_artist': 'Block Artist',
       'copied_to_clipboard': 'Copied to clipboard',
       'copy_link_to_song': 'Copy link to song',
+      'copy_link_to_video': 'Copy link to video',
       'report_song': 'Report Song',
       'share_song': 'Share Song',
       'note': 'Note',
@@ -433,6 +434,9 @@ class AppLocalization {
 
   String get copyLinkToSong =>
       _localizedValues[locale.toString()]['copy_link_to_song'];
+
+  String get copyLinkToVideo =>
+      _localizedValues[locale.toString()]['copy_link_to_video'];
 
   String get copiedToClipboard =>
       _localizedValues[locale.toString()]['copied_to_clipboard'];
