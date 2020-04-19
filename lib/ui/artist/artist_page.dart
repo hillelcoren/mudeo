@@ -176,7 +176,7 @@ class ArtistPage extends StatelessWidget {
                                 ),
                                 LinkTextSpan(
                                   style: linkStyle,
-                                  url: getAppStoreURL(context),
+                                  url: getAppStoreURL(),
                                   text: ' ' + localization.clickHere + ' ',
                                 ),
                                 TextSpan(
@@ -406,7 +406,7 @@ class ArtistPage extends StatelessWidget {
                                 .toList(),
                           ),
                         ),
-                        isAndroid(context) || showSettings
+                        Platform.isAndroid || showSettings
                             ? SizedBox()
                             : PopupMenuButton<String>(
                                 icon: Icon(Icons.keyboard_arrow_down, size: 30),

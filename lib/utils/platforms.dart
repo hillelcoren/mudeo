@@ -1,14 +1,22 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:device_info/device_info.dart';
 import 'package:mudeo/constants.dart';
 
-bool isIOS(BuildContext context) =>
-    Theme.of(context).platform == TargetPlatform.iOS;
+String getPlatform() => Platform.isAndroid ? 'android' : 'ios';
 
-bool isAndroid(BuildContext context) =>
-    Theme.of(context).platform == TargetPlatform.android;
+String getAppStoreURL() =>
+    Platform.isAndroid ? kGoogleStoreUrl : kAppleStoreUrl;
 
-String getPlatform(BuildContext context) =>
-    Theme.of(context).platform == TargetPlatform.iOS ? 'ios' : 'android';
-
-String getAppStoreURL(BuildContext context) =>
-    isAndroid(context) ? kGoogleStoreUrl : kAppleStoreUrl;
+Future<String> getDevice() async {
+  final deviceInfo = DeviceInfoPlugin();
+  if (Platform.isAndroid) {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.model;
+  } else if (Platform.isIOS){
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    return iosInfo.utsname.machine;
+  } else {
+    return '';
+  }
+}

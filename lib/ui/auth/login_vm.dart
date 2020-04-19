@@ -150,7 +150,7 @@ class LoginVM {
             completer: completer,
             email: email.trim(),
             password: password.trim(),
-            platform: getPlatform(context),
+            platform: getPlatform(),
             oneTimePassword: oneTimePassword.trim(),
           ));
           completer.future.then((_) => _handleLogin(context));

@@ -5,6 +5,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/web_client.dart';
+import 'package:mudeo/utils/platforms.dart';
 
 class AuthRepository {
   const AuthRepository({
@@ -29,10 +30,13 @@ class AuthRepository {
 
   Future<ArtistEntity> signUp(
       {String handle, String email, String password, String platform}) async {
+
     final credentials = {
       'email': email,
       'password': password,
       'handle': handle,
+      'platform': getPlatform(),
+      'device': await getDevice(),
     };
 
     String url = '${Config.API_URL}/user/create';
@@ -55,6 +59,8 @@ class AuthRepository {
       'oauth_provider_id': kOAuthProviderGoogle,
       'oauth_token': oauthToken,
       'profile_image_url': photoUrl,
+      'platform': getPlatform(),
+      'device': await getDevice(),
     };
 
     String url = '${Config.API_URL}/user/create';

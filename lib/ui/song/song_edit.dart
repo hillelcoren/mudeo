@@ -16,7 +16,6 @@ import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:mudeo/utils/platforms.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -362,7 +361,7 @@ class _SongEditState extends State<SongEdit> {
     await videoPlayer.initialize();
 
     // TODO remove this: https://github.com/flutter/flutter/issues/30689
-    if (isIOS(context)) {
+    if (Platform.isIOS) {
       await camera.initialize();
     }
 
