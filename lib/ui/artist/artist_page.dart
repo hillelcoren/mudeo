@@ -24,11 +24,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatelessWidget {
   ArtistPage(
-      {@required this.viewModel, this.artist, this.showSettings = false});
+      {@required this.viewModel,
+      this.artist,
+      this.scrollController,
+      this.showSettings = false});
 
   final ArtistEntity artist;
   final bool showSettings;
   final ArtistPageVM viewModel;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -275,6 +279,7 @@ class ArtistPage extends StatelessWidget {
             ),
       body: ListView(
         shrinkWrap: true,
+        controller: scrollController,
         children: <Widget>[
           Stack(
             fit: StackFit.loose,
@@ -292,6 +297,7 @@ class ArtistPage extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(height: 20),
                   _profileImage(),
+                  SizedBox(height: 10),
                   Stack(
                     alignment: Alignment.center,
                     children: <Widget>[

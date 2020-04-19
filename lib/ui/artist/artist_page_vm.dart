@@ -11,11 +11,13 @@ import 'package:mudeo/ui/artist/artist_page.dart';
 import 'package:redux/redux.dart';
 
 class ArtistScreen extends StatelessWidget {
-  const ArtistScreen({Key key, this.artist, this.showSettings = false})
+  const ArtistScreen(
+      {Key key, this.artist, this.scrollController, this.showSettings = false})
       : super(key: key);
 
   final bool showSettings;
   final ArtistEntity artist;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class ArtistScreen extends StatelessWidget {
         return ArtistPage(
           viewModel: vm,
           showSettings: showSettings,
+          scrollController: scrollController,
           artist: artist,
         );
       },

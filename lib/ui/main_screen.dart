@@ -62,17 +62,20 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ScrollController _scrollController;
+  ScrollController _songScrollController;
+  ScrollController _profileScrollController;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
+    _songScrollController = ScrollController();
+    _profileScrollController = ScrollController();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _songScrollController.dispose();
+    _profileScrollController.dispose();
     super.dispose();
   }
 
@@ -85,12 +88,14 @@ class _MainScreenState extends State<MainScreen> {
       if (constraints.maxWidth > 700.0) {
         return DesktopScreen(
           viewModel: viewModel,
-          scrollController: _scrollController,
+          songScrollController: _songScrollController,
+          profileScrollController: _profileScrollController,
         );
       } else {
         return MobileScreen(
           viewModel: viewModel,
-          scrollController: _scrollController,
+          songScrollController: _songScrollController,
+          profileScrollController: _profileScrollController,
         );
       }
     });
@@ -98,10 +103,15 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class DesktopScreen extends StatefulWidget {
-  const DesktopScreen({this.viewModel, this.scrollController});
+  const DesktopScreen({
+    this.viewModel,
+    this.songScrollController,
+    this.profileScrollController,
+  });
 
   final MainScreenVM viewModel;
-  final ScrollController scrollController;
+  final ScrollController songScrollController;
+  final ScrollController profileScrollController;
 
   @override
   _DesktopScreenState createState() => _DesktopScreenState();
@@ -115,7 +125,7 @@ class _DesktopScreenState extends State<DesktopScreen> {
         Expanded(
           flex: 2,
           child: SongListScreen(
-            scrollController: widget.scrollController,
+            scrollController: widget.songScrollController,
           ),
         ),
         Expanded(
@@ -128,10 +138,15 @@ class _DesktopScreenState extends State<DesktopScreen> {
 }
 
 class MobileScreen extends StatelessWidget {
-  const MobileScreen({this.viewModel, this.scrollController});
+  const MobileScreen({
+    this.viewModel,
+    this.songScrollController,
+    this.profileScrollController,
+  });
 
   final MainScreenVM viewModel;
-  final ScrollController scrollController;
+  final ScrollController songScrollController;
+  final ScrollController profileScrollController;
 
   static const TAB_LIST = 0;
   static const TAB_EDIT = 1;
@@ -144,13 +159,13 @@ class MobileScreen extends StatelessWidget {
 
     if (kIsWeb) {
       return SongListScreen(
-        scrollController: scrollController,
+        scrollController: songScrollController,
       );
     }
 
     List<Widget> _views = [
       SongListScreen(
-        scrollController: scrollController,
+        scrollController: songScrollController,
       ),
       SongEditScreen(),
       if (!kIsWeb)
@@ -158,6 +173,7 @@ class MobileScreen extends StatelessWidget {
           ArtistScreen(
             artist: state.authState.artist,
             showSettings: true,
+            scrollController: profileScrollController,
           )
         else
           LoginScreenBuilder(),
@@ -176,8 +192,14 @@ class MobileScreen extends StatelessWidget {
               onTap: (index) {
                 final currentIndex = state.uiState.selectedTabIndex;
                 if (currentIndex == kTabList && index == kTabList) {
-                  scrollController.animateTo(
-                      scrollController.position.minScrollExtent,
+                  songScrollController.animateTo(
+                      songScrollController.position.minScrollExtent,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOutCubic);
+                } else if (currentIndex == kTabProfile &&
+                    index == kTabProfile) {
+                  profileScrollController.animateTo(
+                      profileScrollController.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),
                       curve: Curves.easeInOutCubic);
                 }

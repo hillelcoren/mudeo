@@ -102,7 +102,6 @@ class MudeoAppState extends State<MudeoApp> {
         final fontFamily = kIsWeb ? 'Roboto' : null;
         final analytics = FirebaseAnalytics();
 
-
         return MaterialApp(
           supportedLocales: kLanguages
               .map((String locale) => AppLocalization.createLocale(locale))
