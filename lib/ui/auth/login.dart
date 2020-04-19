@@ -227,6 +227,7 @@ class _LoginState extends State<LoginScreen> {
                                     controller: _passwordController,
                                     autocorrect: false,
                                     autovalidate: _autoValidate,
+                                    keyboardType: TextInputType.visiblePassword,
                                     decoration: InputDecoration(
                                       labelText: localization.password,
                                       icon: Icon(FontAwesomeIcons.lock),
