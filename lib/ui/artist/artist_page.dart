@@ -292,22 +292,39 @@ class ArtistPage extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(height: 20),
                   _profileImage(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          artist.name,
-                          style: Theme.of(context).textTheme.headline5,
+                  Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.black12.withOpacity(.2),
+                        width: double.infinity,
+                        height: 70,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              artist.name == null || artist.name.trim().isEmpty
+                                  ? 'Unkown Artist'
+                                  : artist.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6
+                                  .copyWith(color: Colors.white),
+                            ),
+                            SizedBox(height: 8),
+                            if (artist.handle != null &&
+                                artist.handle.isNotEmpty)
+                              Text(
+                                '@${artist.handle}',
+                                style: Theme.of(context).textTheme.subtitle1,
+                              )
+                          ],
                         ),
-                        SizedBox(height: 8),
-                        if (artist.handle != null && artist.handle.isNotEmpty)
-                          Text(
-                            '@${artist.handle}',
-                            style: Theme.of(context).textTheme.subtitle1,
-                          )
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
