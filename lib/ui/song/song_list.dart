@@ -285,9 +285,12 @@ class _SongItemState extends State<SongItem> {
                       end: Alignment(0, 1),
                     ),
                   ),
-                  child: SongHeader(
-                    song: widget.song,
-                    enableShowArtist: widget.enableShowArtist,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: SongHeader(
+                      song: widget.song,
+                      enableShowArtist: widget.enableShowArtist,
+                    ),
                   ),
                 ),
                 AnimatedContainer(
@@ -431,7 +434,10 @@ class _SongItemState extends State<SongItem> {
                       end: Alignment(0, -1),
                     ),
                   ),
-                  child: SongFooter(widget.song, onMessageTap),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: SongFooter(widget.song, onMessageTap),
+                  ),
                 ),
               ],
             ),
