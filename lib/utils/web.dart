@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:html';
 import 'dart:ui' as ui;
 
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+
 Future<String> webFilePicker() {
   final completer = new Completer<String>();
   final InputElement input = document.createElement('input');
@@ -29,4 +32,18 @@ void registerWebView(String html) {
       (int viewId) => IFrameElement()
         ..src = html
         ..style.border = 'none');
+}
+
+// TODO remove this once supported by Flutter
+class HandCursor extends Listener {
+  static final appContainer = window.document.getElementById('app-container');
+  HandCursor({Widget child}) : super(
+      onPointerHover: (PointerHoverEvent evt) {
+        appContainer.style.cursor='pointer';
+      },
+      onPointerExit: (PointerExitEvent evt) {
+        appContainer.style.cursor='default';
+      },
+      child: child
+  );
 }

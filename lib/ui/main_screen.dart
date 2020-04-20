@@ -13,6 +13,8 @@ import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:mudeo/utils/web_stub.dart'
+    if (dart.library.html) 'package:mudeo/utils/web.dart';
 
 class MainScreenBuilder extends StatelessWidget {
   const MainScreenBuilder({Key key}) : super(key: key);
@@ -124,8 +126,10 @@ class _DesktopScreenState extends State<DesktopScreen> {
       children: <Widget>[
         Expanded(
           flex: 2,
-          child: SongListScreen(
-            scrollController: widget.songScrollController,
+          child: HandCursor(
+            child: SongListScreen(
+              scrollController: widget.songScrollController,
+            ),
           ),
         ),
         Expanded(
@@ -247,24 +251,28 @@ class CustomPlaceholder extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                InkWell(
-                  child: Image.asset(
-                    'assets/images/google.png',
-                    width: 150,
+                HandCursor(
+                  child: InkWell(
+                    child: Image.asset(
+                      'assets/images/google.png',
+                      width: 150,
+                    ),
+                    onTap: () {
+                      launch(kGoogleStoreUrl, forceSafariVC: false);
+                    },
                   ),
-                  onTap: () {
-                    launch(kGoogleStoreUrl, forceSafariVC: false);
-                  },
                 ),
                 SizedBox(width: 20),
-                InkWell(
-                  child: Image.asset(
-                    'assets/images/apple.png',
-                    width: 150,
+                HandCursor(
+                  child: InkWell(
+                    child: Image.asset(
+                      'assets/images/apple.png',
+                      width: 150,
+                    ),
+                    onTap: () {
+                      launch(kAppleStoreUrl, forceSafariVC: false);
+                    },
                   ),
-                  onTap: () {
-                    launch(kAppleStoreUrl, forceSafariVC: false);
-                  },
                 )
               ],
             ),
@@ -279,19 +287,21 @@ class CustomPlaceholder extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 10),
-                    RaisedButton(
-                      color: Colors.black,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(FontAwesomeIcons.twitter),
-                          SizedBox(width: 12),
-                          Text('@mudeo_app'),
-                        ],
+                    HandCursor(
+                      child: RaisedButton(
+                        color: Colors.black,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.twitter),
+                            SizedBox(width: 12),
+                            Text('@mudeo_app'),
+                          ],
+                        ),
+                        onPressed: () {
+                          launch(kTwitterURL, forceSafariVC: false);
+                        },
                       ),
-                      onPressed: () {
-                        launch(kTwitterURL, forceSafariVC: false);
-                      },
                     ),
                   ],
                 ),
@@ -303,19 +313,21 @@ class CustomPlaceholder extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 10),
-                    RaisedButton(
-                      color: Colors.black,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(FontAwesomeIcons.twitter),
-                          SizedBox(width: 12),
-                          Text('@hillelcoren'),
-                        ],
+                    HandCursor(
+                      child: RaisedButton(
+                        color: Colors.black,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.twitter),
+                            SizedBox(width: 12),
+                            Text('@hillelcoren'),
+                          ],
+                        ),
+                        onPressed: () {
+                          launch(kDeveloperURL, forceSafariVC: false);
+                        },
                       ),
-                      onPressed: () {
-                        launch(kDeveloperURL, forceSafariVC: false);
-                      },
                     ),
                   ],
                 )
@@ -327,20 +339,22 @@ class CustomPlaceholder extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 15),
-            RaisedButton(
-              color: Colors.black,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Icon(FontAwesomeIcons.github),
-                  SizedBox(width: 12),
-                  Text('GitHub Issue #45297'),
-                ],
+            HandCursor(
+              child: RaisedButton(
+                color: Colors.black,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(FontAwesomeIcons.github),
+                    SizedBox(width: 12),
+                    Text('GitHub Issue #45297'),
+                  ],
+                ),
+                onPressed: () {
+                  launch('https://github.com/flutter/flutter/issues/45297',
+                      forceSafariVC: false);
+                },
               ),
-              onPressed: () {
-                launch('https://github.com/flutter/flutter/issues/45297',
-                    forceSafariVC: false);
-              },
             ),
           ],
         ),
