@@ -326,7 +326,7 @@ class CustomPlaceholder extends StatelessWidget {
                           children: <Widget>[
                             Icon(FontAwesomeIcons.twitter),
                             SizedBox(width: 12),
-                            Text('@mudeo_app'),
+                            Text('@${store.state.twitterUrl.split('/').last}'),
                           ],
                         ),
                         onPressed: () {
