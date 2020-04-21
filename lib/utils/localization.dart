@@ -30,7 +30,7 @@ class AppLocalization {
       'sure': 'Sure',
       'help_video': 'Help Video',
       'no_thanks': 'No Thanks',
-      'welcome_to_mudeo': 'Welcome to mudeo 🥳',
+      'welcome_to_the_app': 'Welcome to :name 🥳',
       'want_to_watch_the_video': 'Would you like to watch a short video explaining how to use the app?',
       'view_on_youtube': 'View on YouTube',
       'view_on_twitter': 'View on Twitter',
@@ -605,8 +605,8 @@ class AppLocalization {
   String get viewOnTwitter =>
       _localizedValues[locale.toString()]['view_on_twitter'];
 
-  String get welcomeToMudeo =>
-      _localizedValues[locale.toString()]['welcome_to_mudeo'];
+  String get welcomeToTheApp =>
+      _localizedValues[locale.toString()]['welcome_to_the_app'];
 
   String get sure =>
       _localizedValues[locale.toString()]['sure'];

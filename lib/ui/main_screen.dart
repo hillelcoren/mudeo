@@ -33,7 +33,8 @@ class MainScreenBuilder extends StatelessWidget {
         if (!kIsWeb && prefs.getBool(kSharedPrefShownVideo) != true) {
           prefs.setBool(kSharedPrefShownVideo, true);
           confirmCallback(
-            message: localization.welcomeToMudeo,
+            message: localization.welcomeToTheApp
+                .replaceFirst(':name', store.state.appName),
             context: context,
             areYouSure: localization.wantToWatchTheVideo,
             confirmLabel: localization.sure,
