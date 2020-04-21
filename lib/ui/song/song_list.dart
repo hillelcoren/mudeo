@@ -572,12 +572,17 @@ class SongFooter extends StatelessWidget {
             icon: Icon(Icons.more_vert, size: 30),
             itemBuilder: (BuildContext context) {
               final actions = [
-                if (!kIsWeb) localization.shareSong,
+                if (!kIsWeb)
+                  (state.isDance
+                      ? localization.shareDance
+                      : localization.shareSong),
                 (kIsWeb)
                     ? localization.openInNewTab
                     : localization.openInBrowser,
                 if (song.isPublic)
-                  localization.copyLinkToSong
+                  state.isDance
+                      ? localization.copyLinkToDance
+                      : localization.copyLinkToSong
                 else
                   localization.copyLinkToVideo,
                 if ((song.twitterId ?? '').isNotEmpty)
@@ -586,9 +591,13 @@ class SongFooter extends StatelessWidget {
                   localization.viewOnYouTube,
                 if (song.parentId > 0) localization.viewOriginal,
                 if (song.artistId == state.authState.artist.id)
-                  localization.deleteSong
+                  state.isDance
+                      ? localization.deleteDance
+                      : localization.deleteSong
                 else if (!kIsWeb)
-                  localization.reportSong,
+                  state.isDance
+                      ? localization.reportDance
+                      : localization.reportSong,
               ];
               return actions
                   .map((action) => PopupMenuItem(
@@ -608,7 +617,8 @@ class SongFooter extends StatelessWidget {
               } else if (action == localization.viewOnYouTube) {
                 launch(song.youTubeUrl);
                 return;
-              } else if (action == localization.copyLinkToSong) {
+              } else if (action == localization.copyLinkToSong ||
+                  action == localization.copyLinkToDance) {
                 Clipboard.setData(new ClipboardData(text: song.url));
                 Scaffold.of(context).showSnackBar(
                     SnackBar(content: Text(localization.copiedToClipboard)));
@@ -627,10 +637,11 @@ class SongFooter extends StatelessWidget {
                 store.dispatch(
                     ViewArtist(context: context, artist: originalArtist));
                 return;
-              } else if (action == localization.shareSong) {
+              } else if (action == localization.shareSong ||
+                  action == localization.shareDance) {
                 Share.share(song.url);
                 return;
-              } else if (action == localization.deleteSong) {
+              } else if (action == localization.deleteSong || action == localization.deleteDance) {
                 showDialog<AlertDialog>(
                     context: context,
                     builder: (BuildContext context) {
@@ -676,7 +687,9 @@ class SongFooter extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       semanticLabel: localization.areYouSure,
-                      title: Text(localization.reportSong),
+                      title: Text(state.isDance
+                          ? localization.reportDance
+                          : localization.reportSong),
                       content: Text(localization.areYouSure),
                       actions: <Widget>[
                         FlatButton(
