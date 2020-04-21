@@ -55,6 +55,7 @@ android {
             applicationId "app.mudeo.mudeo"
             versionCode flutterVersionCode.toInteger()
             versionName flutterVersionName
+            resValue "string", "app_name", "mudeo"
         }
 
         dance {
@@ -62,6 +63,7 @@ android {
             applicationId "app.mudeo.dancelikeme"
             versionCode flutterVersionCode.toInteger()
             versionName flutterVersionName
+            resValue "string", "app_name", "Dance Like Me"
         }
     }
 
