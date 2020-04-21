@@ -112,7 +112,7 @@ class MudeoAppState extends State<MudeoApp> {
             GlobalMaterialLocalizations.delegate,
           ],
           navigatorObservers: [
-            FirebaseAnalyticsObserver(analytics: analytics),
+            if (!kIsWeb) FirebaseAnalyticsObserver(analytics: analytics),
           ],
           home: InitScreen(),
           //initialRoute: MainScreen.route,
