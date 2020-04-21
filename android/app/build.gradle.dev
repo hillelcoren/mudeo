@@ -43,13 +43,26 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "app.mudeo.mudeo"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "app"
+    productFlavors {
+        mudeo {
+            dimension "app"
+            applicationId "app.mudeo.mudeo"
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+        }
+
+        dance {
+            dimension "app"
+            applicationId "app.mudeo.dancelikeme"
+            versionCode flutterVersionCode.toInteger()
+            versionName flutterVersionName
+        }
     }
 
     /*
