@@ -203,7 +203,7 @@ class ArtistPage extends StatelessWidget {
                                 LinkTextSpan(
                                   style: linkStyle,
                                   url: getAppStoreURL(),
-                                  text: ' ' + localization.clickHere + ' ',
+                                  text: ' ' + localization.tapHere + ' ',
                                 ),
                                 TextSpan(
                                   style: aboutTextStyle,
