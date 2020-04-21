@@ -603,7 +603,7 @@ class SongFooter extends StatelessWidget {
                 launch(song.url);
                 return;
               } else if (action == localization.viewOnTwitter) {
-                launch(song.twitterUrl);
+                launch(song.twitterUrl(state.twitterHandle));
                 return;
               } else if (action == localization.viewOnYouTube) {
                 launch(song.youTubeUrl);

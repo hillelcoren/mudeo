@@ -140,7 +140,7 @@ abstract class SongEntity extends Object
 
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
 
-  String get twitterUrl => 'https://twitter.com/mudeo_app/status/$twitterId';
+  String twitterUrl(String handle) => 'https://twitter.com/$handle/status/$twitterId';
 
   String get youTubeUrl => 'https://www.youtube.com/watch?v=$youTubeId';
 

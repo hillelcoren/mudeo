@@ -50,6 +50,8 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   String get twitterUrl => isDance ? kDanceTwitterURL : kMudeoTwitterURL;
 
+  String get twitterHandle => '@${twitterUrl.split('/').last}';
+
   String get youtubeUrl => isDance ? kDanceYouTubeURL : kMudeoYouTubeURL;
 
   String get contactEmail => isDance ? kDanceContactEmail : kMudeoContactEmail;
@@ -59,6 +61,6 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     //return 'Delays: ${uiState.song.tracks.map((track) => '${track.delay}').join(',')}';
     //return 'Duration: ${uiState.song?.duration}';
     //return 'Expired: ${artist.orderExpires}';
-    return '';
+    return 'App: $appName';
   }
 }
