@@ -241,20 +241,22 @@ class _SongEditState extends State<SongEdit> {
       if (await File(path).exists()) {
         player = VideoPlayerController.file(File(path));
         player.setVolume(track.volume.toDouble());
-        await player.initialize().then((value) {
-          if (mounted) setState(() {});
-        });
+        await player.initialize();
       } else if (track.video.url != null && track.video.url.isNotEmpty) {
         player = VideoPlayerController.network(track.video.url);
         player.setVolume(track.volume.toDouble());
-        await player.initialize().then((value) {
-          if (mounted) setState(() {});
-        });
+        await player.initialize();
       } else {
         player = VideoPlayerController.asset(null);
       }
 
       allVideoPlayers[track.id] = videoPlayers[track.id] = player;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
     });
 
     super.didChangeDependencies();
