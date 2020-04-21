@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'reset_dance': 'Reset Dance',
+      'clone_dance': 'Clone Dance',
       'delete_dance': 'Delete Dance',
       'share_dance': 'Share Dance',
       'copy_link_to_dance': 'Copy link to dance',
@@ -632,6 +634,12 @@ class AppLocalization {
 
   String get deleteDance =>
       _localizedValues[locale.toString()]['delete_dance'];
+
+  String get cloneDance =>
+      _localizedValues[locale.toString()]['clone_dance'];
+
+  String get resetDance =>
+      _localizedValues[locale.toString()]['reset_dance'];
 
 
   String lookup(String key) {

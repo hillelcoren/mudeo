@@ -59,14 +59,20 @@ class SongScaffold extends StatelessWidget {
               actions.add(localization.addVideo);
             }
             if (song.isOld && authArtist.ownsSong(song)) {
-              actions.add(localization.cloneSong);
+              actions.add(state.isDance
+                  ? localization.cloneDance
+                  : localization.cloneSong);
             }
             if (song.isOld || song.parentId > 0) {
-              actions.add(localization.resetSong);
+              actions.add(state.isDance
+                  ? localization.resetDance
+                  : localization.resetSong);
             }
             if (song.isOld &&
                 (authArtist.ownsSong(song) || authArtist.isAdmin)) {
-              actions.add(localization.deleteSong);
+              actions.add(state.isDance
+                  ? localization.deleteDance
+                  : localization.deleteSong);
             }
             return actions
                 .map((action) => PopupMenuItem(
@@ -109,11 +115,14 @@ class SongScaffold extends StatelessWidget {
                               if (action == localization.newSong ||
                                   action == localization.newDance) {
                                 viewModel.onNewSongPressed(context);
-                              } else if (action == localization.resetSong) {
+                              } else if (action == localization.resetSong ||
+                                  action == localization.resetDance) {
                                 viewModel.onResetSongPressed(context);
-                              } else if (action == localization.deleteSong) {
+                              } else if (action == localization.deleteSong ||
+                                  action == localization.deleteDance) {
                                 viewModel.onDeleteSongPressed(song);
-                              } else if (action == localization.cloneSong) {
+                              } else if (action == localization.cloneSong ||
+                                  action == localization.cloneDance) {
                                 viewModel.onForkSongPressed(song);
                               }
                             })
