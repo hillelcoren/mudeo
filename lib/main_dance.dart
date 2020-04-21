@@ -32,7 +32,9 @@ void main() async {
       environmentAttributes: await getSentryEvent());
 
   final store = Store<AppState>(appReducer,
-      initialState: AppState(),
+      initialState: AppState(
+        isDance: true,
+      ),
       middleware: []
         ..addAll(createStoreAuthMiddleware())
         ..addAll(createStoreSongsMiddleware())

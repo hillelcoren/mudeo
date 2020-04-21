@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const String kAppVersion = '0.0.29+29';
-const String kTermsOfServiceURL = 'https://mudeo.app/terms';
-const String kPrivacyPolicyURL = 'https://mudeo.app/privacy';
-const String kRedditURL = 'https://www.reddit.com/r/mudeo';
-const String kTwitterURL = 'https://twitter.com/mudeo_app';
-const String kYouTubeURL = 'https://www.youtube.com/channel/UCX5ONbOAOG3bYe3vTXrWgPA';
 const String kDeveloperURL = 'https://twitter.com/hillelcoren';
-const String kContactEmail = 'contact@mudeo.app';
-const String kLatencySamples = 'https://superpowered.com/latency#datatable';
 
-const String kAppleStoreUrl = 'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
-//const String kGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=app.mudeo.mudeo';
-const String kGoogleStoreUrl = 'market://details?id=app.mudeo.mudeo';
+const String kMudeoTermsURL = 'https://mudeo.app/terms';
+const String kMudeoPrivacyURL = 'https://mudeo.app/privacy';
+const String kMudeoTwitterURL = 'https://twitter.com/mudeo_app';
+const String kMudeoYouTubeURL = 'https://www.youtube.com/channel/UCX5ONbOAOG3bYe3vTXrWgPA';
+const String kMudeoContactEmail = 'contact@mudeo.app';
+
+const String kDanceTermsURL = 'https://dancelikeme.app/terms';
+const String kDancePrivacyURL = 'https://dancelikeme.app/privacy';
+const String kDanceTwitterURL = 'https://twitter.com/dancelikeme_app';
+const String kDanceYouTubeURL = 'https://www.youtube.com/channel/';
+const String kDanceContactEmail = 'contact@dancelikeme.app';
+
+const String kMudeoAppleStoreUrl = 'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
+const String kMudeoGoogleStoreUrl = 'market://details?id=app.mudeo.mudeo';
+const String kDanceAppleStoreUrl = '';
+const String kDanceGoogleStoreUrl = '';
 
 const int kOAuthProviderGoogle = 1;
 

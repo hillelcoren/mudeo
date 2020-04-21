@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
@@ -131,6 +130,7 @@ class _LoginState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
+    final state = viewModel.state;
     final error = viewModel.authState.error ?? '';
     final isOneTimePassword =
         error.contains(OTP_ERROR) || _oneTimePasswordController.text.isNotEmpty;
@@ -271,7 +271,7 @@ class _LoginState extends State<LoginScreen> {
                                             ),
                                             LinkTextSpan(
                                               style: linkStyle,
-                                              url: kTermsOfServiceURL,
+                                              url: state.termsUrl,
                                               text: localization
                                                   .termsOfServiceLink,
                                             ),
@@ -282,7 +282,7 @@ class _LoginState extends State<LoginScreen> {
                                             ),
                                             LinkTextSpan(
                                               style: linkStyle,
-                                              url: kPrivacyPolicyURL,
+                                              url: state.privacyUrl,
                                               text: localization
                                                   .privacyPolicyLink,
                                             ),

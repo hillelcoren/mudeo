@@ -179,6 +179,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final store = StoreProvider.of<AppState>(context);
 
     if (_products == null) {
       return LoadingIndicator(height: 50);
@@ -202,11 +203,11 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
             children: <Widget>[
               FlatButton(
                 child: Text('Terms', style: TextStyle(fontSize: 12)),
-                onPressed: () => launch(kTermsOfServiceURL),
+                onPressed: () => launch(store.state.termsUrl),
               ),
               FlatButton(
                 child: Text('Privacy', style: TextStyle(fontSize: 12)),
-                onPressed: () => launch(kPrivacyPolicyURL),
+                onPressed: () => launch(store.state.privacyUrl),
               ),
             ],
           )

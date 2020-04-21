@@ -268,6 +268,8 @@ class MobileScreen extends StatelessWidget {
 class CustomPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -287,7 +289,7 @@ class CustomPlaceholder extends StatelessWidget {
                       width: 150,
                     ),
                     onTap: () {
-                      launch(kGoogleStoreUrl, forceSafariVC: false);
+                      launch(kMudeoGoogleStoreUrl, forceSafariVC: false);
                     },
                   ),
                 ),
@@ -299,7 +301,7 @@ class CustomPlaceholder extends StatelessWidget {
                       width: 150,
                     ),
                     onTap: () {
-                      launch(kAppleStoreUrl, forceSafariVC: false);
+                      launch(kMudeoAppleStoreUrl, forceSafariVC: false);
                     },
                   ),
                 )
@@ -328,7 +330,7 @@ class CustomPlaceholder extends StatelessWidget {
                           ],
                         ),
                         onPressed: () {
-                          launch(kTwitterURL, forceSafariVC: false);
+                          launch(store.state.twitterUrl, forceSafariVC: false);
                         },
                       ),
                     ),

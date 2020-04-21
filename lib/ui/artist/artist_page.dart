@@ -111,7 +111,7 @@ class ArtistPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     launch(
-                        'mailto:$kContactEmail?subject=Feedback%20-%20${Platform.localeName}%20${kAppVersion.split('+')[0]}',
+                        'mailto:${state.contactEmail}?subject=Feedback%20-%20${Platform.localeName}%20${kAppVersion.split('+')[0]}',
                         forceSafariVC: false);
                   },
                 ),
@@ -126,7 +126,7 @@ class ArtistPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    launch(kTwitterURL, forceSafariVC: false);
+                    launch(state.twitterUrl, forceSafariVC: false);
                   },
                 ),
                 SimpleDialogOption(
@@ -140,7 +140,7 @@ class ArtistPage extends StatelessWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    launch(kYouTubeURL, forceSafariVC: false);
+                    launch(state.youtubeUrl, forceSafariVC: false);
                   },
                 ),
                 Divider(),
@@ -177,7 +177,7 @@ class ArtistPage extends StatelessWidget {
                   onPressed: () {
                     showAboutDialog(
                       context: context,
-                      applicationName: 'mudeo',
+                      applicationName: state.appName,
                       /*
                                           applicationIcon: Image.asset(
                                             'assets/images/logo.png',
@@ -187,7 +187,8 @@ class ArtistPage extends StatelessWidget {
                                           */
                       applicationVersion:
                           '${localization.version} ${kAppVersion.split('+')[0]}\n\n${localization.pronounced}: moo-day-oh  😊',
-                      applicationLegalese: '© 2020 mudeo',
+                      applicationLegalese:
+                          '© ${DateTime.now().year} ${state.appName}',
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
@@ -202,7 +203,7 @@ class ArtistPage extends StatelessWidget {
                                 ),
                                 LinkTextSpan(
                                   style: linkStyle,
-                                  url: getAppStoreURL(),
+                                  url: getAppStoreURL(context),
                                   text: ' ' + localization.tapHere + ' ',
                                 ),
                                 TextSpan(

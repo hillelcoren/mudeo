@@ -24,6 +24,9 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
       'isSaving',
       serializers.serialize(object.isSaving,
           specifiedType: const FullType(bool)),
+      'isDance',
+      serializers.serialize(object.isDance,
+          specifiedType: const FullType(bool)),
       'authState',
       serializers.serialize(object.authState,
           specifiedType: const FullType(AuthState)),
@@ -57,6 +60,10 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
           result.isSaving = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
+        case 'isDance':
+          result.isDance = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
         case 'authState':
           result.authState.replace(serializers.deserialize(value,
               specifiedType: const FullType(AuthState)) as AuthState);
@@ -82,6 +89,8 @@ class _$AppState extends AppState {
   @override
   final bool isSaving;
   @override
+  final bool isDance;
+  @override
   final AuthState authState;
   @override
   final DataState dataState;
@@ -94,6 +103,7 @@ class _$AppState extends AppState {
   _$AppState._(
       {this.isLoading,
       this.isSaving,
+      this.isDance,
       this.authState,
       this.dataState,
       this.uiState})
@@ -103,6 +113,9 @@ class _$AppState extends AppState {
     }
     if (isSaving == null) {
       throw new BuiltValueNullFieldError('AppState', 'isSaving');
+    }
+    if (isDance == null) {
+      throw new BuiltValueNullFieldError('AppState', 'isDance');
     }
     if (authState == null) {
       throw new BuiltValueNullFieldError('AppState', 'authState');
@@ -128,6 +141,7 @@ class _$AppState extends AppState {
     return other is AppState &&
         isLoading == other.isLoading &&
         isSaving == other.isSaving &&
+        isDance == other.isDance &&
         authState == other.authState &&
         dataState == other.dataState &&
         uiState == other.uiState;
@@ -137,7 +151,9 @@ class _$AppState extends AppState {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, isLoading.hashCode), isSaving.hashCode),
+            $jc(
+                $jc($jc($jc(0, isLoading.hashCode), isSaving.hashCode),
+                    isDance.hashCode),
                 authState.hashCode),
             dataState.hashCode),
         uiState.hashCode));
@@ -154,6 +170,10 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   bool _isSaving;
   bool get isSaving => _$this._isSaving;
   set isSaving(bool isSaving) => _$this._isSaving = isSaving;
+
+  bool _isDance;
+  bool get isDance => _$this._isDance;
+  set isDance(bool isDance) => _$this._isDance = isDance;
 
   AuthStateBuilder _authState;
   AuthStateBuilder get authState =>
@@ -175,6 +195,7 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
     if (_$v != null) {
       _isLoading = _$v.isLoading;
       _isSaving = _$v.isSaving;
+      _isDance = _$v.isDance;
       _authState = _$v.authState?.toBuilder();
       _dataState = _$v.dataState?.toBuilder();
       _uiState = _$v.uiState?.toBuilder();
@@ -204,6 +225,7 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
           new _$AppState._(
               isLoading: isLoading,
               isSaving: isSaving,
+              isDance: isDance,
               authState: authState.build(),
               dataState: dataState.build(),
               uiState: uiState.build());

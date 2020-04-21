@@ -1,5 +1,6 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/redux/auth/auth_state.dart';
@@ -9,10 +10,14 @@ part 'app_state.g.dart';
 
 abstract class AppState implements Built<AppState, AppStateBuilder> {
   factory AppState(
-      {String appVersion, bool enableDarkMode, bool requireAuthentication}) {
+      {String appVersion,
+      bool enableDarkMode,
+      bool requireAuthentication,
+      bool isDance = false}) {
     return _$AppState._(
       isLoading: false,
       isSaving: false,
+      isDance: isDance,
       authState: AuthState(),
       dataState: DataState(),
       uiState: UIState(),
@@ -25,6 +30,8 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   bool get isSaving;
 
+  bool get isDance;
+
   AuthState get authState;
 
   DataState get dataState;
@@ -34,6 +41,18 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
   ArtistEntity get artist => authState.artist;
 
   static Serializer<AppState> get serializer => _$appStateSerializer;
+
+  String get appName => isDance ? 'Dance Like Me' : 'mudeo';
+
+  String get termsUrl => isDance ? kDanceTermsURL : kMudeoTermsURL;
+
+  String get privacyUrl => isDance ? kDancePrivacyURL : kMudeoPrivacyURL;
+
+  String get twitterUrl => isDance ? kDanceTwitterURL : kMudeoTwitterURL;
+
+  String get youtubeUrl => isDance ? kDanceYouTubeURL : kMudeoYouTubeURL;
+
+  String get contactEmail => isDance ? kDanceContactEmail : kMudeoContactEmail;
 
   @override
   String toString() {
