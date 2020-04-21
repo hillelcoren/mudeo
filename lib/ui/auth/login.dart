@@ -165,7 +165,10 @@ class _LoginState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.only(
                   left: 80, top: 60, right: 80, bottom: 20),
-              child: Image.asset('assets/images/logo-dark.png'),
+              // TODO: set dance logo
+              child: state.isDance
+                  ? SizedBox()
+                  : Image.asset('assets/images/logo-dark.png'),
             ),
             Form(
               key: _formKey,
