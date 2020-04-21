@@ -83,7 +83,9 @@ Middleware<AppState> _createLoadState(
       uiState = await uiRepository.loadUIState();
       dataState = await dataRepository.loadDataState();
 
-      final AppState appState = AppState().rebuild((b) => b
+      final AppState appState = AppState(
+        isDance: store.state.isDance
+      ).rebuild((b) => b
         ..authState.replace(authState)
         ..uiState.replace(uiState)
         ..dataState.replace(dataState));
