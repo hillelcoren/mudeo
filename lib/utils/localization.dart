@@ -20,6 +20,11 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'sure': 'Sure',
+      'help_video': 'Help Video',
+      'no_thanks': 'No Thanks',
+      'welcome_to_mudeo': 'Welcome to mudeo 🥳',
+      'want_to_watch_the_video': 'Would you like to watch a short video explaining how to use the app?',
       'view_on_youtube': 'View on YouTube',
       'view_on_twitter': 'View on Twitter',
       'google_sign_up': 'Google Sign Up',
@@ -592,6 +597,23 @@ class AppLocalization {
 
   String get viewOnTwitter =>
       _localizedValues[locale.toString()]['view_on_twitter'];
+
+  String get welcomeToMudeo =>
+      _localizedValues[locale.toString()]['welcome_to_mudeo'];
+
+  String get sure =>
+      _localizedValues[locale.toString()]['sure'];
+
+  String get noThanks =>
+      _localizedValues[locale.toString()]['no_thanks'];
+
+  String get wantToWatchTheVideo =>
+      _localizedValues[locale.toString()]['want_to_watch_the_video'];
+
+  String get helpVideo =>
+      _localizedValues[locale.toString()]['help_video'];
+
+
 
 
   String lookup(String key) {

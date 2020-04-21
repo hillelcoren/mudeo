@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter_youtube/flutter_youtube.dart';
+import 'package:mudeo/.env.dart';
+import 'package:mudeo/utils/dialogs.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +20,6 @@ import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/song/song_list.dart';
-import 'package:mudeo/utils/dialogs.dart';
-import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -142,6 +144,27 @@ class ArtistPage extends StatelessWidget {
                   },
                 ),
                 Divider(),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: IconText(
+                      icon: FontAwesomeIcons.questionCircle,
+                      text: localization.helpVideo,
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    FlutterYoutube.playYoutubeVideoById(
+                      apiKey: Config.YOU_TUBE_API_KEY,
+                      videoId: 'mV5rFN-gGRM',
+                      autoPlay: true,
+                      fullScreen: true,
+                      appBarColor: Colors.black12,
+                      backgroundColor: Colors.black,
+                    );
+                  },
+                ),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(10),

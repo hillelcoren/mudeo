@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
@@ -11,7 +12,11 @@ import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/.env.dart';
+import 'package:mudeo/utils/dialogs.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mudeo/utils/web_stub.dart'
     if (dart.library.html) 'package:mudeo/utils/web.dart';
@@ -22,6 +27,30 @@ class MainScreenBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MainScreenVM>(
+      onInit: (Store<AppState> store) async {
+        final prefs = await SharedPreferences.getInstance();
+        final localization = AppLocalization.of(context);
+        if (!kIsWeb && prefs.getBool(kSharedPrefShownVideo) != true) {
+          prefs.setBool(kSharedPrefShownVideo, true);
+          confirmCallback(
+            message: localization.welcomeToMudeo,
+            context: context,
+            areYouSure: localization.wantToWatchTheVideo,
+            confirmLabel: localization.sure,
+            declineLabel: localization.noThanks,
+            callback: () {
+              FlutterYoutube.playYoutubeVideoById(
+                apiKey: Config.YOU_TUBE_API_KEY,
+                videoId: 'mV5rFN-gGRM',
+                autoPlay: true,
+                fullScreen: true,
+                appBarColor: Colors.black12,
+                backgroundColor: Colors.black,
+              );
+            },
+          );
+        }
+      },
       converter: MainScreenVM.fromStore,
       builder: (context, vm) {
         return MainScreen(
