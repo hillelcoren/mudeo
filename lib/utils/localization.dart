@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'new_dance': 'New Dance',
       'sure': 'Sure',
       'help_video': 'Help Video',
       'no_thanks': 'No Thanks',
@@ -613,6 +614,8 @@ class AppLocalization {
   String get helpVideo =>
       _localizedValues[locale.toString()]['help_video'];
 
+  String get newDance =>
+      _localizedValues[locale.toString()]['new_dance'];
 
 
 

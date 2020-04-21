@@ -42,7 +42,8 @@ class SongScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final uiState = viewModel.state.uiState;
+    final state = viewModel.state;
+    final uiState = state.uiState;
     final song = viewModel.song;
     final authArtist = viewModel.state.authState.artist;
 
@@ -51,7 +52,9 @@ class SongScaffold extends StatelessWidget {
         leading: PopupMenuButton<String>(
           icon: Icon(Icons.more_vert),
           itemBuilder: (BuildContext context) {
-            final actions = [localization.newSong];
+            final actions = [
+              state.isDance ? localization.newDance : localization.newSong
+            ];
             if (song.canAddTrack) {
               actions.add(localization.addVideo);
             }
@@ -103,7 +106,8 @@ class SongScaffold extends StatelessWidget {
                             child: Text(localization.ok.toUpperCase()),
                             onPressed: () {
                               Navigator.pop(context);
-                              if (action == localization.newSong) {
+                              if (action == localization.newSong ||
+                                  action == localization.newDance) {
                                 viewModel.onNewSongPressed(context);
                               } else if (action == localization.resetSong) {
                                 viewModel.onResetSongPressed(context);
@@ -133,7 +137,11 @@ class SongScaffold extends StatelessWidget {
 
                 return seconds < 10 ? '00:0$seconds' : '00:$seconds';
               } else {
-                return song.isNew ? localization.newSong : song.title;
+                return song.isNew
+                    ? (state.isDance
+                        ? localization.newDance
+                        : localization.newSong)
+                    : song.title;
               }
             },
             style: () => TextStyle(
