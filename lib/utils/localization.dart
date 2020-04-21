@@ -48,13 +48,13 @@ class AppLocalization {
       'options': 'Options',
       'require_mobile_to_collaborate':
           'Please download the mobile app to collaborate',
-      'require_mobile_to_like': 'Please download the mobile app to like a song',
+      'require_mobile_to_like': 'Please download the mobile app to like',
       'require_mobile_to_report':
-          'Please download the mobile app to report a song',
+          'Please download the mobile app to report',
       'require_account_to_collaborate': 'Please login to collaborate',
-      'require_account_to_upload': 'Please login to upload a song',
+      'require_account_to_upload': 'Please login to upload',
       'require_account_to_like': 'Please login to like a song',
-      'require_account_to_report': 'Please login to report a song',
+      'require_account_to_report': 'Please login to report',
       'save_video_to_process_audio': 'Save video to process audio',
       'zoom': 'Zoom',
       'sync': 'Sync',
