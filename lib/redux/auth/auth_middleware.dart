@@ -47,7 +47,7 @@ void _saveAuthLocal(ArtistEntity artist) async {
 Middleware<AppState> _createLoginRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
-        .login(
+        .login(store.state,
             email: action.email,
             password: action.password,
             oneTimePassword: action.oneTimePassword)
@@ -77,6 +77,7 @@ Middleware<AppState> _createGoogleSignUpRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
         .googleSignUp(
+      store.state,
       handle: action.handle,
       email: action.email,
       oauthId: action.oauthId,
@@ -102,7 +103,7 @@ Middleware<AppState> _createGoogleSignUpRequest(AuthRepository repository) {
 Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
-        .signUp(
+        .signUp(store.state,
             handle: action.handle,
             email: action.email,
             password: action.password,
@@ -123,7 +124,7 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
 
 Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    repository.oauthLogin(token: action.oauthToken).then((artist) {
+    repository.oauthLogin(store.state, token: action.oauthToken).then((artist) {
       _saveAuthLocal(artist);
       store.dispatch(UserLoginSuccess(artist));
       action.completer.complete(null);
@@ -146,6 +147,7 @@ Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
 
     repository
         .refresh(
+      store.state,
       artistId: store.state.authState.artist.id,
       token: token,
     )
@@ -171,6 +173,7 @@ Middleware<AppState> _createDeleteRequest(AuthRepository repository) {
 
     repository
         .deleteAccount(
+      store.state,
       artistId: store.state.authState.artist.id,
       token: token,
     )

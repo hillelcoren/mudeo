@@ -13,10 +13,6 @@ class WebClient {
   const WebClient();
 
   String _checkUrl(String url) {
-    if (!url.startsWith('http')) {
-      url = Config.API_URL + url;
-    }
-
     if (!url.contains('?')) {
       url += '?';
     }

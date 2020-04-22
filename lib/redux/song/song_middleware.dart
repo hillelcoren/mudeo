@@ -32,14 +32,13 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
 Middleware<AppState> _saveSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     SongEntity song = action.song;
-    final authState = store.state.authState;
 
     if (store.state.isSaving) {
       next(action);
     }
 
     if (song.hasNewVideos) {
-      repository.saveVideo(authState, song.newVideo).then((video) {
+      repository.saveVideo(store.state, song.newVideo).then((video) {
         store.dispatch(SaveVideoSuccess(song: song, video: video));
         store.dispatch(SaveSongRequest(
             song: store.state.uiState.song, completer: action.completer));
@@ -49,7 +48,7 @@ Middleware<AppState> _saveSong(SongRepository repository) {
         action.completer.completeError(error);
       });
     } else {
-      repository.saveSong(authState, action.song.updateOrderByIds).then((song) {
+      repository.saveSong(store.state, action.song.updateOrderByIds).then((song) {
         if (action.song.isNew) {
           store.dispatch(AddSongSuccess(song));
         } else {
@@ -69,13 +68,12 @@ Middleware<AppState> _saveSong(SongRepository repository) {
 
 Middleware<AppState> _saveVideo(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    final authState = store.state.authState;
 
     if (store.state.isSaving) {
       next(action);
     }
 
-    repository.saveVideo(authState, action.video).then((video) {
+    repository.saveVideo(store.state, action.video).then((video) {
       store.dispatch(
           SaveVideoSuccess(song: action.song, video: video, refreshUI: true));
       action.completer.complete(null);
@@ -110,7 +108,7 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
         action.clearCache ? 0 : (state.dataState.songsUpdateAt / 1000).round();
 
     store.dispatch(LoadSongsRequest());
-    repository.loadList(state.authState, updatedAt).then((data) {
+    repository.loadList(state, updatedAt).then((data) {
       store.dispatch(LoadSongsSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);
@@ -133,7 +131,7 @@ Middleware<AppState> _likeSong(SongRepository repository) {
     final song = action.song;
     final songLike = state.artist.getSongLike(song.id);
 
-    repository.likeSong(state, song, songLike: songLike).then((data) {
+    repository.likeSong(store.state, song, songLike: songLike).then((data) {
       store.dispatch(LikeSongSuccess(songLike: data, unlike: songLike != null));
       if (action.completer != null) {
         action.completer.complete(null);
@@ -152,10 +150,9 @@ Middleware<AppState> _likeSong(SongRepository repository) {
 
 Middleware<AppState> _flagSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    final AuthState state = store.state.authState;
     final song = action.song;
 
-    repository.flagSong(state, song).then((data) {
+    repository.flagSong(store.state, song).then((data) {
       store.dispatch(FlagSongSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);
@@ -175,9 +172,8 @@ Middleware<AppState> _flagSong(SongRepository repository) {
 Middleware<AppState> _deleteSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     SongEntity song = action.song;
-    final authState = store.state.authState;
 
-    repository.deleteSong(authState, song).then((data) {
+    repository.deleteSong(store.state, song).then((data) {
       store.dispatch(DeleteSongSuccess(data));
       if (action.completer != null) {
         action.completer.complete();
@@ -197,13 +193,12 @@ Middleware<AppState> _deleteSong(SongRepository repository) {
 Middleware<AppState> _saveComment(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     CommentEntity origComment = action.comment;
-    final authState = store.state.authState;
 
     if (store.state.isSaving) {
       next(action);
     }
 
-    repository.saveComment(authState, origComment).then((comment) {
+    repository.saveComment(store.state, origComment).then((comment) {
       /*
       if (action.song.isNew) {
         store.dispatch(AddSongSuccess(song));
@@ -226,9 +221,8 @@ Middleware<AppState> _saveComment(SongRepository repository) {
 Middleware<AppState> _deleteComment(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     CommentEntity comment = action.comment;
-    final authState = store.state.authState;
 
-    repository.deleteComment(authState, comment).then((data) {
+    repository.deleteComment(store.state, comment).then((data) {
       store.dispatch(DeleteCommentSuccess(comment));
       if (action.completer != null) {
         action.completer.complete();

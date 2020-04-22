@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:mudeo/.env.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +55,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
 
     try {
       final dynamic response = await webClient.post(
-          '${Config.API_URL}/upgrade', state.authState.artist.token,
+          '${state.apiUrl}/upgrade', state.authState.artist.token,
           data: json.encode(data));
 
       final String message = response['message'];

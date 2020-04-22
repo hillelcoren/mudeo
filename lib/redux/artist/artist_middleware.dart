@@ -85,7 +85,7 @@ Middleware<AppState> _viewArtistList() {
 
 Middleware<AppState> _saveArtist(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    repository.saveData(store.state.authState, action.artist).then((artist) {
+    repository.saveData(store.state, action.artist).then((artist) {
       store.dispatch(SaveArtistSuccess(artist));
       action.completer.complete(null);
     }).catchError((Object error) {
@@ -101,7 +101,7 @@ Middleware<AppState> _saveArtist(ArtistRepository repository) {
 Middleware<AppState> _saveArtistImage(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
-        .saveImage(store.state.authState, action.path, action.type)
+        .saveImage(store.state, action.path, action.type)
         .then((artist) {
       store.dispatch(SaveArtistSuccess(artist));
       action.completer.complete(null);
@@ -125,7 +125,7 @@ Middleware<AppState> _loadArtist(ArtistRepository repository) {
     }
 
     store.dispatch(LoadArtistRequest());
-    repository.loadItem(state.authState, action.artistId).then((artist) {
+    repository.loadItem(state, action.artistId).then((artist) {
       store.dispatch(LoadArtistSuccess(artist));
 
       if (action.completer != null) {
@@ -194,7 +194,7 @@ Middleware<AppState> _followArtist(ArtistRepository repository) {
     final artistFollowing = state.artist.getFollowing(artist.id);
 
     repository
-        .followArtist(state, artist, artistFollowing: artistFollowing)
+        .followArtist(store.state, artist, artistFollowing: artistFollowing)
         .then((data) {
       store.dispatch(FollowArtistSuccess(
           artistFollowing: data, unfollow: artistFollowing != null));

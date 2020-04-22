@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/web_client.dart';
+import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/utils/platforms.dart';
 
 class AuthRepository {
@@ -15,7 +15,7 @@ class AuthRepository {
   final WebClient webClient;
 
   Future<ArtistEntity> login(
-      {String email, String password, String oneTimePassword}) async {
+      AppState state, {String email, String password, String oneTimePassword}) async {
     final credentials = {
       'email': email,
       'password': password,
@@ -23,13 +23,13 @@ class AuthRepository {
     };
 
     String url =
-        '${Config.API_URL}/auth?include=song_likes,song_flags,following';
+        '${state.apiUrl}/auth?include=song_likes,song_flags,following';
 
     return sendRequest(url: url, data: credentials);
   }
 
   Future<ArtistEntity> signUp(
-      {String handle, String email, String password, String platform}) async {
+      AppState state, {String handle, String email, String password, String platform}) async {
 
     final credentials = {
       'email': email,
@@ -39,12 +39,13 @@ class AuthRepository {
       'device': await getDevice(),
     };
 
-    String url = '${Config.API_URL}/user/create';
+    String url = '${state.apiUrl}/user/create';
 
     return sendRequest(url: url, data: credentials);
   }
 
   Future<ArtistEntity> googleSignUp(
+      AppState state,
       {String handle,
       String email,
       String oauthToken,
@@ -63,27 +64,27 @@ class AuthRepository {
       'device': await getDevice(),
     };
 
-    String url = '${Config.API_URL}/user/create';
+    String url = '${state.apiUrl}/user/create';
 
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<ArtistEntity> oauthLogin({String token}) async {
+  Future<ArtistEntity> oauthLogin(AppState state, {String token}) async {
     final credentials = {
       'token': token,
       'provider': 'google',
     };
 
     String url =
-        '${Config.API_URL}/oauth?include=song_likes,song_flags,following';
+        '${state.apiUrl}/oauth?include=song_likes,song_flags,following';
 
     return sendRequest(url: url, data: credentials);
   }
 
   Future<ArtistEntity> refresh(
-      {int artistId, String token, String platform}) async {
+      AppState state, {int artistId, String token, String platform}) async {
     String url =
-        '${Config.API_URL}/user?include=song_likes,song_flags,following';
+        '${state.apiUrl}/user?include=song_likes,song_flags,following';
 
     final dynamic response = await webClient.get(url, token);
 
@@ -105,8 +106,8 @@ class AuthRepository {
   }
 
   Future<dynamic> deleteAccount(
-      {int artistId, String token}) async {
-    String url = '${Config.API_URL}/users/$artistId';
+      AppState state, {int artistId, String token}) async {
+    String url = '${state.apiUrl}/users/$artistId';
 
     final dynamic response = await webClient.delete(url, token);
 

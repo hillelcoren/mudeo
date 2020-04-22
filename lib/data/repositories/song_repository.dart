@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:built_collection/built_collection.dart';
-import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/data/web_client.dart';
-import 'package:mudeo/redux/auth/auth_state.dart';
+import 'package:mudeo/redux/app/app_state.dart';
 
 class SongRepository {
   const SongRepository({
@@ -17,11 +16,11 @@ class SongRepository {
 
   final WebClient webClient;
 
-  Future<BuiltList<SongEntity>> loadList(AuthState auth, int updatedAt) async {
+  Future<BuiltList<SongEntity>> loadList(AppState state,  int updatedAt) async {
 
-    String url = Config.API_URL;
+    String url = state.apiUrl;
 
-    if (auth.hasValidToken) {
+    if (state.authState.hasValidToken) {
       url = '$url/songs?include=user,comments.user&sort=id|desc';
     } else {
       url = '$url/open_songs?include=user,comments.user&sort=id|desc';
@@ -31,7 +30,7 @@ class SongRepository {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
     }
 
-    final dynamic response = await webClient.get(url, auth.artist.token);
+    final dynamic response = await webClient.get(url, state.artist.token);
 
     final SongListResponse songResponse =
         serializers.deserializeWith(SongListResponse.serializer, response);
@@ -39,21 +38,21 @@ class SongRepository {
     return songResponse.data;
   }
 
-  Future<SongEntity> saveSong(AuthState auth, SongEntity song,
+  Future<SongEntity> saveSong(AppState state, SongEntity song,
       [EntityAction action]) async {
     final data = serializers.serializeWith(SongEntity.serializer, song);
     dynamic response;
 
     if (song.isNew) {
       response = await webClient.post(
-          '${Config.API_URL}/songs?include=user', auth.artist.token,
+          '${state.apiUrl}/songs?include=user', state.artist.token,
           data: json.encode(data));
     } else {
-      var url = '${Config.API_URL}/songs/${song.id}?include=user,comments';
+      var url = '${state.apiUrl}/songs/${song.id}?include=user,comments';
       if (action != null) {
         url += '&action=' + action.toString();
       }
-      response = await webClient.put(url, auth.artist.token, json.encode(data));
+      response = await webClient.put(url, state.artist.token, json.encode(data));
     }
 
     final SongItemResponse songResponse =
@@ -62,24 +61,24 @@ class SongRepository {
     return songResponse.data;
   }
 
-  Future<VideoEntity> saveVideo(AuthState auth, VideoEntity video,
+  Future<VideoEntity> saveVideo(AppState state, VideoEntity video,
       [EntityAction action]) async {
     final data = serializers.serializeWith(VideoEntity.serializer, video);
     dynamic response;
 
     if (video.isNew) {
       response = await webClient.post(
-          '${Config.API_URL}/videos', auth.artist.token,
+          '${state.apiUrl}/videos', state.artist.token,
           data: json.encode(data),
           filePath: video.remoteVideoId != null
               ? null
               : await VideoEntity.getPath(video.timestamp));
     } else {
-      var url = '${Config.API_URL}/videos/${video.id}';
+      var url = '${state.apiUrl}/videos/${video.id}';
       if (action != null) {
         url += '?action=' + action.toString();
       }
-      response = await webClient.put(url, auth.artist.token, json.encode(data));
+      response = await webClient.put(url, state.artist.token, json.encode(data));
     }
 
     final VideoItemResponse songResponse =
@@ -89,13 +88,13 @@ class SongRepository {
   }
 
   Future<CommentEntity> saveComment(
-      AuthState auth, CommentEntity comment) async {
+      AppState state, CommentEntity comment) async {
     final data = serializers.serializeWith(CommentEntity.serializer, comment);
     dynamic response;
 
     if (comment.isNew) {
       response = await webClient.post(
-          '${Config.API_URL}/song_comments', auth.artist.token,
+          '${state.apiUrl}/song_comments', state.artist.token,
           data: json.encode(data));
     } else {
       /*
@@ -114,11 +113,11 @@ class SongRepository {
   }
 
   Future<CommentEntity> deleteComment(
-      AuthState auth, CommentEntity comment) async {
+  AppState state, CommentEntity comment) async {
     dynamic response;
 
     response = await webClient.delete(
-        '${Config.API_URL}/song_comments/${comment.id}', auth.artist.token);
+        '${state.apiUrl}/song_comments/${comment.id}', state.artist.token);
 
     final CommentItemResponse commentResponse =
         serializers.deserializeWith(CommentItemResponse.serializer, response);
@@ -126,18 +125,18 @@ class SongRepository {
     return commentResponse.data;
   }
 
-  Future<SongLikeEntity> likeSong(AuthState auth, SongEntity song,
+  Future<SongLikeEntity> likeSong(AppState state, SongEntity song,
       {SongLikeEntity songLike}) async {
     dynamic response;
 
     if (songLike != null) {
-      var url = '${Config.API_URL}/song_likes/${songLike.songId}';
-      response = await webClient.delete(url, auth.artist.token);
+      var url = '${state.apiUrl}/song_likes/${songLike.songId}';
+      response = await webClient.delete(url, state.artist.token);
 
       return songLike;
     } else {
-      var url = '${Config.API_URL}/song_likes?song_id=${song.id}';
-      response = await webClient.post(url, auth.artist.token);
+      var url = '${state.apiUrl}/song_likes?song_id=${song.id}';
+      response = await webClient.post(url, state.artist.token);
       final LikeSongResponse songResponse =
           serializers.deserializeWith(LikeSongResponse.serializer, response);
 
@@ -145,11 +144,11 @@ class SongRepository {
     }
   }
 
-  Future<SongFlagEntity> flagSong(AuthState auth, SongEntity song) async {
+  Future<SongFlagEntity> flagSong(AppState state, SongEntity song) async {
     dynamic response;
 
-    var url = '${Config.API_URL}/song_flag?song_id=${song.id}';
-    response = await webClient.post(url, auth.artist.token);
+    var url = '${state.apiUrl}/song_flag?song_id=${song.id}';
+    response = await webClient.post(url, state.artist.token);
     final FlagSongResponse songResponse =
         serializers.deserializeWith(FlagSongResponse.serializer, response);
 
@@ -157,11 +156,11 @@ class SongRepository {
   }
 
   Future<SongEntity> deleteSong(
-      AuthState auth, SongEntity song) async {
+      AppState state, SongEntity song) async {
     dynamic response;
 
     response = await webClient.delete(
-        '${Config.API_URL}/songs/${song.id}', auth.artist.token);
+        '${state.apiUrl}/songs/${song.id}', state.artist.token);
 
     final SongItemResponse songResponse =
     serializers.deserializeWith(SongItemResponse.serializer, response);

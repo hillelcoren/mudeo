@@ -44,9 +44,13 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   String get appName => isDance ? 'Dance Like Me' : 'mudeo';
 
-  String get termsUrl => isDance ? kDanceTermsURL : kMudeoTermsURL;
+  String get appUrl => isDance ? kDanceURL : kMudeoURL;
 
-  String get privacyUrl => isDance ? kDancePrivacyURL : kMudeoPrivacyURL;
+  String get apiUrl => '$appUrl/api';
+
+  String get termsUrl => '$appUrl/terms';
+
+  String get privacyUrl => '$appUrl/privacy';
 
   String get twitterUrl => isDance ? kDanceTwitterURL : kMudeoTwitterURL;
 
