@@ -325,7 +325,7 @@ class _LoginState extends State<LoginScreen> {
                         .toUpperCase()),
                     onPressed: () => _submitForm(),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 30),
                   isOneTimePassword
                       ? Container()
                       : Row(

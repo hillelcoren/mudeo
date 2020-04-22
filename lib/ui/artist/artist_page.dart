@@ -111,7 +111,7 @@ class ArtistPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     launch(
-                        'mailto:${state.contactEmail}?subject=Feedback%20-%20${Platform.localeName}%20${kAppVersion.split('+')[0]}',
+                        'mailto:${state.contactEmail}?subject=App%20Feedback%20-%20${kAppVersion.split('+')[0]}',
                         forceSafariVC: false);
                   },
                 ),
@@ -323,7 +323,7 @@ class ArtistPage extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(height: 20),
                   _profileImage(),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
@@ -359,7 +359,7 @@ class ArtistPage extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.only(top: 20, bottom: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
