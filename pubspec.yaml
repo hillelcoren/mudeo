@@ -5,6 +5,11 @@ version: 0.0.29+29
 environment:
   sdk: ">=2.3.0 <3.0.0"
 
+#flutter_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  image_path: "assets/icon/icon.png"
+
 dependencies:
   flutter:
     sdk: flutter
@@ -45,6 +50,7 @@ dependencies:
   rounded_loading_button: ^1.0.0
   device_info: ^0.4.2+1
   firebase_analytics: ^5.0.11
+  flutter_launcher_icons: ^0.7.4
 
 dev_dependencies:
   #flutter_test:
