@@ -6,9 +6,11 @@ const String kDeveloperURL = 'https://twitter.com/hillelcoren';
 
 const String kMudeoURL = 'https://mudeo.app';
 const String kMudeoTwitterURL = 'https://twitter.com/mudeo_app';
-const String kMudeoYouTubeURL = 'https://www.youtube.com/channel/UCX5ONbOAOG3bYe3vTXrWgPA';
+const String kMudeoYouTubeURL =
+    'https://www.youtube.com/channel/UCX5ONbOAOG3bYe3vTXrWgPA';
 const String kMudeoContactEmail = 'contact@mudeo.app';
-const String kMudeoAppleStoreUrl = 'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
+const String kMudeoAppleStoreUrl =
+    'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
 const String kMudeoGoogleStoreUrl = 'market://details?id=app.mudeo.mudeo';
 
 const String kDanceURL = 'https://dancelikeme.app';
@@ -81,18 +83,6 @@ const String kLinkTypeTwitter = 'Twitter';
 const String kLinkTypeWebsite = 'Website';
 const String kLinkTypeReddit = 'Reddit';
 
-const String kStyleBallet = 'ballet';
-const String kStyleTap = 'tap';
-const String kStyleJazz = 'jazz';
-const String kStyleModern = 'modern';
-const String kStyleLyrical = 'lyrical';
-const String kStyleHipHop = 'hipHop';
-const String kStyleContemporary = 'contemporary';
-const String kStyleHighland = 'highland';
-const String kStyleLine = 'line';
-const String kStyleIrish = 'irish';
-const String kStyleOther = 'other';
-
 const String kGenreAfrican = 'african';
 const String kGenreArabic = 'arabic';
 const String kGenreAsian = 'asian';
@@ -133,6 +123,26 @@ const Map<int, String> kGenres = {
   17: kGenreRBAndSoul,
   18: kGenreRock,
   19: kGenreOther,
+};
+
+const String kStyleBallet = 'ballet';
+const String kStyleTap = 'tap';
+const String kStyleJazz = 'jazz';
+const String kStyleModern = 'modern';
+const String kStyleLyrical = 'lyrical';
+const String kStyleHipHop = 'hipHop';
+const String kStyleContemporary = 'contemporary';
+const String kStyleOther = 'other';
+
+const Map<int, String> kStyles = {
+  1: kStyleBallet,
+  2: kStyleContemporary,
+  3: kStyleHipHop,
+  4: kStyleJazz,
+  5: kStyleLyrical,
+  6: kStyleModern,
+  7: kStyleTap,
+  8: kStyleOther,
 };
 
 const Map<int, MaterialAccentColor> kGenreColors = {

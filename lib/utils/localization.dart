@@ -20,15 +20,11 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      'style': 'Style',
       'ballet': 'Ballet',
       'tap': 'Tap',
       'modern': 'Modern',
       'lyrical': 'Lyrical',
       'contemporary': 'Contemporary',
-      'line_dancing': 'Line Dancing',
-      'highland_dancing': 'Highland Dancing',
-      'irish_dancing': 'Irish Dancing',
       'style': 'Style',
       'reset_dance': 'Reset Dance',
       'clone_dance': 'Clone Dance',
@@ -655,14 +651,6 @@ class AppLocalization {
 
   String get contemporary =>
       _localizedValues[locale.toString()]['contemporary'];
-
-  String get lineDancing => _localizedValues[locale.toString()]['line_dancing'];
-
-  String get highlandDancing =>
-      _localizedValues[locale.toString()]['highland_dancing'];
-
-  String get irishDancing =>
-      _localizedValues[locale.toString()]['irish_dancing'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

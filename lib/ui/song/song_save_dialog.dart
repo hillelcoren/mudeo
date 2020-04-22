@@ -132,6 +132,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final state = viewModel.state;
     final song = viewModel.song;
 
+    final categories = state.isDance ? kStyles : kGenres;
+
     Widget _form() {
       return SingleChildScrollView(
         child: Form(
@@ -154,7 +156,9 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 child: DropdownButton<int>(
                     key: ValueKey(song.genreId),
                     isExpanded: true,
-                    hint: Text(state.isDance ? localization.style: localization.genre),
+                    hint: Text(state.isDance
+                        ? localization.style
+                        : localization.genre),
                     onChanged: (value) {
                       SharedPreferences.getInstance().then(
                           (prefs) => prefs.setInt(kSharedPrefGenreId, value));
@@ -170,10 +174,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     value: selectedGenreId > 0
                         ? selectedGenreId
                         : song.genreId > 0 ? song.genreId : null,
-                    items: kGenres.keys
+                    items: categories.keys
                         .map((id) => DropdownMenuItem(
                               value: id,
-                              child: Text(localization.lookup(kGenres[id])),
+                              child: Text(localization.lookup(categories[id])),
                             ))
                         .toList()),
               ),
