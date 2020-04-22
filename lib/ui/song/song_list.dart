@@ -641,7 +641,8 @@ class SongFooter extends StatelessWidget {
                   action == localization.shareDance) {
                 Share.share(song.url);
                 return;
-              } else if (action == localization.deleteSong || action == localization.deleteDance) {
+              } else if (action == localization.deleteSong ||
+                  action == localization.deleteDance) {
                 showDialog<AlertDialog>(
                     context: context,
                     builder: (BuildContext context) {
@@ -770,7 +771,9 @@ class SongHeader extends StatelessWidget {
                       song.genreId == null || song.genreId == 0
                           ? TextSpan()
                           : TextSpan(
-                              text: localization.lookup(kGenres[song.genreId]),
+                              text: localization.lookup(store.state.isDance
+                                  ? kStyles[song.genreId]
+                                  : kGenres[song.genreId]),
                               style: genreStyle,
                             ),
                     ],

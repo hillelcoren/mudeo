@@ -102,6 +102,7 @@ class LoginVM {
               });
             }
           } catch (error) {
+            completer.completeError(error);
             print(error);
           }
         },
@@ -119,6 +120,7 @@ class LoginVM {
               });
             }
           } catch (error) {
+            completer.completeError(error);
             print(error);
           }
         },
