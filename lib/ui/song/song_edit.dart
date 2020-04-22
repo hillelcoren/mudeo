@@ -408,6 +408,7 @@ class _SongEditState extends State<SongEdit> {
       if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
     });
 
+    bool isFirst = true;
     videoPlayers.forEach((trackId, videoPlayer) async {
       final track =
           tracks.firstWhere((track) => track.id == trackId, orElse: () => null);
@@ -415,6 +416,11 @@ class _SongEditState extends State<SongEdit> {
         final delay = (minDelay * -1) + (track.delay ?? 0);
         videoPlayer.seekTo(Duration());
         Future.delayed(Duration(milliseconds: delay), () => videoPlayer.play());
+
+        if (widget.viewModel.state.isDance && !isFirst) {
+          videoPlayer.setVolume(0);
+        }
+        isFirst = false;
       }
     });
 
