@@ -73,6 +73,7 @@ class ArtistPage extends StatelessWidget {
     final state = viewModel.state;
     final songIds = memoizedSongIds(
         state.dataState.songMap, state.authState.artist, artist.id, null);
+    final version = '${localization.version} ${kAppVersion.split('+')[0]}';
 
     void _showMenu() {
       showDialog<SimpleDialog>(
@@ -186,8 +187,9 @@ class ArtistPage extends StatelessWidget {
                                             height: 40.0,
                                           ),
                                           */
-                      applicationVersion:
-                          '${localization.version} ${kAppVersion.split('+')[0]}\n\n${localization.pronounced}: moo-day-oh  😊',
+                      applicationVersion: state.isDance
+                          ? version
+                          : '$version\n\n${localization.pronounced}: moo-day-oh  😊',
                       applicationLegalese:
                           '© ${DateTime.now().year} ${state.appName}',
                       children: <Widget>[
