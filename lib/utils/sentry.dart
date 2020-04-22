@@ -48,7 +48,7 @@ Future<Event> getSentryEvent(
   return Event(
     release: kAppVersion,
     //release: packageInfo.version,
-    environment: state.appName,
+    environment: state?.appName ?? '',
     stackTrace: stackTrace,
     exception: exception,
     contexts: Contexts(

@@ -20,7 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      'background_music_help': 'Play a song in the background to dance to',
+      'background_music_help': 'You can play a song in the background to have music to dance to',
       'ballet': 'Ballet',
       'tap': 'Tap',
       'modern': 'Modern',
