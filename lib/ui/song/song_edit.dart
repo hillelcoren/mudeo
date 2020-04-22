@@ -755,6 +755,7 @@ class TrackEditDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final state = viewModel.state;
 
     return Padding(
       padding: EdgeInsets.all(16.0),
@@ -772,43 +773,45 @@ class TrackEditDialog extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          height: 250,
-                          child: FlutterSlider(
-                            handlerAnimation: FlutterSliderHandlerAnimation(
-                                curve: Curves.elasticOut,
-                                reverseCurve: Curves.bounceIn,
-                                duration: Duration(milliseconds: 500),
-                                scale: 1.25),
-                            trackBar: FlutterSliderTrackBar(
-                              activeTrackBar: BoxDecoration(
-                                color: Colors.greenAccent,
+                        if (!state.isDance)
+                          Container(
+                            height: 250,
+                            child: FlutterSlider(
+                              handlerAnimation: FlutterSliderHandlerAnimation(
+                                  curve: Curves.elasticOut,
+                                  reverseCurve: Curves.bounceIn,
+                                  duration: Duration(milliseconds: 500),
+                                  scale: 1.25),
+                              trackBar: FlutterSliderTrackBar(
+                                activeTrackBar: BoxDecoration(
+                                  color: Colors.greenAccent,
+                                ),
+                                activeTrackBarHeight: 5,
+                                inactiveTrackBar: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.5),
+                                ),
                               ),
-                              activeTrackBarHeight: 5,
-                              inactiveTrackBar: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.5),
+                              tooltip: FlutterSliderTooltip(
+                                rightSuffix: Icon(
+                                  Icons.volume_up,
+                                  size: 19,
+                                  color: Colors.black26,
+                                ),
                               ),
+                              axis: Axis.vertical,
+                              rtl: true,
+                              values: [track.volume.toDouble()],
+                              max: 100,
+                              min: 0,
+                              onDragging:
+                                  (handlerIndex, lowerValue, upperValue) {
+                                videoPlayer.setVolume(lowerValue / 100);
+                                final song = viewModel.song
+                                    .setTrackVolume(track, lowerValue.toInt());
+                                viewModel.onChangedSong(song);
+                              },
                             ),
-                            tooltip: FlutterSliderTooltip(
-                              rightSuffix: Icon(
-                                Icons.volume_up,
-                                size: 19,
-                                color: Colors.black26,
-                              ),
-                            ),
-                            axis: Axis.vertical,
-                            rtl: true,
-                            values: [track.volume.toDouble()],
-                            max: 100,
-                            min: 0,
-                            onDragging: (handlerIndex, lowerValue, upperValue) {
-                              videoPlayer.setVolume(lowerValue / 100);
-                              final song = viewModel.song
-                                  .setTrackVolume(track, lowerValue.toInt());
-                              viewModel.onChangedSong(song);
-                            },
                           ),
-                        ),
                         isFirst
                             ? SizedBox()
                             : Padding(
