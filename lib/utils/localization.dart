@@ -20,6 +20,16 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'style': 'Style',
+      'ballet': 'Ballet',
+      'tap': 'Tap',
+      'modern': 'Modern',
+      'lyrical': 'Lyrical',
+      'contemporary': 'Contemporary',
+      'line_dancing': 'Line Dancing',
+      'highland_dancing': 'Highland Dancing',
+      'irish_dancing': 'Irish Dancing',
+      'style': 'Style',
       'reset_dance': 'Reset Dance',
       'clone_dance': 'Clone Dance',
       'delete_dance': 'Delete Dance',
@@ -31,14 +41,16 @@ class AppLocalization {
       'help_video': 'Help Video',
       'no_thanks': 'No Thanks',
       'welcome_to_the_app': 'Welcome to :name 🥳',
-      'want_to_watch_the_video': 'Would you like to watch a short video explaining how to use the app?',
+      'want_to_watch_the_video':
+          'Would you like to watch a short video explaining how to use the app?',
       'view_on_youtube': 'View on YouTube',
       'view_on_twitter': 'View on Twitter',
       'google_sign_up': 'Google Sign Up',
       'email_sign_up': 'Email Sign Up',
       'email_login': 'Email Login',
       'video_processing_help': 'The video will take a few minutes to process',
-      'private_song_link_help': 'The link will be live once the song is made public',
+      'private_song_link_help':
+          'The link will be live once the song is made public',
       'thank_you_for_your_purchase': 'Thank you for your purchase',
       'private': 'Private',
       'past_purchases': 'Past Purchases',
@@ -49,8 +61,7 @@ class AppLocalization {
       'require_mobile_to_collaborate':
           'Please download the mobile app to collaborate',
       'require_mobile_to_like': 'Please download the mobile app to like',
-      'require_mobile_to_report':
-          'Please download the mobile app to report',
+      'require_mobile_to_report': 'Please download the mobile app to report',
       'require_account_to_collaborate': 'Please login to collaborate',
       'require_account_to_upload': 'Please login to upload',
       'require_account_to_like': 'Please login to like a song',
@@ -134,7 +145,8 @@ class AppLocalization {
       'select_camera': 'Select Camera',
       'edit_profile': 'Edit Profile',
       'delete_account': 'Delete Account',
-      'delete_account_warning': 'WARNING: There is no undo, all data will be permanently erased',
+      'delete_account_warning':
+          'WARNING: There is no undo, all data will be permanently erased',
       'preview': 'Preview',
       'name': 'Name',
       'website': 'Website',
@@ -590,8 +602,7 @@ class AppLocalization {
   String get videoProcessingHelp =>
       _localizedValues[locale.toString()]['video_processing_help'];
 
-  String get emailLogin =>
-      _localizedValues[locale.toString()]['email_login'];
+  String get emailLogin => _localizedValues[locale.toString()]['email_login'];
 
   String get googleSignUp =>
       _localizedValues[locale.toString()]['google_sign_up'];
@@ -608,39 +619,50 @@ class AppLocalization {
   String get welcomeToTheApp =>
       _localizedValues[locale.toString()]['welcome_to_the_app'];
 
-  String get sure =>
-      _localizedValues[locale.toString()]['sure'];
+  String get sure => _localizedValues[locale.toString()]['sure'];
 
-  String get noThanks =>
-      _localizedValues[locale.toString()]['no_thanks'];
+  String get noThanks => _localizedValues[locale.toString()]['no_thanks'];
 
   String get wantToWatchTheVideo =>
       _localizedValues[locale.toString()]['want_to_watch_the_video'];
 
-  String get helpVideo =>
-      _localizedValues[locale.toString()]['help_video'];
+  String get helpVideo => _localizedValues[locale.toString()]['help_video'];
 
-  String get newDance =>
-      _localizedValues[locale.toString()]['new_dance'];
+  String get newDance => _localizedValues[locale.toString()]['new_dance'];
 
-  String get shareDance =>
-      _localizedValues[locale.toString()]['share_dance'];
+  String get shareDance => _localizedValues[locale.toString()]['share_dance'];
 
   String get copyLinkToDance =>
       _localizedValues[locale.toString()]['copy_link_to_dance'];
 
-  String get reportDance =>
-      _localizedValues[locale.toString()]['report_dance'];
+  String get reportDance => _localizedValues[locale.toString()]['report_dance'];
 
-  String get deleteDance =>
-      _localizedValues[locale.toString()]['delete_dance'];
+  String get style => _localizedValues[locale.toString()]['style'];
 
-  String get cloneDance =>
-      _localizedValues[locale.toString()]['clone_dance'];
+  String get deleteDance => _localizedValues[locale.toString()]['delete_dance'];
 
-  String get resetDance =>
-      _localizedValues[locale.toString()]['reset_dance'];
+  String get cloneDance => _localizedValues[locale.toString()]['clone_dance'];
 
+  String get resetDance => _localizedValues[locale.toString()]['reset_dance'];
+
+  String get ballet => _localizedValues[locale.toString()]['ballet'];
+
+  String get tap => _localizedValues[locale.toString()]['tap'];
+
+  String get modern => _localizedValues[locale.toString()]['modern'];
+
+  String get lyrical => _localizedValues[locale.toString()]['lyrical'];
+
+  String get contemporary =>
+      _localizedValues[locale.toString()]['contemporary'];
+
+  String get lineDancing => _localizedValues[locale.toString()]['line_dancing'];
+
+  String get highlandDancing =>
+      _localizedValues[locale.toString()]['highland_dancing'];
+
+  String get irishDancing =>
+      _localizedValues[locale.toString()]['irish_dancing'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

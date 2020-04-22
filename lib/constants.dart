@@ -81,6 +81,18 @@ const String kLinkTypeTwitter = 'Twitter';
 const String kLinkTypeWebsite = 'Website';
 const String kLinkTypeReddit = 'Reddit';
 
+const String kStyleBallet = 'ballet';
+const String kStyleTap = 'tap';
+const String kStyleJazz = 'jazz';
+const String kStyleModern = 'modern';
+const String kStyleLyrical = 'lyrical';
+const String kStyleHipHop = 'hipHop';
+const String kStyleContemporary = 'contemporary';
+const String kStyleHighland = 'highland';
+const String kStyleLine = 'line';
+const String kStyleIrish = 'irish';
+const String kStyleOther = 'other';
+
 const String kGenreAfrican = 'african';
 const String kGenreArabic = 'arabic';
 const String kGenreAsian = 'asian';

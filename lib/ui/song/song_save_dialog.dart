@@ -154,7 +154,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 child: DropdownButton<int>(
                     key: ValueKey(song.genreId),
                     isExpanded: true,
-                    hint: Text(localization.genre),
+                    hint: Text(state.isDance ? localization.style: localization.genre),
                     onChanged: (value) {
                       SharedPreferences.getInstance().then(
                           (prefs) => prefs.setInt(kSharedPrefGenreId, value));
