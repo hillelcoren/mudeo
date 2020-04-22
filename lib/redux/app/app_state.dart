@@ -54,7 +54,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   String get twitterUrl => isDance ? kDanceTwitterURL : kMudeoTwitterURL;
 
-  String get twitterHandle => '@${twitterUrl.split('/').last}';
+  String get twitterHandle => '${twitterUrl.split('/').last}';
 
   String get youtubeUrl => isDance ? kDanceYouTubeURL : kMudeoYouTubeURL;
 
