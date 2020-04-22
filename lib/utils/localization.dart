@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'background_music_help': 'Play a song in the background to dance to',
       'ballet': 'Ballet',
       'tap': 'Tap',
       'modern': 'Modern',
@@ -222,6 +223,9 @@ class AppLocalization {
 
   String get headphoneWarning =>
       _localizedValues[locale.toString()]['headphone_warning'];
+
+  String get backgroundMusicHelp =>
+      _localizedValues[locale.toString()]['background_music_help'];
 
   String get headerImage => _localizedValues[locale.toString()]['header_image'];
 

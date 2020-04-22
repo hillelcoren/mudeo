@@ -300,7 +300,9 @@ class _SongEditState extends State<SongEdit> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(localization.note),
-              content: Text(localization.headphoneWarning),
+              content: Text(widget.viewModel.state.isDance
+                  ? localization.backgroundMusicHelp
+                  : localization.headphoneWarning),
               actions: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
