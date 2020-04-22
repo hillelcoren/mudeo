@@ -48,6 +48,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+
     flavorDimensions "app"
     productFlavors {
         mudeo {

@@ -16,6 +16,7 @@ import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/posenet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -387,12 +388,21 @@ class _SongEditState extends State<SongEdit> {
     }
 
     final video = VideoEntity().rebuild((b) => b..timestamp = timestamp);
+    final duration = endTimestamp - timestamp;
     final trackId =
-        await widget.viewModel.onVideoAdded(video, endTimestamp - timestamp);
+        await widget.viewModel.onVideoAdded(video, duration);
+
     setState(() {
       isPastThreeSeconds = false;
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
+
+
+    if (!widget.viewModel.state.isDance) {
+      convertVideoToRecognitions(path, duration);
+    }
+
+
   }
 
   void play() {

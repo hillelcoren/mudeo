@@ -51,6 +51,8 @@ dependencies:
   device_info: ^0.4.2+1
   firebase_analytics: ^5.0.11
   flutter_launcher_icons: ^0.7.4
+  video_thumbnail: ^0.2.1
+  tflite: ^1.0.5
 
 dev_dependencies:
   #flutter_test:
@@ -76,6 +78,7 @@ flutter:
     - assets/images/logo-dark.png
     - assets/images/apple.png
     - assets/images/google.png
+    - assets/posenet_mv1_075_float_from_checkpoints.tflite
 
   # To add assets to your application, add an assets section, like this:
   # assets:
