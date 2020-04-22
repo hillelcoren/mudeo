@@ -144,27 +144,28 @@ class ArtistPage extends StatelessWidget {
                   },
                 ),
                 Divider(),
-                SimpleDialogOption(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: IconText(
-                      icon: FontAwesomeIcons.questionCircle,
-                      text: localization.helpVideo,
-                      textStyle: TextStyle(fontSize: 18),
+                if (state.helpVideoId != null)
+                  SimpleDialogOption(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: IconText(
+                        icon: FontAwesomeIcons.questionCircle,
+                        text: localization.helpVideo,
+                        textStyle: TextStyle(fontSize: 18),
+                      ),
                     ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      FlutterYoutube.playYoutubeVideoById(
+                        apiKey: Config.YOU_TUBE_API_KEY,
+                        videoId: state.helpVideoId,
+                        autoPlay: true,
+                        fullScreen: true,
+                        appBarColor: Colors.black12,
+                        backgroundColor: Colors.black,
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    FlutterYoutube.playYoutubeVideoById(
-                      apiKey: Config.YOU_TUBE_API_KEY,
-                      videoId: 'mV5rFN-gGRM',
-                      autoPlay: true,
-                      fullScreen: true,
-                      appBarColor: Colors.black12,
-                      backgroundColor: Colors.black,
-                    );
-                  },
-                ),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(10),

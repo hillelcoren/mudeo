@@ -56,6 +56,8 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   String get contactEmail => isDance ? kDanceContactEmail : kMudeoContactEmail;
 
+  String get helpVideoId => isDance ? null : 'mV5rFN-gGRM';
+
   @override
   String toString() {
     //return 'Delays: ${uiState.song.tracks.map((track) => '${track.delay}').join(',')}';

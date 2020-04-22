@@ -30,7 +30,9 @@ class MainScreenBuilder extends StatelessWidget {
       onInit: (Store<AppState> store) async {
         final prefs = await SharedPreferences.getInstance();
         final localization = AppLocalization.of(context);
-        if (!kIsWeb && prefs.getBool(kSharedPrefShownVideo) != true) {
+        if (!kIsWeb &&
+            prefs.getBool(kSharedPrefShownVideo) != true &&
+            store.state.helpVideoId != null) {
           prefs.setBool(kSharedPrefShownVideo, true);
           confirmCallback(
             message: localization.welcomeToTheApp
@@ -42,7 +44,7 @@ class MainScreenBuilder extends StatelessWidget {
             callback: () {
               FlutterYoutube.playYoutubeVideoById(
                 apiKey: Config.YOU_TUBE_API_KEY,
-                videoId: 'mV5rFN-gGRM',
+                videoId: store.state.helpVideoId,
                 autoPlay: true,
                 fullScreen: true,
                 appBarColor: Colors.black12,
