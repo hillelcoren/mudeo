@@ -5,6 +5,7 @@ import 'package:document_analysis/document_analysis.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class TrackScore extends StatefulWidget {
@@ -130,52 +131,61 @@ class _TrackScoreState extends State<TrackScore> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if (_distance != null) ...[
-                Text('Your score is:'),
-                SizedBox(height: 20),
-                Text(
-                  '${(100 - (_distance * 100)).round()}%',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                SizedBox(height: 20),
-              ],
-              RaisedButton(
-                child: Text('Calculate'),
-                onPressed: () => _calculateScore(),
+    final localization = AppLocalization.of(context);
+    return AlertDialog(
+      contentPadding: const EdgeInsets.all(16),
+      actions: <Widget>[
+        if (_frameTimes == null)
+        FlatButton(
+          child: Text(localization.showDetails.toUpperCase()),
+          onPressed: () {
+            _calculateDetails();
+          },
+        ),
+        FlatButton(
+          child: Text(localization.close.toUpperCase()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+      content: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            if (_distance != null) ...[
+              Text('Your score is:'),
+              SizedBox(height: 20),
+              Text(
+                '${(100 - (_distance * 100)).round()}%',
+                style: Theme.of(context).textTheme.headline4,
               ),
               SizedBox(height: 20),
-              if (_isProcessing)
-                LinearProgressIndicator()
-              else
-                RaisedButton(
-                  child: Text('Details'),
-                  onPressed: () => _calculateDetails(),
-                ),
-              if (_frameTimes != null)
-                for (int time in _frameTimes)
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Image.file(
-                            File(_origPaths[_frameTimes.indexOf(time)])),
-                      ),
-                      Expanded(
-                        child: Image.file(
-                            File(_copyPaths[_frameTimes.indexOf(time)])),
-                      ),
-                    ],
-                  ),
             ],
-          ),
+            RaisedButton(
+              child: Text('Calculate'),
+              onPressed: () => _calculateScore(),
+            ),
+            SizedBox(height: 20),
+            if (_isProcessing)
+              LinearProgressIndicator()
+            else if (_frameTimes != null)
+              for (int time in _frameTimes)
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Image.file(
+                          File(_origPaths[_frameTimes.indexOf(time)])),
+                    ),
+                    Expanded(
+                      child: Image.file(
+                          File(_copyPaths[_frameTimes.indexOf(time)])),
+                    ),
+                  ],
+                ),
+
+          ],
         ),
-      ),
+      )
     );
   }
 }
