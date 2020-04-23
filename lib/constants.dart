@@ -102,6 +102,26 @@ const int kRecognitionPartRightKnee = 14;
 const int kRecognitionPartLeftAnkle = 15;
 const int kRecognitionPartRightAnkle = 16;
 
+const List<int> kRecognitionParts = [
+  kRecognitionPartNose,
+  kRecognitionPartLeftEye,
+  kRecognitionPartRightEye,
+  kRecognitionPartLeftEar,
+  kRecognitionPartRightEar,
+  kRecognitionPartLeftShoulder,
+  kRecognitionPartRightShoulder,
+  kRecognitionPartLeftElbow,
+  kRecognitionPartRightElbow,
+  kRecognitionPartLeftWrist,
+  kRecognitionPartRightWrist,
+  kRecognitionPartLeftHip,
+  kRecognitionPartRightHip,
+  kRecognitionPartLeftKnee,
+  kRecognitionPartRightKnee,
+  kRecognitionPartLeftAnkle,
+  kRecognitionPartRightAnkle,
+];
+
 const String kGenreAfrican = 'african';
 const String kGenreArabic = 'arabic';
 const String kGenreAsian = 'asian';
