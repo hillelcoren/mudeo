@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/utils/formatting.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -11,6 +10,7 @@ Future<String> convertVideoToRecognitions(String path, int duration) async {
   int frameLength = kRecognitionFrameSpeed;
 
   for (int i = 0; i < duration; i += frameLength) {
+
     final file = await VideoThumbnail.thumbnailFile(
       video: path,
       imageFormat: ImageFormat.JPEG,
@@ -23,10 +23,12 @@ Future<String> convertVideoToRecognitions(String path, int duration) async {
     var recognitions = await Tflite.runPoseNetOnImage(path: file);
 
     if (recognitions.isEmpty) {
-      print('## Error: no recognitions found');
       data.add({});
     } else {
       final keypoints = recognitions[0]['keypoints'];
+
+      print(
+          '## HAND $i: ${roundNumber(keypoints[kRecognitionPartRightWrist]['x'])}, ${roundNumber(keypoints[kRecognitionPartRightHip]['y'])}');
 
       data.add({
         '$kRecognitionPartNose': [
