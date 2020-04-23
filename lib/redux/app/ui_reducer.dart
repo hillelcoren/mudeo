@@ -40,10 +40,7 @@ UIState updateVideoReducer(UIState uiState, UpdateVideo action) {
   final updatedTrack =
       track.rebuild((b) => b..video.recognitions = action.recognitions);
 
-  print('## VIDEO WAS: ${track.video}');
-  final newState = uiState.rebuild((b) => b..song.tracks[index] = updatedTrack);
-  print('## VIDEO IS: ${newState.song.tracks.first.video}');
-  return newState;
+  return uiState.rebuild((b) => b..song.tracks[index] = updatedTrack);
 }
 
 UIState startRecordingReducer(UIState uiState, StartRecording action) {

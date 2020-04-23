@@ -398,10 +398,8 @@ class _SongEditState extends State<SongEdit> {
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
 
-    print('## FINISHED RECORDING');
     if (widget.viewModel.state.isDance) {
       final data = await convertVideoToRecognitions(path, duration);
-      print('## RECOGNITIONS: $data');
       widget.viewModel.onVideoUpdated(video, data);
     }
   }
