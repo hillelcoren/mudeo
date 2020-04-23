@@ -38,7 +38,8 @@ class _TrackScoreState extends State<TrackScore> {
     final origData = jsonDecode(origTrack.video.recognitions);
     final copyData = jsonDecode(widget.track.video.recognitions);
 
-    int counter = 0;
+    _distance = 0;
+    int countParts = 0;
 
     if (origData == null) {
       print('## ERROR: orig is null');
@@ -48,39 +49,57 @@ class _TrackScoreState extends State<TrackScore> {
       return;
     }
 
-    _distance = 0;
-    int countParts = 0;
 
+    int count = 0;
     for (int i = 0; i < song.duration; i += kRecognitionFrameSpeed) {
-      final orig = origData[counter];
-      final copy = copyData[counter];
-
-      kRecognitionParts.forEach((part) {
-        final origPart = orig['$part'];
-        final copyPart = copy['$part'];
-
-        List<double> vector1 = [];
-        List<double> vector2 = [];
-
-        if (origPart != null && copyPart != null) {
-          vector1.add(origPart[0]);
-          vector1.add(origPart[1]);
-          vector2.add(copyPart[0]);
-          vector2.add(copyPart[1]);
-        }
-
-        if (vector1.isNotEmpty && vector2.isNotEmpty) {
-          countParts++;
-          _distance += cosineDistance(vector1, vector2);
-        }
-      });
+      final value = _calculateFrameScore(count);
+      if (value != null) {
+        _distance += value;
+        countParts++;
+      }
+      count++;
     }
 
     setState(() {
       _distance = countParts > 0 ? (_distance / countParts) : 1;
     });
+  }
 
-    counter++;
+  double _calculateFrameScore(int index) {
+    final song = widget.song;
+    final origTrack = song.tracks.first;
+    final origData = jsonDecode(origTrack.video.recognitions);
+    final copyData = jsonDecode(widget.track.video.recognitions);
+
+    final orig = origData[index];
+    final copy = copyData[index];
+
+    int countParts = 0;
+
+    kRecognitionParts.forEach((part) {
+      final origPart = orig['$part'];
+      final copyPart = copy['$part'];
+
+      List<double> vector1 = [];
+      List<double> vector2 = [];
+
+      if (origPart != null && copyPart != null) {
+        vector1.add(origPart[0]);
+        vector1.add(origPart[1]);
+        vector2.add(copyPart[0]);
+        vector2.add(copyPart[1]);
+      }
+
+      if (vector1.isNotEmpty && vector2.isNotEmpty) {
+        _distance += cosineDistance(vector1, vector2);
+        countParts++;
+      }
+    });
+
+    if (countParts == 0) {
+      return null;
+    }
+    return _distance / countParts;
   }
 
   void _calculateDetails() async {
