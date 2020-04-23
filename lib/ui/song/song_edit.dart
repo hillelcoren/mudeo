@@ -1,19 +1,21 @@
-import 'dart:io';
 import 'dart:async';
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/add_video.dart';
-import 'package:mudeo/ui/song/track_latency.dart';
-import 'package:mudeo/ui/song/track_score.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
+import 'package:mudeo/ui/song/track_latency.dart';
+import 'package:mudeo/ui/song/track_score.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -21,7 +23,6 @@ import 'package:mudeo/utils/posenet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flutter_xlider/flutter_xlider.dart';
 
 class SongScaffold extends StatelessWidget {
   const SongScaffold({
@@ -216,6 +217,7 @@ class _SongEditState extends State<SongEdit> {
   Timer recordTimer;
   Timer cancelTimer;
   Timer playTimer;
+  Completer _readyCompleter;
 
   CameraLensDirection cameraDirection = CameraLensDirection.front;
   Map<CameraLensDirection, bool> availableCameraDirections = {
@@ -254,31 +256,35 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void didChangeDependencies() async {
-    widget.viewModel.song.tracks.forEach((track) async {
-      String path = await VideoEntity.getPath(track.video.timestamp);
-      VideoPlayerController player;
-      if (await File(path).exists()) {
-        player = VideoPlayerController.file(File(path));
-        player.setVolume(track.volume.toDouble());
-        await player.initialize();
-      } else if (track.video.url != null && track.video.url.isNotEmpty) {
-        player = VideoPlayerController.network(track.video.url);
-        player.setVolume(track.volume.toDouble());
-        await player.initialize();
-      } else {
-        player = VideoPlayerController.asset(null);
-      }
-
-      allVideoPlayers[track.id] = videoPlayers[track.id] = player;
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() {});
-        }
-      });
-    });
-
     super.didChangeDependencies();
+
+    final futures = List<Future>();
+    for (final track in widget.viewModel.song.tracks) {
+      futures.add(() async {
+        String path = await VideoEntity.getPath(track.video.timestamp);
+        VideoPlayerController player;
+        if (await File(path).exists()) {
+          player = VideoPlayerController.file(File(path));
+        } else if (track.video.url != null && track.video.url.isNotEmpty) {
+          player = VideoPlayerController.network(track.video.url);
+        } else {
+          player = VideoPlayerController.asset(null);
+        }
+        allVideoPlayers[track.id] = videoPlayers[track.id] = player;
+        player.setVolume(track.volume.toDouble());
+        await player.initialize();
+      }());
+    }
+    final completer = Completer();
+    Future.wait(futures)
+        .then(completer.complete)
+        .catchError(completer.completeError);
+    _readyCompleter = completer;
+    _readyCompleter.future.then((value) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -302,9 +308,11 @@ class _SongEditState extends State<SongEdit> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(localization.note),
-              content: Text(widget.viewModel.state.isDance
-                  ? localization.backgroundMusicHelp
-                  : localization.headphoneWarning),
+              content: Text(
+                widget.viewModel.state.isDance
+                    ? localization.backgroundMusicHelp
+                    : localization.headphoneWarning,
+              ),
               actions: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
@@ -359,9 +367,10 @@ class _SongEditState extends State<SongEdit> {
       setState(() => isPastThreeSeconds = true);
     });
     recordTimer = Timer(
-        Duration(
-            milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
-        () => saveRecording());
+      Duration(
+          milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
+      () => saveRecording(),
+    );
 
     await camera.startVideoRecording(path);
   }
@@ -410,33 +419,39 @@ class _SongEditState extends State<SongEdit> {
 
     // This is required to get the videos to start playing in sync
     // after the timed delay, not sure why?
-    videoPlayers.forEach((int, videoPlayer) => videoPlayer.pause());
+    for (final videoPlayer in videoPlayers.values) {
+      videoPlayer.pause();
+    }
 
-    final tracks = widget.viewModel.song.tracks;
     int minDelay = 0;
-    tracks.forEach((track) {
+    final tracks = widget.viewModel.song.tracks;
+    for (final track in tracks) {
       if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
-    });
+    }
 
     bool isFirst = true;
-    videoPlayers.forEach((trackId, videoPlayer) async {
-      final track =
-          tracks.firstWhere((track) => track.id == trackId, orElse: () => null);
-      if (track != null) {
-        final delay = (minDelay * -1) + (track.delay ?? 0);
-        videoPlayer.seekTo(Duration());
-        Future.delayed(Duration(milliseconds: delay), () => videoPlayer.play());
-
-        if (widget.viewModel.state.isDance && !isFirst) {
-          videoPlayer.setVolume(0);
-        }
-        isFirst = false;
+    for (final entry in videoPlayers.entries) {
+      final track = tracks.firstWhere((track) => track.id == entry.key,
+          orElse: () => null);
+      if (track == null) {
+        continue;
       }
-    });
+      final delay =
+          Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
+      final player = entry.value;
+      player.seekTo(Duration.zero);
+      Future.delayed(delay, () => player.play());
+      if (widget.viewModel.state.isDance && !isFirst) {
+        player.setVolume(0);
+      }
+      isFirst = false;
+    }
 
     setState(() => isPlaying = true);
-    playTimer = Timer(Duration(milliseconds: widget.viewModel.song.duration),
-        () => setState(() => isPlaying = false));
+    playTimer = Timer(
+      Duration(milliseconds: widget.viewModel.song.duration),
+      () => setState(() => isPlaying = false),
+    );
   }
 
   void stopPlaying() {
@@ -529,16 +544,17 @@ class _SongEditState extends State<SongEdit> {
     void _showTrackSyncer() {
       var updatedSong = song;
       showDialog<AlertDialog>(
-          context: context,
-          builder: (BuildContext context) {
-            return TrackSyncer(
-              song: updatedSong,
-              onDelayChanged: (track, delay) {
-                updatedSong = updatedSong.setTrackDelay(track, delay);
-                viewModel.onChangedSong(updatedSong);
-              },
-            );
-          });
+        context: context,
+        builder: (BuildContext context) {
+          return TrackSyncer(
+            song: updatedSong,
+            onDelayChanged: (track, delay) {
+              updatedSong = updatedSong.setTrackDelay(track, delay);
+              viewModel.onChangedSong(updatedSong);
+            },
+          );
+        },
+      );
     }
 
     IconData _getRecordIcon() {
@@ -574,105 +590,117 @@ class _SongEditState extends State<SongEdit> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(bottom: 50),
-        child: Column(children: [
-          Expanded(
+        child: Column(
+          children: [
+            Expanded(
               child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  child: Center(
-                    child: AspectRatio(
-                        aspectRatio: value.aspectRatio,
-                        child: CameraPreview(camera)),
+                duration: Duration(milliseconds: 200),
+                child: Center(
+                  child: AspectRatio(
+                    aspectRatio: value.aspectRatio,
+                    child: CameraPreview(camera),
                   ),
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      border: isRecording
-                          ? Border.all(color: Colors.red, width: 3)
-                          : null))),
-          Material(
-            color: Colors.black26,
-            //elevation: kDefaultElevation,
-            child: Row(children: [
-              ExpandedButton(
-                  icon:
-                      isPlaying && !isRecording ? Icons.stop : Icons.play_arrow,
-                  onPressed: isEmpty || isRecording
-                      ? null
-                      : (isPlaying ? stopPlaying : play)),
-              ExpandedButton(
-                  icon: countdownTimer > 0 ? null : _getRecordIcon(),
-                  label: countdownTimer > 0 ? countdownTimer.toString() : null,
-                  onPressed: _getRecordingFunction(),
-                  color: isPlaying || isRecording ? null : Colors.redAccent),
-              availableCameraDirections.keys
-                          .where((direction) =>
-                              availableCameraDirections[direction])
-                          .length >
-                      2
-                  ? ExpandedButton(
-                      icon: Icons.camera,
-                      onPressed: isPlaying ? null : onSettingsPressed,
-                    )
-                  : ExpandedButton(
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    border: isRecording
+                        ? Border.all(color: Colors.red, width: 3)
+                        : null),
+              ),
+            ),
+            Material(
+              color: Colors.black26,
+              //elevation: kDefaultElevation,
+              child: Row(
+                children: [
+                  ExpandedButton(
+                    icon: isPlaying && !isRecording
+                        ? Icons.stop
+                        : Icons.play_arrow,
+                    onPressed: isEmpty || isRecording
+                        ? null
+                        : (isPlaying ? stopPlaying : play),
+                  ),
+                  ExpandedButton(
+                    icon: countdownTimer > 0 ? null : _getRecordIcon(),
+                    label:
+                        countdownTimer > 0 ? countdownTimer.toString() : null,
+                    onPressed: _getRecordingFunction(),
+                    color: isPlaying || isRecording ? null : Colors.redAccent,
+                  ),
+                  availableCameraDirections.keys
+                              .where((direction) =>
+                                  availableCameraDirections[direction])
+                              .length >
+                          2
+                      ? ExpandedButton(
+                          icon: Icons.camera,
+                          onPressed: isPlaying ? null : onSettingsPressed,
+                        )
+                      : ExpandedButton(
+                          iconHeight: 26,
+                          icon: cameraDirection == CameraLensDirection.front
+                              ? Icons.camera_front
+                              : Icons.camera_rear,
+                          onPressed: isPlaying
+                              ? null
+                              : () => selectCameraDirection(
+                                    cameraDirection == CameraLensDirection.front
+                                        ? CameraLensDirection.back
+                                        : CameraLensDirection.front,
+                                  ),
+                        ),
+                  if (song.tracks.length > 1)
+                    ExpandedButton(
+                      icon: Icons.swap_horizontal_circle,
                       iconHeight: 26,
-                      icon: cameraDirection == CameraLensDirection.front
-                          ? Icons.camera_front
-                          : Icons.camera_rear,
-                      onPressed: isPlaying
-                          ? null
-                          : () => selectCameraDirection(
-                              cameraDirection == CameraLensDirection.front
-                                  ? CameraLensDirection.back
-                                  : CameraLensDirection.front),
+                      onPressed: isPlaying ? null : () => _showTrackSyncer(),
                     ),
-              if (song.tracks.length > 1)
-                ExpandedButton(
-                  icon: Icons.swap_horizontal_circle,
-                  iconHeight: 26,
-                  onPressed: isPlaying ? null : () => _showTrackSyncer(),
-                )
-            ]),
-          ),
-          song.tracks.isEmpty
-              ? SizedBox()
-              : Flexible(
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: song.tracks
-                        .where((track) => track.isIncluded ?? true)
-                        .map((track) {
-                      final videoPlayer = videoPlayers[track.id];
-                      return TrackView(
-                        isFirst: song.tracks.indexOf(track) == 0,
-                        viewModel: viewModel,
-                        videoPlayer: videoPlayer,
-                        aspectRatio: videoPlayer == null
-                            ? 1
-                            : videoPlayer.value.aspectRatio,
-                        track: track,
-                        onDeletePressed: () async {
-                          Navigator.of(context).pop();
-                          videoPlayers.remove(track.id);
-                          viewModel.onDeleteVideoPressed(song, track);
-                        },
-                        onDelayAccepted: (track, delay) {
-                          final song =
-                              viewModel.song.setTrackDelay(track, delay);
-                          viewModel.onChangedSong(song);
-                        },
-                        onDelayChanged: (track, delay) {
-                          /*
+                ],
+              ),
+            ),
+            song.tracks.isEmpty
+                ? SizedBox()
+                : Flexible(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: song.tracks
+                          .where((track) => track.isIncluded ?? true)
+                          .map((track) {
+                        final videoPlayer = videoPlayers[track.id];
+                        return TrackView(
+                          isFirst: song.tracks.indexOf(track) == 0,
+                          viewModel: viewModel,
+                          videoPlayer: videoPlayer,
+                          aspectRatio: videoPlayer == null
+                              ? 1
+                              : videoPlayer.value.aspectRatio,
+                          track: track,
+                          onDeletePressed: () async {
+                            Navigator.of(context).pop();
+                            videoPlayers.remove(track.id);
+                            viewModel.onDeleteVideoPressed(song, track);
+                          },
+                          onDelayAccepted: (track, delay) {
+                            final song =
+                                viewModel.song.setTrackDelay(track, delay);
+                            viewModel.onChangedSong(song);
+                          },
+                          onDelayChanged: (track, delay) {
+                            /*
                           if (isPlaying) {
                             stopPlaying();
                             WidgetsBinding.instance
                                 .addPostFrameCallback((_) => play());
                           }
                           */
-                        },
-                      );
-                    }).toList(),
+                          },
+                        );
+                      }).toList(),
+                    ),
                   ),
-                )
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -707,47 +735,50 @@ class TrackView extends StatelessWidget {
           ? null
           : () {
               showDialog<TrackEditDialog>(
-                  barrierDismissible: true,
-                  context: context,
-                  builder: (BuildContext context) {
-                    return TrackEditDialog(
-                      videoPlayer: videoPlayer,
-                      viewModel: viewModel,
-                      onDeletePressed: onDeletePressed,
-                      onDelayAccepted: (delay) => onDelayAccepted(track, delay),
-                      onDelayChanged: (delay) => onDelayChanged(track, delay),
-                      track: track,
-                      isFirst: isFirst,
-                    );
-                  });
+                barrierDismissible: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return TrackEditDialog(
+                    videoPlayer: videoPlayer,
+                    viewModel: viewModel,
+                    onDeletePressed: onDeletePressed,
+                    onDelayAccepted: (delay) => onDelayAccepted(track, delay),
+                    onDelayChanged: (delay) => onDelayChanged(track, delay),
+                    track: track,
+                    isFirst: isFirst,
+                  );
+                },
+              );
             },
       child: Card(
-          elevation: kDefaultElevation,
-          margin: const EdgeInsets.symmetric(horizontal: 6),
-          child: videoPlayer == null
-              ? SizedBox(width: 139)
-              : track.video.isRemoteVideo
-                  ? Stack(
-                      children: <Widget>[
-                        AspectRatio(
-                            aspectRatio: aspectRatio,
-                            child: VideoPlayer(videoPlayer)),
-                        Container(
-                          // TODO FIX if video download failed size will be null
-                          width: videoPlayer.value.size.width,
-                          color: Colors.black,
-                          child: Center(
-                            child: Text(
-                                AppLocalization.of(context).backingTrack,
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 20)),
+        elevation: kDefaultElevation,
+        margin: const EdgeInsets.symmetric(horizontal: 6),
+        child: videoPlayer == null
+            ? SizedBox(width: 139)
+            : track.video.isRemoteVideo
+                ? Stack(
+                    children: <Widget>[
+                      AspectRatio(
+                          aspectRatio: aspectRatio,
+                          child: VideoPlayer(videoPlayer)),
+                      Container(
+                        // TODO FIX if video download failed size will be null
+                        width: videoPlayer.value.size.width,
+                        color: Colors.black,
+                        child: Center(
+                          child: Text(
+                            AppLocalization.of(context).backingTrack,
+                            style: TextStyle(color: Colors.grey, fontSize: 20),
                           ),
-                        )
-                      ],
-                    )
-                  : AspectRatio(
-                      aspectRatio: aspectRatio,
-                      child: VideoPlayer(videoPlayer))),
+                        ),
+                      )
+                    ],
+                  )
+                : AspectRatio(
+                    aspectRatio: aspectRatio,
+                    child: VideoPlayer(videoPlayer),
+                  ),
+      ),
     );
   }
 }
