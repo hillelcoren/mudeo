@@ -22,80 +22,84 @@ Future<String> convertVideoToRecognitions(String path, int duration) async {
 
     var recognitions = await Tflite.runPoseNetOnImage(path: file);
 
-    final keypoints = recognitions[0]['keypoints'];
+    if (recognitions.isEmpty) {
+      print('## Error: no recognitions found');
+      data.add({});
+    } else {
+      final keypoints = recognitions[0]['keypoints'];
 
-    data.add({
-      '$kRecognitionPartNose': [
-        roundNumber(keypoints[kRecognitionPartNose]['x']),
-        roundNumber(keypoints[kRecognitionPartNose]['y']),
-      ],
-      '$kRecognitionPartLeftEye': [
-        roundNumber(keypoints[kRecognitionPartLeftEye]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftEye]['y']),
-      ],
-      '$kRecognitionPartRightEye': [
-        roundNumber(keypoints[kRecognitionPartRightEye]['x']),
-        roundNumber(keypoints[kRecognitionPartRightEye]['y']),
-      ],
-      '$kRecognitionPartLeftEar': [
-        roundNumber(keypoints[kRecognitionPartLeftEar]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftEar]['y']),
-      ],
-      '$kRecognitionPartRightEar': [
-        roundNumber(keypoints[kRecognitionPartRightEar]['x']),
-        roundNumber(keypoints[kRecognitionPartRightEar]['y']),
-      ],
-      '$kRecognitionPartLeftShoulder': [
-        roundNumber(keypoints[kRecognitionPartLeftShoulder]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftShoulder]['y']),
-      ],
-      '$kRecognitionPartRightShoulder': [
-        roundNumber(keypoints[kRecognitionPartRightShoulder]['x']),
-        roundNumber(keypoints[kRecognitionPartRightShoulder]['y']),
-      ],
-      '$kRecognitionPartLeftElbow': [
-        roundNumber(keypoints[kRecognitionPartLeftElbow]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftElbow]['y']),
-      ],
-      '$kRecognitionPartRightElbow': [
-        roundNumber(keypoints[kRecognitionPartRightElbow]['x']),
-        roundNumber(keypoints[kRecognitionPartRightElbow]['y']),
-      ],
-      '$kRecognitionPartLeftWrist': [
-        roundNumber(keypoints[kRecognitionPartLeftWrist]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftWrist]['y']),
-      ],
-      '$kRecognitionPartRightWrist': [
-        roundNumber(keypoints[kRecognitionPartRightWrist]['x']),
-        roundNumber(keypoints[kRecognitionPartRightWrist]['y']),
-      ],
-      '$kRecognitionPartLeftHip': [
-        roundNumber(keypoints[kRecognitionPartLeftHip]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftHip]['y']),
-      ],
-      '$kRecognitionPartRightHip': [
-        roundNumber(keypoints[kRecognitionPartRightHip]['x']),
-        roundNumber(keypoints[kRecognitionPartRightHip]['y']),
-      ],
-      '$kRecognitionPartLeftKnee': [
-        roundNumber(keypoints[kRecognitionPartLeftKnee]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftKnee]['y']),
-      ],
-      '$kRecognitionPartRightKnee': [
-        roundNumber(keypoints[kRecognitionPartRightKnee]['x']),
-        roundNumber(keypoints[kRecognitionPartRightKnee]['y']),
-      ],
-      '$kRecognitionPartLeftAnkle': [
-        roundNumber(keypoints[kRecognitionPartLeftAnkle]['x']),
-        roundNumber(keypoints[kRecognitionPartLeftAnkle]['y']),
-      ],
-      '$kRecognitionPartRightAnkle': [
-        roundNumber(keypoints[kRecognitionPartRightAnkle]['x']),
-        roundNumber(keypoints[kRecognitionPartRightAnkle]['y']),
-      ],
-    });
+      data.add({
+        '$kRecognitionPartNose': [
+          roundNumber(keypoints[kRecognitionPartNose]['x']),
+          roundNumber(keypoints[kRecognitionPartNose]['y']),
+        ],
+        '$kRecognitionPartLeftEye': [
+          roundNumber(keypoints[kRecognitionPartLeftEye]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftEye]['y']),
+        ],
+        '$kRecognitionPartRightEye': [
+          roundNumber(keypoints[kRecognitionPartRightEye]['x']),
+          roundNumber(keypoints[kRecognitionPartRightEye]['y']),
+        ],
+        '$kRecognitionPartLeftEar': [
+          roundNumber(keypoints[kRecognitionPartLeftEar]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftEar]['y']),
+        ],
+        '$kRecognitionPartRightEar': [
+          roundNumber(keypoints[kRecognitionPartRightEar]['x']),
+          roundNumber(keypoints[kRecognitionPartRightEar]['y']),
+        ],
+        '$kRecognitionPartLeftShoulder': [
+          roundNumber(keypoints[kRecognitionPartLeftShoulder]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftShoulder]['y']),
+        ],
+        '$kRecognitionPartRightShoulder': [
+          roundNumber(keypoints[kRecognitionPartRightShoulder]['x']),
+          roundNumber(keypoints[kRecognitionPartRightShoulder]['y']),
+        ],
+        '$kRecognitionPartLeftElbow': [
+          roundNumber(keypoints[kRecognitionPartLeftElbow]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftElbow]['y']),
+        ],
+        '$kRecognitionPartRightElbow': [
+          roundNumber(keypoints[kRecognitionPartRightElbow]['x']),
+          roundNumber(keypoints[kRecognitionPartRightElbow]['y']),
+        ],
+        '$kRecognitionPartLeftWrist': [
+          roundNumber(keypoints[kRecognitionPartLeftWrist]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftWrist]['y']),
+        ],
+        '$kRecognitionPartRightWrist': [
+          roundNumber(keypoints[kRecognitionPartRightWrist]['x']),
+          roundNumber(keypoints[kRecognitionPartRightWrist]['y']),
+        ],
+        '$kRecognitionPartLeftHip': [
+          roundNumber(keypoints[kRecognitionPartLeftHip]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftHip]['y']),
+        ],
+        '$kRecognitionPartRightHip': [
+          roundNumber(keypoints[kRecognitionPartRightHip]['x']),
+          roundNumber(keypoints[kRecognitionPartRightHip]['y']),
+        ],
+        '$kRecognitionPartLeftKnee': [
+          roundNumber(keypoints[kRecognitionPartLeftKnee]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftKnee]['y']),
+        ],
+        '$kRecognitionPartRightKnee': [
+          roundNumber(keypoints[kRecognitionPartRightKnee]['x']),
+          roundNumber(keypoints[kRecognitionPartRightKnee]['y']),
+        ],
+        '$kRecognitionPartLeftAnkle': [
+          roundNumber(keypoints[kRecognitionPartLeftAnkle]['x']),
+          roundNumber(keypoints[kRecognitionPartLeftAnkle]['y']),
+        ],
+        '$kRecognitionPartRightAnkle': [
+          roundNumber(keypoints[kRecognitionPartRightAnkle]['x']),
+          roundNumber(keypoints[kRecognitionPartRightAnkle]['y']),
+        ],
+      });
+    }
   }
 
   return jsonEncode(data);
 }
-
