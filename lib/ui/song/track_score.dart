@@ -16,8 +16,7 @@ class TrackScore extends StatefulWidget {
 }
 
 class _TrackScoreState extends State<TrackScore> {
-  double _jaccardScore;
-  double _cosineScore;
+  double _distance;
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +26,13 @@ class _TrackScoreState extends State<TrackScore> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            if (_cosineScore != null) ...[
+            if (_distance != null) ...[
               Text('Your score is:'),
               SizedBox(height: 20),
-              Text('Jaccard: ${(_jaccardScore * 100).round()}%'),
-              SizedBox(height: 10),
-              Text('Cosine: ${(_cosineScore * 100).round()}%'),
+              Text(
+                '${(100 - (_distance * 100)).round()}%',
+                style: Theme.of(context).textTheme.headline4,
+              ),
               SizedBox(height: 20),
             ],
             RaisedButton(
@@ -53,35 +53,41 @@ class _TrackScoreState extends State<TrackScore> {
                   return;
                 }
 
+                _distance = 0;
+                int countParts = 0;
+
                 for (int i = 0;
                     i < song.duration;
                     i += kRecognitionFrameSpeed) {
                   final orig = origData[counter];
                   final copy = copyData[counter];
 
-                  List<double> vector1 = [];
-                  List<double> vector2 = [];
-
                   kRecognitionParts.forEach((part) {
                     final origPart = orig['$part'];
                     final copyPart = copy['$part'];
+
+                    List<double> vector1 = [];
+                    List<double> vector2 = [];
+
                     if (origPart != null && copyPart != null) {
                       vector1.add(origPart[0]);
                       vector1.add(origPart[1]);
                       vector2.add(copyPart[0]);
                       vector2.add(copyPart[1]);
                     }
-                  });
 
-                  setState(() {
-                    print('## vector1: $vector1');
-                    print('## vector2: $vector2');
-                    _jaccardScore = jaccardDistance(vector1, vector2);
-                    _cosineScore = cosineDistance(vector1, vector2);
+                    if (vector1.isNotEmpty && vector2.isNotEmpty) {
+                      countParts++;
+                      _distance += cosineDistance(vector1, vector2);
+                    }
                   });
-
-                  counter++;
                 }
+
+                setState(() {
+                  _distance = countParts > 0 ? (_distance / countParts) : 1;
+                });
+
+                counter++;
               },
             ),
           ],
