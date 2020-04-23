@@ -161,8 +161,11 @@ class _TrackScoreState extends State<TrackScore> {
         child: Column(
           children: <Widget>[
             if (_distance != null) ...[
-              Text('Your score is:'),
-              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Text('Your score is:'),
+              ),
+              SizedBox(height: 10),
               Text(
                 '${(100 - (_distance * 100)).round()}%',
                 style: Theme.of(context).textTheme.headline4,
