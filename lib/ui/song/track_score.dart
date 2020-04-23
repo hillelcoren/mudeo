@@ -32,7 +32,6 @@ class _TrackScoreState extends State<TrackScore> {
     _calculateScore();
   }
 
-
   void _calculateScore() {
     final song = widget.song;
     final origTrack = song.tracks.first;
@@ -141,57 +140,62 @@ class _TrackScoreState extends State<TrackScore> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     return AlertDialog(
-      contentPadding: const EdgeInsets.all(16),
-      actions: <Widget>[
-        if (_frameTimes == null)
-        FlatButton(
-          child: Text(localization.showDetails.toUpperCase()),
-          onPressed: () {
-            _calculateDetails();
-          },
-        ),
-        FlatButton(
-          child: Text(localization.close.toUpperCase()),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        )
-      ],
-      content: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            if (_distance != null) ...[
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text('Your score is:'),
-              ),
-              SizedBox(height: 10),
-              Text(
-                '${(100 - (_distance * 100)).round()}%',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              SizedBox(height: 20),
-            ],
-            if (_isProcessing)
-              LinearProgressIndicator()
-            else if (_frameTimes != null)
-              for (int time in _frameTimes)
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Image.file(
-                          File(_origPaths[_frameTimes.indexOf(time)])),
-                    ),
-                    Expanded(
-                      child: Image.file(
-                          File(_copyPaths[_frameTimes.indexOf(time)])),
-                    ),
-                  ],
+        contentPadding: const EdgeInsets.all(16),
+        actions: <Widget>[
+          if (_frameTimes == null)
+            FlatButton(
+              child: Text(localization.showDetails.toUpperCase()),
+              onPressed: () {
+                _calculateDetails();
+              },
+            ),
+          FlatButton(
+            child: Text(localization.close.toUpperCase()),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+        content: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              if (_distance != null) ...[
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text('Your score is:'),
                 ),
-
-          ],
-        ),
-      )
-    );
+                SizedBox(height: 10),
+                Text(
+                  '${(100 - (_distance * 100)).round()}%',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                SizedBox(height: 20),
+              ],
+              if (_isProcessing)
+                LinearProgressIndicator()
+              else if (_frameTimes != null)
+                for (int time in _frameTimes)
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Stack(
+                          children: <Widget>[
+                            Image.file(
+                                File(_origPaths[_frameTimes.indexOf(time)])),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                          child: Stack(
+                        children: <Widget>[
+                          Image.file(
+                              File(_copyPaths[_frameTimes.indexOf(time)])),
+                        ],
+                      )),
+                    ],
+                  ),
+            ],
+          ),
+        ));
   }
 }
