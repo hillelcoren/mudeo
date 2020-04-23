@@ -71,8 +71,14 @@ class WebClient {
     return jsonResponse;
   }
 
-  Future<dynamic> post(String url, String token,
-      {dynamic data, String filePath, String fileField = 'video'}) async {
+  Future<dynamic> post(
+    String url,
+    String token, {
+    dynamic data,
+    String filePath,
+    String fileField = 'video',
+    String recognitions,
+  }) async {
     url = _checkUrl(url);
     debugPrint('POST: $url');
     http.Response response;
@@ -90,6 +96,9 @@ class WebClient {
       var length = await file.length();
 
       final request = http.MultipartRequest('POST', Uri.parse(url))
+        ..fields.addAll({
+          'recognitions': recognitions ?? '',
+        })
         ..headers.addAll(headers)
         ..files.add(http.MultipartFile(fileField, stream, length,
             filename: basename(file.path)));
@@ -99,12 +108,11 @@ class WebClient {
     } else {
       debugPrint('Request: $data');
 
-      response = await http.Client()
-          .post(
-            url,
-            body: data,
-            headers: headers,
-          );
+      response = await http.Client().post(
+        url,
+        body: data,
+        headers: headers,
+      );
     }
 
     debugPrint('Response: ${response.body}');
