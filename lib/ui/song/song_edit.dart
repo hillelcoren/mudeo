@@ -353,6 +353,8 @@ class _SongEditState extends State<SongEdit> {
 
     final song = widget.viewModel.song;
     path = await VideoEntity.getPath(timestamp);
+    print('## PATH: $path');
+
     cancelTimer = Timer(Duration(seconds: 3), () {
       setState(() => isPastThreeSeconds = true);
     });
@@ -826,14 +828,14 @@ class TrackEditDialog extends StatelessWidget {
                               },
                             ),
                           ),
-                        if (!isFirst)
+                        //if (!isFirst)
                           Padding(
                             padding: EdgeInsets.only(bottom: 16),
                             child: ElevatedButton(
                               width: 110,
                               color: Colors.green,
                               label: localization.score,
-                              onPressed: () {
+                              onPressed: () async {
                                 showDialog<TrackScore>(
                                     context: context,
                                     builder: (BuildContext context) {

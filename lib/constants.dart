@@ -84,6 +84,24 @@ const String kLinkTypeTwitter = 'Twitter';
 const String kLinkTypeWebsite = 'Website';
 const String kLinkTypeReddit = 'Reddit';
 
+const int kRecognitionPartNose = 0;
+const int kRecognitionPartLeftEye = 1;
+const int kRecognitionPartRightEye = 2;
+const int kRecognitionPartLeftEar = 3;
+const int kRecognitionPartRightEar = 4;
+const int kRecognitionPartLeftShoulder = 5;
+const int kRecognitionPartRightShoulder = 6;
+const int kRecognitionPartLeftElbow = 7;
+const int kRecognitionPartRightElbow = 8;
+const int kRecognitionPartLeftWrist = 9;
+const int kRecognitionPartRightWrist = 10;
+const int kRecognitionPartLeftHip = 11;
+const int kRecognitionPartRightHip = 12;
+const int kRecognitionPartLeftKnee = 13;
+const int kRecognitionPartRightKnee = 14;
+const int kRecognitionPartLeftAnkle = 15;
+const int kRecognitionPartRightAnkle = 16;
+
 const String kGenreAfrican = 'african';
 const String kGenreArabic = 'arabic';
 const String kGenreAsian = 'asian';

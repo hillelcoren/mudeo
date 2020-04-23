@@ -8,3 +8,7 @@ String formatDuration(Duration duration, {bool showSeconds = true}) {
     return '${parts[0]}:${parts[1]}';
   }
 }
+
+double roundNumber(num value) {
+  return double.tryParse(value.toStringAsPrecision(4));
+}
