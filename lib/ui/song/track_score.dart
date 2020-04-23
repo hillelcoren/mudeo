@@ -25,6 +25,14 @@ class _TrackScoreState extends State<TrackScore> {
   List<String> _origPaths;
   List<String> _copyPaths;
 
+  @override
+  void initState() {
+    super.initState();
+
+    _calculateScore();
+  }
+
+
   void _calculateScore() {
     final song = widget.song;
     final origTrack = song.tracks.first;
@@ -161,11 +169,6 @@ class _TrackScoreState extends State<TrackScore> {
               ),
               SizedBox(height: 20),
             ],
-            RaisedButton(
-              child: Text('Calculate'),
-              onPressed: () => _calculateScore(),
-            ),
-            SizedBox(height: 20),
             if (_isProcessing)
               LinearProgressIndicator()
             else if (_frameTimes != null)
