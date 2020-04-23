@@ -399,6 +399,9 @@ abstract class VideoEntity extends Object
   String get url;
 
   @nullable
+  String get recognitions;
+
+  @nullable
   @BuiltValueField(wireName: 'thumbnail_url')
   String get thumbnailUrl;
 

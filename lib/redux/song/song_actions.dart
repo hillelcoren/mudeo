@@ -233,3 +233,13 @@ class StartRecording {
 }
 
 class StopRecording {}
+
+class UpdateVideo implements PersistUI {
+  UpdateVideo({
+    this.recognitions,
+    this.video,
+  });
+
+  final String recognitions;
+  final VideoEntity video;
+}

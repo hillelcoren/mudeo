@@ -1,10 +1,13 @@
+import 'dart:convert';
+
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:tflite/tflite.dart';
 
-Future<List<dynamic>> convertVideoToRecognitions(
+Future<String> convertVideoToRecognitions(
     String path, int duration) async {
-  print('## convertVideoToRecognitions: $path, $duration');
-  final list = <dynamic>[];
+
+  List<String> data = [];
+
   for (int i = 0; i < duration; i += 100) {
     final file = await VideoThumbnail.thumbnailFile(
       video: path,
@@ -19,8 +22,9 @@ Future<List<dynamic>> convertVideoToRecognitions(
       path: file,
       threshold: 0.05,
     );
-    list.add(recognitions);
+
+    data.add('$recognitions');
   }
 
-  return list;
+  return jsonEncode(data);
 }

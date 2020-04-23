@@ -742,6 +742,12 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
         ..add(serializers.serialize(object.url,
             specifiedType: const FullType(String)));
     }
+    if (object.recognitions != null) {
+      result
+        ..add('recognitions')
+        ..add(serializers.serialize(object.recognitions,
+            specifiedType: const FullType(String)));
+    }
     if (object.thumbnailUrl != null) {
       result
         ..add('thumbnail_url')
@@ -815,6 +821,10 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
           break;
         case 'url':
           result.url = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'recognitions':
+          result.recognitions = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'thumbnail_url':
@@ -2367,6 +2377,8 @@ class _$VideoEntity extends VideoEntity {
   @override
   final String url;
   @override
+  final String recognitions;
+  @override
   final String thumbnailUrl;
   @override
   final String remoteVideoId;
@@ -2390,6 +2402,7 @@ class _$VideoEntity extends VideoEntity {
       {this.userId,
       this.timestamp,
       this.url,
+      this.recognitions,
       this.thumbnailUrl,
       this.remoteVideoId,
       this.volumeData,
@@ -2418,6 +2431,7 @@ class _$VideoEntity extends VideoEntity {
         userId == other.userId &&
         timestamp == other.timestamp &&
         url == other.url &&
+        recognitions == other.recognitions &&
         thumbnailUrl == other.thumbnailUrl &&
         remoteVideoId == other.remoteVideoId &&
         volumeData == other.volumeData &&
@@ -2439,9 +2453,11 @@ class _$VideoEntity extends VideoEntity {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, userId.hashCode),
-                                            timestamp.hashCode),
-                                        url.hashCode),
+                                        $jc(
+                                            $jc($jc(0, userId.hashCode),
+                                                timestamp.hashCode),
+                                            url.hashCode),
+                                        recognitions.hashCode),
                                     thumbnailUrl.hashCode),
                                 remoteVideoId.hashCode),
                             volumeData.hashCode),
@@ -2458,6 +2474,7 @@ class _$VideoEntity extends VideoEntity {
           ..add('userId', userId)
           ..add('timestamp', timestamp)
           ..add('url', url)
+          ..add('recognitions', recognitions)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('remoteVideoId', remoteVideoId)
           ..add('volumeData', volumeData)
@@ -2484,6 +2501,10 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   String _url;
   String get url => _$this._url;
   set url(String url) => _$this._url = url;
+
+  String _recognitions;
+  String get recognitions => _$this._recognitions;
+  set recognitions(String recognitions) => _$this._recognitions = recognitions;
 
   String _thumbnailUrl;
   String get thumbnailUrl => _$this._thumbnailUrl;
@@ -2527,6 +2548,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
       _userId = _$v.userId;
       _timestamp = _$v.timestamp;
       _url = _$v.url;
+      _recognitions = _$v.recognitions;
       _thumbnailUrl = _$v.thumbnailUrl;
       _remoteVideoId = _$v.remoteVideoId;
       _volumeData = _$v.volumeData?.toBuilder();
@@ -2562,6 +2584,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
               userId: userId,
               timestamp: timestamp,
               url: url,
+              recognitions: recognitions,
               thumbnailUrl: thumbnailUrl,
               remoteVideoId: remoteVideoId,
               volumeData: _volumeData?.build(),

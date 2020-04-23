@@ -9,6 +9,7 @@ import 'package:mudeo/redux/ui/ui_state.dart';
 import 'package:redux/redux.dart';
 
 Reducer<UIState> uiReducer = combineReducers([
+  TypedReducer<UIState, UpdateVideo>(updateVideoReducer),
   TypedReducer<UIState, AddTrack>(addTrackReducer),
   TypedReducer<UIState, UpdateSong>(updateSongReducer),
   TypedReducer<UIState, EditSong>(editSongReducer),
@@ -22,6 +23,28 @@ Reducer<UIState> uiReducer = combineReducers([
   TypedReducer<UIState, StartRecording>(startRecordingReducer),
   TypedReducer<UIState, StopRecording>(stopRecordingReducer),
 ]);
+
+UIState updateVideoReducer(UIState uiState, UpdateVideo action) {
+  final song = uiState.song;
+  final tracks = song.tracks;
+
+  final track = tracks
+      .where((track) => track.video.timestamp == action.video.timestamp)
+      .first;
+
+  if (track == null) {
+    return uiState;
+  }
+
+  final index = tracks.indexOf(track);
+  final updatedTrack =
+      track.rebuild((b) => b..video.recognitions = action.recognitions);
+
+  print('## VIDEO WAS: ${track.video}');
+  final newState = uiState.rebuild((b) => b..song.tracks[index] = updatedTrack);
+  print('## VIDEO IS: ${newState.song.tracks.first.video}');
+  return newState;
+}
 
 UIState startRecordingReducer(UIState uiState, StartRecording action) {
   return uiState.rebuild((b) => b..recordingTimestamp = action.timestamp);

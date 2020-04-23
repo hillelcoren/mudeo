@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:camera/camera.dart';
@@ -397,12 +398,12 @@ class _SongEditState extends State<SongEdit> {
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
 
-
-    if (!widget.viewModel.state.isDance) {
-      convertVideoToRecognitions(path, duration);
+    print('## FINISHED RECORDING');
+    if (widget.viewModel.state.isDance) {
+      final data = await convertVideoToRecognitions(path, duration);
+      print('## RECOGNITIONS: $data');
+      widget.viewModel.onVideoUpdated(video, data);
     }
-
-
   }
 
   void play() {
