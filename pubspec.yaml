@@ -53,6 +53,7 @@ dependencies:
   flutter_launcher_icons: ^0.7.4
   video_thumbnail: ^0.2.1
   tflite: ^1.0.5
+  document_analysis: ^0.1.2
 
 dev_dependencies:
   #flutter_test:
