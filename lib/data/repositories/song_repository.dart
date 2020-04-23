@@ -67,7 +67,6 @@ class SongRepository {
     dynamic response;
 
     if (video.isNew) {
-      print('## SAVING VIDEO: ${video.recognitions}');
       response = await webClient.post(
           '${state.apiUrl}/videos', state.artist.token,
           recognitions: video.recognitions,
