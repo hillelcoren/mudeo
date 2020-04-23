@@ -62,6 +62,7 @@ const int kSecondWarningOffset = 5 * 1000; // 5 seconds
 const int kMinLatencyDelay = -2000;
 const int kMaxLatencyDelay = 2000;
 const int kMaxCommentLength = 300;
+const int kRecognitionFrameSpeed = 500;
 
 const double kSongHeight = 380;
 const double kSongHeightWithComments = 560;

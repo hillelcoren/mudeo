@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mudeo/constants.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:tflite/tflite.dart';
 
@@ -8,7 +9,7 @@ Future<String> convertVideoToRecognitions(
 
   List<String> data = [];
 
-  int frameLength = 500;
+  int frameLength = kRecognitionFrameSpeed;
 
   for (int i = 0; i < duration; i += frameLength) {
     final file = await VideoThumbnail.thumbnailFile(

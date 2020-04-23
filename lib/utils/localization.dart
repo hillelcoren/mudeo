@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'score': 'Score',
       'background_music_help': 'You can play a song in the background to have music to dance to',
       'ballet': 'Ballet',
       'tap': 'Tap',
@@ -655,6 +656,9 @@ class AppLocalization {
 
   String get contemporary =>
       _localizedValues[locale.toString()]['contemporary'];
+
+  String get score => _localizedValues[locale.toString()]['score'];
+
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

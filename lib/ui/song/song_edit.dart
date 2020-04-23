@@ -12,6 +12,7 @@ import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/add_video.dart';
 import 'package:mudeo/ui/song/track_latency.dart';
+import 'package:mudeo/ui/song/track_score.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
@@ -390,8 +391,7 @@ class _SongEditState extends State<SongEdit> {
 
     final video = VideoEntity().rebuild((b) => b..timestamp = timestamp);
     final duration = endTimestamp - timestamp;
-    final trackId =
-        await widget.viewModel.onVideoAdded(video, duration);
+    final trackId = await widget.viewModel.onVideoAdded(video, duration);
 
     setState(() {
       isPastThreeSeconds = false;
@@ -827,6 +827,25 @@ class TrackEditDialog extends StatelessWidget {
                               },
                             ),
                           ),
+                        if (!isFirst)
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 16),
+                            child: ElevatedButton(
+                              width: 110,
+                              color: Colors.green,
+                              label: localization.score,
+                              onPressed: () {
+                                showDialog<TrackScore>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return TrackScore(
+                                        song: viewModel.song,
+                                        track: track,
+                                      );
+                                    });
+                              },
+                            ),
+                          ),
                         isFirst
                             ? SizedBox()
                             : Padding(
@@ -851,6 +870,9 @@ class TrackEditDialog extends StatelessWidget {
                                   },
                                 ),
                               ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         track.video.isRemoteVideo
                             ? Padding(
                                 padding: EdgeInsets.only(bottom: 16),
