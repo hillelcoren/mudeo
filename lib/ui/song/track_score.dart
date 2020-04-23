@@ -18,6 +18,7 @@ class TrackScore extends StatefulWidget {
 }
 
 class _TrackScoreState extends State<TrackScore> {
+  bool _isProcessing = false;
   double _distance;
   List<int> _frameTimes;
   List<String> _origPaths;
@@ -75,6 +76,10 @@ class _TrackScoreState extends State<TrackScore> {
   }
 
   void _calculateDetails() async {
+    setState(() {
+      _isProcessing = true;
+    });
+
     print('## _calculateDetails');
     int frameLength = kRecognitionFrameSpeed;
     _frameTimes = [];
@@ -82,7 +87,7 @@ class _TrackScoreState extends State<TrackScore> {
     _copyPaths = [];
     final song = widget.song;
     final http.Response response =
-        await http.Client().get(widget.track.video.url);
+        await http.Client().get(widget.song.tracks.first.video.url);
 
     final origVideoPath =
         await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
@@ -91,7 +96,6 @@ class _TrackScoreState extends State<TrackScore> {
     for (int i = 0; i < song.duration; i += frameLength) {
       _frameTimes.add(i);
       final path = origVideoPath.replaceFirst('.mp4', '-$i.jpg');
-      print('## $origVideoPath => $path');
       await VideoThumbnail.thumbnailFile(
         video: origVideoPath,
         imageFormat: ImageFormat.JPEG,
@@ -101,26 +105,27 @@ class _TrackScoreState extends State<TrackScore> {
       _origPaths.add(path);
     }
 
-    setState(() {
-
-    });
+    final http.Response copyResponse =
+        await http.Client().get(widget.track.video.url);
 
     final copyVideoPath =
         await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
-    await File(copyVideoPath).writeAsBytes(response.bodyBytes);
+    await File(copyVideoPath).writeAsBytes(copyResponse.bodyBytes);
 
     for (int i = 0; i < song.duration; i += frameLength) {
-      final copyPath =
-          widget.track.video.url.replaceFirst('.mp4', '-$i-copy.jpg');
-      print('## ${widget.track.video.url} => $copyPath');
+      final copyPath = copyVideoPath.replaceFirst('.mp4', '-$i.jpg');
       await VideoThumbnail.thumbnailFile(
-        video: widget.track.video.url,
+        video: copyVideoPath,
         imageFormat: ImageFormat.JPEG,
         timeMs: i,
         thumbnailPath: copyPath,
       );
       _copyPaths.add(copyPath);
     }
+
+    setState(() {
+      _isProcessing = false;
+    });
   }
 
   @override
@@ -146,15 +151,17 @@ class _TrackScoreState extends State<TrackScore> {
                 onPressed: () => _calculateScore(),
               ),
               SizedBox(height: 20),
-              RaisedButton(
-                child: Text('Details'),
-                onPressed: () => _calculateDetails(),
-              ),
+              if (_isProcessing)
+                LinearProgressIndicator()
+              else
+                RaisedButton(
+                  child: Text('Details'),
+                  onPressed: () => _calculateDetails(),
+                ),
               if (_frameTimes != null)
                 for (int time in _frameTimes)
                   Row(
                     children: <Widget>[
-                      Text('$time'),
                       Expanded(
                         child: Image.file(
                             File(_origPaths[_frameTimes.indexOf(time)])),
