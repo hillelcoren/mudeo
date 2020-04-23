@@ -139,6 +139,12 @@ class _TrackScoreState extends State<TrackScore> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final song = widget.song;
+    final origTrack = song.tracks.first;
+    final origData = jsonDecode(origTrack.video.recognitions);
+    final copyData = jsonDecode(widget.track.video.recognitions);
+    print('## origData: $origData');
+
     return AlertDialog(
         contentPadding: const EdgeInsets.all(16),
         actions: <Widget>[
@@ -174,22 +180,24 @@ class _TrackScoreState extends State<TrackScore> {
               if (_isProcessing)
                 LinearProgressIndicator()
               else if (_frameTimes != null)
-                for (int time in _frameTimes)
+                for (int i = 0; i < _frameTimes.length; i++)
                   Row(
                     children: <Widget>[
                       Expanded(
                         child: Stack(
                           children: <Widget>[
-                            Image.file(
-                                File(_origPaths[_frameTimes.indexOf(time)])),
+                            Image.file(File(_origPaths[
+                                _frameTimes.indexOf(_frameTimes[i])])),
+                            Text(origData[i].toString()),
                           ],
                         ),
                       ),
                       Expanded(
                           child: Stack(
                         children: <Widget>[
-                          Image.file(
-                              File(_copyPaths[_frameTimes.indexOf(time)])),
+                          Image.file(File(
+                              _copyPaths[_frameTimes.indexOf(_frameTimes[i])])),
+                          Text(copyData[i].toString()),
                         ],
                       )),
                     ],
