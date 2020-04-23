@@ -59,7 +59,7 @@ class _TrackScoreState extends State<TrackScore> {
         _distance += value;
         countParts++;
         _frameScores.add(value);
-      }else{
+      } else {
         _frameScores.add(0);
       }
       count++;
@@ -192,9 +192,10 @@ class _TrackScoreState extends State<TrackScore> {
           },
         )
       ],
-      content: SingleChildScrollView(
+      content: IntrinsicHeight(
         child: Column(
-          children: <Widget>[
+          mainAxisSize: MainAxisSize.min,
+          children: [
             if (_distance != null) ...[
               Padding(
                 padding: const EdgeInsets.all(15),
@@ -207,38 +208,59 @@ class _TrackScoreState extends State<TrackScore> {
               ),
               SizedBox(height: 20),
             ],
-            if (_isProcessing)
-              LinearProgressIndicator()
-            else if (_frameTimes != null)
-              for (int i = 0; i < _frameTimes.length; i++)
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: _PoseDisplay(
-                        index: i,
-                        frame: origData[i].cast<String, List<dynamic>>(),
-                        color: Colors.blue,
-                        child: Image.file(
-                          File(_origPaths[_frameTimes.indexOf(_frameTimes[i])]),
-                          color: Colors.black87,
-                          colorBlendMode: BlendMode.srcOver,
-                        ),
+            Expanded(
+              child: Stack(
+                children: [
+                  if (_frameTimes != null)
+                    AspectRatio(
+                      aspectRatio: 0.75,
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: _frameTimes.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final i = index;
+                          return Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: _PoseDisplay(
+                                  index: i,
+                                  frame:
+                                      origData[i].cast<String, List<dynamic>>(),
+                                  color: Colors.blue,
+                                  child: Image.file(
+                                    File(_origPaths[
+                                        _frameTimes.indexOf(_frameTimes[i])]),
+                                    color: Colors.black87,
+                                    colorBlendMode: BlendMode.srcOver,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: _PoseDisplay(
+                                  index: i,
+                                  frame:
+                                      copyData[i].cast<String, List<dynamic>>(),
+                                  color: Colors.red,
+                                  child: Image.file(
+                                    File(_copyPaths[
+                                        _frameTimes.indexOf(_frameTimes[i])]),
+                                    color: Colors.black87,
+                                    colorBlendMode: BlendMode.srcOver,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
-                    Expanded(
-                      child: _PoseDisplay(
-                        index: i,
-                        frame: copyData[i].cast<String, List<dynamic>>(),
-                        color: Colors.red,
-                        child: Image.file(
-                          File(_copyPaths[_frameTimes.indexOf(_frameTimes[i])]),
-                          color: Colors.black87,
-                          colorBlendMode: BlendMode.srcOver,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  if (_isProcessing)
+                    Center(
+                      child: CircularProgressIndicator(),
+                    )
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -301,20 +323,32 @@ class _PosePainter extends CustomPainter {
       return Offset(point[0], point[1]);
     }
 
-    _drawLine(canvas, size, _extract(kRecognitionPartLeftAnkle), _extract(kRecognitionPartLeftKnee), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartLeftKnee), _extract(kRecognitionPartLeftHip), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartLeftHip), _extract(kRecognitionPartLeftShoulder), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartLeftShoulder), _extract(kRecognitionPartLeftElbow), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartLeftElbow), _extract(kRecognitionPartLeftWrist), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartRightAnkle), _extract(kRecognitionPartRightKnee), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartRightKnee), _extract(kRecognitionPartRightHip), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartRightHip), _extract(kRecognitionPartRightShoulder), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartRightShoulder), _extract(kRecognitionPartRightElbow), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartRightElbow), _extract(kRecognitionPartRightWrist), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartLeftHip), _extract(kRecognitionPartRightHip), paint);
-    _drawLine(canvas, size, _extract(kRecognitionPartLeftShoulder), _extract(kRecognitionPartRightShoulder), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartLeftAnkle),
+        _extract(kRecognitionPartLeftKnee), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartLeftKnee),
+        _extract(kRecognitionPartLeftHip), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartLeftHip),
+        _extract(kRecognitionPartLeftShoulder), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartLeftShoulder),
+        _extract(kRecognitionPartLeftElbow), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartLeftElbow),
+        _extract(kRecognitionPartLeftWrist), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartRightAnkle),
+        _extract(kRecognitionPartRightKnee), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartRightKnee),
+        _extract(kRecognitionPartRightHip), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartRightHip),
+        _extract(kRecognitionPartRightShoulder), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartRightShoulder),
+        _extract(kRecognitionPartRightElbow), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartRightElbow),
+        _extract(kRecognitionPartRightWrist), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartLeftHip),
+        _extract(kRecognitionPartRightHip), paint);
+    _drawLine(canvas, size, _extract(kRecognitionPartLeftShoulder),
+        _extract(kRecognitionPartRightShoulder), paint);
 
-    for(final entry in frame.entries) {
+    for (final entry in frame.entries) {
       final point = entry.value.cast<double>();
       final dx = point[0] * size.width;
       final dy = point[1] * size.height;
