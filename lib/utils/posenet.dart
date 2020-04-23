@@ -8,7 +8,9 @@ Future<String> convertVideoToRecognitions(
 
   List<String> data = [];
 
-  for (int i = 0; i < duration; i += 100) {
+  int frameLength = 500;
+
+  for (int i = 0; i < duration; i += frameLength) {
     final file = await VideoThumbnail.thumbnailFile(
       video: path,
       imageFormat: ImageFormat.JPEG,
