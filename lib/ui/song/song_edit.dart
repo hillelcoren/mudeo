@@ -701,23 +701,26 @@ class TrackView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = viewModel.state;
     return InkWell(
-      onTap: () {
-        showDialog<TrackEditDialog>(
-            barrierDismissible: true,
-            context: context,
-            builder: (BuildContext context) {
-              return TrackEditDialog(
-                videoPlayer: videoPlayer,
-                viewModel: viewModel,
-                onDeletePressed: onDeletePressed,
-                onDelayAccepted: (delay) => onDelayAccepted(track, delay),
-                onDelayChanged: (delay) => onDelayChanged(track, delay),
-                track: track,
-                isFirst: isFirst,
-              );
-            });
-      },
+      onTap: isFirst && state.isDance
+          ? null
+          : () {
+              showDialog<TrackEditDialog>(
+                  barrierDismissible: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return TrackEditDialog(
+                      videoPlayer: videoPlayer,
+                      viewModel: viewModel,
+                      onDeletePressed: onDeletePressed,
+                      onDelayAccepted: (delay) => onDelayAccepted(track, delay),
+                      onDelayChanged: (delay) => onDelayChanged(track, delay),
+                      track: track,
+                      isFirst: isFirst,
+                    );
+                  });
+            },
       child: Card(
           elevation: kDefaultElevation,
           margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -828,7 +831,7 @@ class TrackEditDialog extends StatelessWidget {
                               },
                             ),
                           ),
-                        //if (!isFirst)
+                        if (state.isDance)
                           Padding(
                             padding: EdgeInsets.only(bottom: 16),
                             child: ElevatedButton(
