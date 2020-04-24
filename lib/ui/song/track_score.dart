@@ -126,8 +126,8 @@ class _TrackScoreState extends State<TrackScore> {
     final song = widget.song;
     var video = song.tracks.first.video;
 
-    String path = await VideoEntity.getPath(video.timestamp);
-    if (video.timestamp > 0 && !await File(path).exists()) {
+    String path = await VideoEntity.getPath(video.timestamp, video.id);
+    if (!await File(path).exists()) {
       final http.Response response =
           await http.Client().get(widget.song.tracks.first.video.url);
       await File(path).writeAsBytes(response.bodyBytes);
@@ -147,9 +147,9 @@ class _TrackScoreState extends State<TrackScore> {
     }
 
     video = widget.track.video;
-    path = await VideoEntity.getPath(video.timestamp);
+    path = await VideoEntity.getPath(video.timestamp, video.id);
 
-    if (video.timestamp > 0 && !await File(path).exists()) {
+    if (!await File(path).exists()) {
       final http.Response copyResponse = await http.Client().get(video.url);
       await File(path).writeAsBytes(copyResponse.bodyBytes);
     }

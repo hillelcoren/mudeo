@@ -262,7 +262,7 @@ class _SongEditState extends State<SongEdit> {
     final futures = List<Future>();
     for (final track in widget.viewModel.song.tracks) {
       futures.add(() async {
-        String path = await VideoEntity.getPath(track.video.timestamp);
+        String path = await VideoEntity.getPath(track.video.timestamp, track.video.id);
         VideoPlayerController player;
         if (await File(path).exists()) {
           player = VideoPlayerController.file(File(path));
@@ -361,7 +361,7 @@ class _SongEditState extends State<SongEdit> {
     widget.viewModel.onStartRecording(timestamp);
 
     final song = widget.viewModel.song;
-    path = await VideoEntity.getPath(timestamp);
+    path = await VideoEntity.getPath(timestamp, 0);
     print('## PATH: $path');
 
     cancelTimer = Timer(Duration(seconds: 3), () {
@@ -426,8 +426,8 @@ class _SongEditState extends State<SongEdit> {
       return;
     }
     showProcessingDialog(context);
-    String path = await VideoEntity.getPath(video.timestamp);
-    if (video.timestamp > 0 && !await File(path).exists()) {
+    String path = await VideoEntity.getPath(video.timestamp, video.id);
+    if (!await File(path).exists()) {
       final http.Response response = await http.Client().get(video.url);
       await File(path).writeAsBytes(response.bodyBytes);
     }

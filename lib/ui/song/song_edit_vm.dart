@@ -147,7 +147,7 @@ class SongEditVM {
             song = song.rebuild((b) => b..duration = 0);
           }
           store.dispatch(UpdateSong(song));
-          String path = await VideoEntity.getPath(track.video.timestamp);
+          String path = await VideoEntity.getPath(track.video.timestamp, track.video.id);
           if (File(path).existsSync()) {
             File(path).deleteSync();
           }
@@ -204,7 +204,7 @@ class SongEditVM {
                       AppLocalization.of(context).errorVideoNotReady);
                 });
           } else {
-            String path = await VideoEntity.getPath(track.video.timestamp);
+            String path = await VideoEntity.getPath(track.video.timestamp, track.video.id);
             File file = new File(path);
             file.writeAsBytes(response.bodyBytes);
 

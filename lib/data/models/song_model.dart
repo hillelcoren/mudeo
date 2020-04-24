@@ -140,7 +140,8 @@ abstract class SongEntity extends Object
 
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
 
-  String twitterUrl(String handle) => 'https://twitter.com/$handle/status/$twitterId';
+  String twitterUrl(String handle) =>
+      'https://twitter.com/$handle/status/$twitterId';
 
   String get youTubeUrl => 'https://www.youtube.com/watch?v=$youTubeId';
 
@@ -432,16 +433,17 @@ abstract class VideoEntity extends Object
 
   String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
 
-  static Future<String> getPath(int timestamp) async {
+  static Future<String> getPath(int timestamp, int id) async {
     // TODO add web support
     if (kIsWeb) {
       return null;
     }
 
-    final Directory directory = await getApplicationDocumentsDirectory();
+    final Directory directory = await getTemporaryDirectory();
     final String folder = '${directory.path}/videos';
     await Directory(folder).create(recursive: true);
-    return '$folder/$timestamp.mp4';
+
+    return timestamp > 0 ? '$folder/$timestamp.mp4' : '$folder/$id.mp4';
   }
 
   Map<int, double> getVolumeMap(int start, int end) {
