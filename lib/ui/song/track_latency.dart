@@ -52,7 +52,6 @@ class _TrackLatencyState extends State<TrackLatency> {
               _delay = 0;
               _delayController.text = '0';
             });
-            widget.onDelayChanged(0);
           },
         ),
         FlatButton(
