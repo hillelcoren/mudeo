@@ -327,7 +327,11 @@ class _PosePainter extends CustomPainter {
       ..color = color;
 
     Offset _extract(int key) {
-      final List<double> point = frame[key.toString()].cast<double>();
+      final value = frame[key.toString()];
+      if (value == null) {
+        return Offset(0, 0);
+      }
+      final List<double> point = value.cast<double>();
       return Offset(point[0], point[1]);
     }
 
