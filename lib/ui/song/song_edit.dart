@@ -259,21 +259,27 @@ class _SongEditState extends State<SongEdit> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
 
+    bool isFirst = true;
     final futures = List<Future>();
-    for (final track in widget.viewModel.song.tracks) {
+    final viewModel = widget.viewModel;
+    for (final track in viewModel.song.tracks) {
       futures.add(() async {
-        String path = await VideoEntity.getPath(track.video.timestamp, track.video.id);
+        final video = track.video;
         VideoPlayerController player;
-        if (await File(path).exists()) {
-          player = VideoPlayerController.file(File(path));
-        } else if (track.video.url != null && track.video.url.isNotEmpty) {
-          player = VideoPlayerController.network(track.video.url);
-        } else {
-          player = VideoPlayerController.asset(null);
+        String path = await VideoEntity.getPath(video.timestamp, video.id);
+        if (!await File(path).exists()) {
+          final http.Response copyResponse = await http.Client().get(video.url);
+          await File(path).writeAsBytes(copyResponse.bodyBytes);
         }
+        player = VideoPlayerController.file(File(path));
         allVideoPlayers[track.id] = videoPlayers[track.id] = player;
-        player.setVolume(track.volume.toDouble());
+        if (viewModel.state.isDance && !isFirst) {
+          player.setVolume(0);
+        } else {
+          player.setVolume(track.volume.toDouble());
+        }
         await player.initialize();
+        isFirst = false;
       }());
     }
     final completer = Completer();
