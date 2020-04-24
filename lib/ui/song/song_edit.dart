@@ -581,12 +581,14 @@ class _SongEditState extends State<SongEdit> {
             onDelaysChanged: (delays) {
               updatedSong = updatedSong.setTrackDelays(delays);
               viewModel.onChangedSong(updatedSong);
-              Navigator.of(context).pop();
               for (var i = 0; i < song.tracks.length; i++) {
+                if (delays[i] == song.tracks[i].delay) {
+                  continue;
+                }
                 updateRecognitions(
                     video: song.tracks[i].video,
                     duration: song.duration,
-                    delay: song.tracks[i].delay);
+                    delay: delays[i]);
               }
             },
           );
