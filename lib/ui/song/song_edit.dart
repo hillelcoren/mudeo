@@ -723,10 +723,12 @@ class _SongEditState extends State<SongEdit> {
                             final song =
                                 viewModel.song.setTrackDelay(track, delay);
                             viewModel.onChangedSong(song);
-                            updateRecognitions(
-                                video: track.video,
-                                duration: song.duration,
-                                delay: delay);
+                            if (delay != track.delay) {
+                              updateRecognitions(
+                                  video: track.video,
+                                  duration: song.duration,
+                                  delay: delay);
+                            }
                           },
                         );
                       }).toList(),
