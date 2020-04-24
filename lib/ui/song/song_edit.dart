@@ -855,8 +855,7 @@ class TrackEditDialog extends StatelessWidget {
                         values: [track.volume.toDouble()],
                         max: 100,
                         min: 0,
-                        onDragging:
-                            (handlerIndex, lowerValue, upperValue) {
+                        onDragging: (handlerIndex, lowerValue, upperValue) {
                           videoPlayer.setVolume(lowerValue / 100);
                           final song = viewModel.song
                               .setTrackVolume(track, lowerValue.toInt());
@@ -890,7 +889,7 @@ class TrackEditDialog extends StatelessWidget {
                   isFirst
                       ? SizedBox()
                       : Padding(
-                          padding: EdgeInsets.only(bottom: bottomPadding ),
+                          padding: EdgeInsets.only(bottom: bottomPadding),
                           child: ElevatedButton(
                             width: buttonWidth,
                             height: buttonHeight,
@@ -916,7 +915,7 @@ class TrackEditDialog extends StatelessWidget {
                         ),
                   track.video.isRemoteVideo
                       ? Padding(
-                          padding: EdgeInsets.only(bottom: bottomPadding ),
+                          padding: EdgeInsets.only(bottom: bottomPadding),
                           child: ElevatedButton(
                             width: buttonWidth,
                             height: buttonHeight,
@@ -952,14 +951,13 @@ class TrackEditDialog extends StatelessWidget {
                             content: Text(localization.areYouSure),
                             actions: <Widget>[
                               new FlatButton(
-                                  child: Text(
-                                      localization.cancel.toUpperCase()),
+                                  child:
+                                      Text(localization.cancel.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   }),
                               new FlatButton(
-                                  child:
-                                      Text(localization.ok.toUpperCase()),
+                                  child: Text(localization.ok.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);
                                     onDeletePressed();

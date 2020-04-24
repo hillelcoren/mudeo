@@ -121,15 +121,11 @@ class _TrackScoreState extends State<TrackScore> {
 
     final song = widget.song;
     var video = song.tracks.first.video;
-    String origVideoPath = await VideoEntity.getPath(video.timestamp);
-    if (!await File(origVideoPath).exists()) {
-      final http.Response response =
-          await http.Client().get(widget.song.tracks.first.video.url);
-
-      origVideoPath =
-          await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
-      await File(origVideoPath).writeAsBytes(response.bodyBytes);
-    }
+    final http.Response response =
+        await http.Client().get(widget.song.tracks.first.video.url);
+    String origVideoPath =
+        await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
+    await File(origVideoPath).writeAsBytes(response.bodyBytes);
 
     for (int i = 0; i < song.duration; i += frameLength) {
       _frameTimes.add(i);
@@ -144,14 +140,11 @@ class _TrackScoreState extends State<TrackScore> {
     }
 
     video = widget.track.video;
-    String copyVideoPath = await VideoEntity.getPath(video.timestamp);
-    if (!await File(origVideoPath).exists()) {
-      final http.Response copyResponse = await http.Client().get(video.url);
+    final http.Response copyResponse = await http.Client().get(video.url);
 
-      final copyVideoPath =
-          await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
-      await File(copyVideoPath).writeAsBytes(copyResponse.bodyBytes);
-    }
+    final copyVideoPath =
+        await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
+    await File(copyVideoPath).writeAsBytes(copyResponse.bodyBytes);
 
     for (int i = 0; i < song.duration; i += frameLength) {
       final copyPath = copyVideoPath.replaceFirst('.mp4', '-$i.jpg');
@@ -201,83 +194,83 @@ class _TrackScoreState extends State<TrackScore> {
           },
         )
       ],
-      content: IntrinsicHeight(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (_distance != null) ...[
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text('Your score is:'),
-              ),
-              SizedBox(height: 10),
-              Text(
-                '${(100 - (_distance * 100)).round()}%',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              SizedBox(height: 20),
-            ],
-            Expanded(
-              child: Stack(
+      content: _isProcessing
+          ? LinearProgressIndicator()
+          : IntrinsicHeight(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (_frameTimes != null)
-                    AspectRatio(
-                      aspectRatio: 0.75,
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: _frameTimes.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final i = index;
-                          final frameIndex =
-                              _frameTimes.indexOf(_frameTimes[i]);
-
-                          return Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: _PoseDisplay(
-                                  index: i,
-                                  frame:
-                                      origData[i].cast<String, List<dynamic>>(),
-                                  color: Colors.blue,
-                                  child: _origPaths[frameIndex] == null
-                                      ? SizedBox()
-                                      : Image.file(
-                                          File(_origPaths[frameIndex]),
-                                          color: Colors.black87,
-                                          colorBlendMode: BlendMode.srcOver,
-                                        ),
-                                ),
-                              ),
-                              Expanded(
-                                child: _PoseDisplay(
-                                  index: i,
-                                  frame:
-                                      copyData[i].cast<String, List<dynamic>>(),
-                                  color: Colors.red,
-                                  child: _origPaths[frameIndex] == null
-                                      ? SizedBox()
-                                      : Image.file(
-                                          File(_copyPaths[frameIndex]),
-                                          color: Colors.black87,
-                                          colorBlendMode: BlendMode.srcOver,
-                                        ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                  if (_distance != null) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Text('Your score is:'),
                     ),
-                  if (_isProcessing)
-                    Center(
-                      child: CircularProgressIndicator(),
-                    )
+                    SizedBox(height: 10),
+                    Text(
+                      '${(100 - (_distance * 100)).round()}%',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        if (_frameTimes != null)
+                          AspectRatio(
+                            aspectRatio: 0.75,
+                            child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: _frameTimes.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final i = index;
+                                final frameIndex =
+                                    _frameTimes.indexOf(_frameTimes[i]);
+
+                                return Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: _PoseDisplay(
+                                        index: i,
+                                        frame: origData[i]
+                                            .cast<String, List<dynamic>>(),
+                                        color: Colors.blue,
+                                        child: _origPaths[frameIndex] == null
+                                            ? SizedBox()
+                                            : Image.file(
+                                                File(_origPaths[frameIndex]),
+                                                color: Colors.black87,
+                                                colorBlendMode:
+                                                    BlendMode.srcOver,
+                                              ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: _PoseDisplay(
+                                        index: i,
+                                        frame: copyData[i]
+                                            .cast<String, List<dynamic>>(),
+                                        color: Colors.red,
+                                        child: _origPaths[frameIndex] == null
+                                            ? SizedBox()
+                                            : Image.file(
+                                                File(_copyPaths[frameIndex]),
+                                                color: Colors.black87,
+                                                colorBlendMode:
+                                                    BlendMode.srcOver,
+                                              ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
