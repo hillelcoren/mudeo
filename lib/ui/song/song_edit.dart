@@ -423,14 +423,16 @@ class _SongEditState extends State<SongEdit> {
         video: video,
       );
 
-      showDialog<TrackScore>(
-          context: context,
-          builder: (BuildContext context) {
-            final song = widget.viewModel.song;
-            return TrackScore(
-                song: song,
-                video: video.rebuild((b) => b..recognitions = recognitions));
-          });
+      if (widget.viewModel.song.tracks.length > 1) {
+        showDialog<TrackScore>(
+            context: context,
+            builder: (BuildContext context) {
+              final song = widget.viewModel.song;
+              return TrackScore(
+                  song: song,
+                  video: video.rebuild((b) => b..recognitions = recognitions));
+            });
+      }
     });
   }
 
