@@ -681,7 +681,6 @@ class _SongEditState extends State<SongEdit> {
                               : videoPlayer.value.aspectRatio,
                           track: track,
                           onDeletePressed: () async {
-                            Navigator.of(context).pop();
                             videoPlayers.remove(track.id);
                             viewModel.onDeleteVideoPressed(song, track);
                           },
