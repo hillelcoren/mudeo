@@ -241,36 +241,38 @@ class _TrackScoreState extends State<TrackScore> {
                                 return Row(
                                   children: <Widget>[
                                     Expanded(
-                                      child: _PoseDisplay(
-                                        index: i,
-                                        frame: origData[i]
-                                            .cast<String, List<dynamic>>(),
-                                        color: Colors.blue,
-                                        child: _origPaths[frameIndex] == null
-                                            ? SizedBox()
-                                            : Image.file(
+                                      child: frameIndex >= _origPaths.length ||
+                                              frameIndex >= origData.length
+                                          ? SizedBox()
+                                          : _PoseDisplay(
+                                              index: i,
+                                              frame: origData[i].cast<String,
+                                                  List<dynamic>>(),
+                                              color: Colors.blue,
+                                              child: Image.file(
                                                 File(_origPaths[frameIndex]),
                                                 color: Colors.black87,
                                                 colorBlendMode:
                                                     BlendMode.srcOver,
                                               ),
-                                      ),
+                                            ),
                                     ),
                                     Expanded(
-                                      child: _PoseDisplay(
-                                        index: i,
-                                        frame: copyData[i]
-                                            .cast<String, List<dynamic>>(),
-                                        color: Colors.red,
-                                        child: _origPaths[frameIndex] == null
-                                            ? SizedBox()
-                                            : Image.file(
+                                      child: frameIndex >= _copyPaths.length ||
+                                              frameIndex >= copyData.length
+                                          ? SizedBox()
+                                          : _PoseDisplay(
+                                              index: i,
+                                              frame: copyData[i].cast<String,
+                                                  List<dynamic>>(),
+                                              color: Colors.red,
+                                              child: Image.file(
                                                 File(_copyPaths[frameIndex]),
                                                 color: Colors.black87,
                                                 colorBlendMode:
                                                     BlendMode.srcOver,
                                               ),
-                                      ),
+                                            ),
                                     ),
                                   ],
                                 );
