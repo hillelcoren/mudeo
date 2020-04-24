@@ -10,10 +10,10 @@ import 'package:mudeo/utils/localization.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 class TrackScore extends StatefulWidget {
-  TrackScore({this.song, this.track});
+  TrackScore({this.song, this.video});
 
   final SongEntity song;
-  final TrackEntity track;
+  final VideoEntity video;
 
   @override
   _TrackScoreState createState() => _TrackScoreState();
@@ -38,7 +38,7 @@ class _TrackScoreState extends State<TrackScore> {
     final song = widget.song;
     final origTrack = song.tracks.first;
     final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.track.video.recognitions);
+    final copyData = jsonDecode(widget.video.recognitions);
 
     _distance = 0;
     int countParts = 0;
@@ -72,10 +72,9 @@ class _TrackScoreState extends State<TrackScore> {
 
   double _calculateFrameScore(int index) {
     final song = widget.song;
-    final track = widget.track;
     final origTrack = song.tracks.first;
     final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(track.video.recognitions);
+    final copyData = jsonDecode(widget.video.recognitions);
 
     if (index >= origData.length || index >= copyData.length) {
       return null;
@@ -146,7 +145,7 @@ class _TrackScoreState extends State<TrackScore> {
       _origPaths.add(thumbnailPath);
     }
 
-    video = widget.track.video;
+    video = widget.video;
     path = await VideoEntity.getPath(video.timestamp, video.id);
 
     if (!await File(path).exists()) {
@@ -182,7 +181,7 @@ class _TrackScoreState extends State<TrackScore> {
     final song = widget.song;
     final origTrack = song.tracks.first;
     final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.track.video.recognitions);
+    final copyData = jsonDecode(widget.video.recognitions);
     print('## origData: $origData');
 
     return AlertDialog(

@@ -415,16 +415,29 @@ class _SongEditState extends State<SongEdit> {
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      updateRecognitions(
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      print('## update');
+      await updateRecognitions(
         delay: 0,
         duration: duration,
         video: video,
       );
+
+      /*
+      showDialog<TrackScore>(
+          context: context,
+          builder: (BuildContext context) {
+            final song = widget.viewModel.song;
+            return TrackScore(
+                song: song,
+                video: video);
+          });
+
+       */
     });
   }
 
-  void updateRecognitions(
+  Future<Null> updateRecognitions(
       {@required VideoEntity video,
       @required int duration,
       @required int delay}) async {
@@ -913,7 +926,7 @@ class TrackEditDialog extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return TrackScore(
                                   song: viewModel.song,
-                                  track: track,
+                                  video: track.video,
                                 );
                               });
                         },
