@@ -72,16 +72,17 @@ class _TrackScoreState extends State<TrackScore> {
 
   double _calculateFrameScore(int index) {
     final song = widget.song;
+    final track = widget.track;
     final origTrack = song.tracks.first;
     final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.track.video.recognitions);
+    final copyData = jsonDecode(track.video.recognitions);
 
     final orig = origData[index];
     final copy = copyData[index];
 
     int countParts = 0;
 
-    kRecognitionParts.forEach((part) {
+    for (var part in kRecognitionParts) {
       final origPart = orig['$part'];
       final copyPart = copy['$part'];
 
@@ -99,7 +100,7 @@ class _TrackScoreState extends State<TrackScore> {
         _distance += cosineDistance(vector1, vector2);
         countParts++;
       }
-    });
+    }
 
     if (countParts == 0) {
       return null;
