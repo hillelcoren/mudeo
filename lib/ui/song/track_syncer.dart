@@ -9,11 +9,11 @@ import 'package:mudeo/utils/localization.dart';
 class TrackSyncer extends StatefulWidget {
   const TrackSyncer({
     @required this.song,
-    @required this.onDelayChanged,
+    @required this.onDelaysChanged,
   });
 
   final SongEntity song;
-  final Function(TrackEntity, int) onDelayChanged;
+  final Function(List<int>) onDelaysChanged;
 
   @override
   _TrackSyncerState createState() => _TrackSyncerState();
@@ -29,13 +29,33 @@ class _TrackSyncerState extends State<TrackSyncer> {
     3: false,
     4: false,
   };
+  List<int> _delays = [
+    0,
+    0,
+    0,
+    0,
+    0,
+  ];
 
   SongEntity _song;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+
     _song = widget.song;
+
+    for (int i = 1; i <= _song.tracks.length - 1; i++) {
+      setState(() {
+        _delays[i] = _song.tracks[i].delay;
+        print('## DELAYS LOADED: $_delays');
+      });
+    }
   }
 
   void _syncVideos() async {
@@ -57,7 +77,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
           _song.tracks[0].video.getVolumeMap(start, end),
           _song.tracks[i].video.getVolumeMap(start, end),
         ]);
-        widget.onDelayChanged(track, delay);
+        _delays[i] = delay;
         setState(() {
           _song = _song.setTrackDelay(track, delay);
           _isSyncing[i] = false;
@@ -84,6 +104,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
           FlatButton(
             child: Text(localization.done.toUpperCase()),
             onPressed: () {
+              widget.onDelaysChanged(_delays);
               Navigator.of(context).pop();
             },
           ),
@@ -128,16 +149,10 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     var delay = track.delay +
                         (details.primaryDelta.toInt() * _timeSpan.floor());
                     delay = max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
+                    _delays[i] = delay;
                     setState(() {
                       _song = _song.setTrackDelay(track, delay);
                     });
-                  }
-                },
-                onHorizontalDragEnd: (details) {
-                  if (i > 0) {
-                    final track = _song.tracks[i];
-                    print('## Set delay to ${_song.tracks[i].delay}');
-                    widget.onDelayChanged(track, _song.tracks[i].delay);
                   }
                 },
                 child: TrackVolume(

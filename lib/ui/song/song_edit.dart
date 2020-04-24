@@ -570,21 +570,25 @@ class _SongEditState extends State<SongEdit> {
     final song = viewModel.song;
     final isEmpty = song.tracks.isEmpty;
 
-    void _showTrackSyncer() {
+    void _showTrackSyncer() async {
       var updatedSong = song;
-      showDialog<AlertDialog>(
+      await showDialog<AlertDialog>(
         context: context,
         useRootNavigator: true,
         builder: (BuildContext context) {
           return TrackSyncer(
             song: updatedSong,
-            onDelayChanged: (track, delay) {
-              updatedSong = updatedSong.setTrackDelay(track, delay);
+            onDelaysChanged: (delays) {
+              updatedSong = updatedSong.setTrackDelays(delays);
               viewModel.onChangedSong(updatedSong);
-              updateRecognitions(
-                  video: track.video,
-                  duration: song.duration,
-                  delay: track.delay);
+              Navigator.of(context).pop();
+              for (var i=0; i<song.tracks.length; i++) {
+                updateRecognitions(
+                    video: song.tracks[i].video,
+                    duration: song.duration,
+                    delay: song.tracks[i].delay);
+              }
+
             },
           );
         },

@@ -183,6 +183,18 @@ abstract class SongEntity extends Object
     return rebuild((b) => b..tracks[index] = updatedTrack);
   }
 
+  SongEntity setTrackDelays(List<int> delays) {
+    SongEntity updatedSong = this;
+    TrackEntity updatedTrack;
+
+    for (var i = 1; i < updatedSong.tracks.length; i++) {
+      updatedTrack = updatedSong.tracks[i].rebuild((b) => b..delay = delays[i]);
+      updatedSong = updatedSong.rebuild((b) => b..tracks[i] = updatedTrack);
+    }
+
+    return updatedSong;
+  }
+
   List<String> get videoURLs =>
       tracks.map((track) => track.video.url).toList()..add(videoUrl);
 
