@@ -117,13 +117,18 @@ class _TrackScoreState extends State<TrackScore> {
     _frameTimes = [];
     _origPaths = [];
     _copyPaths = [];
-    final song = widget.song;
-    final http.Response response =
-        await http.Client().get(widget.song.tracks.first.video.url);
 
-    final origVideoPath =
-        await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
-    await File(origVideoPath).writeAsBytes(response.bodyBytes);
+    final song = widget.song;
+    var video = song.tracks.first.video;
+    String origVideoPath = await VideoEntity.getPath(video.timestamp);
+    if (!await File(origVideoPath).exists()) {
+      final http.Response response =
+          await http.Client().get(widget.song.tracks.first.video.url);
+
+      origVideoPath =
+          await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
+      await File(origVideoPath).writeAsBytes(response.bodyBytes);
+    }
 
     for (int i = 0; i < song.duration; i += frameLength) {
       _frameTimes.add(i);
@@ -137,12 +142,15 @@ class _TrackScoreState extends State<TrackScore> {
       _origPaths.add(path);
     }
 
-    final http.Response copyResponse =
-        await http.Client().get(widget.track.video.url);
+    video = widget.track.video;
+    String copyVideoPath = await VideoEntity.getPath(video.timestamp);
+    if (!await File(origVideoPath).exists()) {
+      final http.Response copyResponse = await http.Client().get(video.url);
 
-    final copyVideoPath =
-        await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
-    await File(copyVideoPath).writeAsBytes(copyResponse.bodyBytes);
+      final copyVideoPath =
+          await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
+      await File(copyVideoPath).writeAsBytes(copyResponse.bodyBytes);
+    }
 
     for (int i = 0; i < song.duration; i += frameLength) {
       final copyPath = copyVideoPath.replaceFirst('.mp4', '-$i.jpg');
