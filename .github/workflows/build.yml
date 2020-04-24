@@ -1,9 +1,9 @@
-name: Build Web
+#name: Build Web
 #on:
 #  push:
 #    branches:
 #      - master
-jobs:
+#jobs:
   build:
     name: Build Web
     env:
