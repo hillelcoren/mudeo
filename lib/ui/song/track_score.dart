@@ -203,6 +203,7 @@ class _TrackScoreState extends State<TrackScore> {
           },
         )
       ],
+      title: _isProcessing ? Text(localization.processing) : null,
       content: _isProcessing
           ? Padding(
               padding: const EdgeInsets.only(top: 15),

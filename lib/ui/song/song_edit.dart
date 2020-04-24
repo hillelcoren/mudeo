@@ -938,32 +938,28 @@ class TrackEditDialog extends StatelessWidget {
                     color: Colors.redAccent,
                     onPressed: () {
                       Navigator.of(context).pop();
-                      if (track.video.isOld) {
-                        onDeletePressed();
-                      } else {
-                        showDialog<AlertDialog>(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            semanticLabel: localization.areYouSure,
-                            title: Text(localization.removeVideo),
-                            content: Text(localization.areYouSure),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  child:
-                                      Text(localization.cancel.toUpperCase()),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  }),
-                              new FlatButton(
-                                  child: Text(localization.ok.toUpperCase()),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    onDeletePressed();
-                                  })
-                            ],
-                          ),
-                        );
-                      }
+                      showDialog<AlertDialog>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          semanticLabel: localization.areYouSure,
+                          title: Text(localization.removeVideo),
+                          content: Text(localization.areYouSure),
+                          actions: <Widget>[
+                            new FlatButton(
+                                child:
+                                Text(localization.cancel.toUpperCase()),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                            new FlatButton(
+                                child: Text(localization.ok.toUpperCase()),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  onDeletePressed();
+                                })
+                          ],
+                        ),
+                      );
                     },
                   ),
                 ],
