@@ -3,13 +3,15 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 
 class ElevatedButton extends StatelessWidget {
-  const ElevatedButton(
-      {@required this.label,
-        @required this.onPressed,
-        this.icon,
-        this.color,
-        this.width,
-      this.height,});
+  const ElevatedButton({
+    @required this.label,
+    @required this.onPressed,
+    this.icon,
+    this.color,
+    this.width,
+    this.textStyle,
+    this.height,
+  });
 
   final Color color;
   final IconData icon;
@@ -17,6 +19,7 @@ class ElevatedButton extends StatelessWidget {
   final Function onPressed;
   final double width;
   final double height;
+  final TextStyle textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +30,14 @@ class ElevatedButton extends StatelessWidget {
         color: color ?? Theme.of(context).buttonColor,
         child: icon != null
             ? IconText(
-          icon: icon,
-          text: label,
-        )
-            : Text(label),
+                icon: icon,
+                text: label,
+                textStyle: textStyle,
+              )
+            : Text(
+                label,
+                style: textStyle,
+              ),
         textColor: Colors.white,
         elevation: kDefaultElevation,
         onPressed: () => this.onPressed(),

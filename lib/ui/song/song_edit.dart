@@ -811,173 +811,171 @@ class TrackEditDialog extends StatelessWidget {
     final localization = AppLocalization.of(context);
     final state = viewModel.state;
     final buttonWidth = 200.0;
-    final buttonHeight = 50.0;
-    final bottomPadding = 22.0;
+    final buttonHeight = 55.0;
+    final bottomPadding = 30.0;
 
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Material(
-            elevation: kDefaultElevation,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Form(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      if (!state.isDance)
-                        Container(
-                          height: 250,
-                          child: FlutterSlider(
-                            handlerAnimation: FlutterSliderHandlerAnimation(
-                                curve: Curves.elasticOut,
-                                reverseCurve: Curves.bounceIn,
-                                duration: Duration(milliseconds: 500),
-                                scale: 1.25),
-                            trackBar: FlutterSliderTrackBar(
-                              activeTrackBar: BoxDecoration(
-                                color: Colors.greenAccent,
-                              ),
-                              activeTrackBarHeight: 5,
-                              inactiveTrackBar: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.5),
-                              ),
-                            ),
-                            tooltip: FlutterSliderTooltip(
-                              rightSuffix: Icon(
-                                Icons.volume_up,
-                                size: 19,
-                                color: Colors.black26,
-                              ),
-                            ),
-                            axis: Axis.vertical,
-                            rtl: true,
-                            values: [track.volume.toDouble()],
-                            max: 100,
-                            min: 0,
-                            onDragging:
-                                (handlerIndex, lowerValue, upperValue) {
-                              videoPlayer.setVolume(lowerValue / 100);
-                              final song = viewModel.song
-                                  .setTrackVolume(track, lowerValue.toInt());
-                              viewModel.onChangedSong(song);
-                            },
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Material(
+          elevation: kDefaultElevation,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Form(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  if (!state.isDance)
+                    Container(
+                      height: 250,
+                      child: FlutterSlider(
+                        handlerAnimation: FlutterSliderHandlerAnimation(
+                            curve: Curves.elasticOut,
+                            reverseCurve: Curves.bounceIn,
+                            duration: Duration(milliseconds: 500),
+                            scale: 1.25),
+                        trackBar: FlutterSliderTrackBar(
+                          activeTrackBar: BoxDecoration(
+                            color: Colors.greenAccent,
+                          ),
+                          activeTrackBarHeight: 5,
+                          inactiveTrackBar: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.5),
                           ),
                         ),
-                      if (state.isDance)
-                        Padding(
-                          padding: EdgeInsets.only(bottom: bottomPadding),
+                        tooltip: FlutterSliderTooltip(
+                          rightSuffix: Icon(
+                            Icons.volume_up,
+                            size: 19,
+                            color: Colors.black26,
+                          ),
+                        ),
+                        axis: Axis.vertical,
+                        rtl: true,
+                        values: [track.volume.toDouble()],
+                        max: 100,
+                        min: 0,
+                        onDragging:
+                            (handlerIndex, lowerValue, upperValue) {
+                          videoPlayer.setVolume(lowerValue / 100);
+                          final song = viewModel.song
+                              .setTrackVolume(track, lowerValue.toInt());
+                          viewModel.onChangedSong(song);
+                        },
+                      ),
+                    ),
+                  if (state.isDance)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: bottomPadding),
+                      child: ElevatedButton(
+                        width: buttonWidth,
+                        height: buttonHeight,
+                        color: Colors.green,
+                        icon: Icons.check_circle_outline,
+                        label: localization.score,
+                        textStyle: Theme.of(context).textTheme.headline6,
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          showDialog<TrackScore>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return TrackScore(
+                                  song: viewModel.song,
+                                  track: track,
+                                );
+                              });
+                        },
+                      ),
+                    ),
+                  isFirst
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.only(bottom: bottomPadding ),
                           child: ElevatedButton(
                             width: buttonWidth,
                             height: buttonHeight,
-                            color: Colors.green,
-                            icon: Icons.check_circle_outline,
-                            label: localization.score,
-                            onPressed: () async {
+                            label: localization.adjust,
+                            icon: Icons.swap_horizontal_circle,
+                            textStyle: Theme.of(context).textTheme.headline6,
+                            onPressed: () {
                               Navigator.of(context).pop();
-                              showDialog<TrackScore>(
+                              showDialog<TrackLatency>(
                                   context: context,
+                                  barrierDismissible: false,
                                   builder: (BuildContext context) {
-                                    return TrackScore(
-                                      song: viewModel.song,
-                                      track: track,
+                                    return TrackLatency(
+                                      delay: track.delay ?? 0,
+                                      onDelayAccepted: (delay) =>
+                                          onDelayAccepted(delay),
+                                      onDelayChanged: (delay) =>
+                                          onDelayChanged(delay),
                                     );
                                   });
                             },
                           ),
                         ),
-                      isFirst
-                          ? SizedBox()
-                          : Padding(
-                              padding: EdgeInsets.only(bottom: bottomPadding ),
-                              child: ElevatedButton(
-                                width: buttonWidth,
-                                height: buttonHeight,
-                                label: localization.adjust,
-                                icon: Icons.swap_horizontal_circle,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  showDialog<TrackLatency>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return TrackLatency(
-                                          delay: track.delay ?? 0,
-                                          onDelayAccepted: (delay) =>
-                                              onDelayAccepted(delay),
-                                          onDelayChanged: (delay) =>
-                                              onDelayChanged(delay),
-                                        );
-                                      });
-                                },
-                              ),
-                            ),
-                      track.video.isRemoteVideo
-                          ? Padding(
-                              padding: EdgeInsets.only(bottom: bottomPadding ),
-                              child: ElevatedButton(
-                                width: buttonWidth,
-                                height: buttonHeight,
-                                label: localization.source,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  launch(track.video.remoteVideoUrl,
-                                      forceSafariVC: false);
-                                },
-                              ),
-                            )
-                          : SizedBox(),
-                      ElevatedButton(
-                        width: buttonWidth,
-                        height: buttonHeight,
-                        icon: Icons.delete_outline,
-                        label: track.video.isOld
-                            ? localization.remove
-                            : localization.delete,
-                        color: Colors.redAccent,
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          if (track.video.isOld) {
-                            onDeletePressed();
-                          } else {
-                            showDialog<AlertDialog>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                semanticLabel: localization.areYouSure,
-                                title: Text(localization.removeVideo),
-                                content: Text(localization.areYouSure),
-                                actions: <Widget>[
-                                  new FlatButton(
-                                      child: Text(
-                                          localization.cancel.toUpperCase()),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      }),
-                                  new FlatButton(
-                                      child:
-                                          Text(localization.ok.toUpperCase()),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        onDeletePressed();
-                                      })
-                                ],
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    ],
+                  track.video.isRemoteVideo
+                      ? Padding(
+                          padding: EdgeInsets.only(bottom: bottomPadding ),
+                          child: ElevatedButton(
+                            width: buttonWidth,
+                            height: buttonHeight,
+                            label: localization.source,
+                            textStyle: Theme.of(context).textTheme.headline6,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              launch(track.video.remoteVideoUrl,
+                                  forceSafariVC: false);
+                            },
+                          ),
+                        )
+                      : SizedBox(),
+                  ElevatedButton(
+                    width: buttonWidth,
+                    height: buttonHeight,
+                    textStyle: Theme.of(context).textTheme.headline6,
+                    icon: Icons.delete_outline,
+                    label: track.video.isOld
+                        ? localization.remove
+                        : localization.delete,
+                    color: Colors.redAccent,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      if (track.video.isOld) {
+                        onDeletePressed();
+                      } else {
+                        showDialog<AlertDialog>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            semanticLabel: localization.areYouSure,
+                            title: Text(localization.removeVideo),
+                            content: Text(localization.areYouSure),
+                            actions: <Widget>[
+                              new FlatButton(
+                                  child: Text(
+                                      localization.cancel.toUpperCase()),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                              new FlatButton(
+                                  child:
+                                      Text(localization.ok.toUpperCase()),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    onDeletePressed();
+                                  })
+                            ],
+                          ),
+                        );
+                      }
+                    },
                   ),
-                ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
