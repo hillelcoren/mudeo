@@ -176,6 +176,9 @@ abstract class SongEntity extends Object
 
   SongEntity setTrackDelay(TrackEntity track, int delay) {
     final index = tracks.indexOf(track);
+    if (index < 0) {
+      return this;
+    }
     final updatedTrack = track.rebuild((b) => b..delay = delay);
     return rebuild((b) => b..tracks[index] = updatedTrack);
   }

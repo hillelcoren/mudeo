@@ -574,6 +574,7 @@ class _SongEditState extends State<SongEdit> {
       var updatedSong = song;
       showDialog<AlertDialog>(
         context: context,
+        useRootNavigator: true,
         builder: (BuildContext context) {
           return TrackSyncer(
             song: updatedSong,

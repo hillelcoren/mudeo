@@ -128,10 +128,16 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     var delay = track.delay +
                         (details.primaryDelta.toInt() * _timeSpan.floor());
                     delay = max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
-                    widget.onDelayChanged(track, delay);
                     setState(() {
                       _song = _song.setTrackDelay(track, delay);
                     });
+                  }
+                },
+                onHorizontalDragEnd: (details) {
+                  if (i > 0) {
+                    final track = _song.tracks[i];
+                    print('## Set delay to ${_song.tracks[i].delay}');
+                    widget.onDelayChanged(track, _song.tracks[i].delay);
                   }
                 },
                 child: TrackVolume(
