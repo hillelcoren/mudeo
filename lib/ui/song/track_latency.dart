@@ -46,6 +46,21 @@ class _TrackLatencyState extends State<TrackLatency> {
 
     return AlertDialog(
       title: Text(localization.trackAdjustment),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(localization.cancel.toUpperCase()),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        FlatButton(
+          child: Text(localization.done.toUpperCase()),
+          onPressed: () {
+            widget.onDelayAccepted(_delay);
+            Navigator.pop(context);
+          },
+        ),
+      ],
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -90,55 +105,6 @@ class _TrackLatencyState extends State<TrackLatency> {
                   },
                 ),
               ),
-            ],
-          ),
-          SizedBox(height: 28),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Expanded(
-                child: RaisedButton(
-                  color: Colors.grey,
-                  child: Text(localization.cancel),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    /*
-                    setState(() {
-                      _delayController.text = '0';
-                      _delay = 0;
-                    });
-                    */
-                  },
-                ),
-              ),
-              SizedBox(width: 20),
-              Expanded(
-                child: RaisedButton(
-                  child: Text(localization.done),
-                  onPressed: () {
-                    widget.onDelayAccepted(_delay);
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              /*
-                      Expanded(
-                        child: RaisedButton(
-                          child: Text(
-                            localization.calibrate,
-                          ),
-                          onPressed: () async {
-                            try {
-                              final int result =
-                                  await platform.invokeMethod('getDelay');
-                              print('Delay: $result');
-                            } on PlatformException catch (e) {
-                              print('Error: ${e.message}');
-                            }
-                          },
-                        ),
-                      )
-                      */
             ],
           ),
         ],
