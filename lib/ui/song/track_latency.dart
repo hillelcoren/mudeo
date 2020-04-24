@@ -7,12 +7,10 @@ import 'package:mudeo/utils/localization.dart';
 class TrackLatency extends StatefulWidget {
   TrackLatency({
     @required this.delay,
-    @required this.onDelayAccepted,
     @required this.onDelayChanged,
   });
 
   final int delay;
-  final Function(int) onDelayAccepted;
   final Function(int) onDelayChanged;
 
   @override
@@ -54,13 +52,13 @@ class _TrackLatencyState extends State<TrackLatency> {
               _delay = 0;
               _delayController.text = '0';
             });
-            widget.onDelayAccepted(0);
+            widget.onDelayChanged(0);
           },
         ),
         FlatButton(
           child: Text(localization.done.toUpperCase()),
           onPressed: () {
-            widget.onDelayAccepted(_delay);
+            widget.onDelayChanged(_delay);
             Navigator.pop(context);
           },
         ),
