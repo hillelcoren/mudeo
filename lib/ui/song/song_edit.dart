@@ -409,8 +409,19 @@ class _SongEditState extends State<SongEdit> {
     });
 
     if (widget.viewModel.state.isDance) {
+      showDialog<AlertDialog>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalization.of(context).processing),
+            content: LinearProgressIndicator(),
+          );
+        },
+      );
       final data = await convertVideoToRecognitions(path, duration);
       widget.viewModel.onVideoUpdated(video, data);
+      Navigator.of(context).pop();
     }
   }
 

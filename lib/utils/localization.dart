@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'processing': 'Processing',
       'show_details': 'Show Details',
       'score': 'Score',
       'background_music_help': 'You can play a song in the background to have music to dance to',
@@ -661,6 +662,9 @@ class AppLocalization {
   String get score => _localizedValues[locale.toString()]['score'];
 
   String get showDetails => _localizedValues[locale.toString()]['show_details'];
+
+  String get processing => _localizedValues[locale.toString()]['processing'];
+
 
 
   String lookup(String key) {
