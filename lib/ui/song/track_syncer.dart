@@ -79,6 +79,14 @@ class _TrackSyncerState extends State<TrackSyncer> {
       title: Text(AppLocalization
           .of(context)
           .trackAdjustment),
+      actions: <Widget>[
+        FlatButton(
+          child: Text(localization.done.toUpperCase()),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
       content: ClipRect(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -131,10 +139,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   isSyncing: i == 0 ? false : (_isSyncing[i] ?? false),
                 ),
               ),
-            SizedBox(height: 18),
             _isSyncing.values.contains(true)
                 ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 22),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               child: LinearProgressIndicator(),
             )
                 : Row(
@@ -148,16 +155,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
                       onPressed: () => _syncVideos(),
                     ),
                   ),
-                if (hasVolumeData)
-                  SizedBox(width: 20),
-                Expanded(
-                  child: RaisedButton(
-                    child: Text(localization.done.toUpperCase()),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
               ],
             ),
           ],
