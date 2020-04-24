@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
@@ -810,6 +811,8 @@ class TrackEditDialog extends StatelessWidget {
     final localization = AppLocalization.of(context);
     final state = viewModel.state;
     final buttonWidth = 200.0;
+    final buttonHeight = 50.0;
+    final bottomPadding = 22.0;
 
     return Padding(
       padding: EdgeInsets.all(16.0),
@@ -867,10 +870,12 @@ class TrackEditDialog extends StatelessWidget {
                         ),
                       if (state.isDance)
                         Padding(
-                          padding: EdgeInsets.only(bottom: 16),
+                          padding: EdgeInsets.only(bottom: bottomPadding),
                           child: ElevatedButton(
                             width: buttonWidth,
+                            height: buttonHeight,
                             color: Colors.green,
+                            icon: Icons.check_circle_outline,
                             label: localization.score,
                             onPressed: () async {
                               showDialog<TrackScore>(
@@ -887,10 +892,12 @@ class TrackEditDialog extends StatelessWidget {
                       isFirst
                           ? SizedBox()
                           : Padding(
-                              padding: EdgeInsets.only(bottom: 16),
+                              padding: EdgeInsets.only(bottom: bottomPadding ),
                               child: ElevatedButton(
                                 width: buttonWidth,
+                                height: buttonHeight,
                                 label: localization.adjust,
+                                icon: Icons.swap_horizontal_circle,
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                   showDialog<TrackLatency>(
@@ -910,9 +917,10 @@ class TrackEditDialog extends StatelessWidget {
                             ),
                       track.video.isRemoteVideo
                           ? Padding(
-                              padding: EdgeInsets.only(bottom: 16),
+                              padding: EdgeInsets.only(bottom: bottomPadding ),
                               child: ElevatedButton(
-                                width: 110,
+                                width: buttonWidth,
+                                height: buttonHeight,
                                 label: localization.source,
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -924,6 +932,8 @@ class TrackEditDialog extends StatelessWidget {
                           : SizedBox(),
                       ElevatedButton(
                         width: buttonWidth,
+                        height: buttonHeight,
+                        icon: Icons.delete_outline,
                         label: track.video.isOld
                             ? localization.remove
                             : localization.delete,
