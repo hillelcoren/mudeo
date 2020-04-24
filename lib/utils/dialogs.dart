@@ -4,7 +4,6 @@ import 'package:mudeo/utils/localization.dart';
 void showProcessingDialog(BuildContext context) {
   showDialog<AlertDialog>(
     context: context,
-    barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(AppLocalization.of(context).processing),

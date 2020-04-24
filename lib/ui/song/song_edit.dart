@@ -505,7 +505,6 @@ class _SongEditState extends State<SongEdit> {
 
   void onSettingsPressed() {
     showDialog<SimpleDialog>(
-        barrierDismissible: true,
         context: context,
         builder: (BuildContext context) {
           final localization = AppLocalization.of(context);
@@ -787,7 +786,6 @@ class TrackView extends StatelessWidget {
           ? null
           : () {
               showDialog<TrackEditDialog>(
-                barrierDismissible: true,
                 context: context,
                 builder: (BuildContext context) {
                   return TrackEditDialog(

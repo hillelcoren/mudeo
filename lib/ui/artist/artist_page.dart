@@ -77,7 +77,6 @@ class ArtistPage extends StatelessWidget {
 
     void _showMenu() {
       showDialog<SimpleDialog>(
-          barrierDismissible: true,
           context: context,
           builder: (BuildContext context) {
             return SimpleDialog(
