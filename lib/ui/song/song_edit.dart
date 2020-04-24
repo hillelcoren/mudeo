@@ -18,6 +18,7 @@ import 'package:mudeo/ui/song/track_latency.dart';
 import 'package:mudeo/ui/song/track_score.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
+import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/posenet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -409,16 +410,7 @@ class _SongEditState extends State<SongEdit> {
     });
 
     if (widget.viewModel.state.isDance) {
-      showDialog<AlertDialog>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(AppLocalization.of(context).processing),
-            content: LinearProgressIndicator(),
-          );
-        },
-      );
+      showProcessingDialog(context);
       final data = await convertVideoToRecognitions(path, duration);
       widget.viewModel.onVideoUpdated(video, data);
       Navigator.of(context).pop();
