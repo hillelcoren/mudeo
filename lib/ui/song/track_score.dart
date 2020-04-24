@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:document_analysis/document_analysis.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -120,41 +121,49 @@ class _TrackScoreState extends State<TrackScore> {
     _copyPaths = [];
 
     final song = widget.song;
+    var path;
     var video = song.tracks.first.video;
-    final http.Response response =
-        await http.Client().get(widget.song.tracks.first.video.url);
-    String origVideoPath =
-        await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
-    await File(origVideoPath).writeAsBytes(response.bodyBytes);
+
+    if (video.isOld) {
+      final http.Response response =
+          await http.Client().get(widget.song.tracks.first.video.url);
+      path = await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
+      await File(path).writeAsBytes(response.bodyBytes);
+    } else {
+      path = await VideoEntity.getPath(video.timestamp);
+    }
 
     for (int i = 0; i < song.duration; i += frameLength) {
       _frameTimes.add(i);
-      final path = origVideoPath.replaceFirst('.mp4', '-$i.jpg');
+      final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
       await VideoThumbnail.thumbnailFile(
-        video: origVideoPath,
+        video: path,
         imageFormat: ImageFormat.JPEG,
         timeMs: i,
-        thumbnailPath: path,
+        thumbnailPath: thumbnailPath,
       );
-      _origPaths.add(path);
+      _origPaths.add(thumbnailPath);
     }
 
     video = widget.track.video;
-    final http.Response copyResponse = await http.Client().get(video.url);
-
-    final copyVideoPath =
-        await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
-    await File(copyVideoPath).writeAsBytes(copyResponse.bodyBytes);
+    if (video.isOld) {
+      final http.Response copyResponse = await http.Client().get(video.url);
+      path =
+      await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
+      await File(path).writeAsBytes(copyResponse.bodyBytes);
+    } else {
+      path = await VideoEntity.getPath(video.timestamp);
+    }
 
     for (int i = 0; i < song.duration; i += frameLength) {
-      final copyPath = copyVideoPath.replaceFirst('.mp4', '-$i.jpg');
+      final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
       await VideoThumbnail.thumbnailFile(
-        video: copyVideoPath,
+        video: path,
         imageFormat: ImageFormat.JPEG,
         timeMs: i,
-        thumbnailPath: copyPath,
+        thumbnailPath: thumbnailPath,
       );
-      _copyPaths.add(copyPath);
+      _copyPaths.add(thumbnailPath);
     }
 
     setState(() {
