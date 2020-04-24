@@ -70,22 +70,24 @@ class _TrackSyncerState extends State<TrackSyncer> {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final hasVolumeData =
-        _song.tracks
-            .where((track) => track.video.volumeData != null)
-            .length >
+        _song.tracks.where((track) => track.video.volumeData != null).length >
             1;
 
     return AlertDialog(
-      title: Text(AppLocalization
-          .of(context)
-          .trackAdjustment),
+      title: Text(AppLocalization.of(context).trackAdjustment),
       actions: <Widget>[
-        FlatButton(
-          child: Text(localization.done.toUpperCase()),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        )
+        if (!_isSyncing.values.contains(true)) ...[
+          FlatButton(
+            child: Text(localization.sync.toUpperCase()),
+            onPressed: () => _syncVideos(),
+          ),
+          FlatButton(
+            child: Text(localization.done.toUpperCase()),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ]
       ],
       content: ClipRect(
         child: Column(
@@ -139,24 +141,11 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   isSyncing: i == 0 ? false : (_isSyncing[i] ?? false),
                 ),
               ),
-            _isSyncing.values.contains(true)
-                ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: LinearProgressIndicator(),
-            )
-                : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                if (hasVolumeData)
-                  Expanded(
-                    child: RaisedButton(
-                      color: Colors.grey,
-                      child: Text(localization.sync.toUpperCase()),
-                      onPressed: () => _syncVideos(),
-                    ),
-                  ),
-              ],
-            ),
+            if (_isSyncing.values.contains(true))
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: LinearProgressIndicator(),
+              )
           ],
         ),
       ),
@@ -184,13 +173,8 @@ class TrackVolume extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            AppLocalization
-                .of(context)
-                .saveVideoToProcessAudio,
-            style: Theme
-                .of(context)
-                .textTheme
-                .caption,
+            AppLocalization.of(context).saveVideoToProcessAudio,
+            style: Theme.of(context).textTheme.caption,
           ),
         ),
         alignment: Alignment.centerLeft,

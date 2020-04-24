@@ -195,7 +195,10 @@ class _TrackScoreState extends State<TrackScore> {
         )
       ],
       content: _isProcessing
-          ? LinearProgressIndicator()
+          ? Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: LinearProgressIndicator(),
+            )
           : IntrinsicHeight(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
