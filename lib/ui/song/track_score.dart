@@ -228,6 +228,9 @@ class _TrackScoreState extends State<TrackScore> {
                         itemCount: _frameTimes.length,
                         itemBuilder: (BuildContext context, int index) {
                           final i = index;
+                          final frameIndex =
+                              _frameTimes.indexOf(_frameTimes[i]);
+
                           return Row(
                             children: <Widget>[
                               Expanded(
@@ -236,12 +239,13 @@ class _TrackScoreState extends State<TrackScore> {
                                   frame:
                                       origData[i].cast<String, List<dynamic>>(),
                                   color: Colors.blue,
-                                  child: Image.file(
-                                    File(_origPaths[
-                                        _frameTimes.indexOf(_frameTimes[i])]),
-                                    color: Colors.black87,
-                                    colorBlendMode: BlendMode.srcOver,
-                                  ),
+                                  child: _origPaths[frameIndex] == null
+                                      ? SizedBox()
+                                      : Image.file(
+                                          File(_origPaths[frameIndex]),
+                                          color: Colors.black87,
+                                          colorBlendMode: BlendMode.srcOver,
+                                        ),
                                 ),
                               ),
                               Expanded(
@@ -250,12 +254,13 @@ class _TrackScoreState extends State<TrackScore> {
                                   frame:
                                       copyData[i].cast<String, List<dynamic>>(),
                                   color: Colors.red,
-                                  child: Image.file(
-                                    File(_copyPaths[
-                                        _frameTimes.indexOf(_frameTimes[i])]),
-                                    color: Colors.black87,
-                                    colorBlendMode: BlendMode.srcOver,
-                                  ),
+                                  child: _origPaths[frameIndex] == null
+                                      ? SizedBox()
+                                      : Image.file(
+                                          File(_copyPaths[frameIndex]),
+                                          color: Colors.black87,
+                                          colorBlendMode: BlendMode.srcOver,
+                                        ),
                                 ),
                               ),
                             ],

@@ -878,6 +878,7 @@ class TrackEditDialog extends StatelessWidget {
                             icon: Icons.check_circle_outline,
                             label: localization.score,
                             onPressed: () async {
+                              Navigator.of(context).pop();
                               showDialog<TrackScore>(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -939,6 +940,7 @@ class TrackEditDialog extends StatelessWidget {
                             : localization.delete,
                         color: Colors.redAccent,
                         onPressed: () {
+                          Navigator.of(context).pop();
                           if (track.video.isOld) {
                             onDeletePressed();
                           } else {
