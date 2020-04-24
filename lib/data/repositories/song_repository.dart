@@ -70,6 +70,7 @@ class SongRepository {
       response = await webClient.post(
           '${state.apiUrl}/videos', state.artist.token,
           recognitions: video.recognitions,
+          timestamp: video.timestamp,
           data: json.encode(data),
           filePath: video.remoteVideoId != null
               ? null

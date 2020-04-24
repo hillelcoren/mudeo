@@ -4,17 +4,25 @@ import 'package:mudeo/utils/formatting.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:tflite/tflite.dart';
 
-Future<String> convertVideoToRecognitions(String path, int duration) async {
+Future<String> convertVideoToRecognitions(
+    {String path, int duration, int delay}) async {
   List<dynamic> data = [];
 
   int frameLength = kRecognitionFrameSpeed;
 
   for (int i = 0; i < duration; i += frameLength) {
+    final timeMs = i + delay;
+
+    if (timeMs < 0) {
+      continue;
+    }
+
+    print('## Times: $timeMs]');
 
     final file = await VideoThumbnail.thumbnailFile(
       video: path,
       imageFormat: ImageFormat.JPEG,
-      timeMs: i,
+      timeMs: timeMs,
     );
 
     await Tflite.loadModel(

@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:document_analysis/document_analysis.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -78,6 +77,10 @@ class _TrackScoreState extends State<TrackScore> {
     final origData = jsonDecode(origTrack.video.recognitions);
     final copyData = jsonDecode(track.video.recognitions);
 
+    if (index >= origData.length || index >= copyData.length) {
+      return null;
+    }
+
     final orig = origData[index];
     final copy = copyData[index];
 
@@ -121,21 +124,19 @@ class _TrackScoreState extends State<TrackScore> {
     _copyPaths = [];
 
     final song = widget.song;
-    var path;
     var video = song.tracks.first.video;
 
-    if (video.isOld) {
+    String path = await VideoEntity.getPath(video.timestamp);
+    if (video.timestamp > 0 && !await File(path).exists()) {
       final http.Response response =
           await http.Client().get(widget.song.tracks.first.video.url);
-      path = await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
       await File(path).writeAsBytes(response.bodyBytes);
-    } else {
-      path = await VideoEntity.getPath(video.timestamp);
     }
 
     for (int i = 0; i < song.duration; i += frameLength) {
       _frameTimes.add(i);
       final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
+      print('## video-path: $path, thumb-path: $path');
       await VideoThumbnail.thumbnailFile(
         video: path,
         imageFormat: ImageFormat.JPEG,
@@ -146,13 +147,11 @@ class _TrackScoreState extends State<TrackScore> {
     }
 
     video = widget.track.video;
-    if (video.isOld) {
+    path = await VideoEntity.getPath(video.timestamp);
+
+    if (video.timestamp > 0 && !await File(path).exists()) {
       final http.Response copyResponse = await http.Client().get(video.url);
-      path =
-      await VideoEntity.getPath(DateTime.now().millisecondsSinceEpoch);
       await File(path).writeAsBytes(copyResponse.bodyBytes);
-    } else {
-      path = await VideoEntity.getPath(video.timestamp);
     }
 
     for (int i = 0; i < song.duration; i += frameLength) {

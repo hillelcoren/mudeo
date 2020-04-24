@@ -81,7 +81,6 @@ class _TrackLatencyState extends State<TrackLatency> {
                       _delay = value.toInt();
                       _delayController.text = '${value.toInt()}';
                     });
-                    widget.onDelayChanged(_delay);
                   },
                 ),
               ),

@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
@@ -410,12 +409,32 @@ class _SongEditState extends State<SongEdit> {
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
 
-    if (widget.viewModel.state.isDance) {
-      showProcessingDialog(context);
-      final data = await convertVideoToRecognitions(path, duration);
-      widget.viewModel.onVideoUpdated(video, data);
-      Navigator.of(context).pop();
+    updateRecognitions(
+      delay: 0,
+      duration: duration,
+      video: video,
+    );
+  }
+
+  void updateRecognitions(
+      {@required VideoEntity video,
+      @required int duration,
+      @required int delay}) async {
+    print('## updateRecognitions: duration: $duration, delay: $delay');
+
+    if (!widget.viewModel.state.isDance) {
+      return;
     }
+    showProcessingDialog(context);
+    String path = await VideoEntity.getPath(video.timestamp);
+    if (video.timestamp > 0 && !await File(path).exists()) {
+      final http.Response response = await http.Client().get(video.url);
+      await File(path).writeAsBytes(response.bodyBytes);
+    }
+    final data = await convertVideoToRecognitions(
+        path: path, duration: duration, delay: delay);
+    widget.viewModel.onVideoUpdated(video, data);
+    Navigator.of(context).pop();
   }
 
   void play() {
@@ -555,6 +574,10 @@ class _SongEditState extends State<SongEdit> {
             onDelayChanged: (track, delay) {
               updatedSong = updatedSong.setTrackDelay(track, delay);
               viewModel.onChangedSong(updatedSong);
+              updateRecognitions(
+                  video: track.video,
+                  duration: song.duration,
+                  delay: track.delay);
             },
           );
         },
@@ -688,6 +711,10 @@ class _SongEditState extends State<SongEdit> {
                             final song =
                                 viewModel.song.setTrackDelay(track, delay);
                             viewModel.onChangedSong(song);
+                            updateRecognitions(
+                                video: track.video,
+                                duration: song.duration,
+                                delay: delay);
                           },
                         );
                       }).toList(),
@@ -930,8 +957,7 @@ class TrackEditDialog extends StatelessWidget {
                           content: Text(localization.areYouSure),
                           actions: <Widget>[
                             new FlatButton(
-                                child:
-                                Text(localization.cancel.toUpperCase()),
+                                child: Text(localization.cancel.toUpperCase()),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 }),

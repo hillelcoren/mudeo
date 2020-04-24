@@ -78,6 +78,7 @@ class WebClient {
     String filePath,
     String fileField = 'video',
     String recognitions,
+    int timestamp,
   }) async {
     url = _checkUrl(url);
     debugPrint('POST: $url');
@@ -98,6 +99,7 @@ class WebClient {
       final request = http.MultipartRequest('POST', Uri.parse(url))
         ..fields.addAll({
           'recognitions': recognitions ?? '',
+          'timestamp': '$timestamp',
         })
         ..headers.addAll(headers)
         ..files.add(http.MultipartFile(fileField, stream, length,
