@@ -417,34 +417,31 @@ class _SongEditState extends State<SongEdit> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       print('## update');
-      await updateRecognitions(
+      final recognitions = await updateRecognitions(
         delay: 0,
         duration: duration,
         video: video,
       );
 
-      /*
       showDialog<TrackScore>(
           context: context,
           builder: (BuildContext context) {
             final song = widget.viewModel.song;
             return TrackScore(
                 song: song,
-                video: video);
+                video: video.rebuild((b) => b..recognitions = recognitions));
           });
-
-       */
     });
   }
 
-  Future<Null> updateRecognitions(
+  Future<String> updateRecognitions(
       {@required VideoEntity video,
       @required int duration,
       @required int delay}) async {
     print('## updateRecognitions: duration: $duration, delay: $delay');
 
     if (!widget.viewModel.state.isDance) {
-      return;
+      return null;
     }
     showProcessingDialog(context);
     String path = await VideoEntity.getPath(video.timestamp, video.id);
@@ -456,6 +453,8 @@ class _SongEditState extends State<SongEdit> {
         path: path, duration: duration, delay: delay);
     widget.viewModel.onVideoUpdated(video, data);
     Navigator.of(context).pop();
+
+    return data;
   }
 
   void play() {
