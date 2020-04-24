@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'your_score_is': 'Your score is',
       'processing': 'Processing',
       'show_details': 'Show Details',
       'score': 'Score',
@@ -100,6 +101,7 @@ class AppLocalization {
       'view_original': 'View Original',
       'add_a_public_comment': 'Add a public comment...',
       'done': 'Done',
+      'reset': 'Reset',
       'track_adjustment': 'Track Adjustment',
       'adjust': 'Adjust',
       'calibrate': 'Calibrate',
@@ -487,6 +489,8 @@ class AppLocalization {
 
   String get done => _localizedValues[locale.toString()]['done'];
 
+  String get reset => _localizedValues[locale.toString()]['reset'];
+
   String get addAPublicComment =>
       _localizedValues[locale.toString()]['add_a_public_comment'];
 
@@ -664,6 +668,8 @@ class AppLocalization {
   String get showDetails => _localizedValues[locale.toString()]['show_details'];
 
   String get processing => _localizedValues[locale.toString()]['processing'];
+
+  String get yourScoreIs => _localizedValues[locale.toString()]['your_score_is'];
 
 
 

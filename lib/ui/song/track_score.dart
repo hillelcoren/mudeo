@@ -206,7 +206,7 @@ class _TrackScoreState extends State<TrackScore> {
                   if (_distance != null) ...[
                     Padding(
                       padding: const EdgeInsets.all(15),
-                      child: Text('Your score is:'),
+                      child: Text(localization.yourScoreIs),
                     ),
                     SizedBox(height: 10),
                     Text(

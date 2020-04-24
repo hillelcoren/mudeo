@@ -48,6 +48,16 @@ class _TrackLatencyState extends State<TrackLatency> {
       title: Text(localization.trackAdjustment),
       actions: <Widget>[
         FlatButton(
+          child: Text(localization.reset.toUpperCase()),
+          onPressed: () {
+            setState(() {
+              _delay = 0;
+              _delayController.text = '0';
+            });
+            widget.onDelayAccepted(0);
+          },
+        ),
+        FlatButton(
           child: Text(localization.done.toUpperCase()),
           onPressed: () {
             widget.onDelayAccepted(_delay);

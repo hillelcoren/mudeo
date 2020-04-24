@@ -900,7 +900,6 @@ class TrackEditDialog extends StatelessWidget {
                               Navigator.of(context).pop();
                               showDialog<TrackLatency>(
                                   context: context,
-                                  barrierDismissible: false,
                                   builder: (BuildContext context) {
                                     return TrackLatency(
                                       delay: track.delay ?? 0,
