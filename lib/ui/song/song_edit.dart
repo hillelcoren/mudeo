@@ -415,11 +415,13 @@ class _SongEditState extends State<SongEdit> {
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
 
-    updateRecognitions(
-      delay: 0,
-      duration: duration,
-      video: video,
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      updateRecognitions(
+        delay: 0,
+        duration: duration,
+        video: video,
+      );
+    });
   }
 
   void updateRecognitions(
@@ -585,10 +587,12 @@ class _SongEditState extends State<SongEdit> {
                 if (delays[i] == song.tracks[i].delay) {
                   continue;
                 }
-                updateRecognitions(
-                    video: song.tracks[i].video,
-                    duration: song.duration,
-                    delay: delays[i]);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  updateRecognitions(
+                      video: song.tracks[i].video,
+                      duration: song.duration,
+                      delay: delays[i]);
+                });
               }
             },
           );
@@ -720,14 +724,17 @@ class _SongEditState extends State<SongEdit> {
                             viewModel.onDeleteVideoPressed(song, track);
                           },
                           onDelayChanged: (track, delay) {
+                            print('## TrackView: onDelayChanged');
                             final song =
                                 viewModel.song.setTrackDelay(track, delay);
                             viewModel.onChangedSong(song);
                             if (delay != track.delay) {
-                              updateRecognitions(
-                                  video: track.video,
-                                  duration: song.duration,
-                                  delay: delay);
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                updateRecognitions(
+                                    video: track.video,
+                                    duration: song.duration,
+                                    delay: delay);
+                              });
                             }
                           },
                         );
