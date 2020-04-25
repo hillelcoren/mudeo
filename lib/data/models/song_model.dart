@@ -448,7 +448,7 @@ abstract class VideoEntity extends Object
 
   String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
 
-  static Future<String> getPath(int timestamp, int id) async {
+  static Future<String> getPath(VideoEntity video) async {
     // TODO add web support
     if (kIsWeb) {
       return null;
@@ -458,7 +458,9 @@ abstract class VideoEntity extends Object
     final String folder = '${directory.path}/videos';
     await Directory(folder).create(recursive: true);
 
-    return '$folder/$id-$timestamp.mp4';
+    final id = video.isOld ? video.id : 'new';
+
+    return '$folder/$id-${video.timestamp}.mp4';
   }
 
   Map<int, double> getVolumeMap(int start, int end) {

@@ -20,7 +20,6 @@ import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/song/song_list.dart';
-import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 

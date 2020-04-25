@@ -74,7 +74,7 @@ class SongRepository {
           data: json.encode(data),
           filePath: video.remoteVideoId != null
               ? null
-              : await VideoEntity.getPath(video.timestamp, video.id));
+              : await VideoEntity.getPath(video));
     } else {
       var url = '${state.apiUrl}/videos/${video.id}';
       if (action != null) {

@@ -73,8 +73,8 @@ class _TrackScoreState extends State<TrackScore> {
   double _calculateFrameScore(int index) {
     final song = widget.song;
     final origTrack = song.tracks.first;
-    final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.video.recognitions);
+    final origData = jsonDecode(origTrack.video.recognitions)[0];
+    final copyData = jsonDecode(widget.video.recognitions)[0];
 
     if (index >= origData.length || index >= copyData.length) {
       return null;
@@ -125,7 +125,7 @@ class _TrackScoreState extends State<TrackScore> {
     final song = widget.song;
     var video = song.tracks.first.video;
 
-    String path = await VideoEntity.getPath(video.timestamp, video.id);
+    String path = await VideoEntity.getPath(video);
     if (!await File(path).exists()) {
       final http.Response response =
           await http.Client().get(widget.song.tracks.first.video.url);
@@ -146,7 +146,7 @@ class _TrackScoreState extends State<TrackScore> {
     }
 
     video = widget.video;
-    path = await VideoEntity.getPath(video.timestamp, video.id);
+    path = await VideoEntity.getPath(video);
 
     if (!await File(path).exists()) {
       final http.Response copyResponse = await http.Client().get(video.url);
@@ -180,8 +180,8 @@ class _TrackScoreState extends State<TrackScore> {
     final localization = AppLocalization.of(context);
     final song = widget.song;
     final origTrack = song.tracks.first;
-    final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.video.recognitions);
+    final origData = jsonDecode(origTrack.video.recognitions)[0];
+    final copyData = jsonDecode(widget.video.recognitions)[0];
     print('## origData: $origData');
 
     return AlertDialog(
