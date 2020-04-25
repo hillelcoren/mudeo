@@ -37,8 +37,8 @@ class _TrackScoreState extends State<TrackScore> {
   void _calculateScore() {
     final song = widget.song;
     final origTrack = song.tracks.first;
-    final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.video.recognitions);
+    final origData = jsonDecode(origTrack.video.recognitions)[0];
+    final copyData = jsonDecode(widget.video.recognitions)[0];
 
     _distance = 0;
     int countParts = 0;

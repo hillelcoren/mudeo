@@ -231,13 +231,19 @@ class MobileScreen extends StatelessWidget {
               currentIndex: uiState.selectedTabIndex,
               onTap: (index) {
                 final currentIndex = state.uiState.selectedTabIndex;
-                if (currentIndex == kTabList && index == kTabList) {
+                if (currentIndex == MUDEO_TAB_LIST && index == MUDEO_TAB_LIST) {
                   songScrollController.animateTo(
                       songScrollController.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),
                       curve: Curves.easeInOutCubic);
-                } else if (currentIndex == kTabProfile &&
-                    index == kTabProfile) {
+                } else if (currentIndex ==
+                        (state.isDance
+                            ? DANCE_TAB_PROFILE
+                            : MUDEO_TAB_PROFILE) &&
+                    index ==
+                        (state.isDance
+                            ? DANCE_TAB_PROFILE
+                            : MUDEO_TAB_PROFILE)) {
                   profileScrollController.animateTo(
                       profileScrollController.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),

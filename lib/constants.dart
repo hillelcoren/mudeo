@@ -71,10 +71,6 @@ const List<String> kLanguages = [
   'en',
 ];
 
-const int kTabList = 0;
-const int kTabEdit = 1;
-const int kTabProfile = 2;
-
 const String kLinkTypeFacebook = 'Facebook';
 const String kLinkTypeYouTube = 'YouTube';
 const String kLinkTypeInstagram = 'Instagram';

@@ -97,7 +97,7 @@ UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {
 UIState deleteSongReducer(UIState uiState, DeleteSongSuccess action) {
   return uiState.rebuild((b) => b
     ..song.replace(SongEntity())
-    ..selectedTabIndex = kTabList);
+    ..selectedTabIndex = 0); // TODO fix once song list is enabled
 }
 
 UIState addSongReducer(UIState uiState, AddSongSuccess action) {
@@ -122,7 +122,8 @@ UIState updateSongReducer(UIState uiState, UpdateSong action) {
 }
 
 UIState editSongReducer(UIState uiState, EditSong action) {
-  UIState state = uiState.rebuild((b) => b..selectedTabIndex = kTabEdit);
+  // TODO fix once song list is enabled
+  UIState state = uiState.rebuild((b) => b..selectedTabIndex = 0);
 
   if (uiState.song.id != action.song.id) {
     state = state.rebuild((b) => b..song.replace(action.song));

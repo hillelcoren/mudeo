@@ -9,7 +9,7 @@ part 'ui_state.g.dart';
 abstract class UIState implements Built<UIState, UIStateBuilder> {
   factory UIState() {
     return _$UIState._(
-      selectedTabIndex: kTabList,
+      selectedTabIndex: 0, // TODO fix once song list is enabled
       recordingTimestamp: 0,
       song: SongEntity(),
       artist: ArtistEntity(),
