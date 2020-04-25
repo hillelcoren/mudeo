@@ -62,6 +62,13 @@ class SongScaffold extends StatelessWidget {
             if (song.canAddTrack) {
               actions.add(localization.addVideo);
             }
+            if (song.isOld) {
+              actions.add(
+                (kIsWeb)
+                    ? localization.openInNewTab
+                    : localization.openInBrowser,
+              );
+            }
             if (song.isOld && authArtist.ownsSong(song)) {
               actions.add(state.isDance
                   ? localization.cloneDance
@@ -86,7 +93,11 @@ class SongScaffold extends StatelessWidget {
                 .toList();
           },
           onSelected: (String action) {
-            if (action == localization.addVideo) {
+            if (action == localization.openInBrowser ||
+                action == localization.openInNewTab) {
+              launch(song.url);
+              return;
+            } else if (action == localization.addVideo) {
               showDialog<AddVideo>(
                   context: context,
                   builder: (BuildContext childContext) {
@@ -447,8 +458,7 @@ class _SongEditState extends State<SongEdit> {
       return null;
     }
     showProcessingDialog(context);
-    String path =
-        await VideoEntity.getPath(video);
+    String path = await VideoEntity.getPath(video);
     if (!await File(path).exists()) {
       final http.Response response = await http.Client().get(video.url);
       await File(path).writeAsBytes(response.bodyBytes);
