@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'blur_image': 'Blur Image',
+      'show_image': 'Show Image',
       'your_score_is': 'Your score is',
       'processing': 'Processing',
       'show_details': 'Show Details',
@@ -670,6 +672,10 @@ class AppLocalization {
   String get processing => _localizedValues[locale.toString()]['processing'];
 
   String get yourScoreIs => _localizedValues[locale.toString()]['your_score_is'];
+
+  String get blurImage => _localizedValues[locale.toString()]['blur_image'];
+
+  String get showImage => _localizedValues[locale.toString()]['show_image'];
 
 
 

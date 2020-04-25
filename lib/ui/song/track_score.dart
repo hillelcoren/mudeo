@@ -21,6 +21,7 @@ class TrackScore extends StatefulWidget {
 
 class _TrackScoreState extends State<TrackScore> {
   bool _isProcessing = false;
+  bool _maskBackground = true;
   double _distance;
   List<int> _frameTimes;
   List<double> _frameScores;
@@ -197,6 +198,18 @@ class _TrackScoreState extends State<TrackScore> {
             onPressed: () {
               _calculateDetails();
             },
+          )
+        else if (_frameTimes.isNotEmpty)
+          FlatButton(
+            child: Text((_maskBackground
+                    ? localization.showImage
+                    : localization.blurImage)
+                .toUpperCase()),
+            onPressed: () {
+              setState(() {
+                _maskBackground = !_maskBackground;
+              });
+            },
           ),
         FlatButton(
           child: Text(localization.close.toUpperCase()),
@@ -256,8 +269,9 @@ class _TrackScoreState extends State<TrackScore> {
                                               child: Image.file(
                                                 File(_origPaths[frameIndex]),
                                                 color: Colors.black87,
-                                                colorBlendMode:
-                                                    BlendMode.srcOver,
+                                                colorBlendMode: _maskBackground
+                                                    ? BlendMode.srcOver
+                                                    : BlendMode.dstIn,
                                               ),
                                             ),
                                     ),
@@ -274,8 +288,9 @@ class _TrackScoreState extends State<TrackScore> {
                                               child: Image.file(
                                                 File(_copyPaths[frameIndex]),
                                                 color: Colors.black87,
-                                                colorBlendMode:
-                                                    BlendMode.srcOver,
+                                                colorBlendMode: _maskBackground
+                                                    ? BlendMode.srcOver
+                                                    : BlendMode.dstIn,
                                               ),
                                             ),
                                     ),
