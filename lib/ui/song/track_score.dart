@@ -79,6 +79,8 @@ class _TrackScoreState extends State<TrackScore> {
     print('## LENGTH: ${origData.length} ${copyData.length}');
     if (index >= origData.length || index >= copyData.length) {
       return null;
+    } else if (origData[index] == null || copyData[index] == null) {
+      return null;
     }
 
     final orig = origData[index][0];
@@ -87,6 +89,10 @@ class _TrackScoreState extends State<TrackScore> {
     int countParts = 0;
 
     for (var part in kRecognitionParts) {
+      if (orig == null || copy == null) {
+        continue;
+      }
+
       final origPart = orig['$part'];
       final copyPart = copy['$part'];
 
@@ -239,8 +245,9 @@ class _TrackScoreState extends State<TrackScore> {
                                   children: <Widget>[
                                     Expanded(
                                       child: frameIndex >= _origPaths.length ||
-                                              frameIndex >= origData.length
-                                          ? SizedBox()
+                                              frameIndex >= origData.length ||
+                                              origData[i][0] == null
+                                          ? Container()
                                           : _PoseDisplay(
                                               index: i,
                                               frame: origData[i][0].cast<String,
@@ -256,8 +263,9 @@ class _TrackScoreState extends State<TrackScore> {
                                     ),
                                     Expanded(
                                       child: frameIndex >= _copyPaths.length ||
-                                              frameIndex >= copyData.length
-                                          ? SizedBox()
+                                              frameIndex >= copyData.length ||
+                                              copyData[i][0] == null
+                                          ? Container()
                                           : _PoseDisplay(
                                               index: i,
                                               frame: copyData[i][0].cast<String,
