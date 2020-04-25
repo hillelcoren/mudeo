@@ -115,6 +115,7 @@ class ArtistPage extends StatelessWidget {
                         forceSafariVC: false);
                   },
                 ),
+                /*
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -144,6 +145,7 @@ class ArtistPage extends StatelessWidget {
                   },
                 ),
                 Divider(),
+                 */
                 if (state.helpVideoId != null)
                   SimpleDialogOption(
                     child: Padding(
@@ -191,6 +193,7 @@ class ArtistPage extends StatelessWidget {
                           : '$version\n\n${localization.pronounced}: moo-day-oh  😊',
                       applicationLegalese:
                           '© ${DateTime.now().year} ${state.appName}',
+                      /*
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(top: 40),
@@ -217,6 +220,8 @@ class ArtistPage extends StatelessWidget {
                           ),
                         ),
                       ],
+                      
+                       */
                     );
                   },
                 ),
