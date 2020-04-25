@@ -119,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      if (constraints.maxWidth > 700.0) {
+      if (constraints.maxWidth > 700.0 && !viewModel.state.isDance) {
         return DesktopScreen(
           viewModel: viewModel,
           songScrollController: _songScrollController,
@@ -184,9 +184,12 @@ class MobileScreen extends StatelessWidget {
   final ScrollController songScrollController;
   final ScrollController profileScrollController;
 
-  static const TAB_LIST = 0;
-  static const TAB_EDIT = 1;
-  static const TAB_PROFILE = 2;
+  static const MUDEO_TAB_LIST = 0;
+  static const MUDEO_TAB_EDIT = 1;
+  static const MUDEO_TAB_PROFILE = 2;
+
+  static const DANCE_TAB_EDIT = 0;
+  static const DANCE_TAB_PROFILE = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -200,9 +203,10 @@ class MobileScreen extends StatelessWidget {
     }
 
     List<Widget> _views = [
-      SongListScreen(
-        scrollController: songScrollController,
-      ),
+      if (!state.isDance)
+        SongListScreen(
+          scrollController: songScrollController,
+        ),
       SongEditScreen(),
       if (!kIsWeb)
         if (state.authState.hasValidToken)
@@ -242,19 +246,29 @@ class MobileScreen extends StatelessWidget {
                 viewModel.onTabChanged(index);
               },
               items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home,
-                      color: currentIndex == TAB_LIST ? null : Colors.white),
-                ),
+                if (!state.isDance)
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home,
+                        color: currentIndex == MUDEO_TAB_LIST
+                            ? null
+                            : Colors.white),
+                  ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.videocam,
-                      color: currentIndex == TAB_EDIT ? null : Colors.white),
+                      color: currentIndex ==
+                              (state.isDance ? DANCE_TAB_EDIT : MUDEO_TAB_EDIT)
+                          ? null
+                          : Colors.white),
                 ),
                 if (!kIsWeb)
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person,
-                        color:
-                            currentIndex == TAB_PROFILE ? null : Colors.white),
+                        color: currentIndex ==
+                                (state.isDance
+                                    ? DANCE_TAB_PROFILE
+                                    : MUDEO_TAB_PROFILE)
+                            ? null
+                            : Colors.white),
                   ),
               ],
             ),

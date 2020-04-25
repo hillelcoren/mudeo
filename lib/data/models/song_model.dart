@@ -454,11 +454,11 @@ abstract class VideoEntity extends Object
       return null;
     }
 
-    final Directory directory = await getTemporaryDirectory();
+    final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/videos';
     await Directory(folder).create(recursive: true);
 
-    return timestamp > 0 ? '$folder/$timestamp.mp4' : '$folder/$id.mp4';
+    return '$folder/$id-$timestamp.mp4';
   }
 
   Map<int, double> getVolumeMap(int start, int end) {
