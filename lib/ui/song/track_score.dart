@@ -37,8 +37,8 @@ class _TrackScoreState extends State<TrackScore> {
   void _calculateScore() {
     final song = widget.song;
     final origTrack = song.tracks.first;
-    final origData = jsonDecode(origTrack.video.recognitions)[0];
-    final copyData = jsonDecode(widget.video.recognitions)[0];
+    final origData = jsonDecode(origTrack.video.recognitions);
+    final copyData = jsonDecode(widget.video.recognitions);
 
     _distance = 0;
     int countParts = 0;
@@ -73,15 +73,16 @@ class _TrackScoreState extends State<TrackScore> {
   double _calculateFrameScore(int index) {
     final song = widget.song;
     final origTrack = song.tracks.first;
-    final origData = jsonDecode(origTrack.video.recognitions)[0];
-    final copyData = jsonDecode(widget.video.recognitions)[0];
+    final origData = jsonDecode(origTrack.video.recognitions);
+    final copyData = jsonDecode(widget.video.recognitions);
 
+    print('## LENGTH: ${origData.length} ${copyData.length}');
     if (index >= origData.length || index >= copyData.length) {
       return null;
     }
 
-    final orig = origData[index];
-    final copy = copyData[index];
+    final orig = origData[index][0];
+    final copy = copyData[index][0];
 
     int countParts = 0;
 
@@ -116,7 +117,6 @@ class _TrackScoreState extends State<TrackScore> {
       _isProcessing = true;
     });
 
-    print('## _calculateDetails');
     int frameLength = kRecognitionFrameSpeed;
     _frameTimes = [];
     _origPaths = [];
@@ -135,7 +135,6 @@ class _TrackScoreState extends State<TrackScore> {
     for (int i = 0; i < song.duration; i += frameLength) {
       _frameTimes.add(i);
       final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
-      print('## video-path: $path, thumb-path: $path');
       await VideoThumbnail.thumbnailFile(
         video: path,
         imageFormat: ImageFormat.JPEG,
@@ -180,9 +179,8 @@ class _TrackScoreState extends State<TrackScore> {
     final localization = AppLocalization.of(context);
     final song = widget.song;
     final origTrack = song.tracks.first;
-    final origData = jsonDecode(origTrack.video.recognitions)[0];
-    final copyData = jsonDecode(widget.video.recognitions)[0];
-    print('## origData: $origData');
+    final origData = jsonDecode(origTrack.video.recognitions);
+    final copyData = jsonDecode(widget.video.recognitions);
 
     return AlertDialog(
       contentPadding: const EdgeInsets.all(16),
@@ -245,7 +243,7 @@ class _TrackScoreState extends State<TrackScore> {
                                           ? SizedBox()
                                           : _PoseDisplay(
                                               index: i,
-                                              frame: origData[i].cast<String,
+                                              frame: origData[i][0].cast<String,
                                                   List<dynamic>>(),
                                               color: Colors.blue,
                                               child: Image.file(
@@ -262,7 +260,7 @@ class _TrackScoreState extends State<TrackScore> {
                                           ? SizedBox()
                                           : _PoseDisplay(
                                               index: i,
-                                              frame: copyData[i].cast<String,
+                                              frame: copyData[i][0].cast<String,
                                                   List<dynamic>>(),
                                               color: Colors.red,
                                               child: Image.file(

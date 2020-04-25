@@ -460,6 +460,7 @@ abstract class VideoEntity extends Object
 
     final id = video.isOld ? video.id : 'new';
 
+    print('## VIDEO PATH: $folder/$id-${video.timestamp}.mp4');
     return '$folder/$id-${video.timestamp}.mp4';
   }
 
