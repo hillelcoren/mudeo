@@ -247,7 +247,7 @@ class _SongEditState extends State<SongEdit> {
       camera = CameraController(
           cameras
               .firstWhere((camera) => camera.lensDirection == cameraDirection),
-          ResolutionPreset.medium)
+          ResolutionPreset.low)
         ..addListener(() {
           if (mounted) setState(() {});
         })
