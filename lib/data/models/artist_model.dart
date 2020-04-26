@@ -123,8 +123,7 @@ abstract class ArtistEntity extends Object
 
   bool ownsSong(SongEntity song) => song.artistId == id;
 
-  //bool get isAdmin => id == 1 || id == 2;
-  bool get isAdmin => true; // TODO REMOVE THIS
+  bool get isAdmin => id == 1 || id == 2;
 
   SongLikeEntity getSongLike(int songId) => songLikes == null
       ? null
