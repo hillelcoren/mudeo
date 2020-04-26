@@ -92,6 +92,7 @@ Middleware<AppState> _saveArtist(ArtistRepository repository) {
       print(error);
       store.dispatch(SaveArtistFailure(error));
       action.completer.completeError(error);
+      throw error;
     });
 
     next(action);
@@ -109,6 +110,7 @@ Middleware<AppState> _saveArtistImage(ArtistRepository repository) {
       print(error);
       store.dispatch(SaveArtistFailure(error));
       action.completer.completeError(error);
+      throw error;
     });
 
     next(action);
