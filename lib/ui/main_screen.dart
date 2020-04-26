@@ -202,10 +202,9 @@ class MobileScreen extends StatelessWidget {
     }
 
     List<Widget> _views = [
-      if (!state.isDance)
-        SongListScreen(
-          scrollController: songScrollController,
-        ),
+      SongListScreen(
+        scrollController: songScrollController,
+      ),
       SongEditScreen(),
       if (!kIsWeb)
         if (state.authState.hasValidToken)
@@ -246,13 +245,12 @@ class MobileScreen extends StatelessWidget {
                 viewModel.onTabChanged(index);
               },
               items: <BottomNavigationBarItem>[
-                if (!state.isDance)
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home,
-                        color: currentIndex == ScreenTabs.LIST
-                            ? null
-                            : Colors.white),
-                  ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home,
+                      color: currentIndex == ScreenTabs.LIST
+                          ? null
+                          : Colors.white),
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.videocam,
                       color: currentIndex == ScreenTabs.EDIT

@@ -69,78 +69,105 @@ class _SongListState extends State<SongList>
     final localization = AppLocalization.of(context);
     final state = widget.viewModel.state;
 
+    final allSongIds = memoizedSongIds(state.dataState.songMap,
+        state.authState.artist, null, null);
     final featureSongIds = memoizedSongIds(state.dataState.songMap,
         state.authState.artist, null, kSongFilterFeatured);
     final newestSongIds = memoizedSongIds(state.dataState.songMap,
         state.authState.artist, null, kSongFilterNewest);
 
     return Scaffold(
-      appBar: AppBar(
-        title: null,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(0), // here the desired height
-          child: TabBar(
-            controller: _controller,
-            tabs: <Widget>[
-              Tab(
-                text: localization.featured,
-              ),
-              Tab(
-                text: localization.newest,
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: TabBarView(
-        controller: _controller,
-        children: <Widget>[
-          RefreshIndicator(
-            onRefresh: () => widget.viewModel.onRefreshed(context),
-            child: DraggableScrollbar.arrows(
-              controller: widget.scrollController,
-              alwaysVisibleScrollThumb: true,
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 130),
-                shrinkWrap: true,
-                controller: widget.scrollController,
-                itemCount: featureSongIds.length,
-                itemBuilder: (BuildContext context, index) {
-                  final data = widget.viewModel.state.dataState;
-                  final songId = featureSongIds[index];
-                  final song = data.songMap[songId];
-                  return SongItem(
-                    song: song,
-                    enableShowArtist: !kIsWeb,
-                  );
-                },
+      appBar: state.isDance
+          ? null
+          : AppBar(
+              title: null,
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(0), // here the desired height
+                child: TabBar(
+                  controller: _controller,
+                  tabs: <Widget>[
+                    Tab(
+                      text: localization.featured,
+                    ),
+                    Tab(
+                      text: localization.newest,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          RefreshIndicator(
-            onRefresh: () => widget.viewModel.onRefreshed(context),
-            child: DraggableScrollbar.arrows(
-              controller: widget.scrollController,
-              alwaysVisibleScrollThumb: true,
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 130),
-                shrinkWrap: true,
+      body: state.isDance
+          ? RefreshIndicator(
+              onRefresh: () => widget.viewModel.onRefreshed(context),
+              child: DraggableScrollbar.arrows(
                 controller: widget.scrollController,
-                itemCount: newestSongIds.length,
-                itemBuilder: (BuildContext context, index) {
-                  final data = widget.viewModel.state.dataState;
-                  final songId = newestSongIds[index];
-                  final song = data.songMap[songId];
-                  return SongItem(
-                    song: song,
-                    enableShowArtist: !kIsWeb,
-                  );
-                },
+                alwaysVisibleScrollThumb: true,
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 130),
+                  shrinkWrap: true,
+                  controller: widget.scrollController,
+                  itemCount: allSongIds.length,
+                  itemBuilder: (BuildContext context, index) {
+                    final data = widget.viewModel.state.dataState;
+                    final songId = allSongIds[index];
+                    final song = data.songMap[songId];
+                    return SongItem(
+                      song: song,
+                      enableShowArtist: !kIsWeb,
+                    );
+                  },
+                ),
               ),
+            )
+          : TabBarView(
+              controller: _controller,
+              children: <Widget>[
+                RefreshIndicator(
+                  onRefresh: () => widget.viewModel.onRefreshed(context),
+                  child: DraggableScrollbar.arrows(
+                    controller: widget.scrollController,
+                    alwaysVisibleScrollThumb: true,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 130),
+                      shrinkWrap: true,
+                      controller: widget.scrollController,
+                      itemCount: featureSongIds.length,
+                      itemBuilder: (BuildContext context, index) {
+                        final data = widget.viewModel.state.dataState;
+                        final songId = featureSongIds[index];
+                        final song = data.songMap[songId];
+                        return SongItem(
+                          song: song,
+                          enableShowArtist: !kIsWeb,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                RefreshIndicator(
+                  onRefresh: () => widget.viewModel.onRefreshed(context),
+                  child: DraggableScrollbar.arrows(
+                    controller: widget.scrollController,
+                    alwaysVisibleScrollThumb: true,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 130),
+                      shrinkWrap: true,
+                      controller: widget.scrollController,
+                      itemCount: newestSongIds.length,
+                      itemBuilder: (BuildContext context, index) {
+                        final data = widget.viewModel.state.dataState;
+                        final songId = newestSongIds[index];
+                        final song = data.songMap[songId];
+                        return SongItem(
+                          song: song,
+                          enableShowArtist: !kIsWeb,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
