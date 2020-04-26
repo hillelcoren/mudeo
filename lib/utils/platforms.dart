@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -13,7 +14,9 @@ String getAppStoreURL(BuildContext context) {
   if (store.state.isDance) {
     return Platform.isAndroid ? kDanceGoogleStoreUrl : kDanceAppleStoreUrl;
   } else {
-    return Platform.isAndroid ? kMudeoGoogleStoreUrl : kMudeoAppleStoreUrl;
+    return Platform.isAndroid
+        ? (kIsWeb ? kMudeoGoogleStoreUrl : kMudeoGoogleStoreMarketUrl)
+        : kMudeoAppleStoreUrl;
   }
 }
 

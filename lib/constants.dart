@@ -11,7 +11,8 @@ const String kMudeoYouTubeURL =
 const String kMudeoContactEmail = 'contact@mudeo.app';
 const String kMudeoAppleStoreUrl =
     'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
-const String kMudeoGoogleStoreUrl = 'market://details?id=app.mudeo.mudeo';
+const String kMudeoGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=app.mudeo.mudeo';
+const String kMudeoGoogleStoreMarketUrl = 'market://details?id=app.mudeo.mudeo';
 
 const String kDanceURL = 'https://dancelikeme.app';
 const String kDanceTwitterURL = 'https://twitter.com/dancelikeme_app';
