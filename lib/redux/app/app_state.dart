@@ -67,6 +67,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
     //return 'Delays: ${uiState.song.tracks.map((track) => '${track.delay}').join(',')}';
     //return 'Duration: ${uiState.song?.duration}';
     //return 'Expired: ${artist.orderExpires}';
+    //return '${authState.artist.token}';
     return 'App: $appName';
   }
 }

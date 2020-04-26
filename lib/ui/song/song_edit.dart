@@ -814,34 +814,45 @@ class TrackView extends StatelessWidget {
                 },
               );
             },
-      child: Card(
-        elevation: kDefaultElevation,
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        child: videoPlayer == null
-            ? SizedBox(width: 139)
-            : track.video.isRemoteVideo
-                ? Stack(
-                    children: <Widget>[
-                      AspectRatio(
-                          aspectRatio: aspectRatio,
-                          child: VideoPlayer(videoPlayer)),
-                      Container(
-                        // TODO FIX if video download failed size will be null
-                        width: videoPlayer.value.size.width,
-                        color: Colors.black,
-                        child: Center(
-                          child: Text(
-                            AppLocalization.of(context).backingTrack,
-                            style: TextStyle(color: Colors.grey, fontSize: 20),
-                          ),
-                        ),
+      child: Stack(
+        children: <Widget>[
+          Card(
+            elevation: kDefaultElevation,
+            margin: const EdgeInsets.symmetric(horizontal: 6),
+            child: videoPlayer == null
+                ? SizedBox(width: 139)
+                : track.video.isRemoteVideo
+                    ? Stack(
+                        children: <Widget>[
+                          AspectRatio(
+                              aspectRatio: aspectRatio,
+                              child: VideoPlayer(videoPlayer)),
+                          Container(
+                            // TODO FIX if video download failed size will be null
+                            width: videoPlayer.value.size.width,
+                            color: Colors.black,
+                            child: Center(
+                              child: Text(
+                                AppLocalization.of(context).backingTrack,
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 20),
+                              ),
+                            ),
+                          )
+                        ],
                       )
-                    ],
-                  )
-                : AspectRatio(
-                    aspectRatio: aspectRatio,
-                    child: VideoPlayer(videoPlayer),
-                  ),
+                    : AspectRatio(
+                        aspectRatio: aspectRatio,
+                        child: VideoPlayer(videoPlayer),
+                      ),
+          ),
+          track.video.recognitions == null && state.authState.artist.isAdmin
+              ? Icon(
+                  Icons.error,
+                  color: Colors.red,
+                )
+              : SizedBox(),
+        ],
       ),
     );
   }
