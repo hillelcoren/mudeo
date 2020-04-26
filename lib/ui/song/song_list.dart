@@ -887,16 +887,18 @@ class _VideoPlayerState extends State<VideoPlayer> {
               controller: chewieController,
             ),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: Colors.white,
+          Container(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
           ),
         ],

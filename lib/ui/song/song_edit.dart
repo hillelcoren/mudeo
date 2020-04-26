@@ -51,6 +51,11 @@ class SongScaffold extends StatelessWidget {
     final song = viewModel.song;
     final authArtist = viewModel.state.authState.artist;
 
+    final isMissingRecognitions = song.tracks
+        .where((track) =>
+            track.video.isNew && (track.video.recognitions ?? '').isEmpty)
+        .isNotEmpty;
+
     return Scaffold(
       appBar: AppBar(
         leading: PopupMenuButton<String>(
@@ -180,7 +185,7 @@ class SongScaffold extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-          viewModel.state.isSaving
+          viewModel.state.isSaving || isMissingRecognitions
               ? Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: Center(
