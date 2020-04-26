@@ -39,8 +39,8 @@ class _TrackScoreState extends State<TrackScore> {
     final song = widget.song;
     final origTrack = song.tracks.first;
 
-    if (origTrack.video.recognitions == null ||
-        widget.video.recognitions == null) {
+    if ((origTrack.video.recognitions ?? '').isEmpty ||
+        (widget.video.recognitions ?? '').isEmpty) {
       print('## ERROR: recognitions are null');
       return;
     }
@@ -193,6 +193,13 @@ class _TrackScoreState extends State<TrackScore> {
     final localization = AppLocalization.of(context);
     final song = widget.song;
     final origTrack = song.tracks.first;
+
+    if ((origTrack.video.recognitions ?? '').isEmpty ||
+        (widget.video.recognitions ?? '').isEmpty) {
+      print('## ERROR: recognitions are null');
+      return SizedBox();
+    }
+
     final origData = jsonDecode(origTrack.video.recognitions);
     final copyData = jsonDecode(widget.video.recognitions);
 

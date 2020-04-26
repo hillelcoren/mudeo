@@ -380,7 +380,6 @@ class _SongEditState extends State<SongEdit> {
     final song = widget.viewModel.song;
     path = await VideoEntity.getPath(
         VideoEntity().rebuild((b) => b..timestamp = timestamp));
-    print('## PATH: $path');
 
     cancelTimer = Timer(Duration(seconds: 3), () {
       setState(() => isPastThreeSeconds = true);
@@ -457,7 +456,7 @@ class _SongEditState extends State<SongEdit> {
     if (!widget.viewModel.state.isDance) {
       return null;
     }
-    print('## updateRecognitions: duration: $duration, delay: $delay');
+
     showProcessingDialog(context);
     String path = await VideoEntity.getPath(video);
     if (!await File(path).exists()) {
@@ -750,7 +749,6 @@ class _SongEditState extends State<SongEdit> {
                             viewModel.onDeleteVideoPressed(song, track);
                           },
                           onDelayChanged: (track, delay) {
-                            print('## TrackView: onDelayChanged');
                             final song =
                                 viewModel.song.setTrackDelay(track, delay);
                             viewModel.onChangedSong(song);
@@ -797,7 +795,7 @@ class TrackView extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = viewModel.state;
     return InkWell(
-      onTap: isFirst && state.isDance
+      onTap: isFirst && state.isDance && !state.authState.artist.isAdmin
           ? null
           : () {
               showDialog<TrackEditDialog>(
@@ -929,6 +927,21 @@ class TrackEditDialog extends StatelessWidget {
                           final song = viewModel.song
                               .setTrackVolume(track, lowerValue.toInt());
                           viewModel.onChangedSong(song);
+                        },
+                      ),
+                    ),
+                  if (state.isDance && state.authState.artist.isAdmin)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: bottomPadding),
+                      child: ElevatedButton(
+                        width: buttonWidth,
+                        height: buttonHeight,
+                        color: Colors.orange,
+                        icon: Icons.warning,
+                        label: localization.fix,
+                        textStyle: Theme.of(context).textTheme.headline6,
+                        onPressed: () async {
+                          Navigator.of(context).pop();
                         },
                       ),
                     ),
