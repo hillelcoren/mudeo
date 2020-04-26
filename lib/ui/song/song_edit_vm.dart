@@ -12,6 +12,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/song/song_edit.dart';
+import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
@@ -74,13 +75,6 @@ class SongEditVM {
   final Function() onBackPressed;
   final Function() onSharePressed;
 
-  static const MUDEO_TAB_LIST = 0;
-  static const MUDEO_TAB_EDIT = 1;
-  static const MUDEO_TAB_PROFILE = 2;
-
-  static const DANCE_TAB_EDIT = 0;
-  static const DANCE_TAB_PROFILE = 1;
-
   static SongEditVM fromStore(Store<AppState> store) {
     return SongEditVM(
         song: store.state.uiState.song,
@@ -137,7 +131,7 @@ class SongEditVM {
         },
         onBackPressed: () {
           store.dispatch(
-              UpdateTabIndex(MUDEO_TAB_LIST));
+              UpdateTabIndex(ScreenTabs.LIST));
         },
         onSavePressed: (completer) {
           final song = store.state.uiState.song;

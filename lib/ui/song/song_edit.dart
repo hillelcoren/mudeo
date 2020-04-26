@@ -427,36 +427,37 @@ class _SongEditState extends State<SongEdit> {
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      print('## update');
-      final recognitions = await updateRecognitions(
-        delay: 0,
-        duration: duration,
-        video: video,
-      );
+    if (widget.viewModel.state.isDance) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final recognitions = await updateRecognitions(
+          delay: 0,
+          duration: duration,
+          video: video,
+        );
 
-      if (widget.viewModel.song.tracks.length > 1) {
-        showDialog<TrackScore>(
-            context: context,
-            builder: (BuildContext context) {
-              final song = widget.viewModel.song;
-              return TrackScore(
-                  song: song,
-                  video: video.rebuild((b) => b..recognitions = recognitions));
-            });
-      }
-    });
+        if (widget.viewModel.song.tracks.length > 1) {
+          showDialog<TrackScore>(
+              context: context,
+              builder: (BuildContext context) {
+                final song = widget.viewModel.song;
+                return TrackScore(
+                    song: song,
+                    video:
+                        video.rebuild((b) => b..recognitions = recognitions));
+              });
+        }
+      });
+    }
   }
 
   Future<String> updateRecognitions(
       {@required VideoEntity video,
       @required int duration,
       @required int delay}) async {
-    print('## updateRecognitions: duration: $duration, delay: $delay');
-
     if (!widget.viewModel.state.isDance) {
       return null;
     }
+    print('## updateRecognitions: duration: $duration, delay: $delay');
     showProcessingDialog(context);
     String path = await VideoEntity.getPath(video);
     if (!await File(path).exists()) {

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -97,7 +98,9 @@ UIState saveSongReducer(UIState uiState, SaveSongSuccess action) {
 UIState deleteSongReducer(UIState uiState, DeleteSongSuccess action) {
   return uiState.rebuild((b) => b
     ..song.replace(SongEntity())
-    ..selectedTabIndex = 0); // TODO fix once song list is enabled
+    ..selectedTabIndex = (uiState.selectedTabIndex == ScreenTabs.EDIT
+        ? ScreenTabs.PROFILE
+        : uiState.selectedTabIndex));
 }
 
 UIState addSongReducer(UIState uiState, AddSongSuccess action) {
@@ -122,8 +125,7 @@ UIState updateSongReducer(UIState uiState, UpdateSong action) {
 }
 
 UIState editSongReducer(UIState uiState, EditSong action) {
-  // TODO fix once song list is enabled
-  UIState state = uiState.rebuild((b) => b..selectedTabIndex = 0);
+  UIState state = uiState.rebuild((b) => b..selectedTabIndex = ScreenTabs.EDIT);
 
   if (uiState.song.id != action.song.id) {
     state = state.rebuild((b) => b..song.replace(action.song));

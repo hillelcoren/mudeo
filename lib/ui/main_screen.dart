@@ -173,6 +173,12 @@ class _DesktopScreenState extends State<DesktopScreen> {
   }
 }
 
+class ScreenTabs {
+  static const LIST = 0;
+  static const EDIT = 1;
+  static const PROFILE = 2;
+}
+
 class MobileScreen extends StatelessWidget {
   const MobileScreen({
     this.viewModel,
@@ -183,13 +189,6 @@ class MobileScreen extends StatelessWidget {
   final MainScreenVM viewModel;
   final ScrollController songScrollController;
   final ScrollController profileScrollController;
-
-  static const MUDEO_TAB_LIST = 0;
-  static const MUDEO_TAB_EDIT = 1;
-  static const MUDEO_TAB_PROFILE = 2;
-
-  static const DANCE_TAB_EDIT = 0;
-  static const DANCE_TAB_PROFILE = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -231,19 +230,14 @@ class MobileScreen extends StatelessWidget {
               currentIndex: uiState.selectedTabIndex,
               onTap: (index) {
                 final currentIndex = state.uiState.selectedTabIndex;
-                if (currentIndex == MUDEO_TAB_LIST && index == MUDEO_TAB_LIST) {
+                if (currentIndex == ScreenTabs.LIST &&
+                    index == ScreenTabs.LIST) {
                   songScrollController.animateTo(
                       songScrollController.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),
                       curve: Curves.easeInOutCubic);
-                } else if (currentIndex ==
-                        (state.isDance
-                            ? DANCE_TAB_PROFILE
-                            : MUDEO_TAB_PROFILE) &&
-                    index ==
-                        (state.isDance
-                            ? DANCE_TAB_PROFILE
-                            : MUDEO_TAB_PROFILE)) {
+                } else if (currentIndex == ScreenTabs.PROFILE &&
+                    index == ScreenTabs.PROFILE) {
                   profileScrollController.animateTo(
                       profileScrollController.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),
@@ -255,24 +249,20 @@ class MobileScreen extends StatelessWidget {
                 if (!state.isDance)
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home,
-                        color: currentIndex == MUDEO_TAB_LIST
+                        color: currentIndex == ScreenTabs.LIST
                             ? null
                             : Colors.white),
                   ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.videocam,
-                      color: currentIndex ==
-                              (state.isDance ? DANCE_TAB_EDIT : MUDEO_TAB_EDIT)
+                      color: currentIndex == ScreenTabs.EDIT
                           ? null
                           : Colors.white),
                 ),
                 if (!kIsWeb)
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person,
-                        color: currentIndex ==
-                                (state.isDance
-                                    ? DANCE_TAB_PROFILE
-                                    : MUDEO_TAB_PROFILE)
+                        color: currentIndex == ScreenTabs.PROFILE
                             ? null
                             : Colors.white),
                   ),
