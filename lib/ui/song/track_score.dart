@@ -38,6 +38,13 @@ class _TrackScoreState extends State<TrackScore> {
   void _calculateScore() {
     final song = widget.song;
     final origTrack = song.tracks.first;
+
+    if (origTrack.video.recognitions == null ||
+        widget.video.recognitions == null) {
+      print('## ERROR: recognitions are null');
+      return;
+    }
+
     final origData = jsonDecode(origTrack.video.recognitions);
     final copyData = jsonDecode(widget.video.recognitions);
 
