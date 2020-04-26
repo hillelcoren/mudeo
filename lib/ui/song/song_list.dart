@@ -69,8 +69,8 @@ class _SongListState extends State<SongList>
     final localization = AppLocalization.of(context);
     final state = widget.viewModel.state;
 
-    final allSongIds = memoizedSongIds(state.dataState.songMap,
-        state.authState.artist, null, null);
+    final allSongIds = memoizedSongIds(
+        state.dataState.songMap, state.authState.artist, null, null);
     final featureSongIds = memoizedSongIds(state.dataState.songMap,
         state.authState.artist, null, kSongFilterFeatured);
     final newestSongIds = memoizedSongIds(state.dataState.songMap,
@@ -878,11 +878,28 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
     return Dialog(
       insetPadding: const EdgeInsets.all(0),
-      child: FittedBox(
-        fit: BoxFit.contain,
-        child: Chewie(
-          controller: chewieController,
-        ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          FittedBox(
+            fit: BoxFit.contain,
+            child: Chewie(
+              controller: chewieController,
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
