@@ -21,6 +21,7 @@ import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/posenet.dart';
+import 'package:mudeo/utils/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -471,7 +472,9 @@ class _SongEditState extends State<SongEdit> {
     final data = await convertVideoToRecognitions(
         path: path, duration: duration, delay: delay);
     widget.viewModel.onVideoUpdated(video, data);
-    Navigator.of(context).pop();
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).pop();
+    }
 
     return data;
   }
@@ -753,6 +756,14 @@ class _SongEditState extends State<SongEdit> {
                             videoPlayers.remove(track.id);
                             viewModel.onDeleteVideoPressed(song, track);
                           },
+                          onFixPressed: () async {
+                            final recognitions = await updateRecognitions(
+                              delay: 0,
+                              duration: song.duration,
+                              video: track.video,
+                            );
+                            printWrapped('## recognitions: $recognitions');
+                          },
                           onDelayChanged: (track, delay) {
                             final song =
                                 viewModel.song.setTrackDelay(track, delay);
@@ -786,12 +797,14 @@ class TrackView extends StatelessWidget {
     @required this.onDeletePressed,
     @required this.onDelayChanged,
     @required this.isFirst,
+    @required this.onFixPressed,
   });
 
   final SongEditVM viewModel;
   final VideoPlayerController videoPlayer;
   final TrackEntity track;
   final double aspectRatio;
+  final Function onFixPressed;
   final Function onDeletePressed;
   final Function(TrackEntity, int) onDelayChanged;
   final bool isFirst;
@@ -813,6 +826,7 @@ class TrackView extends StatelessWidget {
                     onDelayChanged: (delay) => onDelayChanged(track, delay),
                     track: track,
                     isFirst: isFirst,
+                    onFixPressed: onFixPressed,
                   );
                 },
               );
@@ -867,6 +881,7 @@ class TrackEditDialog extends StatelessWidget {
     @required this.track,
     @required this.viewModel,
     @required this.onDeletePressed,
+    @required this.onFixPressed,
     @required this.onDelayChanged,
     @required this.isFirst,
   });
@@ -875,6 +890,7 @@ class TrackEditDialog extends StatelessWidget {
   final VideoPlayerController videoPlayer;
   final TrackEntity track;
   final Function onDeletePressed;
+  final Function onFixPressed;
   final Function(int) onDelayChanged;
   final bool isFirst;
 
@@ -945,9 +961,7 @@ class TrackEditDialog extends StatelessWidget {
                         icon: Icons.warning,
                         label: localization.fix,
                         textStyle: Theme.of(context).textTheme.headline6,
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                        },
+                        onPressed: () => onFixPressed(),
                       ),
                     ),
                   if (state.isDance)
