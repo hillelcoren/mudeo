@@ -448,6 +448,8 @@ abstract class VideoEntity extends Object
 
   String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
 
+  Future<String> get path => VideoEntity.getPath(this);
+
   static Future<String> getPath(VideoEntity video) async {
     // TODO add web support
     if (kIsWeb) {
