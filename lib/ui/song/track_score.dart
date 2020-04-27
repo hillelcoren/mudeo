@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:document_analysis/document_analysis.dart';
 import 'package:flutter/material.dart';
@@ -249,7 +250,7 @@ class _TrackScoreState extends State<TrackScore> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      '${(100 - (_distance * 100)).round()}%',
+                      '${max((100 - (_distance * 100)).round(), 0)}%',
                       style: Theme.of(context).textTheme.headline4,
                     ),
                     SizedBox(height: 20),
