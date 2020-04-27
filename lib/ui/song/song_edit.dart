@@ -355,7 +355,7 @@ class _SongEditState extends State<SongEdit> {
       return;
     }
 
-    camera.prepareForVideoRecording();
+	initCamera();
 
     setState(() {
       countdownTimer = 3;
@@ -364,6 +364,7 @@ class _SongEditState extends State<SongEdit> {
           countdownTimer = 2;
         });
         Timer(Duration(seconds: 1), () {
+    		camera.prepareForVideoRecording();
           setState(() {
             countdownTimer = 1;
           });
