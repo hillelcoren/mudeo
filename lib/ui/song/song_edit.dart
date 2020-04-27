@@ -755,13 +755,21 @@ class _SongEditState extends State<SongEdit> {
                           .where((track) => track.isIncluded ?? true)
                           .map((track) {
                         final videoPlayer = videoPlayers[track.id];
+
+                        if (videoPlayer == null) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(50),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+
                         return TrackView(
                           isFirst: song.tracks.indexOf(track) == 0,
                           viewModel: viewModel,
                           videoPlayer: videoPlayer,
-                          aspectRatio: videoPlayer == null
-                              ? 1
-                              : videoPlayer.value.aspectRatio,
+                          aspectRatio: videoPlayer.value.aspectRatio,
                           track: track,
                           onDeletePressed: () async {
                             videoPlayers.remove(track.id);
