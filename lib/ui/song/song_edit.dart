@@ -52,10 +52,13 @@ class SongScaffold extends StatelessWidget {
     final song = viewModel.song;
     final authArtist = viewModel.state.authState.artist;
 
+    final isMissingRecognitions = false;
+    /*
     final isMissingRecognitions = song.tracks
         .where((track) =>
             track.video.isNew && (track.video.recognitions ?? '').isEmpty)
         .isNotEmpty;
+    */
 
     return Scaffold(
       appBar: AppBar(
@@ -355,7 +358,10 @@ class _SongEditState extends State<SongEdit> {
       return;
     }
 
-	initCamera();
+    // TODO remove this, it's needed to prevent the app from crashing
+    if (Platform.isIOS) {
+      initCamera();
+    }
 
     setState(() {
       countdownTimer = 3;
@@ -364,7 +370,7 @@ class _SongEditState extends State<SongEdit> {
           countdownTimer = 2;
         });
         Timer(Duration(seconds: 1), () {
-    		camera.prepareForVideoRecording();
+          camera.prepareForVideoRecording();
           setState(() {
             countdownTimer = 1;
           });
@@ -433,6 +439,7 @@ class _SongEditState extends State<SongEdit> {
       allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
     });
 
+    /*
     if (widget.viewModel.state.isDance) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         final recognitions = await updateRecognitions(
@@ -454,6 +461,7 @@ class _SongEditState extends State<SongEdit> {
         }
       });
     }
+     */
   }
 
   Future<String> updateRecognitions(
@@ -617,6 +625,7 @@ class _SongEditState extends State<SongEdit> {
             onDelaysChanged: (delays) {
               updatedSong = updatedSong.setTrackDelays(delays);
               viewModel.onChangedSong(updatedSong);
+              /*
               for (var i = 0; i < song.tracks.length; i++) {
                 if (delays[i] == song.tracks[i].delay) {
                   continue;
@@ -628,6 +637,7 @@ class _SongEditState extends State<SongEdit> {
                       delay: delays[i]);
                 });
               }
+               */
             },
           );
         },
@@ -769,6 +779,7 @@ class _SongEditState extends State<SongEdit> {
                             final song =
                                 viewModel.song.setTrackDelay(track, delay);
                             viewModel.onChangedSong(song);
+                            /*
                             if (delay != track.delay) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 updateRecognitions(
@@ -777,6 +788,7 @@ class _SongEditState extends State<SongEdit> {
                                     delay: delay);
                               });
                             }
+                             */
                           },
                         );
                       }).toList(),
@@ -864,12 +876,14 @@ class TrackView extends StatelessWidget {
                         child: VideoPlayer(videoPlayer),
                       ),
           ),
+          /*
           track.video.recognitions == null && state.authState.artist.isAdmin
               ? Icon(
                   Icons.error,
                   color: Colors.red,
                 )
               : SizedBox(),
+           */
         ],
       ),
     );
@@ -952,6 +966,7 @@ class TrackEditDialog extends StatelessWidget {
                         },
                       ),
                     ),
+                  /*
                   if (state.isDance && state.authState.artist.isAdmin)
                     Padding(
                       padding: EdgeInsets.only(bottom: bottomPadding),
@@ -988,6 +1003,7 @@ class TrackEditDialog extends StatelessWidget {
                         },
                       ),
                     ),
+                   */
                   isFirst
                       ? SizedBox()
                       : Padding(
