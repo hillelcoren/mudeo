@@ -142,7 +142,7 @@ PODS:
   - PromisesObjC (1.2.8)
   - screen (0.0.1):
     - Flutter
-  - share (0.0.1):
+  - share (0.5.2):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
@@ -293,7 +293,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   camera: 38cc83ae9a5667bb5a71c7d9edaf60a91920fd4e
-  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
+  device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
   firebase_analytics: dacdcfc524d722fff13dcff942f0dfa47e6be567
   firebase_auth: 4ee3a54d3f09434c508c284a62f895a741a30637
@@ -308,10 +308,10 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
+  flutter_plugin_android_lifecycle: 47de533a02850f070f5696a623995e93eddcdb9b
   flutter_youtube: 142f8d5af0a11963bdc73e13bcae6eb78db746c2
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
+  google_sign_in: f32920a589fdf4ab2918ec6dc5e5b0d5b8040ff5
   google_sign_in_web: 52deb24929ac0992baff65c57956031c44ed44c3
   GoogleAppMeasurement: 6e68a94d0eaeb1d73ef6b0ed4f7334e29d63ae29
   GoogleDataTransport: b29a21d813e906014ca16c00897827e40e4a24ab
@@ -320,24 +320,24 @@ SPEC CHECKSUMS:
   GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
-  image_picker: 66aa71bc96850a90590a35d4c4a2907b0d823109
-  in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
+  image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
+  in_app_purchase: 6b3a6d6944354f353d59eb1f2a0db3fd7a40917b
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
-  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  share: bae0a282aab4483288913fc4dc0b935d4b491f2e
+  shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   TensorFlowLite: 8b9dc4eb32eac0f8cb660c66bca7604da56dcc5a
   tflite: e3f7d0e4086e061e785777ef90e8b958f35ed56b
-  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
-  video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  video_player: 69c5f029fac4ffe4fc8a85ea7f7b793709661549
   video_player_web: da8cadb8274ed4f8dbee8d7171b420dedd437ce7
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
