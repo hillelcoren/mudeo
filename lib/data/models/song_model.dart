@@ -203,8 +203,11 @@ abstract class SongEntity extends Object
 
   SongEntity get fork => rebuild((b) => b
     ..parentId = id
-    ..youTubeId = ''
+    ..youTubeId = null
+    ..twitterId = null
     ..blurhash = ''
+    ..color = ''
+    ..description = ''
     ..id = DateTime.now().millisecondsSinceEpoch * -1);
 
   SongEntity get justKeepFirstTrack => rebuild(
