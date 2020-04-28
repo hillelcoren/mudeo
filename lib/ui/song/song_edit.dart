@@ -863,8 +863,11 @@ class TrackView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = viewModel.state;
+    final localization = AppLocalization.of(context);
+    final gradientColor = Colors.black12.withOpacity(.75);
+
     return InkWell(
-      onTap: isFirst && state.isDance && !state.authState.artist.isAdmin
+      onTap: state.isDance
           ? null
           : () {
               showDialog<TrackEditDialog>(
@@ -914,14 +917,56 @@ class TrackView extends StatelessWidget {
                         child: VideoPlayer(videoPlayer),
                       ),
           ),
-          /*
-          track.video.recognitions == null && state.authState.artist.isAdmin
-              ? Icon(
-                  Icons.error,
-                  color: Colors.red,
-                )
-              : SizedBox(),
-           */
+          if (!isFirst && state.isDance)
+            Positioned(
+              child: IconButton(
+                icon: Icon(Icons.swap_horizontal_circle),
+                onPressed: () {
+                  showDialog<TrackLatency>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return TrackLatency(
+                          delay: track.delay ?? 0,
+                          onDelayChanged: (delay) =>
+                              onDelayChanged(track, delay),
+                        );
+                      });
+                },
+              ),
+              top: 0,
+              left: 5,
+            ),
+          if (!isFirst && state.isDance)
+            Positioned(
+              child: IconButton(
+                icon: Icon(Icons.delete_outline),
+                onPressed: () {
+                  showDialog<AlertDialog>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      semanticLabel: localization.areYouSure,
+                      title: Text(localization.removeVideo),
+                      content: Text(localization.areYouSure),
+                      actions: <Widget>[
+                        new FlatButton(
+                            child: Text(localization.cancel.toUpperCase()),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                        new FlatButton(
+                            child: Text(localization.ok.toUpperCase()),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              onDeletePressed();
+                            })
+                      ],
+                    ),
+                  );
+                },
+              ),
+              top: 0,
+              right: 5,
+            ),
         ],
       ),
     );
