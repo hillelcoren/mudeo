@@ -13,7 +13,7 @@ import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:video_player/video_player.dart';
-import 'package:image/image.dart' as image;
+import 'package:visibility_detector/visibility_detector.dart';
 
 class SongListPaged extends StatefulWidget {
   const SongListPaged({
@@ -149,7 +149,6 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   VideoPlayerController _controller;
   Future _future;
   ui.Image _thumbnail;
-  image.Image _thumbnailImage;
   Size _thumbnailSize;
 
   @override
@@ -201,7 +200,19 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     if (mounted) {
       _controller = VideoPlayerController.file(File(path));
-      _controller.initialize();
+      await _controller.initialize();
+    }
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (info.visibleFraction > 0.5) {
+      if (!_controller.value.isPlaying) {
+        _controller.play();
+      }
+    } else {
+      if (_controller.value.isPlaying) {
+        _controller.pause();
+      }
     }
   }
 
@@ -234,10 +245,14 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
               if (snapshot.hasError) {
                 return ErrorWidget(snapshot.error);
               } else {
-                return Center(
-                  child: AspectRatio(
-                    aspectRatio: _thumbnailSize.aspectRatio,
-                    child: Container(), //VideoPlayer(_controller),
+                return VisibilityDetector(
+                  key: Key('track-${widget.track.id}-preview'),
+                  onVisibilityChanged: _onVisibilityChanged,
+                  child: Center(
+                    child: AspectRatio(
+                      aspectRatio: _thumbnailSize.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
                   ),
                 );
               }

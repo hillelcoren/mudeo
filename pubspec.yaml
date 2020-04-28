@@ -54,7 +54,7 @@ dependencies:
   video_thumbnail: ^0.2.1
   tflite: ^1.0.5
   document_analysis: ^0.1.2
-  image: ^2.1.12
+  visibility_detector: 0.1.4
 
 dev_dependencies:
   #flutter_test:
