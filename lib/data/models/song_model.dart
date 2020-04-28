@@ -207,6 +207,9 @@ abstract class SongEntity extends Object
     ..blurhash = ''
     ..id = DateTime.now().millisecondsSinceEpoch * -1);
 
+  SongEntity get justKeepFirstTrack => rebuild(
+      (b) => b..tracks.removeWhere((track) => tracks.indexOf(track) != 0));
+
   SongEntity get updateOrderByIds {
     int counter = 0;
     final sortedTracks = List<TrackEntity>();

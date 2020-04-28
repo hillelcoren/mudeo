@@ -95,6 +95,9 @@ class SongEditVM {
             final songId = uiState.song.id;
             song = state.dataState.songMap[songId];
           }
+          if (state.isDance && !state.artist.ownsSong(song)) {
+            song = song.justKeepFirstTrack;
+          }
           store.dispatch(UpdateSong(SongEntity(id: 0)));
           WidgetsBinding.instance
               .addPostFrameCallback((_) => store.dispatch(UpdateSong(song)));
@@ -130,8 +133,7 @@ class SongEditVM {
           store.dispatch(UpdateSong(song));
         },
         onBackPressed: () {
-          store.dispatch(
-              UpdateTabIndex(ScreenTabs.LIST));
+          store.dispatch(UpdateTabIndex(ScreenTabs.LIST));
         },
         onSavePressed: (completer) {
           final song = store.state.uiState.song;
@@ -143,14 +145,13 @@ class SongEditVM {
             song = song.rebuild((b) => b..tracks.removeAt(index));
           } else {
             song = song.rebuild((b) =>
-            b..tracks[index] = track.rebuild((b) => b..isIncluded = false));
+                b..tracks[index] = track.rebuild((b) => b..isIncluded = false));
           }
           if (!song.hasParent && song.tracks.isEmpty) {
             song = song.rebuild((b) => b..duration = 0);
           }
           store.dispatch(UpdateSong(song));
-          String path = await VideoEntity.getPath(
-              track.video);
+          String path = await VideoEntity.getPath(track.video);
           if (File(path).existsSync()) {
             File(path).deleteSync();
           }
@@ -158,7 +159,7 @@ class SongEditVM {
         onAddRemoteVideo: (context, videoId) {
           final song = store.state.uiState.song;
           final video =
-          VideoEntity().rebuild((b) => b..remoteVideoId = videoId);
+              VideoEntity().rebuild((b) => b..remoteVideoId = videoId);
 
           final track = song.newTrack(video);
           store.dispatch(AddTrack(
@@ -192,25 +193,22 @@ class SongEditVM {
         addVideoFromSong: (context, sourceSong) async {
           final song = store.state.uiState.song;
           final video =
-          VideoEntity().rebuild((b) => b..url = sourceSong.videoUrl);
+              VideoEntity().rebuild((b) => b..url = sourceSong.videoUrl);
           final track = song.newTrack(video);
 
           // store stacked video locally so it can be re-uploaded when saved
           final response =
-          await http.Client().get(Uri.parse(sourceSong.videoUrl));
+              await http.Client().get(Uri.parse(sourceSong.videoUrl));
 
           if (response.statusCode >= 300) {
             showDialog<ErrorDialog>(
                 context: context,
                 builder: (BuildContext context) {
                   return ErrorDialog(
-                      AppLocalization
-                          .of(context)
-                          .errorVideoNotReady);
+                      AppLocalization.of(context).errorVideoNotReady);
                 });
           } else {
-            String path = await VideoEntity.getPath(
-                track.video);
+            String path = await VideoEntity.getPath(track.video);
             File file = new File(path);
             file.writeAsBytes(response.bodyBytes);
 
@@ -229,7 +227,7 @@ class SongEditVM {
         },
         onForkSongPressed: (song) {
           WidgetsBinding.instance.addPostFrameCallback(
-                  (_) => store.dispatch(UpdateSong(song.fork)));
+              (_) => store.dispatch(UpdateSong(song.fork)));
         });
   }
 }

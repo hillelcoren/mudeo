@@ -528,6 +528,9 @@ class SongFooter extends StatelessWidget {
               if (!artist.ownsSong(song)) {
                 newSong = song.fork;
               }
+              if (state.isDance && !state.artist.ownsSong(newSong)) {
+                newSong = newSong.justKeepFirstTrack;
+              }
 
               if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
                 showDialog<AlertDialog>(
