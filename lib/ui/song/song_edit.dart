@@ -326,9 +326,12 @@ class _SongEditState extends State<SongEdit> {
     }
 
     final localization = AppLocalization.of(context);
+    final viewModel = widget.viewModel;
+    final state = viewModel.state;
     final prefs = await SharedPreferences.getInstance();
 
-    if (prefs.getBool(kSharedPrefHeadphoneWarning) != true) {
+    if (prefs.getBool(kSharedPrefHeadphoneWarning) != true &&
+        (!state.isDance || viewModel.song.tracks.isEmpty)) {
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
