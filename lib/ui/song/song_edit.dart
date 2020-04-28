@@ -15,7 +15,6 @@ import 'package:mudeo/ui/song/add_video.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/ui/song/track_latency.dart';
-import 'package:mudeo/ui/song/track_score.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/dialogs.dart';
