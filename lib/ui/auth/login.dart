@@ -94,7 +94,13 @@ class _LoginState extends State<LoginScreen> {
 
     final viewModel = widget.viewModel;
     final Completer<Null> completer = Completer<Null>();
-    completer.future.then((_) => _buttonController.success()).catchError((error) {
+    completer.future.then((_) {
+      if (_showEmail) {
+        _buttonController.success();
+      } else {
+        _buttonController.reset();
+      }
+    }).catchError((error) {
       _buttonController.reset();
       setState(() {
         _error = error;

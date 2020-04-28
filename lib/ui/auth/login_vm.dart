@@ -80,6 +80,9 @@ class LoginVM {
         authState: store.state.authState,
         onGoogleSignUpPressed: (BuildContext context,
             {String handle, Completer<Null> completer}) async {
+          completer.complete();
+          completer = Completer<Null>();
+
           try {
             final account = await _googleSignIn.signIn();
             if (account != null) {
@@ -103,6 +106,9 @@ class LoginVM {
         },
         onGoogleLoginPressed: (BuildContext context,
             {Completer<Null> completer}) async {
+          completer.complete();
+          completer = Completer<Null>();
+
           try {
             final account = await _googleSignIn.signIn();
             if (account != null) {
