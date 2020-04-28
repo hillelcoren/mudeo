@@ -42,9 +42,9 @@ const String kCameraDirectionExternal = 'external';
 const String kArtistImageHeader = 'header_image';
 const String kArtistImageProfile = 'profile_image';
 
-const String kVideoRelationshipParent = 'parent';
+const String kVideoRelationshipParent = 'original';
 const String kVideoRelationshipSelf = 'self';
-const String kVideoRelationshipChild = 'child';
+const String kVideoRelationshipChild = 'clone';
 
 const String kVideoLayoutRow = 'row';
 const String kVideoLayoutColumn = 'column';
