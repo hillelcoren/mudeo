@@ -62,14 +62,23 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   String get helpVideoId => isDance ? null : 'mV5rFN-gGRM';
 
-
-
   @override
   String toString() {
     //return 'Delays: ${uiState.song.tracks.map((track) => '${track.delay}').join(',')}';
     //return 'Duration: ${uiState.song?.duration}';
     //return 'Expired: ${artist.orderExpires}';
     //return '${authState.artist.token}';
+
+    /*
+    String str = '## Song: ${uiState.song.title}';
+    uiState.song.tracks.forEach((track) {
+      str +=
+          '\nTrack:(${track.isIncluded ? 'yes' : 'no'} ${track.delay})  ${track.id} ${track.video.id}';
+    });
+
+    return str;
+     */
+
     return 'App: $appName';
   }
 }
