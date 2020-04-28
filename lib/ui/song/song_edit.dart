@@ -680,8 +680,9 @@ class _SongEditState extends State<SongEdit> {
       }
     }
 
-    final bool isFullScreen =
-        state.isDance && isRecording && song.tracks.isNotEmpty;
+    final bool isFullScreen = state.isDance &&
+        (isRecording || countdownTimer > 0) &&
+        song.tracks.isNotEmpty;
     final firstTrack = isFullScreen ? song.tracks.first : null;
     final firstVideoPlayer = videoPlayers[firstTrack?.id];
 
@@ -759,9 +760,21 @@ class _SongEditState extends State<SongEdit> {
               ),
             ),
             if (isFullScreen)
-              AspectRatio(
-                aspectRatio: firstVideoPlayer.value.aspectRatio,
-                child: VideoPlayer(firstVideoPlayer),
+              Expanded(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  child: Center(
+                    child: AspectRatio(
+                      aspectRatio: firstVideoPlayer.value.aspectRatio,
+                      child: VideoPlayer(firstVideoPlayer),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: isRecording
+                          ? Border.all(color: Colors.red, width: 3)
+                          : null),
+                ),
               )
             else
               song.tracks.isEmpty
