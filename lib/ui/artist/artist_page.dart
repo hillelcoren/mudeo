@@ -114,37 +114,67 @@ class ArtistPage extends StatelessWidget {
                         forceSafariVC: false);
                   },
                 ),
-                /*
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: IconText(
-                      icon: FontAwesomeIcons.twitter,
-                      text: kLinkTypeTwitter,
+                      icon: FontAwesomeIcons.externalLinkAlt,
+                      text: localization.links,
                       textStyle: TextStyle(fontSize: 18),
                     ),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    launch(state.twitterUrl, forceSafariVC: false);
+                    showDialog<SimpleDialog>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SimpleDialog(children: <Widget>[
+                            SimpleDialogOption(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: IconText(
+                                  icon: FontAwesomeIcons.github,
+                                  text: kLinkTypeGitHub,
+                                  textStyle: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                launch(kGitHubURL, forceSafariVC: false);
+                              },
+                            ),
+                            SimpleDialogOption(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: IconText(
+                                  icon: FontAwesomeIcons.twitter,
+                                  text: kLinkTypeTwitter,
+                                  textStyle: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                launch(state.twitterUrl, forceSafariVC: false);
+                              },
+                            ),
+                            SimpleDialogOption(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: IconText(
+                                  icon: FontAwesomeIcons.youtube,
+                                  text: kLinkTypeYouTube,
+                                  textStyle: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                launch(state.youtubeUrl, forceSafariVC: false);
+                              },
+                            ),
+                          ]);
+                        });
                   },
                 ),
-                SimpleDialogOption(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: IconText(
-                      icon: FontAwesomeIcons.youtube,
-                      text: kLinkTypeYouTube,
-                      textStyle: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    launch(state.youtubeUrl, forceSafariVC: false);
-                  },
-                ),
-                Divider(),
-                 */
                 if (state.helpVideoId != null)
                   SimpleDialogOption(
                     child: Padding(

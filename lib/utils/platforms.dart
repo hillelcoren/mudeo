@@ -20,6 +20,17 @@ String getAppStoreURL(BuildContext context) {
   }
 }
 
+String getOtherAppStoreURL(BuildContext context) {
+  final store = StoreProvider.of<AppState>(context);
+  if (!store.state.isDance) {
+    return Platform.isAndroid ? kDanceGoogleStoreUrl : kDanceAppleStoreUrl;
+  } else {
+    return Platform.isAndroid
+        ? (kIsWeb ? kMudeoGoogleStoreUrl : kMudeoGoogleStoreMarketUrl)
+        : kMudeoAppleStoreUrl;
+  }
+}
+
 Future<String> getDevice() async {
   final deviceInfo = DeviceInfoPlugin();
   if (Platform.isAndroid) {

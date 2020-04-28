@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const String kAppVersion = '0.0.35+35';
 const String kDeveloperURL = 'https://twitter.com/hillelcoren';
+const String kGitHubURL = 'https://github.com/hillelcoren/mudeo';
 
 const String kMudeoURL = 'https://mudeo.app';
 const String kMudeoTwitterURL = 'https://twitter.com/mudeo_app';
@@ -18,8 +19,8 @@ const String kDanceURL = 'https://dancelikeme.app';
 const String kDanceTwitterURL = 'https://twitter.com/dancelikeme_app';
 const String kDanceYouTubeURL = 'https://www.youtube.com/channel/';
 const String kDanceContactEmail = 'contact@dancelikeme.app';
+const String kDanceGoogleStoreUrl = 'https://play.google.com/apps/testing/app.mudeo.dancelikeme';
 const String kDanceAppleStoreUrl = '';
-const String kDanceGoogleStoreUrl = '';
 
 const int kOAuthProviderGoogle = 1;
 
@@ -81,6 +82,7 @@ const String kLinkTypeTwitch = 'Twitch';
 const String kLinkTypeTwitter = 'Twitter';
 const String kLinkTypeWebsite = 'Website';
 const String kLinkTypeReddit = 'Reddit';
+const String kLinkTypeGitHub = 'GitHub';
 
 const int kRecognitionPartNose = 0;
 const int kRecognitionPartLeftEye = 1;

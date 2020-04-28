@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'links': 'Links',
       'original': 'Original',
       'fix': 'Fix',
       'blur_image': 'Blur Image',
@@ -682,6 +683,8 @@ class AppLocalization {
   String get fix => _localizedValues[locale.toString()]['fix'];
 
   String get original => _localizedValues[locale.toString()]['original'];
+
+  String get links => _localizedValues[locale.toString()]['links'];
 
 
   String lookup(String key) {
