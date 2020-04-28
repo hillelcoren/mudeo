@@ -804,6 +804,7 @@ class _SongEditState extends State<SongEdit> {
                             track: track,
                             onDeletePressed: () async {
                               videoPlayers.remove(track.id);
+                              allVideoPlayers.remove(track.id);
                               viewModel.onDeleteVideoPressed(song, track);
                             },
                             onFixPressed: () async {

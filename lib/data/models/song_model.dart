@@ -201,6 +201,9 @@ abstract class SongEntity extends Object
   bool get canAddTrack =>
       tracks.where((track) => track.isIncluded ?? true).length < kMaxTracks;
 
+  List<TrackEntity> get includedTracks =>
+      tracks.where((track) => track.isIncluded ?? true).toList();
+
   SongEntity get fork => rebuild((b) => b
     ..parentId = id
     ..youTubeId = null

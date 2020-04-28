@@ -22,7 +22,7 @@ class TrackSyncer extends StatefulWidget {
 class _TrackSyncerState extends State<TrackSyncer> {
   double _timeSpan = 10;
   int _timeStart = 0;
-  double _zoomLevel = 1;
+  double _zoomLevel = 5;
   Map<int, bool> _isSyncing = {
     1: false,
     2: false,
@@ -50,32 +50,34 @@ class _TrackSyncerState extends State<TrackSyncer> {
 
     _song = widget.song;
 
-    for (int i = 1; i <= _song.tracks.length - 1; i++) {
+    for (int i = 1; i <= _song.includedTracks.length - 1; i++) {
       setState(() {
-        _delays[i] = _song.tracks[i].delay;
+        _delays[i] = _song.includedTracks[i].delay;
         print('## DELAYS LOADED: $_delays');
       });
     }
   }
 
   void _syncVideos() async {
-    if (_song.tracks.length < 2) {
+    if (_song.includedTracks.length < 2) {
       return;
     }
 
-    for (int i = 1; i <= _song.tracks.length - 1; i++) {
+    final tracks = _song.includedTracks;
+
+    for (int i = 1; i <= tracks.length - 1; i++) {
       setState(() {
         _isSyncing[i] = true;
       });
 
-      if (_song.tracks[i].video.volumeData != null) {
-        final track = _song.tracks[i];
+      if (tracks[i].video.volumeData != null) {
+        final track = tracks[i];
         final start = _timeStart * -1;
         final end = start + (_timeSpan.floor() * 1000);
 
         int delay = await compute(getMinDelay, [
-          _song.tracks[0].video.getVolumeMap(start, end),
-          _song.tracks[i].video.getVolumeMap(start, end),
+          tracks[0].video.getVolumeMap(start, end),
+          tracks[i].video.getVolumeMap(start, end),
         ]);
         _delays[i] = delay;
         setState(() {
@@ -89,9 +91,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final tracks = _song.includedTracks;
     final hasVolumeData =
-        _song.tracks.where((track) => track.video.volumeData != null).length >
-            1;
+        tracks.where((track) => track.video.volumeData != null).length > 1;
 
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
@@ -135,10 +137,10 @@ class _TrackSyncerState extends State<TrackSyncer> {
                 ],
               ),
             SizedBox(height: 6),
-            for (int i = 0; i < _song.tracks.length; i++)
+            for (int i = 0; i < tracks.length; i++)
               GestureDetector(
                 onHorizontalDragUpdate: (details) {
-                  final track = _song.tracks[i];
+                  final track = tracks[i];
                   if (i == 0) {
                     setState(() {
                       final value = _timeStart +
@@ -156,7 +158,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   }
                 },
                 child: TrackVolume(
-                  track: _song.tracks[i],
+                  track: tracks[i],
                   timeSpan: _timeSpan * 1000,
                   timeStart: _timeStart,
                   isSyncing: i == 0 ? false : (_isSyncing[i] ?? false),
