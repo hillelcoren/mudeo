@@ -20,6 +20,7 @@ import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/song/song_list.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -118,6 +119,20 @@ class ArtistPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: IconText(
+                      icon: state.isDance ? FontAwesomeIcons.music : FontAwesomeIcons.users,
+                      text: state.isDance ? 'Try mudeo' : 'Try Dance Like Me',
+                      textStyle: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    launch(getOtherAppStoreURL(context), forceSafariVC: false);
+                  },
+                ),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: IconText(
                       icon: FontAwesomeIcons.externalLinkAlt,
                       text: localization.links,
                       textStyle: TextStyle(fontSize: 18),
@@ -131,7 +146,7 @@ class ArtistPage extends StatelessWidget {
                           return SimpleDialog(children: <Widget>[
                             SimpleDialogOption(
                               child: Padding(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(15),
                                 child: IconText(
                                   icon: FontAwesomeIcons.github,
                                   text: kLinkTypeGitHub,
@@ -145,7 +160,7 @@ class ArtistPage extends StatelessWidget {
                             ),
                             SimpleDialogOption(
                               child: Padding(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(15),
                                 child: IconText(
                                   icon: FontAwesomeIcons.twitter,
                                   text: kLinkTypeTwitter,
@@ -159,7 +174,7 @@ class ArtistPage extends StatelessWidget {
                             ),
                             SimpleDialogOption(
                               child: Padding(
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(15),
                                 child: IconText(
                                   icon: FontAwesomeIcons.youtube,
                                   text: kLinkTypeYouTube,
