@@ -887,40 +887,58 @@ class TrackView extends StatelessWidget {
             },
       child: Stack(
         children: <Widget>[
-          Card(
-            elevation: kDefaultElevation,
-            margin: const EdgeInsets.symmetric(horizontal: 6),
-            child: videoPlayer == null
-                ? SizedBox(width: 139)
-                : track.video.isRemoteVideo
-                    ? Stack(
-                        children: <Widget>[
-                          AspectRatio(
-                              aspectRatio: aspectRatio,
-                              child: VideoPlayer(videoPlayer)),
-                          Container(
-                            // TODO FIX if video download failed size will be null
-                            width: videoPlayer.value.size.width,
-                            color: Colors.black,
-                            child: Center(
-                              child: Text(
-                                AppLocalization.of(context).backingTrack,
-                                style:
-                                    TextStyle(color: Colors.grey, fontSize: 20),
-                              ),
-                            ),
+          Container(
+            child: Card(
+                elevation: kDefaultElevation,
+                margin: const EdgeInsets.symmetric(horizontal: 6),
+                child: videoPlayer == null
+                    ? SizedBox(width: 139)
+                    : track.video.isRemoteVideo
+                        ? Stack(
+                            children: <Widget>[
+                              AspectRatio(
+                                  aspectRatio: aspectRatio,
+                                  child: VideoPlayer(videoPlayer)),
+                              Container(
+                                // TODO FIX if video download failed size will be null
+                                width: videoPlayer.value.size.width,
+                                color: Colors.black,
+                                child: Center(
+                                  child: Text(
+                                    AppLocalization.of(context).backingTrack,
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 20),
+                                  ),
+                                ),
+                              )
+                            ],
                           )
-                        ],
-                      )
-                    : AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: VideoPlayer(videoPlayer),
-                      ),
+                        : AspectRatio(
+                            aspectRatio: aspectRatio,
+                            child: VideoPlayer(videoPlayer))),
           ),
+          /*
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [gradientColor, Colors.transparent],
+                stops: [0, 1],
+                begin: Alignment(0, -1),
+                end: Alignment(0, 1),
+              ),
+            ),
+            child: SizedBox(
+              height: 40,
+              width: 150,
+            ),
+          ),          
+           */
           if (!isFirst && state.isDance)
             Positioned(
               child: IconButton(
-                icon: Icon(Icons.swap_horizontal_circle),
+                icon: Icon(
+                  Icons.swap_horizontal_circle,
+                ),
                 onPressed: () {
                   showDialog<TrackLatency>(
                       context: context,
@@ -939,7 +957,9 @@ class TrackView extends StatelessWidget {
           if (!isFirst && state.isDance)
             Positioned(
               child: IconButton(
-                icon: Icon(Icons.delete_outline),
+                icon: Icon(
+                  Icons.delete,
+                ),
                 onPressed: () {
                   showDialog<AlertDialog>(
                     context: context,
