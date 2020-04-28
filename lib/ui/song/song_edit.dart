@@ -281,7 +281,7 @@ class _SongEditState extends State<SongEdit> {
     bool isFirst = true;
     final futures = List<Future>();
     final viewModel = widget.viewModel;
-    for (final track in viewModel.song.tracks) {
+    for (final track in viewModel.song.includedTracks) {
       futures.add(() async {
         final video = track.video;
         VideoPlayerController player;
@@ -500,7 +500,7 @@ class _SongEditState extends State<SongEdit> {
     }
 
     int minDelay = 0;
-    final tracks = widget.viewModel.song.tracks;
+    final tracks = widget.viewModel.song.includedTracks;
     for (final track in tracks) {
       if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
     }
@@ -618,7 +618,7 @@ class _SongEditState extends State<SongEdit> {
     final viewModel = widget.viewModel;
     final state = viewModel.state;
     final song = viewModel.song;
-    final isEmpty = song.tracks.isEmpty;
+    final isEmpty = song.includedTracks.isEmpty;
 
     void _showTrackSyncer() async {
       var updatedSong = song;
@@ -750,7 +750,7 @@ class _SongEditState extends State<SongEdit> {
                                         : CameraLensDirection.front,
                                   ),
                         ),
-                  if (song.tracks.length > 1)
+                  if (song.includedTracks.length > 1)
                     ExpandedButton(
                       icon: Icons.swap_horizontal_circle,
                       iconHeight: 26,
@@ -782,9 +782,7 @@ class _SongEditState extends State<SongEdit> {
                   : Flexible(
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: song.tracks
-                            .where((track) => track.isIncluded ?? true)
-                            .map((track) {
+                        children: song.includedTracks.map((track) {
                           final videoPlayer = videoPlayers[track.id];
 
                           if (videoPlayer == null) {
@@ -955,7 +953,7 @@ class TrackEditDialog extends StatelessWidget {
     final state = viewModel.state;
     final buttonWidth = 200.0;
     final buttonHeight = 55.0;
-    final bottomPadding = 30.0;
+    final bottomPadding = 16.0;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
