@@ -45,7 +45,7 @@ dependencies:
   chewie: ^0.9.10
   flutter_youtube: ^2.0.0
   draggable_scrollbar: ^0.0.4
-  flutter_blurhash: ^0.1.2
+  flutter_blurhash: ^0.4.0
   in_app_purchase: ^0.3.1+1
   rounded_loading_button: ^1.0.0
   device_info: ^0.4.2+1
@@ -54,6 +54,7 @@ dependencies:
   video_thumbnail: ^0.2.1
   tflite: ^1.0.5
   document_analysis: ^0.1.2
+  image: ^2.1.12
 
 dev_dependencies:
   #flutter_test:

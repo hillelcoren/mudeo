@@ -1,12 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
-import 'package:mudeo/ui/song/song_list.dart';
+import 'package:mudeo/ui/song/song_list_paged.dart';
 import 'package:redux/redux.dart';
 
 class SongListScreen extends StatelessWidget {
@@ -19,22 +20,24 @@ class SongListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabView(builder: (BuildContext context) {
-      return CupertinoPageScaffold(
-        child: StoreConnector<AppState, SongListVM>(
-          onInit: (store) {
-            store.dispatch(LoadSongs());
-          },
-          converter: SongListVM.fromStore,
-          builder: (context, vm) {
-            return SongList(
-              viewModel: vm,
-              scrollController: scrollController,
-            );
-          },
-        ),
-      );
-    });
+    return CupertinoTabView(
+      builder: (BuildContext context) {
+        return CupertinoPageScaffold(
+          child: StoreConnector<AppState, SongListVM>(
+            onInit: (store) {
+              store.dispatch(LoadSongs());
+            },
+            converter: SongListVM.fromStore,
+            builder: (context, vm) {
+              return SongListPaged(
+                viewModel: vm,
+                scrollController: scrollController,
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
 
