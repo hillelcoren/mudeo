@@ -18,9 +18,6 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   bool get isAuthenticated;
 
-  @nullable
-  String get error;
-
   AuthState get reset => rebuild((b) => b
     ..artist.replace(ArtistEntity())
     ..isAuthenticated = false);

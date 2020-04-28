@@ -6,11 +6,7 @@ import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:redux/redux.dart';
 
 Reducer<AuthState> authReducer = combineReducers([
-  TypedReducer<AuthState, UserLoginRequest>(userLoginRequestReducer),
-  TypedReducer<AuthState, GoogleLoginRequest>(oauthLoginRequestReducer),
   TypedReducer<AuthState, UserLoginSuccess>(userLoginSuccessReducer),
-  TypedReducer<AuthState, UserLoginFailure>(userLoginFailureReducer),
-  TypedReducer<AuthState, ClearAuthError>(clearAuthErrorReducer),
   TypedReducer<AuthState, SaveArtistSuccess>(saveArtistReducer),
   TypedReducer<AuthState, LikeSongSuccess>(likeSongReducer),
   TypedReducer<AuthState, FlagSongSuccess>(flagSongReducer),
@@ -24,32 +20,13 @@ AuthState enablePrivateStorageReducer(
   return authState.rebuild((b) => b..artist.orderExpires = action.expires);
 }
 
-AuthState clearAuthErrorReducer(AuthState authState, ClearAuthError action) {
-  return authState.rebuild((b) => b..error = null);
-}
-
-AuthState userLoginRequestReducer(
-    AuthState authState, UserLoginRequest action) {
-  return authState.rebuild((b) => b..error = null);
-}
-
-AuthState oauthLoginRequestReducer(
-    AuthState authState, GoogleLoginRequest action) {
-  return authState.rebuild((b) => b..error = null);
-}
-
 AuthState userLoginSuccessReducer(
     AuthState authState, UserLoginSuccess action) {
   return authState.rebuild((b) => b
     ..artist.replace(action.artist)
-    ..error = null
     ..isAuthenticated = true);
 }
 
-AuthState userLoginFailureReducer(
-    AuthState authState, UserLoginFailure action) {
-  return authState.rebuild((b) => b..error = action.error);
-}
 
 AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
   final artist = authState.artist;

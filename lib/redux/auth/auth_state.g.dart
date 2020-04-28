@@ -25,12 +25,7 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
       serializers.serialize(object.isAuthenticated,
           specifiedType: const FullType(bool)),
     ];
-    if (object.error != null) {
-      result
-        ..add('error')
-        ..add(serializers.serialize(object.error,
-            specifiedType: const FullType(String)));
-    }
+
     return result;
   }
 
@@ -53,10 +48,6 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
           result.isAuthenticated = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
           break;
-        case 'error':
-          result.error = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
       }
     }
 
@@ -69,13 +60,11 @@ class _$AuthState extends AuthState {
   final ArtistEntity artist;
   @override
   final bool isAuthenticated;
-  @override
-  final String error;
 
   factory _$AuthState([void Function(AuthStateBuilder) updates]) =>
       (new AuthStateBuilder()..update(updates)).build();
 
-  _$AuthState._({this.artist, this.isAuthenticated, this.error}) : super._() {
+  _$AuthState._({this.artist, this.isAuthenticated}) : super._() {
     if (artist == null) {
       throw new BuiltValueNullFieldError('AuthState', 'artist');
     }
@@ -96,22 +85,19 @@ class _$AuthState extends AuthState {
     if (identical(other, this)) return true;
     return other is AuthState &&
         artist == other.artist &&
-        isAuthenticated == other.isAuthenticated &&
-        error == other.error;
+        isAuthenticated == other.isAuthenticated;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc($jc(0, artist.hashCode), isAuthenticated.hashCode),
-        error.hashCode));
+    return $jf($jc($jc(0, artist.hashCode), isAuthenticated.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AuthState')
           ..add('artist', artist)
-          ..add('isAuthenticated', isAuthenticated)
-          ..add('error', error))
+          ..add('isAuthenticated', isAuthenticated))
         .toString();
   }
 }
@@ -129,17 +115,12 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   set isAuthenticated(bool isAuthenticated) =>
       _$this._isAuthenticated = isAuthenticated;
 
-  String _error;
-  String get error => _$this._error;
-  set error(String error) => _$this._error = error;
-
   AuthStateBuilder();
 
   AuthStateBuilder get _$this {
     if (_$v != null) {
       _artist = _$v.artist?.toBuilder();
       _isAuthenticated = _$v.isAuthenticated;
-      _error = _$v.error;
       _$v = null;
     }
     return this;
@@ -164,9 +145,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
     try {
       _$result = _$v ??
           new _$AuthState._(
-              artist: artist.build(),
-              isAuthenticated: isAuthenticated,
-              error: error);
+              artist: artist.build(), isAuthenticated: isAuthenticated);
     } catch (_) {
       String _$failedField;
       try {

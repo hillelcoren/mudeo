@@ -36,6 +36,8 @@ class _LoginState extends State<LoginScreen> {
   final FocusNode _focusNode2 = new FocusNode();
   final _buttonController = RoundedLoadingButtonController();
 
+  String _error = '';
+
   bool _showLogin = false;
   bool _showEmail = false;
   bool _termsChecked = false;
@@ -60,6 +62,7 @@ class _LoginState extends State<LoginScreen> {
 
     setState(() {
       _autoValidate = !isValid;
+      _error = '';
     });
 
     if (!isValid) {
@@ -91,9 +94,12 @@ class _LoginState extends State<LoginScreen> {
 
     final viewModel = widget.viewModel;
     final Completer<Null> completer = Completer<Null>();
-    completer.future
-        .then((_) => _buttonController.success())
-        .catchError((_) => _buttonController.reset());
+    completer.future.then((_) => _buttonController.success()).catchError((error) {
+      _buttonController.reset();
+      setState(() {
+        _error = error;
+      });
+    });
 
     if (_showLogin) {
       if (_showEmail) {
@@ -131,9 +137,8 @@ class _LoginState extends State<LoginScreen> {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
     final state = viewModel.state;
-    final error = viewModel.authState.error ?? '';
-    final isOneTimePassword =
-        error.contains(OTP_ERROR) || _oneTimePasswordController.text.isNotEmpty;
+    final isOneTimePassword = _error.contains(OTP_ERROR) ||
+        _oneTimePasswordController.text.isNotEmpty;
 
     final ThemeData themeData = Theme.of(context);
     final TextStyle aboutTextStyle = themeData.textTheme.bodyText1;
@@ -297,13 +302,13 @@ class _LoginState extends State<LoginScreen> {
                           ],
                         ),
                   SizedBox(height: 15),
-                  viewModel.authState.error == null || error.contains(OTP_ERROR)
+                  _error == null || _error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
                           padding: EdgeInsets.only(bottom: 20),
                           child: Center(
                             child: Text(
-                              viewModel.authState.error,
+                              _error,
                               style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
@@ -336,6 +341,7 @@ class _LoginState extends State<LoginScreen> {
                                   onPressed: () {
                                     setState(() {
                                       _showEmail = !_showEmail;
+                                      _error = '';
                                     });
                                   },
                                   child: Text(_showEmail
@@ -349,8 +355,8 @@ class _LoginState extends State<LoginScreen> {
                             Expanded(
                               child: FlatButton(
                                 onPressed: () {
-                                  viewModel.clearAuthError();
                                   setState(() {
+                                    _error = '';
                                     _showLogin = !_showLogin;
                                   });
                                 },
@@ -376,8 +382,8 @@ class _LoginState extends State<LoginScreen> {
                             onPressed: () {
                               setState(() {
                                 _oneTimePasswordController.text = '';
+                                _error = '';
                               });
-                              viewModel.onCancel2FAPressed();
                             },
                           ),
                         )

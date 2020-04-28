@@ -102,8 +102,6 @@ class UserLoginFailure implements StopLoading {
 
 class UserLogout implements PersistData, PersistAuth, PersistUI {}
 
-class ClearAuthError {}
-
 class DeleteAccount implements StartLoading {}
 
 class DeleteAccountSuccess

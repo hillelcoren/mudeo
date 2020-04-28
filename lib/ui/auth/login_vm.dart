@@ -36,10 +36,8 @@ class LoginVM {
     @required this.state,
     @required this.isLoading,
     @required this.authState,
-    @required this.clearAuthError,
     @required this.onLoginPressed,
     @required this.onEmailSignUpPressed,
-    @required this.onCancel2FAPressed,
     @required this.onGoogleSignUpPressed,
     @required this.onGoogleLoginPressed,
   });
@@ -47,8 +45,6 @@ class LoginVM {
   AppState state;
   bool isLoading;
   AuthState authState;
-  final Function() clearAuthError;
-  final Function() onCancel2FAPressed;
   final Function(BuildContext,
       {String handle,
       String email,
@@ -82,7 +78,6 @@ class LoginVM {
         state: store.state,
         isLoading: store.state.isLoading,
         authState: store.state.authState,
-        onCancel2FAPressed: () => store.dispatch(ClearAuthError()),
         onGoogleSignUpPressed: (BuildContext context,
             {String handle, Completer<Null> completer}) async {
           try {
@@ -141,7 +136,6 @@ class LoginVM {
           ));
           completer.future.then((_) => _handleLogin(context));
         },
-        clearAuthError: () => store.dispatch(ClearAuthError()),
         onLoginPressed: (BuildContext context,
             {String email,
             String password,
