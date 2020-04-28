@@ -510,6 +510,9 @@ class _SongEditState extends State<SongEdit> {
       if (track == null) {
         continue;
       }
+      if (widget.viewModel.state.isDance && isRecording && !isFirst) {
+        continue;
+      }
       final delay =
           Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
       final player = entry.value;
@@ -611,6 +614,7 @@ class _SongEditState extends State<SongEdit> {
     final value = camera.value;
     if (!value.isInitialized) return SizedBox();
     final viewModel = widget.viewModel;
+    final state = viewModel.state;
     final song = viewModel.song;
     final isEmpty = song.tracks.isEmpty;
 
@@ -674,27 +678,33 @@ class _SongEditState extends State<SongEdit> {
       }
     }
 
+    final bool isFullScreen =
+        state.isDance && isRecording && song.tracks.isNotEmpty;
+    final firstTrack = isFullScreen ? song.tracks.first : null;
+    final firstVideoPlayer = videoPlayers[firstTrack?.id];
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(bottom: 50),
         child: Column(
           children: [
-            Expanded(
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 200),
-                child: Center(
-                  child: AspectRatio(
-                    aspectRatio: value.aspectRatio,
-                    child: CameraPreview(camera),
+            if (!isFullScreen)
+              Expanded(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  child: Center(
+                    child: AspectRatio(
+                      aspectRatio: value.aspectRatio,
+                      child: CameraPreview(camera),
+                    ),
                   ),
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: isRecording
+                          ? Border.all(color: Colors.red, width: 3)
+                          : null),
                 ),
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    border: isRecording
-                        ? Border.all(color: Colors.red, width: 3)
-                        : null),
               ),
-            ),
             Material(
               color: Colors.black26,
               //elevation: kDefaultElevation,
@@ -746,48 +756,54 @@ class _SongEditState extends State<SongEdit> {
                 ],
               ),
             ),
-            song.tracks.isEmpty
-                ? SizedBox()
-                : Flexible(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: song.tracks
-                          .where((track) => track.isIncluded ?? true)
-                          .map((track) {
-                        final videoPlayer = videoPlayers[track.id];
+            if (isFullScreen)
+              AspectRatio(
+                aspectRatio: firstVideoPlayer.value.aspectRatio,
+                child: VideoPlayer(firstVideoPlayer),
+              )
+            else
+              song.tracks.isEmpty
+                  ? SizedBox()
+                  : Flexible(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: song.tracks
+                            .where((track) => track.isIncluded ?? true)
+                            .map((track) {
+                          final videoPlayer = videoPlayers[track.id];
 
-                        if (videoPlayer == null) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(50),
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-
-                        return TrackView(
-                          isFirst: song.tracks.indexOf(track) == 0,
-                          viewModel: viewModel,
-                          videoPlayer: videoPlayer,
-                          aspectRatio: videoPlayer.value.aspectRatio,
-                          track: track,
-                          onDeletePressed: () async {
-                            videoPlayers.remove(track.id);
-                            viewModel.onDeleteVideoPressed(song, track);
-                          },
-                          onFixPressed: () async {
-                            final recognitions = await updateRecognitions(
-                              delay: 0,
-                              duration: song.duration,
-                              video: track.video,
+                          if (videoPlayer == null) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(50),
+                                child: CircularProgressIndicator(),
+                              ),
                             );
-                            printWrapped('## recognitions: $recognitions');
-                          },
-                          onDelayChanged: (track, delay) {
-                            final song =
-                                viewModel.song.setTrackDelay(track, delay);
-                            viewModel.onChangedSong(song);
-                            /*
+                          }
+
+                          return TrackView(
+                            isFirst: song.tracks.indexOf(track) == 0,
+                            viewModel: viewModel,
+                            videoPlayer: videoPlayer,
+                            aspectRatio: videoPlayer.value.aspectRatio,
+                            track: track,
+                            onDeletePressed: () async {
+                              videoPlayers.remove(track.id);
+                              viewModel.onDeleteVideoPressed(song, track);
+                            },
+                            onFixPressed: () async {
+                              final recognitions = await updateRecognitions(
+                                delay: 0,
+                                duration: song.duration,
+                                video: track.video,
+                              );
+                              printWrapped('## recognitions: $recognitions');
+                            },
+                            onDelayChanged: (track, delay) {
+                              final song =
+                                  viewModel.song.setTrackDelay(track, delay);
+                              viewModel.onChangedSong(song);
+                              /*
                             if (delay != track.delay) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 updateRecognitions(
@@ -797,11 +813,11 @@ class _SongEditState extends State<SongEdit> {
                               });
                             }
                              */
-                          },
-                        );
-                      }).toList(),
+                            },
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
           ],
         ),
       ),
