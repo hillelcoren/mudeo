@@ -63,7 +63,7 @@ class ArtistSettingsVM {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text(localization.uploading),
-                content: LoadingIndicator(),
+                content: LoadingIndicator(height: 200.0),
               );
             });
         completer.future.then((_) {

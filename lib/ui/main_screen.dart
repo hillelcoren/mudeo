@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -12,14 +14,13 @@ import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
-import 'package:mudeo/.env.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/web_stub.dart'
+    if (dart.library.html) 'package:mudeo/utils/web.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mudeo/utils/web_stub.dart'
-    if (dart.library.html) 'package:mudeo/utils/web.dart';
 
 class MainScreenBuilder extends StatelessWidget {
   const MainScreenBuilder({Key key}) : super(key: key);
@@ -218,60 +219,48 @@ class MobileScreen extends StatelessWidget {
     ];
     final currentIndex = state.uiState.selectedTabIndex;
 
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: SafeArea(
-        child: Scaffold(
-          body: CupertinoTabScaffold(
-            key: ValueKey(uiState.song.id),
-            tabBar: CupertinoTabBar(
-              backgroundColor: Colors.black38,
-              currentIndex: uiState.selectedTabIndex,
-              onTap: (index) {
-                final currentIndex = state.uiState.selectedTabIndex;
-                if (currentIndex == ScreenTabs.LIST &&
-                    index == ScreenTabs.LIST) {
-                  songScrollController.animateTo(
-                      songScrollController.position.minScrollExtent,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic);
-                } else if (currentIndex == ScreenTabs.PROFILE &&
-                    index == ScreenTabs.PROFILE) {
-                  profileScrollController.animateTo(
-                      profileScrollController.position.minScrollExtent,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.easeInOutCubic);
-                }
-                viewModel.onTabChanged(index);
-              },
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home,
-                      color: currentIndex == ScreenTabs.LIST
-                          ? null
-                          : Colors.white),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.videocam,
-                      color: currentIndex == ScreenTabs.EDIT
-                          ? null
-                          : Colors.white),
-                ),
-                if (!kIsWeb)
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person,
-                        color: currentIndex == ScreenTabs.PROFILE
-                            ? null
-                            : Colors.white),
-                  ),
-              ],
-            ),
-            tabBuilder: (BuildContext context, int index) {
-              return _views[index];
-            },
+    return CupertinoTabScaffold(
+      key: ValueKey(uiState.song.id),
+      tabBar: CupertinoTabBar(
+        backgroundColor: Colors.black38,
+        currentIndex: uiState.selectedTabIndex,
+        onTap: (index) {
+          final currentIndex = state.uiState.selectedTabIndex;
+          if (currentIndex == ScreenTabs.LIST && index == ScreenTabs.LIST) {
+            songScrollController.animateTo(
+                songScrollController.position.minScrollExtent,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOutCubic);
+          } else if (currentIndex == ScreenTabs.PROFILE &&
+              index == ScreenTabs.PROFILE) {
+            profileScrollController.animateTo(
+                profileScrollController.position.minScrollExtent,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.easeInOutCubic);
+          }
+          viewModel.onTabChanged(index);
+        },
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home,
+                color: currentIndex == ScreenTabs.LIST ? null : Colors.white),
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.videocam,
+                color: currentIndex == ScreenTabs.EDIT ? null : Colors.white),
+          ),
+          if (!kIsWeb)
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person,
+                  color: currentIndex == ScreenTabs.PROFILE
+                      ? null
+                      : Colors.white),
+            ),
+        ],
       ),
+      tabBuilder: (BuildContext context, int index) {
+        return _views[index];
+      },
     );
   }
 }

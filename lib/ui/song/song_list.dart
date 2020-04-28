@@ -63,7 +63,7 @@ class _SongListState extends State<SongList>
   @override
   Widget build(BuildContext context) {
     if (!widget.viewModel.isLoaded) {
-      return Container(child: LoadingIndicator());
+      return LoadingIndicator();
     }
 
     final localization = AppLocalization.of(context);
