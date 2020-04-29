@@ -881,11 +881,10 @@ class TrackView extends StatelessWidget {
                             aspectRatio: aspectRatio,
                             child: VideoPlayer(videoPlayer))),
           ),
-          /*
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [gradientColor, Colors.transparent],
+                colors: [Colors.black12.withOpacity(.9), Colors.transparent],
                 stops: [0, 1],
                 begin: Alignment(0, -1),
                 end: Alignment(0, 1),
@@ -895,9 +894,8 @@ class TrackView extends StatelessWidget {
               height: 40,
               width: 150,
             ),
-          ),          
-           */
-          if (!isFirst && state.isDance)
+          ),
+          if (!isFirst)
             Positioned(
               child: IconButton(
                 icon: Icon(
@@ -907,8 +905,9 @@ class TrackView extends StatelessWidget {
                   showDialog<TrackLatency>(
                       context: context,
                       builder: (BuildContext context) {
-                        return TrackLatency(
-                          delay: track.delay ?? 0,
+                        return TrackSyncer(
+                          song: viewModel.song,
+                          track: track,
                           onDelayChanged: (delay) =>
                               onDelayChanged(track, delay),
                         );
@@ -918,7 +917,7 @@ class TrackView extends StatelessWidget {
               top: 0,
               left: 5,
             ),
-          if (!isFirst && state.isDance)
+          if (!isFirst || !state.isDance)
             Positioned(
               child: IconButton(
                 icon: Icon(
@@ -978,11 +977,13 @@ class TrackEditDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
     final state = viewModel.state;
+    /*
+   final localization = AppLocalization.of(context);
     final buttonWidth = 160.0;
     final buttonHeight = 55.0;
     final bottomPadding = 16.0;
+     */
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -1087,7 +1088,6 @@ class TrackEditDialog extends StatelessWidget {
                         },
                       ),
                     ),
-                   */
                   isFirst
                       ? SizedBox()
                       : Padding(
@@ -1163,6 +1163,7 @@ class TrackEditDialog extends StatelessWidget {
                       );
                     },
                   ),
+                   */
                 ],
               ),
             ),
