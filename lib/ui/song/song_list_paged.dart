@@ -14,6 +14,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
+import 'package:mudeo/ui/song/paged/page_animation.dart';
 import 'package:mudeo/ui/song/paged/song_page.dart';
 import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:video_player/video_player.dart';
@@ -67,7 +68,12 @@ class _SongListPagedState extends State<SongListPaged> {
                 cachedPages: kCountCachedPages,
                 childDelegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
+                    ProxyAnimation();
                     return _SongListItem(
+                      fade: PageAnimation(
+                        index: index,
+                        controller: widget.pageController,
+                      ),
                       entity: state.dataState.songMap[allSongIds[index]],
                     );
                   },
@@ -156,9 +162,11 @@ class VideoControllerScope extends InheritedWidget {
 class _SongListItem extends StatefulWidget {
   const _SongListItem({
     Key key,
+    @required this.fade,
     @required this.entity,
   }) : super(key: key);
 
+  final Animation<double> fade;
   final SongEntity entity;
 
   @override
@@ -189,6 +197,14 @@ class _SongListItemState extends State<_SongListItem>
     _controllerCollection.toggle();
   }
 
+  void _toggleFullscreen() {
+    setState(() => _isFullScreen = !_isFullScreen);
+  }
+
+  void _toggleSwapVideos() {
+    setState(() => _areVideosSwapped = !_areVideosSwapped);
+  }
+
   @override
   void dispose() {
     print('dispose ${song.id}: ${song.title}');
@@ -204,11 +220,13 @@ class _SongListItemState extends State<_SongListItem>
       child: Material(
         child: Stack(
           children: <Widget>[
+            // Large Player
             _TrackVideoPlayer(
               blurHash: song.blurhash,
               track: _areVideosSwapped ? secondTrack : firstTrack,
               isFullScreen: _isFullScreen,
             ),
+            // Top Scrim
             SizedBox.expand(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -224,6 +242,7 @@ class _SongListItemState extends State<_SongListItem>
                 ),
               ),
             ),
+            // Small PIP Player
             if (secondTrack != null)
               Positioned(
                 width: 150.0,
@@ -240,6 +259,7 @@ class _SongListItemState extends State<_SongListItem>
                   ),
                 ),
               ),
+            // Overlayed Icons and Controls
             Material(
               type: MaterialType.transparency,
               child: InkWell(
@@ -247,43 +267,41 @@ class _SongListItemState extends State<_SongListItem>
                 onDoubleTap: store.state.artist.likedSong(song.id)
                     ? null
                     : () => store.dispatch(LikeSongRequest(song: song)),
-                child: Stack(
-                  children: [
-                    SongPage(
-                      song: song,
-                    ),
-                  ],
+                child: FadeTransition(
+                  opacity: widget.fade,
+                  child: SongPage(
+                    song: song,
+                  ),
                 ),
               ),
             ),
-            Material(
-              type: MaterialType.transparency,
-              child: SafeArea(
+            // Top Left player controls
+            FadeTransition(
+              opacity: widget.fade,
+              child: Material(
+                type: MaterialType.transparency,
+                child: SafeArea(
                   child: Row(
                     children: <Widget>[
                       IconButton(
+                        onPressed: _toggleFullscreen,
                         icon: Icon(
                           _isFullScreen
                               ? Icons.fullscreen_exit
                               : Icons.fullscreen,
                         ),
-                        onPressed: () {
-                          setState(() => _isFullScreen = !_isFullScreen);
-                        },
                       ),
                       if (secondTrack != null)
                         IconButton(
+                          onPressed: _toggleSwapVideos,
                           icon: Icon(
                             Icons.swap_vertical_circle,
                           ),
-                          onPressed: () {
-                            setState(
-                                () => _areVideosSwapped = !_areVideosSwapped);
-                          },
                         )
                     ],
                   ),
                 ),
+              ),
             ),
           ],
         ),
@@ -316,12 +334,6 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   VideoEntity get video => widget.track.video;
 
   VideoControllerCollection get controllers => VideoControllerScope.of(context);
-
-  @override
-  void initState() {
-    super.initState();
-    print('init ${widget.track}');
-  }
 
   @override
   void didChangeDependencies() {
