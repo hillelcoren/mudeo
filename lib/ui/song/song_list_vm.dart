@@ -13,10 +13,7 @@ import 'package:redux/redux.dart';
 class SongListScreen extends StatelessWidget {
   const SongListScreen({
     Key key,
-    @required this.scrollController,
   }) : super(key: key);
-
-  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +28,6 @@ class SongListScreen extends StatelessWidget {
             builder: (context, vm) {
               return SongListPaged(
                 viewModel: vm,
-                scrollController: scrollController,
               );
             },
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mudeo/constants.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({

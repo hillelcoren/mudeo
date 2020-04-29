@@ -96,19 +96,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ScrollController _songScrollController;
   ScrollController _profileScrollController;
 
   @override
   void initState() {
     super.initState();
-    _songScrollController = ScrollController();
     _profileScrollController = ScrollController();
   }
 
   @override
   void dispose() {
-    _songScrollController.dispose();
     _profileScrollController.dispose();
     super.dispose();
   }
@@ -122,13 +119,11 @@ class _MainScreenState extends State<MainScreen> {
       if (constraints.maxWidth > 700.0 && !viewModel.state.isDance) {
         return DesktopScreen(
           viewModel: viewModel,
-          songScrollController: _songScrollController,
           profileScrollController: _profileScrollController,
         );
       } else {
         return MobileScreen(
           viewModel: viewModel,
-          songScrollController: _songScrollController,
           profileScrollController: _profileScrollController,
         );
       }
@@ -139,12 +134,10 @@ class _MainScreenState extends State<MainScreen> {
 class DesktopScreen extends StatefulWidget {
   const DesktopScreen({
     this.viewModel,
-    this.songScrollController,
     this.profileScrollController,
   });
 
   final MainScreenVM viewModel;
-  final ScrollController songScrollController;
   final ScrollController profileScrollController;
 
   @override
@@ -159,9 +152,7 @@ class _DesktopScreenState extends State<DesktopScreen> {
         Expanded(
           flex: 2,
           child: HandCursor(
-            child: SongListScreen(
-              scrollController: widget.songScrollController,
-            ),
+            child: SongListScreen(),
           ),
         ),
         Expanded(
@@ -182,12 +173,10 @@ class ScreenTabs {
 class MobileScreen extends StatelessWidget {
   const MobileScreen({
     this.viewModel,
-    this.songScrollController,
     this.profileScrollController,
   });
 
   final MainScreenVM viewModel;
-  final ScrollController songScrollController;
   final ScrollController profileScrollController;
 
   @override
@@ -196,15 +185,11 @@ class MobileScreen extends StatelessWidget {
     final uiState = state.uiState;
 
     if (kIsWeb) {
-      return SongListScreen(
-        scrollController: songScrollController,
-      );
+      return SongListScreen();
     }
 
     List<Widget> _views = [
-      SongListScreen(
-        scrollController: songScrollController,
-      ),
+      SongListScreen(),
       SongEditScreen(),
       if (!kIsWeb)
         if (state.authState.hasValidToken)
@@ -225,12 +210,7 @@ class MobileScreen extends StatelessWidget {
         currentIndex: uiState.selectedTabIndex,
         onTap: (index) {
           final currentIndex = state.uiState.selectedTabIndex;
-          if (currentIndex == ScreenTabs.LIST && index == ScreenTabs.LIST) {
-            songScrollController.animateTo(
-                songScrollController.position.minScrollExtent,
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeInOutCubic);
-          } else if (currentIndex == ScreenTabs.PROFILE &&
+          if (currentIndex == ScreenTabs.PROFILE &&
               index == ScreenTabs.PROFILE) {
             profileScrollController.animateTo(
                 profileScrollController.position.minScrollExtent,

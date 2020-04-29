@@ -11,7 +11,6 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
-import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/ui/song/paged/song_details.dart';
@@ -22,11 +21,9 @@ class SongListPaged extends StatefulWidget {
   const SongListPaged({
     Key key,
     @required this.viewModel,
-    @required this.scrollController,
   }) : super(key: key);
 
   final SongListVM viewModel;
-  final ScrollController scrollController;
 
   @override
   _SongListPagedState createState() => _SongListPagedState();
