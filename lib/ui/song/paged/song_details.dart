@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
@@ -17,6 +18,14 @@ class SongDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final store = StoreProvider.of<AppState>(context);
+    final state = store.state;
+
+    String description = song.description ?? '';
+    if (song.genreId > 0) {
+      description += ' #' +
+          (state.isDance ? kStyles[song.genreId] : kGenres[song.genreId]);
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -64,8 +73,8 @@ class SongDetails extends StatelessWidget {
                         style: textTheme.headline6,
                       ),
                       SizedBox(height: 14),
-                      if ((song.description ?? '').trim().isNotEmpty) ...[
-                        Text(song.description),
+                      if (description.trim().isNotEmpty) ...[
+                        Text(description.trim()),
                         SizedBox(height: 12),
                       ],
                       Text(

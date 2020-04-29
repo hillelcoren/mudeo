@@ -17,6 +17,7 @@ class ArtistProfile extends StatelessWidget {
     }
 
     return InkWell(
+      key: ValueKey('__url_${url}__'),
       onTap: onTap,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(7),
