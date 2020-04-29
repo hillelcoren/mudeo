@@ -108,6 +108,8 @@ class _SongListItemState extends State<_SongListItem> {
   SongEntity get song => widget.entity;
 
   TrackEntity get firstTrack => song.tracks.first;
+
+  TrackEntity get secondTrack => song.tracks.length > 1 ? song.tracks[1] : null;
   bool _isFullScreen = false;
 
   @override
@@ -133,10 +135,26 @@ class _SongListItemState extends State<_SongListItem> {
       isFullScreen: _isFullScreen,
     );
 
+    final _secondTrackPlayer = secondTrack == null
+        ? null
+        : _TrackVideoPlayer(
+            blurHash: song.blurhash,
+            track: secondTrack,
+            song: song,
+            isFullScreen: false,
+          );
+
     return Material(
       child: Stack(
+        alignment: Alignment.topRight,
         children: <Widget>[
           _firstTrackPlayer,
+          if (_secondTrackPlayer != null)
+            Container(
+              constraints: BoxConstraints(maxHeight: 200, maxWidth: 150),
+              padding: const EdgeInsets.only(top: 20, right: 20),
+              child: _secondTrackPlayer,
+            ),
           GestureDetector(
             /*
             onTap: () => _controller.value.isPlaying

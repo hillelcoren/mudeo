@@ -46,46 +46,33 @@ class SongPage extends StatelessWidget {
         right: 15,
         bottom: 70,
       ),
-      child: Stack(
-        alignment: MediaQuery.of(context).size.height > 600
-            ? Alignment.topRight
-            : Alignment.topLeft,
+      child: Row(
         children: <Widget>[
-          if (song.tracks.length > 1)
-            Container(
-              color: Colors.black,
-              width: 120,
-              height: 200,
-            ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      '@${song.artist.handle}',
-                      style: textTheme.headline6,
-                    ),
-                    SizedBox(height: 14),
-                    if (description.trim().isNotEmpty) ...[
-                      Text(description.trim()),
-                      SizedBox(height: 12),
-                    ],
-                    Text(
-                      '🎵  ${song.title}',
-                      style: textTheme.bodyText1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '@${song.artist.handle}',
+                  style: textTheme.headline6,
                 ),
-              ),
-              SizedBox(width: 12),
-              _SongActions(
-                song: song,
-              ),
-            ],
+                SizedBox(height: 14),
+                if (description.trim().isNotEmpty) ...[
+                  Text(description.trim()),
+                  SizedBox(height: 12),
+                ],
+                Text(
+                  '🎵  ${song.title}',
+                  style: textTheme.bodyText1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(width: 12),
+          _SongActions(
+            song: song,
           ),
         ],
       ),
