@@ -132,7 +132,7 @@ class _SongListItemState extends State<_SongListItem> {
             blurHash: song.blurhash,
             track: secondTrack,
             song: song,
-            isFullScreen: false,
+            isFullScreen: _isFullScreen,
           );
 
     return Material(
