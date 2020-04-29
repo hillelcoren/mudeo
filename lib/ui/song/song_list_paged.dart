@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_blurhash/flutter_blurhash.dart';
@@ -81,6 +82,58 @@ class _SongListPagedState extends State<SongListPaged> {
   }
 }
 
+class VideoControllerCollection
+    extends DelegatingMap<TrackEntity, VideoPlayerController> {
+  factory VideoControllerCollection() {
+    final controllers = <TrackEntity, VideoPlayerController>{};
+    return VideoControllerCollection._(controllers);
+  }
+
+  VideoControllerCollection._(this._controllers) : super(_controllers);
+
+  final Map<TrackEntity, VideoPlayerController> _controllers;
+
+  void toggle() {
+    for (final controller in _controllers.values) {
+      if(controller.value.isPlaying){
+        controller.pause();
+      }else{
+        controller.play();
+      }
+    }
+  }
+
+  void dispose() {
+    for (final controller in _controllers.values) {
+      controller.dispose();
+    }
+  }
+}
+
+class VideoControllerScope extends InheritedWidget {
+  const VideoControllerScope({
+    Key key,
+    @required this.collection,
+    @required Widget child,
+  })  : assert(collection != null),
+        assert(child != null),
+        super(key: key, child: child);
+
+  final VideoControllerCollection collection;
+
+  static VideoControllerCollection of(BuildContext context) {
+    final widget = context
+        .getElementForInheritedWidgetOfExactType<VideoControllerScope>()
+        .widget as VideoControllerScope;
+    return widget.collection;
+  }
+
+  @override
+  bool updateShouldNotify(VideoControllerScope old) {
+    return collection != old.collection;
+  }
+}
+
 class _SongListItem extends StatefulWidget {
   const _SongListItem({
     Key key,
@@ -94,6 +147,8 @@ class _SongListItem extends StatefulWidget {
 }
 
 class _SongListItemState extends State<_SongListItem> {
+  final _controllerCollection = VideoControllerCollection();
+
   SongEntity get song => widget.entity;
 
   TrackEntity get firstTrack => song.tracks.first;
@@ -112,6 +167,7 @@ class _SongListItemState extends State<_SongListItem> {
   @override
   void dispose() {
     print('dispose ${song.id}: ${song.title}');
+    _controllerCollection.dispose();
     super.dispose();
   }
 
@@ -119,74 +175,69 @@ class _SongListItemState extends State<_SongListItem> {
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
 
-    final _firstTrackPlayer = _TrackVideoPlayer(
-      blurHash: song.blurhash,
-      track: firstTrack,
-      song: song,
-      isFullScreen: _isFullScreen,
-    );
-
-    final _secondTrackPlayer = secondTrack == null
-        ? null
-        : _TrackVideoPlayer(
-            blurHash: song.blurhash,
-            track: secondTrack,
-            song: song,
-            isFullScreen: _isFullScreen,
-          );
-
-    return Material(
-      child: Stack(
-        key: ValueKey('__swapped_${_areVideosSwapped}__'),
-        alignment: Alignment.topRight,
-        children: <Widget>[
-          _areVideosSwapped ? _secondTrackPlayer : _firstTrackPlayer,
-          if (_secondTrackPlayer != null)
-            Container(
-              constraints: BoxConstraints(maxHeight: 200, maxWidth: 150),
-              padding: const EdgeInsets.only(top: 20, right: 20),
-              child: _areVideosSwapped ? _firstTrackPlayer : _secondTrackPlayer,
+    return VideoControllerScope(
+      collection: _controllerCollection,
+      child: Material(
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: <Widget>[
+            _TrackVideoPlayer(
+              blurHash: song.blurhash,
+              track: _areVideosSwapped ? secondTrack : firstTrack,
+              isFullScreen: _isFullScreen,
             ),
-          GestureDetector(
-            /*
-            onTap: () => _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play(),
-             */
-            onDoubleTap: store.state.artist.likedSong(song.id)
-                ? null
-                : () => store.dispatch(LikeSongRequest(song: song)),
-            child: SongPage(
-              song: song,
-            ),
-          ),
-          SafeArea(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
-                    ),
-                    onPressed: () {
-                      setState(() => _isFullScreen = !_isFullScreen);
-                    },
-                  ),
-                  if (secondTrack != null)
-                    IconButton(
-                      icon: Icon(
-                        Icons.swap_vertical_circle,
-                      ),
-                      onPressed: () {
-                        setState(() => _areVideosSwapped = !_areVideosSwapped);
-                      },
-                    )
-                ],
+            if (secondTrack != null)
+              Positioned(
+                width: 150.0,
+                height: 200.0,
+                right: 16.0,
+                top: 16.0,
+                child: _TrackVideoPlayer(
+                  blurHash: song.blurhash,
+                  track: _areVideosSwapped ? firstTrack : secondTrack,
+                  isFullScreen: _isFullScreen,
+                ),
+              ),
+            GestureDetector(
+              onTap: () => _controllerCollection.toggle(),
+              onDoubleTap: store.state.artist.likedSong(song.id)
+                  ? null
+                  : () => store.dispatch(LikeSongRequest(song: song)),
+              child: SongPage(
+                song: song,
               ),
             ),
-          ),
-        ],
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        _isFullScreen
+                            ? Icons.fullscreen_exit
+                            : Icons.fullscreen,
+                      ),
+                      onPressed: () {
+                        setState(() => _isFullScreen = !_isFullScreen);
+                      },
+                    ),
+                    if (secondTrack != null)
+                      IconButton(
+                        icon: Icon(
+                          Icons.swap_vertical_circle,
+                        ),
+                        onPressed: () {
+                          setState(
+                              () => _areVideosSwapped = !_areVideosSwapped);
+                        },
+                      )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -197,11 +248,9 @@ class _TrackVideoPlayer extends StatefulWidget {
     Key key,
     @required this.blurHash,
     @required this.track,
-    @required this.song,
     @required this.isFullScreen,
   }) : super(key: key);
 
-  final SongEntity song;
   final String blurHash;
   final TrackEntity track;
   final bool isFullScreen;
@@ -214,45 +263,45 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   VideoPlayerController _controller;
   Future _future;
   ui.Image _thumbnail;
-  Size _thumbnailSize;
+
+  VideoEntity get video => widget.track.video;
+
+  VideoControllerCollection get controllers => VideoControllerScope.of(context);
+
+  @override
+  void initState() {
+    super.initState();
+    print('init ${widget.track}');
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _future ??= _initialize();
+    _update();
+  }
+
+  @override
+  void didUpdateWidget(_TrackVideoPlayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.track != oldWidget.track) {
+      _update();
+    }
+  }
+
+  void _update() {
+    _controller = controllers[widget.track];
+    if (_controller == null) {
+      _future ??= _initialize();
+    } else {
+      _future = Future.value(null);
+    }
   }
 
   Future<void> _initialize() async {
-    final video = widget.track.video;
-
     // Fetch thumbnail and precache
-    final thumbnail = NetworkImage(video.thumbnailUrl);
-    await precacheImage(thumbnail, context);
-    final imageStream = PaintingBinding.instance.imageCache.putIfAbsent(
-        thumbnail, () => throw UnimplementedError(),
-        onError: (e, st) {});
-    final completer = Completer<ImageInfo>();
-    final listener = ImageStreamListener(
-      (ImageInfo image, bool synchronousCall) {
-        completer.complete(image);
-      },
-      onError: completer.completeError,
-    );
-    imageStream.addListener(listener);
-    final result = await completer.future;
-    imageStream.removeListener(listener);
-
-    //_thumbnailImage = image.decodeJpg(result.image.);
-    //final http.Response copyResponse = await http.Client().get(video.url);
-    //  await File(path).writeAsBytes(copyResponse.bodyBytes);
+    await precacheImage(NetworkImage(video.thumbnailUrl), context);
     if (mounted) {
-      setState(() {
-        _thumbnail = result.image;
-        _thumbnailSize = Size(
-          result.image.width.toDouble(),
-          result.image.height.toDouble(),
-        );
-      });
+      setState(() {});
     }
 
     // fetch video
@@ -265,6 +314,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     if (mounted) {
       _controller = VideoPlayerController.file(File(path))..setLooping(true);
+      controllers[widget.track] = _controller;
       await _controller.initialize();
     }
   }
@@ -283,7 +333,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    // _controller is disposed by [VideoControllerCollection]
     super.dispose();
   }
 
@@ -299,8 +349,8 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
         else
           ColoredBox(color: Colors.black),
         if (_thumbnail != null)
-          RawImage(
-            image: _thumbnail,
+          Image(
+            image: NetworkImage(video.thumbnailUrl),
             fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
           ),
         FutureBuilder(
@@ -313,19 +363,20 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                 return VisibilityDetector(
                   key: Key('track-${widget.track.id}-preview'),
                   onVisibilityChanged: _onVisibilityChanged,
-                  child: Center(
-                    child: AspectRatio(
-                      aspectRatio: _thumbnailSize.aspectRatio,
+                  child: FittedBox(
+                    fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
+                    child: SizedBox(
+                      width: _controller.value.size.width,
+                      height: _controller.value.size.height,
                       child: VideoPlayer(_controller),
                     ),
                   ),
                 );
               }
             } else {
-              return Column(
-                children: <Widget>[
-                  LinearProgressIndicator(),
-                ],
+              return Align(
+                alignment: Alignment.topLeft,
+                child: LinearProgressIndicator(),
               );
             }
           },
@@ -348,14 +399,34 @@ class _BlurHashBackground extends StatefulWidget {
 }
 
 class _BlurHashBackgroundState extends State<_BlurHashBackground> {
+  Future _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = decode();
+  }
+
+  @override
+  void didUpdateWidget(_BlurHashBackground oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.blurHash != oldWidget.blurHash) {
+      setState(() => _future = decode());
+    }
+  }
+
+  Future<ui.Image> decode() {
+    return blurHashDecodeImage(
+      blurHash: widget.blurHash,
+      width: 128,
+      height: 128,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<ui.Image>(
-      future: blurHashDecodeImage(
-        blurHash: widget.blurHash,
-        width: 128,
-        height: 128,
-      ),
+      future: _future,
       builder: (BuildContext context, AsyncSnapshot<ui.Image> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return SizedBox();
