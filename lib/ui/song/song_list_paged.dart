@@ -82,19 +82,29 @@ class _SongListPagedState extends State<SongListPaged> {
   }
 }
 
-class VideoControllerCache
+class VideoControllerCollection
     extends DelegatingMap<TrackEntity, VideoPlayerController> {
-  factory VideoControllerCache() {
-    final cache = <TrackEntity, VideoPlayerController>{};
-    return VideoControllerCache._(cache);
+  factory VideoControllerCollection() {
+    final controllers = <TrackEntity, VideoPlayerController>{};
+    return VideoControllerCollection._(controllers);
   }
 
-  VideoControllerCache._(this._cache) : super(_cache);
+  VideoControllerCollection._(this._controllers) : super(_controllers);
 
-  final Map<TrackEntity, VideoPlayerController> _cache;
+  final Map<TrackEntity, VideoPlayerController> _controllers;
+
+  void toggle() {
+    for (final controller in _controllers.values) {
+      if(controller.value.isPlaying){
+        controller.pause();
+      }else{
+        controller.play();
+      }
+    }
+  }
 
   void dispose() {
-    for (final controller in _cache.values) {
+    for (final controller in _controllers.values) {
       controller.dispose();
     }
   }
@@ -103,23 +113,25 @@ class VideoControllerCache
 class VideoControllerScope extends InheritedWidget {
   const VideoControllerScope({
     Key key,
-    @required this.cache,
+    @required this.collection,
     @required Widget child,
-  })  : assert(cache != null),
+  })  : assert(collection != null),
         assert(child != null),
         super(key: key, child: child);
 
-  final VideoControllerCache cache;
+  final VideoControllerCollection collection;
 
-  static VideoControllerCache of(BuildContext context) {
+  static VideoControllerCollection of(BuildContext context) {
     final widget = context
         .getElementForInheritedWidgetOfExactType<VideoControllerScope>()
         .widget as VideoControllerScope;
-    return widget.cache;
+    return widget.collection;
   }
 
   @override
-  bool updateShouldNotify(VideoControllerScope old) => cache != old.cache;
+  bool updateShouldNotify(VideoControllerScope old) {
+    return collection != old.collection;
+  }
 }
 
 class _SongListItem extends StatefulWidget {
@@ -135,7 +147,7 @@ class _SongListItem extends StatefulWidget {
 }
 
 class _SongListItemState extends State<_SongListItem> {
-  final _controllerCache = VideoControllerCache();
+  final _controllerCollection = VideoControllerCollection();
 
   SongEntity get song => widget.entity;
 
@@ -155,7 +167,7 @@ class _SongListItemState extends State<_SongListItem> {
   @override
   void dispose() {
     print('dispose ${song.id}: ${song.title}');
-    _controllerCache.dispose();
+    _controllerCollection.dispose();
     super.dispose();
   }
 
@@ -164,7 +176,7 @@ class _SongListItemState extends State<_SongListItem> {
     final store = StoreProvider.of<AppState>(context);
 
     return VideoControllerScope(
-      cache: _controllerCache,
+      collection: _controllerCollection,
       child: Material(
         child: Stack(
           alignment: Alignment.topRight,
@@ -187,11 +199,7 @@ class _SongListItemState extends State<_SongListItem> {
                 ),
               ),
             GestureDetector(
-              /*
-              onTap: () => _controller.value.isPlaying
-                  ? _controller.pause()
-                  : _controller.play(),
-               */
+              onTap: () => _controllerCollection.toggle(),
               onDoubleTap: store.state.artist.likedSong(song.id)
                   ? null
                   : () => store.dispatch(LikeSongRequest(song: song)),
@@ -258,7 +266,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
   VideoEntity get video => widget.track.video;
 
-  VideoControllerCache get controllers => VideoControllerScope.of(context);
+  VideoControllerCollection get controllers => VideoControllerScope.of(context);
 
   @override
   void initState() {
@@ -325,7 +333,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
   @override
   void dispose() {
-    // _controller is disposed by VideoControllerCache
+    // _controller is disposed by [VideoControllerCollection]
     super.dispose();
   }
 
