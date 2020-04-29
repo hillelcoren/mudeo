@@ -14,7 +14,7 @@ import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
 import 'package:mudeo/ui/song/paged/song_page.dart';
-import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -22,32 +22,21 @@ class SongListPaged extends StatefulWidget {
   const SongListPaged({
     Key key,
     @required this.viewModel,
+    @required this.pageController,
   }) : super(key: key);
 
-  final SongListVM viewModel;
+  final SongListPagedVM viewModel;
+
+  final PageController pageController;
 
   @override
   _SongListPagedState createState() => _SongListPagedState();
 }
 
 class _SongListPagedState extends State<SongListPaged> {
-  PageController _pageController;
-
-  SongListVM get viewModel => widget.viewModel;
+  SongListPagedVM get viewModel => widget.viewModel;
 
   AppState get state => viewModel.state;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +62,7 @@ class _SongListPagedState extends State<SongListPaged> {
               return LinearProgressIndicator();
             } else {
               return PageViewWithCacheExtent(
-                controller: _pageController,
+                controller: widget.pageController,
                 cachedPages: kCountCachedPages,
                 childDelegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
@@ -184,14 +173,15 @@ class _SongListItemState extends State<_SongListItem> {
                       setState(() => _isFullScreen = !_isFullScreen);
                     },
                   ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.swap_vertical_circle,
-                    ),
-                    onPressed: () {
-                      setState(() => _areVideosSwapped = !_areVideosSwapped);
-                    },
-                  )
+                  if (secondTrack != null)
+                    IconButton(
+                      icon: Icon(
+                        Icons.swap_vertical_circle,
+                      ),
+                      onPressed: () {
+                        setState(() => _areVideosSwapped = !_areVideosSwapped);
+                      },
+                    )
                 ],
               ),
             ),

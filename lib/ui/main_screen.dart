@@ -13,6 +13,7 @@ import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/web_stub.dart'
@@ -97,16 +98,22 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ScrollController _profileScrollController;
+  ScrollController _songScrollController;
+  PageController _songPageController;
 
   @override
   void initState() {
     super.initState();
     _profileScrollController = ScrollController();
+    _songScrollController = ScrollController();
+    _songPageController = PageController();
   }
 
   @override
   void dispose() {
     _profileScrollController.dispose();
+    _songScrollController.dispose();
+    _songPageController.dispose();
     super.dispose();
   }
 
@@ -120,11 +127,13 @@ class _MainScreenState extends State<MainScreen> {
         return DesktopScreen(
           viewModel: viewModel,
           profileScrollController: _profileScrollController,
+          songScrollController: _songScrollController,
         );
       } else {
         return MobileScreen(
           viewModel: viewModel,
           profileScrollController: _profileScrollController,
+          songPageController: _songPageController,
         );
       }
     });
@@ -133,12 +142,14 @@ class _MainScreenState extends State<MainScreen> {
 
 class DesktopScreen extends StatefulWidget {
   const DesktopScreen({
-    this.viewModel,
-    this.profileScrollController,
+    @required this.viewModel,
+    @required this.profileScrollController,
+    @required this.songScrollController,
   });
 
   final MainScreenVM viewModel;
   final ScrollController profileScrollController;
+  final ScrollController songScrollController;
 
   @override
   _DesktopScreenState createState() => _DesktopScreenState();
@@ -152,7 +163,9 @@ class _DesktopScreenState extends State<DesktopScreen> {
         Expanded(
           flex: 2,
           child: HandCursor(
-            child: SongListScreen(),
+            child: SongListScreen(
+              scrollController: widget.songScrollController,
+            ),
           ),
         ),
         Expanded(
@@ -172,12 +185,14 @@ class ScreenTabs {
 
 class MobileScreen extends StatelessWidget {
   const MobileScreen({
-    this.viewModel,
-    this.profileScrollController,
+    @required this.viewModel,
+    @required this.profileScrollController,
+    @required this.songPageController,
   });
 
   final MainScreenVM viewModel;
   final ScrollController profileScrollController;
+  final PageController songPageController;
 
   @override
   Widget build(BuildContext context) {
@@ -185,11 +200,15 @@ class MobileScreen extends StatelessWidget {
     final uiState = state.uiState;
 
     if (kIsWeb) {
-      return SongListScreen();
+      return SongListPagedScreen(
+        pageController: songPageController,
+      );
     }
 
     List<Widget> _views = [
-      SongListScreen(),
+      SongListPagedScreen(
+        pageController: songPageController,
+      ),
       SongEditScreen(),
       if (!kIsWeb)
         if (state.authState.hasValidToken)
@@ -210,7 +229,11 @@ class MobileScreen extends StatelessWidget {
         currentIndex: uiState.selectedTabIndex,
         onTap: (index) {
           final currentIndex = state.uiState.selectedTabIndex;
-          if (currentIndex == ScreenTabs.PROFILE &&
+          if (currentIndex == ScreenTabs.LIST && index == ScreenTabs.LIST) {
+            songPageController.animateTo(0,
+                duration: Duration(milliseconds: 5),
+                curve: Curves.easeInOutCubic);
+          } else if (currentIndex == ScreenTabs.PROFILE &&
               index == ScreenTabs.PROFILE) {
             profileScrollController.animateTo(
                 profileScrollController.position.minScrollExtent,
@@ -231,9 +254,8 @@ class MobileScreen extends StatelessWidget {
           if (!kIsWeb)
             BottomNavigationBarItem(
               icon: Icon(Icons.person,
-                  color: currentIndex == ScreenTabs.PROFILE
-                      ? null
-                      : Colors.white),
+                  color:
+                      currentIndex == ScreenTabs.PROFILE ? null : Colors.white),
             ),
         ],
       ),

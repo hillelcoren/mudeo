@@ -7,31 +7,31 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
-import 'package:mudeo/ui/song/song_list.dart';
+import 'package:mudeo/ui/song/song_list_paged.dart';
 import 'package:redux/redux.dart';
 
-class SongListScreen extends StatelessWidget {
-  const SongListScreen({
+class SongListPagedScreen extends StatelessWidget {
+  const SongListPagedScreen({
     Key key,
-    @required this.scrollController,
+    @required this.pageController,
   }) : super(key: key);
 
-  final ScrollController scrollController;
+  final PageController pageController;
 
   @override
   Widget build(BuildContext context) {
     return CupertinoTabView(
       builder: (BuildContext context) {
         return CupertinoPageScaffold(
-          child: StoreConnector<AppState, SongListVM>(
+          child: StoreConnector<AppState, SongListPagedVM>(
             onInit: (store) {
               store.dispatch(LoadSongs());
             },
-            converter: SongListVM.fromStore,
+            converter: SongListPagedVM.fromStore,
             builder: (context, vm) {
-              return SongList(
+              return SongListPaged(
                 viewModel: vm,
-                scrollController: scrollController,
+                pageController: pageController,
               );
             },
           ),
@@ -41,8 +41,8 @@ class SongListScreen extends StatelessWidget {
   }
 }
 
-class SongListVM {
-  SongListVM({
+class SongListPagedVM {
+  SongListPagedVM({
     @required this.state,
     @required this.isLoaded,
     @required this.onRefreshed,
@@ -52,7 +52,7 @@ class SongListVM {
   final bool isLoaded;
   final Function(BuildContext) onRefreshed;
 
-  static SongListVM fromStore(Store<AppState> store) {
+  static SongListPagedVM fromStore(Store<AppState> store) {
     Future<Null> _handleRefresh(BuildContext context) {
       if (store.state.isLoading) {
         return Future<Null>(null);
@@ -65,7 +65,7 @@ class SongListVM {
 
     final state = store.state;
 
-    return SongListVM(
+    return SongListPagedVM(
       state: state,
       isLoaded: state.dataState.areSongsLoaded,
       onRefreshed: (context) => _handleRefresh(context),
