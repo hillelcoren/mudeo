@@ -108,6 +108,7 @@ class _SongListItemState extends State<_SongListItem> {
   SongEntity get song => widget.entity;
 
   TrackEntity get firstTrack => song.tracks.first;
+  bool _isFullScreen = false;
 
   @override
   void initState() {
@@ -123,11 +124,46 @@ class _SongListItemState extends State<_SongListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+
+    final _firstTrackPlayer = _TrackVideoPlayer(
+      blurHash: song.blurhash,
+      track: firstTrack,
+      song: song,
+      isFullScreen: _isFullScreen,
+    );
+
     return Material(
-      child: _TrackVideoPlayer(
-        blurHash: song.blurhash,
-        track: firstTrack,
-        song: song,
+      child: Stack(
+        children: <Widget>[
+          _firstTrackPlayer,
+          GestureDetector(
+            /*
+            onTap: () => _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play(),
+             */
+            onDoubleTap: store.state.artist.likedSong(song.id)
+                ? null
+                : () => store.dispatch(LikeSongRequest(song: song)),
+            child: SongPage(
+              song: song,
+            ),
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                icon: Icon(
+                  _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+                ),
+                onPressed: () {
+                  setState(() => _isFullScreen = !_isFullScreen);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -139,11 +175,13 @@ class _TrackVideoPlayer extends StatefulWidget {
     @required this.blurHash,
     @required this.track,
     @required this.song,
+    @required this.isFullScreen,
   }) : super(key: key);
 
   final SongEntity song;
   final String blurHash;
   final TrackEntity track;
+  final bool isFullScreen;
 
   @override
   _TrackVideoPlayerState createState() => _TrackVideoPlayerState();
@@ -154,7 +192,6 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   Future _future;
   ui.Image _thumbnail;
   Size _thumbnailSize;
-  bool _isFullScreen = false;
 
   @override
   void didChangeDependencies() {
@@ -229,8 +266,6 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    final store = StoreProvider.of<AppState>(context);
-
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -243,7 +278,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
         if (_thumbnail != null)
           RawImage(
             image: _thumbnail,
-            fit: _isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
+            fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
           ),
         FutureBuilder(
           future: _future,
@@ -271,30 +306,6 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
               );
             }
           },
-        ),
-        GestureDetector(
-          onTap: () => _controller.value.isPlaying
-              ? _controller.pause()
-              : _controller.play(),
-          onDoubleTap: store.state.artist.likedSong(widget.song.id)
-              ? null
-              : () => store.dispatch(LikeSongRequest(song: widget.song)),
-          child: SongPage(
-            song: widget.song,
-          ),
-        ),
-        SafeArea(
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: IconButton(
-              icon: Icon(
-                _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
-              ),
-              onPressed: () {
-                setState(() => _isFullScreen = !_isFullScreen);
-              },
-            ),
-          ),
         ),
       ],
     );
