@@ -11,11 +11,16 @@ class ArtistProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String url = artist.profileImageUrl ?? '';
+    if (url.isEmpty) {
+      url = artist.headerImageUrl ?? '';
+    }
+
     return InkWell(
       onTap: onTap,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(7),
-        child: artist.profileImageUrl == null || artist.profileImageUrl.isEmpty
+        child: url.isEmpty
             ? Container(
                 color: Colors.black38,
                 padding: EdgeInsets.all(10),
@@ -23,13 +28,13 @@ class ArtistProfile extends StatelessWidget {
               )
             : kIsWeb
                 ? Image.network(
-                    artist.profileImageUrl,
+                    url,
                     fit: BoxFit.cover,
                     width: 50,
                     height: 50,
                   )
                 : CachedNetworkImage(
-                    imageUrl: artist.profileImageUrl,
+                    imageUrl: url,
                     fit: BoxFit.cover,
                     width: 50,
                     height: 50,

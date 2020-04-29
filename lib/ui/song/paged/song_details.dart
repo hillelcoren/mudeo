@@ -63,7 +63,7 @@ class SongDetails extends StatelessWidget {
                         '@${song.artist.handle}',
                         style: textTheme.headline6,
                       ),
-                      SizedBox(height: 12),
+                      SizedBox(height: 14),
                       if ((song.description ?? '').trim().isNotEmpty) ...[
                         Text(song.description),
                         SizedBox(height: 12),
