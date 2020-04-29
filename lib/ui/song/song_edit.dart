@@ -8,13 +8,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/add_video.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
-import 'package:mudeo/ui/song/track_latency.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/dialogs.dart';
@@ -906,7 +904,7 @@ class TrackView extends StatelessWidget {
                   Icons.swap_horizontal_circle,
                 ),
                 onPressed: () {
-                  showDialog<TrackLatency>(
+                  showDialog<TrackSyncer>(
                       context: context,
                       builder: (BuildContext context) {
                         return TrackSyncer(
@@ -1002,11 +1000,8 @@ class TrackEditDialog extends StatelessWidget {
                 children: <Widget>[
                   if (!state.isDance)
                     Container(
-                      height: 200,
-                      padding: const EdgeInsets.only(
-                        bottom: 20,
-                        top: 10,
-                      ),
+                      height: 250,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: FlutterSlider(
                         handlerWidth: 36,
                         handler: FlutterSliderHandler(

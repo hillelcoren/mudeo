@@ -27,10 +27,12 @@ class _TrackSyncerState extends State<TrackSyncer> {
   double _zoomLevel = 5;
   bool _isSyncing = false;
   int _delay;
+  TextEditingController _delayController;
 
   @override
   void initState() {
     super.initState();
+    _delayController = TextEditingController();
   }
 
   @override
@@ -38,6 +40,13 @@ class _TrackSyncerState extends State<TrackSyncer> {
     super.didChangeDependencies();
     print('## didChangeDependencies');
     _delay = widget.track.delay;
+    _delayController.text = '$_delay';
+  }
+
+  @override
+  void dispose() {
+    _delayController.dispose();
+    super.dispose();
   }
 
   void _syncVideos() async {
@@ -141,6 +150,48 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   delay: i == 0 ? 0 : _delay,
                 ),
               ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: Slider(
+                    min: kMinLatencyDelay.toDouble(),
+                    max: kMaxLatencyDelay.toDouble(),
+                    value: _delay.toDouble(),
+                    onChanged: (value) {
+                      setState(() {
+                        _delay = value.toInt();
+                        _delayController.text = '${value.toInt()}';
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: 20),
+                Expanded(
+                  flex: 1,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    controller: _delayController,
+                    decoration: InputDecoration(
+                      labelText: localization.milliseconds,
+                    ),
+                    onChanged: (String value) {
+                      setState(() {
+                        int delay = int.parse(value);
+                        if (delay > kMaxLatencyDelay) {
+                          delay = kMaxLatencyDelay;
+                        } else if (delay < kMinLatencyDelay) {
+                          delay = kMinLatencyDelay;
+                        }
+                        _delay = delay;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+
             if (_isSyncing)
               Padding(
                 padding: const EdgeInsets.only(top: 40),
