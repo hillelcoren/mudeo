@@ -110,7 +110,9 @@ class _SongListItemState extends State<_SongListItem> {
   TrackEntity get firstTrack => song.tracks.first;
 
   TrackEntity get secondTrack => song.tracks.length > 1 ? song.tracks[1] : null;
+
   bool _isFullScreen = false;
+  bool _areVideosSwapped = false;
 
   @override
   void initState() {
@@ -146,14 +148,15 @@ class _SongListItemState extends State<_SongListItem> {
 
     return Material(
       child: Stack(
+        key: ValueKey('__swapped_${_areVideosSwapped}__'),
         alignment: Alignment.topRight,
         children: <Widget>[
-          _firstTrackPlayer,
+          _areVideosSwapped ? _secondTrackPlayer : _firstTrackPlayer,
           if (_secondTrackPlayer != null)
             Container(
               constraints: BoxConstraints(maxHeight: 200, maxWidth: 150),
               padding: const EdgeInsets.only(top: 20, right: 20),
-              child: _secondTrackPlayer,
+              child: _areVideosSwapped ? _firstTrackPlayer : _secondTrackPlayer,
             ),
           GestureDetector(
             /*
@@ -171,13 +174,25 @@ class _SongListItemState extends State<_SongListItem> {
           SafeArea(
             child: Align(
               alignment: Alignment.topLeft,
-              child: IconButton(
-                icon: Icon(
-                  _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
-                ),
-                onPressed: () {
-                  setState(() => _isFullScreen = !_isFullScreen);
-                },
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+                    ),
+                    onPressed: () {
+                      setState(() => _isFullScreen = !_isFullScreen);
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.swap_vertical_circle,
+                    ),
+                    onPressed: () {
+                      setState(() => _areVideosSwapped = !_areVideosSwapped);
+                    },
+                  )
+                ],
               ),
             ),
           ),
