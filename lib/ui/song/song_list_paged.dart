@@ -5,9 +5,11 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
@@ -124,16 +126,10 @@ class _SongListItemState extends State<_SongListItem> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Stack(
-        children: <Widget>[
-          _TrackVideoPlayer(
-            blurHash: song.blurhash,
-            track: firstTrack,
-          ),
-          SongDetails(
-            song: song,
-          ),
-        ],
+      child: _TrackVideoPlayer(
+        blurHash: song.blurhash,
+        track: firstTrack,
+        song: song,
       ),
     );
   }
@@ -144,8 +140,10 @@ class _TrackVideoPlayer extends StatefulWidget {
     Key key,
     @required this.blurHash,
     @required this.track,
+    @required this.song,
   }) : super(key: key);
 
+  final SongEntity song;
   final String blurHash;
   final TrackEntity track;
 
@@ -232,6 +230,8 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -268,6 +268,17 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
               return LoadingIndicator();
             }
           },
+        ),
+        GestureDetector(
+          onTap: () => _controller.value.isPlaying
+              ? _controller.pause()
+              : _controller.play(),
+          onDoubleTap: store.state.artist.likedSong(widget.song.id)
+              ? null
+              : () => store.dispatch(LikeSongRequest(song: widget.song)),
+          child: SongDetails(
+            song: widget.song,
+          ),
         ),
       ],
     );
