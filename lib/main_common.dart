@@ -61,7 +61,7 @@ class MudeoAppState extends State<MudeoApp> {
             textSelectionHandleColor: Colors.lightBlueAccent,
             fontFamily: fontFamily,
           ),
-          title: 'mudeo',
+          title: widget.store.state.isDance ? 'Dance Like Me' : 'mudeo',
           routes: {
             MainScreen.route: (context) {
               final state = widget.store.state.dataState;

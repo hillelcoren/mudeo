@@ -37,7 +37,7 @@ class SongPage extends StatelessWidget {
           ],
           stops: [0, 1],
           begin: Alignment(0, 1),
-          end: Alignment(0, .3),
+          end: Alignment(0, 0),
         ),
       ),
       padding: const EdgeInsets.only(
@@ -240,10 +240,15 @@ class _LargeIconButton extends StatelessWidget {
             tooltip: tooltip,
             onPressed: onPressed,
           ),
-          /*
           if (count != null && count > 0)
-            Text('$count'),
-           */
+            Padding(
+              padding: const EdgeInsets.only(left: 2),
+              child: Text(
+                '$count',
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
+              ),
+            ),
         ],
       ),
     );
