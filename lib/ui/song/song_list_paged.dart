@@ -12,6 +12,7 @@ import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/ui/song/paged/song_details.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -123,9 +124,16 @@ class _SongListItemState extends State<_SongListItem> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: _TrackVideoPlayer(
-        blurHash: song.blurhash,
-        track: firstTrack,
+      child: Stack(
+        children: <Widget>[
+          _TrackVideoPlayer(
+            blurHash: song.blurhash,
+            track: firstTrack,
+          ),
+          SongDetails(
+            song: song,
+          ),
+        ],
       ),
     );
   }
@@ -199,7 +207,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
     }
 
     if (mounted) {
-      _controller = VideoPlayerController.file(File(path));
+      _controller = VideoPlayerController.file(File(path))..setLooping(true);
       await _controller.initialize();
     }
   }

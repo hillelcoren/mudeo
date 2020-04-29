@@ -20,7 +20,7 @@ const String kDanceTwitterURL = 'https://twitter.com/dancelikeme_app';
 const String kDanceYouTubeURL = 'https://www.youtube.com/channel/';
 const String kDanceContactEmail = 'contact@dancelikeme.app';
 const String kDanceGoogleStoreUrl = 'https://play.google.com/apps/testing/app.mudeo.dancelikeme';
-const String kDanceAppleStoreUrl = '';
+const String kDanceAppleStoreUrl = 'https://testflight.apple.com/join/JiwFfnH7';
 
 const int kOAuthProviderGoogle = 1;
 
