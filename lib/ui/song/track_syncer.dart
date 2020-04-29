@@ -9,11 +9,13 @@ import 'package:mudeo/utils/localization.dart';
 class TrackSyncer extends StatefulWidget {
   const TrackSyncer({
     @required this.song,
-    @required this.onDelaysChanged,
+    @required this.track,
+    @required this.onDelayChanged,
   });
 
   final SongEntity song;
-  final Function(List<int>) onDelaysChanged;
+  final TrackEntity track;
+  final Function(int) onDelayChanged;
 
   @override
   _TrackSyncerState createState() => _TrackSyncerState();
@@ -23,21 +25,8 @@ class _TrackSyncerState extends State<TrackSyncer> {
   double _timeSpan = 10;
   int _timeStart = 0;
   double _zoomLevel = 5;
-  Map<int, bool> _isSyncing = {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-  };
-  List<int> _delays = [
-    0,
-    0,
-    0,
-    0,
-    0,
-  ];
-
-  SongEntity _song;
+  bool _isSyncing = false;
+  int _delay;
 
   @override
   void initState() {
@@ -47,58 +36,45 @@ class _TrackSyncerState extends State<TrackSyncer> {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-
-    _song = widget.song;
-
-    for (int i = 1; i <= _song.includedTracks.length - 1; i++) {
-      setState(() {
-        _delays[i] = _song.includedTracks[i].delay;
-        print('## DELAYS LOADED: $_delays');
-      });
-    }
+    print('## didChangeDependencies');
+    _delay = widget.track.delay;
   }
 
   void _syncVideos() async {
-    if (_song.includedTracks.length < 2) {
-      return;
-    }
+    setState(() {
+      _isSyncing = true;
+    });
 
-    final tracks = _song.includedTracks;
+    final track = widget.track;
 
-    for (int i = 1; i <= tracks.length - 1; i++) {
+    if (track.video.volumeData != null) {
+      final start = _timeStart * -1;
+      final end = start + (_timeSpan.floor() * 1000);
+
+      int delay = await compute(getMinDelay, [
+        track.video.getVolumeMap(start, end),
+        track.video.getVolumeMap(start, end),
+      ]);
       setState(() {
-        _isSyncing[i] = true;
+        _delay = delay;
+        _isSyncing = false;
       });
-
-      if (tracks[i].video.volumeData != null) {
-        final track = tracks[i];
-        final start = _timeStart * -1;
-        final end = start + (_timeSpan.floor() * 1000);
-
-        int delay = await compute(getMinDelay, [
-          tracks[0].video.getVolumeMap(start, end),
-          tracks[i].video.getVolumeMap(start, end),
-        ]);
-        _delays[i] = delay;
-        setState(() {
-          _song = _song.setTrackDelay(track, delay);
-          _isSyncing[i] = false;
-        });
-      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final tracks = _song.includedTracks;
+
+    final song = widget.song;
+    final tracks = [song.tracks.first, widget.track];
     final hasVolumeData =
         tracks.where((track) => track.video.volumeData != null).length > 1;
 
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
       actions: <Widget>[
-        if (!_isSyncing.values.contains(true)) ...[
+        if (!_isSyncing) ...[
           FlatButton(
             child: Text(localization.sync.toUpperCase()),
             onPressed: () => _syncVideos(),
@@ -106,7 +82,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
           FlatButton(
             child: Text(localization.done.toUpperCase()),
             onPressed: () {
-              widget.onDelaysChanged(_delays);
+              widget.onDelayChanged(_delay);
               Navigator.of(context).pop();
             },
           ),
@@ -148,12 +124,12 @@ class _TrackSyncerState extends State<TrackSyncer> {
                       _timeStart = value > 0 ? 0 : value;
                     });
                   } else {
-                    var delay = track.delay +
+                    var delay = _delay +
                         (details.primaryDelta.toInt() * _timeSpan.floor());
                     delay = max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
-                    _delays[i] = delay;
                     setState(() {
-                      _song = _song.setTrackDelay(track, delay);
+                      print('## SET delay $delay for track: ${track.id}');
+                      _delay = delay;
                     });
                   }
                 },
@@ -161,10 +137,11 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   track: tracks[i],
                   timeSpan: _timeSpan * 1000,
                   timeStart: _timeStart,
-                  isSyncing: i == 0 ? false : (_isSyncing[i] ?? false),
+                  isSyncing: _isSyncing,
+                  delay: i == 0 ? 0 : _delay,
                 ),
               ),
-            if (_isSyncing.values.contains(true))
+            if (_isSyncing)
               Padding(
                 padding: const EdgeInsets.only(top: 40),
                 child: LinearProgressIndicator(),
@@ -182,12 +159,14 @@ class TrackVolume extends StatelessWidget {
     @required this.timeSpan,
     @required this.timeStart,
     @required this.isSyncing,
+    @required this.delay,
   });
 
   final TrackEntity track;
   final double timeSpan;
   final bool isSyncing;
   final int timeStart;
+  final int delay;
 
   @override
   Widget build(BuildContext context) {
@@ -223,6 +202,7 @@ class TrackVolume extends StatelessWidget {
                   timeSpan: timeSpan,
                   timeStart: timeStart,
                   color: isSyncing ? Colors.yellowAccent : Colors.white,
+                  delay: delay,
                 ),
               ),
             ),
@@ -239,12 +219,14 @@ class VolumePainter extends CustomPainter {
     @required this.timeSpan,
     @required this.timeStart,
     @required this.color,
+    @required this.delay,
   });
 
   final TrackEntity track;
   final double timeSpan;
   final Color color;
   final int timeStart;
+  final int delay;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -262,7 +244,7 @@ class VolumePainter extends CustomPainter {
     double volume = 0;
 
     for (int i = timeStart; i <= timeSpan - timeStart; i++) {
-      var time = (i - track.delay).toString();
+      var time = (i - delay).toString();
 
       if (volumeData.containsKey(time)) {
         volume = volumeData[time];

@@ -621,36 +621,6 @@ class _SongEditState extends State<SongEdit> {
     final song = viewModel.song;
     final isEmpty = song.includedTracks.isEmpty;
 
-    void _showTrackSyncer() async {
-      var updatedSong = song;
-      await showDialog<AlertDialog>(
-        context: context,
-        useRootNavigator: true,
-        builder: (BuildContext context) {
-          return TrackSyncer(
-            song: updatedSong,
-            onDelaysChanged: (delays) {
-              updatedSong = updatedSong.setTrackDelays(delays);
-              viewModel.onChangedSong(updatedSong);
-              /*
-              for (var i = 0; i < song.tracks.length; i++) {
-                if (delays[i] == song.tracks[i].delay) {
-                  continue;
-                }
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  updateRecognitions(
-                      video: song.tracks[i].video,
-                      duration: song.duration,
-                      delay: delays[i]);
-                });
-              }
-               */
-            },
-          );
-        },
-      );
-    }
-
     IconData _getRecordIcon() {
       if (isRecording && isEmpty) {
         if (!isPastThreeSeconds) {
@@ -751,12 +721,6 @@ class _SongEditState extends State<SongEdit> {
                                         : CameraLensDirection.front,
                                   ),
                         ),
-                  if (song.includedTracks.length > 1)
-                    ExpandedButton(
-                      icon: Icons.swap_horizontal_circle,
-                      iconHeight: 26,
-                      onPressed: isPlaying ? null : () => _showTrackSyncer(),
-                    ),
                 ],
               ),
             ),
@@ -1139,8 +1103,9 @@ class TrackEditDialog extends StatelessWidget {
                               showDialog<TrackLatency>(
                                   context: context,
                                   builder: (BuildContext context) {
-                                    return TrackLatency(
-                                      delay: track.delay ?? 0,
+                                    return TrackSyncer(
+                                      song: viewModel.song,
+                                      track: track,
                                       onDelayChanged: (delay) =>
                                           onDelayChanged(delay),
                                     );
