@@ -193,10 +193,14 @@ class _SongListItemState extends State<_SongListItem> {
                 height: 200.0,
                 right: 16.0,
                 top: 16.0 + MediaQuery.of(context).viewPadding.top,
-                child: _TrackVideoPlayer(
-                  blurHash: song.blurhash,
-                  track: _areVideosSwapped ? firstTrack : secondTrack,
-                  isFullScreen: _isFullScreen,
+                child: Material(
+                  elevation: 6.0,
+                  shape: Border.all(color: Colors.black26, width: 1.0),
+                  child: _TrackVideoPlayer(
+                    blurHash: song.blurhash,
+                    track: _areVideosSwapped ? firstTrack : secondTrack,
+                    isFullScreen: _isFullScreen,
+                  ),
                 ),
               ),
             GestureDetector(
