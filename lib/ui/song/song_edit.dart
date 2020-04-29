@@ -1016,7 +1016,7 @@ class TrackEditDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final state = viewModel.state;
-    final buttonWidth = 200.0;
+    final buttonWidth = 160.0;
     final buttonHeight = 55.0;
     final bottomPadding = 16.0;
 
@@ -1042,6 +1042,7 @@ class TrackEditDialog extends StatelessWidget {
                             scale: 1.25),
                         trackBar: FlutterSliderTrackBar(
                           activeTrackBar: BoxDecoration(
+                            
                             color: Colors.greenAccent,
                           ),
                           activeTrackBarHeight: 5,
