@@ -121,6 +121,8 @@ abstract class ArtistEntity extends Object
   String get displayName =>
       name != null && name.trim().isNotEmpty ? name : handle;
 
+  bool get isNameSet => (name ?? '').trim().isNotEmpty;
+
   bool ownsSong(SongEntity song) => song.artistId == id;
 
   bool get isAdmin => id == 1 || id == 2;

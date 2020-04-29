@@ -119,7 +119,9 @@ class ArtistPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: IconText(
-                      icon: state.isDance ? FontAwesomeIcons.music : FontAwesomeIcons.users,
+                      icon: state.isDance
+                          ? FontAwesomeIcons.music
+                          : FontAwesomeIcons.users,
                       text: state.isDance ? 'Try mudeo' : 'Try Dance Like Me',
                       textStyle: TextStyle(fontSize: 18),
                     ),
@@ -387,21 +389,26 @@ class ArtistPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              artist.name == null || artist.name.trim().isEmpty
-                                  ? 'Unkown Artist'
-                                  : artist.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6
-                                  .copyWith(color: Colors.white),
-                            ),
-                            SizedBox(height: 8),
+                            if (artist.isNameSet) ...[
+                              Text(
+                                artist.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    .copyWith(color: Colors.white),
+                              ),
+                              SizedBox(height: 8),
+                            ],
                             if (artist.handle != null &&
                                 artist.handle.isNotEmpty)
                               Text(
                                 '@${artist.handle}',
-                                style: Theme.of(context).textTheme.subtitle1,
+                                style: artist.isNameSet
+                                    ? Theme.of(context).textTheme.subtitle1
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .copyWith(color: Colors.white),
                               )
                           ],
                         ),
