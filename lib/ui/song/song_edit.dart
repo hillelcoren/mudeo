@@ -1033,8 +1033,25 @@ class TrackEditDialog extends StatelessWidget {
                 children: <Widget>[
                   if (!state.isDance)
                     Container(
-                      height: 250,
+                      height: 200,
+                      padding: const EdgeInsets.only(
+                        bottom: 20,
+                        top: 10,
+                      ),
                       child: FlutterSlider(
+                        handlerWidth: 36,
+                        handler: FlutterSliderHandler(
+                          decoration: BoxDecoration(),
+                          child: Container(
+                            decoration: new BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.rectangle,
+                              border:
+                                  Border.all(width: 2, color: Colors.black54),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
                         handlerAnimation: FlutterSliderHandlerAnimation(
                             curve: Curves.elasticOut,
                             reverseCurve: Curves.bounceIn,
@@ -1042,7 +1059,6 @@ class TrackEditDialog extends StatelessWidget {
                             scale: 1.25),
                         trackBar: FlutterSliderTrackBar(
                           activeTrackBar: BoxDecoration(
-                            
                             color: Colors.greenAccent,
                           ),
                           activeTrackBarHeight: 5,
