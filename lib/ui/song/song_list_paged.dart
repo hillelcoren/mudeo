@@ -72,7 +72,7 @@ class _SongListPagedState extends State<SongListPaged> {
         child: Builder(
           builder: (BuildContext context) {
             if (!widget.viewModel.isLoaded) {
-              return LoadingIndicator();
+              return LinearProgressIndicator();
             } else {
               return PageViewWithCacheExtent(
                 controller: _pageController,
@@ -265,7 +265,11 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                 );
               }
             } else {
-              return LoadingIndicator();
+              return Column(
+                children: <Widget>[
+                  LinearProgressIndicator(),
+                ],
+              );
             }
           },
         ),
