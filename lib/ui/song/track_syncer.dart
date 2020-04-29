@@ -66,6 +66,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
       ]);
       setState(() {
         _delay = delay;
+        _delayController.text = '$delay';
         _isSyncing = false;
       });
     }
@@ -77,8 +78,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
 
     final song = widget.song;
     final tracks = [song.tracks.first, widget.track];
-    final hasVolumeData =
-        tracks.where((track) => track.video.volumeData != null).length > 1;
 
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
@@ -98,10 +97,10 @@ class _TrackSyncerState extends State<TrackSyncer> {
         ]
       ],
       content: ClipRect(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (hasVolumeData)
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Row(
                 children: <Widget>[
                   Text(localization.zoom.toUpperCase()),
@@ -121,83 +120,86 @@ class _TrackSyncerState extends State<TrackSyncer> {
                   Icon(Icons.zoom_in),
                 ],
               ),
-            SizedBox(height: 6),
-            for (int i = 0; i < tracks.length; i++)
-              GestureDetector(
-                onHorizontalDragUpdate: (details) {
-                  final track = tracks[i];
-                  if (i == 0) {
-                    setState(() {
-                      final value = _timeStart +
-                          details.primaryDelta.toInt() * _timeSpan.floor();
-                      _timeStart = value > 0 ? 0 : value;
-                    });
-                  } else {
-                    var delay = _delay +
-                        (details.primaryDelta.toInt() * _timeSpan.floor());
-                    delay = max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
-                    setState(() {
-                      print('## SET delay $delay for track: ${track.id}');
-                      _delay = delay;
-                    });
-                  }
-                },
-                child: TrackVolume(
-                  track: tracks[i],
-                  timeSpan: _timeSpan * 1000,
-                  timeStart: _timeStart,
-                  isSyncing: _isSyncing,
-                  delay: i == 0 ? 0 : _delay,
-                ),
-              ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: Slider(
-                    min: kMinLatencyDelay.toDouble(),
-                    max: kMaxLatencyDelay.toDouble(),
-                    value: _delay.toDouble(),
-                    onChanged: (value) {
+              SizedBox(height: 6),
+              for (int i = 0; i < tracks.length; i++)
+                GestureDetector(
+                  onHorizontalDragUpdate: (details) {
+                    final track = tracks[i];
+                    if (i == 0) {
                       setState(() {
-                        _delay = value.toInt();
-                        _delayController.text = '${value.toInt()}';
+                        final value = _timeStart +
+                            details.primaryDelta.toInt() * _timeSpan.floor();
+                        _timeStart = value > 0 ? 0 : value;
                       });
-                    },
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  flex: 1,
-                  child: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: _delayController,
-                    decoration: InputDecoration(
-                      labelText: localization.milliseconds,
-                    ),
-                    onChanged: (String value) {
+                    } else {
+                      var delay = _delay +
+                          (details.primaryDelta.toInt() * _timeSpan.floor());
+                      delay =
+                          max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
                       setState(() {
-                        int delay = int.parse(value);
-                        if (delay > kMaxLatencyDelay) {
-                          delay = kMaxLatencyDelay;
-                        } else if (delay < kMinLatencyDelay) {
-                          delay = kMinLatencyDelay;
-                        }
+                        print('## SET delay $delay for track: ${track.id}');
                         _delay = delay;
+                        _delayController.text = '$delay';
                       });
-                    },
+                    }
+                  },
+                  child: TrackVolume(
+                    track: tracks[i],
+                    timeSpan: _timeSpan * 1000,
+                    timeStart: _timeStart,
+                    isSyncing: _isSyncing,
+                    delay: i == 0 ? 0 : _delay,
                   ),
                 ),
-              ],
-            ),
-
-            if (_isSyncing)
-              Padding(
-                padding: const EdgeInsets.only(top: 40),
-                child: LinearProgressIndicator(),
-              )
-          ],
+              SizedBox(height: 10),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: Slider(
+                      min: kMinLatencyDelay.toDouble(),
+                      max: kMaxLatencyDelay.toDouble(),
+                      value: _delay.toDouble(),
+                      onChanged: (value) {
+                        setState(() {
+                          _delay = value.toInt();
+                          _delayController.text = '${value.toInt()}';
+                        });
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    flex: 1,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      controller: _delayController,
+                      decoration: InputDecoration(
+                        labelText: localization.milliseconds,
+                      ),
+                      onChanged: (String value) {
+                        setState(() {
+                          int delay = int.parse(value);
+                          if (delay > kMaxLatencyDelay) {
+                            delay = kMaxLatencyDelay;
+                          } else if (delay < kMinLatencyDelay) {
+                            delay = kMinLatencyDelay;
+                          }
+                          _delay = delay;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              if (_isSyncing)
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
+                  child: LinearProgressIndicator(),
+                )
+            ],
+          ),
         ),
       ),
     );
