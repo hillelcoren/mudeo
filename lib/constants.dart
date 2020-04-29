@@ -22,6 +22,7 @@ const String kDanceContactEmail = 'contact@dancelikeme.app';
 const String kDanceGoogleStoreUrl = 'https://play.google.com/apps/testing/app.mudeo.dancelikeme';
 const String kDanceAppleStoreUrl = 'https://testflight.apple.com/join/JiwFfnH7';
 
+const int kCountCachedPages = 5;
 const int kOAuthProviderGoogle = 1;
 
 const String kProductPrivateStorage = 'month_private_storage';

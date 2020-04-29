@@ -7,6 +7,7 @@ import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:http/http.dart' as http;
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -73,7 +74,7 @@ class _SongListPagedState extends State<SongListPaged> {
             } else {
               return PageViewWithCacheExtent(
                 controller: _pageController,
-                cachedPages: 6,
+                cachedPages: kCountCachedPages,
                 childDelegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return _SongListItem(
@@ -153,6 +154,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   Future _future;
   ui.Image _thumbnail;
   Size _thumbnailSize;
+  bool _isFullScreen = false;
 
   @override
   void didChangeDependencies() {
@@ -241,7 +243,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
         if (_thumbnail != null)
           RawImage(
             image: _thumbnail,
-            fit: BoxFit.fitWidth,
+            fit: _isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
           ),
         FutureBuilder(
           future: _future,
@@ -279,6 +281,19 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
               : () => store.dispatch(LikeSongRequest(song: widget.song)),
           child: SongPage(
             song: widget.song,
+          ),
+        ),
+        SafeArea(
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: IconButton(
+              icon: Icon(
+                _isFullScreen ? Icons.fullscreen_exit : Icons.fullscreen,
+              ),
+              onPressed: () {
+                setState(() => _isFullScreen = !_isFullScreen);
+              },
+            ),
           ),
         ),
       ],
