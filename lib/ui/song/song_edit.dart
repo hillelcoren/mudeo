@@ -877,10 +877,13 @@ class TrackView extends StatelessWidget {
                               )
                             ],
                           )
-                        : AspectRatio(
-                            aspectRatio: aspectRatio,
-                            child: VideoPlayer(videoPlayer))),
+                        : Container(
+                            child: AspectRatio(
+                                aspectRatio: aspectRatio,
+                                child: VideoPlayer(videoPlayer)),
+                          )),
           ),
+          /*
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -894,7 +897,8 @@ class TrackView extends StatelessWidget {
               height: 40,
               width: 150,
             ),
-          ),
+          ),          
+           */
           if (!isFirst)
             Positioned(
               child: IconButton(
