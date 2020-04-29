@@ -203,12 +203,26 @@ class _SongListItemState extends State<_SongListItem>
       collection: _controllerCollection,
       child: Material(
         child: Stack(
-          alignment: Alignment.topRight,
           children: <Widget>[
             _TrackVideoPlayer(
               blurHash: song.blurhash,
               track: _areVideosSwapped ? secondTrack : firstTrack,
               isFullScreen: _isFullScreen,
+            ),
+            SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.black.withOpacity(0.9),
+                      Colors.transparent,
+                    ],
+                    stops: [0.0, 1.0],
+                    begin: Alignment.topCenter,
+                    end: Alignment(0.0, -0.7),
+                  ),
+                ),
+              ),
             ),
             if (secondTrack != null)
               Positioned(
@@ -233,39 +247,43 @@ class _SongListItemState extends State<_SongListItem>
                 onDoubleTap: store.state.artist.likedSong(song.id)
                     ? null
                     : () => store.dispatch(LikeSongRequest(song: song)),
-                child: SongPage(
-                  song: song,
-                ),
-              ),
-            ),
-            SafeArea(
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        _isFullScreen
-                            ? Icons.fullscreen_exit
-                            : Icons.fullscreen,
-                      ),
-                      onPressed: () {
-                        setState(() => _isFullScreen = !_isFullScreen);
-                      },
+                child: Stack(
+                  children: [
+                    SongPage(
+                      song: song,
                     ),
-                    if (secondTrack != null)
-                      IconButton(
-                        icon: Icon(
-                          Icons.swap_vertical_circle,
-                        ),
-                        onPressed: () {
-                          setState(
-                              () => _areVideosSwapped = !_areVideosSwapped);
-                        },
-                      )
                   ],
                 ),
               ),
+            ),
+            Material(
+              type: MaterialType.transparency,
+              child: SafeArea(
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(
+                          _isFullScreen
+                              ? Icons.fullscreen_exit
+                              : Icons.fullscreen,
+                        ),
+                        onPressed: () {
+                          setState(() => _isFullScreen = !_isFullScreen);
+                        },
+                      ),
+                      if (secondTrack != null)
+                        IconButton(
+                          icon: Icon(
+                            Icons.swap_vertical_circle,
+                          ),
+                          onPressed: () {
+                            setState(
+                                () => _areVideosSwapped = !_areVideosSwapped);
+                          },
+                        )
+                    ],
+                  ),
+                ),
             ),
           ],
         ),
