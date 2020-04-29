@@ -108,13 +108,16 @@ class _SongActions extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         ArtistProfile(
-            artist: song.artist,
-            onTap: () => kIsWeb
-                ? null
-                : store.dispatch(ViewArtist(
+          artist: song.artist,
+          onTap: () => kIsWeb
+              ? null
+              : store.dispatch(
+                  ViewArtist(
                     context: context,
                     artist: song.artist,
-                  ))),
+                  ),
+                ),
+        ),
         _LargeIconButton(
           iconData: Icons.videocam,
           onPressed: () {

@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 
@@ -16,30 +14,28 @@ class ArtistProfile extends StatelessWidget {
       url = artist.headerImageUrl ?? '';
     }
 
-    return InkWell(
-      key: ValueKey('__url_${url}__'),
-      onTap: onTap,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(7),
+    return Material(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Colors.white),
+        borderRadius: const BorderRadius.all(Radius.circular(7)),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
         child: url.isEmpty
             ? Container(
-                color: Colors.black38,
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.person, size: 35),
+                color: Colors.grey[900],
+                alignment: Alignment.center,
+                child: Icon(Icons.person, size: 36.0),
+                width: 48.0,
+                height: 48.0,
               )
-            : kIsWeb
-                ? Image.network(
-                    url,
-                    fit: BoxFit.cover,
-                    width: 50,
-                    height: 50,
-                  )
-                : CachedNetworkImage(
-                    imageUrl: url,
-                    fit: BoxFit.cover,
-                    width: 50,
-                    height: 50,
-                  ),
+            : Ink.image(
+                image: NetworkImage(url),
+                fit: BoxFit.cover,
+                width: 48.0,
+                height: 48.0,
+              ),
       ),
     );
   }
