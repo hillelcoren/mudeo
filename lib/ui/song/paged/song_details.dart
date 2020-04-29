@@ -7,6 +7,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
+import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share/share.dart';
 
@@ -141,9 +142,10 @@ class _SongActions extends StatelessWidget {
 
             if (!artist.ownsSong(song)) {
               newSong = song.fork;
-            }
-            if (state.isDance && !state.artist.ownsSong(newSong)) {
-              newSong = newSong.justKeepFirstTrack;
+
+              if (state.isDance) {
+                newSong = newSong.justKeepFirstTrack;
+              }
             }
 
             if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
@@ -187,7 +189,16 @@ class _SongActions extends StatelessWidget {
           tooltip: localization.comment,
           count: song.comments.length,
           onPressed: () {
-            //
+            showDialog<SongComments>(
+                context: context,
+                builder: (BuildContext context) {
+                  return SongComments(
+                    song: song,
+                    onClosePressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  );
+                });
           },
         ),
         _LargeIconButton(

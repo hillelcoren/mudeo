@@ -186,37 +186,7 @@ class SongItem extends StatefulWidget {
 }
 
 class _SongItemState extends State<SongItem> {
-  TextEditingController _textController;
-  FocusNode _textFocusNode;
-
   bool _showComments = false;
-  bool _showSubmitButton = false;
-  bool _enableSubmitButton = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _textFocusNode = FocusNode();
-    _textFocusNode.addListener(() {
-      if (_showSubmitButton != _textFocusNode.hasFocus) {
-        setState(() => _showSubmitButton = _textFocusNode.hasFocus);
-      }
-    });
-
-    _textController = TextEditingController();
-    _textController.addListener(() {
-      if (_enableSubmitButton != _textController.text.isNotEmpty) {
-        setState(() => _enableSubmitButton = _textController.text.isNotEmpty);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _textFocusNode.dispose();
-    _textController.dispose();
-    super.dispose();
-  }
 
   void onMessageTap() {
     setState(() => _showComments = !_showComments);
@@ -324,129 +294,13 @@ class _SongItemState extends State<SongItem> {
                   height: _showComments ? 400 : 0,
                   duration: Duration(milliseconds: _showComments ? 500 : 300),
                   curve: Curves.easeInOutCubic,
-                  child: SingleChildScrollView(
-                    child: FormCard(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Expanded(
-                              child: Text(
-                                song.description != null &&
-                                        song.description.trim().isNotEmpty
-                                    ? song.description
-                                    : song.title,
-                                style: Theme.of(context).textTheme.headline6,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.close),
-                              onPressed: () {
-                                _textController.clear();
-                                _textFocusNode.unfocus();
-                                setState(() => _showComments = false);
-                              },
-                            ),
-                          ],
-                        ),
-                        if (state.authState.hasValidToken)
-                          TextFormField(
-                            autofocus: false,
-                            minLines: 1,
-                            maxLines: 3,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(
-                                  kMaxCommentLength),
-                            ],
-                            controller: _textController,
-                            focusNode: _textFocusNode,
-                            decoration: InputDecoration(
-                              labelText: localization.addAPublicComment,
-                              //icon: Icon(Icons.comment),
-                            ),
-                          ),
-                        Visibility(
-                          visible: _showSubmitButton,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 4),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                if (!state.isSaving)
-                                  FlatButton(
-                                    child:
-                                        Text(localization.cancel.toUpperCase()),
-                                    onPressed: () {
-                                      _textController.clear();
-                                      _textFocusNode.unfocus();
-                                    },
-                                  ),
-                                SizedBox(width: 10),
-                                state.isSaving
-                                    ? Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 35, vertical: 10),
-                                        child: SizedBox(
-                                            child: CircularProgressIndicator(),
-                                            width: 20,
-                                            height: 20),
-                                      )
-                                    : RaisedButton(
-                                        child: Text(
-                                            localization.comment.toUpperCase()),
-                                        onPressed: _enableSubmitButton
-                                            ? () {
-                                                final Completer<Null>
-                                                    completer =
-                                                    Completer<Null>();
-                                                final comment = song.newComment(
-                                                    state.authState.artist.id,
-                                                    _textController.text
-                                                        .trim());
-                                                store.dispatch(
-                                                    SaveCommentRequest(
-                                                        completer: completer,
-                                                        comment: comment));
-                                                completer.future.then((value) {
-                                                  _textController.clear();
-                                                  _textFocusNode.unfocus();
-                                                });
-                                              }
-                                            : null,
-                                      )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          height: 200,
-                          child: song.comments.isEmpty
-                              ? Center(
-                                  child: Text(
-                                    localization.noComments,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                )
-                              : ListView(
-                                  shrinkWrap: true,
-                                  children: song.comments.reversed
-                                      .map((comment) => CommentRow(
-                                            key: ValueKey(comment.id),
-                                            song: song,
-                                            comment: comment,
-                                          ))
-                                      .toList(),
-                                ),
-                        )
-                      ],
-                    ),
+                  child: SongComments(
+                    song: song,
+                    onClosePressed: () {
+                      setState(() {
+                        _showComments = false;
+                      });
+                    },
                   ),
                 ),
                 Container(
@@ -1067,5 +921,172 @@ class SongImage extends StatelessWidget {
       ],
     );
      */
+  }
+}
+
+class SongComments extends StatefulWidget {
+  const SongComments({@required this.song, @required this.onClosePressed});
+
+  final SongEntity song;
+  final Function onClosePressed;
+
+  @override
+  _SongCommentsState createState() => _SongCommentsState();
+}
+
+class _SongCommentsState extends State<SongComments> {
+  TextEditingController _textController;
+  FocusNode _textFocusNode;
+  bool _showSubmitButton = false;
+  bool _enableSubmitButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _textFocusNode = FocusNode();
+    _textFocusNode.addListener(() {
+      if (_showSubmitButton != _textFocusNode.hasFocus) {
+        setState(() => _showSubmitButton = _textFocusNode.hasFocus);
+      }
+    });
+
+    _textController = TextEditingController();
+    _textController.addListener(() {
+      if (_enableSubmitButton != _textController.text.isNotEmpty) {
+        setState(() => _enableSubmitButton = _textController.text.isNotEmpty);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _textFocusNode.dispose();
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+    final store = StoreProvider.of<AppState>(context);
+    final state = store.state;
+
+    return SingleChildScrollView(
+      child: FormCard(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  widget.song.description != null &&
+                          widget.song.description.trim().isNotEmpty
+                      ? widget.song.description
+                      : widget.song.title,
+                  style: Theme.of(context).textTheme.headline6,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  _textController.clear();
+                  _textFocusNode.unfocus();
+                  widget.onClosePressed();
+                },
+              ),
+            ],
+          ),
+          if (state.authState.hasValidToken)
+            TextFormField(
+              autofocus: false,
+              minLines: 1,
+              maxLines: 3,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(kMaxCommentLength),
+              ],
+              controller: _textController,
+              focusNode: _textFocusNode,
+              decoration: InputDecoration(
+                labelText: localization.addAPublicComment,
+                //icon: Icon(Icons.comment),
+              ),
+            ),
+          Visibility(
+            visible: _showSubmitButton,
+            child: Padding(
+              padding: EdgeInsets.only(top: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  if (!state.isSaving)
+                    FlatButton(
+                      child: Text(localization.cancel.toUpperCase()),
+                      onPressed: () {
+                        _textController.clear();
+                        _textFocusNode.unfocus();
+                      },
+                    ),
+                  SizedBox(width: 10),
+                  state.isSaving
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 35, vertical: 10),
+                          child: SizedBox(
+                              child: CircularProgressIndicator(),
+                              width: 20,
+                              height: 20),
+                        )
+                      : RaisedButton(
+                          child: Text(localization.comment.toUpperCase()),
+                          onPressed: _enableSubmitButton
+                              ? () {
+                                  final Completer<Null> completer =
+                                      Completer<Null>();
+                                  final comment = widget.song.newComment(
+                                      state.authState.artist.id,
+                                      _textController.text.trim());
+                                  store.dispatch(SaveCommentRequest(
+                                      completer: completer, comment: comment));
+                                  completer.future.then((value) {
+                                    _textController.clear();
+                                    _textFocusNode.unfocus();
+                                  });
+                                }
+                              : null,
+                        )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          SizedBox(
+            height: 200,
+            child: widget.song.comments.isEmpty
+                ? Center(
+                    child: Text(
+                      localization.noComments,
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w300),
+                    ),
+                  )
+                : ListView(
+                    shrinkWrap: true,
+                    children: widget.song.comments.reversed
+                        .map((comment) => CommentRow(
+                              key: ValueKey(comment.id),
+                              song: widget.song,
+                              comment: comment,
+                            ))
+                        .toList(),
+                  ),
+          )
+        ],
+      ),
+    );
   }
 }
