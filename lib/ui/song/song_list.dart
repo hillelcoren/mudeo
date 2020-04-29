@@ -201,8 +201,6 @@ class _SongItemState extends State<SongItem> {
     final song = widget.song;
     final tracks = song.tracks;
     final lastTrack = tracks.isNotEmpty ? tracks.last : null;
-    final store = StoreProvider.of<AppState>(context);
-    final state = store.state;
     final lastVideo = lastTrack?.video ?? VideoEntity();
     final gradientColor = Colors.black12.withOpacity(.75);
 

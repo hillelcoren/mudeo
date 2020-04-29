@@ -12,8 +12,8 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
+import 'package:mudeo/ui/song/paged/song_page.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
-import 'package:mudeo/ui/song/paged/song_details.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -277,7 +277,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
           onDoubleTap: store.state.artist.likedSong(widget.song.id)
               ? null
               : () => store.dispatch(LikeSongRequest(song: widget.song)),
-          child: SongDetails(
+          child: SongPage(
             song: widget.song,
           ),
         ),

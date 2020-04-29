@@ -11,8 +11,8 @@ import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share/share.dart';
 
-class SongDetails extends StatelessWidget {
-  const SongDetails({@required this.song});
+class SongPage extends StatelessWidget {
+  const SongPage({@required this.song});
 
   final SongEntity song;
 

@@ -864,7 +864,6 @@ class TrackView extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = viewModel.state;
     final localization = AppLocalization.of(context);
-    final gradientColor = Colors.black12.withOpacity(.75);
 
     return InkWell(
       onTap: state.isDance
