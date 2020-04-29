@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
@@ -849,109 +850,107 @@ class TrackView extends StatelessWidget {
             },
       child: Stack(
         children: <Widget>[
-          Container(
-            child: Card(
-                elevation: kDefaultElevation,
-                margin: const EdgeInsets.symmetric(horizontal: 6),
-                child: videoPlayer == null
-                    ? SizedBox(width: 139)
-                    : track.video.isRemoteVideo
-                        ? Stack(
-                            children: <Widget>[
-                              AspectRatio(
-                                  aspectRatio: aspectRatio,
-                                  child: VideoPlayer(videoPlayer)),
-                              Container(
-                                // TODO FIX if video download failed size will be null
-                                width: videoPlayer.value.size.width,
-                                color: Colors.black,
-                                child: Center(
-                                  child: Text(
-                                    AppLocalization.of(context).backingTrack,
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 20),
-                                  ),
-                                ),
+          Card(
+            elevation: kDefaultElevation,
+            margin: const EdgeInsets.symmetric(horizontal: 6),
+            child: videoPlayer == null
+                ? SizedBox(width: 139)
+                : track.video.isRemoteVideo
+                    ? Stack(
+                        children: <Widget>[
+                          AspectRatio(
+                              aspectRatio: aspectRatio,
+                              child: VideoPlayer(videoPlayer)),
+                          Container(
+                            // TODO FIX if video download failed size will be null
+                            width: videoPlayer.value.size.width,
+                            color: Colors.black,
+                            child: Center(
+                              child: Text(
+                                AppLocalization.of(context).backingTrack,
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 20),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    : Container(
+                        child: AspectRatio(
+                            aspectRatio: aspectRatio,
+                            child: VideoPlayer(videoPlayer)),
+                      ),
+          ),
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                  stops: [0.0, 1.0],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (!isFirst)
+                    IconButton(
+                      icon: Icon(
+                        Icons.swap_horizontal_circle,
+                      ),
+                      onPressed: () {
+                        showDialog<TrackSyncer>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return TrackSyncer(
+                              song: viewModel.song,
+                              track: track,
+                              onDelayChanged: (delay) =>
+                                  onDelayChanged(track, delay),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  if (!isFirst || !state.isDance)
+                    IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                      ),
+                      onPressed: () {
+                        showDialog<AlertDialog>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            semanticLabel: localization.areYouSure,
+                            title: Text(localization.removeVideo),
+                            content: Text(localization.areYouSure),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text(localization.cancel.toUpperCase()),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              FlatButton(
+                                child: Text(localization.ok.toUpperCase()),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  onDeletePressed();
+                                },
                               )
                             ],
-                          )
-                        : Container(
-                            child: AspectRatio(
-                                aspectRatio: aspectRatio,
-                                child: VideoPlayer(videoPlayer)),
-                          )),
-          ),
-          /*
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.black12.withOpacity(.9), Colors.transparent],
-                stops: [0, 1],
-                begin: Alignment(0, -1),
-                end: Alignment(0, 1),
-              ),
-            ),
-            child: SizedBox(
-              height: 40,
-              width: 150,
-            ),
-          ),          
-           */
-          if (!isFirst)
-            Positioned(
-              child: IconButton(
-                icon: Icon(
-                  Icons.swap_horizontal_circle,
-                ),
-                onPressed: () {
-                  showDialog<TrackSyncer>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return TrackSyncer(
-                          song: viewModel.song,
-                          track: track,
-                          onDelayChanged: (delay) =>
-                              onDelayChanged(track, delay),
+                          ),
                         );
-                      });
-                },
-              ),
-              top: 0,
-              left: 5,
-            ),
-          if (!isFirst || !state.isDance)
-            Positioned(
-              child: IconButton(
-                icon: Icon(
-                  Icons.delete,
-                ),
-                onPressed: () {
-                  showDialog<AlertDialog>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      semanticLabel: localization.areYouSure,
-                      title: Text(localization.removeVideo),
-                      content: Text(localization.areYouSure),
-                      actions: <Widget>[
-                        new FlatButton(
-                            child: Text(localization.cancel.toUpperCase()),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            }),
-                        new FlatButton(
-                            child: Text(localization.ok.toUpperCase()),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              onDeletePressed();
-                            })
-                      ],
+                      },
                     ),
-                  );
-                },
+                ],
               ),
-              top: 0,
-              right: 5,
             ),
+          ),
         ],
       ),
     );
