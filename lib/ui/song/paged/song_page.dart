@@ -46,52 +46,46 @@ class SongPage extends StatelessWidget {
         right: 15,
         bottom: 70,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Stack(
+        alignment: MediaQuery.of(context).size.height > 600
+            ? Alignment.topRight
+            : Alignment.topLeft,
         children: <Widget>[
+          if (song.tracks.length > 1)
+            Container(
+              color: Colors.black,
+              width: 120,
+              height: 200,
+            ),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Container(
-                color: Colors.black,
-                width: 120,
-                height: 200,
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '@${song.artist.handle}',
+                      style: textTheme.headline6,
+                    ),
+                    SizedBox(height: 14),
+                    if (description.trim().isNotEmpty) ...[
+                      Text(description.trim()),
+                      SizedBox(height: 12),
+                    ],
+                    Text(
+                      '🎵  ${song.title}',
+                      style: textTheme.bodyText1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(width: 12),
+              _SongActions(
+                song: song,
               ),
             ],
-          ),
-          Expanded(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        '@${song.artist.handle}',
-                        style: textTheme.headline6,
-                      ),
-                      SizedBox(height: 14),
-                      if (description.trim().isNotEmpty) ...[
-                        Text(description.trim()),
-                        SizedBox(height: 12),
-                      ],
-                      Text(
-                        '🎵  ${song.title}',
-                        style: textTheme.bodyText1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 12),
-                _SongActions(
-                  song: song,
-                ),
-              ],
-            ),
           ),
         ],
       ),
@@ -233,14 +227,14 @@ class _LargeIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8, right: 5),
+      padding: const EdgeInsets.only(top: 10, right: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           IconButton(
             icon: Icon(
               iconData,
-              size: 40,
+              size: 38,
               color: color,
             ),
             tooltip: tooltip,
