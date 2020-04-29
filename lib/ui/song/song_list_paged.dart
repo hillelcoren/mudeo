@@ -162,6 +162,7 @@ class _SongListItemState extends State<_SongListItem> {
   void initState() {
     super.initState();
     print('init ${song.id}: ${song.title}');
+    // _controllerCollection = ControllerCollection();
   }
 
   @override
@@ -191,7 +192,7 @@ class _SongListItemState extends State<_SongListItem> {
                 width: 150.0,
                 height: 200.0,
                 right: 16.0,
-                top: 16.0,
+                top: 16.0 + MediaQuery.of(context).viewPadding.top,
                 child: _TrackVideoPlayer(
                   blurHash: song.blurhash,
                   track: _areVideosSwapped ? firstTrack : secondTrack,
