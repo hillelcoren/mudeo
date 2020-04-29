@@ -87,13 +87,14 @@ class _TrackSyncerState extends State<TrackSyncer> {
             child: Text(localization.sync.toUpperCase()),
             onPressed: () => _syncVideos(),
           ),
-        FlatButton(
-          child: Text(localization.done.toUpperCase()),
-          onPressed: () {
-            widget.onDelayChanged(_delay);
-            Navigator.of(context).pop();
-          },
-        ),
+        if (!_isSyncing)
+          FlatButton(
+            child: Text(localization.done.toUpperCase()),
+            onPressed: () {
+              widget.onDelayChanged(_delay);
+              Navigator.of(context).pop();
+            },
+          ),
       ],
       content: ClipRect(
         child: SingleChildScrollView(
@@ -148,6 +149,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     timeStart: _timeStart,
                     isSyncing: _isSyncing,
                     delay: i == 0 ? 0 : _delay,
+                    isFirst: i == 0,
                   ),
                 ),
               SizedBox(height: 10),
@@ -212,6 +214,7 @@ class TrackVolume extends StatelessWidget {
     @required this.timeStart,
     @required this.isSyncing,
     @required this.delay,
+    @required this.isFirst,
   });
 
   final TrackEntity track;
@@ -219,6 +222,7 @@ class TrackVolume extends StatelessWidget {
   final bool isSyncing;
   final int timeStart;
   final int delay;
+  final bool isFirst;
 
   @override
   Widget build(BuildContext context) {
@@ -253,7 +257,9 @@ class TrackVolume extends StatelessWidget {
                   track: track,
                   timeSpan: timeSpan,
                   timeStart: timeStart,
-                  color: isSyncing ? Colors.yellowAccent : Colors.white,
+                  color: isSyncing && !isFirst
+                      ? Colors.yellowAccent
+                      : Colors.white,
                   delay: delay,
                 ),
               ),
