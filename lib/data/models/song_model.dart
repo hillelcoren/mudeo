@@ -457,6 +457,8 @@ abstract class VideoEntity extends Object
 
   Future<String> get path => VideoEntity.getPath(this);
 
+  bool get hasVolumeData => volumeData != null && volumeData.keys.isNotEmpty;
+
   static Future<String> getPath(VideoEntity video) async {
     // TODO add web support
     if (kIsWeb) {

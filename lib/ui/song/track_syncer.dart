@@ -82,19 +82,18 @@ class _TrackSyncerState extends State<TrackSyncer> {
     return AlertDialog(
       title: Text(AppLocalization.of(context).trackAdjustment),
       actions: <Widget>[
-        if (!_isSyncing) ...[
+        if (!_isSyncing && widget.track.video.hasVolumeData)
           FlatButton(
             child: Text(localization.sync.toUpperCase()),
             onPressed: () => _syncVideos(),
           ),
-          FlatButton(
-            child: Text(localization.done.toUpperCase()),
-            onPressed: () {
-              widget.onDelayChanged(_delay);
-              Navigator.of(context).pop();
-            },
-          ),
-        ]
+        FlatButton(
+          child: Text(localization.done.toUpperCase()),
+          onPressed: () {
+            widget.onDelayChanged(_delay);
+            Navigator.of(context).pop();
+          },
+        ),
       ],
       content: ClipRect(
         child: SingleChildScrollView(
