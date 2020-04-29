@@ -93,14 +93,33 @@ class VideoControllerCollection
 
   final Map<TrackEntity, VideoPlayerController> _controllers;
 
-  void toggle() {
+  void play() {
     for (final controller in _controllers.values) {
-      if(controller.value.isPlaying){
-        controller.pause();
-      }else{
+      if (!controller.value.isPlaying) {
         controller.play();
       }
     }
+  }
+
+  void pause() {
+    for (final controller in _controllers.values) {
+      if (controller.value.isPlaying) {
+        controller.pause();
+      }
+    }
+  }
+
+  bool toggle() {
+    if (_controllers.isEmpty) {
+      return false;
+    }
+    final masterIsPlaying = _controllers.values.first.value.isPlaying;
+    if (masterIsPlaying) {
+      pause();
+    } else {
+      play();
+    }
+    return !masterIsPlaying;
   }
 
   void dispose() {
@@ -146,7 +165,8 @@ class _SongListItem extends StatefulWidget {
   _SongListItemState createState() => _SongListItemState();
 }
 
-class _SongListItemState extends State<_SongListItem> {
+class _SongListItemState extends State<_SongListItem>
+    with SingleTickerProviderStateMixin {
   final _controllerCollection = VideoControllerCollection();
 
   SongEntity get song => widget.entity;
@@ -165,6 +185,10 @@ class _SongListItemState extends State<_SongListItem> {
     // _controllerCollection = ControllerCollection();
   }
 
+  void _togglePlayback() {
+    _controllerCollection.toggle();
+  }
+
   @override
   void dispose() {
     print('dispose ${song.id}: ${song.title}');
@@ -175,7 +199,6 @@ class _SongListItemState extends State<_SongListItem> {
   @override
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
-
     return VideoControllerScope(
       collection: _controllerCollection,
       child: Material(
@@ -203,13 +226,16 @@ class _SongListItemState extends State<_SongListItem> {
                   ),
                 ),
               ),
-            GestureDetector(
-              onTap: () => _controllerCollection.toggle(),
-              onDoubleTap: store.state.artist.likedSong(song.id)
-                  ? null
-                  : () => store.dispatch(LikeSongRequest(song: song)),
-              child: SongPage(
-                song: song,
+            Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                onTap: _togglePlayback,
+                onDoubleTap: store.state.artist.likedSong(song.id)
+                    ? null
+                    : () => store.dispatch(LikeSongRequest(song: song)),
+                child: SongPage(
+                  song: song,
+                ),
               ),
             ),
             SafeArea(
@@ -326,13 +352,9 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
   void _onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction > 0.5) {
-      if (!_controller.value.isPlaying) {
-        _controller.play();
-      }
+      controllers.play();
     } else {
-      if (_controller.value.isPlaying) {
-        _controller.pause();
-      }
+      controllers.pause();
     }
   }
 

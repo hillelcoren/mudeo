@@ -12,7 +12,10 @@ import 'package:mudeo/utils/localization.dart';
 import 'package:share/share.dart';
 
 class SongPage extends StatelessWidget {
-  const SongPage({@required this.song});
+  const SongPage({
+    Key key,
+    @required this.song,
+  }) : super(key: key);
 
   final SongEntity song;
 
