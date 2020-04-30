@@ -214,7 +214,7 @@ class _LargeIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 12, right: 5),
+      padding: const EdgeInsets.only(top: 16, right: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
