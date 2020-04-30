@@ -186,6 +186,9 @@ class _SongListItemState extends State<_SongListItem>
   bool _isFullScreen = false;
   bool _areVideosSwapped = false;
 
+  static const double PIP_WIDTH = 136;
+  double _pipHeight = PIP_WIDTH * 1.33;
+
   @override
   void initState() {
     super.initState();
@@ -205,6 +208,14 @@ class _SongListItemState extends State<_SongListItem>
     setState(() => _areVideosSwapped = !_areVideosSwapped);
   }
 
+  void _caculatePipHeight() {
+    final track = _areVideosSwapped ? secondTrack : firstTrack;
+    final size = _controllerCollection[track]?.value?.size ?? Size(320, 240);
+    setState(() {
+      _pipHeight = (size.height / size.width) * PIP_WIDTH;
+    });
+  }
+
   @override
   void dispose() {
     print('dispose ${song.id}: ${song.title}');
@@ -215,6 +226,7 @@ class _SongListItemState extends State<_SongListItem>
   @override
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
+
     return VideoControllerScope(
       collection: _controllerCollection,
       child: Material(
@@ -225,6 +237,7 @@ class _SongListItemState extends State<_SongListItem>
               blurHash: song.blurhash,
               track: _areVideosSwapped ? secondTrack : firstTrack,
               isFullScreen: _isFullScreen,
+              onVideoInitialized: () => _caculatePipHeight(),
             ),
             // Top Scrim
             SizedBox.expand(
@@ -245,8 +258,8 @@ class _SongListItemState extends State<_SongListItem>
             // Small PIP Player
             if (secondTrack != null)
               Positioned(
-                width: 150.0,
-                height: 200.0,
+                width: PIP_WIDTH,
+                height: _pipHeight,
                 right: 16.0,
                 top: 16.0 + MediaQuery.of(context).viewPadding.top,
                 child: Material(
@@ -316,11 +329,13 @@ class _TrackVideoPlayer extends StatefulWidget {
     @required this.blurHash,
     @required this.track,
     @required this.isFullScreen,
+    this.onVideoInitialized,
   }) : super(key: key);
 
   final String blurHash;
   final TrackEntity track;
   final bool isFullScreen;
+  final Function onVideoInitialized;
 
   @override
   _TrackVideoPlayerState createState() => _TrackVideoPlayerState();
@@ -376,7 +391,10 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
     if (mounted) {
       _controller = VideoPlayerController.file(File(path))..setLooping(true);
       controllers[widget.track] = _controller;
-      await _controller.initialize();
+      await _controller.initialize().then((value) =>
+          widget.onVideoInitialized != null
+              ? widget.onVideoInitialized()
+              : null);
     }
   }
 
