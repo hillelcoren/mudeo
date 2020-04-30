@@ -74,6 +74,7 @@ class _SongListPagedState extends State<SongListPaged> {
                       fade: PageAnimation(
                         index: index,
                         controller: widget.pageController,
+                        curve: Curves.easeInCubic,
                       ),
                       entity: state.dataState.songMap[allSongIds[index]],
                     );
@@ -281,14 +282,17 @@ class _SongListItemState extends State<_SongListItem>
                   height: _pipHeight,
                   right: 16.0,
                   top: 16.0 + MediaQuery.of(context).viewPadding.top,
-                  child: Material(
-                    elevation: 6.0,
-                    shape: Border.all(color: Colors.black26, width: 1.0),
-                    child: _TrackVideoPlayer(
-                      blurHash: song.blurhash,
-                      track: _areVideosSwapped ? firstTrack : secondTrack,
-                      isFullScreen: _isFullScreen,
-                      isAudioMuted: store.state.isDance,
+                  child: FadeTransition(
+                    opacity: widget.fade,
+                    child: Material(
+                      elevation: 6.0,
+                      shape: Border.all(color: Colors.black26, width: 1.0),
+                      child: _TrackVideoPlayer(
+                        blurHash: song.blurhash,
+                        track: _areVideosSwapped ? firstTrack : secondTrack,
+                        isFullScreen: _isFullScreen,
+                        isAudioMuted: store.state.isDance,
+                      ),
                     ),
                   ),
                 ),
