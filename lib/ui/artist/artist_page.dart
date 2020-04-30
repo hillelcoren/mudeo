@@ -115,22 +115,24 @@ class ArtistPage extends StatelessWidget {
                         forceSafariVC: false);
                   },
                 ),
-                SimpleDialogOption(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: IconText(
-                      icon: state.isDance
-                          ? FontAwesomeIcons.music
-                          : FontAwesomeIcons.users,
-                      text: state.isDance ? 'Try mudeo' : 'Try Dance Like Me',
-                      textStyle: TextStyle(fontSize: 18),
+                if (state.isDance)
+                  SimpleDialogOption(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: IconText(
+                        icon: state.isDance
+                            ? FontAwesomeIcons.music
+                            : FontAwesomeIcons.users,
+                        text: state.isDance ? 'Try mudeo' : 'Try Dance Like Me',
+                        textStyle: TextStyle(fontSize: 18),
+                      ),
                     ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      launch(getOtherAppStoreURL(context),
+                          forceSafariVC: false);
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    launch(getOtherAppStoreURL(context), forceSafariVC: false);
-                  },
-                ),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
