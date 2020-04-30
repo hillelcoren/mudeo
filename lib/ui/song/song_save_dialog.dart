@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -249,7 +250,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
                   children: <Widget>[
-                    if (state.isDance)
+                    if (state.isDance || Platform.isIOS)
                       IconText(
                         icon: Icons.public,
                         text: localization.public,
