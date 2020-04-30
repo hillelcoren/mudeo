@@ -232,15 +232,11 @@ class _SongListItemState extends State<_SongListItem>
   }
 
   void _playVideos() {
-    print('## PLAY VIDEOS $_countVideosReady');
-
     if (_countVideosReady < min(2, song.includedTracks.length)) {
-      print('## NOT READY');
       _isWaitingToPlay = true;
       return;
     } else {
       _isWaitingToPlay = false;
-      print('## READY :)');
     }
 
     _controllerCollection.play(delay: secondTrack?.delay ?? 0);
