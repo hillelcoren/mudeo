@@ -70,6 +70,7 @@ Middleware<AppState> _createLoadState(
   DataState dataState;
 
   return (Store<AppState> store, dynamic action, NextDispatcher next) async {
+    print('## Load state...');
     try {
       final prefs = await SharedPreferences.getInstance();
       final appVersion = prefs.getString(kSharedPrefAppVersion);
@@ -92,6 +93,7 @@ Middleware<AppState> _createLoadState(
 
       AppBuilder.of(action.context).rebuild();
       store.dispatch(LoadStateSuccess(appState));
+      print('## State loaded');
 
       final NavigatorState navigator = Navigator.of(action.context);
       navigator.pushReplacementNamed(MainScreen.route);
@@ -102,6 +104,7 @@ Middleware<AppState> _createLoadState(
       final token = prefs.getString(kSharedPrefToken) ?? '';
 
       if (token.isNotEmpty) {
+        print('## Found token...');
         final completer = Completer<Null>();
         store.dispatch(RefreshData(
           completer: completer,
