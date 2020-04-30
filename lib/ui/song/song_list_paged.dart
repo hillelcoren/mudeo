@@ -196,7 +196,7 @@ class _SongListItemState extends State<_SongListItem>
   TrackEntity get secondTrack =>
       song.includedTracks.length > 1 ? song.includedTracks[1] : null;
 
-  bool _isPlaying = false;
+  bool _isWaitingToPlay = false;
   bool _isFullScreen = false;
   bool _areVideosSwapped = false;
 
@@ -225,9 +225,7 @@ class _SongListItemState extends State<_SongListItem>
     );
 
     if (info.visibleFraction > 0.5) {
-      if (!_isPlaying) {
-        _playVideos();
-      }
+      _playVideos();
     } else {
       _pauseVides();
     }
@@ -235,12 +233,13 @@ class _SongListItemState extends State<_SongListItem>
 
   void _playVideos() {
     print('## PLAY VIDEOS $_countVideosReady');
-    _isPlaying = true;
 
     if (_countVideosReady < min(2, song.includedTracks.length)) {
       print('## NOT READY');
+      _isWaitingToPlay = true;
       return;
     } else {
+      _isWaitingToPlay = false;
       print('## READY :)');
     }
 
@@ -248,7 +247,6 @@ class _SongListItemState extends State<_SongListItem>
   }
 
   void _pauseVides() {
-    _isPlaying = false;
     _controllerCollection.pause();
   }
 
@@ -302,7 +300,7 @@ class _SongListItemState extends State<_SongListItem>
                 onVideoInitialized: () {
                   _caculatePipHeight();
                   _countVideosReady++;
-                  if (_isPlaying) {
+                  if (_isWaitingToPlay) {
                     _playVideos();
                   }
                 },
@@ -342,7 +340,7 @@ class _SongListItemState extends State<_SongListItem>
                         isAudioMuted: store.state.isDance,
                         onVideoInitialized: () {
                           _countVideosReady++;
-                          if (_isPlaying) {
+                          if (_isWaitingToPlay) {
                             _playVideos();
                           }
                         },
