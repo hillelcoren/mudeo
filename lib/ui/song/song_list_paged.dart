@@ -288,6 +288,7 @@ class _SongListItemState extends State<_SongListItem>
                       blurHash: song.blurhash,
                       track: _areVideosSwapped ? firstTrack : secondTrack,
                       isFullScreen: _isFullScreen,
+                      isAudioMuted: store.state.isDance,
                     ),
                   ),
                 ),
@@ -349,12 +350,14 @@ class _TrackVideoPlayer extends StatefulWidget {
     @required this.blurHash,
     @required this.track,
     @required this.isFullScreen,
+    this.isAudioMuted = false,
     this.onVideoInitialized,
   }) : super(key: key);
 
   final String blurHash;
   final TrackEntity track;
   final bool isFullScreen;
+  final bool isAudioMuted;
   final Function onVideoInitialized;
 
   @override
@@ -410,6 +413,8 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     if (mounted) {
       _controller = VideoPlayerController.file(File(path))..setLooping(true);
+      _controller
+          .setVolume(widget.isAudioMuted ? 0 : widget.track.volume.toDouble());
       controllers[widget.track] = _controller;
       await _controller.initialize().then((value) =>
           widget.onVideoInitialized != null
