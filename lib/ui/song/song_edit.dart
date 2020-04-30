@@ -888,7 +888,7 @@ class TrackView extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+                  colors: [Colors.black.withOpacity(0.4), Colors.transparent],
                   stops: [0.0, 1.0],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

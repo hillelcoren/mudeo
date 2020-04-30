@@ -32,17 +32,6 @@ class SongPage extends StatelessWidget {
     }
 
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.black.withOpacity(0.9),
-            Colors.transparent,
-          ],
-          stops: [0.0, 1.0],
-          begin: Alignment.bottomCenter,
-          end: Alignment(0.0, 0.0),
-        ),
-      ),
       padding: const EdgeInsets.only(
         left: 15,
         top: 15,
@@ -121,7 +110,7 @@ class _SongActions extends StatelessWidget {
                   ),
                 ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 2),
         _LargeIconButton(
           iconData: Icons.videocam,
           onPressed: () {
@@ -224,7 +213,7 @@ class _LargeIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, right: 5),
+      padding: const EdgeInsets.only(top: 12, right: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[

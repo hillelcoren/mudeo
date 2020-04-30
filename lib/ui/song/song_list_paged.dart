@@ -298,7 +298,7 @@ class _SongListItemState extends State<_SongListItem>
                     : song.trackVideoUrl,
                 isFullScreen: _isFullScreen,
                 isAudioMuted:
-                    !_areVideosSwapped && (store.state.isDance || isMixDown),
+                    _areVideosSwapped && (store.state.isDance || isMixDown),
                 onVideoInitialized: () {
                   _caculatePipHeight();
                   _countVideosReady++;
@@ -313,7 +313,7 @@ class _SongListItemState extends State<_SongListItem>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.black.withOpacity(0.9),
+                        Colors.black.withOpacity(0.4),
                         Colors.transparent,
                       ],
                       stops: [0.0, 1.0],
@@ -362,10 +362,23 @@ class _SongListItemState extends State<_SongListItem>
                   onDoubleTap: store.state.artist.likedSong(song.id)
                       ? null
                       : () => store.dispatch(LikeSongRequest(song: song)),
-                  child: FadeTransition(
-                    opacity: widget.fade,
-                    child: SongPage(
-                      song: song,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.black.withOpacity(0.9),
+                          Colors.transparent,
+                        ],
+                        stops: [0.0, 1.0],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment(0.0, 0.0),
+                      ),
+                    ),
+                    child: FadeTransition(
+                      opacity: widget.fade,
+                      child: SongPage(
+                        song: song,
+                      ),
                     ),
                   ),
                 ),
@@ -376,24 +389,27 @@ class _SongListItemState extends State<_SongListItem>
                 child: Material(
                   type: MaterialType.transparency,
                   child: SafeArea(
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: _toggleFullscreen,
-                          icon: Icon(
-                            _isFullScreen
-                                ? Icons.fullscreen_exit
-                                : Icons.fullscreen,
-                          ),
-                        ),
-                        if (secondTrack != null)
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Row(
+                        children: <Widget>[
                           IconButton(
-                            onPressed: _toggleSwapVideos,
+                            onPressed: _toggleFullscreen,
                             icon: Icon(
-                              Icons.swap_vertical_circle,
+                              _isFullScreen
+                                  ? Icons.fullscreen_exit
+                                  : Icons.fullscreen,
                             ),
-                          )
-                      ],
+                          ),
+                          if (secondTrack != null)
+                            IconButton(
+                              onPressed: _toggleSwapVideos,
+                              icon: Icon(
+                                Icons.swap_vertical_circle,
+                              ),
+                            )
+                        ],
+                      ),
                     ),
                   ),
                 ),
