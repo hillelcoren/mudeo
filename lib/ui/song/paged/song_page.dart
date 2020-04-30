@@ -121,6 +121,7 @@ class _SongActions extends StatelessWidget {
                   ),
                 ),
         ),
+        SizedBox(height: 8),
         _LargeIconButton(
           iconData: Icons.videocam,
           onPressed: () {
@@ -191,6 +192,7 @@ class _SongActions extends StatelessWidget {
         _LargeIconButton(
           iconData: Icons.share,
           tooltip: localization.share,
+          showCount: false,
           onPressed: () {
             Share.share(song.url);
           },
@@ -207,6 +209,7 @@ class _LargeIconButton extends StatelessWidget {
     this.onPressed,
     this.color,
     this.count,
+    this.showCount = true,
     this.requireLoggedIn = false,
   });
 
@@ -216,6 +219,7 @@ class _LargeIconButton extends StatelessWidget {
   final bool requireLoggedIn;
   final Color color;
   final int count;
+  final bool showCount;
 
   @override
   Widget build(BuildContext context) {
@@ -233,15 +237,17 @@ class _LargeIconButton extends StatelessWidget {
             tooltip: tooltip,
             onPressed: onPressed,
           ),
-          if (count != null && count > 0)
+          /*
+          if (showCount)
             Padding(
               padding: const EdgeInsets.only(left: 2),
               child: Text(
-                '$count',
+                (count ?? 0) == 0 ? ' ' : '$count',
                 style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.center,
               ),
             ),
+           */
         ],
       ),
     );
