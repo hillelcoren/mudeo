@@ -915,7 +915,9 @@ class TrackView extends StatelessWidget {
                           },
                         );
                       },
-                    ),
+                    )
+                  else
+                    SizedBox(),
                   if (!isFirst || !state.isDance)
                     IconButton(
                       icon: Icon(
