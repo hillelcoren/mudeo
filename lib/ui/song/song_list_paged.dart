@@ -109,8 +109,8 @@ class VideoControllerCollection
         if (playFromStart) {
           controller.pause();
           controller.seekTo(Duration.zero);
-          Future.delayed(Duration(milliseconds: track.delay),
-              () => controller.play());
+          Future.delayed(
+              Duration(milliseconds: track.delay), () => controller.play());
         } else {
           controller.play();
         }
@@ -548,8 +548,8 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                 return FittedBox(
                   fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
                   child: SizedBox(
-                    width: _controller.value.size.width,
-                    height: _controller.value.size.height,
+                    width: _controller?.value?.size?.width ?? 0,
+                    height: _controller?.value?.size?.height ?? 0,
                     child: VideoPlayer(_controller),
                   ),
                 );
