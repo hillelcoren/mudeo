@@ -17,6 +17,7 @@ import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
 import 'package:mudeo/ui/song/paged/page_animation.dart';
 import 'package:mudeo/ui/song/paged/song_page.dart';
 import 'package:mudeo/ui/song/song_list_paged_vm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -193,15 +194,21 @@ class _SongListItemState extends State<_SongListItem>
   void initState() {
     super.initState();
     print('init ${song.id}: ${song.title}');
-    // _controllerCollection = ControllerCollection();
+
+    SharedPreferences.getInstance().then((prefs) {
+      _isFullScreen = prefs.getBool(kSharedPrefFullScreen) ?? false;
+    });
   }
 
   void _togglePlayback() {
     _controllerCollection.toggle();
   }
 
-  void _toggleFullscreen() {
-    setState(() => _isFullScreen = !_isFullScreen);
+  void _toggleFullscreen() async {
+    final isFullScreen = !_isFullScreen;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(kSharedPrefFullScreen, isFullScreen);
+    setState(() => _isFullScreen = isFullScreen);
   }
 
   void _toggleSwapVideos() {
@@ -229,94 +236,107 @@ class _SongListItemState extends State<_SongListItem>
 
     return VideoControllerScope(
       collection: _controllerCollection,
-      child: Material(
-        child: Stack(
-          children: <Widget>[
-            // Large Player
-            _TrackVideoPlayer(
-              blurHash: song.blurhash,
-              track: _areVideosSwapped ? secondTrack : firstTrack,
-              isFullScreen: _isFullScreen,
-              onVideoInitialized: () => _caculatePipHeight(),
-            ),
-            // Top Scrim
-            SizedBox.expand(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.black.withOpacity(0.9),
-                      Colors.transparent,
-                    ],
-                    stops: [0.0, 1.0],
-                    begin: Alignment.topCenter,
-                    end: Alignment(0.0, -0.7),
+      child: VisibilityDetector(
+        key: Key('song-${song.id}-preview'),
+        onVisibilityChanged: (info) {
+          SharedPreferences.getInstance().then(
+            (prefs) {
+              final isFullScreen = prefs.getBool(kSharedPrefFullScreen);
+              if (_isFullScreen != isFullScreen) {
+                _toggleFullscreen();
+              }
+            },
+          );
+        },
+        child: Material(
+          child: Stack(
+            children: <Widget>[
+              // Large Player
+              _TrackVideoPlayer(
+                blurHash: song.blurhash,
+                track: _areVideosSwapped ? secondTrack : firstTrack,
+                isFullScreen: _isFullScreen,
+                onVideoInitialized: () => _caculatePipHeight(),
+              ),
+              // Top Scrim
+              SizedBox.expand(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withOpacity(0.9),
+                        Colors.transparent,
+                      ],
+                      stops: [0.0, 1.0],
+                      begin: Alignment.topCenter,
+                      end: Alignment(0.0, -0.7),
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Small PIP Player
-            if (secondTrack != null)
-              Positioned(
-                width: PIP_WIDTH,
-                height: _pipHeight,
-                right: 16.0,
-                top: 16.0 + MediaQuery.of(context).viewPadding.top,
-                child: Material(
-                  elevation: 6.0,
-                  shape: Border.all(color: Colors.black26, width: 1.0),
-                  child: _TrackVideoPlayer(
-                    blurHash: song.blurhash,
-                    track: _areVideosSwapped ? firstTrack : secondTrack,
-                    isFullScreen: _isFullScreen,
+              // Small PIP Player
+              if (secondTrack != null)
+                Positioned(
+                  width: PIP_WIDTH,
+                  height: _pipHeight,
+                  right: 16.0,
+                  top: 16.0 + MediaQuery.of(context).viewPadding.top,
+                  child: Material(
+                    elevation: 6.0,
+                    shape: Border.all(color: Colors.black26, width: 1.0),
+                    child: _TrackVideoPlayer(
+                      blurHash: song.blurhash,
+                      track: _areVideosSwapped ? firstTrack : secondTrack,
+                      isFullScreen: _isFullScreen,
+                    ),
                   ),
                 ),
-              ),
-            // Overlayed Icons and Controls
-            Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                onTap: _togglePlayback,
-                onDoubleTap: store.state.artist.likedSong(song.id)
-                    ? null
-                    : () => store.dispatch(LikeSongRequest(song: song)),
-                child: FadeTransition(
-                  opacity: widget.fade,
-                  child: SongPage(
-                    song: song,
-                  ),
-                ),
-              ),
-            ),
-            // Top Left player controls
-            FadeTransition(
-              opacity: widget.fade,
-              child: Material(
+              // Overlayed Icons and Controls
+              Material(
                 type: MaterialType.transparency,
-                child: SafeArea(
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: _toggleFullscreen,
-                        icon: Icon(
-                          _isFullScreen
-                              ? Icons.fullscreen_exit
-                              : Icons.fullscreen,
-                        ),
-                      ),
-                      if (secondTrack != null)
-                        IconButton(
-                          onPressed: _toggleSwapVideos,
-                          icon: Icon(
-                            Icons.swap_vertical_circle,
-                          ),
-                        )
-                    ],
+                child: InkWell(
+                  onTap: _togglePlayback,
+                  onDoubleTap: store.state.artist.likedSong(song.id)
+                      ? null
+                      : () => store.dispatch(LikeSongRequest(song: song)),
+                  child: FadeTransition(
+                    opacity: widget.fade,
+                    child: SongPage(
+                      song: song,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              // Top Left player controls
+              FadeTransition(
+                opacity: widget.fade,
+                child: Material(
+                  type: MaterialType.transparency,
+                  child: SafeArea(
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: _toggleFullscreen,
+                          icon: Icon(
+                            _isFullScreen
+                                ? Icons.fullscreen_exit
+                                : Icons.fullscreen,
+                          ),
+                        ),
+                        if (secondTrack != null)
+                          IconButton(
+                            onPressed: _toggleSwapVideos,
+                            icon: Icon(
+                              Icons.swap_vertical_circle,
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
