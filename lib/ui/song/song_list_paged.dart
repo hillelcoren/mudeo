@@ -102,11 +102,19 @@ class VideoControllerCollection
 
   final Map<TrackEntity, VideoPlayerController> _controllers;
 
-  void play() {
+  void play(int delay) {
+    bool isFirst = true;
     for (final controller in _controllers.values) {
       if (!controller.value.isPlaying) {
-        controller.play();
+        controller.seekTo(Duration.zero);
+        if (isFirst) {
+          controller.play();
+        } else {
+          Future.delayed(
+              Duration(milliseconds: delay), () => controller.play());
+        }
       }
+      isFirst = false;
     }
   }
 
@@ -126,7 +134,7 @@ class VideoControllerCollection
     if (masterIsPlaying) {
       pause();
     } else {
-      play();
+      play(0);
     }
     return !masterIsPlaying;
   }
@@ -231,7 +239,7 @@ class _SongListItemState extends State<_SongListItem>
       return;
     }
 
-    _controllerCollection.play();
+    _controllerCollection.play(secondTrack != null ? secondTrack.delay : 0);
   }
 
   void _pauseVides() {
