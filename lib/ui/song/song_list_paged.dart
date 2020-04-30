@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:collection/collection.dart';
@@ -47,7 +48,7 @@ class _SongListPagedState extends State<SongListPaged> {
         state.dataState.songMap, state.authState.artist, null, null)
       ..where((id) {
         final song = state.dataState.songMap[id];
-        final hasTracks = song.tracks.isNotEmpty;
+        final hasTracks = song.includedTracks.isNotEmpty;
         if (!hasTracks) {
           print('Song missing tracks: ${song.id}');
         }
@@ -181,15 +182,18 @@ class _SongListItemState extends State<_SongListItem>
 
   SongEntity get song => widget.entity;
 
-  TrackEntity get firstTrack => song.tracks.first;
+  TrackEntity get firstTrack => song.includedTracks.first;
 
-  TrackEntity get secondTrack => song.tracks.length > 1 ? song.tracks[1] : null;
+  TrackEntity get secondTrack =>
+      song.includedTracks.length > 1 ? song.includedTracks[1] : null;
 
+  bool _isPlaying = false;
   bool _isFullScreen = false;
   bool _areVideosSwapped = false;
 
   static const double PIP_WIDTH = 136;
   double _pipHeight = PIP_WIDTH * 1.33;
+  int _countVideosReady = 0;
 
   @override
   void initState() {
@@ -199,6 +203,40 @@ class _SongListItemState extends State<_SongListItem>
     SharedPreferences.getInstance().then((prefs) {
       _isFullScreen = prefs.getBool(kSharedPrefFullScreen) ?? false;
     });
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        final isFullScreen = prefs.getBool(kSharedPrefFullScreen);
+        if (_isFullScreen != isFullScreen) {
+          _toggleFullscreen();
+        }
+      },
+    );
+
+    if (info.visibleFraction > 0.5) {
+      if (!_isPlaying) {
+        _playVideos();
+      }
+    } else {
+      _pauseVides();
+    }
+  }
+
+  void _playVideos() {
+    _isPlaying = true;
+
+    if (_countVideosReady < min(2, song.includedTracks.length)) {
+      return;
+    }
+
+    _controllerCollection.play();
+  }
+
+  void _pauseVides() {
+    _isPlaying = false;
+    _controllerCollection.pause();
   }
 
   void _togglePlayback() {
@@ -239,16 +277,7 @@ class _SongListItemState extends State<_SongListItem>
       collection: _controllerCollection,
       child: VisibilityDetector(
         key: Key('song-${song.id}-preview'),
-        onVisibilityChanged: (info) {
-          SharedPreferences.getInstance().then(
-            (prefs) {
-              final isFullScreen = prefs.getBool(kSharedPrefFullScreen);
-              if (_isFullScreen != isFullScreen) {
-                _toggleFullscreen();
-              }
-            },
-          );
-        },
+        onVisibilityChanged: _onVisibilityChanged,
         child: Material(
           child: Stack(
             children: <Widget>[
@@ -257,7 +286,13 @@ class _SongListItemState extends State<_SongListItem>
                 blurHash: song.blurhash,
                 track: _areVideosSwapped ? secondTrack : firstTrack,
                 isFullScreen: _isFullScreen,
-                onVideoInitialized: () => _caculatePipHeight(),
+                onVideoInitialized: () {
+                  _caculatePipHeight();
+                  _countVideosReady++;
+                  if (_isPlaying) {
+                    _playVideos();
+                  }
+                },
               ),
               // Top Scrim
               SizedBox.expand(
@@ -292,6 +327,12 @@ class _SongListItemState extends State<_SongListItem>
                         track: _areVideosSwapped ? firstTrack : secondTrack,
                         isFullScreen: _isFullScreen,
                         isAudioMuted: store.state.isDance,
+                        onVideoInitialized: () {
+                          _countVideosReady++;
+                          if (_isPlaying) {
+                            _playVideos();
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -354,8 +395,8 @@ class _TrackVideoPlayer extends StatefulWidget {
     @required this.blurHash,
     @required this.track,
     @required this.isFullScreen,
+    @required this.onVideoInitialized,
     this.isAudioMuted = false,
-    this.onVideoInitialized,
   }) : super(key: key);
 
   final String blurHash;
@@ -420,18 +461,9 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
       _controller
           .setVolume(widget.isAudioMuted ? 0 : widget.track.volume.toDouble());
       controllers[widget.track] = _controller;
-      await _controller.initialize().then((value) =>
-          widget.onVideoInitialized != null
-              ? widget.onVideoInitialized()
-              : null);
-    }
-  }
-
-  void _onVisibilityChanged(VisibilityInfo info) {
-    if (info.visibleFraction > 0.5) {
-      controllers.play();
-    } else {
-      controllers.pause();
+      await _controller
+          .initialize()
+          .then((value) => widget.onVideoInitialized());
     }
   }
 
@@ -464,16 +496,12 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
               if (snapshot.hasError) {
                 return ErrorWidget(snapshot.error);
               } else {
-                return VisibilityDetector(
-                  key: Key('track-${widget.track.id}-preview'),
-                  onVisibilityChanged: _onVisibilityChanged,
-                  child: FittedBox(
-                    fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
-                    child: SizedBox(
-                      width: _controller.value.size.width,
-                      height: _controller.value.size.height,
-                      child: VideoPlayer(_controller),
-                    ),
+                return FittedBox(
+                  fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
+                  child: SizedBox(
+                    width: _controller.value.size.width,
+                    height: _controller.value.size.height,
+                    child: VideoPlayer(_controller),
                   ),
                 );
               }
