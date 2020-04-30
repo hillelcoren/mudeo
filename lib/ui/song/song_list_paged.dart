@@ -279,6 +279,7 @@ class _SongListItemState extends State<_SongListItem>
   @override
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
+    final bool isMixDown = (song.trackVideoUrl ?? '').isNotEmpty;
 
     return VideoControllerScope(
       collection: _controllerCollection,
@@ -292,7 +293,12 @@ class _SongListItemState extends State<_SongListItem>
               _TrackVideoPlayer(
                 blurHash: song.blurhash,
                 track: _areVideosSwapped ? secondTrack : firstTrack,
+                videoUrl: (_areVideosSwapped || !isMixDown)
+                    ? null
+                    : song.trackVideoUrl,
                 isFullScreen: _isFullScreen,
+                isAudioMuted:
+                    !_areVideosSwapped && (store.state.isDance || isMixDown),
                 onVideoInitialized: () {
                   _caculatePipHeight();
                   _countVideosReady++;
@@ -332,8 +338,12 @@ class _SongListItemState extends State<_SongListItem>
                       child: _TrackVideoPlayer(
                         blurHash: song.blurhash,
                         track: _areVideosSwapped ? firstTrack : secondTrack,
+                        videoUrl: (_areVideosSwapped && isMixDown)
+                            ? song.trackVideoUrl
+                            : null,
                         isFullScreen: _isFullScreen,
-                        isAudioMuted: store.state.isDance,
+                        isAudioMuted: !_areVideosSwapped &&
+                            (store.state.isDance || isMixDown),
                         onVideoInitialized: () {
                           _countVideosReady++;
                           if (_isWaitingToPlay) {
@@ -401,11 +411,13 @@ class _TrackVideoPlayer extends StatefulWidget {
     Key key,
     @required this.blurHash,
     @required this.track,
+    @required this.videoUrl,
     @required this.isFullScreen,
     @required this.onVideoInitialized,
     this.isAudioMuted = false,
   }) : super(key: key);
 
+  final String videoUrl;
   final String blurHash;
   final TrackEntity track;
   final bool isFullScreen;
@@ -456,17 +468,32 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
     }
 
     // fetch video
-    final path = await VideoEntity.getPath(video);
+    final isMixDown = (widget.videoUrl ?? '').isNotEmpty;
+    final path = await VideoEntity.getPath(
+      isMixDown
+          ? video.rebuild((b) => b
+            ..url = widget.videoUrl
+            ..timestamp = 1)
+          : video,
+    );
+
     if (!await File(path).exists()) {
       // FIXME Warning.. it can take some time to download the video.
-      final http.Response copyResponse = await http.Client().get(video.url);
+      final http.Response copyResponse =
+          await http.Client().get(isMixDown ? widget.videoUrl : video.url);
       await File(path).writeAsBytes(copyResponse.bodyBytes);
+    }
+
+    double volume = widget.track.volume.toDouble();
+    if (widget.isAudioMuted) {
+      volume = 0;
+    } else if (isMixDown) {
+      volume = 100;
     }
 
     if (mounted) {
       _controller = VideoPlayerController.file(File(path))..setLooping(true);
-      _controller
-          .setVolume(widget.isAudioMuted ? 0 : widget.track.volume.toDouble());
+      _controller.setVolume(volume);
       controllers[widget.track] = _controller;
       await _controller
           .initialize()

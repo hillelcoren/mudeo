@@ -136,6 +136,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.countLike,
             specifiedType: const FullType(int)));
     }
+    if (object.trackVideoUrl != null) {
+      result
+        ..add('track_video_url')
+        ..add(serializers.serialize(object.trackVideoUrl,
+            specifiedType: const FullType(String)));
+    }
     if (object.youTubeId != null) {
       result
         ..add('youtube_id')
@@ -254,6 +260,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'video_url':
           result.videoUrl = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'track_video_url':
+          result.trackVideoUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'youtube_id':
@@ -1166,6 +1176,8 @@ class _$SongEntity extends SongEntity {
   @override
   final String videoUrl;
   @override
+  final String trackVideoUrl;
+  @override
   final String youTubeId;
   @override
   final String twitterId;
@@ -1209,6 +1221,7 @@ class _$SongEntity extends SongEntity {
       this.isApproved,
       this.isFeatured,
       this.videoUrl,
+      this.trackVideoUrl,
       this.youTubeId,
       this.twitterId,
       this.thumbnailUrl,
@@ -1300,6 +1313,7 @@ class _$SongEntity extends SongEntity {
         isApproved == other.isApproved &&
         isFeatured == other.isFeatured &&
         videoUrl == other.videoUrl &&
+        trackVideoUrl == other.trackVideoUrl &&
         youTubeId == other.youTubeId &&
         twitterId == other.twitterId &&
         thumbnailUrl == other.thumbnailUrl &&
@@ -1332,16 +1346,16 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), color.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode), parentId.hashCode),
-                                                                                duration.hashCode),
-                                                                            blurhash.hashCode),
-                                                                        countPlay.hashCode),
-                                                                    countLike.hashCode),
-                                                                isFlagged.hashCode),
-                                                            isPublic.hashCode),
-                                                        isApproved.hashCode),
-                                                    isFeatured.hashCode),
-                                                videoUrl.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), color.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode), parentId.hashCode), duration.hashCode),
+                                                                                blurhash.hashCode),
+                                                                            countPlay.hashCode),
+                                                                        countLike.hashCode),
+                                                                    isFlagged.hashCode),
+                                                                isPublic.hashCode),
+                                                            isApproved.hashCode),
+                                                        isFeatured.hashCode),
+                                                    videoUrl.hashCode),
+                                                trackVideoUrl.hashCode),
                                             youTubeId.hashCode),
                                         twitterId.hashCode),
                                     thumbnailUrl.hashCode),
@@ -1376,6 +1390,7 @@ class _$SongEntity extends SongEntity {
           ..add('isApproved', isApproved)
           ..add('isFeatured', isFeatured)
           ..add('videoUrl', videoUrl)
+          ..add('trackVideoUrl', trackVideoUrl)
           ..add('youTubeId', youTubeId)
           ..add('twitterId', twitterId)
           ..add('thumbnailUrl', thumbnailUrl)
@@ -1470,6 +1485,11 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   String get videoUrl => _$this._videoUrl;
   set videoUrl(String videoUrl) => _$this._videoUrl = videoUrl;
 
+  String _trackVideoUrl;
+  String get trackVideoUrl => _$this._trackVideoUrl;
+  set trackVideoUrl(String trackVideoUrl) =>
+      _$this._trackVideoUrl = trackVideoUrl;
+
   String _youTubeId;
   String get youTubeId => _$this._youTubeId;
   set youTubeId(String youTubeId) => _$this._youTubeId = youTubeId;
@@ -1536,6 +1556,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _isApproved = _$v.isApproved;
       _isFeatured = _$v.isFeatured;
       _videoUrl = _$v.videoUrl;
+      _trackVideoUrl = _$v.trackVideoUrl;
       _youTubeId = _$v.youTubeId;
       _twitterId = _$v.twitterId;
       _thumbnailUrl = _$v.thumbnailUrl;
@@ -1589,6 +1610,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               isApproved: isApproved,
               isFeatured: isFeatured,
               videoUrl: videoUrl,
+              trackVideoUrl: trackVideoUrl,
               youTubeId: youTubeId,
               twitterId: twitterId,
               thumbnailUrl: thumbnailUrl,

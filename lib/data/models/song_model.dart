@@ -26,6 +26,7 @@ abstract class SongEntity extends Object
       url: '',
       videoUrl: '',
       thumbnailUrl: '',
+      trackVideoUrl: '',
       genreId: genreId ?? 0,
       isRendered: false,
       isApproved: false,
@@ -101,6 +102,10 @@ abstract class SongEntity extends Object
 
   @BuiltValueField(wireName: 'video_url')
   String get videoUrl;
+
+  @nullable
+  @BuiltValueField(wireName: 'track_video_url')
+  String get trackVideoUrl;
 
   @nullable
   @BuiltValueField(wireName: 'youtube_id')
@@ -469,9 +474,8 @@ abstract class VideoEntity extends Object
     final String folder = '${directory.path}/videos';
     await Directory(folder).create(recursive: true);
 
-    final id = video.isOld ? video.id : 'new';
+    String id = video.isOld ? '${video.id}' : 'new';
 
-    print('## VIDEO PATH: $folder/$id-${video.timestamp}.mp4');
     return '$folder/$id-${video.timestamp}.mp4';
   }
 
