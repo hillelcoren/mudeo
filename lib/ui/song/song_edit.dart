@@ -994,14 +994,19 @@ class TrackEditDialog extends StatelessWidget {
         Material(
           elevation: kDefaultElevation,
           child: Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.only(
+              top: 12,
+              left: 12,
+              right: 24,
+              bottom: 12,
+            ),
             child: Form(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   if (!state.isDance)
                     Container(
-                      height: 250,
+                      height: 300,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: FlutterSlider(
                         handlerWidth: 36,
@@ -1040,7 +1045,6 @@ class TrackEditDialog extends StatelessWidget {
                         ),
                         axis: Axis.vertical,
                         rtl: true,
-                        values: [track.volume.toDouble()],
                         max: 100,
                         min: 0,
                         onDragging: (handlerIndex, lowerValue, upperValue) {
@@ -1049,6 +1053,7 @@ class TrackEditDialog extends StatelessWidget {
                               .setTrackVolume(track, lowerValue.toInt());
                           viewModel.onChangedSong(song);
                         },
+                        values: [track.volume.toDouble()],
                       ),
                     ),
                   /*
