@@ -43,6 +43,7 @@ class MainScreenBuilder extends StatelessWidget {
             confirmLabel: localization.sure,
             declineLabel: localization.noThanks,
             callback: () {
+              /*
               FlutterYoutube.playYoutubeVideoById(
                 apiKey: Config.YOU_TUBE_API_KEY,
                 videoId: store.state.helpVideoId,
@@ -50,7 +51,10 @@ class MainScreenBuilder extends StatelessWidget {
                 fullScreen: true,
                 appBarColor: Colors.black12,
                 backgroundColor: Colors.black,
-              );
+              );              
+               */
+              launch(
+                  'https://www.youtube.com/watch?v=${store.state.helpVideoId}');
             },
           );
         }
