@@ -179,20 +179,13 @@ class _SongActions extends StatelessWidget {
                 });
           },
         ),
-        GestureDetector(
-          onLongPress: () {
-            Clipboard.setData(new ClipboardData(text: song.url));
-            Scaffold.of(context).showSnackBar(
-                SnackBar(content: Text(localization.copiedToClipboard)));
+        _LargeIconButton(
+          iconData: Icons.share,
+          tooltip: localization.share,
+          showCount: false,
+          onPressed: () {
+            Share.share(song.url);
           },
-          child: _LargeIconButton(
-            iconData: Icons.share,
-            tooltip: localization.share,
-            showCount: false,
-            onPressed: () {
-              Share.share(song.url);
-            },
-          ),
         ),
       ],
     );
