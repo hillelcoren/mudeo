@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -178,13 +179,20 @@ class _SongActions extends StatelessWidget {
                 });
           },
         ),
-        _LargeIconButton(
-          iconData: Icons.share,
-          tooltip: localization.share,
-          showCount: false,
-          onPressed: () {
-            Share.share(song.url);
+        GestureDetector(
+          onLongPress: () {
+            Clipboard.setData(new ClipboardData(text: song.url));
+            Scaffold.of(context).showSnackBar(
+                SnackBar(content: Text(localization.copiedToClipboard)));
           },
+          child: _LargeIconButton(
+            iconData: Icons.share,
+            tooltip: localization.share,
+            showCount: false,
+            onPressed: () {
+              Share.share(song.url);
+            },
+          ),
         ),
       ],
     );
