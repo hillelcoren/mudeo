@@ -22,9 +22,9 @@ class TrackSyncer extends StatefulWidget {
 }
 
 class _TrackSyncerState extends State<TrackSyncer> {
-  double _timeSpan = 10;
+  double _zoomLevel = 3;
+  double _timeSpan = 7;
   int _timeStart = 0;
-  double _zoomLevel = 5;
   bool _isSyncing = false;
   int _delay;
   TextEditingController _delayController;
@@ -38,7 +38,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-    print('## didChangeDependencies');
+
     _delay = widget.track.delay;
     _delayController.text = '$_delay';
   }
@@ -137,7 +137,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
                       delay =
                           max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
                       setState(() {
-                        print('## SET delay $delay for track: ${track.id}');
                         _delay = delay;
                         _delayController.text = '$delay';
                       });
