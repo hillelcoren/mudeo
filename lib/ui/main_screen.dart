@@ -292,7 +292,11 @@ class CustomPlaceholder extends StatelessWidget {
                       width: 150,
                     ),
                     onTap: () {
-                      launch(kMudeoGoogleStoreUrl, forceSafariVC: false);
+                      launch(
+                          store.state.isDance
+                              ? kDanceGoogleStoreUrl
+                              : kMudeoGoogleStoreUrl,
+                          forceSafariVC: false);
                     },
                   ),
                 ),
@@ -304,12 +308,17 @@ class CustomPlaceholder extends StatelessWidget {
                       width: 150,
                     ),
                     onTap: () {
-                      launch(kMudeoAppleStoreUrl, forceSafariVC: false);
+                      launch(
+                          store.state.isDance
+                              ? kDanceAppleStoreUrl
+                              : kMudeoAppleStoreUrl,
+                          forceSafariVC: false);
                     },
                   ),
                 )
               ],
             ),
+            /*
             SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -390,6 +399,7 @@ class CustomPlaceholder extends StatelessWidget {
                 },
               ),
             ),
+             */
           ],
         ),
       ),

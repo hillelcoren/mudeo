@@ -734,7 +734,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
     return Dialog(
       insetPadding: const EdgeInsets.all(0),
       child: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.topRight,
         children: <Widget>[
           FittedBox(
             fit: BoxFit.contain,
@@ -742,19 +742,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
               controller: chewieController,
             ),
           ),
-          Container(
-            child: Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(
-                  Icons.close,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),
