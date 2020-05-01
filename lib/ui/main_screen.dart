@@ -121,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      if (constraints.maxWidth > 700.0 && !viewModel.state.isDance) {
+      if (constraints.maxWidth > 700.0) {
         return DesktopScreen(
           viewModel: viewModel,
           profileScrollController: _profileScrollController,
