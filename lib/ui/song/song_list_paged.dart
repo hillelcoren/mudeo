@@ -408,7 +408,7 @@ class _SongListItemState extends State<_SongListItem>
                                   : Icons.fullscreen,
                             ),
                           ),
-                          if (secondTrack != null)
+                          if (secondTrack != null && !kIsWeb)
                             IconButton(
                               onPressed: _toggleSwapVideos,
                               icon: Icon(

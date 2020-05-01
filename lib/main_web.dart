@@ -24,11 +24,14 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
+  final SentryClient _sentry = null;
+  /*
   final SentryClient _sentry = Config.SENTRY_DNS.isEmpty
       ? null
       : SentryClient(
       dsn: Config.SENTRY_DNS,
       environmentAttributes: await getSentryEvent());
+  */
 
   bool isDance = false;
   var flavor = html.window.document.getElementById('flavor');

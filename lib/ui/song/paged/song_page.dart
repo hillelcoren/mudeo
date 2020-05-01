@@ -10,6 +10,7 @@ import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SongPage extends StatelessWidget {
   const SongPage({
@@ -111,47 +112,48 @@ class _SongActions extends StatelessWidget {
                 ),
         ),
         SizedBox(height: 2),
-        _LargeIconButton(
-          iconData: Icons.videocam,
-          onPressed: () {
-            final uiSong = state.uiState.song;
-            SongEntity newSong = song;
+        if (!kIsWeb)
+          _LargeIconButton(
+            iconData: Icons.videocam,
+            onPressed: () {
+              final uiSong = state.uiState.song;
+              SongEntity newSong = song;
 
-            if (!artist.ownsSong(song)) {
-              newSong = song.fork;
+              if (!artist.ownsSong(song)) {
+                newSong = song.fork;
 
-              if (state.isDance) {
-                newSong = newSong.justKeepFirstTrack;
+                if (state.isDance) {
+                  newSong = newSong.justKeepFirstTrack;
+                }
               }
-            }
 
-            if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
-              showDialog<AlertDialog>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  semanticLabel: localization.areYouSure,
-                  title: Text(localization.loseChanges),
-                  content: Text(localization.areYouSure),
-                  actions: <Widget>[
-                    new FlatButton(
-                        child: Text(localization.cancel.toUpperCase()),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                    new FlatButton(
-                        child: Text(localization.ok.toUpperCase()),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _editSong(song: newSong, context: context);
-                        })
-                  ],
-                ),
-              );
-            } else {
-              _editSong(song: newSong, context: context);
-            }
-          },
-        ),
+              if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
+                showDialog<AlertDialog>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    semanticLabel: localization.areYouSure,
+                    title: Text(localization.loseChanges),
+                    content: Text(localization.areYouSure),
+                    actions: <Widget>[
+                      new FlatButton(
+                          child: Text(localization.cancel.toUpperCase()),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                      new FlatButton(
+                          child: Text(localization.ok.toUpperCase()),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _editSong(song: newSong, context: context);
+                          })
+                    ],
+                  ),
+                );
+              } else {
+                _editSong(song: newSong, context: context);
+              }
+            },
+          ),
         if (state.authState.hasValidToken)
           _LargeIconButton(
             iconData: Icons.favorite,
@@ -178,14 +180,24 @@ class _SongActions extends StatelessWidget {
                 });
           },
         ),
-        _LargeIconButton(
-          iconData: Icons.share,
-          tooltip: localization.share,
-          showCount: false,
-          onPressed: () {
-            Share.share(song.url);
-          },
-        ),
+        if (kIsWeb)
+          _LargeIconButton(
+            iconData: Icons.launch,
+            tooltip: localization.share,
+            showCount: false,
+            onPressed: () {
+              launch(song.url, forceSafariVC: false);
+            },
+          )
+        else
+          _LargeIconButton(
+            iconData: Icons.share,
+            tooltip: localization.share,
+            showCount: false,
+            onPressed: () {
+              Share.share(song.url);
+            },
+          ),
       ],
     );
   }

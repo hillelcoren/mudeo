@@ -99,21 +99,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ScrollController _profileScrollController;
-  ScrollController _songScrollController;
   PageController _songPageController;
 
   @override
   void initState() {
     super.initState();
     _profileScrollController = ScrollController();
-    _songScrollController = ScrollController();
     _songPageController = PageController();
   }
 
   @override
   void dispose() {
     _profileScrollController.dispose();
-    _songScrollController.dispose();
     _songPageController.dispose();
     super.dispose();
   }
@@ -128,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
         return DesktopScreen(
           viewModel: viewModel,
           profileScrollController: _profileScrollController,
-          songScrollController: _songScrollController,
+          songPageController: _songPageController,
         );
       } else {
         return MobileScreen(
@@ -145,12 +142,12 @@ class DesktopScreen extends StatefulWidget {
   const DesktopScreen({
     @required this.viewModel,
     @required this.profileScrollController,
-    @required this.songScrollController,
+    @required this.songPageController,
   });
 
   final MainScreenVM viewModel;
   final ScrollController profileScrollController;
-  final ScrollController songScrollController;
+  final ScrollController songPageController;
 
   @override
   _DesktopScreenState createState() => _DesktopScreenState();
@@ -164,8 +161,8 @@ class _DesktopScreenState extends State<DesktopScreen> {
         Expanded(
           flex: 2,
           child: HandCursor(
-            child: SongListScreen(
-              scrollController: widget.songScrollController,
+            child: SongListPagedScreen(
+              pageController: widget.songPageController,
             ),
           ),
         ),
