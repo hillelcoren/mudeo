@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_blurhash/flutter_blurhash.dart';
@@ -45,7 +46,6 @@ class _SongListPagedState extends State<SongListPaged> {
 
   @override
   Widget build(BuildContext context) {
-
     if (state.dataState.areSongsStale) {
       return LoadingIndicator();
     }
@@ -492,19 +492,25 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     // fetch video
     final isMixDown = (widget.videoUrl ?? '').isNotEmpty;
-    final path = await VideoEntity.getPath(
-      isMixDown
-          ? video.rebuild((b) => b
-            ..url = widget.videoUrl
-            ..timestamp = 1)
-          : video,
-    );
+    final videoUrl = isMixDown ? widget.videoUrl : video.url;
 
-    if (!await File(path).exists()) {
-      // FIXME Warning.. it can take some time to download the video.
-      final http.Response copyResponse =
-          await http.Client().get(isMixDown ? widget.videoUrl : video.url);
-      await File(path).writeAsBytes(copyResponse.bodyBytes);
+    String path = '';
+
+    if (!kIsWeb) {
+      path = await VideoEntity.getPath(
+        isMixDown
+            ? video.rebuild((b) => b
+              ..url = videoUrl
+              ..timestamp = 1)
+            : video,
+      );
+
+      if (!await File(path).exists()) {
+        // FIXME Warning.. it can take some time to download the video.
+        final http.Response copyResponse =
+            await http.Client().get(isMixDown ? widget.videoUrl : video.url);
+        await File(path).writeAsBytes(copyResponse.bodyBytes);
+      }
     }
 
     double volume = widget.track.volume.toDouble();
@@ -515,7 +521,11 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
     }
 
     if (mounted) {
-      _controller = VideoPlayerController.file(File(path))..setLooping(true);
+      if (kIsWeb) {
+        _controller = VideoPlayerController.network(videoUrl)..setLooping(true);
+      } else {
+        _controller = VideoPlayerController.file(File(path))..setLooping(true);
+      }
       _controller.setVolume(volume);
       controllers[widget.track] = _controller;
       await _controller

@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
