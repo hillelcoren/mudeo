@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-const String kAppVersion = '0.0.37+37';
+const String kAppVersion = '0.0.39+39';
 const String kDeveloperURL = 'https://twitter.com/hillelcoren';
 const String kGitHubURL = 'https://github.com/hillelcoren/mudeo';
 

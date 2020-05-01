@@ -32,11 +32,11 @@ class SongPage extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.only(
+      padding: EdgeInsets.only(
         left: 15,
         top: 15,
         right: 15,
-        bottom: 70,
+        bottom: 15 + MediaQuery.of(context).padding.bottom,
       ),
       child: Row(
         children: <Widget>[

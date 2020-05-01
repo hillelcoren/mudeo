@@ -14,6 +14,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
+import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
 import 'package:mudeo/ui/song/paged/page_animation.dart';
 import 'package:mudeo/ui/song/paged/song_page.dart';
@@ -44,6 +45,11 @@ class _SongListPagedState extends State<SongListPaged> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (state.dataState.areSongsStale) {
+      return LoadingIndicator();
+    }
+
     final allSongIds = memoizedSongIds(
         state.dataState.songMap, state.authState.artist, null, null)
       ..where((id) {
@@ -60,10 +66,11 @@ class _SongListPagedState extends State<SongListPaged> {
         statusBarColor: Colors.transparent,
       ),
       child: Material(
+        key: ValueKey('__first_song_${allSongIds.first}__'),
         child: Builder(
           builder: (BuildContext context) {
             if (!widget.viewModel.isLoaded) {
-              return LinearProgressIndicator();
+              return LoadingIndicator();
             } else {
               return PageViewWithCacheExtent(
                 controller: widget.pageController,
@@ -242,6 +249,7 @@ class _SongListItemState extends State<_SongListItem>
   }
 
   void _pauseVides() {
+    _isWaitingToPlay = false;
     _controllerCollection.pause();
   }
 
@@ -555,10 +563,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                 );
               }
             } else {
-              return Align(
-                alignment: Alignment.topLeft,
-                child: LinearProgressIndicator(),
-              );
+              return LoadingIndicator();
             }
           },
         ),
