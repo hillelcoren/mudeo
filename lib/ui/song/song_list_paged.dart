@@ -85,6 +85,11 @@ class _SongListPagedState extends State<SongListPaged> {
                         curve: Curves.easeInCubic,
                       ),
                       entity: state.dataState.songMap[allSongIds[index]],
+                      onNextPressed: () {
+                        widget.pageController.nextPage(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInCubic);
+                      },
                     );
                   },
                   childCount: allSongIds.length,
@@ -182,10 +187,12 @@ class _SongListItem extends StatefulWidget {
     Key key,
     @required this.fade,
     @required this.entity,
+    @required this.onNextPressed,
   }) : super(key: key);
 
   final Animation<double> fade;
   final SongEntity entity;
+  final Function onNextPressed;
 
   @override
   _SongListItemState createState() => _SongListItemState();
@@ -383,8 +390,25 @@ class _SongListItemState extends State<_SongListItem>
                     ),
                     child: FadeTransition(
                       opacity: widget.fade,
-                      child: SongPage(
-                        song: song,
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: SongPage(
+                              song: song,
+                            ),
+                          ),
+                          if (kIsWeb)
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  size: 40,
+                                ),
+                                onPressed: widget.onNextPressed,
+                              ),
+                            )
+                        ],
                       ),
                     ),
                   ),
