@@ -1,19 +1,21 @@
 import 'dart:async';
+import 'dart:convert' show json;
 import 'dart:html' as html;
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mudeo/main_common.dart';
-import 'package:mudeo/utils/sentry.dart';
-import 'package:sentry/sentry.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
+import 'package:mudeo/redux/app/app_reducer.dart';
+import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_middleware.dart';
 import 'package:mudeo/redux/auth/auth_middleware.dart';
 import 'package:mudeo/redux/song/song_middleware.dart';
+import 'package:mudeo/utils/sentry.dart';
 import 'package:redux/redux.dart';
-import 'package:mudeo/redux/app/app_state.dart';
-import 'package:flutter/material.dart';
-import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
+import 'package:sentry/sentry.dart';
 
 void main() async {
   //InAppPurchaseConnection.enablePendingPurchases();
@@ -38,9 +40,7 @@ void main() async {
   print('### IS DANCE: $isDance ###');
 
   final store = Store<AppState>(appReducer,
-      initialState: AppState(
-        isDance: isDance
-      ),
+      initialState: AppState(isDance: isDance),
       middleware: []
         ..addAll(createStoreAuthMiddleware())
         ..addAll(createStoreSongsMiddleware())
@@ -51,13 +51,19 @@ void main() async {
         ]));
 
   if (_sentry == null) {
-    runApp(MudeoApp(store: store));
-  } else {
-    runZoned<Future<void>>(() async {
+    runZonedGuarded<Future<void>>(() async {
       runApp(MudeoApp(store: store));
-    }, onError: (dynamic exception, dynamic stackTrace) async {
+    }, (Object exception, StackTrace stackTrace) async {
       if (kDebugMode) {
-        print(stackTrace);
+        print('ERROR: $exception\nSTACK: $stackTrace');
+      }
+    });
+  } else {
+    runZonedGuarded<Future<void>>(() async {
+      runApp(MudeoApp(store: store));
+    }, (Object exception, StackTrace stackTrace) async {
+      if (kDebugMode) {
+        print('$exception\n$stackTrace');
       } else {
         final event = await getSentryEvent(
           state: store.state,
@@ -76,4 +82,3 @@ void main() async {
     }
   };
 }
-
