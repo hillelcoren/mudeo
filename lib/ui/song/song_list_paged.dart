@@ -403,16 +403,17 @@ class _SongListItemState extends State<_SongListItem>
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              FlatButton(
-                                child: Text('Apple App Store'.toUpperCase()),
-                                onPressed: () {
-                                  launch(
-                                      state.isDance
-                                          ? kDanceGoogleStoreUrl
-                                          : kMudeoGoogleStoreUrl,
-                                      forceSafariVC: false);
-                                },
-                              ),
+                              if (kIsWeb)
+                                FlatButton(
+                                  child: Text('Apple App Store'.toUpperCase()),
+                                  onPressed: () {
+                                    launch(
+                                        state.isDance
+                                            ? kDanceGoogleStoreUrl
+                                            : kMudeoGoogleStoreUrl,
+                                        forceSafariVC: false);
+                                  },
+                                ),
                               Expanded(
                                 child: IconButton(
                                   icon: Icon(
@@ -422,16 +423,18 @@ class _SongListItemState extends State<_SongListItem>
                                   onPressed: widget.onNextPressed,
                                 ),
                               ),
-                              FlatButton(
-                                child: Text('Google Play Store'.toUpperCase()),
-                                onPressed: () {
-                                  launch(
-                                      state.isDance
-                                          ? kDanceAppleStoreUrl
-                                          : kMudeoAppleStoreUrl,
-                                      forceSafariVC: false);
-                                },
-                              ),
+                              if (kIsWeb)
+                                FlatButton(
+                                  child:
+                                      Text('Google Play Store'.toUpperCase()),
+                                  onPressed: () {
+                                    launch(
+                                        state.isDance
+                                            ? kDanceAppleStoreUrl
+                                            : kMudeoAppleStoreUrl,
+                                        forceSafariVC: false);
+                                  },
+                                ),
                             ],
                           ),
                         ],
