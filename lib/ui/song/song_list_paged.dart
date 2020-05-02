@@ -15,6 +15,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
+import 'package:mudeo/ui/app/first_interaction.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
 import 'package:mudeo/ui/song/paged/page_animation.dart';
@@ -123,7 +124,9 @@ class VideoControllerCollection
           controller.pause();
           controller.seekTo(Duration.zero);
           Future.delayed(
-              Duration(milliseconds: track.delay), () => controller.play());
+            Duration(milliseconds: track.delay),
+            () => controller.play(),
+          );
         } else {
           controller.play();
         }
@@ -213,10 +216,9 @@ class _SongListItemState extends State<_SongListItem>
   bool _isWaitingToPlay = false;
   bool _isFullScreen = false;
   bool _areVideosSwapped = false;
-
-  static const double PIP_WIDTH = 136;
-  double _pipHeight = PIP_WIDTH * 1.33;
   int _countVideosReady = 0;
+
+  ValueListenable<bool> _hasInteracted;
 
   @override
   void initState() {
@@ -226,6 +228,7 @@ class _SongListItemState extends State<_SongListItem>
     SharedPreferences.getInstance().then((prefs) {
       _isFullScreen = prefs.getBool(kSharedPrefFullScreen) ?? false;
     });
+    _hasInteracted = FirstInteractionTracker.of(context);
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
@@ -239,9 +242,11 @@ class _SongListItemState extends State<_SongListItem>
     );
 
     if (info.visibleFraction > 0.5) {
-      _playVideos();
+      if (kIsWeb && _hasInteracted.value) {
+        _playVideos();
+      }
     } else {
-      _pauseVides();
+      _pauseVideos();
     }
   }
 
@@ -256,7 +261,7 @@ class _SongListItemState extends State<_SongListItem>
     _controllerCollection.play(playFromStart: true);
   }
 
-  void _pauseVides() {
+  void _pauseVideos() {
     _isWaitingToPlay = false;
     _controllerCollection.pause();
   }
@@ -274,14 +279,6 @@ class _SongListItemState extends State<_SongListItem>
 
   void _toggleSwapVideos() {
     setState(() => _areVideosSwapped = !_areVideosSwapped);
-  }
-
-  void _caculatePipHeight() {
-    final track = _areVideosSwapped ? secondTrack : firstTrack;
-    final size = _controllerCollection[track]?.value?.size ?? Size(320, 240);
-    setState(() {
-      _pipHeight = (size.height / size.width) * PIP_WIDTH;
-    });
   }
 
   @override
@@ -306,22 +303,23 @@ class _SongListItemState extends State<_SongListItem>
           child: Stack(
             children: <Widget>[
               // Large Player
-              _TrackVideoPlayer(
-                blurHash: song.blurhash,
-                track: _areVideosSwapped ? secondTrack : firstTrack,
-                videoUrl: (_areVideosSwapped || !isMixDown)
-                    ? null
-                    : song.trackVideoUrl,
-                isFullScreen: _isFullScreen,
-                isAudioMuted:
-                    _areVideosSwapped && (store.state.isDance || isMixDown),
-                onVideoInitialized: () {
-                  _caculatePipHeight();
-                  _countVideosReady++;
-                  if (_isWaitingToPlay) {
-                    _playVideos();
-                  }
-                },
+              SizedBox.expand(
+                child: _TrackVideoPlayer(
+                  blurHash: song.blurhash,
+                  track: _areVideosSwapped ? secondTrack : firstTrack,
+                  videoUrl: (_areVideosSwapped || !isMixDown)
+                      ? null
+                      : song.trackVideoUrl,
+                  isFullScreen: _isFullScreen,
+                  isAudioMuted:
+                      _areVideosSwapped && (store.state.isDance || isMixDown),
+                  onVideoInitialized: () {
+                    _countVideosReady++;
+                    if (_isWaitingToPlay) {
+                      _playVideos();
+                    }
+                  },
+                ),
               ),
               // Top Scrim
               SizedBox.expand(
@@ -342,30 +340,34 @@ class _SongListItemState extends State<_SongListItem>
               // Small PIP Player
               if (secondTrack != null)
                 Positioned(
-                  width: PIP_WIDTH,
-                  height: _pipHeight,
                   right: 16.0,
                   top: 16.0 + MediaQuery.of(context).viewPadding.top,
-                  child: FadeTransition(
-                    opacity: widget.fade,
-                    child: Material(
-                      elevation: 6.0,
-                      shape: Border.all(color: Colors.black26, width: 1.0),
-                      child: _TrackVideoPlayer(
-                        blurHash: song.blurhash,
-                        track: _areVideosSwapped ? firstTrack : secondTrack,
-                        videoUrl: (_areVideosSwapped && isMixDown)
-                            ? song.trackVideoUrl
-                            : null,
-                        isFullScreen: _isFullScreen,
-                        isAudioMuted: !_areVideosSwapped &&
-                            (store.state.isDance || isMixDown),
-                        onVideoInitialized: () {
-                          _countVideosReady++;
-                          if (_isWaitingToPlay) {
-                            _playVideos();
-                          }
-                        },
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: 136.0,
+                      maxWidth: 136.0,
+                    ),
+                    child: FadeTransition(
+                      opacity: widget.fade,
+                      child: Material(
+                        elevation: 6.0,
+                        shape: Border.all(color: Colors.black26, width: 1.0),
+                        child: _TrackVideoPlayer(
+                          blurHash: song.blurhash,
+                          track: _areVideosSwapped ? firstTrack : secondTrack,
+                          videoUrl: (_areVideosSwapped && isMixDown)
+                              ? song.trackVideoUrl
+                              : null,
+                          isFullScreen: _isFullScreen,
+                          isAudioMuted: !_areVideosSwapped &&
+                              (store.state.isDance || isMixDown),
+                          onVideoInitialized: () {
+                            _countVideosReady++;
+                            if (_isWaitingToPlay) {
+                              _playVideos();
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -508,6 +510,8 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   VideoPlayerController _controller;
   Future _future;
   ui.Image _thumbnail;
+  Size _thumbnailSize;
+  bool _hadError = false;
 
   VideoEntity get video => widget.track.video;
 
@@ -528,19 +532,44 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   }
 
   void _update() {
+    _controller?.removeListener(_onValueChanged);
     _controller = controllers[widget.track];
     if (_controller == null) {
       _future ??= _initialize();
     } else {
+      _controller.addListener(_onValueChanged);
       _future = Future.value(null);
     }
   }
 
+  void _onValueChanged() {
+    final hasError = _controller.value.hasError;
+    if (hasError != _hadError) {
+      setState(() => _hadError = hasError);
+    }
+  }
+
   Future<void> _initialize() async {
+    final client = http.Client();
+
     // Fetch thumbnail and precache
     await precacheImage(NetworkImage(video.thumbnailUrl), context);
-    if (mounted) {
-      setState(() {});
+
+    try {
+      final http.Response thumbnailResponse =
+          await client.get(video.thumbnailUrl);
+      ui.Image thumbnail =
+          await decodeImageFromList(thumbnailResponse.bodyBytes);
+      if (mounted) {
+        setState(() {
+          _thumbnailSize = Size(
+            thumbnail.width.toDouble(),
+            thumbnail.height.toDouble(),
+          );
+        });
+      }
+    } catch (e, st) {
+      _thumbnailSize = Size(720, 1280);
     }
 
     // fetch video
@@ -561,7 +590,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
       if (!await File(path).exists()) {
         // FIXME Warning.. it can take some time to download the video.
         final http.Response copyResponse =
-            await http.Client().get(isMixDown ? widget.videoUrl : video.url);
+            await client.get(isMixDown ? widget.videoUrl : video.url);
         await File(path).writeAsBytes(copyResponse.bodyBytes);
       }
     }
@@ -575,62 +604,93 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     if (mounted) {
       if (kIsWeb) {
-        _controller = VideoPlayerController.network(videoUrl)..setLooping(true);
+        _controller = VideoPlayerController.network(videoUrl);
       } else {
-        _controller = VideoPlayerController.file(File(path))..setLooping(true);
+        _controller = VideoPlayerController.file(File(path));
       }
-      _controller.setVolume(volume);
       controllers[widget.track] = _controller;
-      await _controller
-          .initialize()
-          .then((value) => widget.onVideoInitialized());
+      await _controller.initialize().then((value) {
+        _controller..setLooping(true);
+        _controller.setVolume(volume);
+        widget.onVideoInitialized();
+        setState(() {});
+      }).catchError((e, st) {
+        print('VIDEO ERROR: $e\n$st');
+      });
+      if (mounted) {
+        _controller.addListener(_onValueChanged);
+      }
     }
   }
 
   @override
   void dispose() {
     // _controller is disposed by [VideoControllerCollection]
+    _controller?.removeListener(_onValueChanged);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        if ((widget.blurHash?.length ?? 0) != 0)
-          _BlurHashBackground(
-            blurHash: widget.blurHash,
-          )
-        else
-          ColoredBox(color: Colors.black),
-        if (_thumbnail != null)
-          Image(
-            image: NetworkImage(video.thumbnailUrl),
-            fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
-          ),
-        FutureBuilder(
-          future: _future,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return ErrorWidget(snapshot.error);
-              } else {
-                return FittedBox(
-                  fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
-                  child: SizedBox(
-                    width: _controller?.value?.size?.width ?? 0,
-                    height: _controller?.value?.size?.height ?? 0,
-                    child: VideoPlayer(_controller),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        Widget child = Stack(
+          fit: StackFit.expand,
+          children: [
+            if (!kIsWeb && (widget.blurHash?.length ?? 0) != 0)
+              _BlurHashBackground(
+                blurHash: widget.blurHash,
+              )
+            else
+              ColoredBox(color: Colors.black),
+            if (_thumbnail != null)
+              Image(
+                image: NetworkImage(video.thumbnailUrl),
+                fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
+              ),
+            FutureBuilder(
+              future: _future,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasError) {
+                    return ErrorWidget(snapshot.error);
+                  } else {
+                    return FittedBox(
+                      fit: widget.isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
+                      child: SizedBox(
+                        width: _controller?.value?.size?.width ?? 0,
+                        height: _controller?.value?.size?.height ?? 0,
+                        child: VideoPlayer(_controller),
+                      ),
+                    );
+                  }
+                } else {
+                  return LoadingIndicator();
+                }
+              },
+            ),
+            if (_controller != null && _controller.value.hasError)
+              Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'ERROR: ${_controller.value.errorDescription}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.0,
                   ),
-                );
-              }
-            } else {
-              return LoadingIndicator();
-            }
-          },
-        ),
-      ],
+                ),
+              ),
+          ],
+        );
+        if (!constraints.isTight) {
+          child = AspectRatio(
+            aspectRatio: _thumbnailSize?.aspectRatio ?? 1.33,
+            child: child,
+          );
+        }
+        return child;
+      },
     );
   }
 }

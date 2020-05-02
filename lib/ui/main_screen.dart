@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/ui/app/first_interaction.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
@@ -47,7 +48,7 @@ class MainScreenBuilder extends StatelessWidget {
                 fullScreen: true,
                 appBarColor: Colors.black12,
                 backgroundColor: Colors.black,
-              );              
+              );
                */
               launch(
                   'https://www.youtube.com/watch?v=${store.state.helpVideoId}');
@@ -118,22 +119,24 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final viewModel = widget.viewModel;
 
-    return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      if (constraints.maxWidth > 700.0) {
-        return DesktopScreen(
-          viewModel: viewModel,
-          profileScrollController: _profileScrollController,
-          songPageController: _songPageController,
-        );
-      } else {
-        return MobileScreen(
-          viewModel: viewModel,
-          profileScrollController: _profileScrollController,
-          songPageController: _songPageController,
-        );
-      }
-    });
+    return FirstInteractionTracker(
+      child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth > 700.0) {
+          return DesktopScreen(
+            viewModel: viewModel,
+            profileScrollController: _profileScrollController,
+            songPageController: _songPageController,
+          );
+        } else {
+          return MobileScreen(
+            viewModel: viewModel,
+            profileScrollController: _profileScrollController,
+            songPageController: _songPageController,
+          );
+        }
+      }),
+    );
   }
 }
 
