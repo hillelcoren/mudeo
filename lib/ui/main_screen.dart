@@ -11,6 +11,7 @@ import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_paged_vm.dart';
+import 'package:mudeo/ui/song/song_prefs.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/web_stub.dart'
@@ -120,22 +121,24 @@ class _MainScreenState extends State<MainScreen> {
     final viewModel = widget.viewModel;
 
     return FirstInteractionTracker(
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        if (constraints.maxWidth > 700.0) {
-          return DesktopScreen(
-            viewModel: viewModel,
-            profileScrollController: _profileScrollController,
-            songPageController: _songPageController,
-          );
-        } else {
-          return MobileScreen(
-            viewModel: viewModel,
-            profileScrollController: _profileScrollController,
-            songPageController: _songPageController,
-          );
-        }
-      }),
+      child: SongPreferencesWidget(
+        child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          if (constraints.maxWidth > 700.0) {
+            return DesktopScreen(
+              viewModel: viewModel,
+              profileScrollController: _profileScrollController,
+              songPageController: _songPageController,
+            );
+          } else {
+            return MobileScreen(
+              viewModel: viewModel,
+              profileScrollController: _profileScrollController,
+              songPageController: _songPageController,
+            );
+          }
+        }),
+      ),
     );
   }
 }

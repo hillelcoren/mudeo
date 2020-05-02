@@ -12,7 +12,7 @@ class FirstInteractionTracker extends StatefulWidget {
   final Widget child;
 
   static ValueListenable<bool> of(BuildContext context) {
-    final state = context.findRootAncestorStateOfType<_FirstInteractionState>();
+    final state = context.findAncestorStateOfType<_FirstInteractionState>();
     return state._hasUserInteracted;
   }
 
