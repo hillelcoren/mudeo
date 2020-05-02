@@ -32,11 +32,8 @@ void main() async {
       environmentAttributes: await getSentryEvent());
   */
 
-  bool isDance = false;
-  var flavor = html.window.document.getElementById('flavor');
-  if (flavor != null && flavor.innerHtml == 'dance') {
-    isDance = true;
-  }
+  final flavor = html.window.document.documentElement.dataset['flavor'];
+  bool isDance = (flavor == 'dance');
 
   print('### IS DANCE: $isDance ###');
 

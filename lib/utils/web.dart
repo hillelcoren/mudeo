@@ -35,15 +35,24 @@ void registerWebView(String html) {
 }
 
 // TODO remove this once supported by Flutter
-class HandCursor extends Listener {
-  static final appContainer = window.document.getElementById('app-container');
-  HandCursor({Widget child}) : super(
-      onPointerHover: (PointerHoverEvent evt) {
-        appContainer.style.cursor='pointer';
+class HandCursor extends StatelessWidget {
+  const HandCursor({
+    Key key,
+    this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onHover: (PointerHoverEvent evt) {
+        window.document.documentElement.style.cursor = 'pointer';
       },
-      onPointerExit: (PointerExitEvent evt) {
-        appContainer.style.cursor='default';
+      onExit: (PointerExitEvent evt) {
+        window.document.documentElement.style.cursor = 'auto';
       },
-      child: child
-  );
+      child: child,
+    );
+  }
 }
