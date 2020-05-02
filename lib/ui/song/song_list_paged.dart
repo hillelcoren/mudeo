@@ -23,6 +23,7 @@ import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SongListPaged extends StatefulWidget {
   const SongListPaged({
@@ -293,6 +294,7 @@ class _SongListItemState extends State<_SongListItem>
   @override
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
+    final state = store.state;
     final bool isMixDown = (song.trackVideoUrl ?? '').isNotEmpty;
 
     return VideoControllerScope(
@@ -397,17 +399,41 @@ class _SongListItemState extends State<_SongListItem>
                               song: song,
                             ),
                           ),
-                          if (kIsWeb)
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.keyboard_arrow_down,
-                                  size: 40,
-                                ),
-                                onPressed: widget.onNextPressed,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              FlatButton(
+                                child: Text('Apple App Store'.toUpperCase()),
+                                onPressed: () {
+                                  launch(
+                                      state.isDance
+                                          ? kDanceGoogleStoreUrl
+                                          : kMudeoGoogleStoreUrl,
+                                      forceSafariVC: false);
+                                },
                               ),
-                            )
+                              Expanded(
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 40,
+                                  ),
+                                  onPressed: widget.onNextPressed,
+                                ),
+                              ),
+                              FlatButton(
+                                child: Text('Google Play Store'.toUpperCase()),
+                                onPressed: () {
+                                  launch(
+                                      state.isDance
+                                          ? kDanceAppleStoreUrl
+                                          : kMudeoAppleStoreUrl,
+                                      forceSafariVC: false);
+                                },
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

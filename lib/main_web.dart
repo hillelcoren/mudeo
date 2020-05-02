@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:mudeo/.env.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/utils/sentry.dart';
 import 'package:sentry/sentry.dart';

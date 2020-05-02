@@ -9,7 +9,6 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
-import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';

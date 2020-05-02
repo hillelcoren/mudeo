@@ -124,7 +124,6 @@ class _TrackSyncerState extends State<TrackSyncer> {
               for (int i = 0; i < tracks.length; i++)
                 GestureDetector(
                   onHorizontalDragUpdate: (details) {
-                    final track = tracks[i];
                     if (i == 0) {
                       setState(() {
                         final value = _timeStart +

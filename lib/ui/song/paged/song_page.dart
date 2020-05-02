@@ -180,7 +180,7 @@ class _SongActions extends StatelessWidget {
                 });
           },
         ),
-        if (kIsWeb)
+        if (!state.authState.hasValidToken)
           _LargeIconButton(
             iconData: Icons.launch,
             tooltip: localization.share,

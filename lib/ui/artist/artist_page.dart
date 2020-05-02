@@ -65,7 +65,7 @@ class ArtistPage extends StatelessWidget {
 
     final localization = AppLocalization.of(context);
     final ThemeData themeData = Theme.of(context);
-    final TextStyle aboutTextStyle = themeData.textTheme.bodyText2;
+    //final TextStyle aboutTextStyle = themeData.textTheme.bodyText2;
     final TextStyle linkStyle =
         themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
 
