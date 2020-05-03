@@ -430,12 +430,15 @@ class _SongListItemState extends State<_SongListItem>
                                   },
                                 ),
                               Expanded(
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.keyboard_arrow_down,
-                                    size: 40,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 45,
+                                    ),
+                                    onPressed: widget.onNextPressed,
                                   ),
-                                  onPressed: widget.onNextPressed,
                                 ),
                               ),
                               if (kIsWeb && !isDesktop(context))

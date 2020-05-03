@@ -163,27 +163,28 @@ class _SongActions extends StatelessWidget {
               store.dispatch(LikeSongRequest(song: song));
             },
           ),
-        _LargeIconButton(
-          iconData: Icons.comment,
-          tooltip: localization.comment,
-          count: song.comments.length,
-          onPressed: () {
-            showDialog<SongComments>(
-                context: context,
-                builder: (BuildContext context) {
-                  return SongComments(
-                    song: song,
-                    onClosePressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  );
-                });
-          },
-        ),
+        if (!kIsWeb)
+          _LargeIconButton(
+            iconData: Icons.comment,
+            tooltip: localization.comment,
+            count: song.comments.length,
+            onPressed: () {
+              showDialog<SongComments>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SongComments(
+                      song: song,
+                      onClosePressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  });
+            },
+          ),
         if (!state.authState.hasValidToken)
           _LargeIconButton(
             iconData: Icons.launch,
-            tooltip: localization.share,
+            tooltip: localization.play,
             showCount: false,
             onPressed: () {
               launch(song.url, forceSafariVC: false);
@@ -225,11 +226,12 @@ class _LargeIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16, right: 5),
+      padding: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           IconButton(
+            iconSize: 38,
             icon: Icon(
               iconData,
               size: 38,
