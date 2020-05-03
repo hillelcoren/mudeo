@@ -9,6 +9,7 @@ import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/add_video.dart';
@@ -411,13 +412,25 @@ class _SongEditState extends State<SongEdit> {
   Future stopRecording() async {
     setState(() => isRecording = false);
     stopPlaying();
+
     recordTimer?.cancel();
     cancelTimer?.cancel();
+
     setState(() {
       isPastThreeSeconds = false;
     });
+
     widget.viewModel.onStopRecording();
-    return await camera.stopVideoRecording();
+
+    try {
+      await camera.stopVideoRecording();
+    } catch (error) {
+      showDialog<ErrorDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorDialog(error);
+          });
+    }
   }
 
   void saveRecording() async {
