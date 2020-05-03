@@ -88,6 +88,7 @@ class _SongListPagedState extends State<SongListPaged> {
                         curve: Curves.easeInCubic,
                       ),
                       entity: state.dataState.songMap[allSongIds[index]],
+                      isLastSong: index >= allSongIds.length - 1,
                       onNextPressed: () {
                         widget.pageController.nextPage(
                             duration: Duration(milliseconds: 500),
@@ -193,11 +194,13 @@ class _SongListItem extends StatefulWidget {
     @required this.fade,
     @required this.entity,
     @required this.onNextPressed,
+    @required this.isLastSong,
   }) : super(key: key);
 
   final Animation<double> fade;
   final SongEntity entity;
   final Function onNextPressed;
+  final bool isLastSong;
 
   @override
   _SongListItemState createState() => _SongListItemState();
@@ -329,7 +332,7 @@ class _SongListItemState extends State<_SongListItem>
                   return Align(
                     alignment: Alignment.center,
                     child: Icon(
-                      Icons.play_circle_filled,
+                      Icons.play_circle_outline,
                       size: 100,
                       color: Colors.white.withOpacity(.6),
                     ),
@@ -429,18 +432,21 @@ class _SongListItemState extends State<_SongListItem>
                                         forceSafariVC: false);
                                   },
                                 ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.keyboard_arrow_down,
-                                      size: 45,
+                              if (!widget.isLastSong)
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 8),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 45,
+                                      ),
+                                      onPressed: widget.onNextPressed,
                                     ),
-                                    onPressed: widget.onNextPressed,
                                   ),
-                                ),
-                              ),
+                                )
+                              else
+                                Expanded(child: SizedBox()),
                               if (kIsWeb && !isDesktop(context))
                                 FlatButton(
                                   child:
