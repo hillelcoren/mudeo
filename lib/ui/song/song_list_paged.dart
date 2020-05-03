@@ -214,6 +214,7 @@ class _SongListItemState extends State<_SongListItem>
   TrackEntity get secondTrack =>
       song.includedTracks.length > 1 ? song.includedTracks[1] : null;
 
+  bool _hasPlayedVideos = false;
   bool _isWaitingToPlay = false;
   bool _areVideosSwapped = false;
   int _countVideosReady = 0;
@@ -247,6 +248,7 @@ class _SongListItemState extends State<_SongListItem>
       _isWaitingToPlay = false;
     }
 
+    _hasPlayedVideos = true;
     _controllerCollection.play(playFromStart: true);
   }
 
@@ -256,7 +258,13 @@ class _SongListItemState extends State<_SongListItem>
   }
 
   void _togglePlayback() {
-    _controllerCollection.toggle();
+    if (_hasPlayedVideos) {
+      _controllerCollection.toggle();
+    } else {
+      _controllerCollection.play(playFromStart: true);
+    }
+
+    _hasPlayedVideos = true;
   }
 
   void _toggleFullscreen() {
