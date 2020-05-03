@@ -124,7 +124,7 @@ class _MainScreenState extends State<MainScreen> {
       child: SongPreferencesWidget(
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > 700.0) {
+          if (constraints.maxWidth > kDesktopBreakpoint) {
             return DesktopScreen(
               viewModel: viewModel,
               profileScrollController: _profileScrollController,
@@ -165,10 +165,8 @@ class _DesktopScreenState extends State<DesktopScreen> {
       children: <Widget>[
         Expanded(
           flex: 2,
-          child: HandCursor(
-            child: SongListPagedScreen(
-              pageController: widget.songPageController,
-            ),
+          child: SongListPagedScreen(
+            pageController: widget.songPageController,
           ),
         ),
         Expanded(

@@ -43,3 +43,6 @@ Future<String> getDevice() async {
     return '';
   }
 }
+
+bool isDesktop(BuildContext context) =>
+    MediaQuery.of(context).size.shortestSide > kDesktopBreakpoint;

@@ -22,6 +22,7 @@ import 'package:mudeo/ui/song/paged/page_animation.dart';
 import 'package:mudeo/ui/song/paged/song_page.dart';
 import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:mudeo/ui/song/song_prefs.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -310,6 +311,23 @@ class _SongListItemState extends State<_SongListItem>
                 ),
               ),
               // Top Scrim
+              ValueListenableBuilder<bool>(
+                valueListenable: _hasInteracted,
+                builder: (BuildContext context, bool value, Widget child) {
+                  if (value) {
+                    return SizedBox();
+                  }
+
+                  return Align(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.play_circle_filled,
+                      size: 100,
+                      color: Colors.white.withOpacity(.6),
+                    ),
+                  );
+                },
+              ),
               SizedBox.expand(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -392,7 +410,7 @@ class _SongListItemState extends State<_SongListItem>
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              if (kIsWeb)
+                              if (kIsWeb && !isDesktop(context))
                                 FlatButton(
                                   child: Text('Apple App Store'.toUpperCase()),
                                   onPressed: () {
@@ -412,7 +430,7 @@ class _SongListItemState extends State<_SongListItem>
                                   onPressed: widget.onNextPressed,
                                 ),
                               ),
-                              if (kIsWeb)
+                              if (kIsWeb && !isDesktop(context))
                                 FlatButton(
                                   child:
                                       Text('Google Play Store'.toUpperCase()),
@@ -545,9 +563,9 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   }
 
   void _onMuteChanged() {
-    if(_songPrefs.mute.value){
+    if (_songPrefs.mute.value) {
       _controller.setVolume(0.0);
-    }else{
+    } else {
       _controller.setVolume(_volume);
     }
   }
@@ -578,7 +596,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     try {
       final http.Response thumbnailResponse =
-          await client.get(video.thumbnailUrl);
+          await client.get(video.thumbnailUrl + '?clear_cache=0');
       ui.Image thumbnail =
           await decodeImageFromList(thumbnailResponse.bodyBytes);
       if (mounted) {
@@ -685,7 +703,10 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                             child: SizedBox(
                               width: _controller?.value?.size?.width ?? 0,
                               height: _controller?.value?.size?.height ?? 0,
-                              child: VideoPlayer(_controller),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: VideoPlayer(_controller),
+                              ),
                             ),
                           );
                         }
