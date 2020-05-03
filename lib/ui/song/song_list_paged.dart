@@ -427,8 +427,8 @@ class _SongListItemState extends State<_SongListItem>
                                   onPressed: () {
                                     launch(
                                         state.isDance
-                                            ? kDanceGoogleStoreUrl
-                                            : kMudeoGoogleStoreUrl,
+                                            ? kDanceAppleStoreUrl
+                                            : kMudeoAppleStoreUrl,
                                         forceSafariVC: false);
                                   },
                                 ),
@@ -454,8 +454,8 @@ class _SongListItemState extends State<_SongListItem>
                                   onPressed: () {
                                     launch(
                                         state.isDance
-                                            ? kDanceAppleStoreUrl
-                                            : kMudeoAppleStoreUrl,
+                                            ? kDanceGoogleStoreUrl
+                                            : kMudeoGoogleStoreUrl,
                                         forceSafariVC: false);
                                   },
                                 ),
