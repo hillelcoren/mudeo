@@ -5,10 +5,13 @@ version: 0.0.39+39
 environment:
   sdk: ">=2.3.0 <3.0.0"
 
-#flutter_icons:
-#  android: "launcher_icon"
-#  ios: true
-#  image_path: "assets/icon/icon.png"
+flutter_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/dance-icon.png"
+  adaptive_icon_foreground: "assets/images/dance-icon.png"
+  adaptive_icon_background: "#000000"
+
 
 dependencies:
   flutter:
