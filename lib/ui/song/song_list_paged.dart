@@ -235,7 +235,7 @@ class _SongListItemState extends State<_SongListItem>
 
   void _onVisibilityChanged(VisibilityInfo info) {
     if (info.visibleFraction > 0.5) {
-      if (kIsWeb && _hasInteracted.value) {
+      if (!kIsWeb || _hasInteracted.value) {
         _playVideos();
       }
     } else {
@@ -325,7 +325,7 @@ class _SongListItemState extends State<_SongListItem>
               ValueListenableBuilder<bool>(
                 valueListenable: _hasInteracted,
                 builder: (BuildContext context, bool value, Widget child) {
-                  if (value) {
+                  if (value || !kIsWeb) {
                     return SizedBox();
                   }
 
@@ -417,50 +417,52 @@ class _SongListItemState extends State<_SongListItem>
                               song: song,
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              if (kIsWeb && !isDesktop(context))
-                                FlatButton(
-                                  child: Text('Apple App Store'.toUpperCase()),
-                                  onPressed: () {
-                                    launch(
-                                        state.isDance
-                                            ? kDanceAppleStoreUrl
-                                            : kMudeoAppleStoreUrl,
-                                        forceSafariVC: false);
-                                  },
-                                ),
-                              if (!widget.isLastSong)
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 8),
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.keyboard_arrow_down,
-                                        size: 45,
-                                      ),
-                                      onPressed: widget.onNextPressed,
-                                    ),
+                          if (kIsWeb)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                if (!isDesktop(context))
+                                  FlatButton(
+                                    child:
+                                        Text('Apple App Store'.toUpperCase()),
+                                    onPressed: () {
+                                      launch(
+                                          state.isDance
+                                              ? kDanceAppleStoreUrl
+                                              : kMudeoAppleStoreUrl,
+                                          forceSafariVC: false);
+                                    },
                                   ),
-                                )
-                              else
-                                Expanded(child: SizedBox()),
-                              if (kIsWeb && !isDesktop(context))
-                                FlatButton(
-                                  child:
-                                      Text('Google Play Store'.toUpperCase()),
-                                  onPressed: () {
-                                    launch(
-                                        state.isDance
-                                            ? kDanceGoogleStoreUrl
-                                            : kMudeoGoogleStoreUrl,
-                                        forceSafariVC: false);
-                                  },
-                                ),
-                            ],
-                          ),
+                                if (!widget.isLastSong)
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.keyboard_arrow_down,
+                                          size: 45,
+                                        ),
+                                        onPressed: widget.onNextPressed,
+                                      ),
+                                    ),
+                                  )
+                                else
+                                  Expanded(child: SizedBox()),
+                                if (!isDesktop(context))
+                                  FlatButton(
+                                    child:
+                                        Text('Google Play Store'.toUpperCase()),
+                                    onPressed: () {
+                                      launch(
+                                          state.isDance
+                                              ? kDanceGoogleStoreUrl
+                                              : kMudeoGoogleStoreUrl,
+                                          forceSafariVC: false);
+                                    },
+                                  ),
+                              ],
+                            ),
                         ],
                       ),
                     ),
