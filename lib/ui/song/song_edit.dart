@@ -736,7 +736,7 @@ class _SongEditState extends State<SongEdit> {
                 ],
               ),
             ),
-            if (isFullScreen)
+            if (isFullScreen && firstVideoPlayer != null)
               Expanded(
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 200),
