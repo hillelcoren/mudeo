@@ -12,7 +12,6 @@ flutter_icons:
   adaptive_icon_foreground: "assets/images/dance-icon.png"
   adaptive_icon_background: "#000000"
 
-
 dependencies:
   flutter:
     sdk: flutter

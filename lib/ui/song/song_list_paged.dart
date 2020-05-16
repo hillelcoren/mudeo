@@ -549,7 +549,6 @@ class _TrackVideoPlayer extends StatefulWidget {
 class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   VideoPlayerController _controller;
   Future _future;
-  ui.Image _thumbnail;
   Size _thumbnailSize;
   bool _hadError = false;
 
@@ -705,7 +704,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                     )
                   else
                     ColoredBox(color: Colors.black),
-                  if (_thumbnail != null)
+                  if (video.thumbnailUrl != null)
                     Image(
                       image: NetworkImage(video.thumbnailUrl),
                       fit: isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
