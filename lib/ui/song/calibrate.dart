@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song_model.dart';
-import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 
 class CalibrationDialog extends StatefulWidget {
