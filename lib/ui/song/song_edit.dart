@@ -274,7 +274,7 @@ class _SongEditState extends State<SongEdit> {
         })
         ..initialize().then((value) async {
           final sharedPrefs = await SharedPreferences.getInstance();
-          if (true || sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
+          if (sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
             sharedPrefs.setBool(kSharedPrefCalibrated, true);
             showDialog<CalibrationDialog>(
                 context: context,
@@ -399,7 +399,6 @@ class _SongEditState extends State<SongEdit> {
 
   void _record() async {
     setState(() => isRecording = true);
-    play();
 
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     widget.viewModel.onStartRecording(timestamp);
@@ -417,7 +416,8 @@ class _SongEditState extends State<SongEdit> {
       () => saveRecording(),
     );
 
-    await camera.startVideoRecording(path);
+    camera.startVideoRecording(path);
+    play();
   }
 
   Future stopRecording() async {

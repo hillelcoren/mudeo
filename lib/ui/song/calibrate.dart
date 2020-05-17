@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 
 class CalibrationDialog extends StatefulWidget {
@@ -17,7 +19,8 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
   static const STATE_CONFIRM = 1;
   static const STATE_CALIBRATE = 2;
   static const STATE_UPLOAD = 3;
-  static const STATE_RESULTS = 4;
+
+  //static const STATE_RESULTS = 4;
 
   int _currentState = STATE_PROMPT;
 
@@ -58,18 +61,37 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
   }
 
   void _runCalibration() async {
-    final path = await VideoEntity().path;
+    final videoPath = await VideoEntity().path;
+    _cameraController.startVideoRecording(videoPath);
     _videoController.play();
-    _cameraController.startVideoRecording(path);
 
     setState(() {
       _currentState = STATE_CALIBRATE;
     });
 
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 2), () async {
       _cameraController.stopVideoRecording();
-      setState(() {
-        _currentState = STATE_UPLOAD;
+
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final String folder = '${directory.path}/calibrate';
+      await Directory(folder).create(recursive: true);
+      final audioPath = '$folder/data.txt';
+
+      final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
+      _flutterFFmpeg
+          .execute(
+              "-i $videoPath -af astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level:file=$audioPath -f null -")
+          .then((rc) async {
+        print("FFmpeg process exited with rc $rc");
+
+        final file = File(audioPath);
+        String contents = await file.readAsString();
+
+        debugPrint('## DATA: ${contents.substring(1000)}');
+
+        setState(() {
+          _currentState = STATE_UPLOAD;
+        });
       });
     });
   }
