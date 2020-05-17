@@ -698,7 +698,7 @@ class _SongEditState extends State<SongEdit> {
                   decoration: BoxDecoration(
                       color: Colors.black,
                       border: isRecording
-                          ? Border.all(color: Colors.red, width: 3)
+                            ? Border.all(color: Colors.red, width: 3)
                           : null),
                 ),
               ),

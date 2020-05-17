@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:video_player/video_player.dart';
 
@@ -36,9 +40,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
             ..addListener(() {
               if (mounted) setState(() {});
             })
-            ..initialize().then((value) async {
-              //
-            });
+            ..initialize();
     });
   }
 
@@ -56,11 +58,19 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
   }
 
   void _runCalibration() async {
-    //_cameraController.startVideoRecording(filePath);
+    final path = await VideoEntity().path;
     _videoController.play();
+    _cameraController.startVideoRecording(path);
 
     setState(() {
       _currentState = STATE_CALIBRATE;
+    });
+
+    Timer(Duration(seconds: 2), () {
+      _cameraController.stopVideoRecording();
+      setState(() {
+        _currentState = STATE_UPLOAD;
+      });
     });
   }
 
@@ -71,8 +81,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
 
     if (_currentState == STATE_PROMPT) {
       content = Text(localization.calibrationMessage);
-    } else if (_currentState == STATE_CONFIRM ||
-        _currentState == STATE_CALIBRATE) {
+    } else {
       content = Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -87,27 +96,42 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
                   ),
                 ),
                 Flexible(
-                  child: AspectRatio(
-                    aspectRatio: _cameraController?.value?.aspectRatio ?? 1,
-                    child: CameraPreview(_cameraController),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      border: _currentState == STATE_CALIBRATE
+                          ? Border.all(color: Colors.red, width: 2)
+                          : null,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: _cameraController?.value?.aspectRatio ?? 1,
+                      child: CameraPreview(_cameraController),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Text(localization.calibrationWarning),
-          ),
+              padding: const EdgeInsets.only(top: 16),
+              child: _currentState == STATE_CONFIRM
+                  ? Text(localization.calibrationWarning)
+                  : _currentState == STATE_UPLOAD
+                      ? LinearProgressIndicator()
+                      : SizedBox()),
         ],
       );
-    } else {
-      content = SizedBox();
     }
 
     return AlertDialog(
       title: Text(localization.calibrate),
-      content: content,
+      // TODO remove the column
+      content: Column(
+        children: [
+          Expanded(child: content),
+          Text('State: $_currentState'),
+        ],
+      ),
       actions: [
         FlatButton(
           child: Text(_currentState == STATE_PROMPT
