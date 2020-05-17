@@ -331,7 +331,7 @@ class _LoginState extends State<LoginScreen> {
                                   ),
                           ],
                         ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                   _error == null || _error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
@@ -360,7 +360,7 @@ class _LoginState extends State<LoginScreen> {
                         .toUpperCase()),
                     onPressed: () => _submitForm(),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 15),
                   isOneTimePassword && !viewModel.isLoading
                       ? Padding(
                           padding: EdgeInsets.only(top: 12, bottom: 12),
@@ -376,7 +376,6 @@ class _LoginState extends State<LoginScreen> {
                           ),
                         )
                       : Container(),
-                  SizedBox(height: 10),
                 ],
               ),
             ),
