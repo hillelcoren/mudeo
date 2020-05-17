@@ -24,7 +24,6 @@ import 'package:mudeo/ui/song/paged/page_animation.dart';
 import 'package:mudeo/ui/song/paged/song_page.dart';
 import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:mudeo/ui/song/song_prefs.dart';
-import 'package:mudeo/utils/platforms.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -746,7 +745,9 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                               height: _controller?.value?.size?.height ?? 0,
                               child: Align(
                                 alignment: Alignment.center,
-                                child: kIsWeb && Platform.isIOS
+                                child: VideoPlayer(_controller),
+                                /*
+                                child: kIsWeb && false
                                     ? WebVideoPlayer(
                                         src: videoUrl,
                                         showControls: false,
@@ -759,6 +760,8 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                                                 0,
                                       )
                                     : VideoPlayer(_controller),
+                                    
+                                 */
                               ),
                             ),
                           );
