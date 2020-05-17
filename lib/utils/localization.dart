@@ -21,7 +21,10 @@ class AppLocalization {
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
       'start': 'Start',
-      'calibration_message': 'Would you like to run a calibration to check your phone\'s latency/delay?\n\nThe app will record a short test tone and then upload the video to calculate the results.',
+      'calibration_message':
+          'Would you like to run a calibration to check your phone\'s latency/delay?\n\nThe app will record a short test video and then upload it to calculate the results.',
+      'calibration_warning':
+          'Please check that headphones are not plugged in and it\'s quiet and then press start.',
       'links': 'Links',
       'original': 'Original',
       'fix': 'Fix',
@@ -31,7 +34,8 @@ class AppLocalization {
       'processing': 'Processing',
       'show_details': 'Show Details',
       'score': 'Score',
-      'background_music_help': 'You can play a song in the background to have music to dance to',
+      'background_music_help':
+          'You can play a song in the background to have music to dance to',
       'ballet': 'Ballet',
       'tap': 'Tap',
       'modern': 'Modern',
@@ -676,7 +680,8 @@ class AppLocalization {
 
   String get processing => _localizedValues[locale.toString()]['processing'];
 
-  String get yourScoreIs => _localizedValues[locale.toString()]['your_score_is'];
+  String get yourScoreIs =>
+      _localizedValues[locale.toString()]['your_score_is'];
 
   String get blurImage => _localizedValues[locale.toString()]['blur_image'];
 
@@ -690,9 +695,11 @@ class AppLocalization {
 
   String get start => _localizedValues[locale.toString()]['start'];
 
-  String get calibrationMessage => _localizedValues[locale.toString()]['calibration_message'];
+  String get calibrationMessage =>
+      _localizedValues[locale.toString()]['calibration_message'];
 
-
+  String get calibrationWarning =>
+      _localizedValues[locale.toString()]['calibration_warning'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

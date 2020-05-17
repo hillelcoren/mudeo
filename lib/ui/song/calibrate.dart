@@ -20,31 +20,26 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
   VideoPlayerController _videoController;
   CameraController _cameraController;
 
-  void _showCalibration() async {
-    final cameras = await availableCameras();
-    final frontCamera = cameras.firstWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.front);
-
-    _cameraController =
-        CameraController(frontCamera ?? cameras.first, ResolutionPreset.low)
-          ..addListener(() {
-            if (mounted) setState(() {});
-          })
-          ..initialize().then((value) async {
-            //
-          });
+  @override
+  void initState() {
+    super.initState();
 
     _videoController = VideoPlayerController.asset('assets/tone.mp4')
       ..initialize();
 
-    setState(() {
-      _currentState = STATE_CALIBRATE;
-    });
-  }
+    availableCameras().then((cameras) {
+      final frontCamera = cameras.firstWhere(
+          (camera) => camera.lensDirection == CameraLensDirection.front);
 
-  void _runCalibration() async {
-    //_cameraController.startVideoRecording(filePath);
-    _videoController.play();
+      _cameraController =
+          CameraController(frontCamera ?? cameras.first, ResolutionPreset.low)
+            ..addListener(() {
+              if (mounted) setState(() {});
+            })
+            ..initialize().then((value) async {
+              //
+            });
+    });
   }
 
   @override
@@ -52,6 +47,21 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
     _cameraController?.dispose();
     _videoController?.dispose();
     super.dispose();
+  }
+
+  void _showCalibration() async {
+    setState(() {
+      _currentState = STATE_CONFIRM;
+    });
+  }
+
+  void _runCalibration() async {
+    //_cameraController.startVideoRecording(filePath);
+    _videoController.play();
+
+    setState(() {
+      _currentState = STATE_CALIBRATE;
+    });
   }
 
   @override
@@ -63,24 +73,30 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
       content = Text(localization.calibrationMessage);
     } else if (_currentState == STATE_CONFIRM ||
         _currentState == STATE_CALIBRATE) {
-      content = Container(
-        color: Colors.black,
-        child: Row(
-          children: [
-            Flexible(
-              child: AspectRatio(
-                aspectRatio: _videoController?.value?.aspectRatio ?? 1,
-                child: VideoPlayer(_videoController),
-              ),
+      content = Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            color: Colors.black,
+            child: Row(
+              children: [
+                Flexible(
+                  child: AspectRatio(
+                    aspectRatio: _videoController?.value?.aspectRatio ?? 1,
+                    child: VideoPlayer(_videoController),
+                  ),
+                ),
+                Flexible(
+                  child: AspectRatio(
+                    aspectRatio: _cameraController?.value?.aspectRatio ?? 1,
+                    child: CameraPreview(_cameraController),
+                  ),
+                ),
+              ],
             ),
-            Flexible(
-              child: AspectRatio(
-                aspectRatio: _cameraController?.value?.aspectRatio ?? 1,
-                child: CameraPreview(_cameraController),
-              ),
-            ),
-          ],
-        ),
+          ),
+          Text(localization.calibrationWarning),
+        ],
       );
     } else {
       content = SizedBox();
@@ -91,7 +107,9 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
       content: content,
       actions: [
         FlatButton(
-          child: Text(localization.noThanks),
+          child: Text(_currentState == STATE_PROMPT
+              ? localization.noThanks
+              : localization.cancel),
           onPressed: () {
             Navigator.of(context).pop();
           },
