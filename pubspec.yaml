@@ -8,9 +8,10 @@ environment:
 flutter_icons:
   android: "launcher_icon"
   ios: false
-  image_path: "assets/images/dance-icon.png"
-  adaptive_icon_foreground: "assets/images/dance-icon.png"
-  adaptive_icon_background: "#000000"
+  image_path: "assets/images/mudeo-icon.png"
+  adaptive_icon_foreground: "assets/images/mudeo-icon.png"
+  #adaptive_icon_background: "#000000"
+  adaptive_icon_background: "#333C3C"
 
 dependencies:
   flutter:
