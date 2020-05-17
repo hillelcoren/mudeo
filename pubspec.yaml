@@ -56,7 +56,7 @@ dependencies:
   tflite: ^1.0.5
   document_analysis: ^0.1.2
   visibility_detector: 0.1.4
-  flutter_ffmpeg: ^0.2.10
+  #flutter_ffmpeg: ^0.2.10
 
 dev_dependencies:
   #flutter_test:

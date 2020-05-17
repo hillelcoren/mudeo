@@ -273,6 +273,7 @@ class _SongEditState extends State<SongEdit> {
           if (mounted) setState(() {});
         })
         ..initialize().then((value) async {
+          /*
           final sharedPrefs = await SharedPreferences.getInstance();
           if (sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
             sharedPrefs.setBool(kSharedPrefCalibrated, true);
@@ -282,6 +283,7 @@ class _SongEditState extends State<SongEdit> {
                   return CalibrationDialog();
                 });
           }
+           */
         });
     });
   }

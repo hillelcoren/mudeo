@@ -219,6 +219,7 @@ class _SongListItemState extends State<_SongListItem>
 
   bool _hasPlayedVideos = false;
   bool _isWaitingToPlay = false;
+  bool _isReadyToPlay = false;
   bool _areVideosSwapped = false;
   int _countVideosReady = 0;
 
@@ -243,8 +244,11 @@ class _SongListItemState extends State<_SongListItem>
     }
   }
 
+  bool get areVideosReady =>
+      _countVideosReady == min(2, song.includedTracks.length);
+
   void _playVideos() {
-    if (_countVideosReady < min(2, song.includedTracks.length)) {
+    if (!areVideosReady) {
       _isWaitingToPlay = true;
       return;
     } else {
@@ -314,7 +318,9 @@ class _SongListItemState extends State<_SongListItem>
                   isAudioMuted:
                       _areVideosSwapped && (store.state.isDance || isMixDown),
                   onVideoInitialized: () {
-                    _countVideosReady++;
+                    setState(() {
+                      _countVideosReady++;
+                    });
                     if (_isWaitingToPlay) {
                       _playVideos();
                     }
@@ -326,6 +332,10 @@ class _SongListItemState extends State<_SongListItem>
                 valueListenable: _hasInteracted,
                 builder: (BuildContext context, bool value, Widget child) {
                   if (value || !kIsWeb) {
+                    return SizedBox();
+                  }
+
+                  if (!areVideosReady) {
                     return SizedBox();
                   }
 
@@ -378,7 +388,9 @@ class _SongListItemState extends State<_SongListItem>
                           isAudioMuted: !_areVideosSwapped &&
                               (store.state.isDance || isMixDown),
                           onVideoInitialized: () {
-                            _countVideosReady++;
+                            setState(() {
+                              _countVideosReady++;
+                            });
                             if (_isWaitingToPlay) {
                               _playVideos();
                             }
