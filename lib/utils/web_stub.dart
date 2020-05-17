@@ -10,3 +10,5 @@ void registerWebView(String html) {}
 class HandCursor extends Listener {
   HandCursor({Widget child}) : super(child: child);
 }
+
+class Device {}

@@ -15,6 +15,8 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
+import 'package:mudeo/utils/platforms.dart';
+import 'package:mudeo/ui/app/web_video_player.dart';
 import 'package:mudeo/ui/app/first_interaction.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';
@@ -26,6 +28,8 @@ import 'package:mudeo/utils/platforms.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:mudeo/utils/web_stub.dart'
+    if (dart.library.html) 'package:mudeo/utils/web.dart';
 
 class SongListPaged extends StatefulWidget {
   const SongListPaged({
@@ -283,7 +287,9 @@ class _SongListItemState extends State<_SongListItem>
   }
 
   void _toggleSwapVideos() {
-    setState(() => _areVideosSwapped = !_areVideosSwapped);
+    setState(() {
+      _areVideosSwapped = !_areVideosSwapped;
+    });
   }
 
   @override
@@ -517,7 +523,7 @@ class _SongListItemState extends State<_SongListItem>
                               );
                             },
                           ),
-                          if (secondTrack != null && !kIsWeb)
+                          if (secondTrack != null)
                             IconButton(
                               onPressed: _toggleSwapVideos,
                               icon: Icon(
@@ -570,6 +576,11 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
   VideoEntity get video => widget.track.video;
 
   VideoControllerCollection get controllers => VideoControllerScope.of(context);
+
+  String get videoUrl {
+    final isMixDown = (widget.videoUrl ?? '').isNotEmpty;
+    return isMixDown ? widget.videoUrl : video.url;
+  }
 
   @override
   void initState() {
@@ -735,7 +746,19 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                               height: _controller?.value?.size?.height ?? 0,
                               child: Align(
                                 alignment: Alignment.center,
-                                child: VideoPlayer(_controller),
+                                child: kIsWeb && Platform.isIOS
+                                    ? WebVideoPlayer(
+                                        src: videoUrl,
+                                        showControls: false,
+                                        autoplay: true,
+                                        width:
+                                            _controller?.value?.size?.width ??
+                                                0,
+                                        height:
+                                            _controller?.value?.size?.height ??
+                                                0,
+                                      )
+                                    : VideoPlayer(_controller),
                               ),
                             ),
                           );
