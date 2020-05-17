@@ -194,6 +194,30 @@ class _LoginState extends State<LoginScreen> {
                         )
                       : Column(
                           children: <Widget>[
+                            _ToggleButtons(
+                              tabLabels: [
+                                localization.signUp,
+                                localization.login,
+                              ],
+                              selectedIndex: _showLogin ? 1 : 0,
+                              onTabChanged: (index) {
+                                setState(() {
+                                  _showLogin = index == 1;
+                                });
+                              },
+                            ),
+                            _ToggleButtons(
+                              tabLabels: [
+                                'Google',
+                                localization.email,
+                              ],
+                              selectedIndex: _showEmail ? 1 : 0,
+                              onTabChanged: (index) {
+                                setState(() {
+                                  _showEmail = index == 1;
+                                });
+                              },
+                            ),
                             _showLogin
                                 ? SizedBox()
                                 : TextFormField(
@@ -337,48 +361,6 @@ class _LoginState extends State<LoginScreen> {
                     onPressed: () => _submitForm(),
                   ),
                   SizedBox(height: 30),
-                  isOneTimePassword
-                      ? Container()
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Expanded(
-                              child: FlatButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _showEmail = !_showEmail;
-                                      _error = '';
-                                    });
-                                  },
-                                  child: Text(_showEmail
-                                      ? (_showLogin
-                                          ? localization.googleLogin
-                                          : localization.googleSignUp)
-                                      : (_showLogin
-                                          ? localization.emailLogin
-                                          : localization.emailSignUp))),
-                            ),
-                            Expanded(
-                              child: FlatButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _error = '';
-                                    _showLogin = !_showLogin;
-                                  });
-                                },
-                                child: Text(
-                                  _showLogin
-                                      ? (_showEmail
-                                          ? localization.emailSignUp
-                                          : localization.googleSignUp)
-                                      : (_showEmail
-                                          ? localization.emailLogin
-                                          : localization.googleLogin),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                   isOneTimePassword && !viewModel.isLoading
                       ? Padding(
                           padding: EdgeInsets.only(top: 12, bottom: 12),
@@ -431,4 +413,45 @@ class ArcClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class _ToggleButtons extends StatelessWidget {
+  const _ToggleButtons({
+    @required this.selectedIndex,
+    @required this.onTabChanged,
+    @required this.tabLabels,
+  });
+
+  final List<String> tabLabels;
+  final int selectedIndex;
+  final Function(int) onTabChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    //final bool isDesktop = calculateLayout(context) != AppLayout.mobile;
+    final bool isDesktop = false;
+    final width = MediaQuery.of(context).size.width;
+    final double toggleWidth = isDesktop ? 178 : (width - 70) / 2;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: ToggleButtons(
+        constraints: BoxConstraints(),
+        children: [
+          Container(
+            width: toggleWidth,
+            height: 40,
+            child: Center(child: Text(tabLabels[0].toUpperCase())),
+          ),
+          Container(
+            width: toggleWidth,
+            height: 40,
+            child: Center(child: Text(tabLabels[1].toUpperCase())),
+          ),
+        ],
+        isSelected: selectedIndex == 0 ? [true, false] : [false, true],
+        onPressed: (index) => onTabChanged(index),
+      ),
+    );
+  }
 }
