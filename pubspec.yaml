@@ -82,6 +82,7 @@ flutter:
     - assets/images/apple.png
     - assets/images/google.png
     - assets/posenet_mv1_075_float_from_checkpoints.tflite
+    - assets/tone.mp4
 
   # To add assets to your application, add an assets section, like this:
   # assets:

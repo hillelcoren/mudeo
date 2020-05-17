@@ -625,7 +625,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
           );
         });
       }
-    } catch (e, st) {
+    } catch (e) {
       _thumbnailSize = Size(720, 1280);
     }
 
