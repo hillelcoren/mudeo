@@ -26,12 +26,15 @@ Future<String> webFilePicker() {
 void webReload() => window.location.reload();
 
 void registerWebView(String html) {
+  /*
   // ignore: undefined_prefixed_name
   ui.platformViewRegistry.registerViewFactory(
       html,
       (int viewId) => IFrameElement()
         ..src = html
         ..style.border = 'none');
+
+   */
 }
 
 // TODO remove this once supported by Flutter

@@ -95,7 +95,10 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
               ],
             ),
           ),
-          Text(localization.calibrationWarning),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Text(localization.calibrationWarning),
+          ),
         ],
       );
     } else {
