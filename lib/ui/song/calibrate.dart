@@ -10,16 +10,17 @@ class CalibrationDialog extends StatefulWidget {
 
 class _CalibrationDialogState extends State<CalibrationDialog> {
   static const STATE_PROMPT = 0;
-  static const STATE_CALIBRATE = 1;
-  static const STATE_UPLOAD = 2;
-  static const STATE_RESULTS = 3;
+  static const STATE_CONFIRM = 1;
+  static const STATE_CALIBRATE = 2;
+  static const STATE_UPLOAD = 3;
+  static const STATE_RESULTS = 4;
 
   int _currentState = STATE_PROMPT;
-  
+
   VideoPlayerController _videoController;
   CameraController _cameraController;
 
-  void _calibrate() async {
+  void _showCalibration() async {
     final cameras = await availableCameras();
     final frontCamera = cameras.firstWhere(
         (camera) => camera.lensDirection == CameraLensDirection.front);
@@ -34,13 +35,16 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
           });
 
     _videoController = VideoPlayerController.asset('assets/tone.mp4')
-      ..initialize().then((value) {
-        _videoController.play();
-      });
+      ..initialize();
 
     setState(() {
       _currentState = STATE_CALIBRATE;
     });
+  }
+
+  void _runCalibration() async {
+    //_cameraController.startVideoRecording(filePath);
+    _videoController.play();
   }
 
   @override
@@ -57,18 +61,26 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
 
     if (_currentState == STATE_PROMPT) {
       content = Text(localization.calibrationMessage);
-    } else if (_currentState == STATE_CALIBRATE) {
-      content = Column(
-        children: [
-          AspectRatio(
-            aspectRatio: _videoController?.value?.aspectRatio ?? 1,
-            child: VideoPlayer(_videoController),
-          ),
-          AspectRatio(
-            aspectRatio: _cameraController?.value?.aspectRatio ?? 1,
-            child: CameraPreview(_cameraController),
-          ),
-        ],
+    } else if (_currentState == STATE_CONFIRM ||
+        _currentState == STATE_CALIBRATE) {
+      content = Container(
+        color: Colors.black,
+        child: Row(
+          children: [
+            Flexible(
+              child: AspectRatio(
+                aspectRatio: _videoController?.value?.aspectRatio ?? 1,
+                child: VideoPlayer(_videoController),
+              ),
+            ),
+            Flexible(
+              child: AspectRatio(
+                aspectRatio: _cameraController?.value?.aspectRatio ?? 1,
+                child: CameraPreview(_cameraController),
+              ),
+            ),
+          ],
+        ),
       );
     } else {
       content = SizedBox();
@@ -85,10 +97,14 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
           },
         ),
         FlatButton(
-          child: Text(localization.ok),
+          child: Text(_currentState == STATE_CONFIRM
+              ? localization.start
+              : localization.ok),
           onPressed: () {
             if (_currentState == STATE_PROMPT) {
-              _calibrate();
+              _showCalibration();
+            } else if (_currentState == STATE_CONFIRM) {
+              _runCalibration();
             }
           },
         )

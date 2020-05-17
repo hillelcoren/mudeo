@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'start': 'Start',
       'calibration_message': 'Would you like to run a calibration to check your phone\'s latency/delay?\n\nThe app will record a short test tone and then upload the video to calculate the results.',
       'links': 'Links',
       'original': 'Original',
@@ -686,6 +687,8 @@ class AppLocalization {
   String get original => _localizedValues[locale.toString()]['original'];
 
   String get links => _localizedValues[locale.toString()]['links'];
+
+  String get start => _localizedValues[locale.toString()]['start'];
 
   String get calibrationMessage => _localizedValues[locale.toString()]['calibration_message'];
 
