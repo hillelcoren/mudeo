@@ -218,7 +218,7 @@ class _SongListItemState extends State<_SongListItem>
   TrackEntity get firstTrack => song.includedTracks.first;
 
   TrackEntity get secondTrack =>
-      song.includedTracks.length > 1 ? song.includedTracks[1] : null;
+      song.includedTracks.length > 1 ? song.includedTracks.last : null;
 
   bool _hasPlayedVideos = false;
   bool _isWaitingToPlay = false;
