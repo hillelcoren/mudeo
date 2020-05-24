@@ -1,6 +1,6 @@
 name: mudeo
 description: a collaborative music video app
-version: 0.0.42+42
+version: 0.0.43+43
 
 environment:
   sdk: ">=2.3.0 <3.0.0"
