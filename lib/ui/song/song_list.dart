@@ -21,6 +21,7 @@ import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/ui/song/song_share.dart';
+import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:chewie/chewie.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -538,14 +539,23 @@ class SongFooter extends StatelessWidget {
                 return;
               } else if (action == localization.leaveDance ||
                   action == localization.leaveSong) {
-                final Completer<Null> completer = Completer<Null>();
-                completer.future.then((value) {
-                  store.dispatch(LoadSongs(clearCache: true, force: true));
-                });
-                store.dispatch(LeaveSongRequest(
-                  songId: song.id,
-                  completer: completer,
-                ));
+                confirmCallback(
+                    message: state.isDance
+                        ? localization.leaveDance
+                        : localization.leaveSong,
+                    context: context,
+                    callback: () {
+                      final Completer<Null> completer = Completer<Null>();
+                      completer.future.then((value) {
+                        store
+                            .dispatch(LoadSongs(clearCache: true, force: true));
+                      });
+                      store.dispatch(LeaveSongRequest(
+                        songId: song.id,
+                        completer: completer,
+                      ));
+                    });
+                return;
               } else if (action == localization.deleteSong ||
                   action == localization.deleteDance) {
                 showDialog<AlertDialog>(
