@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'leave_dance': 'Leave Dance',
+      'leave_song': 'Leave Song',
       'joined_dance': 'Successfully joined dance!',
       'joined_song': 'Successfully joined song!',
       'refresh': 'Refresh',
@@ -730,6 +732,10 @@ class AppLocalization {
   String get joinedSong => _localizedValues[locale.toString()]['joined_song'];
 
   String get joinedDance => _localizedValues[locale.toString()]['joined_dance'];
+
+  String get leaveSong => _localizedValues[locale.toString()]['leave_song'];
+
+  String get leaveDance => _localizedValues[locale.toString()]['leave_dance'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

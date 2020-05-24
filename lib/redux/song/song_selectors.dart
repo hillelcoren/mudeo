@@ -20,8 +20,8 @@ List<int> songIdsSelector(
 
       if (song.artistId == filterArtistId) {
         isMatch = true;
-      } else if (song.joinedArtists
-          .any((artist) => artist.id == filterArtistId)) {
+      } else if (song.joinedArtists != null &&
+          song.joinedArtists.any((artist) => artist.id == filterArtistId)) {
         isMatch = true;
       }
 

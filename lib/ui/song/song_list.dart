@@ -478,7 +478,13 @@ class SongFooter extends StatelessWidget {
                   state.isDance
                       ? localization.deleteDance
                       : localization.deleteSong
-                else if (!kIsWeb)
+                else if (song.joinedArtists != null &&
+                    song.joinedArtists.any(
+                        (artist) => artist.id == state.authState.artist.id))
+                  state.isDance
+                      ? localization.leaveDance
+                      : localization.leaveSong,
+                if (!kIsWeb)
                   state.isDance
                       ? localization.reportDance
                       : localization.reportSong,
@@ -530,6 +536,16 @@ class SongFooter extends StatelessWidget {
                       return SongShareDialog(song: song);
                     });
                 return;
+              } else if (action == localization.leaveDance ||
+                  action == localization.leaveSong) {
+                final Completer<Null> completer = Completer<Null>();
+                completer.future.then((value) {
+                  store.dispatch(LoadSongs(clearCache: true, force: true));
+                });
+                store.dispatch(LeaveSongRequest(
+                  songId: song.id,
+                  completer: completer,
+                ));
               } else if (action == localization.deleteSong ||
                   action == localization.deleteDance) {
                 showDialog<AlertDialog>(
