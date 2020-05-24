@@ -375,7 +375,7 @@ class ArtistPage extends StatelessWidget {
                       artist.headerImageUrl.isNotEmpty)
                     Image.network(
                       artist.headerImageUrl,
-                      height: 400,
+                      height: 550,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
