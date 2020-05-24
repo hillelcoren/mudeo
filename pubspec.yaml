@@ -59,7 +59,7 @@ dependencies:
   visibility_detector: 0.1.4
   #flutter_ffmpeg: ^0.2.10
   qr_flutter: ^3.2.0
-  barcode_scan: ^3.0.1
+  twitter_qr_scanner: ^1.0.4
   esys_flutter_share: ^1.0.2
 
 dev_dependencies:

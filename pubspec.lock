@@ -36,13 +36,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
-  barcode_scan:
-    dependency: "direct main"
-    description:
-      name: barcode_scan
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
   build:
     dependency: transitive
     description:
@@ -122,6 +115,13 @@ packages:
       url: "git://github.com/hillelcoren/plugins.git"
     source: git
     version: "0.5.8+1"
+  carousel_slider:
+    dependency: transitive
+    description:
+      name: carousel_slider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.1"
   charcode:
     dependency: transitive
     description:
@@ -290,6 +290,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.11"
+  flare_dart:
+    dependency: transitive
+    description:
+      name: flare_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.4"
+  flare_flutter:
+    dependency: transitive
+    description:
+      name: flare_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -613,13 +627,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.0"
-  protobuf:
-    dependency: transitive
-    description:
-      name: protobuf
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   pub_semver:
     dependency: transitive
     description:
@@ -842,6 +849,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  twitter_qr_scanner:
+    dependency: "direct main"
+    description:
+      name: twitter_qr_scanner
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   typed_data:
     dependency: transitive
     description:

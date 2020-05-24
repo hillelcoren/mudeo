@@ -1,11 +1,10 @@
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
-import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
+import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
 
 class SongJoinDialog extends StatefulWidget {
   @override
@@ -73,23 +72,12 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
           FlatButton(
             child: Text(localization.scanCode.toUpperCase()),
             onPressed: () async {
-              try {
-                print('## SCANNING>>');
-                final scanResult = await BarcodeScanner.scan(
-                  options: ScanOptions(
-                    strings:
-                  )
-                );
-                print('## DONE');
-                print('## Type: ${scanResult.type}');
-                print('## String: $scanResult');
-                print('## RawContent: ${scanResult.rawContent}');
-              } on PlatformException catch (e) {
-                print('ERROR: ${e.message}');
-                /*
-                if (e.code == BarcodeScanner.cameraAccessDenied) {}                
-                 */
-              }
+              final code = await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return _QrCodeScanner();
+                  });
+              print('## CODE: $code');
             },
           )
         else
@@ -100,6 +88,45 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
             },
           )
       ],
+    );
+  }
+}
+
+class _QrCodeScanner extends StatefulWidget {
+  @override
+  __QrCodeScannerState createState() => __QrCodeScannerState();
+}
+
+class __QrCodeScannerState extends State<_QrCodeScanner> {
+  GlobalKey qrKey = GlobalKey();
+  QRViewController controller;
+
+  void _onQRViewCreate(QRViewController controller) {
+    this.controller = controller;
+    if (!mounted) return;
+
+    controller.scannedDataStream.listen((scanData) {
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop(scanData);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: QRView(
+        key: qrKey,
+        overlay: QrScannerOverlayShape(
+            borderRadius: 16,
+            borderColor: Colors.white,
+            borderLength: 120,
+            borderWidth: 10,
+            cutOutSize: 250),
+        onQRViewCreated: _onQRViewCreate,
+        data: "QR TEXT",
+      ),
     );
   }
 }
