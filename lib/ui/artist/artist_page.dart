@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:mudeo/.env.dart';
+import 'package:mudeo/ui/song/song_join.dart';
 import 'package:mudeo/utils/completers.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -439,7 +440,11 @@ class ArtistPage extends StatelessWidget {
                                               : localization.joinSong,
                                           style: TextStyle(fontSize: 18)),
                                       onPressed: () {
-                                        //
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return SongJoinDialog();
+                                            });
                                       },
                                       color: Colors.black87,
                                       padding: EdgeInsets.symmetric(
