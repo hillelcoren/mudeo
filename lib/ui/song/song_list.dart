@@ -378,10 +378,10 @@ class SongFooter extends StatelessWidget {
               final uiSong = state.uiState.song;
               SongEntity newSong = song;
 
-              if (!artist.ownsSong(song)) {
+              if (!artist.belongsToSong(song)) {
                 newSong = song.fork;
               }
-              if (state.isDance && !state.artist.ownsSong(newSong)) {
+              if (state.isDance && !state.artist.belongsToSong(newSong)) {
                 newSong = newSong.justKeepFirstTrack;
               }
 

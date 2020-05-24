@@ -119,7 +119,7 @@ class _SongActions extends StatelessWidget {
               final uiSong = state.uiState.song;
               SongEntity newSong = song;
 
-              if (!artist.ownsSong(song)) {
+              if (!artist.belongsToSong(song)) {
                 newSong = song.fork;
 
                 if (state.isDance) {

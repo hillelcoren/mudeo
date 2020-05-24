@@ -27,7 +27,6 @@ AuthState userLoginSuccessReducer(
     ..isAuthenticated = true);
 }
 
-
 AuthState saveArtistReducer(AuthState authState, SaveArtistSuccess action) {
   final artist = authState.artist;
   return authState.rebuild((b) => b

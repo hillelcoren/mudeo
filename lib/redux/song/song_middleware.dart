@@ -264,7 +264,7 @@ Middleware<AppState> _joinSong(SongRepository repository) {
       }
     }).catchError((Object error) {
       print(error);
-      //store.dispatch(DeleteCommentFailure(error));
+      store.dispatch(JoinSongFailure(error: error));
       if (action.completer != null) {
         action.completer.completeError(error);
       }
@@ -285,7 +285,7 @@ Middleware<AppState> _leaveSong(SongRepository repository) {
       }
     }).catchError((Object error) {
       print(error);
-      //store.dispatch(DeleteCommentFailure(error));
+      store.dispatch(LeaveSongFailure(error: error));
       if (action.completer != null) {
         action.completer.completeError(error);
       }
@@ -294,4 +294,3 @@ Middleware<AppState> _leaveSong(SongRepository repository) {
     next(action);
   };
 }
-

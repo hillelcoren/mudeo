@@ -45,12 +45,20 @@ class JoinSongRequest implements StartLoading {
   final Completer completer;
 }
 
-class JoinSongSuccess implements StartLoading {
+class JoinSongSuccess implements StopLoading, PersistData {
   JoinSongSuccess({
     @required this.song,
   });
 
   final SongEntity song;
+}
+
+class JoinSongFailure implements StopLoading {
+  JoinSongFailure({
+    @required this.error,
+  });
+
+  final Object error;
 }
 
 class LeaveSongRequest implements StartLoading {
@@ -63,12 +71,20 @@ class LeaveSongRequest implements StartLoading {
   final Completer completer;
 }
 
-class LeaveSongSuccess implements StartLoading {
+class LeaveSongSuccess implements StopLoading, PersistData {
   LeaveSongSuccess({
     @required this.songId,
   });
 
   final int songId;
+}
+
+class LeaveSongFailure implements StopLoading {
+  LeaveSongFailure({
+    @required this.error,
+  });
+
+  final Object error;
 }
 
 class LoadSongsRequest implements StartLoading {}
