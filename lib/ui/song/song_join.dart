@@ -1,4 +1,6 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/ui/app/elevated_button.dart';
@@ -70,7 +72,25 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
         if (_useQrCode)
           FlatButton(
             child: Text(localization.scanCode.toUpperCase()),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () async {
+              try {
+                print('## SCANNING>>');
+                final scanResult = await BarcodeScanner.scan(
+                  options: ScanOptions(
+                    strings:
+                  )
+                );
+                print('## DONE');
+                print('## Type: ${scanResult.type}');
+                print('## String: $scanResult');
+                print('## RawContent: ${scanResult.rawContent}');
+              } on PlatformException catch (e) {
+                print('ERROR: ${e.message}');
+                /*
+                if (e.code == BarcodeScanner.cameraAccessDenied) {}                
+                 */
+              }
+            },
           )
         else
           FlatButton(
