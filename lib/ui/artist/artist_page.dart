@@ -424,26 +424,48 @@ class ArtistPage extends StatelessWidget {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        padding: const EdgeInsets.only(
+                            top: 20, bottom: 15, left: 80, right: 80),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             if (showSettings)
-                              RaisedButton(
-                                  child: Text(localization.profile,
-                                      style: TextStyle(fontSize: 18)),
-                                  onPressed: () {
-                                    final store =
-                                        StoreProvider.of<AppState>(context);
-                                    store.dispatch(EditArtist(
-                                        context: context, artist: artist));
-                                  },
-                                  color: Colors.black87,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 35),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(30.0))),
+                              Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: RaisedButton(
+                                      child: Text(
+                                          state.isDance
+                                              ? localization.joinDance
+                                              : localization.joinSong,
+                                          style: TextStyle(fontSize: 18)),
+                                      onPressed: () {
+                                        //
+                                      },
+                                      color: Colors.black87,
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 35),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0)))),
+                            if (showSettings)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: RaisedButton(
+                                    child: Text(localization.editProfile,
+                                        style: TextStyle(fontSize: 18)),
+                                    onPressed: () {
+                                      final store =
+                                          StoreProvider.of<AppState>(context);
+                                      store.dispatch(EditArtist(
+                                          context: context, artist: artist));
+                                    },
+                                    color: Colors.black87,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 35),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0))),
+                              ),
                             showSettings
                                 ? RaisedButton(
                                     child: Text(localization.options,
