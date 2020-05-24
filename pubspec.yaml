@@ -25,7 +25,7 @@ dependencies:
       url: git://github.com/hillelcoren/plugins.git
       path: packages/camera
   video_player: ^0.10.8+1
-  path_provider: ^0.5.0+1
+  path_provider: ^1.6.9
   screen: ^0.0.4
   flutter_redux: ^0.5.3
   redux_logging: ^0.3.0
@@ -60,6 +60,7 @@ dependencies:
   #flutter_ffmpeg: ^0.2.10
   qr_flutter: ^3.2.0
   barcode_scan: ^3.0.1
+  esys_flutter_share: ^1.0.2
 
 dev_dependencies:
   #flutter_test:
