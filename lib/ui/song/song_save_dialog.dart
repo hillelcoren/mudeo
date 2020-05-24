@@ -49,7 +49,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   String songUrl;
   String layout = kVideoLayoutRow;
 
-  Future<void> _captureAndSharePng() async {
+  Future<void> _captureAndSharePng(SongEntity song) async {
     try {
       RenderRepaintBoundary boundary =
           qrCodeGlobalKey.currentContext.findRenderObject();
@@ -58,7 +58,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
       await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
-          text: widget.viewModel.state.appUrl);
+          text:
+              widget.viewModel.state.appUrl + '\n\nSecret: ' + song.sharingKey);
     } catch (e) {
       print(e.toString());
     }
@@ -450,7 +451,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 FlatButton(
                   child: Text(localization.share.toUpperCase()),
                   onPressed: () {
-                    _captureAndSharePng();
+                    _captureAndSharePng(song);
                   },
                 )
             ],
