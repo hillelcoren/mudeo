@@ -442,6 +442,7 @@ class ArtistPage extends StatelessWidget {
                                         showDialog(
                                             context: context,
                                             barrierDismissible: false,
+                                            useRootNavigator: true,
                                             builder: (BuildContext context) {
                                               return SongJoinDialog();
                                             });
