@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
+import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
 import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
@@ -43,8 +44,13 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
     final store = StoreProvider.of<AppState>(context);
     final Completer<SongEntity> completer = Completer<SongEntity>();
     completer.future.then((song) {
-      print('## completer: $song');
       store.dispatch(LoadSongs(force: true, clearCache: true));
+    }).catchError((Object error) {
+      showDialog<ErrorDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorDialog('Invalid secret');
+          });
     });
 
     store.dispatch(JoinSongRequest(
