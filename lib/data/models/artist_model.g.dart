@@ -122,6 +122,12 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add(serializers.serialize(object.orderExpires,
             specifiedType: const FullType(String)));
     }
+    if (object.isPaid != null) {
+      result
+        ..add('is_paid')
+        ..add(serializers.serialize(object.isPaid,
+            specifiedType: const FullType(bool)));
+    }
     if (object.songLikes != null) {
       result
         ..add('song_likes')
@@ -245,6 +251,10 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         case 'order_expires':
           result.orderExpires = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
+          break;
+        case 'is_paid':
+          result.isPaid = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
           break;
         case 'song_likes':
           result.songLikes.replace(serializers.deserialize(value,
@@ -494,6 +504,8 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final String orderExpires;
   @override
+  final bool isPaid;
+  @override
   final BuiltList<SongLikeEntity> songLikes;
   @override
   final BuiltList<SongFlagEntity> songFlags;
@@ -528,6 +540,7 @@ class _$ArtistEntity extends ArtistEntity {
       this.website,
       this.orderId,
       this.orderExpires,
+      this.isPaid,
       this.songLikes,
       this.songFlags,
       this.artistFlags,
@@ -564,6 +577,7 @@ class _$ArtistEntity extends ArtistEntity {
         website == other.website &&
         orderId == other.orderId &&
         orderExpires == other.orderExpires &&
+        isPaid == other.isPaid &&
         songLikes == other.songLikes &&
         songFlags == other.songFlags &&
         artistFlags == other.artistFlags &&
@@ -593,19 +607,19 @@ class _$ArtistEntity extends ArtistEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc(0, name.hashCode), handle.hashCode), email.hashCode), token.hashCode),
-                                                                                description.hashCode),
-                                                                            profileImageUrl.hashCode),
-                                                                        headerImageUrl.hashCode),
-                                                                    twitterURL.hashCode),
-                                                                facebookURL.hashCode),
-                                                            instagramURL.hashCode),
-                                                        youTubeURL.hashCode),
-                                                    twitchURL.hashCode),
-                                                soundCloudURL.hashCode),
-                                            website.hashCode),
-                                        orderId.hashCode),
-                                    orderExpires.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc(0, name.hashCode), handle.hashCode), email.hashCode), token.hashCode), description.hashCode),
+                                                                                profileImageUrl.hashCode),
+                                                                            headerImageUrl.hashCode),
+                                                                        twitterURL.hashCode),
+                                                                    facebookURL.hashCode),
+                                                                instagramURL.hashCode),
+                                                            youTubeURL.hashCode),
+                                                        twitchURL.hashCode),
+                                                    soundCloudURL.hashCode),
+                                                website.hashCode),
+                                            orderId.hashCode),
+                                        orderExpires.hashCode),
+                                    isPaid.hashCode),
                                 songLikes.hashCode),
                             songFlags.hashCode),
                         artistFlags.hashCode),
@@ -634,6 +648,7 @@ class _$ArtistEntity extends ArtistEntity {
           ..add('website', website)
           ..add('orderId', orderId)
           ..add('orderExpires', orderExpires)
+          ..add('isPaid', isPaid)
           ..add('songLikes', songLikes)
           ..add('songFlags', songFlags)
           ..add('artistFlags', artistFlags)
@@ -716,6 +731,10 @@ class ArtistEntityBuilder
   String get orderExpires => _$this._orderExpires;
   set orderExpires(String orderExpires) => _$this._orderExpires = orderExpires;
 
+  bool _isPaid;
+  bool get isPaid => _$this._isPaid;
+  set isPaid(bool isPaid) => _$this._isPaid = isPaid;
+
   ListBuilder<SongLikeEntity> _songLikes;
   ListBuilder<SongLikeEntity> get songLikes =>
       _$this._songLikes ??= new ListBuilder<SongLikeEntity>();
@@ -772,6 +791,7 @@ class ArtistEntityBuilder
       _website = _$v.website;
       _orderId = _$v.orderId;
       _orderExpires = _$v.orderExpires;
+      _isPaid = _$v.isPaid;
       _songLikes = _$v.songLikes?.toBuilder();
       _songFlags = _$v.songFlags?.toBuilder();
       _artistFlags = _$v.artistFlags?.toBuilder();
@@ -819,6 +839,7 @@ class ArtistEntityBuilder
               website: website,
               orderId: orderId,
               orderExpires: orderExpires,
+              isPaid: isPaid,
               songLikes: _songLikes?.build(),
               songFlags: _songFlags?.build(),
               artistFlags: _artistFlags?.build(),

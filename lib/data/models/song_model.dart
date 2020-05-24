@@ -121,12 +121,20 @@ abstract class SongEntity extends Object
   @BuiltValueField(wireName: 'song_videos')
   BuiltList<TrackEntity> get tracks;
 
+  @nullable
+  @BuiltValueField(wireName: 'joined_users')
+  BuiltList<ArtistEntity> get joinedArtists;
+
   BuiltList<CommentEntity> get comments;
 
   String get layout;
 
   @BuiltValueField(wireName: 'is_rendered')
   bool get isRendered;
+
+  @nullable
+  @BuiltValueField(wireName: 'sharing_key')
+  String get sharingKey;
 
   @override
   String get listDisplayName {

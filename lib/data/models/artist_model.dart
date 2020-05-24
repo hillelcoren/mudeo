@@ -98,6 +98,10 @@ abstract class ArtistEntity extends Object
   String get orderExpires;
 
   @nullable
+  @BuiltValueField(wireName: 'is_paid')
+  bool get isPaid;
+
+  @nullable
   @BuiltValueField(wireName: 'song_likes')
   BuiltList<SongLikeEntity> get songLikes;
 

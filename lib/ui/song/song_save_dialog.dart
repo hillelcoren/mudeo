@@ -36,6 +36,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   List<TextEditingController> _controllers = [];
   bool isSaving = false;
   bool isPublic = true;
+  bool sharingEnabled = false;
+  bool sharingGroupEnabled = false;
   int selectedStackIndex = kStackIndexForm;
   int selectedGenreId = 0;
   String songUrl;

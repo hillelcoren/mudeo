@@ -154,6 +154,19 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add(serializers.serialize(object.twitterId,
             specifiedType: const FullType(String)));
     }
+    if (object.joinedArtists != null) {
+      result
+        ..add('joined_users')
+        ..add(serializers.serialize(object.joinedArtists,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ArtistEntity)])));
+    }
+    if (object.sharingKey != null) {
+      result
+        ..add('sharing_key')
+        ..add(serializers.serialize(object.sharingKey,
+            specifiedType: const FullType(String)));
+    }
     if (object.id != null) {
       result
         ..add('id')
@@ -284,6 +297,12 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
                       BuiltList, const [const FullType(TrackEntity)]))
               as BuiltList<Object>);
           break;
+        case 'joined_users':
+          result.joinedArtists.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ArtistEntity)]))
+              as BuiltList<Object>);
+          break;
         case 'comments':
           result.comments.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
@@ -297,6 +316,10 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'is_rendered':
           result.isRendered = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'sharing_key':
+          result.sharingKey = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -1186,11 +1209,15 @@ class _$SongEntity extends SongEntity {
   @override
   final BuiltList<TrackEntity> tracks;
   @override
+  final BuiltList<ArtistEntity> joinedArtists;
+  @override
   final BuiltList<CommentEntity> comments;
   @override
   final String layout;
   @override
   final bool isRendered;
+  @override
+  final String sharingKey;
   @override
   final int id;
   @override
@@ -1226,9 +1253,11 @@ class _$SongEntity extends SongEntity {
       this.twitterId,
       this.thumbnailUrl,
       this.tracks,
+      this.joinedArtists,
       this.comments,
       this.layout,
       this.isRendered,
+      this.sharingKey,
       this.id,
       this.deletedAt,
       this.updatedAt})
@@ -1318,9 +1347,11 @@ class _$SongEntity extends SongEntity {
         twitterId == other.twitterId &&
         thumbnailUrl == other.thumbnailUrl &&
         tracks == other.tracks &&
+        joinedArtists == other.joinedArtists &&
         comments == other.comments &&
         layout == other.layout &&
         isRendered == other.isRendered &&
+        sharingKey == other.sharingKey &&
         id == other.id &&
         deletedAt == other.deletedAt &&
         updatedAt == other.updatedAt;
@@ -1346,23 +1377,23 @@ class _$SongEntity extends SongEntity {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), color.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode), parentId.hashCode), duration.hashCode),
-                                                                                blurhash.hashCode),
-                                                                            countPlay.hashCode),
-                                                                        countLike.hashCode),
-                                                                    isFlagged.hashCode),
-                                                                isPublic.hashCode),
-                                                            isApproved.hashCode),
-                                                        isFeatured.hashCode),
-                                                    videoUrl.hashCode),
-                                                trackVideoUrl.hashCode),
-                                            youTubeId.hashCode),
-                                        twitterId.hashCode),
-                                    thumbnailUrl.hashCode),
-                                tracks.hashCode),
-                            comments.hashCode),
-                        layout.hashCode),
-                    isRendered.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, title.hashCode), description.hashCode), url.hashCode), width.hashCode), height.hashCode), color.hashCode), artistId.hashCode), artist.hashCode), genreId.hashCode), parentId.hashCode), duration.hashCode), blurhash.hashCode), countPlay.hashCode),
+                                                                                countLike.hashCode),
+                                                                            isFlagged.hashCode),
+                                                                        isPublic.hashCode),
+                                                                    isApproved.hashCode),
+                                                                isFeatured.hashCode),
+                                                            videoUrl.hashCode),
+                                                        trackVideoUrl.hashCode),
+                                                    youTubeId.hashCode),
+                                                twitterId.hashCode),
+                                            thumbnailUrl.hashCode),
+                                        tracks.hashCode),
+                                    joinedArtists.hashCode),
+                                comments.hashCode),
+                            layout.hashCode),
+                        isRendered.hashCode),
+                    sharingKey.hashCode),
                 id.hashCode),
             deletedAt.hashCode),
         updatedAt.hashCode));
@@ -1395,9 +1426,11 @@ class _$SongEntity extends SongEntity {
           ..add('twitterId', twitterId)
           ..add('thumbnailUrl', thumbnailUrl)
           ..add('tracks', tracks)
+          ..add('joinedArtists', joinedArtists)
           ..add('comments', comments)
           ..add('layout', layout)
           ..add('isRendered', isRendered)
+          ..add('sharingKey', sharingKey)
           ..add('id', id)
           ..add('deletedAt', deletedAt)
           ..add('updatedAt', updatedAt))
@@ -1507,6 +1540,12 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _$this._tracks ??= new ListBuilder<TrackEntity>();
   set tracks(ListBuilder<TrackEntity> tracks) => _$this._tracks = tracks;
 
+  ListBuilder<ArtistEntity> _joinedArtists;
+  ListBuilder<ArtistEntity> get joinedArtists =>
+      _$this._joinedArtists ??= new ListBuilder<ArtistEntity>();
+  set joinedArtists(ListBuilder<ArtistEntity> joinedArtists) =>
+      _$this._joinedArtists = joinedArtists;
+
   ListBuilder<CommentEntity> _comments;
   ListBuilder<CommentEntity> get comments =>
       _$this._comments ??= new ListBuilder<CommentEntity>();
@@ -1520,6 +1559,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   bool _isRendered;
   bool get isRendered => _$this._isRendered;
   set isRendered(bool isRendered) => _$this._isRendered = isRendered;
+
+  String _sharingKey;
+  String get sharingKey => _$this._sharingKey;
+  set sharingKey(String sharingKey) => _$this._sharingKey = sharingKey;
 
   int _id;
   int get id => _$this._id;
@@ -1561,9 +1604,11 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
       _twitterId = _$v.twitterId;
       _thumbnailUrl = _$v.thumbnailUrl;
       _tracks = _$v.tracks?.toBuilder();
+      _joinedArtists = _$v.joinedArtists?.toBuilder();
       _comments = _$v.comments?.toBuilder();
       _layout = _$v.layout;
       _isRendered = _$v.isRendered;
+      _sharingKey = _$v.sharingKey;
       _id = _$v.id;
       _deletedAt = _$v.deletedAt;
       _updatedAt = _$v.updatedAt;
@@ -1615,9 +1660,11 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               twitterId: twitterId,
               thumbnailUrl: thumbnailUrl,
               tracks: tracks.build(),
+              joinedArtists: _joinedArtists?.build(),
               comments: comments.build(),
               layout: layout,
               isRendered: isRendered,
+              sharingKey: sharingKey,
               id: id,
               deletedAt: deletedAt,
               updatedAt: updatedAt);
@@ -1629,6 +1676,8 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
         _$failedField = 'tracks';
         tracks.build();
+        _$failedField = 'joinedArtists';
+        _joinedArtists?.build();
         _$failedField = 'comments';
         comments.build();
       } catch (e) {

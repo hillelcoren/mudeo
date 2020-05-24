@@ -20,6 +20,7 @@ import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list_vm.dart';
+import 'package:mudeo/ui/song/song_share.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:chewie/chewie.dart';
 import 'package:share/share.dart';
@@ -521,7 +522,11 @@ class SongFooter extends StatelessWidget {
                 return;
               } else if (action == localization.shareSong ||
                   action == localization.shareDance) {
-                Share.share(song.url);
+                showDialog<SongShareDialog>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SongShareDialog(song: song);
+                    });
                 return;
               } else if (action == localization.deleteSong ||
                   action == localization.deleteDance) {

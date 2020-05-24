@@ -58,6 +58,8 @@ dependencies:
   document_analysis: ^0.1.2
   visibility_detector: 0.1.4
   #flutter_ffmpeg: ^0.2.10
+  qr_flutter: ^3.2.0
+  barcode_scan: ^3.0.1
 
 dev_dependencies:
   #flutter_test:
