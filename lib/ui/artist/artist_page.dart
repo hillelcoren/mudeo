@@ -148,6 +148,7 @@ class ArtistPage extends StatelessWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return SimpleDialog(children: <Widget>[
+                            /*
                             SimpleDialogOption(
                               child: Padding(
                                 padding: const EdgeInsets.all(15),
@@ -162,6 +163,7 @@ class ArtistPage extends StatelessWidget {
                                 launch(kGitHubURL, forceSafariVC: false);
                               },
                             ),
+                             */
                             SimpleDialogOption(
                               child: Padding(
                                 padding: const EdgeInsets.all(15),
