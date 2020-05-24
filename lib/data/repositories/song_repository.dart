@@ -170,6 +170,20 @@ class SongRepository {
     return songResponse.data;
   }
 
+  Future<SongEntity> joinSong(AppState state, String secret) async {
+    dynamic response;
+
+    var url = '${state.apiUrl}/join_song';
+    response = await webClient.post(url, state.artist.token,
+        data: json.encode({
+          'sharing_key': secret,
+        }));
+    final SongItemResponse songResponse =
+        serializers.deserializeWith(SongItemResponse.serializer, response);
+
+    return songResponse.data;
+  }
+
   Future<SongEntity> deleteSong(AppState state, SongEntity song) async {
     dynamic response;
 

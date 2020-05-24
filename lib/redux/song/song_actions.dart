@@ -35,8 +35,8 @@ class LoadSongs {
   final bool clearCache;
 }
 
-class JoinSong implements StartLoading {
-  JoinSong({
+class JoinSongRequest implements StartLoading {
+  JoinSongRequest({
     @required this.secret,
     @required this.completer,
   });

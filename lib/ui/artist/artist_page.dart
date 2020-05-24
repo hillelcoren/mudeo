@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/ui/song/song_join.dart';
-import 'package:mudeo/utils/completers.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -471,6 +470,22 @@ class ArtistPage extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(30.0))),
                               ),
+                            if (showSettings)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: RaisedButton(
+                                  child: Text(localization.refresh,
+                                      style: TextStyle(fontSize: 18)),
+                                  onPressed: () =>
+                                      viewModel.onRefreshed(context),
+                                  color: Colors.black87,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 35),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                ),
+                              ),
                             showSettings
                                 ? RaisedButton(
                                     child: Text(localization.options,
@@ -480,8 +495,9 @@ class ArtistPage extends StatelessWidget {
                                     padding: EdgeInsets.symmetric(
                                         vertical: 10, horizontal: 35),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0)))
+                                      borderRadius: BorderRadius.circular(30.0),
+                                    ),
+                                  )
                                 : viewModel.state.isSaving
                                     ? SizedBox(
                                         child: CircularProgressIndicator(),
@@ -508,7 +524,8 @@ class ArtistPage extends StatelessWidget {
                                                 vertical: 10, horizontal: 35),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(30.0))),
+                                                    BorderRadius.circular(
+                                                        30.0))),
                           ],
                         ),
                       ),

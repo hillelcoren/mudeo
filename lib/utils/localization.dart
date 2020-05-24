@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'refresh': 'Refresh',
       'qr_code': 'QR Code',
       'scan': 'Scan',
       'secret': 'Secret',
@@ -721,6 +722,8 @@ class AppLocalization {
   String get qrCode => _localizedValues[locale.toString()]['qr_code'];
 
   String get scan => _localizedValues[locale.toString()]['scan'];
+
+  String get refresh => _localizedValues[locale.toString()]['refresh'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

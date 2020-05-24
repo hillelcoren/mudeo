@@ -16,6 +16,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
   final saveComment = _saveComment(repository);
   final deleteComment = _deleteComment(repository);
   final deleteSong = _deleteSong(repository);
+  final joinSong = _joinSong(repository);
 
   return [
     TypedMiddleware<AppState, LoadSongs>(loadSongs),
@@ -26,6 +27,7 @@ List<Middleware<AppState>> createStoreSongsMiddleware([
     TypedMiddleware<AppState, DeleteCommentRequest>(deleteComment),
     TypedMiddleware<AppState, SaveVideoRequest>(saveVideo),
     TypedMiddleware<AppState, DeleteSongRequest>(deleteSong),
+    TypedMiddleware<AppState, JoinSongRequest>(joinSong),
   ];
 }
 
@@ -240,6 +242,27 @@ Middleware<AppState> _deleteComment(SongRepository repository) {
     }).catchError((Object error) {
       print(error);
       store.dispatch(DeleteCommentFailure(error));
+      if (action.completer != null) {
+        action.completer.completeError(error);
+      }
+    });
+
+    next(action);
+  };
+}
+
+Middleware<AppState> _joinSong(SongRepository repository) {
+  return (Store<AppState> store, dynamic dynamicAction, NextDispatcher next) {
+    final action = dynamicAction as JoinSongRequest;
+
+    repository.joinSong(store.state, action.secret).then((song) {
+      //store.dispatch(DeleteCommentSuccess(comment));
+      if (action.completer != null) {
+        action.completer.complete(song);
+      }
+    }).catchError((Object error) {
+      print(error);
+      //store.dispatch(DeleteCommentFailure(error));
       if (action.completer != null) {
         action.completer.completeError(error);
       }

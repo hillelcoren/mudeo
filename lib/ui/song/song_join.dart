@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
 import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
@@ -37,7 +40,17 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
       secret = _secretController.text.trim();
     }
 
-    print('## SECRET: $secret');
+    final store = StoreProvider.of<AppState>(context);
+    final Completer<SongEntity> completer = Completer<SongEntity>();
+    completer.future.then((song) {
+      print('## completer: $song');
+      store.dispatch(LoadSongs(force: true, clearCache: true));
+    });
+
+    store.dispatch(JoinSongRequest(
+      secret: secret,
+      completer: completer,
+    ));
   }
 
   @override
@@ -131,9 +144,8 @@ class __QrCodeScannerState extends State<_QrCodeScanner> {
 
   void _onQRViewCreate(QRViewController controller) {
     this.controller = controller;
-    if (!mounted) return;
-
     controller.scannedDataStream.listen((scanData) {
+      if (!mounted) return;
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop(scanData);
       }
