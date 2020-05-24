@@ -7,7 +7,10 @@ import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/artist/artist_page.dart';
+import 'package:mudeo/utils/completers.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class ArtistScreen extends StatelessWidget {
@@ -40,16 +43,29 @@ class ArtistPageVM {
     @required this.state,
     @required this.onFollowPressed,
     @required this.onBlockPressed,
+    @required this.onRefreshed,
     @required this.onDeleteAccountPressed,
   });
 
   final AppState state;
   final Function(ArtistEntity) onFollowPressed;
   final Function(ArtistEntity) onBlockPressed;
+  final Function(BuildContext) onRefreshed;
   final Function onDeleteAccountPressed;
 
   static ArtistPageVM fromStore(Store<AppState> store) {
     final state = store.state;
+
+    Future<Null> _handleRefresh(BuildContext context) {
+      if (store.state.isLoading) {
+        return Future<Null>(null);
+      }
+      final completer = snackBarCompleter(
+          context, AppLocalization.of(context).refreshComplete);
+      store.dispatch(
+          LoadSongs(completer: completer, force: true, clearCache: true));
+      return completer.future;
+    }
 
     return ArtistPageVM(
       state: state,
@@ -62,6 +78,7 @@ class ArtistPageVM {
       onDeleteAccountPressed: () {
         store.dispatch(DeleteAccount());
       },
+      onRefreshed: (context) => _handleRefresh(context),
     );
   }
 }
