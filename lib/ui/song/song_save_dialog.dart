@@ -12,6 +12,7 @@ import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/upgrade_dialog.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
+import 'package:mudeo/ui/song/song_share.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -410,27 +411,9 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
             height: 20,
           ),
           if ((song.sharingKey ?? '').isNotEmpty)
-            SizedBox(
-              width: 200,
-              child: RepaintBoundary(
-                key: qrCodeGlobalKey,
-                child: QrImage(
-                  data: song.url,
-                  version: QrVersions.auto,
-                  gapless: false,
-                  backgroundColor: Colors.white,
-                  errorStateBuilder: (cxt, err) {
-                    return Container(
-                      child: Center(
-                        child: Text(
-                          'Something went wrong...',
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+            SongQrCode(
+              song: song,
+              key: qrCodeGlobalKey,
             ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
