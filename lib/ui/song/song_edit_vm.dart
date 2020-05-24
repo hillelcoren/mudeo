@@ -95,7 +95,7 @@ class SongEditVM {
             final songId = uiState.song.id;
             song = state.dataState.songMap[songId];
           }
-          if (state.isDance && !state.artist.ownsSong(song)) {
+          if (state.isDance && !state.artist.belongsToSong(song)) {
             song = song.justKeepFirstTrack;
           }
           store.dispatch(UpdateSong(SongEntity(id: 0)));

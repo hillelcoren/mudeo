@@ -146,7 +146,19 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
             child: Text(localization.close.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
           ),
-        if (_song == null && !_isLoading)
+        if (_song != null)
+          SizedBox()
+        /*
+          FlatButton(
+            child: Text(localization.edit.toUpperCase()),
+            onPressed: () {
+              Navigator.of(context).pop();
+              store.dispatch(EditSong(song: _song, context: context));
+            },
+          )
+          
+         */
+        else if (!_isLoading)
           if (_useQrCode)
             FlatButton(
               child: Text(localization.scan.toUpperCase()),

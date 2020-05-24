@@ -24,7 +24,7 @@ class SongShareDialog extends StatefulWidget {
 class _SongShareDialogState extends State<SongShareDialog> {
   GlobalKey qrCodeGlobalKey = new GlobalKey();
 
-  Future<void> _captureAndSharePng() async {
+  Future<void> _captureAndSharePng(SongEntity song) async {
     final store = StoreProvider.of<AppState>(context);
 
     try {
@@ -35,7 +35,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
       await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
-          text: store.state.appUrl);
+          text: store.state.appUrl + '\n\nSecret: ' + song.sharingKey);
     } catch (e) {
       print(e.toString());
     }
@@ -110,7 +110,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
               Share.text(widget.song.title, widget.song.url, 'text/plain');
             }
 
-            _captureAndSharePng();
+            _captureAndSharePng(widget.song);
           },
         )
       ],

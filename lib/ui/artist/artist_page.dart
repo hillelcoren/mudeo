@@ -472,6 +472,7 @@ class ArtistPage extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(30.0))),
                               ),
+                            /*
                             if (showSettings)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
@@ -488,6 +489,7 @@ class ArtistPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                             */
                             showSettings
                                 ? RaisedButton(
                                     child: Text(localization.options,

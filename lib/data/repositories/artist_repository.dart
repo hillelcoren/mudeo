@@ -17,7 +17,7 @@ class ArtistRepository {
   final WebClient webClient;
 
   Future<ArtistEntity> loadItem(AppState state, int entityId) async {
-    String url = '${state.apiUrl}/users/$entityId?include=songs';
+    String url = '${state.apiUrl}/users/$entityId?include=songs,song_flags,song_likes,following';
 
     final dynamic response = await webClient.get(url, state.artist.token);
 
@@ -53,7 +53,7 @@ class ArtistRepository {
       [EntityAction action]) async {
     final data = serializers.serializeWith(ArtistEntity.serializer, artist);
 
-    var url = '${state.apiUrl}/users/${artist.id}?';
+    var url = '${state.apiUrl}/users/${artist.id}?include=songs,song_flags,song_likes,following';
     if (action != null) {
       url += '&action=' + action.toString();
     }
