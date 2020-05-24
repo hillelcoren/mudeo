@@ -13,6 +13,32 @@ class SongJoinDialog extends StatefulWidget {
 
 class _SongJoinDialogState extends State<SongJoinDialog> {
   bool _useQrCode = false;
+  TextEditingController _secretController;
+  static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _secretController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _secretController.dispose();
+    super.dispose();
+  }
+
+  void _onSubmit({String secret}) {
+    if (secret == null) {
+      if (!_formKey.currentState.validate()) {
+        return;
+      }
+
+      secret = _secretController.text.trim();
+    }
+
+    print('## SECRET: $secret');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,45 +49,49 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
     return AlertDialog(
       title:
           Text(state.isDance ? localization.joinDance : localization.joinSong),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 20),
-            child: ToggleButtons(
-                children: [
-                  Container(
-                    width: 100,
-                    height: 40,
-                    child: Center(child: Text(localization.secret)),
-                  ),
-                  Container(
-                    width: 100,
-                    height: 40,
-                    child: Center(child: Text(localization.qrCode)),
-                  ),
-                ],
-                isSelected: [
-                  !_useQrCode,
-                  _useQrCode
-                ],
-                onPressed: (index) {
-                  setState(() {
-                    _useQrCode = index == 1;
-                  });
-                }),
-          ),
-          if (!_useQrCode)
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: localization.secret,
-                icon: Icon(Icons.lock),
-              ),
-              onChanged: (value) {
-                //
-              },
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 20),
+              child: ToggleButtons(
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 40,
+                      child: Center(child: Text(localization.secret)),
+                    ),
+                    Container(
+                      width: 100,
+                      height: 40,
+                      child: Center(child: Text(localization.qrCode)),
+                    ),
+                  ],
+                  isSelected: [
+                    !_useQrCode,
+                    _useQrCode
+                  ],
+                  onPressed: (index) {
+                    setState(() {
+                      _useQrCode = index == 1;
+                    });
+                  }),
             ),
-        ],
+            if (!_useQrCode)
+              TextFormField(
+                controller: _secretController,
+                decoration: InputDecoration(
+                  labelText: localization.secret,
+                  icon: Icon(Icons.lock),
+                ),
+                validator: (value) => value == null || value.isEmpty
+                    ? localization.pleaseProvideAValue
+                    : null,
+              ),
+          ],
+        ),
       ),
       actions: [
         FlatButton(
@@ -70,22 +100,20 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
         ),
         if (_useQrCode)
           FlatButton(
-            child: Text(localization.scanCode.toUpperCase()),
+            child: Text(localization.scan.toUpperCase()),
             onPressed: () async {
-              final code = await showDialog(
+              final secret = await showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return _QrCodeScanner();
                   });
-              print('## CODE: $code');
+              _onSubmit(secret: secret);
             },
           )
         else
           FlatButton(
             child: Text(localization.save.toUpperCase()),
-            onPressed: () {
-              //
-            },
+            onPressed: () => _onSubmit(),
           )
       ],
     );

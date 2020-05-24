@@ -432,7 +432,7 @@ class ArtistPage extends StatelessWidget {
                           children: <Widget>[
                             if (showSettings)
                               Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.only(bottom: 20),
                                   child: RaisedButton(
                                       child: Text(
                                           state.isDance
@@ -454,7 +454,7 @@ class ArtistPage extends StatelessWidget {
                                               BorderRadius.circular(30.0)))),
                             if (showSettings)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
+                                padding: const EdgeInsets.only(bottom: 20),
                                 child: RaisedButton(
                                     child: Text(localization.editProfile,
                                         style: TextStyle(fontSize: 18)),
