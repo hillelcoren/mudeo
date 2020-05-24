@@ -6,6 +6,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
+import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
 import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
@@ -17,6 +18,8 @@ class SongJoinDialog extends StatefulWidget {
 
 class _SongJoinDialogState extends State<SongJoinDialog> {
   bool _useQrCode = false;
+  bool _isLoading = false;
+  SongEntity _song;
   TextEditingController _secretController;
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -70,70 +73,79 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
           Text(state.isDance ? localization.joinDance : localization.joinSong),
       content: Form(
         key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 20),
-              child: ToggleButtons(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 40,
-                      child: Center(child: Text(localization.secret)),
-                    ),
-                    Container(
-                      width: 100,
-                      height: 40,
-                      child: Center(child: Text(localization.qrCode)),
-                    ),
-                  ],
-                  isSelected: [
-                    !_useQrCode,
-                    _useQrCode
-                  ],
-                  onPressed: (index) {
-                    setState(() {
-                      _useQrCode = index == 1;
-                    });
-                  }),
-            ),
-            if (!_useQrCode)
-              TextFormField(
-                controller: _secretController,
-                decoration: InputDecoration(
-                  labelText: localization.secret,
-                  icon: Icon(Icons.lock),
-                ),
-                validator: (value) => value == null || value.isEmpty
-                    ? localization.pleaseProvideAValue
-                    : null,
-              ),
-          ],
-        ),
+        child: _song != null
+            ? Column(
+                children: [
+                  Text(_song.title),
+                ],
+              )
+            : _isLoading
+                ? LoadingIndicator(height: 200)
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        child: ToggleButtons(
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 40,
+                                child: Center(child: Text(localization.secret)),
+                              ),
+                              Container(
+                                width: 100,
+                                height: 40,
+                                child: Center(child: Text(localization.qrCode)),
+                              ),
+                            ],
+                            isSelected: [
+                              !_useQrCode,
+                              _useQrCode
+                            ],
+                            onPressed: (index) {
+                              setState(() {
+                                _useQrCode = index == 1;
+                              });
+                            }),
+                      ),
+                      if (!_useQrCode)
+                        TextFormField(
+                          controller: _secretController,
+                          decoration: InputDecoration(
+                            labelText: localization.secret,
+                            icon: Icon(Icons.lock),
+                          ),
+                          validator: (value) => value == null || value.isEmpty
+                              ? localization.pleaseProvideAValue
+                              : null,
+                        ),
+                    ],
+                  ),
       ),
       actions: [
         FlatButton(
           child: Text(localization.close.toUpperCase()),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        if (_useQrCode)
-          FlatButton(
-            child: Text(localization.scan.toUpperCase()),
-            onPressed: () async {
-              final secret = await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return _QrCodeScanner();
-                  });
-              _onSubmit(secret: secret);
-            },
-          )
-        else
-          FlatButton(
-            child: Text(localization.save.toUpperCase()),
-            onPressed: () => _onSubmit(),
-          )
+        if (_song == null)
+          if (_useQrCode)
+            FlatButton(
+              child: Text(localization.scan.toUpperCase()),
+              onPressed: () async {
+                final secret = await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _QrCodeScanner();
+                    });
+                _onSubmit(secret: secret);
+              },
+            )
+          else
+            FlatButton(
+              child: Text(localization.save.toUpperCase()),
+              onPressed: () => _onSubmit(),
+            )
       ],
     );
   }
