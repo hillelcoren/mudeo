@@ -23,7 +23,6 @@ import 'package:mudeo/ui/song/song_list_vm.dart';
 import 'package:mudeo/ui/song/song_share.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:chewie/chewie.dart';
-import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -456,9 +455,11 @@ class SongFooter extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               final actions = [
                 if (!kIsWeb)
-                  (state.isDance
-                      ? localization.shareDance
-                      : localization.shareSong),
+                  ((song.sharingKey ?? '').isNotEmpty
+                      ? localization.addFriends
+                      : state.isDance
+                          ? localization.shareDance
+                          : localization.shareSong),
                 (kIsWeb)
                     ? localization.openInNewTab
                     : localization.openInBrowser,
@@ -521,7 +522,8 @@ class SongFooter extends StatelessWidget {
                     ViewArtist(context: context, artist: originalArtist));
                 return;
               } else if (action == localization.shareSong ||
-                  action == localization.shareDance) {
+                  action == localization.shareDance ||
+                  action == localization.addFriends) {
                 showDialog<SongShareDialog>(
                     context: context,
                     builder: (BuildContext context) {

@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'add_friends': 'Add Friends',
       'qr_code_help': 'Share the QR code to add collaborators',
       'start': 'Start',
       'calibration_message':
@@ -702,10 +703,9 @@ class AppLocalization {
   String get calibrationWarning =>
       _localizedValues[locale.toString()]['calibration_warning'];
 
-  String get qrCodeHelp =>
-      _localizedValues[locale.toString()]['qr_code_help'];
+  String get qrCodeHelp => _localizedValues[locale.toString()]['qr_code_help'];
 
-
+  String get addFriends => _localizedValues[locale.toString()]['add_friends'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

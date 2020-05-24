@@ -1,6 +1,10 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
@@ -9,6 +13,7 @@ import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/auth/upgrade_dialog.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,6 +38,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   static final int kStackIndexProgress = 1;
   static final int kStackIndexSuccess = 2;
 
+  GlobalKey qrCodeGlobalKey = new GlobalKey();
   List<TextEditingController> _controllers = [];
   bool isSaving = false;
   bool isPublic = true;
@@ -42,6 +48,21 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   int selectedGenreId = 0;
   String songUrl;
   String layout = kVideoLayoutRow;
+
+  Future<void> _captureAndSharePng() async {
+    try {
+      RenderRepaintBoundary boundary =
+          qrCodeGlobalKey.currentContext.findRenderObject();
+      var image = await boundary.toImage();
+      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
+          text: widget.viewModel.state.appUrl);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -388,16 +409,45 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           SizedBox(
             height: 20,
           ),
+          if ((song.sharingKey ?? '').isNotEmpty)
+            SizedBox(
+              width: 200,
+              child: RepaintBoundary(
+                key: qrCodeGlobalKey,
+                child: QrImage(
+                  data: song.url,
+                  version: QrVersions.auto,
+                  gapless: false,
+                  backgroundColor: Colors.white,
+                  errorStateBuilder: (cxt, err) {
+                    return Container(
+                      child: Center(
+                        child: Text(
+                          'Something went wrong...',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               FlatButton(
                 child: Text(
-                  localization.close,
-                  style: TextStyle(fontSize: 18),
+                  localization.close.toLowerCase(),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
+              if ((song.sharingKey ?? '').isNotEmpty)
+                FlatButton(
+                  child: Text(localization.share.toUpperCase()),
+                  onPressed: () {
+                    _captureAndSharePng();
+                  },
+                )
             ],
           ),
         ],
