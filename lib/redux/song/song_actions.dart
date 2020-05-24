@@ -45,6 +45,14 @@ class JoinSongRequest implements StartLoading {
   final Completer completer;
 }
 
+class JoinSongSuccess implements StartLoading {
+  JoinSongSuccess({
+    @required this.song,
+  });
+
+  final SongEntity song;
+}
+
 class LeaveSongRequest implements StartLoading {
   LeaveSongRequest({
     @required this.songId,
@@ -53,6 +61,14 @@ class LeaveSongRequest implements StartLoading {
 
   final int songId;
   final Completer completer;
+}
+
+class LeaveSongSuccess implements StartLoading {
+  LeaveSongSuccess({
+    @required this.songId,
+  });
+
+  final int songId;
 }
 
 class LoadSongsRequest implements StartLoading {}
