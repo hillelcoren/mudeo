@@ -378,7 +378,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     Widget _success() {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Align(
             child: Text(localization.yourSongHasBeenSaved,
@@ -402,7 +402,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 )
               : SizedBox(),
           Padding(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Text(song.isPublic
                 ? localization.videoProcessingHelp
                 : localization.privateSongLinkHelp),
@@ -410,17 +410,40 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           SizedBox(
             height: 20,
           ),
-          if ((song.sharingKey ?? '').isNotEmpty)
-            SongQrCode(
-              song: song,
-              key: qrCodeGlobalKey,
+          if ((song.sharingKey ?? '').isNotEmpty) ...[
+            SizedBox(
+              width: 200,
+              child: RepaintBoundary(
+                key: qrCodeGlobalKey,
+                child: QrImage(
+                  data: song.sharingKey,
+                  version: QrVersions.auto,
+                  gapless: false,
+                  backgroundColor: Colors.white,
+                  errorStateBuilder: (cxt, err) {
+                    return Container(
+                      child: Center(
+                        child: Text(
+                          'Something went wrong...',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 20),
+              child: Text(localization.qrCodeHelp),
+            ),
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               FlatButton(
                 child: Text(
-                  localization.close.toLowerCase(),
+                  localization.close.toUpperCase(),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
