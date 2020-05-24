@@ -48,7 +48,9 @@ Middleware<AppState> _saveSong(SongRepository repository) {
         action.completer.completeError(error);
       });
     } else {
-      repository.saveSong(store.state, action.song.updateOrderByIds).then((song) {
+      repository
+          .saveSong(store.state, action.song.updateOrderByIds)
+          .then((song) {
         if (action.song.isNew) {
           store.dispatch(AddSongSuccess(song));
         } else {
@@ -68,7 +70,6 @@ Middleware<AppState> _saveSong(SongRepository repository) {
 
 Middleware<AppState> _saveVideo(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-
     if (store.state.isSaving) {
       next(action);
     }
@@ -110,8 +111,17 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
     store.dispatch(LoadSongsRequest());
     repository.loadList(state, updatedAt).then((data) {
       store.dispatch(LoadSongsSuccess(data));
-      if (action.completer != null) {
-        action.completer.complete(null);
+      if (state.authState.hasValidToken) {
+        repository.loadUserList(state, updatedAt).then((data) {
+          store.dispatch(LoadSongsSuccess(data));
+          if (action.completer != null) {
+            action.completer.complete(null);
+          }
+        });
+      } else {
+        if (action.completer != null) {
+          action.completer.complete(null);
+        }
       }
     }).catchError((Object error) {
       print(error);

@@ -18,7 +18,7 @@ DataState loadSongsSuccessReducer(
   return dataState.rebuild((b) => b
     ..songsUpdateAt = DateTime.now().millisecondsSinceEpoch
     ..songsFailedAt = 0
-    ..songMap.replace(Map.fromIterable(
+    ..songMap.addAll(Map.fromIterable(
       action.songs,
       key: (dynamic item) => item.id,
       value: (dynamic item) => item,

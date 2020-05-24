@@ -16,7 +16,6 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/utils/platforms.dart';
-import 'package:mudeo/ui/app/web_video_player.dart';
 import 'package:mudeo/ui/app/first_interaction.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/ui/song/paged/cached_view_pager.dart';

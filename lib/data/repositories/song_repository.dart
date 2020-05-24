@@ -16,15 +16,26 @@ class SongRepository {
 
   final WebClient webClient;
 
-  Future<BuiltList<SongEntity>> loadList(AppState state,  int updatedAt) async {
+  Future<BuiltList<SongEntity>> loadList(AppState state, int updatedAt) async {
+    String url =
+        '${state.apiUrl}/open_songs?include=user,comments.user&sort=id|desc';
 
-    String url = state.apiUrl;
-
-    if (state.authState.hasValidToken) {
-      url = '$url/songs?include=user,comments.user&sort=id|desc';
-    } else {
-      url = '$url/open_songs?include=user,comments.user&sort=id|desc';
+    if (updatedAt > 0) {
+      url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
     }
+
+    final dynamic response = await webClient.get(url, state.artist.token);
+
+    final SongListResponse songResponse =
+        serializers.deserializeWith(SongListResponse.serializer, response);
+
+    return songResponse.data;
+  }
+
+  Future<BuiltList<SongEntity>> loadUserList(
+      AppState state, int updatedAt) async {
+    String url =
+        '${state.apiUrl}/user_songs?include=user,comments.user&sort=id|desc';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
@@ -52,7 +63,8 @@ class SongRepository {
       if (action != null) {
         url += '&action=' + action.toString();
       }
-      response = await webClient.put(url, state.artist.token, json.encode(data));
+      response =
+          await webClient.put(url, state.artist.token, json.encode(data));
     }
 
     final SongItemResponse songResponse =
@@ -80,7 +92,8 @@ class SongRepository {
       if (action != null) {
         url += '?action=' + action.toString();
       }
-      response = await webClient.put(url, state.artist.token, json.encode(data));
+      response =
+          await webClient.put(url, state.artist.token, json.encode(data));
     }
 
     final VideoItemResponse songResponse =
@@ -115,7 +128,7 @@ class SongRepository {
   }
 
   Future<CommentEntity> deleteComment(
-  AppState state, CommentEntity comment) async {
+      AppState state, CommentEntity comment) async {
     dynamic response;
 
     response = await webClient.delete(
@@ -157,15 +170,14 @@ class SongRepository {
     return songResponse.data;
   }
 
-  Future<SongEntity> deleteSong(
-      AppState state, SongEntity song) async {
+  Future<SongEntity> deleteSong(AppState state, SongEntity song) async {
     dynamic response;
 
     response = await webClient.delete(
         '${state.apiUrl}/songs/${song.id}', state.artist.token);
 
     final SongItemResponse songResponse =
-    serializers.deserializeWith(SongItemResponse.serializer, response);
+        serializers.deserializeWith(SongItemResponse.serializer, response);
 
     return songResponse.data;
   }
