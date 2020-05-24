@@ -18,7 +18,7 @@ class SongRepository {
 
   Future<BuiltList<SongEntity>> loadList(AppState state, int updatedAt) async {
     String url =
-        '${state.apiUrl}/open_songs?include=user,comments.user&sort=id|desc';
+        '${state.apiUrl}/open_songs?include=user,comments.user,joined_users&sort=id|desc';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';
@@ -35,7 +35,7 @@ class SongRepository {
   Future<BuiltList<SongEntity>> loadUserList(
       AppState state, int updatedAt) async {
     String url =
-        '${state.apiUrl}/user_songs?include=user,comments.user&sort=id|desc';
+        '${state.apiUrl}/user_songs?include=user,comments.user,joined_users&sort=id|desc';
 
     if (updatedAt > 0) {
       url += '&updated_at=${updatedAt - kUpdatedAtBufferSeconds}';

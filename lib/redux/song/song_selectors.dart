@@ -16,7 +16,16 @@ List<int> songIdsSelector(
     final song = songMap[songId];
 
     if (filterArtistId != null) {
-      if (song.artistId != filterArtistId) {
+      bool isMatch = false;
+
+      if (song.artistId == filterArtistId) {
+        isMatch = true;
+      } else if (song.joinedArtists
+          .any((artist) => artist.id == filterArtistId)) {
+        isMatch = true;
+      }
+
+      if (!isMatch) {
         return false;
       }
     } else {
