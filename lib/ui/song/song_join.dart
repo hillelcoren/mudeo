@@ -86,7 +86,13 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
         key: _formKey,
         child: _song != null
             ? Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(state.isDance
+                      ? localization.joinedDance
+                      : localization.joinedSong),
+                  SizedBox(height: 16),
                   Text(_song.title),
                 ],
               )
@@ -135,11 +141,12 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
                   ),
       ),
       actions: [
-        FlatButton(
-          child: Text(localization.close.toUpperCase()),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        if (_song == null)
+        if (!_isLoading)
+          FlatButton(
+            child: Text(localization.close.toUpperCase()),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        if (_song == null && !_isLoading)
           if (_useQrCode)
             FlatButton(
               child: Text(localization.scan.toUpperCase()),
