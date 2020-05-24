@@ -44,11 +44,22 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
       secret = _secretController.text.trim();
     }
 
+    setState(() {
+      _isLoading = true;
+    });
+
     final store = StoreProvider.of<AppState>(context);
     final Completer<SongEntity> completer = Completer<SongEntity>();
     completer.future.then((song) {
+      setState(() {
+        _isLoading = false;
+        _song = song;
+      });
       store.dispatch(LoadSongs(force: true, clearCache: true));
     }).catchError((Object error) {
+      setState(() {
+        _isLoading = false;
+      });
       showDialog<ErrorDialog>(
           context: context,
           builder: (BuildContext context) {
@@ -133,12 +144,19 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
             FlatButton(
               child: Text(localization.scan.toUpperCase()),
               onPressed: () async {
-                final secret = await showDialog(
+                showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return _QrCodeScanner();
+                      return _QrCodeScanner(
+                        onScanned: (value) {
+                          if (_isLoading) {
+                            return;
+                          }
+                          Navigator.of(context).pop();
+                          _onSubmit(secret: value);
+                        },
+                      );
                     });
-                _onSubmit(secret: secret);
               },
             )
           else
@@ -152,6 +170,10 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
 }
 
 class _QrCodeScanner extends StatefulWidget {
+  const _QrCodeScanner({@required this.onScanned});
+
+  final Function(String) onScanned;
+
   @override
   __QrCodeScannerState createState() => __QrCodeScannerState();
 }
@@ -163,10 +185,13 @@ class __QrCodeScannerState extends State<_QrCodeScanner> {
   void _onQRViewCreate(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
+      widget.onScanned(scanData);
+      /*
       if (!mounted) return;
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop(scanData);
-      }
+      }      
+       */
     });
   }
 
