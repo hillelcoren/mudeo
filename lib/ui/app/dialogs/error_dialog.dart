@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
+import 'package:mudeo/ui/app/app_button.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class ErrorDialog extends StatelessWidget {
@@ -25,7 +25,7 @@ class ErrorDialog extends StatelessWidget {
                   SizedBox(height: 20.0),
                   Text(error.toString()),
                   SizedBox(height: 40.0),
-                  ElevatedButton(
+                  AppButton(
                     onPressed: () => Navigator.of(context).pop(),
                     label: localization.dismiss,
                   ),

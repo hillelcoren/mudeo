@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 
-class ElevatedButton extends StatelessWidget {
-  const ElevatedButton({
+class AppButton extends StatelessWidget {
+  const AppButton({
     @required this.label,
     @required this.onPressed,
     this.icon,

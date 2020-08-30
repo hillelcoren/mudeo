@@ -4,7 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/ui/app/link_text.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
+import 'package:mudeo/ui/app/app_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -364,7 +364,7 @@ class _LoginState extends State<LoginScreen> {
                   isOneTimePassword && !viewModel.isLoading
                       ? Padding(
                           padding: EdgeInsets.only(top: 12, bottom: 12),
-                          child: ElevatedButton(
+                          child: AppButton(
                             label: localization.cancel.toUpperCase(),
                             color: Colors.grey,
                             onPressed: () {

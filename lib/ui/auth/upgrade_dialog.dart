@@ -9,7 +9,7 @@ import 'package:mudeo/data/web_client.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
+import 'package:mudeo/ui/app/app_button.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -223,7 +223,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
                 onTap: () => redeemPurchase(purchase),
               )),
         if (_purchases != null)
-          ElevatedButton(
+          AppButton(
             label: _showPastPurchases
                 ? localization.back
                 : localization.pastPurchases,

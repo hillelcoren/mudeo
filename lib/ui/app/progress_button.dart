@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mudeo/ui/app/elevated_button.dart';
+import 'package:mudeo/ui/app/app_button.dart';
 
 class ProgressButton extends StatelessWidget {
   const ProgressButton({
@@ -37,7 +37,7 @@ class ProgressButton extends StatelessWidget {
           ),
         ),
       )
-          : ElevatedButton(
+          : AppButton(
         width: width,
         label: label,
         icon: icon,

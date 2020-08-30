@@ -76,7 +76,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
       final Directory directory = await getApplicationDocumentsDirectory();
       final String folder = '${directory.path}/calibrate';
       await Directory(folder).create(recursive: true);
-      final audioPath = '$folder/data.txt';
+      //final audioPath = '$folder/data.txt';
 
       /*
       final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
