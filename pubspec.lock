@@ -111,10 +111,10 @@ packages:
     description:
       path: "packages/camera"
       ref: HEAD
-      resolved-ref: "8b4e1efa0b03db4e88d958829931cdd17c8e48fd"
+      resolved-ref: "3da63c97de76731cebf82ead7391b78b5ea4763f"
       url: "git://github.com/hillelcoren/plugins.git"
     source: git
-    version: "0.5.8+1"
+    version: "0.5.8+5"
   carousel_slider:
     dependency: transitive
     description:
