@@ -166,6 +166,7 @@ abstract class ArtistEntity extends Object
   bool isFollowing(int artistId) => getFollowing(artistId) != null;
 
   bool get hasPrivateStorage {
+
     if ((orderExpires ?? '').isEmpty) {
       return false;
     }

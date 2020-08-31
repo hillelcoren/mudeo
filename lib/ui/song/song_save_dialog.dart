@@ -274,7 +274,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
                   children: <Widget>[
-                    if (state.isDance || Platform.isIOS)
+                    if (state.isDance || song.isPublic)
                       IconText(
                         icon: Icons.public,
                         text: localization.public,
@@ -299,7 +299,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             ),
                           ],
                           onChanged: (value) {
-                            if (state.artist.hasPrivateStorage) {
+                            if (true || state.artist.hasPrivateStorage) {
                               setState(() => isPublic = value);
                               _onChanged();
                             } else {
