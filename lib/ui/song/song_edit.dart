@@ -524,11 +524,11 @@ class _SongEditState extends State<SongEdit> {
       videoPlayer.pause();
     }
 
-    //int minDelay = 0;
+    int minDelay = 0;
     int maxDelay = 0;
     final tracks = widget.viewModel.song.includedTracks;
     for (final track in tracks) {
-      //if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
+      if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
       if ((track.delay ?? 0) > maxDelay) maxDelay = track.delay;
     }
 
@@ -544,12 +544,20 @@ class _SongEditState extends State<SongEdit> {
       }
       final player = entry.value;
 
-      //final delay = Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
-      //player.seekTo(Duration.zero);
-      //Future.delayed(delay, () => player.play());
-
-      player.seekTo(Duration(milliseconds: maxDelay - (track.delay ?? 0)));
-      player.play();
+      if ((widget.viewModel.state.artist.description ?? '')
+          .contains('#sync_beta')) {
+        player.seekTo(Duration(milliseconds: maxDelay - (track.delay ?? 0)));
+        player.play();
+      } else {
+        final delay =
+            Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
+        player.seekTo(Duration.zero);
+        if (delay == 0) {
+          player.play();
+        } else {
+          Future.delayed(delay, () => player.play());
+        }
+      }
 
       if (widget.viewModel.state.isDance && !isFirst) {
         player.setVolume(0);
