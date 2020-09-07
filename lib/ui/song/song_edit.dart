@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:built_collection/built_collection.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -458,7 +459,13 @@ class _SongEditState extends State<SongEdit> {
       await camera.initialize();
     }
 
-    final volumeData = await FfmpegUtils.calculateVolumeData(path);
+    BuiltMap<String, double> volumeData;
+    try {
+      volumeData = await FfmpegUtils.calculateVolumeData(path);
+    } catch (error) {
+      // do nothing
+    }
+
     final video = VideoEntity().rebuild((b) => b
       ..timestamp = timestamp
       ..volumeData.replace(volumeData));
