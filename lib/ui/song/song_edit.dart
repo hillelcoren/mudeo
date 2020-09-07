@@ -419,8 +419,10 @@ class _SongEditState extends State<SongEdit> {
       () => saveRecording(),
     );
 
-    camera.startVideoRecording(path);
-    play();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      camera.startVideoRecording(path);
+      play();
+    });
   }
 
   Future stopRecording() async {
