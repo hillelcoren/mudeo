@@ -433,15 +433,15 @@ class _SongListItemState extends State<_SongListItem>
                               song: song,
                             ),
                           ),
-                          if (kIsWeb)
-                            Row(
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: kIsWeb ? 0 : 60),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                if (!isDesktop(context))
+                                if (!isDesktop(context) && kIsWeb)
                                   FlatButton(
-                                    child:
-                                        Text('Apple App Store'.toUpperCase()),
+                                    child: Text('Apple App Store'.toUpperCase()),
                                     onPressed: () {
                                       launch(
                                           state.isDance
@@ -465,7 +465,7 @@ class _SongListItemState extends State<_SongListItem>
                                   )
                                 else
                                   Expanded(child: SizedBox()),
-                                if (!isDesktop(context))
+                                if (!isDesktop(context) && kIsWeb)
                                   FlatButton(
                                     child:
                                         Text('Google Play Store'.toUpperCase()),
@@ -479,6 +479,7 @@ class _SongListItemState extends State<_SongListItem>
                                   ),
                               ],
                             ),
+                          ),
                         ],
                       ),
                     ),

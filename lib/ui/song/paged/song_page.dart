@@ -37,7 +37,8 @@ class SongPage extends StatelessWidget {
         left: 15,
         top: 15,
         right: 15,
-        bottom: 15 + MediaQuery.of(context).padding.bottom,
+        //bottom: 15 + MediaQuery.of(context).padding.bottom,
+        bottom: 15,
       ),
       child: Row(
         children: <Widget>[
