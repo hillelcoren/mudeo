@@ -22,8 +22,8 @@ class TrackSyncer extends StatefulWidget {
 }
 
 class _TrackSyncerState extends State<TrackSyncer> {
-  double _zoomLevel = 3;
-  double _timeSpan = 7;
+  double _zoomLevel = 2;
+  double _timeSpan = 9;
   int _timeStart = 0;
   bool _isSyncing = false;
   int _delay;
