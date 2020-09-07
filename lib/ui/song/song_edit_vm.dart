@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:built_collection/built_collection.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';

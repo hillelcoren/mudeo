@@ -57,7 +57,7 @@ class FfmpegUtils {
     }
 
     times.forEach((key, value) {
-      obj = obj.rebuild((b) => b['${key.toInt()}'] = value);
+      obj = obj.rebuild((b) => b['${key.toInt()}'] = max - value);
     });
 
     return obj;
