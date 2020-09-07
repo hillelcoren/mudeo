@@ -18,6 +18,7 @@ import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
 import 'package:mudeo/utils/dialogs.dart';
+import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/posenet.dart';
 import 'package:mudeo/utils/strings.dart';
@@ -457,8 +458,13 @@ class _SongEditState extends State<SongEdit> {
       await camera.initialize();
     }
 
-    final video = VideoEntity().rebuild((b) => b..timestamp = timestamp);
+    final volumeData = await FfmpegUtils.calculateVolumeData(path);
+    final video = VideoEntity().rebuild((b) => b
+      ..timestamp = timestamp
+      ..volumeData.replace(volumeData));
+
     final duration = endTimestamp - timestamp;
+
     final trackId = await widget.viewModel.onVideoAdded(video, duration);
 
     setState(() {
@@ -507,7 +513,7 @@ class _SongEditState extends State<SongEdit> {
     }
     final data = await convertVideoToRecognitions(
         path: path, duration: duration, delay: delay);
-    widget.viewModel.onVideoUpdated(video, data);
+    widget.viewModel.onVideoRecognitionsUpdated(video, data);
     if (Navigator.of(context).canPop()) {
       Navigator.of(context).pop();
     }
@@ -515,7 +521,8 @@ class _SongEditState extends State<SongEdit> {
     return data;
   }
 
-  void play() {
+  Future play() async {
+    Future future;
     if (videoPlayers.isEmpty) return;
 
     // This is required to get the videos to start playing in sync
@@ -553,7 +560,11 @@ class _SongEditState extends State<SongEdit> {
             Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
         player.seekTo(Duration.zero);
         if (delay == 0) {
-          player.play();
+          if (isFirst) {
+            future = player.play();
+          } else {
+            player.play();
+          }
         } else {
           Future.delayed(delay, () => player.play());
         }
@@ -570,6 +581,8 @@ class _SongEditState extends State<SongEdit> {
       Duration(milliseconds: widget.viewModel.song.duration),
       () => setState(() => isPlaying = false),
     );
+
+    return future;
   }
 
   void stopPlaying() {

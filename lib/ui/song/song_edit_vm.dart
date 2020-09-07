@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:built_collection/built_collection.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -41,7 +42,7 @@ class SongEditVM {
     @required this.onStartRecording,
     @required this.onStopRecording,
     @required this.onVideoAdded,
-    @required this.onVideoUpdated,
+    @required this.onVideoRecognitionsUpdated,
     @required this.onChangedSong,
     @required this.onSavePressed,
     @required this.onNewSongPressed,
@@ -61,7 +62,7 @@ class SongEditVM {
   final Function(int) onStartRecording;
   final Function onStopRecording;
   final Function(VideoEntity, int) onVideoAdded;
-  final Function(VideoEntity, String) onVideoUpdated;
+  final Function(VideoEntity, String) onVideoRecognitionsUpdated;
   final Function(SongEntity) onChangedSong;
   final Function(Completer) onSavePressed;
   final Function(BuildContext) onNewSongPressed;
@@ -112,7 +113,7 @@ class SongEditVM {
         onStopRecording: () {
           store.dispatch(StopRecording());
         },
-        onVideoUpdated: (video, recognitions) {
+        onVideoRecognitionsUpdated: (video, recognitions) {
           store.dispatch(UpdateVideo(
             video: video,
             recognitions: recognitions,

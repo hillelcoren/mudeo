@@ -38,8 +38,8 @@ UIState updateVideoReducer(UIState uiState, UpdateVideo action) {
   }
 
   final index = tracks.indexOf(track);
-  final updatedTrack =
-      track.rebuild((b) => b..video.recognitions = action.recognitions);
+  final updatedTrack = track.rebuild((b) =>
+      b..video.recognitions = action.recognitions ?? track.video.recognitions);
 
   return uiState.rebuild((b) => b..song.tracks[index] = updatedTrack);
 }

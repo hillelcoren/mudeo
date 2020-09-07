@@ -153,6 +153,8 @@ abstract class SongEntity extends Object
 
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
 
+  bool get hasDelay => includedTracks.where((track) => track.delay != 0).isNotEmpty;
+
   String twitterUrl(String handle) =>
       'https://twitter.com/$handle/status/$twitterId';
 
