@@ -100,19 +100,22 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   ScrollController _profileScrollController;
-  PageController _songPageController;
+  PageController _featuredSongsPageController;
+  PageController _unfeaturedSongsPageController;
 
   @override
   void initState() {
     super.initState();
     _profileScrollController = ScrollController();
-    _songPageController = PageController();
+    _featuredSongsPageController = PageController();
+    _unfeaturedSongsPageController = PageController();
   }
 
   @override
   void dispose() {
     _profileScrollController.dispose();
-    _songPageController.dispose();
+    _featuredSongsPageController.dispose();
+    _unfeaturedSongsPageController.dispose();
     super.dispose();
   }
 
@@ -128,13 +131,14 @@ class _MainScreenState extends State<MainScreen> {
             return DesktopScreen(
               viewModel: viewModel,
               profileScrollController: _profileScrollController,
-              songPageController: _songPageController,
+              songPageController: _featuredSongsPageController,
             );
           } else {
             return MobileScreen(
               viewModel: viewModel,
               profileScrollController: _profileScrollController,
-              songPageController: _songPageController,
+              featuredSongsPageController: _featuredSongsPageController,
+              unfeaturedSongsPageController: _unfeaturedSongsPageController,
             );
           }
         }),
@@ -189,12 +193,14 @@ class MobileScreen extends StatelessWidget {
   const MobileScreen({
     @required this.viewModel,
     @required this.profileScrollController,
-    @required this.songPageController,
+    @required this.featuredSongsPageController,
+    @required this.unfeaturedSongsPageController,
   });
 
   final MainScreenVM viewModel;
   final ScrollController profileScrollController;
-  final PageController songPageController;
+  final PageController featuredSongsPageController;
+  final PageController unfeaturedSongsPageController;
 
   @override
   Widget build(BuildContext context) {
@@ -203,17 +209,17 @@ class MobileScreen extends StatelessWidget {
 
     if (kIsWeb) {
       return SongListPagedScreen(
-        pageController: songPageController,
+        pageController: featuredSongsPageController,
       );
     }
 
     List<Widget> _views = [
       SongListPagedScreen(
-        pageController: songPageController,
+        pageController: featuredSongsPageController,
         isFeatured: true,
       ),
       SongListPagedScreen(
-        pageController: songPageController,
+        pageController: unfeaturedSongsPageController,
         isFeatured: false,
       ),
       SongEditScreen(),
@@ -238,7 +244,12 @@ class MobileScreen extends StatelessWidget {
           final currentIndex = state.uiState.selectedTabIndex;
           if (currentIndex == ScreenTabs.LIST_FEATURED &&
               index == ScreenTabs.LIST_FEATURED) {
-            songPageController.animateTo(0,
+            featuredSongsPageController.animateTo(0,
+                duration: Duration(milliseconds: 5),
+                curve: Curves.easeInOutCubic);
+          } else if (currentIndex == ScreenTabs.LIST_ALL &&
+              index == ScreenTabs.LIST_ALL) {
+            unfeaturedSongsPageController.animateTo(0,
                 duration: Duration(milliseconds: 5),
                 curve: Curves.easeInOutCubic);
           } else if (currentIndex == ScreenTabs.PROFILE &&
