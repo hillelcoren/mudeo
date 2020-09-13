@@ -35,7 +35,7 @@ abstract class SongEntity extends Object
       countPlay: 0,
       countLike: 0,
       isFlagged: false,
-      isPublic: false,
+      isPublic: true,
       width: 0,
       height: 0,
       color: '',
@@ -153,7 +153,8 @@ abstract class SongEntity extends Object
 
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
 
-  bool get hasDelay => includedTracks.where((track) => track.delay != 0).isNotEmpty;
+  bool get hasDelay =>
+      includedTracks.where((track) => track.delay != 0).isNotEmpty;
 
   String twitterUrl(String handle) =>
       'https://twitter.com/$handle/status/$twitterId';
