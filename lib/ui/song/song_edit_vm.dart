@@ -133,7 +133,7 @@ class SongEditVM {
           store.dispatch(UpdateSong(song));
         },
         onBackPressed: () {
-          store.dispatch(UpdateTabIndex(ScreenTabs.LIST));
+          store.dispatch(UpdateTabIndex(ScreenTabs.LIST_FEATURED));
         },
         onSavePressed: (completer) {
           final song = store.state.uiState.song;

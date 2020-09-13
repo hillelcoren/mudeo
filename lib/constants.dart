@@ -23,7 +23,7 @@ const String kDanceGoogleStoreUrl = 'https://play.google.com/store/apps/details?
 const String kDanceAppleStoreUrl = 'https://testflight.apple.com/join/JiwFfnH7';
 
 const int kDesktopBreakpoint = 700;
-const int kCountCachedPages = 3;
+const int kCountCachedPages = 2;
 const int kOAuthProviderGoogle = 1;
 
 const String kProductPrivateStorage = 'month_private_storage';

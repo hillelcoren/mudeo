@@ -179,9 +179,10 @@ class _DesktopScreenState extends State<DesktopScreen> {
 }
 
 class ScreenTabs {
-  static const LIST = 0;
-  static const EDIT = 1;
-  static const PROFILE = 2;
+  static const LIST_FEATURED = 0;
+  static const LIST_ALL = 1;
+  static const EDIT = 2;
+  static const PROFILE = 3;
 }
 
 class MobileScreen extends StatelessWidget {
@@ -209,6 +210,11 @@ class MobileScreen extends StatelessWidget {
     List<Widget> _views = [
       SongListPagedScreen(
         pageController: songPageController,
+        isFeatured: true,
+      ),
+      SongListPagedScreen(
+        pageController: songPageController,
+        isFeatured: false,
       ),
       SongEditScreen(),
       if (!kIsWeb)
@@ -230,7 +236,8 @@ class MobileScreen extends StatelessWidget {
         currentIndex: uiState.selectedTabIndex,
         onTap: (index) {
           final currentIndex = state.uiState.selectedTabIndex;
-          if (currentIndex == ScreenTabs.LIST && index == ScreenTabs.LIST) {
+          if (currentIndex == ScreenTabs.LIST_FEATURED &&
+              index == ScreenTabs.LIST_FEATURED) {
             songPageController.animateTo(0,
                 duration: Duration(milliseconds: 5),
                 curve: Curves.easeInOutCubic);
@@ -245,8 +252,15 @@ class MobileScreen extends StatelessWidget {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home,
-                color: currentIndex == ScreenTabs.LIST ? null : Colors.white),
+            icon: Icon(Icons.star,
+                color: currentIndex == ScreenTabs.LIST_FEATURED
+                    ? null
+                    : Colors.white),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people,
+                color:
+                    currentIndex == ScreenTabs.LIST_ALL ? null : Colors.white),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.videocam,

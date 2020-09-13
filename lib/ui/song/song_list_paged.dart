@@ -34,10 +34,11 @@ class SongListPaged extends StatefulWidget {
     Key key,
     @required this.viewModel,
     @required this.pageController,
+    @required this.isFeatured,
   }) : super(key: key);
 
   final SongListPagedVM viewModel;
-
+  final bool isFeatured;
   final PageController pageController;
 
   @override
@@ -56,7 +57,7 @@ class _SongListPagedState extends State<SongListPaged> {
     }
 
     final allSongIds = memoizedSongIds(
-        state.dataState.songMap, state.authState.artist, null, null)
+        state.dataState.songMap, state.authState.artist, widget.isFeatured, null, null)
       ..where((id) {
         final song = state.dataState.songMap[id];
         final hasTracks = song.includedTracks.isNotEmpty;

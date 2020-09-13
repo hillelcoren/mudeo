@@ -14,9 +14,11 @@ class SongListPagedScreen extends StatelessWidget {
   const SongListPagedScreen({
     Key key,
     @required this.pageController,
+    @required this.isFeatured,
   }) : super(key: key);
 
   final PageController pageController;
+  final bool isFeatured;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class SongListPagedScreen extends StatelessWidget {
               return SongListPaged(
                 viewModel: vm,
                 pageController: pageController,
+                isFeatured: isFeatured,
               );
             },
           ),

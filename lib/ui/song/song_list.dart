@@ -71,11 +71,11 @@ class _SongListState extends State<SongList>
     final state = widget.viewModel.state;
 
     final allSongIds = memoizedSongIds(
-        state.dataState.songMap, state.authState.artist, null, null);
+        state.dataState.songMap, state.authState.artist, null, null, null);
     final featureSongIds = memoizedSongIds(state.dataState.songMap,
-        state.authState.artist, null, kSongFilterFeatured);
+        state.authState.artist, null, null, kSongFilterFeatured);
     final newestSongIds = memoizedSongIds(state.dataState.songMap,
-        state.authState.artist, null, kSongFilterNewest);
+        state.authState.artist, null, null, kSongFilterNewest);
 
     return Scaffold(
       appBar: state.isDance
