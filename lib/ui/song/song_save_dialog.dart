@@ -45,7 +45,9 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   bool sharingGroupEnabled = false;
   int selectedStackIndex = kStackIndexForm;
   int selectedGenreId = 0;
+  bool songIsPublic;
   String songUrl;
+  String sharingKey;
   String layout = kVideoLayoutRow;
 
   Future<void> _captureAndSharePng(SongEntity song) async {
@@ -57,8 +59,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
       await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
-          text:
-              widget.viewModel.state.appUrl + '\n\nSecret: ' + song.sharingKey);
+          text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);
     } catch (e) {
       print(e.toString());
     }
@@ -70,7 +71,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       return;
     }
 
-    songUrl = widget.viewModel.song.url;
+    final song = widget.viewModel.song;
+    songIsPublic = song.isPublic;
+    songUrl = song.url;
+    sharingKey = song.sharingKey;
 
     _controllers = [
       _titleController,
@@ -80,7 +84,6 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     _controllers
         .forEach((dynamic controller) => controller.removeListener(_onChanged));
 
-    final song = widget.viewModel.song;
     _titleController.text = song.title;
     _descriptionController.text = song.description;
     selectedGenreId = song.genreId;
@@ -135,6 +138,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     completer.future.then((song) {
       setState(() {
         songUrl = song.url;
+        sharingKey = song.sharingKey;
+        songIsPublic = song.isPublic;
         selectedStackIndex = kStackIndexSuccess;
       });
     }).catchError((Object error) {
@@ -384,38 +389,37 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 style: Theme.of(context).textTheme.headline5),
             alignment: Alignment.centerLeft,
           ),
-          songUrl != null && songUrl.isNotEmpty
-              ? Padding(
-                  padding: EdgeInsets.only(top: 15),
-                  child: FlatButton(
-                    padding: const EdgeInsets.all(0),
-                    onPressed: () {
-                      launch(songUrl, forceSafariVC: false);
-                    },
-                    child: Text(
-                      songUrl.replaceFirst('https://', ''),
-                      style: TextStyle(
-                          fontSize: 20, color: Colors.lightBlueAccent),
-                    ),
-                  ),
-                )
-              : SizedBox(),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 10),
-            child: Text(song.isPublic
-                ? localization.videoProcessingHelp
-                : localization.privateSongLinkHelp),
-          ),
+          if (songUrl != null &&
+              songUrl.isNotEmpty &&
+              songIsPublic == true) ...[
+            Padding(
+              padding: EdgeInsets.only(top: 15),
+              child: FlatButton(
+                padding: const EdgeInsets.all(0),
+                onPressed: () {
+                  launch(songUrl, forceSafariVC: false);
+                },
+                child: Text(
+                  songUrl.replaceFirst('https://', ''),
+                  style: TextStyle(fontSize: 20, color: Colors.lightBlueAccent),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 10),
+              child: Text(localization.videoProcessingHelp),
+            ),
+          ],
           SizedBox(
             height: 20,
           ),
-          if ((song.sharingKey ?? '').isNotEmpty) ...[
+          if ((sharingKey ?? '').isNotEmpty) ...[
             SizedBox(
               width: 200,
               child: RepaintBoundary(
                 key: qrCodeGlobalKey,
                 child: QrImage(
-                  data: song.sharingKey,
+                  data: sharingKey,
                   version: QrVersions.auto,
                   gapless: false,
                   backgroundColor: Colors.white,
@@ -446,7 +450,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              if ((song.sharingKey ?? '').isNotEmpty)
+              if ((sharingKey ?? '').isNotEmpty)
                 FlatButton(
                   child: Text(localization.share.toUpperCase()),
                   onPressed: () {
