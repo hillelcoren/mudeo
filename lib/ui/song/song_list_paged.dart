@@ -56,8 +56,8 @@ class _SongListPagedState extends State<SongListPaged> {
       return LoadingIndicator();
     }
 
-    final allSongIds = memoizedSongIds(
-        state.dataState.songMap, state.authState.artist, widget.isFeatured, null, null)
+    final allSongIds = memoizedSongIds(state.dataState.songMap,
+        state.authState.artist, widget.isFeatured, null, null)
       ..where((id) {
         final song = state.dataState.songMap[id];
         final hasTracks = song.includedTracks.isNotEmpty;
@@ -435,14 +435,17 @@ class _SongListItemState extends State<_SongListItem>
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(bottom: kIsWeb ? 0 : 60),
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    kIsWeb ? 0 : (Platform.isIOS ? 90 : 60)),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 if (!isDesktop(context) && kIsWeb)
                                   FlatButton(
-                                    child: Text('Apple App Store'.toUpperCase()),
+                                    child:
+                                        Text('Apple App Store'.toUpperCase()),
                                     onPressed: () {
                                       launch(
                                           state.isDance
