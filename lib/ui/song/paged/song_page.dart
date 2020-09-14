@@ -115,7 +115,7 @@ class _SongActions extends StatelessWidget {
         SizedBox(height: 2),
         if (!kIsWeb)
           _LargeIconButton(
-            iconData: Icons.videocam,
+            iconData: Icons.video_call,
             onPressed: () {
               final uiSong = state.uiState.song;
               SongEntity newSong = song;
