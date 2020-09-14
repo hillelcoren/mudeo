@@ -284,42 +284,43 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                         text: localization.public,
                       )
                     else
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          items: [
-                            DropdownMenuItem(
-                              child: IconText(
-                                text: localization.public,
-                                icon: Icons.public,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 1),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            items: [
+                              DropdownMenuItem(
+                                child: Text(
+                                  localization.public,
+                                ),
+                                value: true,
                               ),
-                              value: true,
-                            ),
-                            DropdownMenuItem(
-                              child: IconText(
-                                text: localization.private,
-                                icon: Icons.lock,
+                              DropdownMenuItem(
+                                child: Text(
+                                  localization.private,
+                                ),
+                                value: false,
                               ),
-                              value: false,
-                            ),
-                          ],
-                          onChanged: (value) {
-                            if (true || state.artist.hasPrivateStorage) {
-                              setState(() => isPublic = value);
-                              _onChanged();
-                            } else {
-                              setState(() => isPublic = true);
-                              _onChanged();
-                              if (!value) {
-                                Navigator.of(context).pop();
-                                showDialog<UpgradeDialog>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return UpgradeDialog();
-                                    });
+                            ],
+                            onChanged: (value) {
+                              if (true || state.artist.hasPrivateStorage) {
+                                setState(() => isPublic = value);
+                                _onChanged();
+                              } else {
+                                setState(() => isPublic = true);
+                                _onChanged();
+                                if (!value) {
+                                  Navigator.of(context).pop();
+                                  showDialog<UpgradeDialog>(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return UpgradeDialog();
+                                      });
+                                }
                               }
-                            }
-                          },
-                          value: isPublic,
+                            },
+                            value: isPublic,
+                          ),
                         ),
                       ),
                     Spacer(),
