@@ -19,6 +19,7 @@ import 'package:mudeo/utils/web_stub.dart'
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MainScreenBuilder extends StatelessWidget {
   const MainScreenBuilder({Key key}) : super(key: key);
@@ -234,6 +235,7 @@ class MobileScreen extends StatelessWidget {
           LoginScreenBuilder(),
     ];
     final currentIndex = state.uiState.selectedTabIndex;
+    final localization = AppLocalization.of(context);
 
     return CupertinoTabScaffold(
       key: ValueKey(uiState.song.id),
@@ -263,22 +265,32 @@ class MobileScreen extends StatelessWidget {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.star,
+            label: currentIndex == ScreenTabs.LIST_FEATURED
+                ? localization.featured
+                : null,
+            icon: Icon(MdiIcons.trophy,
                 color: currentIndex == ScreenTabs.LIST_FEATURED
                     ? null
                     : Colors.white),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people,
+            label: currentIndex == ScreenTabs.LIST_ALL
+                ? localization.newest
+                : null,
+            icon: Icon(MdiIcons.playlistMusic,
                 color:
                     currentIndex == ScreenTabs.LIST_ALL ? null : Colors.white),
           ),
           BottomNavigationBarItem(
+            label: currentIndex == ScreenTabs.EDIT ? localization.record : null,
             icon: Icon(Icons.videocam,
                 color: currentIndex == ScreenTabs.EDIT ? null : Colors.white),
           ),
           if (!kIsWeb)
             BottomNavigationBarItem(
+              label: currentIndex == ScreenTabs.PROFILE
+                  ? localization.profile
+                  : null,
               icon: Icon(Icons.person,
                   color:
                       currentIndex == ScreenTabs.PROFILE ? null : Colors.white),

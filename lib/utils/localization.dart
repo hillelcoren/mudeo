@@ -737,6 +737,7 @@ class AppLocalization {
 
   String get leaveDance => _localizedValues[locale.toString()]['leave_dance'];
 
+
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
     return _localizedValues[locale.toString()][lookupKey] ??
