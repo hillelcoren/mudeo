@@ -141,7 +141,7 @@ class VideoControllerCollection
 
   void pause() {
     for (final controller in _controllers.values) {
-      if (controller.value.isPlaying) {
+      if (controller.value?.isPlaying == true) {
         controller.pause();
       }
     }
