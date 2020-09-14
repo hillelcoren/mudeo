@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _LoginState extends State<LoginScreen> {
   String _error = '';
 
   bool _showLogin = false;
-  bool _showEmail = false;
+  bool _showEmail = Platform.isIOS ? true : false;
   bool _termsChecked = false;
   bool _autoValidate = false;
 
@@ -206,18 +207,19 @@ class _LoginState extends State<LoginScreen> {
                                 });
                               },
                             ),
-                            _ToggleButtons(
-                              tabLabels: [
-                                'Google',
-                                localization.email,
-                              ],
-                              selectedIndex: _showEmail ? 1 : 0,
-                              onTabChanged: (index) {
-                                setState(() {
-                                  _showEmail = index == 1;
-                                });
-                              },
-                            ),
+                            if (!Platform.isIOS)
+                              _ToggleButtons(
+                                tabLabels: [
+                                  'Google',
+                                  localization.email,
+                                ],
+                                selectedIndex: _showEmail ? 1 : 0,
+                                onTabChanged: (index) {
+                                  setState(() {
+                                    _showEmail = index == 1;
+                                  });
+                                },
+                              ),
                             _showLogin
                                 ? SizedBox()
                                 : TextFormField(
