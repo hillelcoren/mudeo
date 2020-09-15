@@ -24,6 +24,8 @@ PODS:
     - Firebase/Analytics (~> 6.0)
     - Firebase/Core
     - Flutter
+  - firebase_analytics_web (0.1.0):
+    - Flutter
   - firebase_auth (0.0.1):
     - Firebase/Auth (~> 6.3)
     - Firebase/Core
@@ -68,11 +70,14 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.5)
     - PromisesObjC (~> 1.2)
   - Flutter (1.0.0)
+  - flutter_ffmpeg (0.2.10):
+    - Flutter
+    - flutter_ffmpeg/https (= 0.2.10)
+  - flutter_ffmpeg/https (0.2.10):
+    - Flutter
+    - mobile-ffmpeg-https (= 4.3.1)
   - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
-  - flutter_youtube (0.0.1):
-    - Flutter
-    - XCDYouTubeKit
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -134,13 +139,18 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
+  - mobile-ffmpeg-https (4.3.1)
   - MTBBarcodeScanner (5.0.11)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - native_video_view (0.0.1):
+    - Flutter
   - path_provider (0.0.1):
+    - Flutter
+  - path_provider_linux (0.0.1):
     - Flutter
   - path_provider_macos (0.0.1):
     - Flutter
@@ -151,6 +161,8 @@ PODS:
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
+  - shared_preferences_linux (0.0.1):
+    - Flutter
   - shared_preferences_macos (0.0.1):
     - Flutter
   - shared_preferences_web (0.0.1):
@@ -158,14 +170,12 @@ PODS:
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
-  - TensorFlowLite (1.13.1)
-  - tflite (1.0.5):
-    - Flutter
-    - TensorFlowLite
   - twitter_qr_scanner (0.0.1):
     - Flutter
     - MTBBarcodeScanner
   - url_launcher (0.0.1):
+    - Flutter
+  - url_launcher_linux (0.0.1):
     - Flutter
   - url_launcher_macos (0.0.1):
     - Flutter
@@ -180,35 +190,38 @@ PODS:
     - libwebp
   - wakelock (0.0.1):
     - Flutter
-  - XCDYouTubeKit (2.12.0)
 
 DEPENDENCIES:
   - camera (from `.symlinks/plugins/camera/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - esys_flutter_share (from `.symlinks/plugins/esys_flutter_share/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
+  - firebase_analytics_web (from `.symlinks/plugins/firebase_analytics_web/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - Flutter (from `Flutter`)
+  - flutter_ffmpeg (from `.symlinks/plugins/flutter_ffmpeg/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
-  - flutter_youtube (from `.symlinks/plugins/flutter_youtube/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - google_sign_in_web (from `.symlinks/plugins/google_sign_in_web/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
+  - native_video_view (from `.symlinks/plugins/native_video_view/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
   - screen (from `.symlinks/plugins/screen/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - shared_preferences_linux (from `.symlinks/plugins/shared_preferences_linux/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
   - shared_preferences_web (from `.symlinks/plugins/shared_preferences_web/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
-  - tflite (from `.symlinks/plugins/tflite/ios`)
   - twitter_qr_scanner (from `.symlinks/plugins/twitter_qr_scanner/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - url_launcher_linux (from `.symlinks/plugins/url_launcher_linux/ios`)
   - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
   - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
@@ -236,11 +249,10 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - libwebp
+    - mobile-ffmpeg-https
     - MTBBarcodeScanner
     - nanopb
     - PromisesObjC
-    - TensorFlowLite
-    - XCDYouTubeKit
 
 EXTERNAL SOURCES:
   camera:
@@ -251,6 +263,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/esys_flutter_share/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
+  firebase_analytics_web:
+    :path: ".symlinks/plugins/firebase_analytics_web/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_auth_web:
@@ -261,10 +275,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core_web/ios"
   Flutter:
     :path: Flutter
+  flutter_ffmpeg:
+    :path: ".symlinks/plugins/flutter_ffmpeg/ios"
   flutter_plugin_android_lifecycle:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
-  flutter_youtube:
-    :path: ".symlinks/plugins/flutter_youtube/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   google_sign_in_web:
@@ -273,8 +287,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   in_app_purchase:
     :path: ".symlinks/plugins/in_app_purchase/ios"
+  native_video_view:
+    :path: ".symlinks/plugins/native_video_view/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_linux:
+    :path: ".symlinks/plugins/path_provider_linux/ios"
   path_provider_macos:
     :path: ".symlinks/plugins/path_provider_macos/ios"
   screen:
@@ -283,18 +301,20 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  shared_preferences_linux:
+    :path: ".symlinks/plugins/shared_preferences_linux/ios"
   shared_preferences_macos:
     :path: ".symlinks/plugins/shared_preferences_macos/ios"
   shared_preferences_web:
     :path: ".symlinks/plugins/shared_preferences_web/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
-  tflite:
-    :path: ".symlinks/plugins/tflite/ios"
   twitter_qr_scanner:
     :path: ".symlinks/plugins/twitter_qr_scanner/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
+  url_launcher_linux:
+    :path: ".symlinks/plugins/url_launcher_linux/ios"
   url_launcher_macos:
     :path: ".symlinks/plugins/url_launcher_macos/ios"
   url_launcher_web:
@@ -310,14 +330,15 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
-  camera: 38cc83ae9a5667bb5a71c7d9edaf60a91920fd4e
+  camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
   Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
-  firebase_analytics: dacdcfc524d722fff13dcff942f0dfa47e6be567
+  firebase_analytics: 9118044ffb98bee71d84733fc594f5134fe4bc1b
+  firebase_analytics_web: 7d539061ea4af07563a0e21044af89cab70efec0
   firebase_auth: 4ee3a54d3f09434c508c284a62f895a741a30637
   firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
-  firebase_core: 0d8be0e0d14c4902953aeb5ac5d7316d1fe4b978
+  firebase_core: 335c02abd48672b7c83c683df833d0488a72e73e
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
   FirebaseAnalytics: a1a0b3327ceb5cd5b4bacffdb293f6c909aa087d
   FirebaseAuth: a6da11d78dfd956b7f7af3222a0f0b1c93ef8fc9
@@ -327,8 +348,8 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_ffmpeg: cf0a6941ef67e88248c998cc3e34f8acb0b4e454
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
-  flutter_youtube: 142f8d5af0a11963bdc73e13bcae6eb78db746c2
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   google_sign_in_web: 52deb24929ac0992baff65c57956031c44ed44c3
@@ -339,32 +360,34 @@ SPEC CHECKSUMS:
   GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
-  image_picker: 66aa71bc96850a90590a35d4c4a2907b0d823109
+  image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
+  mobile-ffmpeg-https: c4a3c255163ddb1abc4b4dfc613c2d885f8c46eb
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  native_video_view: 02756aebe7ec9d0ab00d039b7aa3756548900bc3
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  shared_preferences_linux: afefbfe8d921e207f01ede8b60373d9e3b566b78
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
-  TensorFlowLite: 8b9dc4eb32eac0f8cb660c66bca7604da56dcc5a
-  tflite: e3f7d0e4086e061e785777ef90e8b958f35ed56b
   twitter_qr_scanner: 692e40e463e8ff233fdb888b09c6404ce8fbb90f
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  url_launcher_linux: ac237cb7a8058736e4aae38bdbcc748a4b394cc0
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   video_player_web: da8cadb8274ed4f8dbee8d7171b420dedd437ce7
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
-  XCDYouTubeKit: cdad9e696f991aac2739c5b25586c81f1301ba30
 
-PODFILE CHECKSUM: 2609452b760cd11039b14039a86564367a3d8ab9
+PODFILE CHECKSUM: 8467b873390da2df6a155ac79d2bc61c4d84fb06
 
 COCOAPODS: 1.8.4
