@@ -56,7 +56,7 @@ def flutter_install_ios_plugin_pods(ios_application_path = nil)
       File.symlink(plugin_path, symlink)
 
       if plugin_name == 'flutter_ffmpeg'
-          pod 'flutter_ffmpeg/min-lts', :path => File.join('.symlinks', 'plugins', plugin_name, 'ios')
+          pod 'flutter_ffmpeg/https-lts', :path => File.join('.symlinks', 'plugins', plugin_name, 'ios')
       else
           pod plugin_name, :path => File.join('.symlinks', 'plugins', plugin_name, 'ios')
       end
