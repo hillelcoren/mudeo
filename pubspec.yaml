@@ -47,7 +47,7 @@ dependencies:
   flutter_xlider: ^2.1.0
   image_picker: ^0.6.4
   chewie: ^0.9.10
-  flutter_youtube: ^2.0.0
+  #flutter_youtube: ^2.0.0
   draggable_scrollbar: ^0.0.4
   flutter_blurhash: ^0.4.0
   in_app_purchase: ^0.3.1+1
