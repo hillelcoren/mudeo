@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:mudeo/constants.dart';
-import 'package:mudeo/utils/formatting.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:tflite/tflite.dart';
+//import 'package:mudeo/constants.dart';
+//import 'package:mudeo/utils/formatting.dart';
+//import 'package:video_thumbnail/video_thumbnail.dart';
+//import 'package:tflite/tflite.dart';
 
 Future<String> convertVideoToRecognitions(
     {String path, int duration, int delay}) async {
   List<dynamic> data = [];
-
+  /*
   int frameLength = kRecognitionFrameSpeed;
 
   for (int i = 0; i < duration; i += frameLength) {
@@ -112,6 +112,7 @@ Future<String> convertVideoToRecognitions(
       ]);
     }
   }
+  */
 
   return jsonEncode(data);
 }
