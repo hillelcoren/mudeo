@@ -209,6 +209,7 @@ class ArtistPage extends StatelessWidget {
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
+                      /*
                       FlutterYoutube.playYoutubeVideoById(
                         apiKey: Config.YOU_TUBE_API_KEY,
                         videoId: state.helpVideoId,
@@ -217,6 +218,9 @@ class ArtistPage extends StatelessWidget {
                         appBarColor: Colors.black12,
                         backgroundColor: Colors.black,
                       );
+                       */
+                      launch(
+                          'https://www.youtube.com/watch?v=${state.helpVideoId}');
                     },
                   ),
                 SimpleDialogOption(
