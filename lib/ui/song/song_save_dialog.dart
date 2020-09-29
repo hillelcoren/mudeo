@@ -278,7 +278,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
                   children: <Widget>[
-                    if (state.isDance)
+                    if (state.isDance || song.isPublic)
                       IconText(
                         icon: Icons.public,
                         text: localization.public,

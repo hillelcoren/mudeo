@@ -265,8 +265,8 @@ class MobileScreen extends StatelessWidget {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: currentIndex == ScreenTabs.LIST_FEATURED
-                ? localization.featured
+            title: currentIndex == ScreenTabs.LIST_FEATURED
+                ? Text(localization.featured)
                 : null,
             icon: Icon(MdiIcons.trophy,
                 color: currentIndex == ScreenTabs.LIST_FEATURED
@@ -274,22 +274,22 @@ class MobileScreen extends StatelessWidget {
                     : Colors.white),
           ),
           BottomNavigationBarItem(
-            label: currentIndex == ScreenTabs.LIST_ALL
-                ? localization.newest
+            title: currentIndex == ScreenTabs.LIST_ALL
+                ? Text(localization.newest)
                 : null,
             icon: Icon(MdiIcons.playlistMusic,
                 color:
                     currentIndex == ScreenTabs.LIST_ALL ? null : Colors.white),
           ),
           BottomNavigationBarItem(
-            label: currentIndex == ScreenTabs.EDIT ? localization.record : null,
+            title: currentIndex == ScreenTabs.EDIT ? Text(localization.record) : null,
             icon: Icon(Icons.videocam,
                 color: currentIndex == ScreenTabs.EDIT ? null : Colors.white),
           ),
           if (!kIsWeb)
             BottomNavigationBarItem(
-              label: currentIndex == ScreenTabs.PROFILE
-                  ? localization.profile
+              title: currentIndex == ScreenTabs.PROFILE
+                  ? Text(localization.profile)
                   : null,
               icon: Icon(Icons.person,
                   color:
