@@ -16,7 +16,7 @@ class SongRender extends StatefulWidget {
 class _SongRenderState extends State<SongRender> {
   ChewieController _chewieController;
   VideoPlayerController _videoPlayerController;
-  bool _hasError;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -58,13 +58,25 @@ class _SongRenderState extends State<SongRender> {
 
     return AlertDialog(
       title: Text(localization.renderingSong),
+      actions: [
+        TextButton(
+            onPressed: () {
+              /*
+              setState(() {
+                _hasError = false;
+              });
+              */
+              Navigator.of(context).pop();
+            },
+            child: Text(localization.close))
+      ],
       content: _hasError
           ? Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.warning,
+                  Icons.error,
                   size: 42,
                 ),
                 SizedBox(height: 16),
