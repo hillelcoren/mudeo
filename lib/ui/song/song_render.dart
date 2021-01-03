@@ -63,7 +63,11 @@ class _SongRenderState extends State<SongRender> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.error),
+                Icon(
+                  Icons.warning,
+                  size: 42,
+                ),
+                SizedBox(height: 16),
                 Text(localization.failedToRender),
               ],
             )
