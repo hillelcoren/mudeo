@@ -64,7 +64,7 @@ class _SongRenderState extends State<SongRender> {
     final localization = AppLocalization.of(context);
 
     return AlertDialog(
-      title: Text(localization.renderingSong),
+      title: Text(localization.creatingVideo),
       actions: [
         TextButton(
             onPressed: () {

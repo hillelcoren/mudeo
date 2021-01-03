@@ -792,7 +792,7 @@ class _SongEditState extends State<SongEdit> {
                                   ),
                         ),
                   ExpandedButton(
-                      icon: Icons.preview,
+                      icon: Icons.movie,
                       onPressed:
                           song.tracks.length < 2 ? null : () => _renderSong())
                 ],

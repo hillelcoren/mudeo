@@ -21,8 +21,8 @@ class AppLocalization {
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
       'failed_to_render':
-          'Failed to render the video on your phone, click \'Save\' to render the video in the cloud instead.',
-      'rendering_song': 'Rendering Song',
+          'Failed to create the video on your phone, click \'Save\' to create the video in the cloud.',
+      'creating_video': 'Creating Video',
       'leave_dance': 'Leave Dance',
       'leave_song': 'Leave Song',
       'joined_dance': 'Successfully joined dance!',
@@ -740,8 +740,8 @@ class AppLocalization {
 
   String get leaveDance => _localizedValues[locale.toString()]['leave_dance'];
 
-  String get renderingSong =>
-      _localizedValues[locale.toString()]['rendering_song'];
+  String get creatingVideo =>
+      _localizedValues[locale.toString()]['creating_video'];
 
   String get failedToRender =>
       _localizedValues[locale.toString()]['failed_to_render'];
