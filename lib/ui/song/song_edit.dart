@@ -715,6 +715,7 @@ class _SongEditState extends State<SongEdit> {
     void _renderSong() {
       showDialog<AlertDialog>(
           context: context,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return SongRender(song: song);
           });

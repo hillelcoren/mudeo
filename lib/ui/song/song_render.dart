@@ -73,43 +73,46 @@ class _SongRenderState extends State<SongRender> {
             child: Text(localization.close.toUpperCase()))
       ],
       content: _hasError
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 15, bottom: 25),
-                  child: Icon(
-                    Icons.error,
-                    size: 42,
-                  ),
-                ),
-                Text(localization.failedToRender),
-              ],
-            )
+          ? _ErrorWidget()
           : _videoPlayerController == null
               ? LinearProgressIndicator()
               : _videoPlayerController.value.hasError
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15, bottom: 25),
-                          child: Icon(
-                            Icons.error,
-                            size: 42,
+                  ? _ErrorWidget(
+                      error: _videoPlayerController.value.errorDescription,
+                    )
+                  : _chewieController == null
+                      ? _ErrorWidget()
+                      : FittedBox(
+                          fit: BoxFit.contain,
+                          child: Chewie(
+                            controller: _chewieController,
                           ),
                         ),
-                        Text(_videoPlayerController.value.errorDescription),
-                      ],
-                    )
-                  : FittedBox(
-                      fit: BoxFit.contain,
-                      child: Chewie(
-                        controller: _chewieController,
-                      ),
-                    ),
+    );
+  }
+}
+
+class _ErrorWidget extends StatelessWidget {
+  const _ErrorWidget({this.error});
+  final String error;
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 15, bottom: 25),
+          child: Icon(
+            Icons.error,
+            size: 42,
+          ),
+        ),
+        Text(error ?? localization.failedToRender),
+      ],
     );
   }
 }
