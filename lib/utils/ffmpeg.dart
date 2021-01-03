@@ -89,7 +89,8 @@ class FfmpegUtils {
     command += '-filter_complex $filter -map \'[v]\' -map \'[a]\' ';
 
     //command += '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
-    command += '-level 3.0 ';
+    command +=
+        '-vcodec \'libx264\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
     command += output;
 
