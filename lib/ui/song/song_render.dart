@@ -1,6 +1,7 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:video_player/video_player.dart';
@@ -42,6 +43,12 @@ class _SongRenderState extends State<SongRender> {
           });
         }
       });
+    }).catchError((error) {
+      showDialog<ErrorDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorDialog(error);
+          });
     });
   }
 
@@ -80,19 +87,29 @@ class _SongRenderState extends State<SongRender> {
                 Text(localization.failedToRender),
               ],
             )
-          : _chewieController == null
+          : _videoPlayerController == null
               ? LinearProgressIndicator()
-              : Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    FittedBox(
+              : _videoPlayerController.value.hasError
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15, bottom: 25),
+                          child: Icon(
+                            Icons.error,
+                            size: 42,
+                          ),
+                        ),
+                        Text(_videoPlayerController.value.errorDescription),
+                      ],
+                    )
+                  : FittedBox(
                       fit: BoxFit.contain,
                       child: Chewie(
                         controller: _chewieController,
                       ),
                     ),
-                  ],
-                ),
     );
   }
 }
