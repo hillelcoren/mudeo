@@ -82,15 +82,11 @@ class FfmpegUtils {
     String filter =
         "${filterVideo}hstack=inputs=${count}[v-pre];[v-pre]scale=${width}:-2[v];";
 
-    //String filter = "[1:v]scale=-2:500[1-scale:v];[0:a]volume=1[0-volume:a];[0:v]scale=-2:500[0-scale:v];[0-scale:v][1-scale:v]hstack=inputs=2[v-pre];[v-pre]scale=1920:-2[v];";
-
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
     command += '-filter_complex $filter -map \'[v]\' -map \'[a]\' ';
-
-    //command += '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
     command +=
-        '-vcodec \'libx264\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
+        '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
     command += output;
 
