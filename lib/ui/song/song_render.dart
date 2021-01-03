@@ -61,25 +61,22 @@ class _SongRenderState extends State<SongRender> {
       actions: [
         TextButton(
             onPressed: () {
-              /*
-              setState(() {
-                _hasError = false;
-              });
-              */
               Navigator.of(context).pop();
             },
-            child: Text(localization.close))
+            child: Text(localization.close.toUpperCase()))
       ],
       content: _hasError
           ? Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.error,
-                  size: 42,
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, bottom: 25),
+                  child: Icon(
+                    Icons.error,
+                    size: 42,
+                  ),
                 ),
-                SizedBox(height: 16),
                 Text(localization.failedToRender),
               ],
             )
