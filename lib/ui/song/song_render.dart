@@ -14,7 +14,6 @@ class SongRender extends StatefulWidget {
 }
 
 class _SongRenderState extends State<SongRender> {
-  String _videoPath;
   ChewieController _chewieController;
   VideoPlayerController _videoPlayerController;
 
@@ -24,8 +23,6 @@ class _SongRenderState extends State<SongRender> {
 
     FfmpegUtils.renderSong(widget.song).then((videoPath) {
       setState(() {
-        _videoPath = videoPath;
-
         _videoPlayerController = VideoPlayerController.network(videoPath);
         _videoPlayerController.initialize().then((_) {
           setState(() {
@@ -55,12 +52,11 @@ class _SongRenderState extends State<SongRender> {
 
     return AlertDialog(
       title: Text(localization.renderingSong),
-      content: _videoPath == null
+      content: _chewieController == null
           ? LinearProgressIndicator()
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('VIDEO: $_videoPath'),
                 FittedBox(
                   fit: BoxFit.contain,
                   child: Chewie(
