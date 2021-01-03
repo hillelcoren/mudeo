@@ -58,7 +58,7 @@ class FfmpegUtils {
 
       final volume = track.volume;
 
-      if (delay > 0) {
+      if (false && delay > 0) {
         /*
                     filterVideo = "[{$count}-scale:v]tpad=start_duration=" . ($delay / 1000) . "[{$count}-delay:v];"
                         . "[{$count}:a]adelay={$delay}|{$delay}[{$count}-delay:a];"
@@ -68,8 +68,7 @@ class FfmpegUtils {
       } else {
         filterVideo = "[$count:a]volume=" +
             (volume / 100).toString() +
-            "[$count-volume:a];" +
-            "$filterVideo[$count-scale:v]";
+            "[$count-volume:a];$filterVideo[$count-scale:v]";
       }
 
       filterAudio += '[$count-volume:a]';
@@ -83,9 +82,11 @@ class FfmpegUtils {
     String filter =
         "${filterVideo}hstack=inputs=${count}[v-pre];[v-pre]scale=${width}:-2[v];";
 
+    //String filter = "[1:v]scale=-2:500[1-scale:v];[0:a]volume=1[0-volume:a];[0:v]scale=-2:500[0-scale:v];[0-scale:v][1-scale:v]hstack=inputs=2[v-pre];[v-pre]scale=1920:-2[v];";
+
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
-    command += '-filter_complex $filter -map "[v]" -map "[A]" ';
+    command += '-filter_complex $filter -map \'[v]\' -map \'[a]\' ';
     command += output;
 
     print('## Command: $command');
