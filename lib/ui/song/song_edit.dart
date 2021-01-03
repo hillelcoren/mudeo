@@ -15,6 +15,7 @@ import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
 import 'package:mudeo/ui/song/add_video.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
+import 'package:mudeo/ui/song/song_render.dart';
 import 'package:mudeo/ui/song/song_save_dialog.dart';
 import 'package:mudeo/ui/song/track_syncer.dart';
 import 'package:mudeo/utils/camera.dart';
@@ -711,6 +712,14 @@ class _SongEditState extends State<SongEdit> {
       }
     }
 
+    void _renderSong() {
+      showDialog<AlertDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            return SongRender(song: song);
+          });
+    }
+
     final bool isFullScreen = state.isDance &&
         (isRecording || countdownTimer > 0) &&
         song.tracks.isNotEmpty;
@@ -781,6 +790,10 @@ class _SongEditState extends State<SongEdit> {
                                         : CameraLensDirection.front,
                                   ),
                         ),
+                  ExpandedButton(
+                      icon: Icons.preview,
+                      onPressed:
+                          song.tracks.length < 2 ? null : () => _renderSong())
                 ],
               ),
             ),

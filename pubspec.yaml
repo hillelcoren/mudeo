@@ -65,6 +65,10 @@ dependencies:
   esys_flutter_share: ^1.0.2
   material_design_icons_flutter: ^4.0.5345
 
+dependency_overrides:
+  # https://github.com/flutter/flutter/issues/70433#issuecomment-727154345
+  intl: ^0.17.0-nullsafety.2
+
 dev_dependencies:
   #flutter_test:
   #  sdk: flutter
