@@ -33,7 +33,7 @@ class FfmpegUtils {
     String filterAudio = '';
     int count = 0;
 
-    final minHeight = 500; // REMOVE
+    final minHeight = 1080; // REMOVE
 
     for (var i = 0; i < song.tracks.length; i++) {
       final track = song.tracks[i];
@@ -87,6 +87,10 @@ class FfmpegUtils {
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
     command += '-filter_complex $filter -map \'[v]\' -map \'[a]\' ';
+
+    //command += '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
+    command += '-level 3.0 ';
+
     command += output;
 
     print('## Command: $command');
