@@ -75,7 +75,10 @@ class _SongRenderState extends State<SongRender> {
       content: _hasError
           ? _ErrorWidget()
           : _videoPlayerController == null
-              ? LinearProgressIndicator()
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: LinearProgressIndicator(),
+                )
               : _videoPlayerController.value.hasError
                   ? _ErrorWidget(
                       error: _videoPlayerController.value.errorDescription,
