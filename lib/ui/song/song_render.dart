@@ -16,25 +16,31 @@ class SongRender extends StatefulWidget {
 class _SongRenderState extends State<SongRender> {
   ChewieController _chewieController;
   VideoPlayerController _videoPlayerController;
+  bool _hasError;
 
   @override
   void initState() {
     super.initState();
 
     FfmpegUtils.renderSong(widget.song).then((videoPath) {
+      print('## Result: $videoPath');
       setState(() {
-        _videoPlayerController = VideoPlayerController.network(videoPath);
-        _videoPlayerController.initialize().then((_) {
-          setState(() {
-            _chewieController = ChewieController(
-              videoPlayerController: _videoPlayerController,
-              aspectRatio: _videoPlayerController.value.aspectRatio,
-              autoPlay: true,
-              looping: false,
-              showControls: true,
-            );
+        if (videoPath == null) {
+          _hasError = true;
+        } else {
+          _videoPlayerController = VideoPlayerController.network(videoPath);
+          _videoPlayerController.initialize().then((_) {
+            setState(() {
+              _chewieController = ChewieController(
+                videoPlayerController: _videoPlayerController,
+                aspectRatio: _videoPlayerController.value.aspectRatio,
+                autoPlay: true,
+                looping: false,
+                showControls: true,
+              );
+            });
           });
-        });
+        }
       });
     });
   }
@@ -52,19 +58,28 @@ class _SongRenderState extends State<SongRender> {
 
     return AlertDialog(
       title: Text(localization.renderingSong),
-      content: _chewieController == null
-          ? LinearProgressIndicator()
-          : Column(
+      content: _hasError
+          ? Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FittedBox(
-                  fit: BoxFit.contain,
-                  child: Chewie(
-                    controller: _chewieController,
-                  ),
-                ),
+                Icon(Icons.error),
+                Text(localization.failedToRender),
               ],
-            ),
+            )
+          : _chewieController == null
+              ? LinearProgressIndicator()
+              : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.contain,
+                      child: Chewie(
+                        controller: _chewieController,
+                      ),
+                    ),
+                  ],
+                ),
     );
   }
 }

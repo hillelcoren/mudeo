@@ -17,6 +17,7 @@ class FfmpegUtils {
     final output = '$folder/${DateTime.now().millisecondsSinceEpoch}.mp4';
     String command = '';
 
+    /*
     for (var i = 0; i < song.tracks.length; i++) {
       final path = await song.tracks[i].video.path;
 
@@ -25,14 +26,73 @@ class FfmpegUtils {
     }
 
     command += '-filter_complex "[0:v][1:v]hstack=inputs=2[v]" -map "[v]" ';
+    command += output;
+    */
 
+    String filterVideo = '';
+    String filterAudio = '';
+    int count = 0;
+
+    final minHeight = 500; // REMOVE
+
+    for (var i = 0; i < song.tracks.length; i++) {
+      final track = song.tracks[i];
+      final path = await track.video.path;
+
+      print('## Track path: $path');
+      command += '-i $path ';
+
+      final delay = track.delay;
+
+      /*
+                if ($count > 0) {
+                    if ($delay < 0) {
+                        $video->addFilter(new SimpleFilter(['-ss', $delay / 1000 * -1]));
+                    }
+                    $video->addFilter(new SimpleFilter(['-i', $this->getUrl($track->video)]));
+                }
+                */
+
+      filterVideo =
+          "[$count:v]scale=-2:$minHeight[$count-scale:v];$filterVideo";
+
+      final volume = track.volume;
+
+      if (delay > 0) {
+        /*
+                    filterVideo = "[{$count}-scale:v]tpad=start_duration=" . ($delay / 1000) . "[{$count}-delay:v];"
+                        . "[{$count}:a]adelay={$delay}|{$delay}[{$count}-delay:a];"
+                        . "[{$count}-delay:a]volume=" . ($volume / 100) . "[{$count}-volume:a];"
+                        . "{$filterVideo}[{$count}-delay:v]";
+                        */
+      } else {
+        filterVideo = "[$count:a]volume=" +
+            (volume / 100).toString() +
+            "[$count-volume:a];" +
+            "$filterVideo[$count-scale:v]";
+      }
+
+      filterAudio += '[$count-volume:a]';
+
+      count++;
+    }
+
+    final width = 1920;
+    final height = 1080;
+
+    String filter =
+        "${filterVideo}hstack=inputs=${count}[v-pre];[v-pre]scale=${width}:-2[v];";
+
+    filter += "${filterAudio}amix=inputs=${count}[a]";
+
+    command += '-filter_complex $filter -map "[v]" -map "[A]" ';
     command += output;
 
     print('## Command: $command');
 
-    await _flutterFFmpeg.execute(command);
+    final response = await _flutterFFmpeg.execute(command);
 
-    return output;
+    return response == 0 ? output : null;
   }
 
   static Future<BuiltMap<String, double>> calculateVolumeData(
