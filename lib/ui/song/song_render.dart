@@ -91,15 +91,11 @@ class _SongRenderState extends State<SongRender> {
                 final video = VideoEntity()
                     .rebuild((b) => b..timestamp = _videoTimestamp);
                 final track = TrackEntity(video: video);
-                var song = store.state.uiState.song;
 
+                var song = store.state.uiState.song;
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
-                  ..tracks.replace(BuiltList<TrackEntity>(song.tracks
-                      .map((track) =>
-                          track.rebuild((b) => b..isIncluded = false))
-                      .toList()
-                        ..add(track))));
+                  ..tracks.replace(BuiltList<TrackEntity>([track])));
 
                 store.dispatch(UpdateSong(song));
 

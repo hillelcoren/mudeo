@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'guest': 'Guest',
       'download': 'Download',
       'bounce': 'Bounce',
       'failed_to_render':
@@ -751,6 +752,8 @@ class AppLocalization {
   String get download => _localizedValues[locale.toString()]['download'];
 
   String get bounce => _localizedValues[locale.toString()]['bounce'];
+
+  String get guest => _localizedValues[locale.toString()]['guest'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
