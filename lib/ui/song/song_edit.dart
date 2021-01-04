@@ -24,6 +24,8 @@ import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/posenet.dart';
 import 'package:mudeo/utils/strings.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -86,6 +88,9 @@ class SongScaffold extends StatelessWidget {
             final actions = [
               state.isDance ? localization.newDance : localization.newSong
             ];
+            if (song.isOld) {
+              actions.add(localization.download);
+            }
             if (song.canAddTrack) {
               actions.add(localization.addVideo);
             }
@@ -119,10 +124,23 @@ class SongScaffold extends StatelessWidget {
                     ))
                 .toList();
           },
-          onSelected: (String action) {
+          onSelected: (String action) async {
             if (action == localization.openInBrowser ||
                 action == localization.openInNewTab) {
               launch(song.url);
+              return;
+            } else if (action == localization.download) {
+              final Directory directory =
+                  await getApplicationDocumentsDirectory();
+              final String folder = '${directory.path}/videos';
+              await Directory(folder).create(recursive: true);
+              final path = '$folder/${song.title}.mp4';
+              if (!await File(path).exists()) {
+                final http.Response copyResponse =
+                    await http.Client().get(song.videoUrl);
+                await File(path).writeAsBytes(copyResponse.bodyBytes);
+              }
+              Share.shareFiles([path]);
               return;
             } else if (action == localization.addVideo) {
               showDialog<AddVideo>(
