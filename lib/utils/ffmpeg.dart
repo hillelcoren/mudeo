@@ -68,6 +68,7 @@ class FfmpegUtils {
     String filter =
         "${filterVideo}hstack=inputs=${count}[v-pre];[v-pre]scale=${width}:-2[v];";
 
+    //filter += "${filterAudio}amix=inputs=${count}[a-dry];[a-dry]aecho=1.0:0.7:50:0.5[a]";
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
     command += '-filter_complex $filter -map \'[v]\' -map \'[a]\' ';
