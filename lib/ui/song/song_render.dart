@@ -35,11 +35,6 @@ class _SongRenderState extends State<SongRender> {
       _videoTimestamp = videoTimestamp;
       final videoPath = await this.videoPath;
 
-      print('###\n###\n###\ne###');
-      print('timestamp: $_videoTimestamp');
-      print('path: $videoPath');
-      print('###\n###\n###\ne###');
-
       setState(() {
         if (videoPath == null) {
           _hasError = true;
