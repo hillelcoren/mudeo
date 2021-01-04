@@ -8,8 +8,6 @@ import 'package:path_provider/path_provider.dart';
 
 class FfmpegUtils {
   static Future<String> renderSong(SongEntity song) async {
-    print('## Render song...');
-
     final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/ffmpeg';
@@ -26,14 +24,12 @@ class FfmpegUtils {
     for (var i = 0; i < song.tracks.length; i++) {
       final track = song.tracks[i];
       final path = await track.video.path;
+      final delay = track.delay;
+      final volume = track.volume;
 
       if (track.isDeleted || !track.isIncluded) {
         continue;
       }
-
-      print('## Track path: $path');
-
-      final delay = track.delay;
 
       if (count > 0 && delay < 0) {
         command += '-ss ${delay / 1000 * -1} ';
@@ -43,8 +39,6 @@ class FfmpegUtils {
 
       filterVideo =
           "[$count:v]scale=-2:$minHeight[$count-scale:v];$filterVideo";
-
-      final volume = track.volume;
 
       if (delay > 0) {
         filterVideo = "[$count-scale:v]tpad=start_duration=" +
