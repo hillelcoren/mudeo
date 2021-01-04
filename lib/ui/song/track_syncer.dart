@@ -89,7 +89,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
           ),
         if (!_isSyncing)
           FlatButton(
-            child: Text(localization.done.toUpperCase()),
+            child: Text(localization.close.toUpperCase()),
             onPressed: () {
               widget.onDelayChanged(_delay);
               Navigator.of(context).pop();

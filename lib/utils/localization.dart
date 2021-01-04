@@ -131,7 +131,6 @@ class AppLocalization {
       'comments': 'Comments',
       'view_original': 'View Original',
       'add_a_public_comment': 'Add a public comment...',
-      'done': 'Done',
       'reset': 'Reset',
       'track_adjustment': 'Track Adjustment',
       'adjust': 'Adjust',
@@ -517,8 +516,6 @@ class AppLocalization {
 
   String get trackAdjustment =>
       _localizedValues[locale.toString()]['track_adjustment'];
-
-  String get done => _localizedValues[locale.toString()]['done'];
 
   String get reset => _localizedValues[locale.toString()]['reset'];
 
