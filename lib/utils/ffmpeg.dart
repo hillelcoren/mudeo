@@ -36,8 +36,8 @@ class FfmpegUtils {
       }
 
       final info = await FfmpegUtils.flutterFFprobe.getMediaInformation(path);
-      final width = info['streams'][0]['width'];
-      final height = info['streams'][0]['height'];
+      final width = info['streams'][0]['width'] ?? 1920;
+      final height = info['streams'][0]['height'] ?? 1080;
 
       minWidth = min(minWidth, width);
       minHeight = min(minHeight, height);
