@@ -286,13 +286,6 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   ],
                 ),
               ),
-              if (!viewModel.state.authState.hasValidToken)
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(localization.requireAccountToUpload),
-                  ),
-                )
             ],
           ),
         ),

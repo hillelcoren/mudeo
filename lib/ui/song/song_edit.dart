@@ -37,13 +37,29 @@ class SongScaffold extends StatelessWidget {
   final SongEditVM viewModel;
 
   void onSavePressed(BuildContext context, SongEditVM viewModel) {
-    showDialog<SongSaveDialog>(
-        context: context,
-        barrierDismissible: false,
-        useRootNavigator: true,
-        builder: (BuildContext context) {
-          return SongSaveDialog(viewModel: viewModel);
-        });
+    if (!viewModel.state.authState.hasValidToken) {
+      showDialog<AlertDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            final localization = AppLocalization.of(context);
+            return AlertDialog(
+              content: Text(localization.requireAccountToUpload),
+              actions: [
+                FlatButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(localization.close.toUpperCase()))
+              ],
+            );
+          });
+    } else {
+      showDialog<SongSaveDialog>(
+          context: context,
+          barrierDismissible: false,
+          useRootNavigator: true,
+          builder: (BuildContext context) {
+            return SongSaveDialog(viewModel: viewModel);
+          });
+    }
   }
 
   @override
