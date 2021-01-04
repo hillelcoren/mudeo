@@ -37,10 +37,18 @@ class FfmpegUtils {
         continue;
       }
 
-      _flutterFFprobe.getMediaInformation(path).then((info) {
-        minWidth = min(minWidth, info['streams'][0]['width']);
-        minHeight = min(minHeight, info['streams'][0]['height']);
-      });
+      final info = await _flutterFFprobe.getMediaInformation(path);
+
+      print('## INFO: $info');
+      print('## min was $minWidth');
+      final width = info['streams'][0]['width'];
+      final height = info['streams'][0]['height'];
+      print('## comparing to $width');
+
+      minWidth = min(minWidth, width);
+      minHeight = min(minHeight, height);
+
+      print('## min is $minWidth');
     }
 
     for (var i = 0; i < song.tracks.length; i++) {
@@ -108,7 +116,9 @@ class FfmpegUtils {
     //filter += "${filterAudio}amix=inputs=${count}[a-dry];[a-dry]aecho=1.0:0.7:50:0.5[a]";
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
+    //command += '-filter_complex $filter -vsync 2 -map \'[v]\' -map \'[a]\' ';
     command += '-filter_complex $filter -map \'[v]\' -map \'[a]\' ';
+
     command +=
         '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
