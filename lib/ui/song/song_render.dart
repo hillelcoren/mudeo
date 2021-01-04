@@ -52,7 +52,10 @@ class _SongRenderState extends State<SongRender> {
     setState(() {
       _videoTimestamp = 0;
     });
-    FfmpegUtils.renderSong(widget.song).then((videoTimestamp) async {
+
+    final store = StoreProvider.of<AppState>(context);
+    FfmpegUtils.renderSong(store.state.uiState.song)
+        .then((videoTimestamp) async {
       _videoTimestamp = videoTimestamp;
       final videoPath = await this.videoPath;
 

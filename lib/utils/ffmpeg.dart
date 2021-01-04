@@ -78,10 +78,10 @@ class FfmpegUtils {
 
     if (song.layout == kVideoLayoutGrid) {
       filter =
-          "{$filterVideo}xstack=inputs=$count:layout=0_0|w0_0|0_h0|w0_h0[v-pre];[v-pre]scale=-2:$height[v];";
+          "${filterVideo}xstack=inputs=$count:layout=0_0|w0_0|0_h0|w0_h0[v-pre];[v-pre]scale=-2:$height[v];";
     } else if (song.layout == kVideoLayoutColumn) {
       filter =
-          "{$filterVideo}vstack=inputs=$count[v-pre];[v-pre]scale=-2:$height[v];";
+          "${filterVideo}vstack=inputs=$count[v-pre];[v-pre]scale=-2:$height[v];";
     } else if (song.layout == kVideoLayoutRow) {
       filter =
           "${filterVideo}hstack=inputs=$count[v-pre];[v-pre]scale=$width:-2[v];";
