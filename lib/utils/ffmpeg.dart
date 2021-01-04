@@ -46,7 +46,16 @@ class FfmpegUtils {
 
       final volume = track.volume;
 
-      if (false && delay > 0) {
+      if (delay > 0) {
+        filterVideo = "[$count-scale:v]tpad=start_duration=" +
+            (delay / 1000).toString() +
+            "[$count-delay:v];" +
+            "[$count:a]adelay=$delay|$delay[$count-delay:a];" +
+            "[$count-delay:a]volume=" +
+            (volume / 100).toString() +
+            "[$count-volume:a];" +
+            "$filterVideo[$count-delay:v]";
+
         /*
                     filterVideo = "[{$count}-scale:v]tpad=start_duration=" . ($delay / 1000) . "[{$count}-delay:v];"
                         . "[{$count}:a]adelay={$delay}|{$delay}[{$count}-delay:a];"
