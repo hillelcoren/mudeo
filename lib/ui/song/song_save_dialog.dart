@@ -202,7 +202,9 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     },
                     value: selectedGenreId > 0
                         ? selectedGenreId
-                        : song.genreId > 0 ? song.genreId : null,
+                        : song.genreId > 0
+                            ? song.genreId
+                            : null,
                     items: categories.keys
                         .map((id) => DropdownMenuItem(
                               value: id,
@@ -218,62 +220,6 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   labelText: localization.description,
                 ),
               ),
-              if (song.tracks.length > 1)
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 22,
-                    bottom: 8,
-                  ),
-                  child: Text(
-                    localization.layout,
-                    style: TextStyle(color: Colors.grey, fontSize: 15),
-                  ),
-                ),
-              if (song.tracks.length > 1)
-                Row(
-                  children: <Widget>[
-                    Radio(
-                      value: kVideoLayoutRow,
-                      groupValue: layout,
-                      activeColor: Colors.lightBlueAccent,
-                      onChanged: _setLayout,
-                    ),
-                    GestureDetector(
-                      child: Text(localization.row),
-                      onTap: () => _setLayout(kVideoLayoutRow),
-                    ),
-                    SizedBox(width: 10),
-                    Radio(
-                      value: kVideoLayoutColumn,
-                      groupValue: layout,
-                      activeColor: Colors.lightBlueAccent,
-                      onChanged: _setLayout,
-                    ),
-                    GestureDetector(
-                      child: Text(localization.column),
-                      onTap: () => _setLayout(kVideoLayoutColumn),
-                    ),
-                    SizedBox(width: 10),
-                    Radio(
-                      value: kVideoLayoutGrid,
-                      groupValue: layout,
-                      activeColor: Colors.lightBlueAccent,
-                      onChanged: song.tracks.length == 4 ? _setLayout : null,
-                    ),
-                    GestureDetector(
-                      child: Text(
-                        localization.grid,
-                        style: TextStyle(
-                            color: song.tracks.length == 4
-                                ? Colors.white
-                                : Colors.grey),
-                      ),
-                      onTap: song.tracks.length == 4
-                          ? () => _setLayout(kVideoLayoutGrid)
-                          : null,
-                    ),
-                  ],
-                ),
               Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Row(

@@ -33,6 +33,13 @@ class _SongRenderState extends State<SongRender> {
       VideoEntity().rebuild((b) => b..timestamp = _videoTimestamp));
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _layout = widget.song.layout;
+  }
+
+  @override
   void dispose() {
     _videoPlayerController?.dispose();
     _chewieController?.dispose();
@@ -143,7 +150,18 @@ class _SongRenderState extends State<SongRender> {
       content: _videoTimestamp == null
           ? Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 22,
+                    bottom: 8,
+                  ),
+                  child: Text(
+                    localization.layout,
+                    style: TextStyle(color: Colors.grey, fontSize: 15),
+                  ),
+                ),
                 InkWell(
                   onTap: () => _setLayout(kVideoLayoutRow),
                   child: Row(
