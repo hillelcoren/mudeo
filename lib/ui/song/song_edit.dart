@@ -1122,6 +1122,7 @@ class TrackEditDialog extends StatelessWidget {
                   if (!state.isDance)
                     Container(
                       height: 300,
+                      width: 100,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: FlutterSlider(
                         handlerWidth: 36,
@@ -1162,7 +1163,8 @@ class TrackEditDialog extends StatelessWidget {
                         rtl: true,
                         max: 100,
                         min: 0,
-                        onDragging: (handlerIndex, lowerValue, upperValue) {
+                        onDragCompleted:
+                            (handlerIndex, lowerValue, upperValue) {
                           videoPlayer.setVolume(lowerValue / 100);
                           final song = viewModel.song
                               .setTrackVolume(track, lowerValue.toInt());
