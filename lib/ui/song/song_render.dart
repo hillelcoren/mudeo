@@ -86,10 +86,10 @@ class _SongRenderState extends State<SongRender> {
           TextButton(
               onPressed: () {
                 final store = StoreProvider.of<AppState>(context);
+                final video = VideoEntity()
+                    .rebuild((b) => b..timestamp = _videoTimestamp);
                 store.dispatch(AddTrack(
-                    track: TrackEntity(
-                        //video: VideoEntity()..rebuild((b) => b..)
-                        )));
+                    track: TrackEntity(video: video), refreshUI: true));
               },
               child: Text(localization.bounce.toUpperCase())),
         TextButton(
