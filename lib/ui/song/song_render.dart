@@ -37,7 +37,11 @@ class _SongRenderState extends State<SongRender> {
     super.didChangeDependencies();
 
     final song = widget.song;
-    if (_layout == kVideoLayoutGrid && song.tracks.length != 4) {
+    if (song.layout == kVideoLayoutGrid && song.tracks.length != 4) {
+      final store = StoreProvider.of<AppState>(context);
+      store.dispatch(
+          UpdateSong(widget.song.rebuild((b) => b..layout = kVideoLayoutRow)));
+
       _layout = kVideoLayoutRow;
     } else {
       _layout = song.layout;
