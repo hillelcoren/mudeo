@@ -19,7 +19,7 @@ class FfmpegUtils {
     String filterAudio = '';
     int count = 0;
 
-    final minHeight = 1080; // REMOVE
+    final minHeight = 1080; // TODO calculate value
 
     for (var i = 0; i < song.tracks.length; i++) {
       final track = song.tracks[i];
