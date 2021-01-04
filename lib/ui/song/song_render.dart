@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -94,7 +95,11 @@ class _SongRenderState extends State<SongRender> {
 
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
-                  ..tracks.add(track));
+                  ..tracks.replace(BuiltList<TrackEntity>(song.tracks
+                      .map((track) =>
+                          track.rebuild((b) => b..isIncluded = false))
+                      .toList()
+                        ..add(track))));
 
                 store.dispatch(UpdateSong(song));
 

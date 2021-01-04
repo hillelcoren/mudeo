@@ -250,6 +250,8 @@ class _SongEditState extends State<SongEdit> {
     CameraLensDirection.external: false,
   };
 
+  bool get disableButtons => isPlaying || isRecording || countdownTimer > 0;
+
   @override
   void initState() {
     super.initState();
@@ -758,7 +760,7 @@ class _SongEditState extends State<SongEdit> {
                     icon: isPlaying && !isRecording
                         ? Icons.stop
                         : Icons.play_arrow,
-                    onPressed: isEmpty || isRecording
+                    onPressed: isEmpty || isRecording || countdownTimer > 0
                         ? null
                         : (isPlaying ? stopPlaying : play),
                   ),
@@ -769,16 +771,14 @@ class _SongEditState extends State<SongEdit> {
                           2
                       ? ExpandedButton(
                           icon: Icons.camera,
-                          onPressed: isPlaying || isRecording
-                              ? null
-                              : onSettingsPressed,
+                          onPressed: disableButtons ? null : onSettingsPressed,
                         )
                       : ExpandedButton(
                           iconHeight: 26,
                           icon: cameraDirection == CameraLensDirection.front
                               ? Icons.camera_front
                               : Icons.camera_rear,
-                          onPressed: isPlaying || isRecording
+                          onPressed: disableButtons
                               ? null
                               : () => selectCameraDirection(
                                     cameraDirection == CameraLensDirection.front
@@ -795,10 +795,9 @@ class _SongEditState extends State<SongEdit> {
                   ),
                   ExpandedButton(
                     icon: Icons.movie,
-                    onPressed:
-                        isPlaying || isRecording || song.tracks.length < 2
-                            ? null
-                            : () => _renderSong(),
+                    onPressed: disableButtons || song.tracks.length < 2
+                        ? null
+                        : () => _renderSong(),
                   ),
                 ],
               ),
