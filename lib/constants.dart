@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-const String kAppVersion = '0.0.49+49';
+const String kAppVersion = '0.0.50+50';
 const String kDeveloperURL = 'https://twitter.com/hillelcoren';
 const String kGitHubURL = 'https://github.com/hillelcoren/mudeo';
 
@@ -12,14 +12,16 @@ const String kMudeoYouTubeURL =
 const String kMudeoContactEmail = 'contact@mudeo.app';
 const String kMudeoAppleStoreUrl =
     'https://itunes.apple.com/us/app/mudeo/id1459106474?mt=8';
-const String kMudeoGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=app.mudeo.mudeo';
+const String kMudeoGoogleStoreUrl =
+    'https://play.google.com/store/apps/details?id=app.mudeo.mudeo';
 const String kMudeoGoogleStoreMarketUrl = 'market://details?id=app.mudeo.mudeo';
 
 const String kDanceURL = 'https://dancelikeme.app';
 const String kDanceTwitterURL = 'https://twitter.com/dancelikeme_app';
 const String kDanceYouTubeURL = 'https://www.youtube.com/channel/';
 const String kDanceContactEmail = 'contact@dancelikeme.app';
-const String kDanceGoogleStoreUrl = 'https://play.google.com/store/apps/details?id=app.mudeo.dancelikeme';
+const String kDanceGoogleStoreUrl =
+    'https://play.google.com/store/apps/details?id=app.mudeo.dancelikeme';
 const String kDanceAppleStoreUrl = 'https://testflight.apple.com/join/JiwFfnH7';
 
 const int kDesktopBreakpoint = 700;
