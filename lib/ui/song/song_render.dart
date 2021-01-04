@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:built_collection/built_collection.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _SongRenderState extends State<SongRender> {
         if (videoPath == null) {
           _hasError = true;
         } else {
-          _videoPlayerController = VideoPlayerController.network(videoPath);
+          _videoPlayerController = VideoPlayerController.file(File(videoPath));
           _videoPlayerController.initialize().then((_) {
             setState(() {
               _chewieController = ChewieController(

@@ -1,5 +1,5 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:camera/camera.dart';
