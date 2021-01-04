@@ -106,12 +106,12 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
                         child: ToggleButtons(
                             children: [
                               Container(
-                                width: 100,
+                                width: 90,
                                 height: 40,
                                 child: Center(child: Text(localization.secret)),
                               ),
                               Container(
-                                width: 100,
+                                width: 90,
                                 height: 40,
                                 child: Center(child: Text(localization.qrCode)),
                               ),

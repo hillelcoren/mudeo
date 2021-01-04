@@ -429,7 +429,7 @@ class ArtistPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 20, bottom: 15, left: 80, right: 80),
+                            top: 20, bottom: 15, left: 60, right: 60),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
@@ -453,7 +453,7 @@ class ArtistPage extends StatelessWidget {
                                       },
                                       color: Colors.black87,
                                       padding: EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 35),
+                                          vertical: 10),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(30.0)))),
@@ -471,7 +471,7 @@ class ArtistPage extends StatelessWidget {
                                     },
                                     color: Colors.black87,
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 35),
+                                        vertical: 10),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(30.0))),
@@ -487,7 +487,7 @@ class ArtistPage extends StatelessWidget {
                                       viewModel.onRefreshed(context),
                                   color: Colors.black87,
                                   padding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 35),
+                                      vertical: 10),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),
@@ -501,7 +501,7 @@ class ArtistPage extends StatelessWidget {
                                     onPressed: () => _showMenu(),
                                     color: Colors.black87,
                                     padding: EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 35),
+                                        vertical: 10),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30.0),
                                     ),
@@ -529,7 +529,7 @@ class ArtistPage extends StatelessWidget {
                                                 ? Colors.grey
                                                 : Colors.lightBlue,
                                             padding: EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 35),
+                                                vertical: 10),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(
