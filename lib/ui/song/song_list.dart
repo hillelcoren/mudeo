@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:http/http.dart' as http;
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -24,6 +26,8 @@ import 'package:mudeo/ui/song/song_share.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:chewie/chewie.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -461,6 +465,7 @@ class SongFooter extends StatelessWidget {
                       : state.isDance
                           ? localization.shareDance
                           : localization.shareSong),
+                if (!kIsWeb) localization.download,
                 (kIsWeb)
                     ? localization.openInNewTab
                     : localization.openInBrowser,
@@ -507,6 +512,19 @@ class SongFooter extends StatelessWidget {
                 return;
               } else if (action == localization.viewOnYouTube) {
                 launch(song.youTubeUrl);
+                return;
+              } else if (action == localization.download) {
+                final Directory directory =
+                    await getApplicationDocumentsDirectory();
+                final String folder = '${directory.path}/videos';
+                await Directory(folder).create(recursive: true);
+                final path = '$folder/${song.title}.mp4';
+                if (!await File(path).exists()) {
+                  final http.Response copyResponse =
+                      await http.Client().get(song.videoUrl);
+                  await File(path).writeAsBytes(copyResponse.bodyBytes);
+                }
+                Share.shareFiles([path]);
                 return;
               } else if (action == localization.copyLinkToSong ||
                   action == localization.copyLinkToDance) {

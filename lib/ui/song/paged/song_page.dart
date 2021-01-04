@@ -182,24 +182,14 @@ class _SongActions extends StatelessWidget {
                   });
             },
           ),
-        if (!state.authState.hasValidToken)
-          _LargeIconButton(
-            iconData: Icons.launch,
-            tooltip: localization.play,
-            showCount: false,
-            onPressed: () {
-              launch(song.url, forceSafariVC: false);
-            },
-          )
-        else
-          _LargeIconButton(
-            iconData: Icons.share,
-            tooltip: localization.share,
-            showCount: false,
-            onPressed: () {
-              Share.share(song.url);
-            },
-          ),
+        _LargeIconButton(
+          iconData: Icons.share,
+          tooltip: localization.share,
+          showCount: false,
+          onPressed: () {
+            Share.share(song.url);
+          },
+        ),
       ],
     );
   }
