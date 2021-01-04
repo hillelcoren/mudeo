@@ -23,9 +23,6 @@ class FfmpegUtils {
     String filterAudio = '';
     int count = 0;
 
-    //final minWidth = 1920; // TODO calculate value
-    //final minHeight = 1080; // TODO calculate value
-
     int minWidth = 999999999;
     int minHeight = 999999999;
 
@@ -38,17 +35,11 @@ class FfmpegUtils {
       }
 
       final info = await _flutterFFprobe.getMediaInformation(path);
-
-      print('## INFO: $info');
-      print('## min was $minWidth');
       final width = info['streams'][0]['width'];
       final height = info['streams'][0]['height'];
-      print('## comparing to $width');
 
       minWidth = min(minWidth, width);
       minHeight = min(minHeight, height);
-
-      print('## min is $minWidth');
     }
 
     for (var i = 0; i < song.tracks.length; i++) {
@@ -69,7 +60,7 @@ class FfmpegUtils {
 
       if (song.layout == kVideoLayoutGrid) {
         filterVideo =
-            "[$count:v]scale=$minWidth:$minHeight:force_original_aspect_ratio=increase,crop=$minWidth:$minHeight[$count-scale:v];$filterVideo";
+            "[$count:v]scale=$minWidth:$minHeight:force_original_aspect_ratio=increase,crop=$minHeight:$minWidth[$count-scale:v];$filterVideo";
       } else if (song.layout == kVideoLayoutColumn) {
         filterVideo =
             "[$count:v]scale=$minWidth:-2[$count-scale:v];$filterVideo";
@@ -116,9 +107,7 @@ class FfmpegUtils {
     //filter += "${filterAudio}amix=inputs=${count}[a-dry];[a-dry]aecho=1.0:0.7:50:0.5[a]";
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
-    //command += '-filter_complex $filter -vsync 2 -map \'[v]\' -map \'[a]\' ';
-    command += '-filter_complex $filter -map \'[v]\' -map \'[a]\' ';
-
+    command += '-filter_complex $filter -vsync 2 -map \'[v]\' -map \'[a]\' ';
     command +=
         '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
