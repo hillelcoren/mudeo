@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 class FfmpegUtils {
   static Future<int> renderSong(SongEntity song) async {
     final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
+    final FlutterFFprobe _flutterFFprobe = new FlutterFFprobe();
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/ffmpeg';
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -22,8 +23,25 @@ class FfmpegUtils {
     String filterAudio = '';
     int count = 0;
 
-    final minWidth = 1920; // TODO calculate value
-    final minHeight = 1080; // TODO calculate value
+    //final minWidth = 1920; // TODO calculate value
+    //final minHeight = 1080; // TODO calculate value
+
+    int minWidth = 999999999;
+    int minHeight = 999999999;
+
+    for (var i = 0; i < song.tracks.length; i++) {
+      final track = song.tracks[i];
+      final path = await track.video.path;
+
+      if (track.isDeleted || !track.isIncluded) {
+        continue;
+      }
+
+      _flutterFFprobe.getMediaInformation(path).then((info) {
+        minWidth = min(minWidth, info['streams'][0]['width']);
+        minHeight = min(minHeight, info['streams'][0]['height']);
+      });
+    }
 
     for (var i = 0; i < song.tracks.length; i++) {
       final track = song.tracks[i];
