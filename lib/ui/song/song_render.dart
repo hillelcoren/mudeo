@@ -1,9 +1,13 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 
 class SongRender extends StatefulWidget {
@@ -18,13 +22,24 @@ class _SongRenderState extends State<SongRender> {
   ChewieController _chewieController;
   VideoPlayerController _videoPlayerController;
   bool _hasError = false;
+  int _videoTimestamp;
+
+  Future<String> get videoPath async => await VideoEntity.getPath(
+      VideoEntity().rebuild((b) => b..timestamp = _videoTimestamp));
 
   @override
   void initState() {
     super.initState();
 
-    FfmpegUtils.renderSong(widget.song).then((videoPath) {
-      print('## Result: $videoPath');
+    FfmpegUtils.renderSong(widget.song).then((videoTimestamp) async {
+      _videoTimestamp = videoTimestamp;
+      final videoPath = await this.videoPath;
+
+      print('###\n###\n###\ne###');
+      print('timestamp: $_videoTimestamp');
+      print('path: $videoPath');
+      print('###\n###\n###\ne###');
+
       setState(() {
         if (videoPath == null) {
           _hasError = true;
@@ -68,11 +83,25 @@ class _SongRenderState extends State<SongRender> {
           ? Text(localization.creatingVideo)
           : null,
       actions: [
+        if (_videoTimestamp != null)
+          TextButton(
+              onPressed: () async => Share.shareFiles([await videoPath]),
+              child: Text(localization.download.toUpperCase())),
+        if (_videoTimestamp != null)
+          TextButton(
+              onPressed: () {
+                final store = StoreProvider.of<AppState>(context);
+                store.dispatch(AddTrack(
+                    track: TrackEntity(
+                        //video: VideoEntity()..rebuild((b) => b..)
+                        )));
+              },
+              child: Text(localization.bounce.toUpperCase())),
         TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(localization.close.toUpperCase()))
+            child: Text(localization.close.toUpperCase())),
       ],
       content: _hasError
           ? _ErrorWidget()
@@ -83,7 +112,7 @@ class _SongRenderState extends State<SongRender> {
                       error: _videoPlayerController.value.errorDescription,
                     )
                   : _chewieController == null
-                      ? _LoadingWidget()
+                      ? SizedBox()
                       : FittedBox(
                           fit: BoxFit.contain,
                           child: Chewie(

@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'download': 'Download',
+      'bounce': 'Bounce',
       'failed_to_render':
           'Failed to create the video on your phone, click \'Save\' to create the video in the cloud.',
       'creating_video': 'Creating Video',
@@ -745,6 +747,10 @@ class AppLocalization {
 
   String get failedToRender =>
       _localizedValues[locale.toString()]['failed_to_render'];
+
+  String get download => _localizedValues[locale.toString()]['download'];
+
+  String get bounce => _localizedValues[locale.toString()]['bounce'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

@@ -7,11 +7,13 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FfmpegUtils {
-  static Future<String> renderSong(SongEntity song) async {
+  static Future<int> renderSong(SongEntity song) async {
     final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/ffmpeg';
-    final output = '$folder/${DateTime.now().millisecondsSinceEpoch}.mp4';
+    final int timestamp = DateTime.now().millisecondsSinceEpoch;
+    final output = await VideoEntity.getPath(
+        VideoEntity().rebuild((b) => b..timestamp = timestamp));
     await Directory(folder).create(recursive: true);
 
     String command = '';
@@ -78,7 +80,7 @@ class FfmpegUtils {
 
     final response = await _flutterFFmpeg.execute(command);
 
-    return response == 0 ? output : null;
+    return response == 0 ? timestamp : null;
   }
 
   static Future<BuiltMap<String, double>> calculateVolumeData(
