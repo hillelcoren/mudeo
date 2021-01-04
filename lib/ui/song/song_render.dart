@@ -5,6 +5,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
+import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share/share.dart';
@@ -85,6 +86,7 @@ class _SongRenderState extends State<SongRender> {
         if (_videoTimestamp != null)
           TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
                 final store = StoreProvider.of<AppState>(context);
                 final video = VideoEntity()
                     .rebuild((b) => b..timestamp = _videoTimestamp);
