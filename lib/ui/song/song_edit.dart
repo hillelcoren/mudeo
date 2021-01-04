@@ -769,7 +769,9 @@ class _SongEditState extends State<SongEdit> {
                           2
                       ? ExpandedButton(
                           icon: Icons.camera,
-                          onPressed: isPlaying ? null : onSettingsPressed,
+                          onPressed: isPlaying || isRecording
+                              ? null
+                              : onSettingsPressed,
                         )
                       : ExpandedButton(
                           iconHeight: 26,

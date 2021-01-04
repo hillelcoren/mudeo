@@ -86,12 +86,19 @@ class _SongRenderState extends State<SongRender> {
         if (_videoTimestamp != null)
           TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
                 final store = StoreProvider.of<AppState>(context);
                 final video = VideoEntity()
                     .rebuild((b) => b..timestamp = _videoTimestamp);
-                store.dispatch(AddTrack(
-                    track: TrackEntity(video: video), refreshUI: true));
+                final track = TrackEntity(video: video);
+                var song = store.state.uiState.song;
+
+                song = song.rebuild((b) => b
+                  ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
+                  ..tracks.add(track));
+
+                store.dispatch(UpdateSong(song));
+
+                Navigator.of(context).pop();
               },
               child: Text(localization.bounce.toUpperCase())),
         TextButton(
