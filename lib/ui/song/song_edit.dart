@@ -973,13 +973,11 @@ class TrackView extends StatelessWidget {
                 ),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  SizedBox(width: 4),
                   if (!isFirst)
                     IconButton(
-                      icon: Icon(
-                        Icons.swap_horizontal_circle,
-                      ),
+                      icon: Icon(Icons.swap_horizontal_circle, size: 28),
                       onPressed: () {
                         showDialog<TrackSyncer>(
                           context: context,
@@ -996,10 +994,12 @@ class TrackView extends StatelessWidget {
                     )
                   else
                     SizedBox(),
+                  Spacer(),
                   if (!isFirst || !state.isDance)
                     IconButton(
                       icon: Icon(
                         Icons.delete,
+                        size: 28,
                       ),
                       onPressed: () {
                         showDialog<AlertDialog>(
@@ -1027,6 +1027,7 @@ class TrackView extends StatelessWidget {
                         );
                       },
                     ),
+                  SizedBox(width: 4),
                 ],
               ),
             ),
