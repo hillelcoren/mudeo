@@ -36,7 +36,12 @@ class _SongRenderState extends State<SongRender> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _layout = widget.song.layout;
+    final song = widget.song;
+    if (_layout == kVideoLayoutGrid && song.tracks.length != 4) {
+      _layout = kVideoLayoutRow;
+    } else {
+      _layout = song.layout;
+    }
   }
 
   @override
@@ -143,6 +148,7 @@ class _SongRenderState extends State<SongRender> {
               child: Text(localization.bounce.toUpperCase())),
         TextButton(
             onPressed: () {
+              FfmpegUtils.flutterFFmpeg.cancel();
               Navigator.of(context).pop();
             },
             child: Text(localization.close.toUpperCase())),

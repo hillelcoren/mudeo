@@ -8,9 +8,10 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FfmpegUtils {
+  static FlutterFFmpeg flutterFFmpeg = new FlutterFFmpeg();
+  static FlutterFFprobe flutterFFprobe = new FlutterFFprobe();
+
   static Future<int> renderSong(SongEntity song) async {
-    final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
-    final FlutterFFprobe _flutterFFprobe = new FlutterFFprobe();
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/ffmpeg';
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -34,7 +35,7 @@ class FfmpegUtils {
         continue;
       }
 
-      final info = await _flutterFFprobe.getMediaInformation(path);
+      final info = await FfmpegUtils.flutterFFprobe.getMediaInformation(path);
       final width = info['streams'][0]['width'];
       final height = info['streams'][0]['height'];
 
@@ -115,20 +116,19 @@ class FfmpegUtils {
 
     print('## Command: $command');
 
-    final response = await _flutterFFmpeg.execute(command);
+    final response = await FfmpegUtils.flutterFFmpeg.execute(command);
 
     return response == 0 ? timestamp : null;
   }
 
   static Future<BuiltMap<String, double>> calculateVolumeData(
       String path) async {
-    final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/ffmpeg';
     await Directory(folder).create(recursive: true);
     final audioPath = '$folder/data.txt';
 
-    await _flutterFFmpeg.execute(
+    await FfmpegUtils.flutterFFmpeg.execute(
         "-i ${path} -af astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level:file=$audioPath -f null -");
     final file = File(audioPath);
     String contents = await file.readAsString();
