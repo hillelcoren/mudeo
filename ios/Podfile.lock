@@ -64,12 +64,9 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.5)
     - PromisesObjC (~> 1.2)
   - Flutter (1.0.0)
-  - flutter_ffmpeg (0.2.10):
+  - flutter_ffmpeg/https-gpl (0.2.10):
     - Flutter
-    - flutter_ffmpeg/https (= 0.2.10)
-  - flutter_ffmpeg/https (0.2.10):
-    - Flutter
-    - mobile-ffmpeg-https (= 4.3.1)
+    - mobile-ffmpeg-https-gpl (= 4.3.1)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -129,7 +126,7 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
-  - mobile-ffmpeg-https (4.3.1)
+  - mobile-ffmpeg-https-gpl (4.3.1)
   - MTBBarcodeScanner (5.0.11)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
@@ -171,7 +168,7 @@ DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
-  - flutter_ffmpeg (from `.symlinks/plugins/flutter_ffmpeg/ios`)
+  - flutter_ffmpeg/https-gpl (from `.symlinks/plugins/flutter_ffmpeg/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - in_app_purchase (from `.symlinks/plugins/in_app_purchase/ios`)
@@ -207,7 +204,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - libwebp
-    - mobile-ffmpeg-https
+    - mobile-ffmpeg-https-gpl
     - MTBBarcodeScanner
     - nanopb
     - PromisesObjC
@@ -288,7 +285,7 @@ SPEC CHECKSUMS:
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   in_app_purchase: 3e2155afa9d03d4fa32d9e62d567885080ce97d6
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
-  mobile-ffmpeg-https: c4a3c255163ddb1abc4b4dfc613c2d885f8c46eb
+  mobile-ffmpeg-https-gpl: 3c5b27b183f3e4be33165372920f77682e254ede
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   native_video_view: 02756aebe7ec9d0ab00d039b7aa3756548900bc3
@@ -304,6 +301,6 @@ SPEC CHECKSUMS:
   video_thumbnail: c4e2a3c539e247d4de13cd545344fd2d26ffafd1
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4
 
-PODFILE CHECKSUM: 2bb99175cd06533a46968d8c451aa15f8b60bfda
+PODFILE CHECKSUM: 86f781b1ee37939b61a9ffb263e31b84d9c5db4b
 
 COCOAPODS: 1.8.4
