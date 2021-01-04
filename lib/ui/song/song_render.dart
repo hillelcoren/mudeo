@@ -167,9 +167,13 @@ class _ErrorWidget extends StatelessWidget {
 class _LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: LinearProgressIndicator(),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(AppLocalization.of(context).thisMayTakeAFewMinutes),
+        SizedBox(height: 32),
+        LinearProgressIndicator(),
+      ],
     );
   }
 }
