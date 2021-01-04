@@ -75,16 +75,13 @@ class _SongRenderState extends State<SongRender> {
       content: _hasError
           ? _ErrorWidget()
           : _videoPlayerController == null
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: LinearProgressIndicator(),
-                )
+              ? _LoadingWidget()
               : _videoPlayerController.value.hasError
                   ? _ErrorWidget(
                       error: _videoPlayerController.value.errorDescription,
                     )
                   : _chewieController == null
-                      ? _ErrorWidget()
+                      ? _LoadingWidget()
                       : FittedBox(
                           fit: BoxFit.contain,
                           child: Chewie(
@@ -116,6 +113,16 @@ class _ErrorWidget extends StatelessWidget {
         ),
         Text(error ?? localization.failedToRender),
       ],
+    );
+  }
+}
+
+class _LoadingWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: LinearProgressIndicator(),
     );
   }
 }

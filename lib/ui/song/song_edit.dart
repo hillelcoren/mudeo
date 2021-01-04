@@ -762,13 +762,6 @@ class _SongEditState extends State<SongEdit> {
                         ? null
                         : (isPlaying ? stopPlaying : play),
                   ),
-                  ExpandedButton(
-                    icon: countdownTimer > 0 ? null : _getRecordIcon(),
-                    label:
-                        countdownTimer > 0 ? countdownTimer.toString() : null,
-                    onPressed: _getRecordingFunction(),
-                    color: isPlaying || isRecording ? null : Colors.redAccent,
-                  ),
                   availableCameraDirections.keys
                               .where((direction) =>
                                   availableCameraDirections[direction])
@@ -783,7 +776,7 @@ class _SongEditState extends State<SongEdit> {
                           icon: cameraDirection == CameraLensDirection.front
                               ? Icons.camera_front
                               : Icons.camera_rear,
-                          onPressed: isPlaying
+                          onPressed: isPlaying || isRecording
                               ? null
                               : () => selectCameraDirection(
                                     cameraDirection == CameraLensDirection.front
@@ -792,9 +785,19 @@ class _SongEditState extends State<SongEdit> {
                                   ),
                         ),
                   ExpandedButton(
-                      icon: Icons.movie,
-                      onPressed:
-                          song.tracks.length < 2 ? null : () => _renderSong())
+                    icon: countdownTimer > 0 ? null : _getRecordIcon(),
+                    label:
+                        countdownTimer > 0 ? countdownTimer.toString() : null,
+                    onPressed: _getRecordingFunction(),
+                    color: isPlaying || isRecording ? null : Colors.redAccent,
+                  ),
+                  ExpandedButton(
+                    icon: Icons.movie,
+                    onPressed:
+                        isPlaying || isRecording || song.tracks.length < 2
+                            ? null
+                            : () => _renderSong(),
+                  ),
                 ],
               ),
             ),

@@ -13,22 +13,10 @@ class FfmpegUtils {
     final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/ffmpeg';
-    await Directory(folder).create(recursive: true);
     final output = '$folder/${DateTime.now().millisecondsSinceEpoch}.mp4';
+    await Directory(folder).create(recursive: true);
+
     String command = '';
-
-    /*
-    for (var i = 0; i < song.tracks.length; i++) {
-      final path = await song.tracks[i].video.path;
-
-      print('## Track path: $path');
-      command += '-i $path ';
-    }
-
-    command += '-filter_complex "[0:v][1:v]hstack=inputs=2[v]" -map "[v]" ';
-    command += output;
-    */
-
     String filterVideo = '';
     String filterAudio = '';
     int count = 0;
@@ -39,19 +27,19 @@ class FfmpegUtils {
       final track = song.tracks[i];
       final path = await track.video.path;
 
+      if (track.isDeleted || !track.isIncluded) {
+        continue;
+      }
+
       print('## Track path: $path');
-      command += '-i $path ';
 
       final delay = track.delay;
 
-      /*
-                if ($count > 0) {
-                    if ($delay < 0) {
-                        $video->addFilter(new SimpleFilter(['-ss', $delay / 1000 * -1]));
-                    }
-                    $video->addFilter(new SimpleFilter(['-i', $this->getUrl($track->video)]));
-                }
-                */
+      if (count > 0 && delay < 0) {
+        command += '-ss ${delay / 1000 * -1} ';
+      }
+
+      command += '-i $path ';
 
       filterVideo =
           "[$count:v]scale=-2:$minHeight[$count-scale:v];$filterVideo";
