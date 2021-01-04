@@ -26,7 +26,8 @@ class AppLocalization {
       'bounce': 'Bounce',
       'failed_to_render':
           'Failed to create the video on your phone, click \'Save\' to create the video in the cloud.',
-      'creating_video': 'Creating Video',
+      'creating_video': 'Creating Video...',
+      'create_video': 'Create Video',
       'leave_dance': 'Leave Dance',
       'leave_song': 'Leave Song',
       'joined_dance': 'Successfully joined dance!',
@@ -758,6 +759,8 @@ class AppLocalization {
 
   String get thisMayTakeAFewMinutes =>
       _localizedValues[locale.toString()]['this_may_take_a_few_minutes'];
+
+  String get createVideo => _localizedValues[locale.toString()]['create_video'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

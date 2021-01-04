@@ -731,7 +731,7 @@ class _SongEditState extends State<SongEdit> {
 
     return Scaffold(
       body: Padding(
-        // TODO use media query to determine this 
+        // TODO use media query to determine this
         padding: EdgeInsets.only(bottom: Platform.isIOS ? 78 : 50),
         child: Column(
           children: [

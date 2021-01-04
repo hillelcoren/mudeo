@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -21,6 +22,7 @@ class FfmpegUtils {
     String filterAudio = '';
     int count = 0;
 
+    final minWidth = 1920; // TODO calculate value
     final minHeight = 1080; // TODO calculate value
 
     for (var i = 0; i < song.tracks.length; i++) {
@@ -39,8 +41,16 @@ class FfmpegUtils {
 
       command += '-i $path ';
 
-      filterVideo =
-          "[$count:v]scale=-2:$minHeight[$count-scale:v];$filterVideo";
+      if (song.layout == kVideoLayoutGrid) {
+        filterVideo =
+            "[$count:v]scale=$minWidth:$minHeight:force_original_aspect_ratio=increase,crop=$minWidth:$minHeight[$count-scale:v];$filterVideo";
+      } else if (song.layout == kVideoLayoutColumn) {
+        filterVideo =
+            "[$count:v]scale=$minWidth:-2[$count-scale:v];$filterVideo";
+      } else if (song.layout == kVideoLayoutRow) {
+        filterVideo =
+            "[$count:v]scale=-2:$minHeight[$count-scale:v];$filterVideo";
+      }
 
       if (delay > 0) {
         filterVideo = "[$count-scale:v]tpad=start_duration=" +
@@ -64,9 +74,18 @@ class FfmpegUtils {
 
     final width = 1920;
     final height = 1080;
+    String filter = '';
 
-    String filter =
-        "${filterVideo}hstack=inputs=${count}[v-pre];[v-pre]scale=${width}:-2[v];";
+    if (song.layout == kVideoLayoutGrid) {
+      filter =
+          "{$filterVideo}xstack=inputs=$count:layout=0_0|w0_0|0_h0|w0_h0[v-pre];[v-pre]scale=-2:$height[v];";
+    } else if (song.layout == kVideoLayoutColumn) {
+      filter =
+          "{$filterVideo}vstack=inputs=$count[v-pre];[v-pre]scale=-2:$height[v];";
+    } else if (song.layout == kVideoLayoutRow) {
+      filter =
+          "${filterVideo}hstack=inputs=$count[v-pre];[v-pre]scale=$width:-2[v];";
+    }
 
     //filter += "${filterAudio}amix=inputs=${count}[a-dry];[a-dry]aecho=1.0:0.7:50:0.5[a]";
     filter += "${filterAudio}amix=inputs=${count}[a]";

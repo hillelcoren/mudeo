@@ -3,6 +3,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -24,6 +25,7 @@ class SongRender extends StatefulWidget {
 class _SongRenderState extends State<SongRender> {
   ChewieController _chewieController;
   VideoPlayerController _videoPlayerController;
+  String _layout = kVideoLayoutRow;
   bool _hasError = false;
   int _videoTimestamp;
 
@@ -31,9 +33,25 @@ class _SongRenderState extends State<SongRender> {
       VideoEntity().rebuild((b) => b..timestamp = _videoTimestamp));
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    _videoPlayerController?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
 
+  void _setLayout(String value) {
+    setState(() {
+      _layout = value;
+    });
+
+    final store = StoreProvider.of<AppState>(context);
+    store.dispatch(UpdateSong(widget.song.rebuild((b) => b..layout = value)));
+  }
+
+  void createVideo() {
+    setState(() {
+      _videoTimestamp = 0;
+    });
     FfmpegUtils.renderSong(widget.song).then((videoTimestamp) async {
       _videoTimestamp = videoTimestamp;
       final videoPath = await this.videoPath;
@@ -66,21 +84,21 @@ class _SongRenderState extends State<SongRender> {
   }
 
   @override
-  void dispose() {
-    _videoPlayerController?.dispose();
-    _chewieController?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
+    final song = widget.song;
 
     return AlertDialog(
       title: _videoPlayerController == null
-          ? Text(localization.creatingVideo)
+          ? Text(_videoTimestamp == null
+              ? localization.createVideo
+              : localization.creatingVideo)
           : null,
       actions: [
+        if (_videoTimestamp == null)
+          TextButton(
+              onPressed: () => createVideo(),
+              child: Text(localization.start.toUpperCase())),
         if (_videoTimestamp != null)
           TextButton(
               onPressed: () async => Share.shareFiles([await videoPath]),
@@ -119,22 +137,84 @@ class _SongRenderState extends State<SongRender> {
             },
             child: Text(localization.close.toUpperCase())),
       ],
-      content: _hasError
-          ? _ErrorWidget()
-          : _videoPlayerController == null
-              ? _LoadingWidget()
-              : _videoPlayerController.value.hasError
-                  ? _ErrorWidget(
-                      error: _videoPlayerController.value.errorDescription,
-                    )
-                  : _chewieController == null
-                      ? SizedBox()
-                      : FittedBox(
-                          fit: BoxFit.contain,
-                          child: Chewie(
-                            controller: _chewieController,
-                          ),
+      content: _videoTimestamp == null
+          ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  onTap: () => _setLayout(kVideoLayoutRow),
+                  child: Row(
+                    children: [
+                      IgnorePointer(
+                        child: Radio(
+                          value: kVideoLayoutRow,
+                          groupValue: _layout,
+                          activeColor: Colors.lightBlueAccent,
+                          onChanged: _setLayout,
                         ),
+                      ),
+                      Text(localization.row),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () => _setLayout(kVideoLayoutColumn),
+                  child: Row(
+                    children: [
+                      IgnorePointer(
+                        child: Radio(
+                          value: kVideoLayoutColumn,
+                          groupValue: _layout,
+                          activeColor: Colors.lightBlueAccent,
+                          onChanged: _setLayout,
+                        ),
+                      ),
+                      Text(localization.column),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: song.tracks.length == 4
+                      ? () => _setLayout(kVideoLayoutGrid)
+                      : null,
+                  child: Row(
+                    children: [
+                      IgnorePointer(
+                        child: Radio(
+                          value: kVideoLayoutGrid,
+                          groupValue: _layout,
+                          activeColor: Colors.lightBlueAccent,
+                          onChanged: _setLayout,
+                        ),
+                      ),
+                      Text(
+                        localization.grid,
+                        style: TextStyle(
+                            color: song.tracks.length == 4
+                                ? Colors.white
+                                : Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          : _hasError
+              ? _ErrorWidget()
+              : _videoPlayerController == null
+                  ? _LoadingWidget()
+                  : _videoPlayerController.value.hasError
+                      ? _ErrorWidget(
+                          error: _videoPlayerController.value.errorDescription,
+                        )
+                      : _chewieController == null
+                          ? SizedBox()
+                          : FittedBox(
+                              fit: BoxFit.contain,
+                              child: Chewie(
+                                controller: _chewieController,
+                              ),
+                            ),
     );
   }
 }
