@@ -99,11 +99,11 @@ class _SongRenderState extends State<SongRender> {
           TextButton(
               onPressed: () => createVideo(),
               child: Text(localization.start.toUpperCase())),
-        if (_videoTimestamp != null)
+        if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
               onPressed: () async => Share.shareFiles([await videoPath]),
               child: Text(localization.download.toUpperCase())),
-        if (_videoTimestamp != null)
+        if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
               onPressed: () {
                 final store = StoreProvider.of<AppState>(context);
