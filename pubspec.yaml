@@ -44,7 +44,7 @@ dependencies:
   sentry: ^3.0.1
   intl: any
   font_awesome_flutter: ^8.4.0
-  flutter_xlider: 2.6.0
+  flutter_xlider: any
   image_picker: ^0.6.4
   chewie: ^0.9.10
   #flutter_youtube: ^2.0.0
