@@ -236,7 +236,7 @@ class SongScaffold extends StatelessWidget {
                   ),
                 )
               : FlatButton(
-                  child: Text(localization.save),
+                  child: Text(localization.publish),
                   onPressed:
                       !uiState.isRecording && song.includedTracks.isNotEmpty
                           ? () => onSavePressed(context, viewModel)

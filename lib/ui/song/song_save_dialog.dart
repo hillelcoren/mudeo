@@ -271,7 +271,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                       ),
                     Spacer(),
                     FlatButton(
-                      child: Text(localization.close),
+                      child: Text(localization.cancel),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     if (viewModel.state.authState.hasValidToken)
@@ -279,9 +279,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                         padding: EdgeInsets.all(0),
                         isLoading: viewModel.state.isSaving,
                         onPressed: () => _onSubmit(),
-                        label: song.isNew
-                            ? localization.upload
-                            : localization.save,
+                        label: localization.publish,
                       ),
                   ],
                 ),
