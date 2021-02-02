@@ -342,7 +342,10 @@ class _SongEditState extends State<SongEdit> {
           final http.Response copyResponse = await http.Client().get(video.url);
           await File(path).writeAsBytes(copyResponse.bodyBytes);
         }
-        player = VideoPlayerController.file(File(path));
+        player = VideoPlayerController.file(
+          File(path),
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+        );
         allVideoPlayers[track.id] = videoPlayers[track.id] = player;
         if (viewModel.state.isDance && !isFirst) {
           player.setVolume(0);
@@ -596,7 +599,6 @@ class _SongEditState extends State<SongEdit> {
         continue;
       }
       final player = entry.value;
-
       if ((widget.viewModel.state.artist.description ?? '')
           .contains('#sync_beta')) {
         player.seekTo(Duration(milliseconds: maxDelay - (track.delay ?? 0)));
