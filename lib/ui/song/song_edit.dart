@@ -460,8 +460,8 @@ class _SongEditState extends State<SongEdit> {
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      camera.startVideoRecording(path);
       play();
+      camera.startVideoRecording(path);
     });
   }
 
