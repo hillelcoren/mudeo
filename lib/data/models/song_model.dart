@@ -232,7 +232,7 @@ abstract class SongEntity extends Object
 
   SongEntity get updateOrderByIds {
     int counter = 0;
-    final sortedTracks = List<TrackEntity>();
+    final sortedTracks = <TrackEntity>[];
 
     tracks.forEach((track) {
       final updatedTrack = track.rebuild((b) => b..orderId = counter);
