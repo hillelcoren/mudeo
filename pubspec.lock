@@ -109,12 +109,19 @@ packages:
   camera:
     dependency: "direct main"
     description:
-      path: "packages/camera"
+      path: "packages/camera/camera"
       ref: HEAD
-      resolved-ref: f7f425d5513141b27e7479f76b91418d783cf1d7
+      resolved-ref: "7e9278322f821d5ffb899c2453779ab937d840b0"
       url: "git://github.com/hillelcoren/plugins.git"
     source: git
-    version: "0.5.8+5"
+    version: "0.7.0+2"
+  camera_platform_interface:
+    dependency: transitive
+    description:
+      name: camera_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.0"
   carousel_slider:
     dependency: transitive
     description:
@@ -135,7 +142,7 @@ packages:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.3"
+    version: "1.2.0"
   checked_yaml:
     dependency: transitive
     description:
@@ -185,6 +192,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  cross_file:
+    dependency: transitive
+    description:
+      name: cross_file
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   crypto:
     dependency: transitive
     description:
@@ -668,7 +682,7 @@ packages:
       name: platform
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.1"
+    version: "3.0.0"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -834,7 +848,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.2+2"
+    version: "1.3.2+3"
   sqflite_common:
     dependency: transitive
     description:
@@ -883,7 +897,7 @@ packages:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   timing:
     dependency: transitive
     description:

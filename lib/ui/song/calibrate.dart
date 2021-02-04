@@ -60,8 +60,9 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
   }
 
   void _runCalibration() async {
-    final videoPath = await VideoEntity().path;
-    _cameraController.startVideoRecording(videoPath);
+    // TODO need to update this code
+    //final videoPath = await VideoEntity().path;
+    //_cameraController.startVideoRecording(videoPath);
     _videoController.play();
 
     setState(() {

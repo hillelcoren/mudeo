@@ -449,7 +449,6 @@ class _SongEditState extends State<SongEdit> {
     final song = widget.viewModel.song;
     path = await VideoEntity.getPath(
         VideoEntity().rebuild((b) => b..timestamp = timestamp));
-
     cancelTimer = Timer(Duration(seconds: 3), () {
       setState(() => isPastThreeSeconds = true);
     });
@@ -461,7 +460,7 @@ class _SongEditState extends State<SongEdit> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       play();
-      camera.startVideoRecording(path);
+      camera.startVideoRecording();
     });
   }
 
@@ -479,7 +478,14 @@ class _SongEditState extends State<SongEdit> {
     widget.viewModel.onStopRecording();
 
     try {
-      await camera.stopVideoRecording();
+      final video = await camera.stopVideoRecording();
+      final videoFile = File(video.path);
+      try {
+        await videoFile.rename(path);
+      } on FileSystemException catch (_) {
+        await videoFile.copy(path);
+        await videoFile.delete();
+      }
     } catch (error) {
       showDialog<ErrorDialog>(
           context: context,
@@ -777,8 +783,9 @@ class _SongEditState extends State<SongEdit> {
                   duration: Duration(milliseconds: 200),
                   child: Center(
                     child: AspectRatio(
-                      aspectRatio: value.aspectRatio,
-                      child: CameraPreview(camera),
+                      aspectRatio: 1 / value.aspectRatio,
+                      //child: CameraPreview(camera),
+                      child: camera.buildPreview(),
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -845,7 +852,7 @@ class _SongEditState extends State<SongEdit> {
                   duration: Duration(milliseconds: 200),
                   child: Center(
                     child: AspectRatio(
-                      aspectRatio: firstVideoPlayer.value.aspectRatio,
+                      aspectRatio: 1 / firstVideoPlayer.value.aspectRatio,
                       child: VideoPlayer(firstVideoPlayer),
                     ),
                   ),
