@@ -71,7 +71,6 @@ class SongScaffold extends StatelessWidget {
     final uiState = state.uiState;
     final song = viewModel.song;
     final authArtist = viewModel.state.authState.artist;
-
     final isMissingRecognitions = false;
     /*
     final isMissingRecognitions = song.tracks
@@ -246,7 +245,7 @@ class SongScaffold extends StatelessWidget {
       ),
       body: SongEdit(
         viewModel: viewModel,
-        key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+        //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
       ),
     );
   }
@@ -307,10 +306,13 @@ class _SongEditState extends State<SongEdit> {
           cameras
               .firstWhere((camera) => camera.lensDirection == cameraDirection),
           ResolutionPreset.low)
+      /*
         ..addListener(() {
           if (mounted) setState(() {});
         })
+       */
         ..initialize().then((value) async {
+          if (mounted) setState(() {});
           /*
           final sharedPrefs = await SharedPreferences.getInstance();
           if (sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
