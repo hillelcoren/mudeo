@@ -111,7 +111,7 @@ packages:
     description:
       path: "packages/camera/camera"
       ref: HEAD
-      resolved-ref: "7e9278322f821d5ffb899c2453779ab937d840b0"
+      resolved-ref: "7e5f2c3e5ad0fc98df6a7eef518314bf645f5f0a"
       url: "git://github.com/hillelcoren/plugins.git"
     source: git
     version: "0.7.0+2"
