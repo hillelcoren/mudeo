@@ -142,7 +142,7 @@ class _SongRenderState extends State<SongRender> {
 
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
-                  ..tracks.replace(BuiltList<TrackEntity>([track])));
+                  ..tracks.add(track));
 
                 store.dispatch(UpdateSong(song));
 

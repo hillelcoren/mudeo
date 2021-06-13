@@ -245,7 +245,7 @@ class SongScaffold extends StatelessWidget {
       ),
       body: SongEdit(
         viewModel: viewModel,
-        //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+        key: ValueKey('${viewModel.song.updatedAt}'),
       ),
     );
   }
