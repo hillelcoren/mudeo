@@ -275,6 +275,7 @@ class _SongEditState extends State<SongEdit> {
   Timer cancelTimer;
   Timer playTimer;
   Completer _readyCompleter;
+  int _activeTrack = 0;
 
   CameraLensDirection cameraDirection = CameraLensDirection.front;
   Map<CameraLensDirection, bool> availableCameraDirections = {
@@ -306,7 +307,7 @@ class _SongEditState extends State<SongEdit> {
           cameras
               .firstWhere((camera) => camera.lensDirection == cameraDirection),
           ResolutionPreset.low)
-      /*
+        /*
         ..addListener(() {
           if (mounted) setState(() {});
         })
@@ -461,7 +462,7 @@ class _SongEditState extends State<SongEdit> {
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      play();
+      play(isRecording: true);
       camera.startVideoRecording();
     });
   }
@@ -578,7 +579,7 @@ class _SongEditState extends State<SongEdit> {
     return data;
   }
 
-  Future play() async {
+  Future play({bool isRecording = false}) async {
     Future future;
     if (videoPlayers.isEmpty) return;
 
@@ -597,21 +598,15 @@ class _SongEditState extends State<SongEdit> {
     }
 
     bool isFirst = true;
+    int index = 0;
     for (final entry in videoPlayers.entries) {
       final track = tracks.firstWhere((track) => track.id == entry.key,
           orElse: () => null);
       if (track == null) {
         continue;
       }
-      if (widget.viewModel.state.isDance && isRecording && !isFirst) {
-        continue;
-      }
-      final player = entry.value;
-      if ((widget.viewModel.state.artist.description ?? '')
-          .contains('#sync_beta')) {
-        player.seekTo(Duration(milliseconds: maxDelay - (track.delay ?? 0)));
-        player.play();
-      } else {
+      if (!isRecording || index == _activeTrack) {
+        final player = entry.value;
         final delay =
             Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
         player.seekTo(Duration.zero);
@@ -625,11 +620,8 @@ class _SongEditState extends State<SongEdit> {
           Future.delayed(delay, () => player.play());
         }
       }
-
-      if (widget.viewModel.state.isDance && !isFirst) {
-        player.setVolume(0);
-      }
       isFirst = false;
+      index++;
     }
 
     setState(() => isPlaying = true);
@@ -873,6 +865,7 @@ class _SongEditState extends State<SongEdit> {
                         scrollDirection: Axis.horizontal,
                         children: song.includedTracks.map((track) {
                           final videoPlayer = videoPlayers[track.id];
+                          final songIndex = song.tracks.indexOf(track);
 
                           if (videoPlayer == null) {
                             return Center(
@@ -884,7 +877,7 @@ class _SongEditState extends State<SongEdit> {
                           }
 
                           return TrackView(
-                            isFirst: song.tracks.indexOf(track) == 0,
+                            isFirst: songIndex == 0,
                             viewModel: viewModel,
                             videoPlayer: videoPlayer,
                             aspectRatio: videoPlayer.value.aspectRatio,
@@ -917,6 +910,9 @@ class _SongEditState extends State<SongEdit> {
                             }
                              */
                             },
+                            isActive: _activeTrack == songIndex,
+                            onActivatePressed: () =>
+                                setState(() => _activeTrack = songIndex),
                           );
                         }).toList(),
                       ),
@@ -938,6 +934,8 @@ class TrackView extends StatelessWidget {
     @required this.onDelayChanged,
     @required this.isFirst,
     @required this.onFixPressed,
+    @required this.isActive,
+    @required this.onActivatePressed,
   });
 
   final SongEditVM viewModel;
@@ -948,6 +946,8 @@ class TrackView extends StatelessWidget {
   final Function onDeletePressed;
   final Function(TrackEntity, int) onDelayChanged;
   final bool isFirst;
+  final bool isActive;
+  final Function onActivatePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -968,6 +968,8 @@ class TrackView extends StatelessWidget {
                     onDelayChanged: (delay) => onDelayChanged(track, delay),
                     track: track,
                     isFirst: isFirst,
+                    isActive: isActive,
+                    onActivatePressed: onActivatePressed,
                     onFixPressed: onFixPressed,
                   );
                 },
@@ -1094,6 +1096,8 @@ class TrackEditDialog extends StatelessWidget {
     @required this.onFixPressed,
     @required this.onDelayChanged,
     @required this.isFirst,
+    @required this.isActive,
+    @required this.onActivatePressed,
   });
 
   final SongEditVM viewModel;
@@ -1103,6 +1107,8 @@ class TrackEditDialog extends StatelessWidget {
   final Function onFixPressed;
   final Function(int) onDelayChanged;
   final bool isFirst;
+  final bool isActive;
+  final Function onActivatePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -1184,6 +1190,18 @@ class TrackEditDialog extends StatelessWidget {
                         values: [track.volume.toDouble()],
                       ),
                     ),
+                  if (isActive)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text('Active'),
+                    )
+                  else
+                    IconButton(
+                        onPressed: () {
+                          onActivatePressed();
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.volume_up)),
                   /*
                   if (state.isDance && state.authState.artist.isAdmin)
                     Padding(
