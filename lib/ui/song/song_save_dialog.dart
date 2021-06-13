@@ -224,6 +224,11 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 padding: EdgeInsets.only(top: 20),
                 child: Row(
                   children: <Widget>[
+                    IconText(
+                      icon: Icons.public,
+                      text: localization.public,
+                    ),
+                    /*
                     if (state.isDance || song.isPublic)
                       IconText(
                         icon: Icons.public,
@@ -269,6 +274,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                           ),
                         ),
                       ),
+                      */
                     Spacer(),
                     FlatButton(
                       child: Text(localization.cancel),
