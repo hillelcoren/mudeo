@@ -152,7 +152,9 @@ class SongEditVM {
           }
           store.dispatch(UpdateSong(song));
           String path = await VideoEntity.getPath(track.video);
-          if (File(path).existsSync()) {
+          if (File(path).existsSync() &&
+              !song.tracks.any(
+                  (each) => track.video.timestamp == each.video.timestamp)) {
             File(path).deleteSync();
           }
         },

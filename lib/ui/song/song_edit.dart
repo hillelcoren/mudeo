@@ -79,6 +79,8 @@ class SongScaffold extends StatelessWidget {
         .isNotEmpty;
     */
 
+    print('## UPDATED: ${song.updatedAt}');
+
     return Scaffold(
       appBar: AppBar(
         leading: PopupMenuButton<String>(
@@ -245,7 +247,8 @@ class SongScaffold extends StatelessWidget {
       ),
       body: SongEdit(
         viewModel: viewModel,
-        key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+        //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+        key: ValueKey('${viewModel.song.updatedAt}'),
       ),
     );
   }
@@ -307,11 +310,6 @@ class _SongEditState extends State<SongEdit> {
           cameras
               .firstWhere((camera) => camera.lensDirection == cameraDirection),
           ResolutionPreset.low)
-        /*
-        ..addListener(() {
-          if (mounted) setState(() {});
-        })
-       */
         ..initialize().then((value) async {
           if (mounted) setState(() {});
           /*

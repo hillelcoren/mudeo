@@ -115,7 +115,7 @@ class FfmpegUtils {
 
     command += output;
 
-    print('## Command: $command');
+    //print('## Command: $command');
 
     final response = await FfmpegUtils.flutterFFmpeg.execute(command);
 
