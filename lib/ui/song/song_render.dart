@@ -137,10 +137,21 @@ class _SongRenderState extends State<SongRender> {
               child: Text(localization.download.toUpperCase())),
         if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
-              onPressed: () {
+              onPressed: () async {
                 final store = StoreProvider.of<AppState>(context);
-                final video = VideoEntity()
+                var video = VideoEntity()
                     .rebuild((b) => b..timestamp = _videoTimestamp);
+
+                BuiltMap<String, double> volumeData;
+                try {
+                  volumeData =
+                      await FfmpegUtils.calculateVolumeData(await video.path);
+                  video =
+                      video.rebuild((b) => b..volumeData.replace(volumeData));
+                } catch (error) {
+                  // do nothing
+                }
+
                 final track = TrackEntity(video: video);
                 var song = store.state.uiState.song;
 
