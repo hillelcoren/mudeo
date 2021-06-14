@@ -183,7 +183,9 @@ class MudeoVideoListItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          song.title,
+                          (song.title ?? '').isEmpty
+                              ? localization.newSong
+                              : song.title,
                           style: theme.headline5.copyWith(fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                         ),
