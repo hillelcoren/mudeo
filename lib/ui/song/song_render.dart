@@ -131,7 +131,7 @@ class _SongRenderState extends State<SongRender> {
                 }
               },
               child: Text(localization.download.toUpperCase())),
-        if (_videoTimestamp != null && _videoTimestamp > 0)
+        if (_videoTimestamp != null && _videoTimestamp > 0 && song.canAddTrack)
           TextButton(
               onPressed: () async {
                 final store = StoreProvider.of<AppState>(context);
