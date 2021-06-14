@@ -51,6 +51,8 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     final data = {
       'order_id': purchase.purchaseID,
       'timestamp': (int.parse(purchase.transactionDate) / 1000).floor(),
+      'length':
+          purchase.productID == kProductYearDownloads ? 'year' : 'lifetime',
     };
 
     try {
@@ -135,7 +137,8 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
       return;
     }
 
-    final productIds = Set<String>.from([kProductPrivateStorage]);
+    final productIds =
+        Set<String>.from([kProductYearDownloads, kProductLifetimeDownloads]);
     final ProductDetailsResponse response =
         await InAppPurchaseConnection.instance.queryProductDetails(productIds);
 
@@ -168,8 +171,12 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
 
   String convertPlanToString(String plan) {
     switch (plan) {
-      case kProductPrivateStorage:
-        return 'Private Storage';
+      //case kProductPrivateStorage:
+      //  return 'Private Storage';
+      case kProductLifetimeDownloads:
+        return 'Video Download [Lifetime]';
+      case kProductYearDownloads:
+        return 'Video Download [One Year]';
       default:
         return '';
     }
@@ -187,7 +194,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
     return SimpleDialog(
       title: Column(
         children: <Widget>[
-          Text(localization.privateStorage),
+          Text(localization.enableDownloads),
           SizedBox(height: 15),
           if (Platform.isIOS)
             Padding(

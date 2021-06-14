@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'enable_downloads': 'Enable Downloads',
       'publish': 'Publish',
       'this_may_take_a_few_minutes': 'This may take a few minutes',
       'guest': 'Guest',
@@ -759,6 +760,9 @@ class AppLocalization {
       _localizedValues[locale.toString()]['this_may_take_a_few_minutes'];
 
   String get createVideo => _localizedValues[locale.toString()]['create_video'];
+
+  String get enableDownloads =>
+      _localizedValues[locale.toString()]['enable_downloads'];
 
   String get publish => _localizedValues[locale.toString()]['publish'];
 

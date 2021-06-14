@@ -9,7 +9,6 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
-import 'package:mudeo/ui/auth/upgrade_dialog.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:qr_flutter/qr_flutter.dart';

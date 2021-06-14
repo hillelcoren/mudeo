@@ -28,7 +28,9 @@ const int kDesktopBreakpoint = 700;
 const int kCountCachedPages = 2;
 const int kOAuthProviderGoogle = 1;
 
-const String kProductPrivateStorage = 'month_private_storage';
+//const String kProductPrivateStorage = 'month_private_storage';
+const String kProductYearDownloads = 'year_downloads';
+const String kProductLifetimeDownloads = 'lifetime_downloads';
 
 const String kSongFilterFeatured = 'featured';
 const String kSongFilterNewest = 'newest';

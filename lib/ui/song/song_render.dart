@@ -8,6 +8,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
+import 'package:mudeo/ui/auth/upgrade_dialog.dart';
 import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share/share.dart';
@@ -103,6 +104,9 @@ class _SongRenderState extends State<SongRender> {
 
   @override
   Widget build(BuildContext context) {
+    final store = StoreProvider.of<AppState>(context);
+    final state = store.state;
+
     final localization = AppLocalization.of(context);
     final song = widget.song;
 
@@ -119,7 +123,17 @@ class _SongRenderState extends State<SongRender> {
               child: Text(localization.start.toUpperCase())),
         if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
-              onPressed: () async => Share.shareFiles([await videoPath]),
+              onPressed: () async {
+                if (true || state.artist.isPaid) {
+                  Share.shareFiles([await videoPath]);
+                } else {
+                  showDialog<UpgradeDialog>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return UpgradeDialog();
+                      });
+                }
+              },
               child: Text(localization.download.toUpperCase())),
         if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
