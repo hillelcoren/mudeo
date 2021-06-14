@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -851,6 +852,9 @@ class _CommentRowState extends State<CommentRow> {
                   color: Colors.redAccent,
                   child: Text(AppLocalization.of(context).delete.toUpperCase()),
                   onPressed: () {
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    }
                     showDialog<AlertDialog>(
                         context: context,
                         builder: (BuildContext context) {
@@ -868,7 +872,9 @@ class _CommentRowState extends State<CommentRow> {
                                   onPressed: () {
                                     store.dispatch(DeleteCommentRequest(
                                         comment: widget.comment));
-                                    Navigator.pop(context);
+                                    if (Navigator.of(context).canPop()) {
+                                      Navigator.of(context).pop();
+                                    }
                                   })
                             ],
                           );
@@ -1083,10 +1089,15 @@ class _SongCommentsState extends State<SongComments> {
                                       _textController.text.trim());
                                   store.dispatch(SaveCommentRequest(
                                       completer: completer, comment: comment));
+                                  /*
                                   completer.future.then((value) {
                                     _textController.clear();
-                                    _textFocusNode.unfocus();
+                                    _textFocusNode.unfocus();                                    
                                   });
+                                  */
+                                  if (Navigator.of(context).canPop()) {
+                                    Navigator.of(context).pop();
+                                  }
                                 }
                               : null,
                         )
