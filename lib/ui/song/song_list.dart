@@ -191,10 +191,17 @@ class SongItem extends StatefulWidget {
 }
 
 class _SongItemState extends State<SongItem> {
-  bool _showComments = false;
-
   void onMessageTap() {
-    setState(() => _showComments = !_showComments);
+    showDialog<SongComments>(
+        context: context,
+        builder: (BuildContext context) {
+          return SongComments(
+            song: widget.song,
+            onClosePressed: () {
+              Navigator.of(context).pop();
+            },
+          );
+        });
 
     Scrollable.ensureVisible(context,
         duration: Duration(milliseconds: 500), curve: Curves.easeInOutCubic);
@@ -210,16 +217,14 @@ class _SongItemState extends State<SongItem> {
     final gradientColor = Colors.black12.withOpacity(.75);
 
     return GestureDetector(
-      onTap: _showComments
-          ? null
-          : () {
-              showDialog<VideoPlayer>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return VideoPlayer(
-                        '${song.videoUrl}?updated_at=${song.updatedAt}');
-                  });
-              /*
+      onTap: () {
+        showDialog<VideoPlayer>(
+            context: context,
+            builder: (BuildContext context) {
+              return VideoPlayer(
+                  '${song.videoUrl}?updated_at=${song.updatedAt}');
+            });
+        /*
               if ((song.youTubeId ?? '').isEmpty) {
                 showDialog<VideoPlayer>(
                     context: context,
@@ -256,10 +261,10 @@ class _SongItemState extends State<SongItem> {
                 }
               }
                */
-            },
+      },
       child: Container(
         color: Colors.black,
-        height: _showComments ? kSongHeightWithComments : kSongHeight,
+        height: kSongHeight,
         child: Stack(children: <Widget>[
           !song.hasThumbnail && lastVideo.isRemoteVideo
               ? Center(
@@ -291,19 +296,6 @@ class _SongItemState extends State<SongItem> {
                       song: widget.song,
                       enableShowArtist: widget.enableShowArtist,
                     ),
-                  ),
-                ),
-                AnimatedContainer(
-                  height: _showComments ? 400 : 0,
-                  duration: Duration(milliseconds: _showComments ? 500 : 300),
-                  curve: Curves.easeInOutCubic,
-                  child: SongComments(
-                    song: song,
-                    onClosePressed: () {
-                      setState(() {
-                        _showComments = false;
-                      });
-                    },
                   ),
                 ),
                 Container(
