@@ -440,7 +440,7 @@ class SongFooter extends StatelessWidget {
                 },
                 color: artist.likedSong(song.id) ? Colors.redAccent : null,
               ),
-              song.countLike > 0 ? Text('${song.countLike}') : SizedBox(),
+              Text('${song.countLike + 1}'),
             ],
           ),
           Row(

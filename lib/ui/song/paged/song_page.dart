@@ -158,7 +158,7 @@ class _SongActions extends StatelessWidget {
         if (state.authState.hasValidToken)
           _LargeIconButton(
             iconData: Icons.favorite,
-            count: song.countLike,
+            count: song.countLike + 1,
             color: artist.likedSong(song.id) ? Colors.red : null,
             onPressed: () {
               store.dispatch(LikeSongRequest(song: song));
