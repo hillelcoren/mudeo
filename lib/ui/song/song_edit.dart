@@ -72,14 +72,13 @@ class SongScaffold extends StatelessWidget {
     final song = viewModel.song;
     final authArtist = viewModel.state.authState.artist;
     final isMissingRecognitions = false;
+
     /*
     final isMissingRecognitions = song.tracks
         .where((track) =>
             track.video.isNew && (track.video.recognitions ?? '').isEmpty)
         .isNotEmpty;
     */
-
-    print('## UPDATED: ${song.updatedAt}');
 
     return Scaffold(
       appBar: AppBar(
