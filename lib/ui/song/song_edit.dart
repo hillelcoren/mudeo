@@ -293,8 +293,9 @@ class _SongEditState extends State<SongEdit> {
           cameras
               .firstWhere((camera) => camera.lensDirection == cameraDirection),
           ResolutionPreset.low)
-        ..initialize().then((value) async {
+        ..initialize().then((value) {
           if (mounted) setState(() {});
+
           /*
           final sharedPrefs = await SharedPreferences.getInstance();
           if (sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
