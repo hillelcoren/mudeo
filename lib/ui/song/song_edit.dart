@@ -91,9 +91,6 @@ class SongScaffold extends StatelessWidget {
             if (song.isOld) {
               actions.add(localization.download);
             }
-            if (song.canAddTrack) {
-              actions.add(localization.addVideo);
-            }
             if (song.isOld) {
               actions.add(
                 (kIsWeb)
@@ -142,20 +139,6 @@ class SongScaffold extends StatelessWidget {
               }
               Share.shareFiles([path]);
               return;
-            } else if (action == localization.addVideo) {
-              showDialog<AddVideo>(
-                  context: context,
-                  builder: (BuildContext childContext) {
-                    return AddVideo(
-                      song: song,
-                      onRemoteVideoSelected: (videoId) =>
-                          viewModel.onAddRemoteVideo(context, videoId),
-                      onTrackSelected: (track) =>
-                          viewModel.addVideoFromTrack(context, track),
-                      onSongSelected: (song) =>
-                          viewModel.addVideoFromSong(context, song),
-                    );
-                  });
             } else {
               showDialog<AlertDialog>(
                   context: context,
@@ -860,43 +843,45 @@ class _SongEditState extends State<SongEdit> {
                   : Flexible(
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: song.includedTracks.map((track) {
-                          final videoPlayer = videoPlayers[track.id];
-                          final songIndex = song.includedTracks.indexOf(track);
+                        children: [
+                          ...song.includedTracks.map((track) {
+                            final videoPlayer = videoPlayers[track.id];
+                            final songIndex =
+                                song.includedTracks.indexOf(track);
 
-                          if (videoPlayer == null) {
-                            return Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(50),
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-
-                          return TrackView(
-                            isFirst: songIndex == 0,
-                            viewModel: viewModel,
-                            videoPlayer: videoPlayer,
-                            aspectRatio: videoPlayer.value.aspectRatio,
-                            track: track,
-                            onDeletePressed: () async {
-                              videoPlayers.remove(track.id);
-                              allVideoPlayers.remove(track.id);
-                              viewModel.onDeleteVideoPressed(song, track);
-                            },
-                            onFixPressed: () async {
-                              final recognitions = await updateRecognitions(
-                                delay: 0,
-                                duration: song.duration,
-                                video: track.video,
+                            if (videoPlayer == null) {
+                              return Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(50),
+                                  child: CircularProgressIndicator(),
+                                ),
                               );
-                              printWrapped('## recognitions: $recognitions');
-                            },
-                            onDelayChanged: (track, delay) {
-                              final song =
-                                  viewModel.song.setTrackDelay(track, delay);
-                              viewModel.onChangedSong(song);
-                              /*
+                            }
+
+                            return TrackView(
+                              isFirst: songIndex == 0,
+                              viewModel: viewModel,
+                              videoPlayer: videoPlayer,
+                              aspectRatio: videoPlayer.value.aspectRatio,
+                              track: track,
+                              onDeletePressed: () async {
+                                videoPlayers.remove(track.id);
+                                allVideoPlayers.remove(track.id);
+                                viewModel.onDeleteVideoPressed(song, track);
+                              },
+                              onFixPressed: () async {
+                                final recognitions = await updateRecognitions(
+                                  delay: 0,
+                                  duration: song.duration,
+                                  video: track.video,
+                                );
+                                printWrapped('## recognitions: $recognitions');
+                              },
+                              onDelayChanged: (track, delay) {
+                                final song =
+                                    viewModel.song.setTrackDelay(track, delay);
+                                viewModel.onChangedSong(song);
+                                /*
                             if (delay != track.delay) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 updateRecognitions(
@@ -906,12 +891,44 @@ class _SongEditState extends State<SongEdit> {
                               });
                             }
                              */
-                            },
-                            isActive: _activeTrack == songIndex,
-                            onActivatePressed: () =>
-                                setState(() => _activeTrack = songIndex),
-                          );
-                        }).toList(),
+                              },
+                              isActive: _activeTrack == songIndex,
+                              onActivatePressed: () =>
+                                  setState(() => _activeTrack = songIndex),
+                            );
+                          }).toList(),
+                          if (song.canAddTrack)
+                            Padding(
+                              padding: const EdgeInsets.all(32),
+                              child: Center(
+                                child: IconButton(
+                                  iconSize: 48,
+                                  icon: Icon(
+                                    Icons.add_circle_outline,
+                                    size: 48,
+                                  ),
+                                  onPressed: () {
+                                    showDialog<AddVideo>(
+                                        context: context,
+                                        builder: (BuildContext childContext) {
+                                          return AddVideo(
+                                            song: song,
+                                            onRemoteVideoSelected: (videoId) =>
+                                                viewModel.onAddRemoteVideo(
+                                                    context, videoId),
+                                            onTrackSelected: (track) =>
+                                                viewModel.addVideoFromTrack(
+                                                    context, track),
+                                            onSongSelected: (song) =>
+                                                viewModel.addVideoFromSong(
+                                                    context, song),
+                                          );
+                                        });
+                                  },
+                                ),
+                              ),
+                            )
+                        ],
                       ),
                     ),
           ],
