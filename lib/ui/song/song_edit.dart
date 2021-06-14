@@ -833,7 +833,7 @@ class _SongEditState extends State<SongEdit> {
                   ),
                   ExpandedButton(
                     icon: Icons.movie,
-                    onPressed: disableButtons || song.tracks.length < 2
+                    onPressed: disableButtons || song.includedTracks.length < 2
                         ? null
                         : () => _renderSong(),
                   ),
@@ -865,7 +865,7 @@ class _SongEditState extends State<SongEdit> {
                         scrollDirection: Axis.horizontal,
                         children: song.includedTracks.map((track) {
                           final videoPlayer = videoPlayers[track.id];
-                          final songIndex = song.tracks.indexOf(track);
+                          final songIndex = song.includedTracks.indexOf(track);
 
                           if (videoPlayer == null) {
                             return Center(

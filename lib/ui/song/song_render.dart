@@ -218,7 +218,7 @@ class _SongRenderState extends State<SongRender> {
                   ),
                 ),
                 InkWell(
-                  onTap: song.tracks.length == 4
+                  onTap: song.includedTracks.length == 4
                       ? () => _setLayout(kVideoLayoutGrid)
                       : null,
                   child: Row(
