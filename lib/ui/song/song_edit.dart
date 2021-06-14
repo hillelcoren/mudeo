@@ -1030,6 +1030,7 @@ class TrackView extends StatelessWidget {
                       onPressed: () {
                         showDialog<TrackSyncer>(
                           context: context,
+                          barrierDismissible: false,
                           builder: (BuildContext context) {
                             return TrackSyncer(
                               song: viewModel.song,
