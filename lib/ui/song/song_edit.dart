@@ -1127,12 +1127,7 @@ class TrackEditDialog extends StatelessWidget {
         Material(
           elevation: kDefaultElevation,
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: 12,
-              left: 12,
-              right: 24,
-              bottom: 12,
-            ),
+            padding: const EdgeInsets.all(12),
             child: Form(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1198,11 +1193,19 @@ class TrackEditDialog extends StatelessWidget {
                     )
                   else
                     IconButton(
-                        onPressed: () {
-                          onActivatePressed();
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.volume_up)),
+                      onPressed: () {
+                        onActivatePressed();
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.volume_up),
+                    ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    child: Text(AppLocalization.of(context).download),
+                    onPressed: () async {
+                      Share.shareFiles([await track.video.path]);
+                    },
+                  )
                   /*
                   if (state.isDance && state.authState.artist.isAdmin)
                     Padding(
