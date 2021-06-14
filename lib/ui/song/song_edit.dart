@@ -1006,6 +1006,7 @@ class TrackView extends StatelessWidget {
                             child: VideoPlayer(videoPlayer)),
                       ),
           ),
+          /*
           Positioned(
             top: 0.0,
             left: 0.0,
@@ -1080,6 +1081,7 @@ class TrackView extends StatelessWidget {
               ),
             ),
           ),
+          */
         ],
       ),
     );
@@ -1132,7 +1134,7 @@ class TrackEditDialog extends StatelessWidget {
                   children: <Widget>[
                     if (!state.isDance)
                       Container(
-                        height: 300,
+                        height: 200,
                         width: 100,
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: FlutterSlider(
@@ -1186,20 +1188,12 @@ class TrackEditDialog extends StatelessWidget {
                       ),
                     ElevatedButton(
                       child: Text(AppLocalization.of(context).primary),
-                      style: ElevatedButton.styleFrom(primary: Colors.purple),
                       onPressed: isActive
                           ? null
                           : () {
                               onActivatePressed();
                               Navigator.pop(context);
                             },
-                    ),
-                    ElevatedButton(
-                      child: Text(AppLocalization.of(context).download),
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
-                      onPressed: () async {
-                        Share.shareFiles([await track.video.path]);
-                      },
                     ),
                     /*
                     if (state.isDance && state.authState.artist.isAdmin)
@@ -1239,23 +1233,29 @@ class TrackEditDialog extends StatelessWidget {
                         ),
                       ),
                       */
+
                     isFirst
                         ? SizedBox()
-                        : ElevatedButton(
-                            child: Text(localization.adjust),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              showDialog<void>(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return TrackSyncer(
-                                      song: viewModel.song,
-                                      track: track,
-                                      onDelayChanged: (delay) =>
-                                          onDelayChanged(delay),
-                                    );
-                                  });
-                            },
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: ElevatedButton(
+                              child: Text(localization.adjust),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.purple),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                showDialog<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return TrackSyncer(
+                                        song: viewModel.song,
+                                        track: track,
+                                        onDelayChanged: (delay) =>
+                                            onDelayChanged(delay),
+                                      );
+                                    });
+                              },
+                            ),
                           ),
                     /*
                     track.video.isRemoteVideo
@@ -1272,6 +1272,15 @@ class TrackEditDialog extends StatelessWidget {
                           )
                         : SizedBox(),
                         */
+                    SizedBox(height: 4),
+                    ElevatedButton(
+                      child: Text(AppLocalization.of(context).download),
+                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      onPressed: () async {
+                        Share.shareFiles([await track.video.path]);
+                      },
+                    ),
+                    SizedBox(height: 4),
                     ElevatedButton(
                       child: Text(track.video.isOld
                           ? localization.remove
