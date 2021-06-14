@@ -245,7 +245,7 @@ class SongScaffold extends StatelessWidget {
       ),
       body: SongEdit(
         viewModel: viewModel,
-        key: ValueKey('${viewModel.song.updatedAt}'),
+        key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
       ),
     );
   }
@@ -341,7 +341,7 @@ class _SongEditState extends State<SongEdit> {
         final video = track.video;
         VideoPlayerController player;
         String path = await VideoEntity.getPath(video);
-        if (!await File(path).exists()) {
+        if (!await File(path).exists() && video.url.isNotEmpty) {
           final http.Response copyResponse = await http.Client().get(video.url);
           await File(path).writeAsBytes(copyResponse.bodyBytes);
         }
@@ -565,7 +565,7 @@ class _SongEditState extends State<SongEdit> {
 
     showProcessingDialog(context);
     String path = await VideoEntity.getPath(video);
-    if (!await File(path).exists()) {
+    if (!await File(path).exists() && video.url.isNotEmpty) {
       final http.Response response = await http.Client().get(video.url);
       await File(path).writeAsBytes(response.bodyBytes);
     }
