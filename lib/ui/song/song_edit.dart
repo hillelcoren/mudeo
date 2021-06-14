@@ -278,6 +278,7 @@ class _SongEditState extends State<SongEdit> {
     SharedPreferences.getInstance().then((sharedPrefs) {
       cameraDirection = convertCameraDirectionFromString(
           sharedPrefs.getString(kSharedPrefCameraDirection));
+
       initCamera();
     });
   }
