@@ -197,7 +197,6 @@ class _SongItemState extends State<SongItem> {
         context: context,
         builder: (BuildContext context) {
           return SongComments(
-            song: widget.song,
             onClosePressed: () {
               Navigator.of(context).pop();
             },
@@ -852,9 +851,6 @@ class _CommentRowState extends State<CommentRow> {
                   color: Colors.redAccent,
                   child: Text(AppLocalization.of(context).delete.toUpperCase()),
                   onPressed: () {
-                    if (Navigator.of(context).canPop()) {
-                      Navigator.of(context).pop();
-                    }
                     showDialog<AlertDialog>(
                         context: context,
                         builder: (BuildContext context) {
@@ -870,8 +866,15 @@ class _CommentRowState extends State<CommentRow> {
                               FlatButton(
                                   child: Text(localization.ok.toUpperCase()),
                                   onPressed: () {
+                                    final completer = Completer<Null>()
+                                      ..future.then((value) {
+                                        if (Navigator.of(context).canPop()) {
+                                          Navigator.of(context).pop();
+                                        }
+                                      });
                                     store.dispatch(DeleteCommentRequest(
-                                        comment: widget.comment));
+                                        comment: widget.comment,
+                                        completer: completer));
                                     if (Navigator.of(context).canPop()) {
                                       Navigator.of(context).pop();
                                     }
@@ -964,10 +967,13 @@ class SongImage extends StatelessWidget {
 }
 
 class SongComments extends StatefulWidget {
-  const SongComments({@required this.song, @required this.onClosePressed});
+  const SongComments({
+    @required this.songId,
+    @required this.onClosePressed,
+  });
 
-  final SongEntity song;
   final Function onClosePressed;
+  final int songId;
 
   @override
   _SongCommentsState createState() => _SongCommentsState();
@@ -1009,6 +1015,7 @@ class _SongCommentsState extends State<SongComments> {
     final localization = AppLocalization.of(context);
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
+    final song = state.dataState.songMap[widget.songId];
 
     return SingleChildScrollView(
       child: FormCard(
@@ -1019,10 +1026,9 @@ class _SongCommentsState extends State<SongComments> {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  widget.song.description != null &&
-                          widget.song.description.trim().isNotEmpty
-                      ? widget.song.description
-                      : widget.song.title,
+                  song.description != null && song.description.trim().isNotEmpty
+                      ? song.description
+                      : song.title,
                   style: Theme.of(context).textTheme.headline6,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -1084,20 +1090,21 @@ class _SongCommentsState extends State<SongComments> {
                               ? () {
                                   final Completer<Null> completer =
                                       Completer<Null>();
-                                  final comment = widget.song.newComment(
+                                  final comment = song.newComment(
                                       state.authState.artist.id,
                                       _textController.text.trim());
                                   store.dispatch(SaveCommentRequest(
                                       completer: completer, comment: comment));
-                                  /*
                                   completer.future.then((value) {
                                     _textController.clear();
-                                    _textFocusNode.unfocus();                                    
+                                    _textFocusNode.unfocus();
                                   });
-                                  */
+
+                                  /*
                                   if (Navigator.of(context).canPop()) {
                                     Navigator.of(context).pop();
                                   }
+                                  */
                                 }
                               : null,
                         )
@@ -1108,7 +1115,7 @@ class _SongCommentsState extends State<SongComments> {
           SizedBox(height: 20),
           SizedBox(
             height: 200,
-            child: widget.song.comments.isEmpty
+            child: song.comments.isEmpty
                 ? Center(
                     child: Text(
                       localization.noComments,
@@ -1120,10 +1127,10 @@ class _SongCommentsState extends State<SongComments> {
                   )
                 : ListView(
                     shrinkWrap: true,
-                    children: widget.song.comments.reversed
+                    children: song.comments.reversed
                         .map((comment) => CommentRow(
                               key: ValueKey(comment.id),
-                              song: widget.song,
+                              song: song,
                               comment: comment,
                             ))
                         .toList(),

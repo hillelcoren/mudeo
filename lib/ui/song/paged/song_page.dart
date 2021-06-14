@@ -174,7 +174,7 @@ class _SongActions extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return SongComments(
-                      song: song,
+                      songId: song.id,
                       onClosePressed: () {
                         Navigator.of(context).pop();
                       },
