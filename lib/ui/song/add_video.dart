@@ -109,7 +109,9 @@ class MudeoVideoSelector extends StatelessWidget {
     final childSongIds = memoizedChildSongIds(songMap, song);
     final usedVideoIds = <int>[];
 
-    if (parentSong != null || childSongIds.isNotEmpty || song.isOld) {
+    if (parentSong != null ||
+        childSongIds.isNotEmpty ||
+        song.includedTracks.isNotEmpty) {
       return ListView(
         children: <Widget>[
           if (parentSong != null)
@@ -186,7 +188,8 @@ class MudeoVideoListItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 6),
-                        Text(song.artist.displayName, style: theme.subtitle1),
+                        Text(song.artist?.displayName ?? '',
+                            style: theme.subtitle1),
                         SizedBox(height: 6),
                         Text(localization.lookup(song.layout) +
                             (relationship != kVideoRelationshipSelf
@@ -195,7 +198,7 @@ class MudeoVideoListItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (song.tracks.length > 1)
+                  if (song.tracks.length > 1 && song.isOld)
                     ThumbnailIcon(
                       onSelected: () => onSongSelected(song),
                       url: song.thumbnailUrl,
@@ -208,12 +211,14 @@ class MudeoVideoListItem extends StatelessWidget {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: song.tracks.map((track) {
+                    /*
                     if (usedVideoIds.contains(track.video.id) ||
                         !track.video.hasThumbnail) {
                       return SizedBox();
                     }
 
                     usedVideoIds.add(track.video.id);
+                    */
 
                     return ThumbnailIcon(
                       url: track.video.thumbnailUrl,
@@ -373,16 +378,8 @@ class ThumbnailIcon extends StatelessWidget {
             SizedBox(
               height: height,
               width: width,
-              child: isBackingTrack
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Text(
-                          localization.backingTrack,
-                          style: TextStyle(color: Colors.grey, fontSize: 20),
-                        ),
-                      ),
-                    )
+              child: (url ?? '').isEmpty
+                  ? Placeholder()
                   : kIsWeb
                       ? Image.network(
                           url,
