@@ -117,10 +117,6 @@ class _SongRenderState extends State<SongRender> {
               : localization.creatingVideo)
           : null,
       actions: [
-        if (_videoTimestamp == null)
-          TextButton(
-              onPressed: () => createVideo(),
-              child: Text(localization.start.toUpperCase())),
         if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
               onPressed: () async {
@@ -179,7 +175,14 @@ class _SongRenderState extends State<SongRender> {
               FfmpegUtils.flutterFFmpeg.cancel();
               Navigator.of(context).pop();
             },
-            child: Text(localization.close.toUpperCase())),
+            child: Text((_videoTimestamp == 0
+                    ? localization.cancel
+                    : localization.close)
+                .toUpperCase())),
+        if (_videoTimestamp == null)
+          TextButton(
+              onPressed: () => createVideo(),
+              child: Text(localization.start.toUpperCase())),
       ],
       content: _videoTimestamp == null
           ? Column(
