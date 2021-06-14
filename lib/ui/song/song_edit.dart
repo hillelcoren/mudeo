@@ -1104,7 +1104,7 @@ class TrackView extends StatelessWidget {
   }
 }
 
-class TrackEditDialog extends StatelessWidget {
+class TrackEditDialog extends StatefulWidget {
   TrackEditDialog({
     @required this.videoPlayer,
     @required this.track,
@@ -1128,8 +1128,20 @@ class TrackEditDialog extends StatelessWidget {
   final Function onActivatePressed;
 
   @override
+  _TrackEditDialogState createState() => _TrackEditDialogState();
+}
+
+class _TrackEditDialogState extends State<TrackEditDialog> {
+  bool _isActive;
+
+  void initState() {
+    super.initState();
+    _isActive = widget.isActive;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final state = viewModel.state;
+    final state = widget.viewModel.state;
     final localization = AppLocalization.of(context);
     final buttonWidth = 160.0;
     final buttonHeight = 55.0;
@@ -1194,21 +1206,23 @@ class TrackEditDialog extends StatelessWidget {
                           min: 0,
                           onDragCompleted:
                               (handlerIndex, lowerValue, upperValue) {
-                            videoPlayer.setVolume(lowerValue / 100);
-                            final song = viewModel.song
-                                .setTrackVolume(track, lowerValue.toInt());
-                            viewModel.onChangedSong(song);
+                            widget.videoPlayer.setVolume(lowerValue / 100);
+                            final song = widget.viewModel.song.setTrackVolume(
+                                widget.track, lowerValue.toInt());
+                            widget.viewModel.onChangedSong(song);
                           },
-                          values: [track.volume.toDouble()],
+                          values: [widget.track.volume.toDouble()],
                         ),
                       ),
                     ElevatedButton(
                       child: Text(AppLocalization.of(context).primary),
-                      onPressed: isActive
+                      onPressed: _isActive
                           ? null
                           : () {
-                              onActivatePressed();
-                              Navigator.pop(context);
+                              widget.onActivatePressed();
+                              setState(() {
+                                _isActive = true;
+                              });
                             },
                     ),
                     /*
@@ -1250,7 +1264,7 @@ class TrackEditDialog extends StatelessWidget {
                       ),
                       */
 
-                    isFirst
+                    widget.isFirst
                         ? SizedBox()
                         : Padding(
                             padding: const EdgeInsets.only(top: 4),
@@ -1264,10 +1278,10 @@ class TrackEditDialog extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return TrackSyncer(
-                                        song: viewModel.song,
-                                        track: track,
+                                        song: widget.viewModel.song,
+                                        track: widget.track,
                                         onDelayChanged: (delay) =>
-                                            onDelayChanged(delay),
+                                            widget.onDelayChanged(delay),
                                       );
                                     });
                               },
@@ -1293,12 +1307,12 @@ class TrackEditDialog extends StatelessWidget {
                       child: Text(AppLocalization.of(context).download),
                       style: ElevatedButton.styleFrom(primary: Colors.green),
                       onPressed: () async {
-                        Share.shareFiles([await track.video.path]);
+                        Share.shareFiles([await widget.track.video.path]);
                       },
                     ),
                     SizedBox(height: 4),
                     ElevatedButton(
-                      child: Text(track.video.isOld
+                      child: Text(widget.track.video.isOld
                           ? localization.remove
                           : localization.delete),
                       style: ElevatedButton.styleFrom(primary: Colors.red),
@@ -1321,7 +1335,7 @@ class TrackEditDialog extends StatelessWidget {
                                   child: Text(localization.ok.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);
-                                    onDeletePressed();
+                                    widget.onDeletePressed();
                                   })
                             ],
                           ),
