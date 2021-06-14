@@ -899,13 +899,13 @@ class _SongEditState extends State<SongEdit> {
                           }).toList(),
                           if (song.canAddTrack)
                             Padding(
-                              padding: const EdgeInsets.all(32),
+                              padding: const EdgeInsets.all(38),
                               child: Center(
                                 child: IconButton(
-                                  iconSize: 48,
+                                  iconSize: 38,
                                   icon: Icon(
                                     Icons.add_circle_outline,
-                                    size: 48,
+                                    size: 38,
                                   ),
                                   onPressed: () {
                                     showDialog<AddVideo>(
