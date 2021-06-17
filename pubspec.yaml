@@ -1,6 +1,6 @@
 name: mudeo
 description: a collaborative music video app
-version: 0.0.53+53
+version: 0.0.54+54
 publish_to: none
 
 environment:
