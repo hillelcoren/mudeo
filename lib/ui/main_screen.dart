@@ -128,7 +128,7 @@ class _MainScreenState extends State<MainScreen> {
       child: SongPreferencesWidget(
         child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth > kDesktopBreakpoint) {
+          if (constraints.maxWidth > kDesktopBreakpoint && kIsWeb) {
             return DesktopScreen(
               viewModel: viewModel,
               profileScrollController: _profileScrollController,

@@ -604,13 +604,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  native_video_view:
-    dependency: "direct main"
-    description:
-      name: native_video_view
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   nested:
     dependency: transitive
     description:

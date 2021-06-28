@@ -26,7 +26,6 @@ dependencies:
       path: packages/camera/camera
   #video_player: ^0.10.12+2
   video_player: 2.1.6
-  native_video_view: ^0.3.0
   path_provider: ^1.6.9
   screen: ^0.0.4
   flutter_redux: ^0.8.2
