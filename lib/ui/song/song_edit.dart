@@ -484,7 +484,10 @@ class _SongEditState extends State<SongEdit> {
     final timestamp = widget.viewModel.state.uiState.recordingTimestamp;
     final endTimestamp = DateTime.now().millisecondsSinceEpoch;
     await stopRecording();
-    VideoPlayerController videoPlayer = VideoPlayerController.file(File(path));
+    VideoPlayerController videoPlayer = VideoPlayerController.file(
+      File(path),
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    );
     await videoPlayer.initialize();
 
     // TODO remove this: https://github.com/flutter/flutter/issues/30689

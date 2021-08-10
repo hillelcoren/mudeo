@@ -687,9 +687,15 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     if (mounted) {
       if (kIsWeb) {
-        _controller = VideoPlayerController.network(videoUrl);
+        _controller = VideoPlayerController.network(
+          videoUrl,
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+        );
       } else {
-        _controller = VideoPlayerController.file(File(path));
+        _controller = VideoPlayerController.file(
+          File(path),
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+        );
       }
       controllers[widget.track] = _controller;
       await _controller.initialize().then((value) {
