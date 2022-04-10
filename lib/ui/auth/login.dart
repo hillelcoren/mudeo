@@ -231,7 +231,9 @@ class _LoginState extends State<LoginScreen> {
                                       icon: Icon(FontAwesomeIcons.at),
                                     ),
                                     keyboardType: TextInputType.text,
-                                    autovalidate: _autoValidate,
+                                    autovalidateMode: _autoValidate
+                                        ? AutovalidateMode.onUserInteraction
+                                        : AutovalidateMode.disabled,
                                     validator: (val) =>
                                         val.isEmpty || val.trim().isEmpty
                                             ? localization.pleaseEnterYourHandle
@@ -251,7 +253,9 @@ class _LoginState extends State<LoginScreen> {
                                           Icon(FontAwesomeIcons.solidEnvelope),
                                     ),
                                     keyboardType: TextInputType.emailAddress,
-                                    autovalidate: _autoValidate,
+                                    autovalidateMode: _autoValidate
+                                        ? AutovalidateMode.onUserInteraction
+                                        : AutovalidateMode.disabled,
                                     validator: (val) =>
                                         val.isEmpty || val.trim().isEmpty
                                             ? localization.pleaseEnterYourEmail
@@ -266,7 +270,9 @@ class _LoginState extends State<LoginScreen> {
                                 ? TextFormField(
                                     controller: _passwordController,
                                     autocorrect: false,
-                                    autovalidate: _autoValidate,
+                                    autovalidateMode: _autoValidate
+                                        ? AutovalidateMode.onUserInteraction
+                                        : AutovalidateMode.disabled,
                                     keyboardType: TextInputType.visiblePassword,
                                     decoration: InputDecoration(
                                       labelText: localization.password,
