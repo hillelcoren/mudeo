@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/utils/sentry.dart';
@@ -20,6 +20,7 @@ import 'package:screen/screen.dart';
 void main() async {
   //InAppPurchaseConnection.enablePendingPurchases();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Screen.keepOn(true);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

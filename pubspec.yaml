@@ -54,6 +54,7 @@ dependencies:
   rounded_loading_button:
   device_info:
   firebase_analytics:
+  firebase_core:
   flutter_launcher_icons:
   video_thumbnail:
   #tflite: ^1.0.5
@@ -61,7 +62,6 @@ dependencies:
   visibility_detector:
   flutter_ffmpeg:
   qr_flutter:
-  #twitter_qr_scanner:
   esys_flutter_share:
   material_design_icons_flutter:
 

@@ -36,7 +36,7 @@ class MudeoAppState extends State<MudeoApp> {
           TargetPlatform.android: ZoomPageTransitionsBuilder(),
         });
         final fontFamily = kIsWeb ? 'Roboto' : null;
-        final analytics = FirebaseAnalytics();
+        final analytics = FirebaseAnalytics.instance;
 
         return MaterialApp(
           supportedLocales: kLanguages

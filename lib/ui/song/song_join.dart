@@ -8,8 +8,6 @@ import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/utils/localization.dart';
-//import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
-//import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
 
 class SongJoinDialog extends StatefulWidget {
   @override
@@ -101,6 +99,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
                 : Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      /*
                       Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 20),
                         child: ToggleButtons(
@@ -126,6 +125,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
                               });
                             }),
                       ),
+                      */
                       if (!_useQrCode)
                         TextFormField(
                           controller: _secretController,
@@ -163,19 +163,12 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
             FlatButton(
               child: Text(localization.scan.toUpperCase()),
               onPressed: () async {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return _QrCodeScanner(
-                        onScanned: (value) {
-                          if (_isLoading) {
-                            return;
-                          }
-                          Navigator.of(context).pop();
-                          _onSubmit(secret: value);
-                        },
-                      );
-                    });
+                /*
+                String qrResult =
+                    await MajaScan.startScan(title: "Scan QR Code");
+                Navigator.of(context).pop();
+                _onSubmit(secret: qrResult);
+                */
               },
             )
           else
@@ -185,56 +178,5 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
             )
       ],
     );
-  }
-}
-
-class _QrCodeScanner extends StatefulWidget {
-  const _QrCodeScanner({@required this.onScanned});
-
-  final Function(String) onScanned;
-
-  @override
-  __QrCodeScannerState createState() => __QrCodeScannerState();
-}
-
-class __QrCodeScannerState extends State<_QrCodeScanner> {
-  GlobalKey qrKey = GlobalKey();
-  /*
-  QRViewController controller;
-
-  void _onQRViewCreate(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) {
-      widget.onScanned(scanData);
-      /*
-      if (!mounted) return;
-      if (Navigator.of(context).canPop()) {
-        Navigator.of(context).pop(scanData);
-      }      
-       */
-    });
-  }
-  */
-
-  @override
-  Widget build(BuildContext context) {
-    return Placeholder();
-
-    /*
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: QRView(
-        key: qrKey,
-        overlay: QrScannerOverlayShape(
-            borderRadius: 16,
-            borderColor: Colors.white,
-            borderLength: 120,
-            borderWidth: 10,
-            cutOutSize: 250),
-        onQRViewCreated: _onQRViewCreate,
-        data: "QR TEXT",
-      ),
-    );
-    */
   }
 }
