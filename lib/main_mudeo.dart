@@ -18,7 +18,7 @@ import 'package:redux_logging/redux_logging.dart';
 import 'package:screen/screen.dart';
 
 void main() async {
-  InAppPurchaseConnection.enablePendingPurchases();
+  //InAppPurchaseConnection.enablePendingPurchases();
   WidgetsFlutterBinding.ensureInitialized();
   Screen.keepOn(true);
   SystemChrome.setPreferredOrientations([
@@ -28,8 +28,8 @@ void main() async {
   final SentryClient _sentry = Config.SENTRY_DNS.isEmpty
       ? null
       : SentryClient(
-      dsn: Config.SENTRY_DNS,
-      environmentAttributes: await getSentryEvent());
+          dsn: Config.SENTRY_DNS,
+          environmentAttributes: await getSentryEvent());
 
   final store = Store<AppState>(appReducer,
       initialState: AppState(),
@@ -68,4 +68,3 @@ void main() async {
     }
   };
 }
-

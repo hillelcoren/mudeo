@@ -1,7 +1,0 @@
-package app.mudeo.mudeo;
-
-import io.flutter.embedding.android.FlutterActivity;
-
-public class MainActivity extends FlutterActivity {
-
-}

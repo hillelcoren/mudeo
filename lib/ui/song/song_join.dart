@@ -8,8 +8,8 @@ import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
-import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
+//import 'package:twitter_qr_scanner/QrScannerOverlayShape.dart';
+//import 'package:twitter_qr_scanner/twitter_qr_scanner.dart';
 
 class SongJoinDialog extends StatefulWidget {
   @override
@@ -199,6 +199,7 @@ class _QrCodeScanner extends StatefulWidget {
 
 class __QrCodeScannerState extends State<_QrCodeScanner> {
   GlobalKey qrKey = GlobalKey();
+  /*
   QRViewController controller;
 
   void _onQRViewCreate(QRViewController controller) {
@@ -213,9 +214,13 @@ class __QrCodeScannerState extends State<_QrCodeScanner> {
        */
     });
   }
+  */
 
   @override
   Widget build(BuildContext context) {
+    return Placeholder();
+
+    /*
     return Scaffold(
       backgroundColor: Colors.black,
       body: QRView(
@@ -230,5 +235,6 @@ class __QrCodeScannerState extends State<_QrCodeScanner> {
         data: "QR TEXT",
       ),
     );
+    */
   }
 }

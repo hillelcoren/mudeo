@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -16,9 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:screen/screen.dart';
+*/
 
 void main() async {
-  InAppPurchaseConnection.enablePendingPurchases();
+  /*
+  //InAppPurchaseConnection.enablePendingPurchases();
   WidgetsFlutterBinding.ensureInitialized();
   Screen.keepOn(true);
   SystemChrome.setPreferredOrientations([
@@ -69,5 +72,5 @@ void main() async {
       Zone.current.handleUncaughtError(details.exception, details.stack);
     }
   };
+  */
 }
-

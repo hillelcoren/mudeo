@@ -123,11 +123,13 @@ class _SongRenderState extends State<SongRender> {
                 if (true || state.artist.isPaid) {
                   Share.shareFiles([await videoPath]);
                 } else {
+                  /*
                   showDialog<UpgradeDialog>(
                       context: context,
                       builder: (BuildContext context) {
                         return UpgradeDialog();
                       });
+                      */
                 }
               },
               child: Text(localization.download.toUpperCase())),
