@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'dart:async';
 
-import 'package:built_collection/built_collection.dart';
-import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/utils/localization.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:camera/camera.dart' hide ImageFormat;
+import 'package:flutter/foundation.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/live_text.dart';
@@ -29,6 +30,7 @@ import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class SongScaffold extends StatelessWidget {
   const SongScaffold({
@@ -508,7 +510,16 @@ class _SongEditState extends State<SongEdit> {
       // do nothing
     }
 
+    final thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
+    await VideoThumbnail.thumbnailFile(
+      video: path,
+      imageFormat: ImageFormat.JPEG,
+      timeMs: 0,
+      thumbnailPath: thumbnailPath,
+    );
+
     final video = VideoEntity().rebuild((b) => b
+      ..thumbnailUrl = thumbnailPath
       ..timestamp = timestamp
       ..volumeData.replace(volumeData));
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -203,7 +205,7 @@ class MudeoVideoListItem extends StatelessWidget {
                   if (song.tracks.length > 1 && song.isOld)
                     ThumbnailIcon(
                       onSelected: () => onSongSelected(song),
-                      url: song.thumbnailUrl,
+                      url: song.imageUrl,
                     ),
                 ],
               ),
@@ -382,21 +384,23 @@ class ThumbnailIcon extends StatelessWidget {
               width: width,
               child: (url ?? '').isEmpty
                   ? Placeholder()
-                  : kIsWeb
-                      ? Image.network(
-                          url,
-                          fit: BoxFit.contain,
-                          alignment: Alignment.center,
-                          height: height,
-                          width: width,
-                        )
-                      : CachedNetworkImage(
-                          fit: BoxFit.contain,
-                          alignment: Alignment.center,
-                          height: height,
-                          width: width,
-                          imageUrl: url,
-                        ),
+                  : url.startsWith('http')
+                      ? (kIsWeb
+                          ? Image.network(
+                              url,
+                              fit: BoxFit.contain,
+                              alignment: Alignment.center,
+                              height: height,
+                              width: width,
+                            )
+                          : CachedNetworkImage(
+                              fit: BoxFit.contain,
+                              alignment: Alignment.center,
+                              height: height,
+                              width: width,
+                              imageUrl: url,
+                            ))
+                      : Image.file(File(url)),
             ),
             SizedBox(
               height: height,

@@ -13,6 +13,7 @@ import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class SongRender extends StatefulWidget {
   const SongRender({@required this.song});
@@ -141,14 +142,24 @@ class _SongRenderState extends State<SongRender> {
                     .rebuild((b) => b..timestamp = _videoTimestamp);
 
                 BuiltMap<String, double> volumeData;
+                final path = await video.path;
                 try {
-                  volumeData =
-                      await FfmpegUtils.calculateVolumeData(await video.path);
-                  video =
-                      video.rebuild((b) => b..volumeData.replace(volumeData));
+                  volumeData = await FfmpegUtils.calculateVolumeData(path);
                 } catch (error) {
                   // do nothing
                 }
+
+                final thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
+                await VideoThumbnail.thumbnailFile(
+                  video: path,
+                  imageFormat: ImageFormat.JPEG,
+                  timeMs: 0,
+                  thumbnailPath: thumbnailPath,
+                );
+
+                video = video.rebuild((b) => b
+                  ..volumeData.replace(volumeData)
+                  ..thumbnailUrl = thumbnailPath);
 
                 final track = TrackEntity(video: video);
                 var song = store.state.uiState.song;
