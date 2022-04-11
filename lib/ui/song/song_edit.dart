@@ -492,12 +492,7 @@ class _SongEditState extends State<SongEdit> {
 
     // TODO remove this: https://github.com/flutter/flutter/issues/30689
     if (Platform.isIOS) {
-      await camera.initialize().then((value) {
-        setState(() {});
-        Future.delayed(Duration(milliseconds: 100), () {
-          setState(() {});
-        });
-      });
+      await camera.initialize();
     }
 
     BuiltMap<String, double> volumeData;
