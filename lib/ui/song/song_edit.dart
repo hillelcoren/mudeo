@@ -296,6 +296,12 @@ class _SongEditState extends State<SongEdit> {
         ..initialize().then((value) {
           if (mounted) setState(() {});
 
+          if (Platform.isIOS) {
+            Future.delayed(Duration(milliseconds: 100), () {
+              if (mounted) setState(() {});
+            });
+          }
+
           /*
           final sharedPrefs = await SharedPreferences.getInstance();
           if (sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
