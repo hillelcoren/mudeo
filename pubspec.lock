@@ -442,6 +442,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  headset_connection_event:
+    dependency: "direct main"
+    description:
+      name: headset_connection_event
+      sha256: a8ad914a66b3ec462e5e60d42cf15ae76dcbe57c536b14f440083c318ae5c8de
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   html:
     dependency: transitive
     description:

@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
+import 'package:headset_connection_event/headset_event.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
@@ -47,6 +48,8 @@ class SongScaffold extends StatefulWidget {
 }
 
 class _SongScaffoldState extends State<SongScaffold> {
+  HeadsetEvent headsetPlugin = new HeadsetEvent();
+  HeadsetState headsetState;
   bool isCameraEnabled = false;
   bool isMicrophoneEnabled = false;
 
@@ -55,6 +58,20 @@ class _SongScaffoldState extends State<SongScaffold> {
     super.initState();
 
     checkPermissions();
+
+    headsetPlugin.getCurrentState.then((_val) {
+      setState(() {
+        print('## getCurrentState: $_val');
+        headsetState = _val;
+      });
+    });
+
+    headsetPlugin.setListener((_val) {
+      setState(() {
+        print('## setListener: $_val');
+        headsetState = _val;
+      });
+    });
   }
 
   void onSavePressed(BuildContext context, SongEditVM viewModel) {
@@ -131,13 +148,6 @@ class _SongScaffoldState extends State<SongScaffold> {
         ),
       );
     }
-
-    /*
-    final isMissingRecognitions = song.tracks
-        .where((track) =>
-            track.video.isNew && (track.video.recognitions ?? '').isEmpty)
-        .isNotEmpty;
-    */
 
     return Scaffold(
       appBar: AppBar(
@@ -235,35 +245,52 @@ class _SongScaffoldState extends State<SongScaffold> {
           },
         ),
         title: Center(
-          child: LiveText(
-            () {
-              if (uiState.recordingTimestamp > 0) {
-                int seconds;
-                if (widget.viewModel.song.tracks.isNotEmpty) {
-                  seconds = (widget.viewModel.song.duration ~/ 1000) -
-                      uiState.recordingDuration.inSeconds;
-                } else {
-                  seconds = uiState.recordingDuration.inSeconds;
-                }
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                child: LiveText(
+                  () {
+                    if (uiState.recordingTimestamp > 0) {
+                      int seconds;
+                      if (widget.viewModel.song.tracks.isNotEmpty) {
+                        seconds = (widget.viewModel.song.duration ~/ 1000) -
+                            uiState.recordingDuration.inSeconds;
+                      } else {
+                        seconds = uiState.recordingDuration.inSeconds;
+                      }
 
-                return seconds < 10 ? '00:0$seconds' : '00:$seconds';
-              } else {
-                return song.isNew && song.parentId == 0
-                    ? (state.isDance
-                        ? localization.newDance
-                        : localization.newSong)
-                    : song.title;
-              }
-            },
-            style: () => TextStyle(
-                color: widget.viewModel.song.tracks.isNotEmpty &&
-                        uiState.recordingDuration.inMilliseconds >=
-                            kMaxSongDuration - kFirstWarningOffset
-                    ? (uiState.recordingDuration.inMilliseconds >=
-                            kMaxSongDuration - kSecondWarningOffset
-                        ? Colors.redAccent
-                        : Colors.orangeAccent)
-                    : null),
+                      return seconds < 10 ? '00:0$seconds' : '00:$seconds';
+                    } else {
+                      return song.isNew && song.parentId == 0
+                          ? (state.isDance
+                              ? localization.newDance
+                              : localization.newSong)
+                          : song.title;
+                    }
+                  },
+                  style: () => TextStyle(
+                      color: widget.viewModel.song.tracks.isNotEmpty &&
+                              uiState.recordingDuration.inMilliseconds >=
+                                  kMaxSongDuration - kFirstWarningOffset
+                          ? (uiState.recordingDuration.inMilliseconds >=
+                                  kMaxSongDuration - kSecondWarningOffset
+                              ? Colors.redAccent
+                              : Colors.orangeAccent)
+                          : null),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Icon(
+                  Icons.headphones,
+                  color: headsetState == HeadsetState.CONNECT
+                      ? Colors.white
+                      : Colors.white.withAlpha(100),
+                ),
+              ),
+            ],
           ),
         ),
         actions: <Widget>[
