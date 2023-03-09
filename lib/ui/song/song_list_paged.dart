@@ -12,6 +12,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
@@ -443,7 +444,7 @@ class _SongListItemState extends State<_SongListItem>
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
                                 if (!isDesktop(context) && kIsWeb)
-                                  FlatButton(
+                                  TextButton(
                                     child:
                                         Text('Apple App Store'.toUpperCase()),
                                     onPressed: () {
@@ -470,7 +471,7 @@ class _SongListItemState extends State<_SongListItem>
                                 else
                                   Expanded(child: SizedBox()),
                                 if (!isDesktop(context) && kIsWeb)
-                                  FlatButton(
+                                  TextButton(
                                     child:
                                         Text('Google Play Store'.toUpperCase()),
                                     onPressed: () {

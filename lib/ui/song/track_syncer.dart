@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/utils/localization.dart';
 
 class TrackSyncer extends StatefulWidget {
@@ -83,12 +84,12 @@ class _TrackSyncerState extends State<TrackSyncer> {
       title: Text(AppLocalization.of(context).trackAdjustment),
       actions: <Widget>[
         if (false && !_isSyncing && widget.track.video.hasVolumeData)
-          FlatButton(
+          TextButton(
             child: Text(localization.sync.toUpperCase()),
             onPressed: () => _syncVideos(),
           ),
         if (!_isSyncing)
-          FlatButton(
+          TextButton(
             child: Text(localization.close.toUpperCase()),
             onPressed: () {
               widget.onDelayChanged(_delay);

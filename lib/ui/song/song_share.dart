@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -55,8 +56,8 @@ class _SongShareDialogState extends State<SongShareDialog> {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: (song.sharingKey ?? '').isEmpty
-                  ? FlatButton(
-                      padding: const EdgeInsets.all(0),
+                  ? TextButton(
+                      //padding: const EdgeInsets.all(0),
                       onPressed: () {
                         launch(song.url, forceSafariVC: false);
                       },
@@ -98,11 +99,11 @@ class _SongShareDialogState extends State<SongShareDialog> {
         ],
       ),
       actions: [
-        FlatButton(
+        TextButton(
           child: Text(localization.close.toUpperCase()),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        FlatButton(
+        TextButton(
           child: Text(localization.share.toUpperCase()),
           onPressed: () {
             final sharingKey = widget.song.sharingKey ?? '';

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/app_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
@@ -82,7 +83,7 @@ class _LoginState extends State<LoginScreen> {
               actions: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text(AppLocalization.of(context).close),
                     onPressed: () => Navigator.of(context).pop(),
                   ),

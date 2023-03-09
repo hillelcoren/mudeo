@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
@@ -275,7 +276,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                       ),
                       */
                     Spacer(),
-                    FlatButton(
+                    TextButton(
                       child: Text(localization.cancel),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
@@ -337,8 +338,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               songIsPublic == true) ...[
             Padding(
               padding: EdgeInsets.only(top: 15),
-              child: FlatButton(
-                padding: const EdgeInsets.all(0),
+              child: TextButton(
+                //padding: const EdgeInsets.all(0),
                 onPressed: () {
                   launch(songUrl, forceSafariVC: false);
                 },
@@ -387,14 +388,14 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(
                   localization.close.toUpperCase(),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               if ((sharingKey ?? '').isNotEmpty)
-                FlatButton(
+                TextButton(
                   child: Text(localization.share.toUpperCase()),
                   onPressed: () {
                     _captureAndSharePng(song);

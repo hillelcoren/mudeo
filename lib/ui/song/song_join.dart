@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
@@ -142,14 +143,15 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
       ),
       actions: [
         if (!_isLoading)
-          FlatButton(
+          TextButton(
             child: Text(localization.close.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
           ),
         if (_song != null)
           SizedBox()
         /*
-          FlatButton(
+          TextButton(
+  
             child: Text(localization.edit.toUpperCase()),
             onPressed: () {
               Navigator.of(context).pop();
@@ -160,7 +162,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
          */
         else if (!_isLoading)
           if (_useQrCode)
-            FlatButton(
+            TextButton(
               child: Text(localization.scan.toUpperCase()),
               onPressed: () async {
                 /*
@@ -172,7 +174,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
               },
             )
           else
-            FlatButton(
+            TextButton(
               child: Text(localization.save.toUpperCase()),
               onPressed: () => _onSubmit(),
             )

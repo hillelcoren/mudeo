@@ -2,6 +2,7 @@ import 'dart:io';
 
 //import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:mudeo/.env.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/song/song_join.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -313,12 +314,12 @@ class ArtistPage extends StatelessWidget {
                         title: Text(localization.logoutFromTheApp),
                         content: Text(localization.areYouSure),
                         actions: <Widget>[
-                          new FlatButton(
+                          new TextButton(
                               child: Text(localization.cancel.toUpperCase()),
                               onPressed: () {
                                 Navigator.pop(context);
                               }),
-                          new FlatButton(
+                          new TextButton(
                               child: Text(localization.ok.toUpperCase()),
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -436,45 +437,50 @@ class ArtistPage extends StatelessWidget {
                             if (showSettings)
                               Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
-                                  child: RaisedButton(
-                                      child: Text(
-                                          state.isDance
-                                              ? localization.joinDance
-                                              : localization.joinSong,
-                                          style: TextStyle(fontSize: 18)),
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            barrierDismissible: false,
-                                            useRootNavigator: true,
-                                            builder: (BuildContext context) {
-                                              return SongJoinDialog();
-                                            });
-                                      },
+                                  child: ElevatedButton(
+                                    child: Text(
+                                        state.isDance
+                                            ? localization.joinDance
+                                            : localization.joinSong,
+                                        style: TextStyle(fontSize: 18)),
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          useRootNavigator: true,
+                                          builder: (BuildContext context) {
+                                            return SongJoinDialog();
+                                          });
+                                    },
+                                    /*
                                       color: Colors.black87,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(30.0)))),
+                                              BorderRadius.circular(30.0))
+                                              */
+                                  )),
                             if (showSettings)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
-                                child: RaisedButton(
-                                    child: Text(localization.editProfile,
-                                        style: TextStyle(fontSize: 18)),
-                                    onPressed: () {
-                                      final store =
-                                          StoreProvider.of<AppState>(context);
-                                      store.dispatch(EditArtist(
-                                          context: context, artist: artist));
-                                    },
+                                child: ElevatedButton(
+                                  child: Text(localization.editProfile,
+                                      style: TextStyle(fontSize: 18)),
+                                  onPressed: () {
+                                    final store =
+                                        StoreProvider.of<AppState>(context);
+                                    store.dispatch(EditArtist(
+                                        context: context, artist: artist));
+                                  },
+                                  /*
                                     color: Colors.black87,
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(30.0))),
+                                            BorderRadius.circular(30.0))
+                                            */
+                                ),
                               ),
                             /*
                             if (showSettings)
@@ -495,16 +501,17 @@ class ArtistPage extends StatelessWidget {
                               ),
                              */
                             showSettings
-                                ? RaisedButton(
+                                ? ElevatedButton(
                                     child: Text(localization.options,
                                         style: TextStyle(fontSize: 18)),
                                     onPressed: () => _showMenu(),
+                                    /*
                                     color: Colors.black87,
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    padding: EdgeInsets.symmetric(vertical: 10),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30.0),
                                     ),
+                                    */
                                   )
                                 : viewModel.state.isSaving
                                     ? SizedBox(
@@ -517,7 +524,7 @@ class ArtistPage extends StatelessWidget {
                                             !viewModel
                                                 .state.authState.hasValidToken)
                                         ? SizedBox()
-                                        : RaisedButton(
+                                        : ElevatedButton(
                                             child: Text(
                                                 isFollowing
                                                     ? localization.unfollow
@@ -525,6 +532,7 @@ class ArtistPage extends StatelessWidget {
                                                 style: TextStyle(fontSize: 18)),
                                             onPressed: () => viewModel
                                                 .onFollowPressed(artist),
+                                            /*
                                             color: isFollowing
                                                 ? Colors.grey
                                                 : Colors.lightBlue,
@@ -533,7 +541,9 @@ class ArtistPage extends StatelessWidget {
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(
-                                                        30.0))),
+                                                        30.0))
+                                                        */
+                                          ),
                           ],
                         ),
                       ),
@@ -610,13 +620,13 @@ class ArtistPage extends StatelessWidget {
                                               content:
                                                   Text(localization.areYouSure),
                                               actions: <Widget>[
-                                                FlatButton(
+                                                TextButton(
                                                     child: Text(localization
                                                         .cancel
                                                         .toUpperCase()),
                                                     onPressed: () =>
                                                         Navigator.pop(context)),
-                                                FlatButton(
+                                                TextButton(
                                                     child: Text(localization.ok
                                                         .toUpperCase()),
                                                     onPressed: () {

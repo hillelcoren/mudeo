@@ -6,6 +6,7 @@ import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:built_collection/built_collection.dart';
@@ -49,7 +50,7 @@ class SongScaffold extends StatelessWidget {
             return AlertDialog(
               content: Text(localization.requireAccountToUpload),
               actions: [
-                FlatButton(
+                TextButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: Text(localization.close.toUpperCase()))
               ],
@@ -150,10 +151,10 @@ class SongScaffold extends StatelessWidget {
                       title: Text(localization.loseChanges),
                       content: Text(localization.areYouSure),
                       actions: <Widget>[
-                        FlatButton(
+                        TextButton(
                             child: Text(localization.cancel.toUpperCase()),
                             onPressed: () => Navigator.pop(context)),
-                        FlatButton(
+                        TextButton(
                             child: Text(localization.ok.toUpperCase()),
                             onPressed: () {
                               Navigator.pop(context);
@@ -220,7 +221,8 @@ class SongScaffold extends StatelessWidget {
                         child: CircularProgressIndicator()),
                   ),
                 )
-              : FlatButton(
+              : TextButton(
+                  //
                   child: Text(localization.publish),
                   onPressed:
                       !uiState.isRecording && song.includedTracks.isNotEmpty
@@ -393,7 +395,7 @@ class _SongEditState extends State<SongEdit> {
               actions: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text(AppLocalization.of(context).dismiss),
                     onPressed: () async {
                       await prefs.setBool(kSharedPrefHeadphoneWarning, true);
@@ -1096,13 +1098,15 @@ class TrackView extends StatelessWidget {
                             title: Text(localization.removeVideo),
                             content: Text(localization.areYouSure),
                             actions: <Widget>[
-                              FlatButton(
+                              TextButton(
+  
                                 child: Text(localization.cancel.toUpperCase()),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
                               ),
-                              FlatButton(
+                              TextButton(
+  
                                 child: Text(localization.ok.toUpperCase()),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -1347,13 +1351,13 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                             title: Text(localization.removeVideo),
                             content: Text(localization.areYouSure),
                             actions: <Widget>[
-                              new FlatButton(
+                              new TextButton(
                                   child:
                                       Text(localization.cancel.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   }),
-                              new FlatButton(
+                              new TextButton(
                                   child: Text(localization.ok.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);

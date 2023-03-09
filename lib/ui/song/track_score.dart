@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
@@ -208,14 +209,14 @@ class _TrackScoreState extends State<TrackScore> {
       contentPadding: const EdgeInsets.all(16),
       actions: <Widget>[
         if (_frameTimes == null)
-          FlatButton(
+          TextButton(
             child: Text(localization.showDetails.toUpperCase()),
             onPressed: () {
               _calculateDetails();
             },
           )
         else if (_frameTimes.isNotEmpty)
-          FlatButton(
+          TextButton(
             child: Text((_maskBackground
                     ? localization.showImage
                     : localization.blurImage)
@@ -226,7 +227,7 @@ class _TrackScoreState extends State<TrackScore> {
               });
             },
           ),
-        FlatButton(
+        TextButton(
           child: Text(localization.close.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();

@@ -72,7 +72,8 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
               return AlertDialog(
                 content: Text(localization.thankYouForYourPurchase),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
+  
                     child: Text(localization.dismiss.toUpperCase()),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -208,11 +209,13 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              FlatButton(
+              TextButton(
+  
                 child: Text('Terms', style: TextStyle(fontSize: 12)),
                 onPressed: () => launch(store.state.termsUrl),
               ),
-              FlatButton(
+              TextButton(
+  
                 child: Text('Privacy', style: TextStyle(fontSize: 12)),
                 onPressed: () => launch(store.state.privacyUrl),
               ),

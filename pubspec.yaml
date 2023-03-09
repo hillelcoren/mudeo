@@ -41,21 +41,25 @@ dependencies:
   cached_network_image: 
   share:
   google_sign_in:
-  sentry: ^3.0.1
+  sentry: 3.0.1
   intl:
   font_awesome_flutter:
+  #flutter_xlider: 3.4.0
   flutter_xlider:
+    git:
+      url: https://github.com/Ali-Azmoud/flutter_xlider.git
+      ref: master
   image_picker:
   chewie:
   #flutter_youtube: ^2.0.0
   draggable_scrollbar:
   flutter_blurhash:
   in_app_purchase:
-  rounded_loading_button:
+  rounded_loading_button: 2.1.0
   device_info:
-  firebase_analytics:
-  firebase_core:
-  flutter_launcher_icons:
+  #firebase_analytics:
+  #firebase_core:
+  #flutter_launcher_icons:
   video_thumbnail:
   #tflite: ^1.0.5
   document_analysis:

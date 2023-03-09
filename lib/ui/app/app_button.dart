@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mudeo/constants.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/app/icon_text.dart';
 
 class AppButton extends StatelessWidget {
@@ -26,8 +26,7 @@ class AppButton extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: RaisedButton(
-        color: color ?? Theme.of(context).buttonColor,
+      child: ElevatedButton(
         child: icon != null
             ? IconText(
                 icon: icon,
@@ -38,8 +37,6 @@ class AppButton extends StatelessWidget {
                 label,
                 style: textStyle,
               ),
-        textColor: Colors.white,
-        elevation: kDefaultElevation,
         onPressed: () => this.onPressed(),
       ),
     );

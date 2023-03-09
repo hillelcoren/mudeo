@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -136,12 +137,12 @@ class _SongActions extends StatelessWidget {
                     title: Text(localization.loseChanges),
                     content: Text(localization.areYouSure),
                     actions: <Widget>[
-                      new FlatButton(
+                      new TextButton(
                           child: Text(localization.cancel.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
-                      new FlatButton(
+                      new TextButton(
                           child: Text(localization.ok.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);

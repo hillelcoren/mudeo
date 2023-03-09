@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:mudeo/main_common.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +158,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
         ],
       ),
       actions: [
-        FlatButton(
+        TextButton(
           child: Text(_currentState == STATE_PROMPT
               ? localization.noThanks
               : localization.cancel),
@@ -165,7 +166,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
             Navigator.of(context).pop();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(_currentState == STATE_CONFIRM
               ? localization.start
               : localization.ok),

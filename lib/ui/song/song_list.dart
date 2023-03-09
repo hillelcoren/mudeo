@@ -15,6 +15,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -389,12 +390,12 @@ class SongFooter extends StatelessWidget {
                     title: Text(localization.loseChanges),
                     content: Text(localization.areYouSure),
                     actions: <Widget>[
-                      new FlatButton(
+                      new TextButton(
                           child: Text(localization.cancel.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
-                      new FlatButton(
+                      new TextButton(
                           child: Text(localization.ok.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
@@ -521,12 +522,12 @@ class SongFooter extends StatelessWidget {
               } else if (action == localization.copyLinkToSong ||
                   action == localization.copyLinkToDance) {
                 Clipboard.setData(new ClipboardData(text: song.url));
-                Scaffold.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(localization.copiedToClipboard)));
                 return;
               } else if (action == localization.copyLinkToVideo) {
                 Clipboard.setData(new ClipboardData(text: song.videoUrl));
-                Scaffold.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(localization.copiedToClipboard)));
                 return;
               } else if (action == localization.viewOriginal) {
@@ -576,10 +577,10 @@ class SongFooter extends StatelessWidget {
                         title: Text(localization.deleteSong),
                         content: Text(localization.areYouSure),
                         actions: <Widget>[
-                          FlatButton(
+                          TextButton(
                               child: Text(localization.cancel.toUpperCase()),
                               onPressed: () => Navigator.pop(context)),
-                          FlatButton(
+                          TextButton(
                               child: Text(localization.ok.toUpperCase()),
                               onPressed: () {
                                 Navigator.pop(context);
@@ -618,10 +619,10 @@ class SongFooter extends StatelessWidget {
                           : localization.reportSong),
                       content: Text(localization.areYouSure),
                       actions: <Widget>[
-                        FlatButton(
+                        TextButton(
                             child: Text(localization.cancel.toUpperCase()),
                             onPressed: () => Navigator.pop(context)),
-                        FlatButton(
+                        TextButton(
                             child: Text(localization.ok.toUpperCase()),
                             onPressed: () {
                               store.dispatch(FlagSongRequest(song: song));
@@ -847,8 +848,8 @@ class _CommentRowState extends State<CommentRow> {
               ),
               if (isSelected && !state.isSaving) SizedBox(width: 10),
               if (isSelected && !state.isSaving)
-                RaisedButton(
-                  color: Colors.redAccent,
+                ElevatedButton(
+                  //color: Colors.redAccent,
                   child: Text(AppLocalization.of(context).delete.toUpperCase()),
                   onPressed: () {
                     showDialog<AlertDialog>(
@@ -859,11 +860,11 @@ class _CommentRowState extends State<CommentRow> {
                             title: Text(localization.deleteComment),
                             content: Text(localization.areYouSure),
                             actions: <Widget>[
-                              FlatButton(
+                              TextButton(
                                   child:
                                       Text(localization.cancel.toUpperCase()),
                                   onPressed: () => Navigator.pop(context)),
-                              FlatButton(
+                              TextButton(
                                   child: Text(localization.ok.toUpperCase()),
                                   onPressed: () {
                                     final completer = Completer<Null>()
@@ -1067,7 +1068,7 @@ class _SongCommentsState extends State<SongComments> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   if (!state.isSaving)
-                    FlatButton(
+                    TextButton(
                       child: Text(localization.cancel.toUpperCase()),
                       onPressed: () {
                         _textController.clear();
@@ -1084,7 +1085,7 @@ class _SongCommentsState extends State<SongComments> {
                               width: 20,
                               height: 20),
                         )
-                      : RaisedButton(
+                      : ElevatedButton(
                           child: Text(localization.comment.toUpperCase()),
                           onPressed: _enableSubmitButton
                               ? () {

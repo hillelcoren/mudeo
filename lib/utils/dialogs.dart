@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/utils/localization.dart';
 
 void showProcessingDialog(BuildContext context) {
@@ -36,14 +37,14 @@ void confirmCallback({
       title: message == null ? null : Text(message),
       content: Text(content),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
             child: Text(declineLabel != null
                 ? declineLabel.toUpperCase()
                 : localization.cancel.toUpperCase()),
             onPressed: () {
               Navigator.pop(context);
             }),
-        FlatButton(
+        TextButton(
             child: Text(confirmLabel != null
                 ? confirmLabel.toUpperCase()
                 : localization.ok.toUpperCase()),

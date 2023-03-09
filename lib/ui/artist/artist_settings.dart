@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/constants.dart';
+import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
@@ -128,7 +129,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         actions: <Widget>[
           viewModel.state.isSaving
               ? SizedBox()
-              : FlatButton(
+              : TextButton(
                   child: Text(localization.save),
                   onPressed: _onSubmit,
                 ),
@@ -202,7 +203,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(localization.profileImage,
                         style: TextStyle(fontSize: 18)),
                     onPressed: () async {
@@ -212,7 +213,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                           context, kArtistImageProfile, image.path);
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(localization.headerImage,
                         style: TextStyle(fontSize: 18)),
                     onPressed: () async {

@@ -32,10 +32,10 @@ Completer<Null> snackBarCompleter(BuildContext context, String message,
     if (shouldPop) {
       Navigator.of(context).pop();
     }
-    Scaffold.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: SnackBarRow(
-          message: message,
-        )));
+      message: message,
+    )));
   }).catchError((Object error) {
     showDialog<ErrorDialog>(
         context: context,
