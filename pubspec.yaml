@@ -65,6 +65,7 @@ dependencies:
   qr_flutter: ^4.0.0
   esys_flutter_share: ^1.0.2
   material_design_icons_flutter: ^6.0.7096
+  permission_handler: ^10.2.0
 
 dependency_overrides:
   platform: ^3.1.0

@@ -8,6 +8,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:camera/camera.dart' hide ImageFormat;
@@ -33,13 +34,28 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
-class SongScaffold extends StatelessWidget {
+class SongScaffold extends StatefulWidget {
   const SongScaffold({
     Key key,
     @required this.viewModel,
   }) : super(key: key);
 
   final SongEditVM viewModel;
+
+  @override
+  State<SongScaffold> createState() => _SongScaffoldState();
+}
+
+class _SongScaffoldState extends State<SongScaffold> {
+  bool isCameraEnabled = false;
+  bool isMicrophoneEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    checkPermissions();
+  }
 
   void onSavePressed(BuildContext context, SongEditVM viewModel) {
     if (!viewModel.state.authState.hasValidToken) {
@@ -67,14 +83,54 @@ class SongScaffold extends StatelessWidget {
     }
   }
 
+  void checkPermissions() async {
+    if (isCameraEnabled && isMicrophoneEnabled) {
+      return;
+    }
+
+    final statuses = await [
+      Permission.camera,
+      Permission.microphone,
+    ].request();
+
+    if (statuses[Permission.camera].isGranted) {
+      isCameraEnabled = true;
+    }
+
+    if (statuses[Permission.microphone].isGranted) {
+      isMicrophoneEnabled = true;
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final state = viewModel.state;
+    final state = widget.viewModel.state;
     final uiState = state.uiState;
-    final song = viewModel.song;
-    final authArtist = viewModel.state.authState.artist;
+    final song = widget.viewModel.song;
+    final authArtist = widget.viewModel.state.authState.artist;
     final isMissingRecognitions = false;
+
+    if (!isCameraEnabled || !isMicrophoneEnabled) {
+      return Center(
+        child: ElevatedButton(
+          child: Text(
+            !isCameraEnabled
+                ? localization.enableCamera
+                : localization.enableMicrophone,
+          ),
+          onPressed: () async {
+            await checkPermissions();
+
+            if (!isCameraEnabled || !isMicrophoneEnabled) {
+              openAppSettings();
+            }
+          },
+        ),
+      );
+    }
 
     /*
     final isMissingRecognitions = song.tracks
@@ -160,16 +216,16 @@ class SongScaffold extends StatelessWidget {
                               Navigator.pop(context);
                               if (action == localization.newSong ||
                                   action == localization.newDance) {
-                                viewModel.onNewSongPressed(context);
+                                widget.viewModel.onNewSongPressed(context);
                               } else if (action == localization.resetSong ||
                                   action == localization.resetDance) {
-                                viewModel.onResetSongPressed(context);
+                                widget.viewModel.onResetSongPressed(context);
                               } else if (action == localization.deleteSong ||
                                   action == localization.deleteDance) {
-                                viewModel.onDeleteSongPressed(song);
+                                widget.viewModel.onDeleteSongPressed(song);
                               } else if (action == localization.cloneSong ||
                                   action == localization.cloneDance) {
-                                viewModel.onForkSongPressed(song);
+                                widget.viewModel.onForkSongPressed(song);
                               }
                             })
                       ],
@@ -183,8 +239,8 @@ class SongScaffold extends StatelessWidget {
             () {
               if (uiState.recordingTimestamp > 0) {
                 int seconds;
-                if (viewModel.song.tracks.isNotEmpty) {
-                  seconds = (viewModel.song.duration ~/ 1000) -
+                if (widget.viewModel.song.tracks.isNotEmpty) {
+                  seconds = (widget.viewModel.song.duration ~/ 1000) -
                       uiState.recordingDuration.inSeconds;
                 } else {
                   seconds = uiState.recordingDuration.inSeconds;
@@ -200,7 +256,7 @@ class SongScaffold extends StatelessWidget {
               }
             },
             style: () => TextStyle(
-                color: viewModel.song.tracks.isNotEmpty &&
+                color: widget.viewModel.song.tracks.isNotEmpty &&
                         uiState.recordingDuration.inMilliseconds >=
                             kMaxSongDuration - kFirstWarningOffset
                     ? (uiState.recordingDuration.inMilliseconds >=
@@ -211,7 +267,7 @@ class SongScaffold extends StatelessWidget {
           ),
         ),
         actions: <Widget>[
-          viewModel.state.isSaving || isMissingRecognitions
+          widget.viewModel.state.isSaving || isMissingRecognitions
               ? Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: Center(
@@ -226,15 +282,15 @@ class SongScaffold extends StatelessWidget {
                   child: Text(localization.publish),
                   onPressed:
                       !uiState.isRecording && song.includedTracks.isNotEmpty
-                          ? () => onSavePressed(context, viewModel)
+                          ? () => onSavePressed(context, widget.viewModel)
                           : null,
                 ),
         ],
       ),
       body: SongEdit(
-        viewModel: viewModel,
+        viewModel: widget.viewModel,
         //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
-        key: ValueKey('${viewModel.song.updatedAt}'),
+        key: ValueKey('${widget.viewModel.song.updatedAt}'),
       ),
     );
   }

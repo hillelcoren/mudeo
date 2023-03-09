@@ -20,6 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'enable_camera': 'Enable Camera',
+      'enable_microphone': 'Enable Microphone',
       'primary': 'Primary',
       'enable_downloads': 'Enable Downloads',
       'publish': 'Publish',
@@ -768,6 +770,12 @@ class AppLocalization {
   String get publish => _localizedValues[locale.toString()]['publish'];
 
   String get primary => _localizedValues[locale.toString()]['primary'];
+
+  String get enableCamera =>
+      _localizedValues[locale.toString()]['enable_camera'];
+
+  String get enableMicrophone =>
+      _localizedValues[locale.toString()]['enable_microphone'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
