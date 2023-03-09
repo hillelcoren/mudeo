@@ -26,48 +26,45 @@ dependencies:
       url: https://github.com/hillelcoren/plugins.git
       path: packages/camera/camera
   #video_player: ^0.10.12+2
-  video_player: 
+  video_player: ^2.5.3
   #native_video_view: 
-  path_provider: 
-  screen: 
-  flutter_redux: 
-  redux_logging: 
-  http: 
-  shared_preferences:
-  built_value:
-  built_collection:
-  memoize:
-  url_launcher:
-  cached_network_image: 
-  share:
-  google_sign_in:
+  path_provider: ^1.6.1
+  screen: ^0.0.5
+  flutter_redux: ^0.10.0
+  redux_logging: ^0.5.0
+  http: ^0.12.2
+  shared_preferences: ^2.0.18
+  built_value: ^8.4.4
+  built_collection: ^5.1.1
+  memoize: ^3.0.0
+  url_launcher: ^6.1.10
+  cached_network_image: ^2.0.0
+  share: ^2.0.4
+  google_sign_in: ^5.4.4
   sentry: 3.0.1
-  intl:
-  font_awesome_flutter:
+  intl: ^0.17.0
+  font_awesome_flutter: ^10.4.0
   #flutter_xlider: 3.4.0
   flutter_xlider:
     git:
       url: https://github.com/Ali-Azmoud/flutter_xlider.git
       ref: master
-  image_picker:
-  chewie:
+  image_picker: ^0.6.2
+  chewie: ^1.4.0
   #flutter_youtube: ^2.0.0
-  draggable_scrollbar:
-  flutter_blurhash:
-  in_app_purchase:
+  draggable_scrollbar: ^0.1.0
+  flutter_blurhash: ^0.7.0
+  in_app_purchase: ^3.1.5
   rounded_loading_button: 2.1.0
-  device_info:
-  #firebase_analytics:
-  #firebase_core:
-  #flutter_launcher_icons:
-  video_thumbnail:
+  device_info: ^2.0.3
+  video_thumbnail: ^0.5.3
   #tflite: ^1.0.5
-  document_analysis:
-  visibility_detector:
-  flutter_ffmpeg:
-  qr_flutter:
-  esys_flutter_share:
-  material_design_icons_flutter:
+  document_analysis: ^0.2.0
+  visibility_detector: ^0.3.3
+  flutter_ffmpeg: ^0.4.2
+  qr_flutter: ^4.0.0
+  esys_flutter_share: ^1.0.2
+  material_design_icons_flutter: ^6.0.7096
 
 dependency_overrides:
   platform: ^3.1.0
