@@ -964,8 +964,7 @@ class _SongEditState extends State<SongEdit> {
                                     song.includedTracks.indexOf(track);
 
                                 if (!widget.hasHeadset) {
-                                  if (_activeTrack > 0 &&
-                                      _activeTrack == index) {
+                                  if (_activeTrack > 0) {
                                     _activeTrack--;
 
                                     final track = song.includedTracks
