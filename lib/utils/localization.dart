@@ -148,8 +148,6 @@ class AppLocalization {
       'report_song': 'Report Song',
       'share_song': 'Share Song',
       'note': 'Note',
-      'headphone_warning':
-          'Please wear headphones when recording to prevent an echo',
       'email_us': 'Email Us',
       'header_image': 'Header Image',
       'profile_image': 'Profile Image',
@@ -260,9 +258,6 @@ class AppLocalization {
   String get blockArtist => _localizedValues[locale.toString()]['block_artist'];
 
   String get note => _localizedValues[locale.toString()]['note'];
-
-  String get headphoneWarning =>
-      _localizedValues[locale.toString()]['headphone_warning'];
 
   String get backgroundMusicHelp =>
       _localizedValues[locale.toString()]['background_music_help'];

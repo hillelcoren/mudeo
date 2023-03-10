@@ -465,36 +465,6 @@ class _SongEditState extends State<SongEdit> {
     final state = viewModel.state;
     final prefs = await SharedPreferences.getInstance();
 
-    if (prefs.getBool(kSharedPrefHeadphoneWarning) != true &&
-        (!state.isDance || viewModel.song.tracks.isEmpty)) {
-      showDialog<AlertDialog>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(localization.note),
-              content: Text(
-                widget.viewModel.state.isDance
-                    ? localization.backgroundMusicHelp
-                    : localization.headphoneWarning,
-              ),
-              actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: TextButton(
-                    child: Text(AppLocalization.of(context).dismiss),
-                    onPressed: () async {
-                      await prefs.setBool(kSharedPrefHeadphoneWarning, true);
-                      Navigator.of(context).pop();
-                      record();
-                    },
-                  ),
-                )
-              ],
-            );
-          });
-      return;
-    }
-
     // TODO remove this, it's needed to prevent the app from crashing
     if (Platform.isIOS) {
       initCamera();

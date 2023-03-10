@@ -39,7 +39,6 @@ const String kSharedPrefToken = 'token';
 const String kSharedPrefAppVersion = 'app_version';
 const String kSharedPrefCameraDirection = 'camera_direction';
 const String kSharedPrefGenreId = 'genre_id';
-const String kSharedPrefHeadphoneWarning = 'headphone_warning';
 const String kSharedPrefShownVideo = 'shown_video';
 const String kSharedPrefFullScreen = 'full_screen';
 const String kSharedPrefCalibrated = 'calibrated';
