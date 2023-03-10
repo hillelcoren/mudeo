@@ -69,7 +69,7 @@ class SongEditVM {
   final Function(BuildContext, String) onAddRemoteVideo;
   final Function(BuildContext, TrackEntity) addVideoFromTrack;
   final Function(BuildContext, SongEntity) addVideoFromSong;
-  final Function(SongEntity, TrackEntity) onDeleteVideoPressed;
+  final Function(SongEntity, TrackEntity, bool) onDeleteVideoPressed;
   final Function(SongEntity) onDeleteSongPressed;
   final Function(SongEntity) onForkSongPressed;
   final Function() onBackPressed;
@@ -146,7 +146,7 @@ class SongEditVM {
           final song = store.state.uiState.song;
           store.dispatch(SaveSongRequest(song: song, completer: completer));
         },
-        onDeleteVideoPressed: (song, track) async {
+        onDeleteVideoPressed: (song, track, hasHeadset) async {
           final int index = song.tracks.indexOf(track);
           if (track.video.isNew) {
             song = song.rebuild((b) => b..tracks.removeAt(index));
@@ -156,6 +156,12 @@ class SongEditVM {
           }
           if (!song.hasParent && song.tracks.isEmpty) {
             song = song.rebuild((b) => b..duration = 0);
+          }
+          if (!hasHeadset && song.includedTracks.isNotEmpty) {
+            final track = song.includedTracks.last;
+            final index = song.tracks.indexOf(track);
+            song = song.rebuild((b) =>
+                b..tracks[index] = track.rebuild((b) => b..volume = 100));
           }
           store.dispatch(UpdateSong(song));
           String path = await VideoEntity.getPath(track.video);

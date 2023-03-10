@@ -316,7 +316,7 @@ class _SongScaffoldState extends State<SongScaffold> {
       ),
       body: SongEdit(
         viewModel: widget.viewModel,
-        headsetState: headsetState,
+        hasHeadset: headsetState == HeadsetState.CONNECT,
         //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
         key: ValueKey('${widget.viewModel.song.updatedAt}'),
       ),
@@ -328,11 +328,11 @@ class SongEdit extends StatefulWidget {
   const SongEdit({
     Key key,
     @required this.viewModel,
-    @required this.headsetState,
+    @required this.hasHeadset,
   }) : super(key: key);
 
   final SongEditVM viewModel;
-  final HeadsetState headsetState;
+  final bool hasHeadset;
 
   @override
   _SongEditState createState() => _SongEditState();
@@ -613,7 +613,7 @@ class _SongEditState extends State<SongEdit> {
 
     final duration = endTimestamp - timestamp;
 
-    if (widget.headsetState == HeadsetState.DISCONNECT) {
+    if (!widget.hasHeadset) {
       final song = viewModel.song;
       if (song.includedTracks.isNotEmpty) {
         final track = song.includedTracks.last;
@@ -627,7 +627,7 @@ class _SongEditState extends State<SongEdit> {
     final trackId = await viewModel.onVideoAdded(
       video,
       duration,
-      widget.headsetState == HeadsetState.CONNECT,
+      widget.hasHeadset,
     );
 
     setState(() {
@@ -990,9 +990,26 @@ class _SongEditState extends State<SongEdit> {
                               aspectRatio: videoPlayer.value.aspectRatio,
                               track: track,
                               onDeletePressed: () async {
+                                final index =
+                                    song.includedTracks.indexOf(track);
+
+                                if (!widget.hasHeadset) {
+                                  if (_activeTrack > 0 &&
+                                      _activeTrack == index) {
+                                    _activeTrack--;
+
+                                    final track = song.includedTracks
+                                        .sublist(
+                                            0, song.includedTracks.length - 1)
+                                        .last;
+                                    videoPlayers[track.id].setVolume(100);
+                                  }
+                                }
+
                                 videoPlayers[track.id].dispose();
                                 videoPlayers.remove(track.id);
-                                viewModel.onDeleteVideoPressed(song, track);
+                                viewModel.onDeleteVideoPressed(
+                                    song, track, widget.hasHeadset);
                               },
                               onFixPressed: () async {
                                 final recognitions = await updateRecognitions(
