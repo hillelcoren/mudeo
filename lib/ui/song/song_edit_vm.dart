@@ -60,7 +60,7 @@ class SongEditVM {
   final SongEntity song;
   final Function(int) onStartRecording;
   final Function onStopRecording;
-  final Function(VideoEntity, int) onVideoAdded;
+  final Function(VideoEntity, int, bool) onVideoAdded;
   final Function(VideoEntity, String) onVideoRecognitionsUpdated;
   final Function(SongEntity) onChangedSong;
   final Function(Completer) onSavePressed;
@@ -118,7 +118,7 @@ class SongEditVM {
             recognitions: recognitions,
           ));
         },
-        onVideoAdded: (video, duration) async {
+        onVideoAdded: (video, duration, hasHeadset) async {
           store.dispatch(StopRecording());
           final song = store.state.uiState.song;
           final track = song.newTrack(video);
@@ -126,6 +126,13 @@ class SongEditVM {
             track: track,
             duration: duration,
           ));
+
+          if (!hasHeadset && song.tracks.isNotEmpty) {
+            final track = song.includedTracks.last;
+            final index = song.tracks.indexOf(track);
+            store.dispatch(UpdateSong(store.state.uiState.song.rebuild((b) =>
+                b..tracks[index] = track.rebuild((b) => b..volume = 0))));
+          }
 
           return track.id;
         },

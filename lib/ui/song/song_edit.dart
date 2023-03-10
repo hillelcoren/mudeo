@@ -316,6 +316,7 @@ class _SongScaffoldState extends State<SongScaffold> {
       ),
       body: SongEdit(
         viewModel: widget.viewModel,
+        headsetState: headsetState,
         //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
         key: ValueKey('${widget.viewModel.song.updatedAt}'),
       ),
@@ -327,9 +328,11 @@ class SongEdit extends StatefulWidget {
   const SongEdit({
     Key key,
     @required this.viewModel,
+    @required this.headsetState,
   }) : super(key: key);
 
   final SongEditVM viewModel;
+  final HeadsetState headsetState;
 
   @override
   _SongEditState createState() => _SongEditState();
@@ -337,7 +340,6 @@ class SongEdit extends StatefulWidget {
 
 class _SongEditState extends State<SongEdit> {
   Map<int, VideoPlayerController> videoPlayers = {};
-  Map<int, VideoPlayerController> allVideoPlayers = {};
   CameraController camera;
   bool isPlaying = false, isRecording = false;
   bool isPastThreeSeconds = false;
@@ -424,7 +426,7 @@ class _SongEditState extends State<SongEdit> {
           File(path),
           videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
         );
-        allVideoPlayers[track.id] = videoPlayers[track.id] = player;
+        videoPlayers[track.id] = player;
         if (viewModel.state.isDance && !isFirst) {
           player.setVolume(0);
         } else {
@@ -448,7 +450,7 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   void dispose() {
-    allVideoPlayers.forEach((int, videoPlayer) => videoPlayer?.dispose());
+    videoPlayers.forEach((int, videoPlayer) => videoPlayer?.dispose());
     camera?.dispose();
     super.dispose();
   }
@@ -574,7 +576,8 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void saveRecording() async {
-    final timestamp = widget.viewModel.state.uiState.recordingTimestamp;
+    final viewModel = widget.viewModel;
+    final timestamp = viewModel.state.uiState.recordingTimestamp;
     final endTimestamp = DateTime.now().millisecondsSinceEpoch;
     await stopRecording();
     VideoPlayerController videoPlayer = VideoPlayerController.file(
@@ -610,11 +613,26 @@ class _SongEditState extends State<SongEdit> {
 
     final duration = endTimestamp - timestamp;
 
-    final trackId = await widget.viewModel.onVideoAdded(video, duration);
+    if (widget.headsetState == HeadsetState.DISCONNECT) {
+      final song = viewModel.song;
+      if (song.includedTracks.isNotEmpty) {
+        final track = song.includedTracks.last;
+        _activeTrack = song.includedTracks.length;
+        if (videoPlayers.containsKey(track.id)) {
+          videoPlayers[track.id].setVolume(0);
+        }
+      }
+    }
+
+    final trackId = await viewModel.onVideoAdded(
+      video,
+      duration,
+      widget.headsetState == HeadsetState.CONNECT,
+    );
 
     setState(() {
       isPastThreeSeconds = false;
-      allVideoPlayers[trackId] = videoPlayers[trackId] = videoPlayer;
+      videoPlayers[trackId] = videoPlayer;
     });
 
     /*
@@ -972,8 +990,8 @@ class _SongEditState extends State<SongEdit> {
                               aspectRatio: videoPlayer.value.aspectRatio,
                               track: track,
                               onDeletePressed: () async {
+                                videoPlayers[track.id].dispose();
                                 videoPlayers.remove(track.id);
-                                allVideoPlayers.remove(track.id);
                                 viewModel.onDeleteVideoPressed(song, track);
                               },
                               onFixPressed: () async {
