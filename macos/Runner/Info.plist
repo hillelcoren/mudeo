@@ -28,5 +28,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSCameraUsageDescription</key>
+	<string>camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>microphone</string>
 </dict>
 </plist>
