@@ -20,7 +20,6 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      'add': 'Add',
       'monitor': 'Monitor',
       'enable_camera': 'Enable Camera',
       'enable_microphone': 'Enable Microphone',
@@ -764,8 +763,6 @@ class AppLocalization {
   String get publish => _localizedValues[locale.toString()]['publish'];
 
   String get primary => _localizedValues[locale.toString()]['primary'];
-
-  String get add => _localizedValues[locale.toString()]['add'];
 
   String get enableCamera =>
       _localizedValues[locale.toString()]['enable_camera'];
