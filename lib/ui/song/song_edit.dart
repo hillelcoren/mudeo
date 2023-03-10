@@ -61,14 +61,12 @@ class _SongScaffoldState extends State<SongScaffold> {
 
     headsetPlugin.getCurrentState.then((_val) {
       setState(() {
-        print('## getCurrentState: $_val');
         headsetState = _val;
       });
     });
 
     headsetPlugin.setListener((_val) {
       setState(() {
-        print('## setListener: $_val');
         headsetState = _val;
       });
     });
@@ -1328,7 +1326,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         ),
                       ),
                     ElevatedButton(
-                      child: Text(AppLocalization.of(context).primary),
+                      child: Text(AppLocalization.of(context).monitor),
                       onPressed: _isActive
                           ? null
                           : () {
