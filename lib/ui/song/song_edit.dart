@@ -1002,6 +1002,7 @@ class _SongEditState extends State<SongEdit> {
                              */
                               },
                               isActive: _activeTrack == songIndex,
+                              hasHeadset: widget.hasHeadset,
                               onActivatePressed: () =>
                                   setState(() => _activeTrack = songIndex),
                             );
@@ -1059,6 +1060,7 @@ class TrackView extends StatelessWidget {
     @required this.onFixPressed,
     @required this.isActive,
     @required this.onActivatePressed,
+    @required this.hasHeadset,
   });
 
   final SongEditVM viewModel;
@@ -1070,6 +1072,7 @@ class TrackView extends StatelessWidget {
   final Function(TrackEntity, int) onDelayChanged;
   final bool isFirst;
   final bool isActive;
+  final bool hasHeadset;
   final Function onActivatePressed;
 
   @override
@@ -1094,6 +1097,7 @@ class TrackView extends StatelessWidget {
                     isActive: isActive,
                     onActivatePressed: onActivatePressed,
                     onFixPressed: onFixPressed,
+                    hasHeadset: hasHeadset,
                   );
                 },
               );
@@ -1226,6 +1230,7 @@ class TrackEditDialog extends StatefulWidget {
     @required this.isFirst,
     @required this.isActive,
     @required this.onActivatePressed,
+    @required this.hasHeadset,
   });
 
   final SongEditVM viewModel;
@@ -1236,6 +1241,7 @@ class TrackEditDialog extends StatefulWidget {
   final Function(int) onDelayChanged;
   final bool isFirst;
   final bool isActive;
+  final bool hasHeadset;
   final Function onActivatePressed;
 
   @override
@@ -1375,7 +1381,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       ),
                       */
 
-                    widget.isFirst
+                    widget.isFirst || !widget.hasHeadset
                         ? SizedBox()
                         : Padding(
                             padding: const EdgeInsets.only(top: 4),
