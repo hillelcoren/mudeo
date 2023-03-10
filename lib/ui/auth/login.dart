@@ -164,9 +164,10 @@ class _LoginState extends State<LoginScreen> {
                   gradient: LinearGradient(
                 colors: [
                   //Colors.grey.shade800,
-                  //Colors.black87,
-                  Theme.of(context).buttonColor,
-                  Theme.of(context).buttonColor.withOpacity(.7),
+                  Colors.black,
+                  Colors.black,
+                  //Theme.of(context).buttonColor,
+                  //Theme.of(context).buttonColor.withOpacity(.7),
                 ],
               )),
             ),
