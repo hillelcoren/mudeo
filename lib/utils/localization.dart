@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'add': 'Add',
       'monitor': 'Monitor',
       'enable_camera': 'Enable Camera',
       'enable_microphone': 'Enable Microphone',
@@ -29,7 +30,6 @@ class AppLocalization {
       'this_may_take_a_few_minutes': 'This may take a few minutes',
       'guest': 'Guest',
       'download': 'Download',
-      'bounce': 'Bounce',
       'failed_to_render':
           'Failed to create the video on your phone, click \'Save\' to create the video in the cloud.',
       'creating_video': 'Creating Video...',
@@ -751,8 +751,6 @@ class AppLocalization {
 
   String get download => _localizedValues[locale.toString()]['download'];
 
-  String get bounce => _localizedValues[locale.toString()]['bounce'];
-
   String get guest => _localizedValues[locale.toString()]['guest'];
 
   String get thisMayTakeAFewMinutes =>
@@ -766,6 +764,8 @@ class AppLocalization {
   String get publish => _localizedValues[locale.toString()]['publish'];
 
   String get primary => _localizedValues[locale.toString()]['primary'];
+
+  String get add => _localizedValues[locale.toString()]['add'];
 
   String get enableCamera =>
       _localizedValues[locale.toString()]['enable_camera'];

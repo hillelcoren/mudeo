@@ -182,7 +182,7 @@ class _SongRenderState extends State<SongRender> {
 
                 Navigator.of(context).pop();
               },
-              child: Text(localization.bounce.toUpperCase())),
+              child: Text(localization.add.toUpperCase())),
         TextButton(
             onPressed: () {
               FfmpegUtils.flutterFFmpeg.cancel();
