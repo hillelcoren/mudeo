@@ -198,6 +198,7 @@ class _SongItemState extends State<SongItem> {
         context: context,
         builder: (BuildContext context) {
           return SongComments(
+            songId: widget.song.id,
             onClosePressed: () {
               Navigator.of(context).pop();
             },
