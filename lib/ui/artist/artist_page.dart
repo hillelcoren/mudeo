@@ -592,7 +592,7 @@ class ArtistPage extends StatelessWidget {
                                     .toList(),
                               ),
                             ),
-                            Platform.isAndroid || showSettings
+                            showSettings
                                 ? SizedBox()
                                 : PopupMenuButton<String>(
                                     icon: Icon(Icons.keyboard_arrow_down,

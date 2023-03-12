@@ -208,10 +208,15 @@ class LikeSongFailure implements StopSaving {
 }
 
 class FlagSongRequest implements StartSaving {
-  FlagSongRequest({this.song, this.completer});
+  FlagSongRequest({
+    this.song,
+    this.completer,
+    this.commentId,
+  });
 
   final Completer completer;
   final SongEntity song;
+  final int commentId;
 }
 
 class FlagSongSuccess implements StopSaving, PersistAuth {

@@ -166,7 +166,7 @@ Middleware<AppState> _flagSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final song = action.song;
 
-    repository.flagSong(store.state, song).then((data) {
+    repository.flagSong(store.state, song, action.commentId).then((data) {
       store.dispatch(FlagSongSuccess(data));
       if (action.completer != null) {
         action.completer.complete(null);

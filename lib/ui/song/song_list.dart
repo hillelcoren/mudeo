@@ -821,12 +821,9 @@ class _CommentRowState extends State<CommentRow> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: widget.comment.artistId == authArtistId ||
-                widget.song.artistId == authArtistId
-            ? () {
-                setState(() => isSelected = !isSelected);
-              }
-            : null,
+        onTap: () {
+          setState(() => isSelected = !isSelected);
+        },
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Row(
@@ -848,43 +845,87 @@ class _CommentRowState extends State<CommentRow> {
               ),
               if (isSelected && !state.isSaving) SizedBox(width: 10),
               if (isSelected && !state.isSaving)
-                ElevatedButton(
-                  //color: Colors.redAccent,
-                  child: Text(AppLocalization.of(context).delete.toUpperCase()),
-                  onPressed: () {
-                    showDialog<AlertDialog>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            semanticLabel: localization.areYouSure,
-                            title: Text(localization.deleteComment),
-                            content: Text(localization.areYouSure),
-                            actions: <Widget>[
-                              TextButton(
-                                  child:
-                                      Text(localization.cancel.toUpperCase()),
-                                  onPressed: () => Navigator.pop(context)),
-                              TextButton(
-                                  child: Text(localization.ok.toUpperCase()),
-                                  onPressed: () {
-                                    final completer = Completer<Null>()
-                                      ..future.then((value) {
-                                        if (Navigator.of(context).canPop()) {
-                                          Navigator.of(context).pop();
-                                        }
-                                      });
-                                    store.dispatch(DeleteCommentRequest(
-                                        comment: widget.comment,
-                                        completer: completer));
-                                    if (Navigator.of(context).canPop()) {
-                                      Navigator.of(context).pop();
-                                    }
-                                  })
-                            ],
-                          );
-                        });
-                  },
-                ),
+                if (widget.comment.artistId == authArtistId ||
+                    widget.song.artistId == authArtistId)
+                  ElevatedButton(
+                    //color: Colors.redAccent,
+                    child:
+                        Text(AppLocalization.of(context).delete.toUpperCase()),
+                    onPressed: () {
+                      showDialog<AlertDialog>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              semanticLabel: localization.areYouSure,
+                              title: Text(localization.deleteComment),
+                              content: Text(localization.areYouSure),
+                              actions: <Widget>[
+                                TextButton(
+                                    child:
+                                        Text(localization.cancel.toUpperCase()),
+                                    onPressed: () => Navigator.pop(context)),
+                                TextButton(
+                                    child: Text(localization.ok.toUpperCase()),
+                                    onPressed: () {
+                                      final completer = Completer<Null>()
+                                        ..future.then((value) {
+                                          if (Navigator.of(context).canPop()) {
+                                            Navigator.of(context).pop();
+                                          }
+                                        });
+                                      store.dispatch(DeleteCommentRequest(
+                                          comment: widget.comment,
+                                          completer: completer));
+                                      if (Navigator.of(context).canPop()) {
+                                        Navigator.of(context).pop();
+                                      }
+                                    })
+                              ],
+                            );
+                          });
+                    },
+                  )
+                else
+                  ElevatedButton(
+                    //color: Colors.redAccent,
+                    child: Text(AppLocalization.of(context)
+                        .reportComment
+                        .toUpperCase()),
+                    onPressed: () {
+                      showDialog<AlertDialog>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              semanticLabel: localization.areYouSure,
+                              title: Text(localization.reportComment),
+                              content: Text(localization.areYouSure),
+                              actions: <Widget>[
+                                TextButton(
+                                    child:
+                                        Text(localization.cancel.toUpperCase()),
+                                    onPressed: () => Navigator.pop(context)),
+                                TextButton(
+                                    child: Text(localization.ok.toUpperCase()),
+                                    onPressed: () {
+                                      final completer = Completer<Null>()
+                                        ..future.then((value) {
+                                          if (Navigator.of(context).canPop()) {
+                                            Navigator.of(context).pop();
+                                          }
+                                        });
+                                      store.dispatch(FlagSongRequest(
+                                          song: widget.song,
+                                          commentId: widget.comment.id,
+                                          completer: completer));
+                                      if (Navigator.of(context).canPop()) {
+                                        Navigator.of(context).pop();
+                                      }
+                                    })
+                              ],
+                            );
+                          });
+                    },
+                  )
             ],
           ),
         ),

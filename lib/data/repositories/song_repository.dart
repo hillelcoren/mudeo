@@ -56,10 +56,12 @@ class SongRepository {
 
     if (song.isNew) {
       response = await webClient.post(
-          '${state.apiUrl}/songs?include=user,comments.user,joined_users', state.artist.token,
+          '${state.apiUrl}/songs?include=user,comments.user,joined_users',
+          state.artist.token,
           data: json.encode(data));
     } else {
-      var url = '${state.apiUrl}/songs/${song.id}?include=user,comments.user,joined_users';
+      var url =
+          '${state.apiUrl}/songs/${song.id}?include=user,comments.user,joined_users';
       if (action != null) {
         url += '&action=' + action.toString();
       }
@@ -159,10 +161,12 @@ class SongRepository {
     }
   }
 
-  Future<SongFlagEntity> flagSong(AppState state, SongEntity song) async {
+  Future<SongFlagEntity> flagSong(
+      AppState state, SongEntity song, String commentId) async {
     dynamic response;
 
-    var url = '${state.apiUrl}/song_flag?song_id=${song.id}';
+    var url =
+        '${state.apiUrl}/song_flag?song_id=${song.id}&comment_id=${commentId}';
     response = await webClient.post(url, state.artist.token);
     final FlagSongResponse songResponse =
         serializers.deserializeWith(FlagSongResponse.serializer, response);
@@ -173,7 +177,8 @@ class SongRepository {
   Future<SongEntity> joinSong(AppState state, String secret) async {
     dynamic response;
 
-    var url = '${state.apiUrl}/join_song?include=user,comments.user,joined_users';
+    var url =
+        '${state.apiUrl}/join_song?include=user,comments.user,joined_users';
     response = await webClient.post(url, state.artist.token,
         data: json.encode({
           'sharing_key': secret,
