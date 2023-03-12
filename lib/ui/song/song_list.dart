@@ -906,8 +906,14 @@ class _CommentRowState extends State<CommentRow> {
                                 TextButton(
                                     child: Text(localization.ok.toUpperCase()),
                                     onPressed: () {
+                                      final scaffoldMessenger =
+                                          ScaffoldMessenger.of(context);
                                       final completer = Completer<Null>()
                                         ..future.then((value) {
+                                          scaffoldMessenger.showSnackBar(
+                                              SnackBar(
+                                                  content: Text(localization
+                                                      .reportedComment)));
                                           if (Navigator.of(context).canPop()) {
                                             Navigator.of(context).pop();
                                           }

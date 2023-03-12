@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'reported_comment': 'Comment has been reported',
       'report': 'Report',
       'monitor': 'Monitor',
       'enable_camera': 'Enable Camera',
@@ -774,6 +775,9 @@ class AppLocalization {
   String get monitor => _localizedValues[locale.toString()]['monitor'];
 
   String get report => _localizedValues[locale.toString()]['report'];
+
+  String get reportedComment =>
+      _localizedValues[locale.toString()]['reported_comment'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
