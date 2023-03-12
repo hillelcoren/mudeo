@@ -888,16 +888,15 @@ class _CommentRowState extends State<CommentRow> {
                 else
                   ElevatedButton(
                     //color: Colors.redAccent,
-                    child: Text(AppLocalization.of(context)
-                        .reportComment
-                        .toUpperCase()),
+                    child:
+                        Text(AppLocalization.of(context).report.toUpperCase()),
                     onPressed: () {
                       showDialog<AlertDialog>(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               semanticLabel: localization.areYouSure,
-                              title: Text(localization.reportComment),
+                              title: Text(localization.report),
                               content: Text(localization.areYouSure),
                               actions: <Widget>[
                                 TextButton(
