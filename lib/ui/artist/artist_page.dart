@@ -49,19 +49,12 @@ class ArtistPage extends StatelessWidget {
                 padding: EdgeInsets.all(15),
                 child: Icon(Icons.person, size: 70),
               )
-            : kIsWeb
-                ? Image.network(
-                    artist.profileImageUrl,
-                    width: 140,
-                    height: 140,
-                    fit: BoxFit.cover,
-                  )
-                : CachedNetworkImage(
-                    imageUrl: artist.profileImageUrl,
-                    width: 140,
-                    height: 140,
-                    fit: BoxFit.cover,
-                  ),
+            : Image.network(
+                artist.profileImageUrl,
+                width: 140,
+                height: 140,
+                fit: BoxFit.cover,
+              ),
       );
     }
 
