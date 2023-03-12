@@ -162,7 +162,7 @@ class SongRepository {
   }
 
   Future<SongFlagEntity> flagSong(
-      AppState state, SongEntity song, String commentId) async {
+      AppState state, SongEntity song, int commentId) async {
     dynamic response;
 
     var url =
