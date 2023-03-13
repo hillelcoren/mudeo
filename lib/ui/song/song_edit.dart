@@ -310,8 +310,6 @@ class _SongEditState extends State<SongEdit> {
     super.dispose();
   }
 
-
-
   Future<void> destroyCamera() async {
     try {
       if (macOSCameraController != null) {
@@ -328,7 +326,6 @@ class _SongEditState extends State<SongEdit> {
       //
     }
   }
-
 
   void record() async {
     if (countdownTimer > 0) {
@@ -1007,12 +1004,15 @@ class _SongEditState extends State<SongEdit> {
                         )
                     ],
                     LargeIconButton(
-                      iconData: countdownTimer > 0 ? null : _getRecordIcon(),
-                      //label: countdownTimer > 0 ? countdownTimer.toString() : null,
+                      tooltip: localization.record,
+                      iconData: _getRecordIcon(),
                       onPressed: _getRecordingFunction(),
                       color: isPlaying || isRecording ? null : Colors.redAccent,
                     ),
                     LargeIconButton(
+                        tooltip: isPlaying && !isRecording
+                            ? localization.stop
+                            : localization.play,
                         iconData: isPlaying && !isRecording
                             ? Icons.stop
                             : Icons.play_arrow,
@@ -1020,6 +1020,7 @@ class _SongEditState extends State<SongEdit> {
                             ? null
                             : (isPlaying ? stopPlaying : play)),
                     LargeIconButton(
+                      tooltip: localization.merge,
                       iconData: Icons.movie,
                       onPressed:
                           disableButtons || song.includedTracks.length < 2
@@ -1027,6 +1028,7 @@ class _SongEditState extends State<SongEdit> {
                               : () => _renderSong(),
                     ),
                     LargeIconButton(
+                        tooltip: localization.publish,
                         iconData: Icons.rocket_launch,
                         onPressed: disableButtons ||
                                 isRecording ||
