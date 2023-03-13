@@ -84,31 +84,6 @@ class _SongScaffoldState extends State<SongScaffold> {
     });
   }
 
-  void onSavePressed(BuildContext context, SongEditVM viewModel) {
-    if (!viewModel.state.authState.hasValidToken) {
-      showDialog<AlertDialog>(
-          context: context,
-          builder: (BuildContext context) {
-            final localization = AppLocalization.of(context);
-            return AlertDialog(
-              content: Text(localization.requireAccountToUpload),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text(localization.close.toUpperCase()))
-              ],
-            );
-          });
-    } else {
-      showDialog<SongSaveDialog>(
-          context: context,
-          barrierDismissible: false,
-          useRootNavigator: true,
-          builder: (BuildContext context) {
-            return SongSaveDialog(viewModel: viewModel);
-          });
-    }
-  }
 
   void checkPermissions() async {
     if (isCameraEnabled && isMicrophoneEnabled) {
@@ -735,6 +710,33 @@ class _SongEditState extends State<SongEdit> {
     });
   }
 
+  void onSavePressed(BuildContext context, SongEditVM viewModel) {
+    if (!viewModel.state.authState.hasValidToken) {
+      showDialog<AlertDialog>(
+          context: context,
+          builder: (BuildContext context) {
+            final localization = AppLocalization.of(context);
+            return AlertDialog(
+              content: Text(localization.requireAccountToUpload),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text(localization.close.toUpperCase()))
+              ],
+            );
+          });
+    } else {
+      showDialog<SongSaveDialog>(
+          context: context,
+          barrierDismissible: false,
+          useRootNavigator: true,
+          builder: (BuildContext context) {
+            return SongSaveDialog(viewModel: viewModel);
+          });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double aspectRatio = 1;
@@ -995,9 +997,16 @@ class _SongEditState extends State<SongEdit> {
                     LargeIconButton(
                       iconData: Icons.movie,
                       onPressed:
-                          disableButtons || song.includedTracks.length < 2
-                              ? null
-                              : () => _renderSong(),
+                      disableButtons || song.includedTracks.length < 2
+                          ? null
+                          : () => _renderSong(),
+                    ),
+                    LargeIconButton(
+                      iconData: Icons.rocket_launch,
+                      onPressed:
+                      disableButtons || isRecording || song.includedTracks.isEmpty
+                          ? null
+                          : () => onSavePressed(context, widget.viewModel)
                     ),
                     PopupMenuButton<String>(
                       icon: Icon(Icons.more_vert),
