@@ -10,6 +10,7 @@ import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SongShareDialog extends StatefulWidget {
@@ -33,6 +34,9 @@ class _SongShareDialogState extends State<SongShareDialog> {
       var image = await boundary.toImage();
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      Share.shareXFiles([XFile.fromData(pngBytes)],
+          text: store.state.appUrl + '\n\nSecret: ' + song.sharingKey);
 
       /*
       await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
@@ -109,7 +113,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
           onPressed: () {
             final sharingKey = widget.song.sharingKey ?? '';
             if (sharingKey.isEmpty) {
-              //Share.text(widget.song.title, widget.song.url, 'text/plain');
+              Share.share(widget.song.url, subject: widget.song.title);
             }
 
             _captureAndSharePng(widget.song);

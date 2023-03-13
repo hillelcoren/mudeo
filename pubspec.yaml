@@ -39,7 +39,7 @@ dependencies:
   memoize:
   url_launcher:
   cached_network_image:
-  share:
+  share_plus:
   google_sign_in:
   sentry:
   intl:

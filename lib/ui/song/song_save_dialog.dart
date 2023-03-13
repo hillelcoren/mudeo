@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mudeo/constants.dart';
@@ -12,6 +13,7 @@ import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,6 +58,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       var image = await boundary.toImage();
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      Share.shareXFiles([XFile.fromData(pngBytes)],
+          text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);
+
       /*
       await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
           text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);

@@ -10,7 +10,7 @@ import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/artist/artist_profile.dart';
 import 'package:mudeo/ui/song/song_list.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SongPage extends StatelessWidget {

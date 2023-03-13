@@ -15,7 +15,7 @@ import 'package:mudeo/ui/song/song_edit.dart';
 import 'package:mudeo/ui/main_screen.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SongEditScreen extends StatelessWidget {
