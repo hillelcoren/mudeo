@@ -353,21 +353,27 @@ class _SongEditState extends State<SongEdit> {
     setState(() {
       countdownTimer = 3;
       Timer(Duration(seconds: 1), () {
-        setState(() {
-          countdownTimer = 2;
-        });
-        Timer(Duration(seconds: 1), () {
-          if (!Platform.isMacOS) {
-            cameraController.prepareForVideoRecording();
-          }
+        if (countdownTimer == 3) {
           setState(() {
-            countdownTimer = 1;
+            countdownTimer = 2;
           });
           Timer(Duration(seconds: 1), () {
-            countdownTimer = 0;
-            _record();
+            if (countdownTimer == 2) {
+              if (!Platform.isMacOS) {
+                cameraController.prepareForVideoRecording();
+              }
+              setState(() {
+                countdownTimer = 1;
+              });
+              Timer(Duration(seconds: 1), () {
+                if (countdownTimer == 1) {
+                  countdownTimer = 0;
+                  _record();
+                }
+              });
+            }
           });
-        });
+        }
       });
     });
   }
@@ -411,7 +417,10 @@ class _SongEditState extends State<SongEdit> {
   }
 
   Future stopRecording() async {
-    setState(() => isRecording = false);
+    setState(() {
+      isRecording = false;
+      countdownTimer = 0;
+    });
     stopPlaying();
 
     recordTimer?.cancel();
@@ -814,14 +823,15 @@ class _SongEditState extends State<SongEdit> {
     final isEmpty = song.includedTracks.isEmpty;
 
     IconData _getRecordIcon() {
-      if (isRecording && isEmpty) {
+      if ((isRecording || countdownTimer > 0) && isEmpty) {
         if (!isPastThreeSeconds) {
           return Icons.close;
         } else {
           return Icons.stop;
         }
       } else if (song.canAddTrack) {
-        if (isRecording && (!isPastThreeSeconds || !isEmpty)) {
+        if ((isRecording || countdownTimer > 0) &&
+            (!isPastThreeSeconds || !isEmpty)) {
           return Icons.close;
         } else {
           return Icons.fiber_manual_record;
@@ -832,7 +842,7 @@ class _SongEditState extends State<SongEdit> {
     }
 
     Function _getRecordingFunction() {
-      if (isRecording) {
+      if (isRecording || countdownTimer > 0) {
         if (!isPastThreeSeconds || (isRecording && !isEmpty)) {
           return stopRecording;
         } else {
@@ -1059,7 +1069,9 @@ class _SongEditState extends State<SongEdit> {
                       tooltip: localization.record,
                       iconData: _getRecordIcon(),
                       onPressed: _getRecordingFunction(),
-                      color: isPlaying || isRecording ? null : Colors.redAccent,
+                      color: isPlaying || isRecording || countdownTimer > 0
+                          ? null
+                          : Colors.redAccent,
                     ),
                     LargeIconButton(
                         tooltip: isPlaying && !isRecording
