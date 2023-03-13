@@ -177,6 +177,15 @@ class _SongEditState extends State<SongEdit> {
   Completer _readyCompleter;
   int _activeTrack = 0;
 
+  String selectedAspectRatio = '16:9';
+  Map<String, double> aspectRatios = {
+    '1:1': 1,
+    '4:3': 4 / 3, // 1.33
+    //'8:5': 8 / 5, // 1.6
+    '16:9': 16 / 9, // 1.77
+    '16:10': 16 / 10, // 1.6
+  };
+
   List<CameraMacOSDevice> macOSVideoDevices = [];
   String selectedVideoDevice;
 
@@ -645,18 +654,43 @@ class _SongEditState extends State<SongEdit> {
             title: Text(localization.selectCamera),
             children: macOSVideoDevices
                 .map((device) => SimpleDialogOption(
-                      onPressed: () {
-                        selectedVideoDevice = device.deviceId;
-                        Navigator.of(context).pop();
-                      },
-                      child: ListTile(
-                        title: Text(device.localizedName),
-                        subtitle: Text(device.manufacturer),
-                        trailing: device.deviceId == selectedVideoDevice
-                            ? Icon(Icons.check_circle_outline)
-                            : null,
-                      ),
-                    ))
+              onPressed: () {
+                selectedVideoDevice = device.deviceId;
+                Navigator.of(context).pop();
+              },
+              child: ListTile(
+                title: Text(device.localizedName),
+                subtitle: Text(device.manufacturer),
+                trailing: device.deviceId == selectedVideoDevice
+                    ? Icon(Icons.check_circle_outline)
+                    : null,
+              ),
+            ))
+                .toList(),
+          );
+        });
+  }
+
+  void onAspectRatioPressed() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          final localization = AppLocalization.of(context);
+          return SimpleDialog(
+            title: Text(localization.aspectRatio),
+            children: aspectRatios.keys
+                .map((aspectRatio) => SimpleDialogOption(
+              onPressed: () {
+                selectedAspectRatio = aspectRatio;
+                Navigator.of(context).pop();
+              },
+              child: ListTile(
+                title: Text(aspectRatio),
+                trailing: aspectRatio == selectedAspectRatio
+                    ? Icon(Icons.check_circle_outline)
+                    : null,
+              ),
+            ))
                 .toList(),
           );
         });
@@ -763,8 +797,7 @@ class _SongEditState extends State<SongEdit> {
   Widget build(BuildContext context) {
     double aspectRatio = 1;
     if (Platform.isMacOS) {
-      aspectRatio = 16 / 9;
-      //aspectRatio = 8 / 5;
+      aspectRatio = aspectRatios[selectedAspectRatio];
     } else {
       if (cameraController == null) return SizedBox();
       final value = cameraController.value;
@@ -1089,6 +1122,7 @@ class _SongEditState extends State<SongEdit> {
                             actions.add(localization.selectCamera);
                           if (macOSAudioDevices.length > 1)
                             actions.add(localization.selectMicrophone);
+                          actions.add(localization.aspectRatio);
                         }
                         if (!kReleaseMode) {
                           actions.add(localization.resetCamera);
@@ -1111,6 +1145,8 @@ class _SongEditState extends State<SongEdit> {
                           onVideoSettingsPressed();
                         } else if (action == localization.selectMicrophone) {
                           onAudioSettingsPressed();
+                        } else if (action == localization.aspectRatio) {
+                          onAspectRatioPressed();
                         } else if (action == localization.download) {
                           final Directory directory =
                               await getApplicationDocumentsDirectory();
