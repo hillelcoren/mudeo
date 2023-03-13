@@ -628,7 +628,9 @@ class _SongEditState extends State<SongEdit> {
                       child: ListTile(
                         title: Text(device.localizedName),
                         subtitle: Text(device.manufacturer),
-                        trailing: device.deviceId == selectedAudioDevice ? Icon(Icons.check_circle_outline) : null,
+                        trailing: device.deviceId == selectedAudioDevice
+                            ? Icon(Icons.check_circle_outline)
+                            : null,
                       ),
                     ))
                 .toList(),
@@ -652,7 +654,9 @@ class _SongEditState extends State<SongEdit> {
                       child: ListTile(
                         title: Text(device.localizedName),
                         subtitle: Text(device.manufacturer),
-                        trailing: device.deviceId == selectedVideoDevice ? Icon(Icons.check_circle_outline) : null,
+                        trailing: device.deviceId == selectedVideoDevice
+                            ? Icon(Icons.check_circle_outline)
+                            : null,
                       ),
                     ))
                 .toList(),
@@ -951,20 +955,7 @@ class _SongEditState extends State<SongEdit> {
                             ),
                     ),
                     SizedBox(height: 2),
-                    if (Platform.isMacOS) ...[
-                      if (macOSVideoDevices.length > 1)
-                        LargeIconButton(
-                          iconData: Icons.videocam,
-                          onPressed:
-                              disableButtons ? null : onVideoSettingsPressed,
-                        ),
-                      if (macOSAudioDevices.length > 1)
-                        LargeIconButton(
-                          iconData: Icons.mic,
-                          onPressed:
-                              disableButtons ? null : onAudioSettingsPressed,
-                        ),
-                    ] else ...[
+                    if (!Platform.isMacOS) ...[
                       if (availableCameraDirections.keys
                               .where((direction) =>
                                   availableCameraDirections[direction])
@@ -1007,14 +998,11 @@ class _SongEditState extends State<SongEdit> {
                           disableButtons || song.includedTracks.length < 2
                               ? null
                               : () => _renderSong(),
-
                     ),
                     PopupMenuButton<String>(
                       icon: Icon(Icons.more_vert),
                       itemBuilder: (BuildContext context) {
-                        final actions = [
-                          localization.newSong
-                        ];
+                        final actions = [localization.newSong];
                         if (song.isOld) {
                           actions.add(localization.download);
                         }
@@ -1026,26 +1014,27 @@ class _SongEditState extends State<SongEdit> {
                           );
                         }
                         if (song.isOld && state.artist.ownsSong(song)) {
-                          actions.add(state.isDance
-                              ? localization.cloneDance
-                              : localization.cloneSong);
+                          actions.add(localization.cloneSong);
                         }
                         if (song.isOld || song.parentId > 0) {
-                          actions.add(state.isDance
-                              ? localization.resetDance
-                              : localization.resetSong);
+                          actions.add(localization.resetSong);
                         }
                         if (song.isOld &&
-                            (state.artist.ownsSong(song) || state.artist.isAdmin)) {
-                          actions.add(state.isDance
-                              ? localization.deleteDance
-                              : localization.deleteSong);
+                            (state.artist.ownsSong(song) ||
+                                state.artist.isAdmin)) {
+                          actions.add(localization.deleteSong);
+                        }
+                        if (Platform.isMacOS) {
+                          if (macOSVideoDevices.length > 1)
+                            actions.add(localization.selectCamera);
+                          if (macOSAudioDevices.length > 1)
+                            actions.add(localization.selectMicrophone);
                         }
                         return actions
                             .map((action) => PopupMenuItem(
-                          child: Text(action),
-                          value: action,
-                        ))
+                                  child: Text(action),
+                                  value: action,
+                                ))
                             .toList();
                       },
                       onSelected: (String action) async {
@@ -1053,16 +1042,21 @@ class _SongEditState extends State<SongEdit> {
                             action == localization.openInNewTab) {
                           launch(song.url);
                           return;
+                        } else if (action == localization.selectCamera) {
+                          onVideoSettingsPressed();
+                        } else if (action == localization.selectMicrophone) {
+                          onAudioSettingsPressed();
                         } else if (action == localization.download) {
                           final Directory directory =
-                          await getApplicationDocumentsDirectory();
+                              await getApplicationDocumentsDirectory();
                           final String folder = '${directory.path}/videos';
                           await Directory(folder).create(recursive: true);
                           final path = '$folder/${song.title}.mp4';
                           if (!await File(path).exists()) {
                             final http.Response copyResponse =
-                            await http.Client().get(song.videoUrl);
-                            await File(path).writeAsBytes(copyResponse.bodyBytes);
+                                await http.Client().get(song.videoUrl);
+                            await File(path)
+                                .writeAsBytes(copyResponse.bodyBytes);
                           }
                           Share.shareFiles([path]);
                           return;
@@ -1076,24 +1070,37 @@ class _SongEditState extends State<SongEdit> {
                                   content: Text(localization.areYouSure),
                                   actions: <Widget>[
                                     TextButton(
-                                        child: Text(localization.cancel.toUpperCase()),
-                                        onPressed: () => Navigator.pop(context)),
+                                        child: Text(
+                                            localization.cancel.toUpperCase()),
+                                        onPressed: () =>
+                                            Navigator.pop(context)),
                                     TextButton(
-                                        child: Text(localization.ok.toUpperCase()),
+                                        child:
+                                            Text(localization.ok.toUpperCase()),
                                         onPressed: () {
                                           Navigator.pop(context);
                                           if (action == localization.newSong ||
                                               action == localization.newDance) {
-                                            widget.viewModel.onNewSongPressed(context);
-                                          } else if (action == localization.resetSong ||
-                                              action == localization.resetDance) {
-                                            widget.viewModel.onResetSongPressed(context);
-                                          } else if (action == localization.deleteSong ||
-                                              action == localization.deleteDance) {
-                                            widget.viewModel.onDeleteSongPressed(song);
-                                          } else if (action == localization.cloneSong ||
-                                              action == localization.cloneDance) {
-                                            widget.viewModel.onForkSongPressed(song);
+                                            widget.viewModel
+                                                .onNewSongPressed(context);
+                                          } else if (action ==
+                                                  localization.resetSong ||
+                                              action ==
+                                                  localization.resetDance) {
+                                            widget.viewModel
+                                                .onResetSongPressed(context);
+                                          } else if (action ==
+                                                  localization.deleteSong ||
+                                              action ==
+                                                  localization.deleteDance) {
+                                            widget.viewModel
+                                                .onDeleteSongPressed(song);
+                                          } else if (action ==
+                                                  localization.cloneSong ||
+                                              action ==
+                                                  localization.cloneDance) {
+                                            widget.viewModel
+                                                .onForkSongPressed(song);
                                           }
                                         })
                                   ],
