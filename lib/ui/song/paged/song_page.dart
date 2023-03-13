@@ -115,7 +115,7 @@ class _SongActions extends StatelessWidget {
         ),
         SizedBox(height: 2),
         if (!kIsWeb)
-          _LargeIconButton(
+          LargeIconButton(
             iconData: Icons.video_call,
             onPressed: () {
               final uiSong = state.uiState.song;
@@ -157,7 +157,7 @@ class _SongActions extends StatelessWidget {
             },
           ),
         if (state.authState.hasValidToken)
-          _LargeIconButton(
+          LargeIconButton(
             iconData: Icons.favorite,
             count: song.countLike + 1,
             color: artist.likedSong(song.id) ? Colors.red : null,
@@ -166,7 +166,7 @@ class _SongActions extends StatelessWidget {
             },
           ),
         if (!kIsWeb)
-          _LargeIconButton(
+          LargeIconButton(
             iconData: Icons.comment,
             tooltip: localization.comment,
             count: song.comments.length,
@@ -183,7 +183,7 @@ class _SongActions extends StatelessWidget {
                   });
             },
           ),
-        _LargeIconButton(
+        LargeIconButton(
           iconData: Icons.share,
           tooltip: localization.share,
           showCount: false,
@@ -196,8 +196,8 @@ class _SongActions extends StatelessWidget {
   }
 }
 
-class _LargeIconButton extends StatelessWidget {
-  const _LargeIconButton({
+class LargeIconButton extends StatelessWidget {
+  const LargeIconButton({
     this.iconData,
     this.tooltip,
     this.onPressed,

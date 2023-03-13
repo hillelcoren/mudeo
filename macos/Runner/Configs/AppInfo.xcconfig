@@ -11,4 +11,4 @@ PRODUCT_NAME = mudeo
 PRODUCT_BUNDLE_IDENTIFIER = app.mudeo.mudeo
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2020 app.mudeo. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 app.mudeo. All rights reserved.

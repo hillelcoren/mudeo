@@ -1,14 +1,24 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:camera_macos/camera_macos_controller.dart';
+import 'package:camera_macos/camera_macos_file.dart';
+import 'package:camera_macos/camera_macos_view.dart';
+import 'package:camera_macos/exceptions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:headset_connection_event/headset_event.dart';
 import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/main_common.dart';
+import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/artist/artist_actions.dart';
+import 'package:mudeo/ui/artist/artist_profile.dart';
+import 'package:mudeo/ui/song/paged/song_page.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:built_collection/built_collection.dart';
@@ -128,7 +138,7 @@ class _SongScaffoldState extends State<SongScaffold> {
     final authArtist = widget.viewModel.state.authState.artist;
     final isMissingRecognitions = false;
 
-    if (!isCameraEnabled || !isMicrophoneEnabled) {
+    if (isMobile() && (!isCameraEnabled || !isMicrophoneEnabled)) {
       return Center(
         child: ElevatedButton(
           child: Text(
@@ -146,6 +156,19 @@ class _SongScaffoldState extends State<SongScaffold> {
         ),
       );
     }
+
+    return Material(
+      child: Stack(
+        children: [
+          SongEdit(
+            viewModel: widget.viewModel,
+            hasHeadset: headsetState == HeadsetState.CONNECT,
+            //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+            key: ValueKey('${widget.viewModel.song.updatedAt}'),
+          ),
+        ],
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -338,7 +361,9 @@ class SongEdit extends StatefulWidget {
 
 class _SongEditState extends State<SongEdit> {
   Map<int, VideoPlayerController> videoPlayers = {};
-  CameraController camera;
+  CameraController cameraController;
+  final GlobalKey cameraKey = GlobalKey();
+  CameraMacOSController macOSCameraController;
   bool isPlaying = false, isRecording = false;
   bool isPastThreeSeconds = false;
   int countdownTimer = 0;
@@ -371,25 +396,28 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void initCamera() {
-    availableCameras().then((cameras) {
-      cameras.forEach((camera) {
-        availableCameraDirections[camera.lensDirection] = true;
-      });
+    if (Platform.isMacOS) {
+      // do nothing
+    } else {
+      availableCameras().then((cameras) {
+        cameras.forEach((camera) {
+          availableCameraDirections[camera.lensDirection] = true;
+        });
 
-      camera = CameraController(
-          cameras
-              .firstWhere((camera) => camera.lensDirection == cameraDirection),
-          ResolutionPreset.low)
-        ..initialize().then((value) {
-          if (mounted) setState(() {});
+        cameraController = CameraController(
+            cameras.firstWhere(
+                (camera) => camera.lensDirection == cameraDirection),
+            ResolutionPreset.low)
+          ..initialize().then((value) {
+            if (mounted) setState(() {});
 
-          if (Platform.isIOS) {
-            Future.delayed(Duration(milliseconds: 100), () {
-              if (mounted) setState(() {});
-            });
-          }
+            if (Platform.isIOS) {
+              Future.delayed(Duration(milliseconds: 100), () {
+                if (mounted) setState(() {});
+              });
+            }
 
-          /*
+            /*
           final sharedPrefs = await SharedPreferences.getInstance();
           if (sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
             sharedPrefs.setBool(kSharedPrefCalibrated, true);
@@ -400,8 +428,9 @@ class _SongEditState extends State<SongEdit> {
                 });
           }
            */
-        });
-    });
+          });
+      });
+    }
   }
 
   @override
@@ -449,7 +478,7 @@ class _SongEditState extends State<SongEdit> {
   @override
   void dispose() {
     videoPlayers.forEach((int, videoPlayer) => videoPlayer?.dispose());
-    camera?.dispose();
+    cameraController?.dispose();
     super.dispose();
   }
 
@@ -475,7 +504,9 @@ class _SongEditState extends State<SongEdit> {
           countdownTimer = 2;
         });
         Timer(Duration(seconds: 1), () {
-          camera.prepareForVideoRecording();
+          if (!Platform.isMacOS) {
+            cameraController.prepareForVideoRecording();
+          }
           setState(() {
             countdownTimer = 1;
           });
@@ -508,7 +539,20 @@ class _SongEditState extends State<SongEdit> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       play(isRecording: true);
-      camera.startVideoRecording();
+      if (Platform.isMacOS) {
+        print('## PATH: $path');
+        macOSCameraController.recordVideo(
+            url: path,
+            maxVideoDuration: 300,
+            onVideoRecordingFinished:
+                (CameraMacOSFile file, CameraMacOSException exception) {
+              print('## onVideoRecordingFinished');
+              // called when maxVideoDuration has been reached
+              // do something with the file or catch the exception
+            });
+      } else {
+        cameraController.startVideoRecording();
+      }
     });
   }
 
@@ -526,13 +570,17 @@ class _SongEditState extends State<SongEdit> {
     widget.viewModel.onStopRecording();
 
     try {
-      final video = await camera.stopVideoRecording();
-      final videoFile = File(video.path);
-      try {
-        await videoFile.rename(path);
-      } on FileSystemException catch (_) {
-        await videoFile.copy(path);
-        await videoFile.delete();
+      if (Platform.isMacOS) {
+        await macOSCameraController.stopRecording();
+      } else {
+        final video = await cameraController.stopVideoRecording();
+        final videoFile = File(video.path);
+        try {
+          await videoFile.rename(path);
+        } on FileSystemException catch (_) {
+          await videoFile.copy(path);
+          await videoFile.delete();
+        }
       }
     } catch (error) {
       showDialog<ErrorDialog>(
@@ -556,23 +604,26 @@ class _SongEditState extends State<SongEdit> {
 
     // TODO remove this: https://github.com/flutter/flutter/issues/30689
     if (Platform.isIOS) {
-      await camera.initialize();
+      await cameraController.initialize();
     }
 
-    BuiltMap<String, double> volumeData;
+    BuiltMap<String, double> volumeData = BuiltMap(<String, double>{});
     try {
       volumeData = await FfmpegUtils.calculateVolumeData(path);
     } catch (error) {
       // do nothing
     }
 
-    final thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
-    await VideoThumbnail.thumbnailFile(
-      video: path,
-      imageFormat: ImageFormat.JPEG,
-      timeMs: 0,
-      thumbnailPath: thumbnailPath,
-    );
+    String thumbnailPath = '';
+    if (!Platform.isMacOS) {
+      thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
+      await VideoThumbnail.thumbnailFile(
+        video: path,
+        imageFormat: ImageFormat.JPEG,
+        timeMs: 0,
+        thumbnailPath: thumbnailPath,
+      );
+    }
 
     final video = VideoEntity().rebuild((b) => b
       ..thumbnailUrl = thumbnailPath
@@ -785,10 +836,18 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   Widget build(BuildContext context) {
-    if (camera == null) return SizedBox();
-    final value = camera.value;
-    if (!value.isInitialized) return SizedBox();
+    double aspectRatio = 1;
+    if (Platform.isMacOS) {
+      aspectRatio = 16 / 9;
+    } else {
+      if (cameraController == null) return SizedBox();
+      final value = cameraController.value;
+      if (!value.isInitialized) return SizedBox();
+      aspectRatio = 1 / value.aspectRatio;
+    }
+
     final viewModel = widget.viewModel;
+    final store = StoreProvider.of<AppState>(context);
     final state = viewModel.state;
     final song = viewModel.song;
     final isEmpty = song.includedTracks.isEmpty;
@@ -838,43 +897,229 @@ class _SongEditState extends State<SongEdit> {
     final firstTrack = isFullScreen ? song.tracks.first : null;
     final firstVideoPlayer = videoPlayers[firstTrack?.id];
 
+    return Stack(
+      children: [
+        AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          child: Center(
+            child: AspectRatio(
+              aspectRatio: aspectRatio,
+              child: Platform.isMacOS
+                  ? CameraMacOSView(
+                      key: cameraKey,
+                      fit: BoxFit.fill,
+                      cameraMode: CameraMacOSMode.video,
+                      onCameraInizialized: (CameraMacOSController controller) {
+                        setState(() {
+                          this.macOSCameraController = controller;
+                        });
+                      },
+                    )
+                  : cameraController.buildPreview(),
+            ),
+          ),
+          decoration: BoxDecoration(
+              color: Colors.black,
+              border:
+                  isRecording ? Border.all(color: Colors.red, width: 3) : null),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding:
+                const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 80),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                    child: SizedBox(
+                  height: 120,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      ...song.includedTracks.map((track) {
+                        final videoPlayer = videoPlayers[track.id];
+                        final songIndex = song.includedTracks.indexOf(track);
+
+                        if (videoPlayer == null) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(50),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+
+                        return TrackView(
+                          isFirst: songIndex == 0,
+                          viewModel: viewModel,
+                          videoPlayer: videoPlayer,
+                          aspectRatio: videoPlayer.value.aspectRatio,
+                          track: track,
+                          onDeletePressed: () async {
+                            final index = song.includedTracks.indexOf(track);
+
+                            if (!widget.hasHeadset) {
+                              if (_activeTrack > 0) {
+                                _activeTrack--;
+
+                                final track = song.includedTracks
+                                    .sublist(0, song.includedTracks.length - 1)
+                                    .last;
+                                videoPlayers[track.id].setVolume(100);
+                              }
+                            }
+
+                            videoPlayers[track.id].dispose();
+                            videoPlayers.remove(track.id);
+                            viewModel.onDeleteVideoPressed(
+                                song, track, widget.hasHeadset);
+                          },
+                          onFixPressed: () async {
+                            final recognitions = await updateRecognitions(
+                              delay: 0,
+                              duration: song.duration,
+                              video: track.video,
+                            );
+                            printWrapped('## recognitions: $recognitions');
+                          },
+                          onDelayChanged: (track, delay) {
+                            final song =
+                                viewModel.song.setTrackDelay(track, delay);
+                            viewModel.onChangedSong(song);
+                            /*
+                                if (delay != track.delay) {
+                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    updateRecognitions(
+                                        video: track.video,
+                                        duration: song.duration,
+                                        delay: delay);
+                                  });
+                                }
+                                 */
+                          },
+                          isActive: _activeTrack == songIndex,
+                          hasHeadset: widget.hasHeadset,
+                          onActivatePressed: () =>
+                              setState(() => _activeTrack = songIndex),
+                        );
+                      }).toList(),
+                      if (song.canAddTrack)
+                        Padding(
+                          padding: const EdgeInsets.all(38),
+                          child: Center(
+                            child: IconButton(
+                              iconSize: 38,
+                              icon: Icon(
+                                Icons.add_circle_outline,
+                                size: 38,
+                              ),
+                              onPressed: () {
+                                showDialog<AddVideo>(
+                                    context: context,
+                                    builder: (BuildContext childContext) {
+                                      return AddVideo(
+                                        song: song,
+                                        onRemoteVideoSelected: (videoId) =>
+                                            viewModel.onAddRemoteVideo(
+                                                context, videoId),
+                                        onTrackSelected: (track) => viewModel
+                                            .addVideoFromTrack(context, track),
+                                        onSongSelected: (song) => viewModel
+                                            .addVideoFromSong(context, song),
+                                      );
+                                    });
+                              },
+                            ),
+                          ),
+                        )
+                    ],
+                  ),
+                )),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ArtistProfile(
+                      artist: state.artist,
+                      onTap: () => kIsWeb
+                          ? null
+                          : store.dispatch(
+                              ViewArtist(
+                                context: context,
+                                artist: state.artist,
+                              ),
+                            ),
+                    ),
+                    SizedBox(height: 2),
+                    LargeIconButton(
+                      iconData: countdownTimer > 0 ? null : _getRecordIcon(),
+                      //label: countdownTimer > 0 ? countdownTimer.toString() : null,
+                      onPressed: _getRecordingFunction(),
+                      color: isPlaying || isRecording ? null : Colors.redAccent,
+                    ),
+                    LargeIconButton(
+                        iconData: isPlaying && !isRecording
+                            ? Icons.stop
+                            : Icons.play_arrow,
+                        onPressed: isEmpty || isRecording || countdownTimer > 0
+                            ? null
+                            : (isPlaying ? stopPlaying : play)),
+                    if (Platform.isMacOS)
+                      ...[
+                        //
+                      ]
+                    else ...[
+                      if (availableCameraDirections.keys
+                              .where((direction) =>
+                                  availableCameraDirections[direction])
+                              .length >
+                          2)
+                        LargeIconButton(
+                          iconData: Icons.camera,
+                          onPressed: disableButtons ? null : onSettingsPressed,
+                        )
+                      else
+                        LargeIconButton(
+                          iconData: cameraDirection == CameraLensDirection.front
+                              ? Icons.camera_front
+                              : Icons.camera_rear,
+                          onPressed: disableButtons
+                              ? null
+                              : () => selectCameraDirection(
+                                    cameraDirection == CameraLensDirection.front
+                                        ? CameraLensDirection.back
+                                        : CameraLensDirection.front,
+                                  ),
+                        )
+                    ],
+                    LargeIconButton(
+                      iconData: Icons.movie,
+                      onPressed:
+                          disableButtons || song.includedTracks.length < 2
+                              ? null
+                              : () => _renderSong(),
+                    ),
+                    SizedBox(height: 140),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+
     return Scaffold(
       body: Padding(
         // TODO use media query to determine this
         padding: EdgeInsets.only(bottom: Platform.isIOS ? 78 : 50),
         child: Column(
           children: [
-            if (!isFullScreen)
-              Expanded(
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  child: Center(
-                    child: AspectRatio(
-                      aspectRatio: 1 / value.aspectRatio,
-                      //child: CameraPreview(camera),
-                      child: camera.buildPreview(),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      border: isRecording
-                          ? Border.all(color: Colors.red, width: 3)
-                          : null),
-                ),
-              ),
             Material(
               color: Colors.black26,
               //elevation: kDefaultElevation,
               child: Row(
                 children: [
-                  ExpandedButton(
-                    icon: isPlaying && !isRecording
-                        ? Icons.stop
-                        : Icons.play_arrow,
-                    onPressed: isEmpty || isRecording || countdownTimer > 0
-                        ? null
-                        : (isPlaying ? stopPlaying : play),
-                  ),
                   availableCameraDirections.keys
                               .where((direction) =>
                                   availableCameraDirections[direction])
@@ -897,150 +1142,9 @@ class _SongEditState extends State<SongEdit> {
                                         : CameraLensDirection.front,
                                   ),
                         ),
-                  ExpandedButton(
-                    icon: countdownTimer > 0 ? null : _getRecordIcon(),
-                    label:
-                        countdownTimer > 0 ? countdownTimer.toString() : null,
-                    onPressed: _getRecordingFunction(),
-                    color: isPlaying || isRecording ? null : Colors.redAccent,
-                  ),
-                  ExpandedButton(
-                    icon: Icons.movie,
-                    onPressed: disableButtons || song.includedTracks.length < 2
-                        ? null
-                        : () => _renderSong(),
-                  ),
                 ],
               ),
             ),
-            if (isFullScreen && firstVideoPlayer != null)
-              Expanded(
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  child: Center(
-                    child: AspectRatio(
-                      aspectRatio: 1 / firstVideoPlayer.value.aspectRatio,
-                      child: VideoPlayer(firstVideoPlayer),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      border: isRecording
-                          ? Border.all(color: Colors.red, width: 3)
-                          : null),
-                ),
-              )
-            else
-              song.tracks.isEmpty
-                  ? SizedBox()
-                  : Flexible(
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          ...song.includedTracks.map((track) {
-                            final videoPlayer = videoPlayers[track.id];
-                            final songIndex =
-                                song.includedTracks.indexOf(track);
-
-                            if (videoPlayer == null) {
-                              return Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(50),
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
-
-                            return TrackView(
-                              isFirst: songIndex == 0,
-                              viewModel: viewModel,
-                              videoPlayer: videoPlayer,
-                              aspectRatio: videoPlayer.value.aspectRatio,
-                              track: track,
-                              onDeletePressed: () async {
-                                final index =
-                                    song.includedTracks.indexOf(track);
-
-                                if (!widget.hasHeadset) {
-                                  if (_activeTrack > 0) {
-                                    _activeTrack--;
-
-                                    final track = song.includedTracks
-                                        .sublist(
-                                            0, song.includedTracks.length - 1)
-                                        .last;
-                                    videoPlayers[track.id].setVolume(100);
-                                  }
-                                }
-
-                                videoPlayers[track.id].dispose();
-                                videoPlayers.remove(track.id);
-                                viewModel.onDeleteVideoPressed(
-                                    song, track, widget.hasHeadset);
-                              },
-                              onFixPressed: () async {
-                                final recognitions = await updateRecognitions(
-                                  delay: 0,
-                                  duration: song.duration,
-                                  video: track.video,
-                                );
-                                printWrapped('## recognitions: $recognitions');
-                              },
-                              onDelayChanged: (track, delay) {
-                                final song =
-                                    viewModel.song.setTrackDelay(track, delay);
-                                viewModel.onChangedSong(song);
-                                /*
-                            if (delay != track.delay) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                updateRecognitions(
-                                    video: track.video,
-                                    duration: song.duration,
-                                    delay: delay);
-                              });
-                            }
-                             */
-                              },
-                              isActive: _activeTrack == songIndex,
-                              hasHeadset: widget.hasHeadset,
-                              onActivatePressed: () =>
-                                  setState(() => _activeTrack = songIndex),
-                            );
-                          }).toList(),
-                          if (song.canAddTrack)
-                            Padding(
-                              padding: const EdgeInsets.all(38),
-                              child: Center(
-                                child: IconButton(
-                                  iconSize: 38,
-                                  icon: Icon(
-                                    Icons.add_circle_outline,
-                                    size: 38,
-                                  ),
-                                  onPressed: () {
-                                    showDialog<AddVideo>(
-                                        context: context,
-                                        builder: (BuildContext childContext) {
-                                          return AddVideo(
-                                            song: song,
-                                            onRemoteVideoSelected: (videoId) =>
-                                                viewModel.onAddRemoteVideo(
-                                                    context, videoId),
-                                            onTrackSelected: (track) =>
-                                                viewModel.addVideoFromTrack(
-                                                    context, track),
-                                            onSongSelected: (song) =>
-                                                viewModel.addVideoFromSong(
-                                                    context, song),
-                                          );
-                                        });
-                                  },
-                                ),
-                              ),
-                            )
-                        ],
-                      ),
-                    ),
           ],
         ),
       ),
@@ -1129,7 +1233,9 @@ class TrackView extends StatelessWidget {
                           )
                         ],
                       )
-                    : Container(
+                    : Material(
+                        elevation: 6,
+                        shape: Border.all(color: Colors.black26, width: 1.0),
                         child: AspectRatio(
                             aspectRatio: aspectRatio,
                             child: VideoPlayer(videoPlayer)),
@@ -1384,7 +1490,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                     widget.isFirst || !widget.hasHeadset
                         ? SizedBox()
                         : Padding(
-                            padding: const EdgeInsets.only(top: 4),
+                            padding: const EdgeInsets.only(top: 8),
                             child: ElevatedButton(
                               child: Text(localization.adjust),
                               style: ElevatedButton.styleFrom(
@@ -1419,7 +1525,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           )
                         : SizedBox(),
                         */
-                    SizedBox(height: 4),
+                    SizedBox(height: 8),
                     ElevatedButton(
                       child: Text(AppLocalization.of(context).download),
                       style: ElevatedButton.styleFrom(primary: Colors.green),
@@ -1427,7 +1533,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         Share.shareFiles([await widget.track.video.path]);
                       },
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: 8),
                     ElevatedButton(
                       child: Text(widget.track.video.isOld
                           ? localization.remove

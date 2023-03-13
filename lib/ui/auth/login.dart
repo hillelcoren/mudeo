@@ -10,7 +10,6 @@ import 'package:mudeo/ui/app/app_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -36,7 +35,7 @@ class _LoginState extends State<LoginScreen> {
 
   final FocusNode _focusNode1 = new FocusNode();
   final FocusNode _focusNode2 = new FocusNode();
-  final _buttonController = RoundedLoadingButtonController();
+  //final _buttonController = RoundedLoadingButtonController();
 
   String _error = '';
 
@@ -68,12 +67,12 @@ class _LoginState extends State<LoginScreen> {
     });
 
     if (!isValid) {
-      _buttonController.reset();
+      //_buttonController.reset();
       return;
     }
 
     if (!_showLogin && !_termsChecked) {
-      _buttonController.reset();
+      //_buttonController.reset();
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
@@ -98,12 +97,12 @@ class _LoginState extends State<LoginScreen> {
     final Completer<Null> completer = Completer<Null>();
     completer.future.then((_) {
       if (_showEmail) {
-        _buttonController.success();
+        //_buttonController.success();
       } else {
-        _buttonController.reset();
+        //_buttonController.reset();
       }
     }).catchError((error) {
-      _buttonController.reset();
+      //_buttonController.reset();
       setState(() {
         _error = error;
       });
@@ -356,6 +355,7 @@ class _LoginState extends State<LoginScreen> {
                             ),
                           ),
                         ),
+                  /*
                   RoundedLoadingButton(
                     height: 38,
                     color: Theme.of(context).buttonColor,
@@ -370,6 +370,7 @@ class _LoginState extends State<LoginScreen> {
                         .toUpperCase()),
                     onPressed: () => _submitForm(),
                   ),
+                  */
                   SizedBox(height: 15),
                   isOneTimePassword && !viewModel.isLoading
                       ? Padding(

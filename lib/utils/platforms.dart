@@ -9,6 +9,14 @@ import 'package:mudeo/redux/app/app_state.dart';
 
 String getPlatform() => Platform.isAndroid ? 'android' : 'ios';
 
+bool isMobile() {
+  if (kIsWeb) {
+    return false;
+  }
+
+return Platform.isAndroid || Platform.isIOS;
+}
+
 String getAppStoreURL(BuildContext context) {
   final store = StoreProvider.of<AppState>(context);
   if (store.state.isDance) {

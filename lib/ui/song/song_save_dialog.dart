@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mudeo/constants.dart';
@@ -57,9 +56,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       var image = await boundary.toImage();
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
-
+      /*
       await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
           text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);
+       */
     } catch (e) {
       print(e.toString());
     }

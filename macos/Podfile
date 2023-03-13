@@ -1,4 +1,4 @@
-platform :osx, '10.11'
+platform :osx, '10.14'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -9,74 +9,91 @@ project 'Runner', {
   'Release' => :release,
 }
 
-def parse_KV_file(file, separator='=')
-  file_abs_path = File.expand_path(file)
-  if !File.exists? file_abs_path
-    return [];
+def flutter_root
+  generated_xcode_build_settings_path = File.expand_path(File.join('..', 'Flutter', 'ephemeral', 'Flutter-Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcode_build_settings_path)
+    raise "#{generated_xcode_build_settings_path} must exist. If you're running pod install manually, make sure \"flutter pub get\" is executed first"
   end
-  pods_ary = []
-  skip_line_start_symbols = ["#", "/"]
-  File.foreach(file_abs_path) { |line|
-      next if skip_line_start_symbols.any? { |symbol| line =~ /^\s*#{symbol}/ }
-      plugin = line.split(pattern=separator)
-      if plugin.length == 2
-        podname = plugin[0].strip()
-        path = plugin[1].strip()
-        podpath = File.expand_path("#{path}", file_abs_path)
-        pods_ary.push({:name => podname, :path => podpath});
-      else
-        puts "Invalid plugin specification: #{line}"
-      end
-  }
-  return pods_ary
+
+  File.foreach(generated_xcode_build_settings_path) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+  raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Flutter-Generated.xcconfig, then run \"flutter pub get\""
 end
 
-def pubspec_supports_macos(file)
-  file_abs_path = File.expand_path(file)
-  if !File.exists? file_abs_path
-    return false;
-  end
-  File.foreach(file_abs_path) { |line|
-    return true if line =~ /^\s*macos:/
-  }
-  return false
-end
+require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
+
+flutter_macos_podfile_setup
 
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  # Prepare symlinks folder. We use symlinks to avoid having Podfile.lock
-  # referring to absolute paths on developers' machines.
-  ephemeral_dir = File.join('Flutter', 'ephemeral')
-  symlink_dir = File.join(ephemeral_dir, '.symlinks')
-  symlink_plugins_dir = File.join(symlink_dir, 'plugins')
-  system("rm -rf #{symlink_dir}")
-  system("mkdir -p #{symlink_plugins_dir}")
-
-  # Flutter Pods
-  generated_xcconfig = parse_KV_file(File.join(ephemeral_dir, 'Flutter-Generated.xcconfig'))
-  if generated_xcconfig.empty?
-    puts "Flutter-Generated.xcconfig must exist. If you're running pod install manually, make sure flutter packages get is executed first."
-  end
-  generated_xcconfig.map { |p|
-    if p[:name] == 'FLUTTER_FRAMEWORK_DIR'
-      symlink = File.join(symlink_dir, 'flutter')
-      File.symlink(File.dirname(p[:path]), symlink)
-      pod 'FlutterMacOS', :path => File.join(symlink, File.basename(p[:path]))
-    end
-  }
-
-  # Plugin Pods
-  plugin_pods = parse_KV_file('../.flutter-plugins')
-  plugin_pods.map { |p|
-    symlink = File.join(symlink_plugins_dir, p[:name])
-    File.symlink(p[:path], symlink)
-    if pubspec_supports_macos(File.join(symlink, 'pubspec.yaml'))
-      pod p[:name], :path => File.join(symlink, 'macos')
-    end
-  }
+  flutter_install_all_macos_pods File.dirname(File.realpath(__FILE__))
 end
 
-# Prevent Cocoapods from embedding a second Flutter framework and causing an error with the new Xcode build system.
-install! 'cocoapods', :disable_input_output_paths => true
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_macos_build_settings(target)
+
+    # Start of the permission_handler configuration
+    target.build_configurations.each do |config|
+
+      # You can enable the permissions needed here. For example to enable camera
+      # permission, just remove the `#` character in front so it looks like this:
+      #
+      # ## dart: PermissionGroup.camera
+      # 'PERMISSION_CAMERA=1'
+      #
+      #  Preprocessor definitions can be found in: https://github.com/Baseflow/flutter-permission-handler/blob/master/permission_handler_apple/ios/Classes/PermissionHandlerEnums.h
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+
+        ## dart: PermissionGroup.calendar
+        # 'PERMISSION_EVENTS=1',
+
+        ## dart: PermissionGroup.reminders
+        # 'PERMISSION_REMINDERS=1',
+
+        ## dart: PermissionGroup.contacts
+        # 'PERMISSION_CONTACTS=1',
+
+        ## dart: PermissionGroup.camera
+        'PERMISSION_CAMERA=1',
+
+        ## dart: PermissionGroup.microphone
+        'PERMISSION_MICROPHONE=1',
+
+        ## dart: PermissionGroup.speech
+        # 'PERMISSION_SPEECH_RECOGNIZER=1',
+
+        ## dart: PermissionGroup.photos
+        # 'PERMISSION_PHOTOS=1',
+
+        ## dart: [PermissionGroup.location, PermissionGroup.locationAlways, PermissionGroup.locationWhenInUse]
+        # 'PERMISSION_LOCATION=1',
+
+        ## dart: PermissionGroup.notification
+        # 'PERMISSION_NOTIFICATIONS=1',
+
+        ## dart: PermissionGroup.mediaLibrary
+        # 'PERMISSION_MEDIA_LIBRARY=1',
+
+        ## dart: PermissionGroup.sensors
+        # 'PERMISSION_SENSORS=1',
+
+        ## dart: PermissionGroup.bluetooth
+        # 'PERMISSION_BLUETOOTH=1',
+
+        ## dart: PermissionGroup.appTrackingTransparency
+        # 'PERMISSION_APP_TRACKING_TRANSPARENCY=1',
+
+        ## dart: PermissionGroup.criticalAlerts
+        # 'PERMISSION_CRITICAL_ALERTS=1'
+      ]
+
+    end
+    # End of the permission_handler configuration
+  end
+end

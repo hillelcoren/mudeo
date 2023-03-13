@@ -29,8 +29,8 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSCameraUsageDescription</key>
-	<string>camera</string>
+	<string>Used to record videos</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>microphone</string>
+	<string>Used to record audio</string>
 </dict>
 </plist>
