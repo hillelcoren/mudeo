@@ -303,6 +303,16 @@ class _SongEditState extends State<SongEdit> {
     videoPlayers.forEach((int, videoPlayer) => videoPlayer?.dispose());
     cameraController?.dispose();
 
+    if (Platform.isMacOS) {
+      destroyCamera();
+    }
+
+    super.dispose();
+  }
+
+
+
+  Future<void> destroyCamera() async {
     try {
       if (macOSCameraController != null) {
         if (macOSCameraController.isDestroyed) {
@@ -310,16 +320,15 @@ class _SongEditState extends State<SongEdit> {
             cameraKey = GlobalKey();
           });
         } else {
-          macOSCameraController.destroy();
+          await macOSCameraController?.destroy();
           setState(() {});
         }
       }
     } catch (e) {
       //
     }
-
-    super.dispose();
   }
+
 
   void record() async {
     if (countdownTimer > 0) {
