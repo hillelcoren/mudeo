@@ -171,179 +171,6 @@ class _SongScaffoldState extends State<SongScaffold> {
         ],
       ),
     );
-
-    return Scaffold(
-      appBar: AppBar(
-        leading: PopupMenuButton<String>(
-          icon: Icon(Icons.more_vert),
-          itemBuilder: (BuildContext context) {
-            final actions = [
-              state.isDance ? localization.newDance : localization.newSong
-            ];
-            if (song.isOld) {
-              actions.add(localization.download);
-            }
-            if (song.isOld) {
-              actions.add(
-                (kIsWeb)
-                    ? localization.openInNewTab
-                    : localization.openInBrowser,
-              );
-            }
-            if (song.isOld && authArtist.ownsSong(song)) {
-              actions.add(state.isDance
-                  ? localization.cloneDance
-                  : localization.cloneSong);
-            }
-            if (song.isOld || song.parentId > 0) {
-              actions.add(state.isDance
-                  ? localization.resetDance
-                  : localization.resetSong);
-            }
-            if (song.isOld &&
-                (authArtist.ownsSong(song) || authArtist.isAdmin)) {
-              actions.add(state.isDance
-                  ? localization.deleteDance
-                  : localization.deleteSong);
-            }
-            return actions
-                .map((action) => PopupMenuItem(
-                      child: Text(action),
-                      value: action,
-                    ))
-                .toList();
-          },
-          onSelected: (String action) async {
-            if (action == localization.openInBrowser ||
-                action == localization.openInNewTab) {
-              launch(song.url);
-              return;
-            } else if (action == localization.download) {
-              final Directory directory =
-                  await getApplicationDocumentsDirectory();
-              final String folder = '${directory.path}/videos';
-              await Directory(folder).create(recursive: true);
-              final path = '$folder/${song.title}.mp4';
-              if (!await File(path).exists()) {
-                final http.Response copyResponse =
-                    await http.Client().get(song.videoUrl);
-                await File(path).writeAsBytes(copyResponse.bodyBytes);
-              }
-              Share.shareFiles([path]);
-              return;
-            } else {
-              showDialog<AlertDialog>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      semanticLabel: localization.areYouSure,
-                      title: Text(localization.loseChanges),
-                      content: Text(localization.areYouSure),
-                      actions: <Widget>[
-                        TextButton(
-                            child: Text(localization.cancel.toUpperCase()),
-                            onPressed: () => Navigator.pop(context)),
-                        TextButton(
-                            child: Text(localization.ok.toUpperCase()),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              if (action == localization.newSong ||
-                                  action == localization.newDance) {
-                                widget.viewModel.onNewSongPressed(context);
-                              } else if (action == localization.resetSong ||
-                                  action == localization.resetDance) {
-                                widget.viewModel.onResetSongPressed(context);
-                              } else if (action == localization.deleteSong ||
-                                  action == localization.deleteDance) {
-                                widget.viewModel.onDeleteSongPressed(song);
-                              } else if (action == localization.cloneSong ||
-                                  action == localization.cloneDance) {
-                                widget.viewModel.onForkSongPressed(song);
-                              }
-                            })
-                      ],
-                    );
-                  });
-            }
-          },
-        ),
-        title: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                child: LiveText(
-                  () {
-                    if (uiState.recordingTimestamp > 0) {
-                      int seconds;
-                      if (widget.viewModel.song.tracks.isNotEmpty) {
-                        seconds = (widget.viewModel.song.duration ~/ 1000) -
-                            uiState.recordingDuration.inSeconds;
-                      } else {
-                        seconds = uiState.recordingDuration.inSeconds;
-                      }
-
-                      return seconds < 10 ? '00:0$seconds' : '00:$seconds';
-                    } else {
-                      return song.isNew && song.parentId == 0
-                          ? (state.isDance
-                              ? localization.newDance
-                              : localization.newSong)
-                          : song.title;
-                    }
-                  },
-                  style: () => TextStyle(
-                      color: widget.viewModel.song.tracks.isNotEmpty &&
-                              uiState.recordingDuration.inMilliseconds >=
-                                  kMaxSongDuration - kFirstWarningOffset
-                          ? (uiState.recordingDuration.inMilliseconds >=
-                                  kMaxSongDuration - kSecondWarningOffset
-                              ? Colors.redAccent
-                              : Colors.orangeAccent)
-                          : null),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Icon(
-                  Icons.headphones,
-                  color: headsetState == HeadsetState.CONNECT
-                      ? Colors.white
-                      : Colors.white.withAlpha(100),
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          widget.viewModel.state.isSaving || isMissingRecognitions
-              ? Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: Center(
-                    child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator()),
-                  ),
-                )
-              : TextButton(
-                  //
-                  child: Text(localization.publish),
-                  onPressed:
-                      !uiState.isRecording && song.includedTracks.isNotEmpty
-                          ? () => onSavePressed(context, widget.viewModel)
-                          : null,
-                ),
-        ],
-      ),
-      body: SongEdit(
-        viewModel: widget.viewModel,
-        hasHeadset: headsetState == HeadsetState.CONNECT,
-        //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
-        key: ValueKey('${widget.viewModel.song.updatedAt}'),
-      ),
-    );
   }
 }
 
@@ -916,6 +743,7 @@ class _SongEditState extends State<SongEdit> {
       aspectRatio = 1 / value.aspectRatio;
     }
 
+    final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
     final store = StoreProvider.of<AppState>(context);
     final state = viewModel.state;
@@ -1179,7 +1007,101 @@ class _SongEditState extends State<SongEdit> {
                           disableButtons || song.includedTracks.length < 2
                               ? null
                               : () => _renderSong(),
+
                     ),
+                    PopupMenuButton<String>(
+                      icon: Icon(Icons.more_vert),
+                      itemBuilder: (BuildContext context) {
+                        final actions = [
+                          localization.newSong
+                        ];
+                        if (song.isOld) {
+                          actions.add(localization.download);
+                        }
+                        if (song.isOld) {
+                          actions.add(
+                            (kIsWeb)
+                                ? localization.openInNewTab
+                                : localization.openInBrowser,
+                          );
+                        }
+                        if (song.isOld && state.artist.ownsSong(song)) {
+                          actions.add(state.isDance
+                              ? localization.cloneDance
+                              : localization.cloneSong);
+                        }
+                        if (song.isOld || song.parentId > 0) {
+                          actions.add(state.isDance
+                              ? localization.resetDance
+                              : localization.resetSong);
+                        }
+                        if (song.isOld &&
+                            (state.artist.ownsSong(song) || state.artist.isAdmin)) {
+                          actions.add(state.isDance
+                              ? localization.deleteDance
+                              : localization.deleteSong);
+                        }
+                        return actions
+                            .map((action) => PopupMenuItem(
+                          child: Text(action),
+                          value: action,
+                        ))
+                            .toList();
+                      },
+                      onSelected: (String action) async {
+                        if (action == localization.openInBrowser ||
+                            action == localization.openInNewTab) {
+                          launch(song.url);
+                          return;
+                        } else if (action == localization.download) {
+                          final Directory directory =
+                          await getApplicationDocumentsDirectory();
+                          final String folder = '${directory.path}/videos';
+                          await Directory(folder).create(recursive: true);
+                          final path = '$folder/${song.title}.mp4';
+                          if (!await File(path).exists()) {
+                            final http.Response copyResponse =
+                            await http.Client().get(song.videoUrl);
+                            await File(path).writeAsBytes(copyResponse.bodyBytes);
+                          }
+                          Share.shareFiles([path]);
+                          return;
+                        } else {
+                          showDialog<AlertDialog>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  semanticLabel: localization.areYouSure,
+                                  title: Text(localization.loseChanges),
+                                  content: Text(localization.areYouSure),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        child: Text(localization.cancel.toUpperCase()),
+                                        onPressed: () => Navigator.pop(context)),
+                                    TextButton(
+                                        child: Text(localization.ok.toUpperCase()),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          if (action == localization.newSong ||
+                                              action == localization.newDance) {
+                                            widget.viewModel.onNewSongPressed(context);
+                                          } else if (action == localization.resetSong ||
+                                              action == localization.resetDance) {
+                                            widget.viewModel.onResetSongPressed(context);
+                                          } else if (action == localization.deleteSong ||
+                                              action == localization.deleteDance) {
+                                            widget.viewModel.onDeleteSongPressed(song);
+                                          } else if (action == localization.cloneSong ||
+                                              action == localization.cloneDance) {
+                                            widget.viewModel.onForkSongPressed(song);
+                                          }
+                                        })
+                                  ],
+                                );
+                              });
+                        }
+                      },
+                    )
                   ],
                 ),
               ],
