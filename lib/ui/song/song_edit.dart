@@ -176,6 +176,7 @@ class _SongEditState extends State<SongEdit> {
   Timer playTimer;
   Completer _readyCompleter;
   int _activeTrack = 0;
+  bool _headphonesConnected = false;
 
   String selectedAspectRatio = '16:9';
   Map<String, double> aspectRatios = {
@@ -205,12 +206,22 @@ class _SongEditState extends State<SongEdit> {
   void initState() {
     super.initState();
 
+    _headphonesConnected = widget.hasHeadset;
+
     SharedPreferences.getInstance().then((sharedPrefs) {
       cameraDirection = convertCameraDirectionFromString(
           sharedPrefs.getString(kSharedPrefCameraDirection));
 
       initCamera();
     });
+  }
+
+  void didUpdateWidget(SongEdit oldWidget) {
+    if (widget.hasHeadset != oldWidget.hasHeadset) {
+      _headphonesConnected = widget.hasHeadset;
+    }
+
+    super.didUpdateWidget(oldWidget);
   }
 
   void initCamera() async {
@@ -495,7 +506,7 @@ class _SongEditState extends State<SongEdit> {
 
     final duration = endTimestamp - timestamp;
 
-    if (!widget.hasHeadset) {
+    if (!_headphonesConnected) {
       final song = viewModel.song;
       if (song.includedTracks.isNotEmpty) {
         final track = song.includedTracks.last;
@@ -509,7 +520,7 @@ class _SongEditState extends State<SongEdit> {
     final trackId = await viewModel.onVideoAdded(
       video,
       duration,
-      widget.hasHeadset,
+      _headphonesConnected,
     );
 
     setState(() {
@@ -703,6 +714,40 @@ class _SongEditState extends State<SongEdit> {
                     ))
                 .toList(),
           );
+        });
+  }
+
+  void onHeadphonesPressed() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          final localization = AppLocalization.of(context);
+          return SimpleDialog(title: Text(localization.headphones), children: [
+            SimpleDialogOption(
+              onPressed: () {
+                _headphonesConnected = true;
+                Navigator.of(context).pop();
+              },
+              child: ListTile(
+                title: Text(localization.connected),
+                trailing: _headphonesConnected
+                    ? Icon(Icons.check_circle_outline)
+                    : null,
+              ),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                _headphonesConnected = false;
+                Navigator.of(context).pop();
+              },
+              child: ListTile(
+                title: Text(localization.notConnected),
+                trailing: !_headphonesConnected
+                    ? Icon(Icons.check_circle_outline)
+                    : null,
+              ),
+            ),
+          ]);
         });
   }
 
@@ -958,7 +1003,7 @@ class _SongEditState extends State<SongEdit> {
                           onDeletePressed: () async {
                             final index = song.includedTracks.indexOf(track);
 
-                            if (!widget.hasHeadset) {
+                            if (!_headphonesConnected) {
                               if (_activeTrack > 0) {
                                 _activeTrack--;
 
@@ -972,7 +1017,7 @@ class _SongEditState extends State<SongEdit> {
                             videoPlayers[track.id].dispose();
                             videoPlayers.remove(track.id);
                             viewModel.onDeleteVideoPressed(
-                                song, track, widget.hasHeadset);
+                                song, track, _headphonesConnected);
                           },
                           onFixPressed: () async {
                             final recognitions = await updateRecognitions(
@@ -998,7 +1043,7 @@ class _SongEditState extends State<SongEdit> {
                                  */
                           },
                           isActive: _activeTrack == songIndex,
-                          hasHeadset: widget.hasHeadset,
+                          hasHeadset: _headphonesConnected,
                           onActivatePressed: () =>
                               setState(() => _activeTrack = songIndex),
                         );
@@ -1146,6 +1191,7 @@ class _SongEditState extends State<SongEdit> {
                             actions.add(localization.camera);
                           if (macOSAudioDevices.length > 1)
                             actions.add(localization.microphone);
+                          actions.add(localization.headphones);
                           actions.add(localization.aspectRatio);
                         }
                         if (!kReleaseMode) {
@@ -1169,6 +1215,8 @@ class _SongEditState extends State<SongEdit> {
                           onVideoSettingsPressed();
                         } else if (action == localization.microphone) {
                           onAudioSettingsPressed();
+                        } else if (action == localization.headphones) {
+                          onHeadphonesPressed();
                         } else if (action == localization.aspectRatio) {
                           onAspectRatioPressed();
                         } else if (action == localization.download) {

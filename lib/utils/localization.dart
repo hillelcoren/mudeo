@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'headphones': 'Headphones',
+      'connected': 'Connected',
+      'not_connected': 'Not Connected',
       'aspect_ratio': 'Aspect Ratio',
       'reset_camera': 'Reset Camera',
       'merge': 'Merge',
@@ -781,11 +784,9 @@ class AppLocalization {
 
   String get report => _localizedValues[locale.toString()]['report'];
 
-  String get microphone =>
-      _localizedValues[locale.toString()]['microphone'];
+  String get microphone => _localizedValues[locale.toString()]['microphone'];
 
-  String get camera =>
-      _localizedValues[locale.toString()]['camera'];
+  String get camera => _localizedValues[locale.toString()]['camera'];
 
   String get merge => _localizedValues[locale.toString()]['merge'];
 
@@ -795,6 +796,13 @@ class AppLocalization {
 
   String get reportedComment =>
       _localizedValues[locale.toString()]['reported_comment'];
+
+  String get headphones => _localizedValues[locale.toString()]['headphones'];
+
+  String get connected => _localizedValues[locale.toString()]['connected'];
+
+  String get notConnected =>
+      _localizedValues[locale.toString()]['not_connected'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);
