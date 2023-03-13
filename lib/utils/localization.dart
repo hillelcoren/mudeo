@@ -23,7 +23,8 @@ class AppLocalization {
       'aspect_ratio': 'Aspect Ratio',
       'reset_camera': 'Reset Camera',
       'merge': 'Merge',
-      'select_microphone': 'Select Microphone',
+      'microphone': 'Microphone',
+      'camera': 'Camera',
       'reported_comment': 'Comment has been reported',
       'report': 'Report',
       'monitor': 'Monitor',
@@ -780,8 +781,11 @@ class AppLocalization {
 
   String get report => _localizedValues[locale.toString()]['report'];
 
-  String get selectMicrophone =>
-      _localizedValues[locale.toString()]['select_microphone'];
+  String get microphone =>
+      _localizedValues[locale.toString()]['microphone'];
+
+  String get camera =>
+      _localizedValues[locale.toString()]['camera'];
 
   String get merge => _localizedValues[locale.toString()]['merge'];
 

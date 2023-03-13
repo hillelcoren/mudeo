@@ -623,7 +623,7 @@ class _SongEditState extends State<SongEdit> {
         builder: (context) {
           final localization = AppLocalization.of(context);
           return SimpleDialog(
-            title: Text(localization.selectMicrophone),
+            title: Text(localization.microphone),
             children: macOSAudioDevices
                 .map((device) => SimpleDialogOption(
                       onPressed: () {
@@ -649,7 +649,7 @@ class _SongEditState extends State<SongEdit> {
         builder: (context) {
           final localization = AppLocalization.of(context);
           return SimpleDialog(
-            title: Text(localization.selectCamera),
+            title: Text(localization.camera),
             children: macOSVideoDevices
                 .map((device) => SimpleDialogOption(
                       onPressed: () {
@@ -703,7 +703,7 @@ class _SongEditState extends State<SongEdit> {
         builder: (BuildContext context) {
           final localization = AppLocalization.of(context);
           return SimpleDialog(
-            title: Text(localization.selectCamera),
+            title: Text(localization.camera),
             children: <Widget>[
               availableCameraDirections[CameraLensDirection.front]
                   ? SimpleDialogOption(
@@ -1120,9 +1120,9 @@ class _SongEditState extends State<SongEdit> {
                         }
                         if (Platform.isMacOS) {
                           if (macOSVideoDevices.length > 1)
-                            actions.add(localization.selectCamera);
+                            actions.add(localization.camera);
                           if (macOSAudioDevices.length > 1)
-                            actions.add(localization.selectMicrophone);
+                            actions.add(localization.microphone);
                           actions.add(localization.aspectRatio);
                         }
                         if (!kReleaseMode) {
@@ -1142,9 +1142,9 @@ class _SongEditState extends State<SongEdit> {
                             action == localization.openInNewTab) {
                           launch(song.url);
                           return;
-                        } else if (action == localization.selectCamera) {
+                        } else if (action == localization.camera) {
                           onVideoSettingsPressed();
-                        } else if (action == localization.selectMicrophone) {
+                        } else if (action == localization.microphone) {
                           onAudioSettingsPressed();
                         } else if (action == localization.aspectRatio) {
                           onAspectRatioPressed();
