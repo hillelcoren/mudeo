@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'reset_camera': 'Reset Camera',
       'merge': 'Merge',
       'select_microphone': 'Select Microphone',
       'reported_comment': 'Comment has been reported',
@@ -782,6 +783,8 @@ class AppLocalization {
   String get selectMicrophone => _localizedValues[locale.toString()]['select_microphone'];
 
   String get merge => _localizedValues[locale.toString()]['merge'];
+
+  String get resetCamera => _localizedValues[locale.toString()]['reset_camera'];
 
 
 

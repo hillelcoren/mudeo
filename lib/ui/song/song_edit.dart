@@ -311,6 +311,7 @@ class _SongEditState extends State<SongEdit> {
   }
 
   Future<void> destroyCamera() async {
+    print("## Destroy camera");
     try {
       if (macOSCameraController != null) {
         if (macOSCameraController.isDestroyed) {
@@ -386,7 +387,7 @@ class _SongEditState extends State<SongEdit> {
       play(isRecording: true);
       if (Platform.isMacOS) {
         print('## PATH: $path');
-        await macOSCameraController.recordVideo(
+        macOSCameraController.recordVideo(
           url: path,
           maxVideoDuration: 300,
           onVideoRecordingFinished:
@@ -763,6 +764,7 @@ class _SongEditState extends State<SongEdit> {
     double aspectRatio = 1;
     if (Platform.isMacOS) {
       aspectRatio = 16 / 9;
+      //aspectRatio = 8 / 5;
     } else {
       if (cameraController == null) return SizedBox();
       final value = cameraController.value;
@@ -1088,6 +1090,9 @@ class _SongEditState extends State<SongEdit> {
                           if (macOSAudioDevices.length > 1)
                             actions.add(localization.selectMicrophone);
                         }
+                        if (!kReleaseMode) {
+                          actions.add(localization.resetCamera);
+                        }
                         return actions
                             .map((action) => PopupMenuItem(
                                   child: Text(action),
@@ -1096,7 +1101,9 @@ class _SongEditState extends State<SongEdit> {
                             .toList();
                       },
                       onSelected: (String action) async {
-                        if (action == localization.openInBrowser ||
+                        if (action == localization.resetCamera) {
+                          destroyCamera();
+                        } else if (action == localization.openInBrowser ||
                             action == localization.openInNewTab) {
                           launch(song.url);
                           return;
