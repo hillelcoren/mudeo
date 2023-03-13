@@ -84,7 +84,6 @@ class _SongScaffoldState extends State<SongScaffold> {
     });
   }
 
-
   void checkPermissions() async {
     if (isCameraEnabled && isMicrophoneEnabled) {
       return;
@@ -166,7 +165,7 @@ class SongEdit extends StatefulWidget {
 class _SongEditState extends State<SongEdit> {
   Map<int, VideoPlayerController> videoPlayers = {};
   CameraController cameraController;
-  final GlobalKey cameraKey = GlobalKey();
+  GlobalKey cameraKey = GlobalKey();
   CameraMacOSController macOSCameraController;
   bool isPlaying = false, isRecording = false;
   bool isPastThreeSeconds = false;
@@ -303,6 +302,22 @@ class _SongEditState extends State<SongEdit> {
   void dispose() {
     videoPlayers.forEach((int, videoPlayer) => videoPlayer?.dispose());
     cameraController?.dispose();
+
+    try {
+      if (macOSCameraController != null) {
+        if (macOSCameraController.isDestroyed) {
+          setState(() {
+            cameraKey = GlobalKey();
+          });
+        } else {
+          macOSCameraController.destroy();
+          setState(() {});
+        }
+      }
+    } catch (e) {
+      //
+    }
+
     super.dispose();
   }
 
@@ -736,7 +751,6 @@ class _SongEditState extends State<SongEdit> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     double aspectRatio = 1;
@@ -945,6 +959,7 @@ class _SongEditState extends State<SongEdit> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    /*
                     ArtistProfile(
                       artist: state.artist,
                       onTap: () => kIsWeb
@@ -957,6 +972,7 @@ class _SongEditState extends State<SongEdit> {
                             ),
                     ),
                     SizedBox(height: 2),
+                     */
                     if (!Platform.isMacOS) ...[
                       if (availableCameraDirections.keys
                               .where((direction) =>
@@ -997,19 +1013,25 @@ class _SongEditState extends State<SongEdit> {
                     LargeIconButton(
                       iconData: Icons.movie,
                       onPressed:
-                      disableButtons || song.includedTracks.length < 2
-                          ? null
-                          : () => _renderSong(),
+                          disableButtons || song.includedTracks.length < 2
+                              ? null
+                              : () => _renderSong(),
                     ),
                     LargeIconButton(
-                      iconData: Icons.rocket_launch,
-                      onPressed:
-                      disableButtons || isRecording || song.includedTracks.isEmpty
-                          ? null
-                          : () => onSavePressed(context, widget.viewModel)
-                    ),
+                        iconData: Icons.rocket_launch,
+                        onPressed: disableButtons ||
+                                isRecording ||
+                                song.includedTracks.isEmpty
+                            ? null
+                            : () => onSavePressed(context, widget.viewModel)),
+                    SizedBox(height: 16),
                     PopupMenuButton<String>(
-                      icon: Icon(Icons.more_vert),
+                      enabled: !disableButtons,
+                      iconSize: 38,
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 38,
+                      ),
                       itemBuilder: (BuildContext context) {
                         final actions = [localization.newSong];
                         if (song.isOld) {
