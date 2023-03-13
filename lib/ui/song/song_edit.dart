@@ -323,14 +323,12 @@ class _SongEditState extends State<SongEdit> {
     print("## Destroy camera");
     try {
       if (macOSCameraController != null) {
-        if (macOSCameraController.isDestroyed) {
-          setState(() {
-            cameraKey = GlobalKey();
-          });
-        } else {
-          await macOSCameraController?.destroy();
-          setState(() {});
+        if (!macOSCameraController.isDestroyed) {
+          await macOSCameraController.destroy();
         }
+        setState(() {
+          cameraKey = GlobalKey();
+        });
       }
     } catch (e) {
       //
@@ -654,18 +652,18 @@ class _SongEditState extends State<SongEdit> {
             title: Text(localization.selectCamera),
             children: macOSVideoDevices
                 .map((device) => SimpleDialogOption(
-              onPressed: () {
-                selectedVideoDevice = device.deviceId;
-                Navigator.of(context).pop();
-              },
-              child: ListTile(
-                title: Text(device.localizedName),
-                subtitle: Text(device.manufacturer),
-                trailing: device.deviceId == selectedVideoDevice
-                    ? Icon(Icons.check_circle_outline)
-                    : null,
-              ),
-            ))
+                      onPressed: () {
+                        selectedVideoDevice = device.deviceId;
+                        Navigator.of(context).pop();
+                      },
+                      child: ListTile(
+                        title: Text(device.localizedName),
+                        subtitle: Text(device.manufacturer),
+                        trailing: device.deviceId == selectedVideoDevice
+                            ? Icon(Icons.check_circle_outline)
+                            : null,
+                      ),
+                    ))
                 .toList(),
           );
         });
@@ -680,17 +678,20 @@ class _SongEditState extends State<SongEdit> {
             title: Text(localization.aspectRatio),
             children: aspectRatios.keys
                 .map((aspectRatio) => SimpleDialogOption(
-              onPressed: () {
-                selectedAspectRatio = aspectRatio;
-                Navigator.of(context).pop();
-              },
-              child: ListTile(
-                title: Text(aspectRatio),
-                trailing: aspectRatio == selectedAspectRatio
-                    ? Icon(Icons.check_circle_outline)
-                    : null,
-              ),
-            ))
+                      onPressed: () {
+                        if (selectedAspectRatio != aspectRatio) {
+                          selectedAspectRatio = aspectRatio;
+                          destroyCamera();
+                        }
+                        Navigator.of(context).pop();
+                      },
+                      child: ListTile(
+                        title: Text(aspectRatio),
+                        trailing: aspectRatio == selectedAspectRatio
+                            ? Icon(Icons.check_circle_outline)
+                            : null,
+                      ),
+                    ))
                 .toList(),
           );
         });

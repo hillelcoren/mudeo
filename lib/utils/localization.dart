@@ -780,17 +780,14 @@ class AppLocalization {
 
   String get report => _localizedValues[locale.toString()]['report'];
 
-
-  String get selectMicrophone => _localizedValues[locale.toString()]['select_microphone'];
+  String get selectMicrophone =>
+      _localizedValues[locale.toString()]['select_microphone'];
 
   String get merge => _localizedValues[locale.toString()]['merge'];
 
   String get resetCamera => _localizedValues[locale.toString()]['reset_camera'];
 
   String get aspectRatio => _localizedValues[locale.toString()]['aspect_ratio'];
-
-
-
 
   String get reportedComment =>
       _localizedValues[locale.toString()]['reported_comment'];
