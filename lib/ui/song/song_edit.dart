@@ -849,6 +849,22 @@ class _SongEditState extends State<SongEdit> {
               border:
                   isRecording ? Border.all(color: Colors.red, width: 3) : null),
         ),
+
+        SizedBox.expand(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  Colors.black.withOpacity(0.4),
+                ],
+                stops: [0.5, 1.0],
+                begin: Alignment.center,
+                end: Alignment.centerRight,
+              ),
+            ),
+          ),
+        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
