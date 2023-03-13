@@ -382,19 +382,20 @@ class _SongEditState extends State<SongEdit> {
       () => saveRecording(),
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       play(isRecording: true);
       if (Platform.isMacOS) {
         print('## PATH: $path');
-        macOSCameraController.recordVideo(
-            url: path,
-            maxVideoDuration: 300,
-            onVideoRecordingFinished:
-                (CameraMacOSFile file, CameraMacOSException exception) {
-              print('## onVideoRecordingFinished');
-              // called when maxVideoDuration has been reached
-              // do something with the file or catch the exception
-            });
+        await macOSCameraController.recordVideo(
+          url: path,
+          maxVideoDuration: 300,
+          onVideoRecordingFinished:
+              (CameraMacOSFile file, CameraMacOSException exception) {
+            print('## onVideoRecordingFinished');
+            // called when maxVideoDuration has been reached
+            // do something with the file or catch the exception
+          },
+        );
       } else {
         cameraController.startVideoRecording();
       }
@@ -849,7 +850,6 @@ class _SongEditState extends State<SongEdit> {
               border:
                   isRecording ? Border.all(color: Colors.red, width: 3) : null),
         ),
-
         SizedBox.expand(
           child: DecoratedBox(
             decoration: BoxDecoration(
