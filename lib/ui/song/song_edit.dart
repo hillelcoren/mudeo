@@ -2,7 +2,9 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:camera_macos/camera_macos_controller.dart';
+import 'package:camera_macos/camera_macos_device.dart';
 import 'package:camera_macos/camera_macos_file.dart';
+import 'package:camera_macos/camera_macos_platform_interface.dart';
 import 'package:camera_macos/camera_macos_view.dart';
 import 'package:camera_macos/exceptions.dart';
 import 'package:flutter/material.dart';
@@ -374,6 +376,12 @@ class _SongEditState extends State<SongEdit> {
   Completer _readyCompleter;
   int _activeTrack = 0;
 
+  List<CameraMacOSDevice> macOSVideoDevices = [];
+  String selectedVideoDevice;
+
+  List<CameraMacOSDevice> macOSAudioDevices = [];
+  String selectedAudioDevice;
+
   CameraLensDirection cameraDirection = CameraLensDirection.front;
   Map<CameraLensDirection, bool> availableCameraDirections = {
     CameraLensDirection.front: false,
@@ -395,9 +403,23 @@ class _SongEditState extends State<SongEdit> {
     });
   }
 
-  void initCamera() {
+  void initCamera() async {
     if (Platform.isMacOS) {
-      // do nothing
+      macOSVideoDevices = await CameraMacOS.instance.listDevices(
+        deviceType: CameraMacOSDeviceType.video,
+      );
+
+      macOSAudioDevices = await CameraMacOS.instance.listDevices(
+        deviceType: CameraMacOSDeviceType.audio,
+      );
+
+      if (macOSAudioDevices.isNotEmpty) {
+        selectedAudioDevice = macOSAudioDevices.first.deviceId;
+      }
+
+      if (macOSVideoDevices.isNotEmpty) {
+        selectedVideoDevice = macOSVideoDevices.first.deviceId;
+      }
     } else {
       availableCameras().then((cameras) {
         cameras.forEach((camera) {
@@ -763,6 +785,54 @@ class _SongEditState extends State<SongEdit> {
     setState(() => isPlaying = false);
   }
 
+  void onAudioSettingsPressed() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          final localization = AppLocalization.of(context);
+          return SimpleDialog(
+            title: Text(localization.selectMicrophone),
+            children: macOSAudioDevices
+                .map((device) => SimpleDialogOption(
+                      onPressed: () {
+                        selectedAudioDevice = device.deviceId;
+                        Navigator.of(context).pop();
+                      },
+                      child: ListTile(
+                        title: Text(device.localizedName),
+                        subtitle: Text(device.manufacturer),
+                        trailing: device.deviceId == selectedAudioDevice ? Icon(Icons.check_circle_outline) : null,
+                      ),
+                    ))
+                .toList(),
+          );
+        });
+  }
+
+  void onVideoSettingsPressed() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          final localization = AppLocalization.of(context);
+          return SimpleDialog(
+            title: Text(localization.selectCamera),
+            children: macOSVideoDevices
+                .map((device) => SimpleDialogOption(
+                      onPressed: () {
+                        selectedVideoDevice = device.deviceId;
+                        Navigator.of(context).pop();
+                      },
+                      child: ListTile(
+                        title: Text(device.localizedName),
+                        subtitle: Text(device.manufacturer),
+                        trailing: device.deviceId == selectedVideoDevice ? Icon(Icons.check_circle_outline) : null,
+                      ),
+                    ))
+                .toList(),
+          );
+        });
+  }
+
   void onSettingsPressed() {
     showDialog<SimpleDialog>(
         context: context,
@@ -908,6 +978,8 @@ class _SongEditState extends State<SongEdit> {
                   ? CameraMacOSView(
                       key: cameraKey,
                       fit: BoxFit.fill,
+                      audioDeviceId: selectedAudioDevice,
+                      deviceId: selectedVideoDevice,
                       cameraMode: CameraMacOSMode.video,
                       onCameraInizialized: (CameraMacOSController controller) {
                         setState(() {
@@ -1051,31 +1123,27 @@ class _SongEditState extends State<SongEdit> {
                             ),
                     ),
                     SizedBox(height: 2),
-                    LargeIconButton(
-                      iconData: countdownTimer > 0 ? null : _getRecordIcon(),
-                      //label: countdownTimer > 0 ? countdownTimer.toString() : null,
-                      onPressed: _getRecordingFunction(),
-                      color: isPlaying || isRecording ? null : Colors.redAccent,
-                    ),
-                    LargeIconButton(
-                        iconData: isPlaying && !isRecording
-                            ? Icons.stop
-                            : Icons.play_arrow,
-                        onPressed: isEmpty || isRecording || countdownTimer > 0
-                            ? null
-                            : (isPlaying ? stopPlaying : play)),
-                    if (Platform.isMacOS)
-                      ...[
-                        //
-                      ]
-                    else ...[
+                    if (Platform.isMacOS) ...[
+                      if (macOSVideoDevices.length > 1)
+                        LargeIconButton(
+                          iconData: Icons.videocam,
+                          onPressed:
+                              disableButtons ? null : onVideoSettingsPressed,
+                        ),
+                      if (macOSAudioDevices.length > 1)
+                        LargeIconButton(
+                          iconData: Icons.mic,
+                          onPressed:
+                              disableButtons ? null : onAudioSettingsPressed,
+                        ),
+                    ] else ...[
                       if (availableCameraDirections.keys
                               .where((direction) =>
                                   availableCameraDirections[direction])
                               .length >
                           2)
                         LargeIconButton(
-                          iconData: Icons.camera,
+                          iconData: Icons.videocam,
                           onPressed: disableButtons ? null : onSettingsPressed,
                         )
                       else
@@ -1093,13 +1161,25 @@ class _SongEditState extends State<SongEdit> {
                         )
                     ],
                     LargeIconButton(
+                      iconData: countdownTimer > 0 ? null : _getRecordIcon(),
+                      //label: countdownTimer > 0 ? countdownTimer.toString() : null,
+                      onPressed: _getRecordingFunction(),
+                      color: isPlaying || isRecording ? null : Colors.redAccent,
+                    ),
+                    LargeIconButton(
+                        iconData: isPlaying && !isRecording
+                            ? Icons.stop
+                            : Icons.play_arrow,
+                        onPressed: isEmpty || isRecording || countdownTimer > 0
+                            ? null
+                            : (isPlaying ? stopPlaying : play)),
+                    LargeIconButton(
                       iconData: Icons.movie,
                       onPressed:
                           disableButtons || song.includedTracks.length < 2
                               ? null
                               : () => _renderSong(),
                     ),
-                    SizedBox(height: 140),
                   ],
                 ),
               ],
@@ -1107,47 +1187,6 @@ class _SongEditState extends State<SongEdit> {
           ),
         ),
       ],
-    );
-
-    return Scaffold(
-      body: Padding(
-        // TODO use media query to determine this
-        padding: EdgeInsets.only(bottom: Platform.isIOS ? 78 : 50),
-        child: Column(
-          children: [
-            Material(
-              color: Colors.black26,
-              //elevation: kDefaultElevation,
-              child: Row(
-                children: [
-                  availableCameraDirections.keys
-                              .where((direction) =>
-                                  availableCameraDirections[direction])
-                              .length >
-                          2
-                      ? ExpandedButton(
-                          icon: Icons.camera,
-                          onPressed: disableButtons ? null : onSettingsPressed,
-                        )
-                      : ExpandedButton(
-                          iconHeight: 26,
-                          icon: cameraDirection == CameraLensDirection.front
-                              ? Icons.camera_front
-                              : Icons.camera_rear,
-                          onPressed: disableButtons
-                              ? null
-                              : () => selectCameraDirection(
-                                    cameraDirection == CameraLensDirection.front
-                                        ? CameraLensDirection.back
-                                        : CameraLensDirection.front,
-                                  ),
-                        ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
