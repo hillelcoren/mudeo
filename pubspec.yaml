@@ -27,6 +27,8 @@ dependencies:
       path: packages/camera/camera
   #video_player: ^0.10.12+2
   video_player: ^2.5.3
+  video_player_win:
+  video_player_macos:
   #native_video_view: 
   path_provider: ^2.0.13
   screen:
@@ -68,7 +70,6 @@ dependencies:
   permission_handler:
   headset_connection_event:
   camera_macos:
-  video_player_macos:
 
 dependency_overrides:
   platform: ^3.1.0

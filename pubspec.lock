@@ -1191,6 +1191,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.15"
+  video_player_win:
+    dependency: "direct main"
+    description:
+      name: video_player_win
+      sha256: f148d5af0aa4272ec382c565f390d641f28cd2023376bd77500d46f63ebf6ca5
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.5"
   visibility_detector:
     dependency: "direct main"
     description:

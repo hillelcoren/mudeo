@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:mudeo/.env.dart';
@@ -15,9 +16,11 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:screen/screen.dart';
+import 'package:video_player_win/video_player_win.dart';
 
 void main() async {
   //InAppPurchaseConnection.enablePendingPurchases();
+  if (!kIsWeb && Platform.isWindows) WindowsVideoPlayer.registerWith();
   WidgetsFlutterBinding.ensureInitialized();
   Screen.keepOn(true);
   SystemChrome.setPreferredOrientations([
