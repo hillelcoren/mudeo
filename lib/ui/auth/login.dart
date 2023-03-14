@@ -36,6 +36,7 @@ class _LoginState extends State<LoginScreen> {
   final FocusNode _focusNode1 = new FocusNode();
   final FocusNode _focusNode2 = new FocusNode();
   //final _buttonController = RoundedLoadingButtonController();
+  bool _isLoading = false;
 
   String _error = '';
 
@@ -93,6 +94,10 @@ class _LoginState extends State<LoginScreen> {
       return;
     }
 
+    setState(() {
+      _isLoading = true;
+    });
+
     final viewModel = widget.viewModel;
     final Completer<Null> completer = Completer<Null>();
     completer.future.then((_) {
@@ -101,9 +106,13 @@ class _LoginState extends State<LoginScreen> {
       } else {
         //_buttonController.reset();
       }
+      setState(() {
+        _isLoading = false;
+      });
     }).catchError((error) {
       //_buttonController.reset();
       setState(() {
+        _isLoading = false;
         _error = error;
       });
     });
@@ -186,6 +195,7 @@ class _LoginState extends State<LoginScreen> {
             Form(
               key: _formKey,
               child: FormCard(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   isOneTimePassword
                       ? TextFormField(
@@ -355,6 +365,19 @@ class _LoginState extends State<LoginScreen> {
                             ),
                           ),
                         ),
+                  ElevatedButton(
+                      onPressed: _isLoading ? null : () => _submitForm(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(_showLogin
+                            ? (_showEmail
+                                ? localization.emailLogin
+                                : localization.loginWithGoogle)
+                            : (_showEmail
+                                    ? localization.signUp
+                                    : localization.signUpWithGoogle)
+                                .toUpperCase()),
+                      )),
                   /*
                   RoundedLoadingButton(
                     height: 38,
