@@ -369,7 +369,7 @@ class ThumbnailIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     const double height = 180;
-    const double width = 90;
+    const double width = 200;
 
     return InkWell(
       onTap: () {
