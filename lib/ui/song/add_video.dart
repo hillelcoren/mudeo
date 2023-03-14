@@ -377,7 +377,7 @@ class ThumbnailIcon extends StatelessWidget {
         onSelected();
       },
       child: Padding(
-        padding: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Stack(
           children: <Widget>[
             SizedBox(

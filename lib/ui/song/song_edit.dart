@@ -321,9 +321,11 @@ class _SongEditState extends State<SongEdit> {
     videoPlayers.forEach((int, videoPlayer) => videoPlayer?.dispose());
     cameraController?.dispose();
 
+    /*
     if (Platform.isMacOS) {
       destroyCamera();
     }
+     */
 
     super.dispose();
   }
