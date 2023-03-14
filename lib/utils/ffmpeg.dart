@@ -124,6 +124,7 @@ class FfmpegUtils {
     return ReturnCode.isSuccess(returnCode) ? timestamp : null;
   }
 
+
   static Future<BuiltMap<String, double>> calculateVolumeData(
       String path) async {
     final Directory directory = await getApplicationDocumentsDirectory();
@@ -177,6 +178,17 @@ class FfmpegUtils {
     });
 
     return obj;
+  }
+
+  static Future<bool> createThumbnail(String videoPath, String imagePath) async {
+    final command = '-i $videoPath -vframes 1 $imagePath';
+
+    //print('## THUMB Command: $command');
+
+    final response = await FFmpegKit.execute(command);
+    final returnCode = await response.getReturnCode();
+
+    return ReturnCode.isSuccess(returnCode);
   }
 }
 

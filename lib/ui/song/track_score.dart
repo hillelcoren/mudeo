@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/main_common.dart';
+import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 class TrackScore extends StatefulWidget {
   TrackScore({this.song, this.video});
@@ -151,12 +151,8 @@ class _TrackScoreState extends State<TrackScore> {
     for (int i = 0; i < song.duration; i += frameLength) {
       _frameTimes.add(i);
       final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
-      await VideoThumbnail.thumbnailFile(
-        video: path,
-        imageFormat: ImageFormat.JPEG,
-        timeMs: i,
-        thumbnailPath: thumbnailPath,
-      );
+      await FfmpegUtils.createThumbnail(path, thumbnailPath);
+
       _origPaths.add(thumbnailPath);
     }
 
@@ -170,12 +166,7 @@ class _TrackScoreState extends State<TrackScore> {
 
     for (int i = 0; i < song.duration; i += frameLength) {
       final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
-      await VideoThumbnail.thumbnailFile(
-        video: path,
-        imageFormat: ImageFormat.JPEG,
-        timeMs: i,
-        thumbnailPath: thumbnailPath,
-      );
+      await FfmpegUtils.createThumbnail(path, thumbnailPath);
       _copyPaths.add(thumbnailPath);
     }
 

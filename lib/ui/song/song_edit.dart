@@ -23,7 +23,6 @@ import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:camera/camera.dart' hide ImageFormat;
 import 'package:flutter/foundation.dart';
@@ -45,7 +44,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 class SongScaffold extends StatefulWidget {
   const SongScaffold({
@@ -490,19 +488,11 @@ class _SongEditState extends State<SongEdit> {
       // do nothing
     }
 
-    String thumbnailPath = '';
-    if (!Platform.isMacOS) {
-      thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
-      await VideoThumbnail.thumbnailFile(
-        video: path,
-        imageFormat: ImageFormat.JPEG,
-        timeMs: 0,
-        thumbnailPath: thumbnailPath,
-      );
-    }
+    final imagePath = path.replaceFirst('.mp4', '-thumb.jpg');
+    await FfmpegUtils.createThumbnail(path, imagePath);
 
     final video = VideoEntity().rebuild((b) => b
-      ..thumbnailUrl = thumbnailPath
+      ..thumbnailUrl = imagePath
       ..timestamp = timestamp
       ..volumeData.replace(volumeData));
 

@@ -14,7 +14,6 @@ import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
 
 class SongRender extends StatefulWidget {
   const SongRender({@required this.song});
@@ -151,12 +150,7 @@ class _SongRenderState extends State<SongRender> {
                 }
 
                 final thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
-                await VideoThumbnail.thumbnailFile(
-                  video: path,
-                  imageFormat: ImageFormat.JPEG,
-                  timeMs: 0,
-                  thumbnailPath: thumbnailPath,
-                );
+                await FfmpegUtils.createThumbnail(path, thumbnailPath);
 
                 video = video.rebuild((b) => b
                   ..volumeData.replace(volumeData)
