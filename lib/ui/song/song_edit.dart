@@ -943,17 +943,6 @@ class _SongEditState extends State<SongEdit> {
               border:
                   isRecording ? Border.all(color: Colors.red, width: 3) : null),
         ),
-        if (countdownTimer > 0)
-          Center(
-            child: Text(
-              '$countdownTimer',
-              style: TextStyle(
-                fontSize: 300,
-                color: Colors.white.withOpacity(.15),
-                fontWeight: FontWeight.w200,
-              ),
-            ),
-          ),
         SizedBox.expand(
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -1290,6 +1279,17 @@ class _SongEditState extends State<SongEdit> {
             ),
           ),
         ),
+        if (countdownTimer > 0)
+          Center(
+            child: Text(
+              '$countdownTimer',
+              style: TextStyle(
+                fontSize: 300,
+                color: Colors.white.withOpacity(.15),
+                fontWeight: FontWeight.w200,
+              ),
+            ),
+          ),
       ],
     );
   }
