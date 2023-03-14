@@ -2,15 +2,14 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FfmpegUtils {
-  static FlutterFFmpeg flutterFFmpeg = new FlutterFFmpeg();
-  static FlutterFFprobe flutterFFprobe = new FlutterFFprobe();
-
   static Future<int> renderSong(SongEntity song) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = '${directory.path}/ffmpeg';
@@ -35,10 +34,11 @@ class FfmpegUtils {
         continue;
       }
 
-      final info = await FfmpegUtils.flutterFFprobe.getMediaInformation(path);
-      final width = info.getStreams().first.getAllProperties()['width'] ?? 1920;
+      final session = await FFprobeKit.getMediaInformation(path);
+      final information = await session.getMediaInformation();
+      final width = information.getStreams().first.getAllProperties()['width'] ?? 1920;
       final height =
-          info.getStreams().first.getAllProperties()['width'] ?? 1080;
+          information.getStreams().first.getAllProperties()['width'] ?? 1080;
 
       minWidth = min(minWidth, width);
       minHeight = min(minHeight, height);
@@ -110,16 +110,18 @@ class FfmpegUtils {
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
     command += '-filter_complex $filter -vsync 2 -map \'[v]\' -map \'[a]\' ';
-    command +=
-        '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
+    //command += '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
+    command += '-vcodec \'h264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
     command += output;
 
     //print('## Command: $command');
 
-    final response = await FfmpegUtils.flutterFFmpeg.execute(command);
+    final response = await FFmpegKit.execute(command);
 
-    return response == 0 ? timestamp : null;
+    final returnCode = await response.getReturnCode();
+
+    return ReturnCode.isSuccess(returnCode) ? timestamp : null;
   }
 
   static Future<BuiltMap<String, double>> calculateVolumeData(
@@ -129,7 +131,7 @@ class FfmpegUtils {
     await Directory(folder).create(recursive: true);
     final audioPath = '$folder/data.txt';
 
-    await FfmpegUtils.flutterFFmpeg.execute(
+    await FFmpegKit.execute(
         "-i ${path} -af astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level:file=$audioPath -f null -");
     final file = File(audioPath);
     String contents = await file.readAsString();

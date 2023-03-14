@@ -1,6 +1,13 @@
 PODS:
   - camera_macos (0.0.1):
     - FlutterMacOS
+  - ffmpeg-kit-macos-https (5.1)
+  - ffmpeg_kit_flutter (5.1.0):
+    - ffmpeg_kit_flutter/https (= 5.1.0)
+    - FlutterMacOS
+  - ffmpeg_kit_flutter/https (5.1.0):
+    - ffmpeg-kit-macos-https (= 5.1)
+    - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -25,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - camera_macos (from `Flutter/ephemeral/.symlinks/plugins/camera_macos/macos`)
+  - ffmpeg_kit_flutter (from `Flutter/ephemeral/.symlinks/plugins/ffmpeg_kit_flutter/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
   - share_plus (from `Flutter/ephemeral/.symlinks/plugins/share_plus/macos`)
@@ -36,11 +44,14 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - ffmpeg-kit-macos-https
     - FMDB
 
 EXTERNAL SOURCES:
   camera_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/camera_macos/macos
+  ffmpeg_kit_flutter:
+    :path: Flutter/ephemeral/.symlinks/plugins/ffmpeg_kit_flutter/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   path_provider_foundation:
@@ -60,6 +71,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   camera_macos: c2603f5eed16f05076cf17e12030d2ce55a77839
+  ffmpeg-kit-macos-https: ff9c8479ed36b20a4e07b265e1bddd36d62a7d7b
+  ffmpeg_kit_flutter: de6ad9df446c3b70c34033f49a163d05313eea61
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
@@ -70,6 +83,6 @@ SPEC CHECKSUMS:
   video_player_macos: 7a50b407d775a45392851b1218a9cf4be395cf7f
   wakelock_macos: bc3f2a9bd8d2e6c89fee1e1822e7ddac3bd004a9
 
-PODFILE CHECKSUM: 86744c45bbe7a70dca09657d42f6a5997b18f32a
+PODFILE CHECKSUM: f06414bfcb7422a4de21d05537c562c2894264e9
 
 COCOAPODS: 1.11.3

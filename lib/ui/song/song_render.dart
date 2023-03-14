@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:built_collection/built_collection.dart';
 import 'package:chewie/chewie.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
@@ -185,7 +186,7 @@ class _SongRenderState extends State<SongRender> {
               child: Text(localization.addVideo.toUpperCase())),
         TextButton(
             onPressed: () {
-              FfmpegUtils.flutterFFmpeg.cancel();
+              FFmpegKit.cancel();
               Navigator.of(context).pop();
             },
             child: Text((_videoTimestamp == 0
