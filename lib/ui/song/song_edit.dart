@@ -445,7 +445,9 @@ class _SongEditState extends State<SongEdit> {
 
     try {
       if (Platform.isMacOS) {
-        await macOSCameraController.stopRecording();
+        if (macOSCameraController.isRecording) {
+          await macOSCameraController.stopRecording();
+        }
       } else {
         final video = await cameraController.stopVideoRecording();
         final videoFile = File(video.path);
