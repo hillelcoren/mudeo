@@ -2,9 +2,9 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
-import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_min_gpl/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter_min_gpl/return_code.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:path_provider/path_provider.dart';
@@ -110,8 +110,8 @@ class FfmpegUtils {
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
     command += '-filter_complex $filter -vsync 2 -map \'[v]\' -map \'[a]\' ';
-    //command += '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
-    command += '-vcodec \'h264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
+    command += '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
+    //command += '-vcodec \'h264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
     command += output;
 

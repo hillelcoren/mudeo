@@ -306,11 +306,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  ffmpeg_kit_flutter:
+  ffmpeg_kit_flutter_min_gpl:
     dependency: "direct main"
     description:
-      name: ffmpeg_kit_flutter
-      sha256: f631fbf54e8a62ac36d79475280d7a0b042139ffa6662c88cb6896c71f3f0cfa
+      name: ffmpeg_kit_flutter_min_gpl
+      sha256: ca3dc2330c176c8ef96fb512e7a1a37ab369e15685d2e72a52ec1d50726360a0
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"

@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import camera_macos
-import ffmpeg_kit_flutter
+import ffmpeg_kit_flutter_min_gpl
 import path_provider_foundation
 import share_plus
 import shared_preferences_foundation

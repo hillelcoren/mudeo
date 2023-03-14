@@ -1,12 +1,12 @@
 PODS:
   - camera_macos (0.0.1):
     - FlutterMacOS
-  - ffmpeg-kit-macos-https (5.1)
-  - ffmpeg_kit_flutter (5.1.0):
-    - ffmpeg_kit_flutter/https (= 5.1.0)
+  - ffmpeg-kit-macos-min-gpl (5.1)
+  - ffmpeg_kit_flutter_min_gpl (5.1.0):
+    - ffmpeg_kit_flutter_min_gpl/min-gpl (= 5.1.0)
     - FlutterMacOS
-  - ffmpeg_kit_flutter/https (5.1.0):
-    - ffmpeg-kit-macos-https (= 5.1)
+  - ffmpeg_kit_flutter_min_gpl/min-gpl (5.1.0):
+    - ffmpeg-kit-macos-min-gpl (= 5.1)
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - FMDB (2.7.5):
@@ -32,7 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - camera_macos (from `Flutter/ephemeral/.symlinks/plugins/camera_macos/macos`)
-  - ffmpeg_kit_flutter (from `Flutter/ephemeral/.symlinks/plugins/ffmpeg_kit_flutter/macos`)
+  - ffmpeg_kit_flutter_min_gpl (from `Flutter/ephemeral/.symlinks/plugins/ffmpeg_kit_flutter_min_gpl/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
   - share_plus (from `Flutter/ephemeral/.symlinks/plugins/share_plus/macos`)
@@ -44,14 +44,14 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - ffmpeg-kit-macos-https
+    - ffmpeg-kit-macos-min-gpl
     - FMDB
 
 EXTERNAL SOURCES:
   camera_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/camera_macos/macos
-  ffmpeg_kit_flutter:
-    :path: Flutter/ephemeral/.symlinks/plugins/ffmpeg_kit_flutter/macos
+  ffmpeg_kit_flutter_min_gpl:
+    :path: Flutter/ephemeral/.symlinks/plugins/ffmpeg_kit_flutter_min_gpl/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   path_provider_foundation:
@@ -71,8 +71,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   camera_macos: c2603f5eed16f05076cf17e12030d2ce55a77839
-  ffmpeg-kit-macos-https: ff9c8479ed36b20a4e07b265e1bddd36d62a7d7b
-  ffmpeg_kit_flutter: de6ad9df446c3b70c34033f49a163d05313eea61
+  ffmpeg-kit-macos-min-gpl: d21cda1f1ca994304f4abdd5143cbe4a6562ba15
+  ffmpeg_kit_flutter_min_gpl: 56421f6b1e50eacdea85af38688094bb255896f8
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
