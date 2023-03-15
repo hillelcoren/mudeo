@@ -41,7 +41,7 @@ class _LoginState extends State<LoginScreen> {
   String _error = '';
 
   bool _showLogin = false;
-  bool _showEmail = Platform.isIOS ? true : false;
+  bool _showEmail = Platform.isAndroid ? false : true;
   bool _termsChecked = false;
   bool _autoValidate = false;
 
@@ -166,9 +166,9 @@ class _LoginState extends State<LoginScreen> {
       child: Column(
         children: <Widget>[
           Container(color: Colors.black, width: double.infinity, height: 20),
+          SizedBox(height: 16),
           Padding(
-            padding:
-                const EdgeInsets.only(left: 80, top: 40, right: 80, bottom: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: ConstrainedBox(
               child: Image.asset('assets/images/logo-dark.png'),
               constraints: BoxConstraints(maxHeight: 50),
@@ -198,11 +198,12 @@ class _LoginState extends State<LoginScreen> {
                               selectedIndex: _showLogin ? 1 : 0,
                               onTabChanged: (index) {
                                 setState(() {
+                                  _error = '';
                                   _showLogin = index == 1;
                                 });
                               },
                             ),
-                            if (!Platform.isIOS)
+                            if (Platform.isAndroid)
                               _ToggleButtons(
                                 tabLabels: [
                                   'Google',
@@ -215,6 +216,7 @@ class _LoginState extends State<LoginScreen> {
                                   });
                                 },
                               ),
+                            SizedBox(height: 10),
                             _showLogin
                                 ? SizedBox()
                                 : TextFormField(
@@ -288,12 +290,9 @@ class _LoginState extends State<LoginScreen> {
                                   )
                                 : SizedBox(),
                             _showLogin
-                                ? SizedBox(
-                                    height: 25,
-                                  )
+                                ? SizedBox()
                                 : Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 20, bottom: 8),
+                                    padding: EdgeInsets.only(top: 20),
                                     child: CheckboxListTile(
                                       onChanged: (value) =>
                                           setState(() => _termsChecked = value),
@@ -334,11 +333,10 @@ class _LoginState extends State<LoginScreen> {
                                   ),
                           ],
                         ),
-                  SizedBox(height: 10),
                   _error == null || _error.contains(OTP_ERROR)
                       ? Container()
                       : Container(
-                          padding: EdgeInsets.only(bottom: 20),
+                          padding: EdgeInsets.only(bottom: 20, top: 20),
                           child: Center(
                             child: Text(
                               _error,
@@ -429,12 +427,10 @@ class _ToggleButtons extends StatelessWidget {
           constraints: BoxConstraints(minWidth: (layout.maxWidth - 8) / 2),
           children: [
             Container(
-              //width: toggleWidth,
               height: 40,
               child: Center(child: Text(tabLabels[0].toUpperCase())),
             ),
             Container(
-              //width: toggleWidth,
               height: 40,
               child: Center(child: Text(tabLabels[1].toUpperCase())),
             ),
