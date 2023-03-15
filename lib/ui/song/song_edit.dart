@@ -1579,11 +1579,14 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                             ),
                           ),
                           tooltip: FlutterSliderTooltip(
+                            disabled: true,
+                            /*
                             rightSuffix: Icon(
                               Icons.volume_up,
                               size: 19,
                               color: Colors.black26,
                             ),
+                             */
                           ),
                           axis: Axis.vertical,
                           rtl: true,
