@@ -522,6 +522,16 @@ class _SongEditState extends State<SongEdit> {
       videoPlayers[trackId] = videoPlayer;
     });
 
+    if (Platform.isMacOS) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        stopPlaying();
+        play();
+        Future.delayed(const Duration(milliseconds: 200), () {
+          stopPlaying();
+        });
+      });
+    }
+
     /*
     if (widget.viewModel.state.isDance) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -1460,14 +1470,14 @@ class TrackView extends StatelessWidget {
                             content: Text(localization.areYouSure),
                             actions: <Widget>[
                               TextButton(
-  
+
                                 child: Text(localization.cancel.toUpperCase()),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
                               ),
                               TextButton(
-  
+
                                 child: Text(localization.ok.toUpperCase()),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -1608,7 +1618,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       ),
                     ElevatedButton(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 10),
                         child: Text(AppLocalization.of(context).monitor),
                       ),
                       onPressed: _isActive
@@ -1665,7 +1676,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                             padding: const EdgeInsets.only(top: 10),
                             child: ElevatedButton(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 4, vertical: 10),
                                 child: Text(localization.adjust),
                               ),
                               style: ElevatedButton.styleFrom(
@@ -1703,7 +1715,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                     SizedBox(height: 10),
                     ElevatedButton(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 10),
                         child: Text(AppLocalization.of(context).download),
                       ),
                       style: ElevatedButton.styleFrom(primary: Colors.green),
@@ -1714,7 +1727,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                     SizedBox(height: 10),
                     ElevatedButton(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 10),
                         child: Text(widget.track.video.isOld
                             ? localization.remove
                             : localization.delete),
