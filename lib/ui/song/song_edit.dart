@@ -958,63 +958,65 @@ class _SongEditState extends State<SongEdit> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Expanded(
-                    child: SizedBox(
-                  height: 120,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      ...song.includedTracks.map((track) {
-                        final videoPlayer = videoPlayers[track.id];
-                        final songIndex = song.includedTracks.indexOf(track);
+                if (song.includedTracks.isNotEmpty)
+                  Expanded(
+                      child: SizedBox(
+                    height: 120,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        ...song.includedTracks.map((track) {
+                          final videoPlayer = videoPlayers[track.id];
+                          final songIndex = song.includedTracks.indexOf(track);
 
-                        if (videoPlayer == null) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(50),
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-
-                        return TrackView(
-                          isFirst: songIndex == 0,
-                          viewModel: viewModel,
-                          videoPlayer: videoPlayer,
-                          aspectRatio: videoPlayer.value.aspectRatio,
-                          track: track,
-                          onDeletePressed: () async {
-                            final index = song.includedTracks.indexOf(track);
-
-                            if (!_headphonesConnected) {
-                              if (_activeTrack > 0) {
-                                _activeTrack--;
-
-                                final track = song.includedTracks
-                                    .sublist(0, song.includedTracks.length - 1)
-                                    .last;
-                                videoPlayers[track.id].setVolume(100);
-                              }
-                            }
-
-                            videoPlayers[track.id].dispose();
-                            videoPlayers.remove(track.id);
-                            viewModel.onDeleteVideoPressed(
-                                song, track, _headphonesConnected);
-                          },
-                          onFixPressed: () async {
-                            final recognitions = await updateRecognitions(
-                              delay: 0,
-                              duration: song.duration,
-                              video: track.video,
+                          if (videoPlayer == null) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(50),
+                                child: CircularProgressIndicator(),
+                              ),
                             );
-                            printWrapped('## recognitions: $recognitions');
-                          },
-                          onDelayChanged: (track, delay) {
-                            final song =
-                                viewModel.song.setTrackDelay(track, delay);
-                            viewModel.onChangedSong(song);
-                            /*
+                          }
+
+                          return TrackView(
+                            isFirst: songIndex == 0,
+                            viewModel: viewModel,
+                            videoPlayer: videoPlayer,
+                            aspectRatio: videoPlayer.value.aspectRatio,
+                            track: track,
+                            onDeletePressed: () async {
+                              final index = song.includedTracks.indexOf(track);
+
+                              if (!_headphonesConnected) {
+                                if (_activeTrack > 0) {
+                                  _activeTrack--;
+
+                                  final track = song.includedTracks
+                                      .sublist(
+                                          0, song.includedTracks.length - 1)
+                                      .last;
+                                  videoPlayers[track.id].setVolume(100);
+                                }
+                              }
+
+                              videoPlayers[track.id].dispose();
+                              videoPlayers.remove(track.id);
+                              viewModel.onDeleteVideoPressed(
+                                  song, track, _headphonesConnected);
+                            },
+                            onFixPressed: () async {
+                              final recognitions = await updateRecognitions(
+                                delay: 0,
+                                duration: song.duration,
+                                video: track.video,
+                              );
+                              printWrapped('## recognitions: $recognitions');
+                            },
+                            onDelayChanged: (track, delay) {
+                              final song =
+                                  viewModel.song.setTrackDelay(track, delay);
+                              viewModel.onChangedSong(song);
+                              /*
                                 if (delay != track.delay) {
                                   WidgetsBinding.instance.addPostFrameCallback((_) {
                                     updateRecognitions(
@@ -1024,45 +1026,46 @@ class _SongEditState extends State<SongEdit> {
                                   });
                                 }
                                  */
-                          },
-                          isActive: _activeTrack == songIndex,
-                          hasHeadset: _headphonesConnected,
-                          onActivatePressed: () =>
-                              setState(() => _activeTrack = songIndex),
-                        );
-                      }).toList(),
-                      if (song.canAddTrack)
-                        Padding(
-                          padding: const EdgeInsets.all(38),
-                          child: Center(
-                            child: IconButton(
-                              iconSize: 38,
-                              icon: Icon(
-                                Icons.add_circle_outline,
-                                size: 38,
+                            },
+                            isActive: _activeTrack == songIndex,
+                            hasHeadset: _headphonesConnected,
+                            onActivatePressed: () =>
+                                setState(() => _activeTrack = songIndex),
+                          );
+                        }).toList(),
+                        if (song.canAddTrack)
+                          Padding(
+                            padding: const EdgeInsets.all(38),
+                            child: Center(
+                              child: IconButton(
+                                iconSize: 38,
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  size: 38,
+                                ),
+                                onPressed: () {
+                                  showDialog<AddVideo>(
+                                      context: context,
+                                      builder: (BuildContext childContext) {
+                                        return AddVideo(
+                                          song: song,
+                                          onRemoteVideoSelected: (videoId) =>
+                                              viewModel.onAddRemoteVideo(
+                                                  context, videoId),
+                                          onTrackSelected: (track) =>
+                                              viewModel.addVideoFromTrack(
+                                                  context, track),
+                                          onSongSelected: (song) => viewModel
+                                              .addVideoFromSong(context, song),
+                                        );
+                                      });
+                                },
                               ),
-                              onPressed: () {
-                                showDialog<AddVideo>(
-                                    context: context,
-                                    builder: (BuildContext childContext) {
-                                      return AddVideo(
-                                        song: song,
-                                        onRemoteVideoSelected: (videoId) =>
-                                            viewModel.onAddRemoteVideo(
-                                                context, videoId),
-                                        onTrackSelected: (track) => viewModel
-                                            .addVideoFromTrack(context, track),
-                                        onSongSelected: (song) => viewModel
-                                            .addVideoFromSong(context, song),
-                                      );
-                                    });
-                              },
                             ),
-                          ),
-                        )
-                    ],
-                  ),
-                )),
+                          )
+                      ],
+                    ),
+                  )),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
