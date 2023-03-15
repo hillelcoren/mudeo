@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:http/http.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 
@@ -160,9 +161,9 @@ class SortArtists implements PersistUI {
 }
 
 class SaveArtistImage implements StartLoading {
-  SaveArtistImage({this.type, this.path, this.completer});
+  SaveArtistImage({this.type, this.image, this.completer});
 
   final Completer completer;
   final String type;
-  final String path;
+  final MultipartFile image;
 }

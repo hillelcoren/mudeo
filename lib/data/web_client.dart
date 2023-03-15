@@ -4,6 +4,7 @@ import 'dart:core';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/constants.dart';
 import 'package:async/async.dart';
@@ -75,8 +76,9 @@ class WebClient {
     String url,
     String token, {
     dynamic data,
+    MultipartFile multipartFile,
     String filePath,
-    String fileField = 'video',
+    String fileIndex = 'file',
     String recognitions,
     int timestamp,
   }) async {
@@ -91,6 +93,7 @@ class WebClient {
       'Content-Type': 'application/json',
     };
 
+
     if (filePath != null) {
       final file = File(filePath);
       var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
@@ -102,11 +105,16 @@ class WebClient {
           'timestamp': '$timestamp',
         })
         ..headers.addAll(headers)
-        ..files.add(http.MultipartFile(fileField, stream, length,
+        ..files.add(http.MultipartFile(fileIndex, stream, length,
             filename: basename(file.path)));
 
       response = await http.Response.fromStream(await request.send())
           .timeout(const Duration(minutes: 10));
+    } else if (multipartFile != null) {
+      print('## UPLAOD');
+      print('## $url');
+      print('## $multipartFile');
+      response = await _uploadFiles(url, token, multipartFile, data: data);
     } else {
       debugPrint('Request: $data');
 
@@ -133,7 +141,14 @@ class WebClient {
     }
   }
 
-  Future<dynamic> put(String url, String token, dynamic data) async {
+  Future<dynamic> put(
+    String url,
+    String token,
+    dynamic data, {
+    MultipartFile multipartFile,
+    String filePath,
+    String fileIndex = 'file',
+  }) async {
     url = _checkUrl(url);
     debugPrint('PUT: $url');
     debugPrint('Request: $data');
@@ -193,5 +208,49 @@ class WebClient {
       debugPrint(response.body);
       throw 'An error occurred';
     }
+  }
+
+  Map<String, String> _getHeaders(
+    String url,
+    String token, {
+    String secret,
+    String password,
+    String idToken,
+  }) {
+    secret = Config.API_SECRET;
+
+    final headers = {
+      //'X-CLIENT-VERSION': kClientVersion,
+      'X-API-SECRET': secret,
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/json; charset=utf-8',
+    };
+
+    if ((token ?? '').isNotEmpty) {
+      headers['X-API-Token'] = token;
+    }
+
+    if ((idToken ?? '').isNotEmpty) {
+      headers['X-API-OAUTH-PASSWORD'] = idToken;
+    }
+
+    if ((password ?? '').isNotEmpty) {
+      headers['X-API-PASSWORD-BASE64'] = base64Encode(utf8.encode(password));
+    }
+
+    return headers;
+  }
+
+  Future<http.Response> _uploadFiles(
+      String url, String token, MultipartFile multipartFile,
+      {String method = 'POST', dynamic data}) async {
+
+    final request = http.MultipartRequest(method, Uri.parse(url))
+      ..fields.addAll(data ?? {})
+      ..headers.addAll(_getHeaders(url, token))
+      ..files.add(multipartFile);
+
+    return await http.Response.fromStream(await request.send())
+        .timeout(const Duration(minutes: 10));
   }
 }

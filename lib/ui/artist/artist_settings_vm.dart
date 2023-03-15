@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:http/http.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/artist/artist_actions.dart';
@@ -42,7 +43,7 @@ class ArtistSettingsVM {
   final bool isChanged;
   final Function(BuildContext) onSavePressed;
   final Function(ArtistEntity) onChangedArtist;
-  final Function(BuildContext, String, String) onUpdateImage;
+  final Function(BuildContext, String, MultipartFile) onUpdateImage;
 
   static ArtistSettingsVM fromStore(Store<AppState> store) {
     final state = store.state;
@@ -53,11 +54,11 @@ class ArtistSettingsVM {
       onChangedArtist: (artist) {
         store.dispatch(UpdateArtist(artist));
       },
-      onUpdateImage: (context, type, path) {
+      onUpdateImage: (context, type, image) {
         final localization = AppLocalization.of(context);
         final completer = Completer<Null>();
         store.dispatch(
-            SaveArtistImage(path: path, type: type, completer: completer));
+            SaveArtistImage(image: image, type: type, completer: completer));
         showDialog<AlertDialog>(
             context: context,
             builder: (BuildContext context) {

@@ -102,7 +102,7 @@ Middleware<AppState> _saveArtist(ArtistRepository repository) {
 Middleware<AppState> _saveArtistImage(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository
-        .saveImage(store.state, action.path, action.type)
+        .saveImage(store.state, action.image, action.type)
         .then((artist) {
       store.dispatch(SaveArtistSuccess(artist));
       action.completer.complete(null);

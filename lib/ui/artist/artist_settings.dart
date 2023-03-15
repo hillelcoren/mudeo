@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,10 @@ import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mudeo/ui/artist/artist_settings_vm.dart';
+import 'package:mudeo/utils/files.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mudeo/utils/platforms.dart';
 
 class ArtistSettings extends StatefulWidget {
   const ArtistSettings({
@@ -207,24 +210,22 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      TextButton(
+                      OutlinedButton(
                         child: Text(localization.profileImage,
                             style: TextStyle(fontSize: 18)),
                         onPressed: () async {
-                          var image = await ImagePicker.pickImage(
-                              source: ImageSource.gallery);
+                          var image = await pickFile(fileType: FileType.image);
                           viewModel.onUpdateImage(
-                              context, kArtistImageProfile, image.path);
+                              context, kArtistImageProfile, image);
                         },
                       ),
-                      TextButton(
+                      OutlinedButton(
                         child: Text(localization.headerImage,
                             style: TextStyle(fontSize: 18)),
                         onPressed: () async {
-                          var image = await ImagePicker.pickImage(
-                              source: ImageSource.gallery);
+                          var image = await pickFile(fileType: FileType.image);
                           viewModel.onUpdateImage(
-                              context, kArtistImageHeader, image.path);
+                              context, kArtistImageHeader, image);
                         },
                       ),
                     ],

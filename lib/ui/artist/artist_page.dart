@@ -433,11 +433,12 @@ class ArtistPage extends StatelessWidget {
                                   child: SizedBox(
                                     width: 200,
                                     child: ElevatedButton(
-                                      child: Text(
-                                          state.isDance
-                                              ? localization.joinDance
-                                              : localization.joinSong,
-                                          style: TextStyle(fontSize: 18)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            localization.joinSong,
+                                            style: TextStyle(fontSize: 18)),
+                                      ),
                                       onPressed: () {
                                         showDialog(
                                             context: context,
@@ -463,8 +464,11 @@ class ArtistPage extends StatelessWidget {
                                 child: SizedBox(
                                   width: 200,
                                   child: ElevatedButton(
-                                    child: Text(localization.editProfile,
-                                        style: TextStyle(fontSize: 18)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(localization.editProfile,
+                                          style: TextStyle(fontSize: 18)),
+                                    ),
                                     onPressed: () {
                                       final store =
                                           StoreProvider.of<AppState>(context);
@@ -503,8 +507,11 @@ class ArtistPage extends StatelessWidget {
                                 ? SizedBox(
                                     width: 200,
                                     child: ElevatedButton(
-                                      child: Text(localization.options,
-                                          style: TextStyle(fontSize: 18)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(localization.options,
+                                            style: TextStyle(fontSize: 18)),
+                                      ),
                                       onPressed: () => _showMenu(),
                                       /*
                                       color: Colors.black87,

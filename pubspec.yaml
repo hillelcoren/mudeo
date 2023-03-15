@@ -49,6 +49,7 @@ dependencies:
   intl:
   font_awesome_flutter:
   #flutter_xlider: 3.4.0
+  file_picker: ^5.2.5
   flutter_xlider:
     git:
       url: https://github.com/Ali-Azmoud/flutter_xlider.git

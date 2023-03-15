@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'package:built_collection/built_collection.dart';
+import 'package:http/http.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/entities.dart';
 import 'package:mudeo/data/models/serializers.dart';
@@ -67,10 +68,10 @@ class ArtistRepository {
   }
 
   Future<ArtistEntity> saveImage(
-      AppState state, String path, String imageType) async {
+      AppState state, MultipartFile image, String imageType) async {
+
     dynamic response = await webClient.post(
-        '${state.apiUrl}/user/$imageType', state.artist.token,
-        filePath: path, fileField: 'image');
+        '${state.apiUrl}/user/$imageType', state.artist.token, multipartFile: image, fileIndex: 'image');
 
     final ArtistItemResponse artistResponse =
         serializers.deserializeWith(ArtistItemResponse.serializer, response);
