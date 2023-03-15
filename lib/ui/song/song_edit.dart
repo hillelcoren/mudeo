@@ -1240,8 +1240,7 @@ class _SongEditState extends State<SongEdit> {
                                             Text(localization.ok.toUpperCase()),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          if (action == localization.newSong ||
-                                              action == localization.newDance) {
+                                          if (action == localization.newSong) {
                                             widget.viewModel
                                                 .onNewSongPressed(context);
                                           } else if (action ==
