@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:intl/intl.dart';
 import 'package:mudeo/ui/auth/init_screen.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
@@ -24,54 +25,57 @@ class MudeoApp extends StatefulWidget {
 class MudeoAppState extends State<MudeoApp> {
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<AppState>(
-      store: widget.store,
-      child: AppBuilder(builder: (context) {
-        //final state = widget.store.state;
-        Intl.defaultLocale = 'en';
-        //final localization = AppLocalization(Locale(Intl.defaultLocale));
-        final pageTransitionsTheme = PageTransitionsTheme(builders: {
-          TargetPlatform.android: ZoomPageTransitionsBuilder(),
-        });
-        final fontFamily = kIsWeb ? 'Roboto' : null;
+    return StyledToast(
+      locale: const Locale('en', 'US'),
+      child: StoreProvider<AppState>(
+        store: widget.store,
+        child: AppBuilder(builder: (context) {
+          //final state = widget.store.state;
+          Intl.defaultLocale = 'en';
+          //final localization = AppLocalization(Locale(Intl.defaultLocale));
+          final pageTransitionsTheme = PageTransitionsTheme(builders: {
+            TargetPlatform.android: ZoomPageTransitionsBuilder(),
+          });
+          final fontFamily = kIsWeb ? 'Roboto' : null;
 
-        return MaterialApp(
-          supportedLocales: kLanguages
-              .map((String locale) => AppLocalization.createLocale(locale))
-              .toList(),
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: [
-            const AppLocalizationsDelegate(),
-            GlobalMaterialLocalizations.delegate,
-          ],
-          home: InitScreen(),
-          //initialRoute: MainScreen.route,
-          //locale: AppLocalization.createLocale(localeSelector(state)),
-          locale: AppLocalization.createLocale('en'),
-          theme: ThemeData(
-            pageTransitionsTheme: pageTransitionsTheme,
-            brightness: Brightness.dark,
-            accentColor: Colors.lightBlueAccent,
-            textSelectionTheme: TextSelectionThemeData(
-              selectionHandleColor: Colors.lightBlueAccent,
+          return MaterialApp(
+            supportedLocales: kLanguages
+                .map((String locale) => AppLocalization.createLocale(locale))
+                .toList(),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: [
+              const AppLocalizationsDelegate(),
+              GlobalMaterialLocalizations.delegate,
+            ],
+            home: InitScreen(),
+            //initialRoute: MainScreen.route,
+            //locale: AppLocalization.createLocale(localeSelector(state)),
+            locale: AppLocalization.createLocale('en'),
+            theme: ThemeData(
+              pageTransitionsTheme: pageTransitionsTheme,
+              brightness: Brightness.dark,
+              accentColor: Colors.lightBlueAccent,
+              textSelectionTheme: TextSelectionThemeData(
+                selectionHandleColor: Colors.lightBlueAccent,
+              ),
+              tooltipTheme: TooltipThemeData(
+                waitDuration: Duration(milliseconds: 500),
+              ),
+              fontFamily: fontFamily,
             ),
-            tooltipTheme: TooltipThemeData(
-              waitDuration: Duration(milliseconds: 500),
-            ),
-            fontFamily: fontFamily,
-          ),
-          title: widget.store.state.isDance ? 'Dance Like Me' : 'mudeo',
-          routes: {
-            MainScreen.route: (context) {
-              final state = widget.store.state.dataState;
-              if (state.areSongsLoaded && state.areSongsStale) {
-                widget.store.dispatch(LoadSongs());
-              }
-              return MainScreenBuilder();
+            title: widget.store.state.isDance ? 'Dance Like Me' : 'mudeo',
+            routes: {
+              MainScreen.route: (context) {
+                final state = widget.store.state.dataState;
+                if (state.areSongsLoaded && state.areSongsStale) {
+                  widget.store.dispatch(LoadSongs());
+                }
+                return MainScreenBuilder();
+              },
             },
-          },
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }
