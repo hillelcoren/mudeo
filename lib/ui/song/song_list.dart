@@ -32,6 +32,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+
 
 //import 'package:mudeo/utils/web_stub.dart'
 //    if (dart.library.html) 'package:mudeo/utils/web.dart';
@@ -521,15 +523,13 @@ class SongFooter extends StatelessWidget {
                 Share.shareFiles([path]);
                 return;
               } else if (action == localization.copyLinkToSong ||
-                  action == localization.copyLinkToDance) {
+                  action == localization.copyLinkToDance)   {
                 Clipboard.setData(new ClipboardData(text: song.url));
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(localization.copiedToClipboard)));
+                showToast(localization.copiedToClipboard);
                 return;
               } else if (action == localization.copyLinkToVideo) {
                 Clipboard.setData(new ClipboardData(text: song.videoUrl));
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(localization.copiedToClipboard)));
+                showToast(localization.copiedToClipboard);
                 return;
               } else if (action == localization.viewOriginal) {
                 final originalSong = state.dataState.songMap[song.parentId] ??
@@ -907,14 +907,9 @@ class _CommentRowState extends State<CommentRow> {
                                 TextButton(
                                     child: Text(localization.ok.toUpperCase()),
                                     onPressed: () {
-                                      final scaffoldMessenger =
-                                          ScaffoldMessenger.of(context);
                                       final completer = Completer<Null>()
                                         ..future.then((value) {
-                                          scaffoldMessenger.showSnackBar(
-                                              SnackBar(
-                                                  content: Text(localization
-                                                      .reportedComment)));
+                                          showToast(localization.reportedComment);
                                           if (Navigator.of(context).canPop()) {
                                             Navigator.of(context).pop();
                                           }

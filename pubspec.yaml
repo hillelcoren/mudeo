@@ -71,6 +71,7 @@ dependencies:
   material_design_icons_flutter:
   permission_handler:
   headset_connection_event:
+  flutter_styled_toast: ^2.0.0
 
 dependency_overrides:
   platform: ^3.1.0

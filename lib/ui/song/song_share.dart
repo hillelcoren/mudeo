@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -102,8 +103,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
               child: InkWell(
                 onTap: () {
                   Clipboard.setData(ClipboardData(text: song.sharingKey));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(localization.copiedToClipboard)));
+                  showToast(localization.copiedToClipboard);
                 },
                 child: Padding(
                   padding:

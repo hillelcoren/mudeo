@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/main_common.dart';
@@ -38,6 +39,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   static final int kStackIndexForm = 0;
   static final int kStackIndexProgress = 1;
   static final int kStackIndexSuccess = 2;
+  static final int kStackIndexAddFriends = 3;
 
   GlobalKey qrCodeGlobalKey = new GlobalKey();
   List<TextEditingController> _controllers = [];
@@ -292,8 +294,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Align(
-            child: Text('${localization.uploading}...',
-                style: Theme.of(context).textTheme.headline6),
+            child: Text('${localization.uploading}...'),
             alignment: Alignment.centerLeft,
           ),
           Padding(
@@ -336,8 +337,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     },
                     child: Text(
                       songUrl.replaceFirst('https://', ''),
-                      style:
-                          TextStyle(fontSize: 20, color: Colors.lightBlueAccent),
+                      style: TextStyle(
+                          fontSize: 20, color: Colors.lightBlueAccent),
                     ),
                   ),
                 ),
@@ -349,10 +350,21 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               ),
                */
             ],
-            SizedBox(
-              height: 20,
-            ),
-            if ((sharingKey ?? '').isNotEmpty) ...[
+          ],
+        ),
+      );
+    }
+
+    Widget _addFriends() {
+      return SingleChildScrollView(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
                 child: Text(localization.qrCodeHelp),
@@ -387,8 +399,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 child: InkWell(
                   onTap: () {
                     Clipboard.setData(ClipboardData(text: song.sharingKey));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(localization.copiedToClipboard)));
+                    showToast(localization.copiedToClipboard);
                   },
                   child: Padding(
                     padding:
@@ -397,30 +408,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   ),
                 ),
               ),
-            ],
-            /*
-
-          Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                TextButton(
-                  child: Text(
-                    localization.close.toUpperCase(),
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                if ((sharingKey ?? '').isNotEmpty)
-                  TextButton(
-                    child: Text(localization.share.toUpperCase()),
-                    onPressed: () {
-                      _captureAndSharePng(song);
-                    },
-                  )
-              ],
-            ),
-             */
-          ],
-        ),
+            ]),
       );
     }
 
@@ -441,22 +429,37 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   : localization.update.toUpperCase()),
             ),
           ]
-        ] else if (selectedStackIndex == kStackIndexSuccess)...[
+        ] else if (selectedStackIndex == kStackIndexSuccess) ...[
           TextButton(
             child: Text(localization.close.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
           ),
-        TextButton(
-          child: Text(localization.share.toUpperCase()),
-          onPressed: () => _captureAndSharePng(song),
-        ),
-    ]
+          TextButton(
+            child: Text(localization.addFriends.toUpperCase()),
+            onPressed: () {
+              setState(() {
+                selectedStackIndex = kStackIndexAddFriends;
+              });
+            },
+          ),
+        ] else if (selectedStackIndex == kStackIndexAddFriends) ...[
+          TextButton(
+            child: Text(localization.close.toUpperCase()),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          TextButton(
+            child: Text(localization.share.toUpperCase()),
+            onPressed: () => _captureAndSharePng(song),
+          ),
+        ]
       ],
       content: selectedStackIndex == kStackIndexForm
           ? _form()
           : selectedStackIndex == kStackIndexProgress
               ? _progress()
-              : _success(),
+              : selectedStackIndex == kStackIndexAddFriends
+                  ? _addFriends()
+                  : _success(),
     );
   }
 }
