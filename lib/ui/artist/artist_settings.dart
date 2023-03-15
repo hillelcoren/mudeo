@@ -147,149 +147,154 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         ],
       ),
       body: Material(
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            primary: true,
-            children: <Widget>[
-              FormCard(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
+        child: Center(
+          child: SizedBox(
+            width: 500,
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                primary: true,
                 children: <Widget>[
-                  /*
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _handleController,
-                    decoration: InputDecoration(
-                      labelText: localization.handle,
-                      icon: Icon(FontAwesomeIcons.at),
-                    ),
-                    validator: (value) =>
-                        value.isEmpty ? localization.fieldIsRequired : null,
+                  FormCard(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      /*
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _handleController,
+                        decoration: InputDecoration(
+                          labelText: localization.handle,
+                          icon: Icon(FontAwesomeIcons.at),
+                        ),
+                        validator: (value) =>
+                            value.isEmpty ? localization.fieldIsRequired : null,
+                      ),
+                      */
+                      /*
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: localization.email,
+                          icon: Icon(FontAwesomeIcons.solidEnvelope),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) =>
+                            value.isEmpty ? localization.fieldIsRequired : null,
+                      ),
+                      */
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: localization.name,
+                          icon: Icon(FontAwesomeIcons.userAlt),
+                        ),
+                      ),
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _descriptionController,
+                        maxLines: 6,
+                        decoration: InputDecoration(
+                          labelText: localization.description,
+                          icon: Icon(FontAwesomeIcons.solidStickyNote),
+                        ),
+                      ),
+                    ],
                   ),
-                  */
-                  /*
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: localization.email,
-                      icon: Icon(FontAwesomeIcons.solidEnvelope),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) =>
-                        value.isEmpty ? localization.fieldIsRequired : null,
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      TextButton(
+                        child: Text(localization.profileImage,
+                            style: TextStyle(fontSize: 18)),
+                        onPressed: () async {
+                          var image = await ImagePicker.pickImage(
+                              source: ImageSource.gallery);
+                          viewModel.onUpdateImage(
+                              context, kArtistImageProfile, image.path);
+                        },
+                      ),
+                      TextButton(
+                        child: Text(localization.headerImage,
+                            style: TextStyle(fontSize: 18)),
+                        onPressed: () async {
+                          var image = await ImagePicker.pickImage(
+                              source: ImageSource.gallery);
+                          viewModel.onUpdateImage(
+                              context, kArtistImageHeader, image.path);
+                        },
+                      ),
+                    ],
                   ),
-                  */
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: localization.name,
-                      icon: Icon(FontAwesomeIcons.userAlt),
-                    ),
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _descriptionController,
-                    maxLines: 6,
-                    decoration: InputDecoration(
-                      labelText: localization.description,
-                      icon: Icon(FontAwesomeIcons.solidStickyNote),
-                    ),
+                  SizedBox(height: 10),
+                  FormCard(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _websiteController,
+                        decoration: InputDecoration(
+                          labelText: localization.website,
+                          icon: Icon(socialIcons[kLinkTypeWebsite]),
+                        ),
+                      ),
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _youtubeController,
+                        decoration: InputDecoration(
+                          labelText: 'YouTube',
+                          icon: Icon(socialIcons[kLinkTypeYouTube]),
+                        ),
+                      ),
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _facebookController,
+                        decoration: InputDecoration(
+                          labelText: 'Facebook',
+                          icon: Icon(socialIcons[kLinkTypeFacebook]),
+                        ),
+                      ),
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _instagramController,
+                        decoration: InputDecoration(
+                          labelText: 'Instagram',
+                          icon: Icon(socialIcons[kLinkTypeInstagram]),
+                        ),
+                      ),
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _twitterController,
+                        decoration: InputDecoration(
+                          labelText: 'Twitter',
+                          icon: Icon(socialIcons[kLinkTypeTwitter]),
+                        ),
+                      ),
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _twitchController,
+                        decoration: InputDecoration(
+                          labelText: 'Twitch',
+                          icon: Icon(socialIcons[kLinkTypeTwitch]),
+                        ),
+                      ),
+                      TextFormField(
+                        autocorrect: false,
+                        controller: _soundCloudController,
+                        decoration: InputDecoration(
+                          labelText: 'SoundCloud',
+                          icon: Icon(socialIcons[kLinkTypeSoundcloud]),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  TextButton(
-                    child: Text(localization.profileImage,
-                        style: TextStyle(fontSize: 18)),
-                    onPressed: () async {
-                      var image = await ImagePicker.pickImage(
-                          source: ImageSource.gallery);
-                      viewModel.onUpdateImage(
-                          context, kArtistImageProfile, image.path);
-                    },
-                  ),
-                  TextButton(
-                    child: Text(localization.headerImage,
-                        style: TextStyle(fontSize: 18)),
-                    onPressed: () async {
-                      var image = await ImagePicker.pickImage(
-                          source: ImageSource.gallery);
-                      viewModel.onUpdateImage(
-                          context, kArtistImageHeader, image.path);
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              FormCard(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _websiteController,
-                    decoration: InputDecoration(
-                      labelText: localization.website,
-                      icon: Icon(socialIcons[kLinkTypeWebsite]),
-                    ),
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _youtubeController,
-                    decoration: InputDecoration(
-                      labelText: 'YouTube',
-                      icon: Icon(socialIcons[kLinkTypeYouTube]),
-                    ),
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _facebookController,
-                    decoration: InputDecoration(
-                      labelText: 'Facebook',
-                      icon: Icon(socialIcons[kLinkTypeFacebook]),
-                    ),
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _instagramController,
-                    decoration: InputDecoration(
-                      labelText: 'Instagram',
-                      icon: Icon(socialIcons[kLinkTypeInstagram]),
-                    ),
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _twitterController,
-                    decoration: InputDecoration(
-                      labelText: 'Twitter',
-                      icon: Icon(socialIcons[kLinkTypeTwitter]),
-                    ),
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _twitchController,
-                    decoration: InputDecoration(
-                      labelText: 'Twitch',
-                      icon: Icon(socialIcons[kLinkTypeTwitch]),
-                    ),
-                  ),
-                  TextFormField(
-                    autocorrect: false,
-                    controller: _soundCloudController,
-                    decoration: InputDecoration(
-                      labelText: 'SoundCloud',
-                      icon: Icon(socialIcons[kLinkTypeSoundcloud]),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
       ),
