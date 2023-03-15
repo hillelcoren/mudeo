@@ -170,10 +170,12 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final categories = state.isDance ? kStyles : kGenres;
 
     Widget _form() {
-      return SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
+      return Form(
+        key: _formKey,
+        child: AlertDialog(
+          title: Text(
+              song.isNew ? localization.publishSong : localization.updateSong),
+          content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextFormField(
@@ -282,19 +284,22 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                       ),
                       */
                     Spacer(),
+                    SizedBox(width: 50),
                     TextButton(
-                      child: Text(localization.cancel),
+                      child: Text(localization.cancel.toUpperCase()),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
-                    if (viewModel.state.authState.hasValidToken)...[
+                    if (viewModel.state.authState.hasValidToken) ...[
                       SizedBox(width: 8),
                       ProgressButton(
                         padding: EdgeInsets.all(0),
                         isLoading: viewModel.state.isSaving,
                         onPressed: () => _onSubmit(),
-                        label: song.isNew ? localization.publish : localization.update,
+                        label: song.isNew
+                            ? localization.publish.toUpperCase()
+                            : localization.update.toUpperCase(),
                       ),
-      ]
+                    ]
                   ],
                 ),
               ),
