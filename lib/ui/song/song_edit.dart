@@ -834,7 +834,7 @@ class _SongEditState extends State<SongEdit> {
           builder: (BuildContext context) {
             final localization = AppLocalization.of(context);
             return AlertDialog(
-              content: Text(localization.requireAccountToUpload),
+              title: Text(localization.requireAccountToUpload),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(),
