@@ -641,7 +641,10 @@ class _SongEditState extends State<SongEdit> {
             children: macOSAudioDevices
                 .map((device) => SimpleDialogOption(
                       onPressed: () {
-                        selectedAudioDevice = device.deviceId;
+                        setState(() {
+                          selectedAudioDevice = device.deviceId;
+                        });
+
                         Navigator.of(context).pop();
                       },
                       child: ListTile(
@@ -667,7 +670,10 @@ class _SongEditState extends State<SongEdit> {
             children: macOSVideoDevices
                 .map((device) => SimpleDialogOption(
                       onPressed: () {
-                        selectedVideoDevice = device.deviceId;
+                        setState(() {
+                          selectedVideoDevice = device.deviceId;
+                        });
+
                         Navigator.of(context).pop();
                       },
                       child: ListTile(
@@ -694,8 +700,9 @@ class _SongEditState extends State<SongEdit> {
                 .map((aspectRatio) => SimpleDialogOption(
                       onPressed: () {
                         if (selectedAspectRatio != aspectRatio) {
-                          selectedAspectRatio = aspectRatio;
-                          destroyCamera();
+                          setState(() {
+                            selectedAspectRatio = aspectRatio;
+                          });
                         }
                         Navigator.of(context).pop();
                       },
@@ -719,8 +726,10 @@ class _SongEditState extends State<SongEdit> {
           return SimpleDialog(title: Text(localization.headphones), children: [
             SimpleDialogOption(
               onPressed: () {
-                _headphonesConnected = true;
                 Navigator.of(context).pop();
+                setState(() {
+                  _headphonesConnected = true;
+                });
               },
               child: ListTile(
                 title: Text(localization.connected),
@@ -731,8 +740,10 @@ class _SongEditState extends State<SongEdit> {
             ),
             SimpleDialogOption(
               onPressed: () {
-                _headphonesConnected = false;
                 Navigator.of(context).pop();
+                setState(() {
+                  _headphonesConnected = false;
+                });
               },
               child: ListTile(
                 title: Text(localization.notConnected),
@@ -1293,6 +1304,7 @@ class _SongEditState extends State<SongEdit> {
 
 class TrackView extends StatelessWidget {
   TrackView({
+    Key key,
     @required this.videoPlayer,
     @required this.aspectRatio,
     @required this.viewModel,
@@ -1304,7 +1316,7 @@ class TrackView extends StatelessWidget {
     @required this.isActive,
     @required this.onActivatePressed,
     @required this.hasHeadset,
-  });
+  }) : super(key: key);
 
   final SongEditVM viewModel;
   final VideoPlayerController videoPlayer;
@@ -1330,6 +1342,7 @@ class TrackView extends StatelessWidget {
               showDialog<TrackEditDialog>(
                 context: context,
                 builder: (BuildContext context) {
+                  print('## hasHeadset: $hasHeadset');
                   return TrackEditDialog(
                     videoPlayer: videoPlayer,
                     viewModel: viewModel,
