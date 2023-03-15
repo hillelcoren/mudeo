@@ -1175,6 +1175,9 @@ class _SongEditState extends State<SongEdit> {
                       ),
                       itemBuilder: (BuildContext context) {
                         final actions = [localization.newSong];
+                        if (song.isOld || song.parentId > 0) {
+                          actions.add(localization.resetSong);
+                        }
                         if (song.isOld) {
                           actions.add(localization.download);
                         }
@@ -1185,17 +1188,18 @@ class _SongEditState extends State<SongEdit> {
                                 : localization.openInBrowser,
                           );
                         }
+                        /*
                         if (song.isOld && state.artist.ownsSong(song)) {
                           actions.add(localization.cloneSong);
                         }
-                        if (song.isOld || song.parentId > 0) {
-                          actions.add(localization.resetSong);
-                        }
+                         */
+                        /*
                         if (song.isOld &&
                             (state.artist.ownsSong(song) ||
                                 state.artist.isAdmin)) {
                           actions.add(localization.deleteSong);
                         }
+                         */
                         if (Platform.isMacOS) {
                           if (macOSVideoDevices.length > 1)
                             actions.add(localization.camera);
