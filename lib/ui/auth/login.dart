@@ -4,12 +4,15 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/app/link_text.dart';
 import 'package:mudeo/ui/app/app_button.dart';
 import 'package:mudeo/ui/app/form_card.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -192,14 +195,14 @@ class _LoginState extends State<LoginScreen> {
                           children: <Widget>[
                             _ToggleButtons(
                               tabLabels: [
-                                localization.signUp,
                                 localization.login,
+                                localization.signUp,
                               ],
-                              selectedIndex: _showLogin ? 1 : 0,
+                              selectedIndex: _showLogin ? 0 : 1,
                               onTabChanged: (index) {
                                 setState(() {
                                   _error = '';
-                                  _showLogin = index == 1;
+                                  _showLogin = index == 0;
                                 });
                               },
                             ),
@@ -334,7 +337,7 @@ class _LoginState extends State<LoginScreen> {
                           ],
                         ),
                   (_error ?? '').isEmpty || _error.contains(OTP_ERROR)
-                      ? SizedBox(height: 32)
+                      ? SizedBox(height: 35)
                       : Container(
                           padding: EdgeInsets.only(bottom: 20, top: 20),
                           child: Center(
@@ -396,6 +399,51 @@ class _LoginState extends State<LoginScreen> {
               ),
             ),
           ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Tooltip(
+                message: 'Website',
+                child: InkWell(
+                  onTap: () => launchUrlString(kMudeoURL),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Image.asset(
+                      'assets/images/icon.png',
+                      width: 50,
+                    ),
+                  ),
+                ),
+              ),
+              Tooltip(
+                message: 'YouTube',
+                child: InkWell(
+                  onTap: () => launchUrlString(kMudeoYouTubeURL),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Image.asset(
+                      'assets/images/youtube.png',
+                      width: 50,
+                    ),
+                  ),
+                ),
+              ),
+              Tooltip(
+                message: 'Twitter',
+                child: InkWell(
+                  onTap: () => launchUrlString(kMudeoTwitterURL),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Image.asset(
+                      'assets/images/twitter.png',
+                      width: 50,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
