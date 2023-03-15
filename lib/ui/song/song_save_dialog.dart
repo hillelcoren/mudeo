@@ -441,7 +441,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   : localization.update.toUpperCase()),
             ),
           ]
-        ] else if (selectedStackIndex == kStackIndexSuccess)
+        ] else if (selectedStackIndex == kStackIndexSuccess)...[
           TextButton(
             child: Text(localization.close.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
@@ -450,6 +450,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           child: Text(localization.share.toUpperCase()),
           onPressed: () => _captureAndSharePng(song),
         ),
+    ]
       ],
       content: selectedStackIndex == kStackIndexForm
           ? _form()
