@@ -96,16 +96,19 @@ class _SongShareDialogState extends State<SongShareDialog> {
                     ),
             ),
           ),
-          if ((widget.song.sharingKey ?? '').isNotEmpty) ...[
+          if ((song.sharingKey ?? '').isNotEmpty) ...[
             if ((song.sharingKey ?? '').isNotEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: InkWell(
                   onTap: () {
-                    //
+                    Clipboard.setData(ClipboardData(text: song.sharingKey));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(localization.copiedToClipboard)));
                   },
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     child: Text(song.sharingKey),
                   ),
                 ),
