@@ -59,7 +59,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
-      Share.shareXFiles([XFile.fromData(pngBytes)],
+      Share.shareXFiles([XFile.fromData(pngBytes, mimeType: 'png')],
           text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);
 
       /*

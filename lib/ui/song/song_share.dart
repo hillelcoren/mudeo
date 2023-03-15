@@ -35,7 +35,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
-      Share.shareXFiles([XFile.fromData(pngBytes)],
+      Share.shareXFiles([XFile.fromData(pngBytes, mimeType: 'png')],
           text: store.state.appUrl + '\n\nSecret: ' + song.sharingKey);
 
       /*
@@ -96,11 +96,25 @@ class _SongShareDialogState extends State<SongShareDialog> {
                     ),
             ),
           ),
-          if ((widget.song.sharingKey ?? '').isNotEmpty)
+          if ((widget.song.sharingKey ?? '').isNotEmpty) ...[
+            if ((song.sharingKey ?? '').isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: InkWell(
+                  onTap: () {
+                    //
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: Text(song.sharingKey),
+                  ),
+                ),
+              ),
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: Text(localization.qrCodeHelp),
             ),
+          ],
         ],
       ),
       actions: [

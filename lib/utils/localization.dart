@@ -57,7 +57,7 @@ class AppLocalization {
       'join_song': 'Join Song',
       'join_dance': 'Join Dance',
       'add_friends': 'Add Friends',
-      'qr_code_help': 'Share the QR code to add collaborators',
+      'qr_code_help': 'Share the QR code or secret to add collaborators',
       'start': 'Start',
       'calibration_message':
           'Would you like to run a calibration to check your phone\'s latency/delay?\n\nThe app will record a short test video and then upload it to calculate the results.',
