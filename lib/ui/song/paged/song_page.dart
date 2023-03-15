@@ -117,6 +117,7 @@ class _SongActions extends StatelessWidget {
         if (!kIsWeb)
           LargeIconButton(
             iconData: Icons.video_call,
+            //tooltip: localization.,
             onPressed: () {
               final uiSong = state.uiState.song;
               SongEntity newSong = song;
@@ -159,6 +160,7 @@ class _SongActions extends StatelessWidget {
         if (state.authState.hasValidToken)
           LargeIconButton(
             iconData: Icons.favorite,
+            tooltip: localization.favorite,
             count: song.countLike + 1,
             color: artist.likedSong(song.id) ? Colors.red : null,
             onPressed: () {
