@@ -171,10 +171,10 @@ class _LoginState extends State<LoginScreen> {
           Container(color: Colors.black, width: double.infinity, height: 20),
           SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            padding: const EdgeInsets.all(30),
             child: ConstrainedBox(
               child: Image.asset('assets/images/logo-dark.png'),
-              constraints: BoxConstraints(maxHeight: 50),
+              constraints: BoxConstraints(maxHeight: 40),
             ),
           ),
           SizedBox(
