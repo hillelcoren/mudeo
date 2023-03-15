@@ -985,8 +985,17 @@ class _SongEditState extends State<SongEdit> {
                           if (videoPlayer == null) {
                             return Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(50),
-                                child: CircularProgressIndicator(),
+                                padding: const EdgeInsets.only(
+                                  left: 30,
+                                  top: 44,
+                                  right: 30,
+                                  bottom: 30,
+                                ),
+                                child: SizedBox(
+                                  child: CircularProgressIndicator(),
+                                  width: 30,
+                                  height: 30,
+                                ),
                               ),
                             );
                           }
