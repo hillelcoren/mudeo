@@ -1065,33 +1065,19 @@ class _SongCommentsState extends State<SongComments> {
     final state = store.state;
     final song = state.dataState.songMap[widget.songId];
 
-    return SingleChildScrollView(
-      child: FormCard(
+    return AlertDialog(
+      title: Text(song.description != null && song.description.trim().isNotEmpty
+          ? song.description
+          : song.title),
+      actions: [
+        TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(localization.close.toUpperCase())),
+      ],
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  song.description != null && song.description.trim().isNotEmpty
-                      ? song.description
-                      : song.title,
-                  style: Theme.of(context).textTheme.headline6,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  _textController.clear();
-                  _textFocusNode.unfocus();
-                  widget.onClosePressed();
-                },
-              ),
-            ],
-          ),
           if (state.authState.hasValidToken)
             TextFormField(
               autofocus: false,
@@ -1107,6 +1093,7 @@ class _SongCommentsState extends State<SongComments> {
                 //icon: Icon(Icons.comment),
               ),
             ),
+          SizedBox(height: 8),
           Visibility(
             visible: _showSubmitButton,
             child: Padding(
