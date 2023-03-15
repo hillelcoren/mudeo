@@ -1131,7 +1131,9 @@ class _SongEditState extends State<SongEdit> {
                               : () => _renderSong(),
                     ),
                     LargeIconButton(
-                        tooltip: localization.publish,
+                        tooltip: song.isNew
+                            ? localization.publish
+                            : localization.update,
                         iconData: Icons.rocket_launch,
                         onPressed: disableButtons ||
                                 isRecording ||

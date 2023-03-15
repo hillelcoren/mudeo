@@ -356,8 +356,9 @@ class _LoginState extends State<LoginScreen> {
                         padding: const EdgeInsets.all(8),
                         child: Text(_showLogin
                             ? (_showEmail
-                                ? localization.emailLogin
-                                : localization.loginWithGoogle)
+                                    ? localization.login
+                                    : localization.loginWithGoogle)
+                                .toUpperCase()
                             : (_showEmail
                                     ? localization.signUp
                                     : localization.signUpWithGoogle)
