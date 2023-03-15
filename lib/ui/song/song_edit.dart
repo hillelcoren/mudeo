@@ -969,7 +969,9 @@ class _SongEditState extends State<SongEdit> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                if (song.includedTracks.isNotEmpty)
+                if (song.includedTracks.isEmpty)
+                  Expanded(child: SizedBox())
+                else
                   Expanded(
                       child: SizedBox(
                     height: 120,

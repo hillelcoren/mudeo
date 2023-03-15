@@ -282,14 +282,17 @@ class _SongRenderState extends State<SongRender> {
                       ? _ErrorWidget(
                           error: _videoPlayerController.value.errorDescription,
                         )
-                      : _chewieController == null
-                          ? SizedBox()
-                          : FittedBox(
-                              fit: BoxFit.contain,
-                              child: Chewie(
-                                controller: _chewieController,
-                              ),
-                            ),
+                      : ColoredBox(
+                          color: Colors.black,
+                          child: _chewieController == null
+                              ? SizedBox()
+                              : FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Chewie(
+                                    controller: _chewieController,
+                                  ),
+                                ),
+                        ),
     );
   }
 }
@@ -324,6 +327,7 @@ class _LoadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(AppLocalization.of(context).thisMayTakeAFewMinutes),
         SizedBox(height: 32),

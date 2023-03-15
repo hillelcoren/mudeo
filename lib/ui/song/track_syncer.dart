@@ -28,6 +28,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
   int _timeStart = 0;
   bool _isSyncing = false;
   int _delay;
+  bool _showDetails = false;
   TextEditingController _delayController;
 
   @override
@@ -88,6 +89,15 @@ class _TrackSyncerState extends State<TrackSyncer> {
             child: Text(localization.sync.toUpperCase()),
             onPressed: () => _syncVideos(),
           ),
+        TextButton(
+          child: Text(localization.details.toUpperCase()),
+          onPressed: () {
+            setState(() {
+              _showDetails = !_showDetails;
+            });
+          },
+        ),
+
         if (!_isSyncing)
           TextButton(
             child: Text(localization.close.toUpperCase()),
@@ -151,6 +161,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     isFirst: i == 0,
                   ),
                 ),
+              if (_showDetails)...[
               SizedBox(height: 10),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -192,7 +203,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     ),
                   ),
                 ],
-              ),
+              )],
               if (_isSyncing)
                 Padding(
                   padding: const EdgeInsets.only(top: 40),

@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'details': 'Details',
       'favorite': 'Favorite',
       'update': 'Update',
       'headphones': 'Headphones',
@@ -806,6 +807,8 @@ class AppLocalization {
   String get update => _localizedValues[locale.toString()]['update'];
 
   String get favorite => _localizedValues[locale.toString()]['favorite'];
+
+  String get details => _localizedValues[locale.toString()]['details'];
 
   String get notConnected =>
       _localizedValues[locale.toString()]['not_connected'];
