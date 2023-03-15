@@ -175,7 +175,7 @@ class _LoginState extends State<LoginScreen> {
             ),
           ),
           SizedBox(
-            width: 400,
+            width: 380,
             child: Form(
               key: _formKey,
               child: FormCard(
@@ -333,8 +333,8 @@ class _LoginState extends State<LoginScreen> {
                                   ),
                           ],
                         ),
-                  _error == null || _error.contains(OTP_ERROR)
-                      ? Container()
+                  (_error ?? '').isEmpty || _error.contains(OTP_ERROR)
+                      ? SizedBox(height: 32)
                       : Container(
                           padding: EdgeInsets.only(bottom: 20, top: 20),
                           child: Center(
@@ -424,7 +424,7 @@ class _ToggleButtons extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: ToggleButtons(
-          constraints: BoxConstraints(minWidth: (layout.maxWidth - 8) / 2),
+          constraints: BoxConstraints(minWidth: (layout.maxWidth - 4) / 2),
           children: [
             Container(
               height: 40,
