@@ -117,7 +117,7 @@ class _SongActions extends StatelessWidget {
         if (!kIsWeb)
           LargeIconButton(
             iconData: Icons.video_call,
-            //tooltip: localization.,
+            tooltip: localization.record,
             onPressed: () {
               final uiSong = state.uiState.song;
               SongEntity newSong = song;
