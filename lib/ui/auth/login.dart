@@ -403,44 +403,44 @@ class _LoginState extends State<LoginScreen> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Tooltip(
-                message: 'Website',
-                child: InkWell(
-                  onTap: () => launchUrlString(kMudeoURL),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Image.asset(
-                      'assets/images/icon.png',
-                      width: 50,
-                    ),
-                  ),
+              IconButton(
+                tooltip: 'YouTube',
+                onPressed: () => launchUrlString(kMudeoYouTubeURL),
+                icon: Icon(
+                  MdiIcons.youtube,
+                  size: 30,
                 ),
+                iconSize: 30,
               ),
-              Tooltip(
-                message: 'YouTube',
-                child: InkWell(
-                  onTap: () => launchUrlString(kMudeoYouTubeURL),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Image.asset(
-                      'assets/images/youtube.png',
-                      width: 50,
-                    ),
-                  ),
+              SizedBox(width: 8),
+              IconButton(
+                tooltip: 'Twitter',
+                onPressed: () => launchUrlString(kMudeoTwitterURL),
+                icon: Icon(
+                  MdiIcons.twitter,
+                  size: 30,
                 ),
+                iconSize: 30,
               ),
-              Tooltip(
-                message: 'Twitter',
-                child: InkWell(
-                  onTap: () => launchUrlString(kMudeoTwitterURL),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Image.asset(
-                      'assets/images/twitter.png',
-                      width: 50,
-                    ),
-                  ),
+              SizedBox(width: 8),
+              IconButton(
+                tooltip: localization.website,
+                onPressed: () => launchUrlString(kMudeoURL),
+                icon: Icon(
+                  MdiIcons.web,
+                  size: 30,
                 ),
+                iconSize: 30,
+              ),
+              SizedBox(width: 8),
+              IconButton(
+                tooltip: localization.contactUs,
+                onPressed: () => launchUrlString('mailto:contact@mudeo.app'),
+                icon: Icon(
+                  MdiIcons.email,
+                  size: 30,
+                ),
+                iconSize: 30,
               ),
             ],
           )
