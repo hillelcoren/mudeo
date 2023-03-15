@@ -1277,7 +1277,7 @@ class _SongEditState extends State<SongEdit> {
               '$countdownTimer',
               style: TextStyle(
                 fontSize: 300,
-                color: Colors.white.withOpacity(.15),
+                color: Colors.white.withOpacity(.3),
                 fontWeight: FontWeight.w200,
               ),
             ),

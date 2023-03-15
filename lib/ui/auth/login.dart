@@ -443,7 +443,8 @@ class _LoginState extends State<LoginScreen> {
                 iconSize: 30,
               ),
             ],
-          )
+          ),
+          SizedBox(height: 100),
         ],
       ),
     );
