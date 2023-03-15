@@ -172,9 +172,9 @@ class _LoginState extends State<LoginScreen> {
           SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.all(30),
-            child: ConstrainedBox(
-              child: Image.asset('assets/images/logo-dark.png'),
-              constraints: BoxConstraints(maxHeight: 40),
+            child: Image.asset(
+              'assets/images/logo-dark.png',
+              width: 200,
             ),
           ),
           SizedBox(

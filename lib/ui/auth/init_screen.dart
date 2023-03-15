@@ -24,7 +24,10 @@ class InitScreen extends StatelessWidget {
                       left: 80, top: 20, right: 80, bottom: 20),
                   child: kIsWeb
                       ? SizedBox()
-                      : Image.asset('assets/images/logo-dark.png'),
+                      : Image.asset(
+                          'assets/images/logo-dark.png',
+                          width: 200,
+                        ),
                 ),
               ),
               SizedBox(
