@@ -215,7 +215,7 @@ class MudeoVideoListItem extends StatelessWidget {
                 height: 180,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  children: song.tracks.map((track) {
+                  children: song.includedTracks.map((track) {
                     /*
                     if (usedVideoIds.contains(track.video.id) ||
                         !track.video.hasThumbnail) {
@@ -377,7 +377,7 @@ class ThumbnailIcon extends StatelessWidget {
         onSelected();
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.all(8),
         child: Stack(
           children: <Widget>[
             SizedBox(
