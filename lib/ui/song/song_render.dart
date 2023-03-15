@@ -199,8 +199,8 @@ class _SongRenderState extends State<SongRender> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                    top: 22,
-                    bottom: 8,
+                    top: 10,
+                    bottom: 12,
                   ),
                   child: Text(
                     localization.layout,
@@ -209,58 +209,67 @@ class _SongRenderState extends State<SongRender> {
                 ),
                 InkWell(
                   onTap: () => _setLayout(kVideoLayoutRow),
-                  child: Row(
-                    children: [
-                      IgnorePointer(
-                        child: Radio(
-                          value: kVideoLayoutRow,
-                          groupValue: _layout,
-                          activeColor: Colors.lightBlueAccent,
-                          onChanged: _setLayout,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      children: [
+                        IgnorePointer(
+                          child: Radio(
+                            value: kVideoLayoutRow,
+                            groupValue: _layout,
+                            activeColor: Colors.lightBlueAccent,
+                            onChanged: _setLayout,
+                          ),
                         ),
-                      ),
-                      Text(localization.row),
-                    ],
+                        Text(localization.row),
+                      ],
+                    ),
                   ),
                 ),
                 InkWell(
                   onTap: () => _setLayout(kVideoLayoutColumn),
-                  child: Row(
-                    children: [
-                      IgnorePointer(
-                        child: Radio(
-                          value: kVideoLayoutColumn,
-                          groupValue: _layout,
-                          activeColor: Colors.lightBlueAccent,
-                          onChanged: _setLayout,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      children: [
+                        IgnorePointer(
+                          child: Radio(
+                            value: kVideoLayoutColumn,
+                            groupValue: _layout,
+                            activeColor: Colors.lightBlueAccent,
+                            onChanged: _setLayout,
+                          ),
                         ),
-                      ),
-                      Text(localization.column),
-                    ],
+                        Text(localization.column),
+                      ],
+                    ),
                   ),
                 ),
                 InkWell(
                   onTap: song.includedTracks.length == 4
                       ? () => _setLayout(kVideoLayoutGrid)
                       : null,
-                  child: Row(
-                    children: [
-                      IgnorePointer(
-                        child: Radio(
-                          value: kVideoLayoutGrid,
-                          groupValue: _layout,
-                          activeColor: Colors.lightBlueAccent,
-                          onChanged: _setLayout,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Row(
+                      children: [
+                        IgnorePointer(
+                          child: Radio(
+                            value: kVideoLayoutGrid,
+                            groupValue: _layout,
+                            activeColor: Colors.lightBlueAccent,
+                            onChanged: _setLayout,
+                          ),
                         ),
-                      ),
-                      Text(
-                        localization.grid,
-                        style: TextStyle(
-                            color: song.tracks.length == 4
-                                ? Colors.white
-                                : Colors.grey),
-                      ),
-                    ],
+                        Text(
+                          localization.grid,
+                          style: TextStyle(
+                              color: song.tracks.length == 4
+                                  ? Colors.white
+                                  : Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
