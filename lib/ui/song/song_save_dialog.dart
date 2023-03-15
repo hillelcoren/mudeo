@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/main_common.dart';
@@ -61,11 +62,6 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
 
       Share.shareXFiles([XFile.fromData(pngBytes, mimeType: 'png')],
           text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);
-
-      /*
-      await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
-          text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);
-       */
     } catch (e) {
       print(e.toString());
     }
@@ -319,87 +315,112 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     }
 
     Widget _success() {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Align(
-            child: Text(localization.yourSongHasBeenSaved,
-                style: Theme.of(context).textTheme.headline5),
-            alignment: Alignment.centerLeft,
-          ),
-          if (songUrl != null &&
-              songUrl.isNotEmpty &&
-              songIsPublic == true) ...[
-            Padding(
-              padding: EdgeInsets.only(top: 15),
-              child: TextButton(
-                //padding: const EdgeInsets.all(0),
-                onPressed: () {
-                  launch(songUrl, forceSafariVC: false);
-                },
-                child: Text(
-                  songUrl.replaceFirst('https://', ''),
-                  style: TextStyle(fontSize: 20, color: Colors.lightBlueAccent),
+      return SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(localization.yourSongHasBeenSaved),
+            SizedBox(height: 8),
+            if (songUrl != null &&
+                songUrl.isNotEmpty &&
+                songIsPublic == true) ...[
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: TextButton(
+                    //padding: const EdgeInsets.all(0),
+                    onPressed: () {
+                      launch(songUrl, forceSafariVC: false);
+                    },
+                    child: Text(
+                      songUrl.replaceFirst('https://', ''),
+                      style:
+                          TextStyle(fontSize: 20, color: Colors.lightBlueAccent),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 10),
-              child: Text(localization.videoProcessingHelp),
-            ),
-          ],
-          SizedBox(
-            height: 20,
-          ),
-          if ((sharingKey ?? '').isNotEmpty) ...[
-            SizedBox(
-              width: 200,
-              child: RepaintBoundary(
-                key: qrCodeGlobalKey,
-                child: QrImage(
-                  data: sharingKey,
-                  version: QrVersions.auto,
-                  gapless: false,
-                  backgroundColor: Colors.white,
-                  errorStateBuilder: (cxt, err) {
-                    return Container(
-                      child: Center(
-                        child: Text(
-                          'Something went wrong...',
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    );
-                  },
-                ),
+              /*
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 10),
+                child: Text(localization.videoProcessingHelp),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 20),
-              child: Text(localization.qrCodeHelp),
-            ),
-          ],
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              TextButton(
-                child: Text(
-                  localization.close.toUpperCase(),
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              if ((sharingKey ?? '').isNotEmpty)
-                TextButton(
-                  child: Text(localization.share.toUpperCase()),
-                  onPressed: () {
-                    _captureAndSharePng(song);
-                  },
-                )
+               */
             ],
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            if ((sharingKey ?? '').isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 24),
+                child: Text(localization.qrCodeHelp),
+              ),
+              Center(
+                child: SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: RepaintBoundary(
+                    key: qrCodeGlobalKey,
+                    child: QrImage(
+                      data: sharingKey,
+                      version: QrVersions.auto,
+                      gapless: false,
+                      backgroundColor: Colors.white,
+                      errorStateBuilder: (cxt, err) {
+                        return Container(
+                          child: Center(
+                            child: Text(
+                              'Something went wrong...',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: InkWell(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(text: song.sharingKey));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(localization.copiedToClipboard)));
+                  },
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: Text(song.sharingKey),
+                  ),
+                ),
+              ),
+            ],
+            /*
+
+          Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                TextButton(
+                  child: Text(
+                    localization.close.toUpperCase(),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                if ((sharingKey ?? '').isNotEmpty)
+                  TextButton(
+                    child: Text(localization.share.toUpperCase()),
+                    onPressed: () {
+                      _captureAndSharePng(song);
+                    },
+                  )
+              ],
+            ),
+             */
+          ],
+        ),
       );
     }
 
@@ -420,7 +441,15 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   : localization.update.toUpperCase()),
             ),
           ]
-        ]
+        ] else if (selectedStackIndex == kStackIndexSuccess)
+          TextButton(
+            child: Text(localization.close.toUpperCase()),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        TextButton(
+          child: Text(localization.share.toUpperCase()),
+          onPressed: () => _captureAndSharePng(song),
+        ),
       ],
       content: selectedStackIndex == kStackIndexForm
           ? _form()
