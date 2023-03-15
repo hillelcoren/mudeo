@@ -363,8 +363,8 @@ class ArtistPage extends StatelessWidget {
           onRefresh: () => viewModel.onRefreshed(context),
           child: ListView(
             shrinkWrap: true,
-            primary: true,
-            controller: scrollController,
+            primary: isDesktop(context) ? true : false,
+            controller: isDesktop(context) ? null : scrollController,
             children: <Widget>[
               Stack(
                 fit: StackFit.loose,
@@ -426,54 +426,59 @@ class ArtistPage extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             top: 20, bottom: 15, left: 60, right: 60),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             if (showSettings)
                               Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
-                                  child: ElevatedButton(
-                                    child: Text(
-                                        state.isDance
-                                            ? localization.joinDance
-                                            : localization.joinSong,
-                                        style: TextStyle(fontSize: 18)),
-                                    onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          barrierDismissible: false,
-                                          useRootNavigator: true,
-                                          builder: (BuildContext context) {
-                                            return SongJoinDialog();
-                                          });
-                                    },
-                                    /*
-                                      color: Colors.black87,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0))
-                                              */
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: ElevatedButton(
+                                      child: Text(
+                                          state.isDance
+                                              ? localization.joinDance
+                                              : localization.joinSong,
+                                          style: TextStyle(fontSize: 18)),
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            barrierDismissible: false,
+                                            useRootNavigator: true,
+                                            builder: (BuildContext context) {
+                                              return SongJoinDialog();
+                                            });
+                                      },
+                                      /*
+                                        color: Colors.black87,
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0))
+                                                */
+                                    ),
                                   )),
                             if (showSettings)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
-                                child: ElevatedButton(
-                                  child: Text(localization.editProfile,
-                                      style: TextStyle(fontSize: 18)),
-                                  onPressed: () {
-                                    final store =
-                                        StoreProvider.of<AppState>(context);
-                                    store.dispatch(EditArtist(
-                                        context: context, artist: artist));
-                                  },
-                                  /*
-                                    color: Colors.black87,
-                                    padding: EdgeInsets.symmetric(vertical: 10),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0))
-                                            */
+                                child: SizedBox(
+                                  width: 200,
+                                  child: ElevatedButton(
+                                    child: Text(localization.editProfile,
+                                        style: TextStyle(fontSize: 18)),
+                                    onPressed: () {
+                                      final store =
+                                          StoreProvider.of<AppState>(context);
+                                      store.dispatch(EditArtist(
+                                          context: context, artist: artist));
+                                    },
+                                    /*
+                                      color: Colors.black87,
+                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30.0))
+                                              */
+                                  ),
                                 ),
                               ),
                             /*
@@ -495,17 +500,20 @@ class ArtistPage extends StatelessWidget {
                               ),
                              */
                             showSettings
-                                ? ElevatedButton(
-                                    child: Text(localization.options,
-                                        style: TextStyle(fontSize: 18)),
-                                    onPressed: () => _showMenu(),
-                                    /*
-                                    color: Colors.black87,
-                                    padding: EdgeInsets.symmetric(vertical: 10),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
+                                ? SizedBox(
+                                    width: 200,
+                                    child: ElevatedButton(
+                                      child: Text(localization.options,
+                                          style: TextStyle(fontSize: 18)),
+                                      onPressed: () => _showMenu(),
+                                      /*
+                                      color: Colors.black87,
+                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30.0),
+                                      ),
+                                      */
                                     ),
-                                    */
                                   )
                                 : viewModel.state.isSaving
                                     ? SizedBox(

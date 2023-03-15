@@ -14,7 +14,7 @@ bool isMobile() {
     return false;
   }
 
-return Platform.isAndroid || Platform.isIOS;
+  return Platform.isAndroid || Platform.isIOS;
 }
 
 String getAppStoreURL(BuildContext context) {
@@ -52,6 +52,10 @@ Future<String> getDevice() async {
   }
 }
 
-bool isDesktop(BuildContext context) =>
-    MediaQuery.of(context).size.shortestSide > kDesktopBreakpoint;
+bool isDesktop(BuildContext context) {
+  if (kIsWeb) {
+    return false;
+  }
 
+  return Platform.isWindows || Platform.isMacOS || Platform.isLinux;
+}

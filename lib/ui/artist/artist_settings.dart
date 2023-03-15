@@ -150,6 +150,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
         child: Form(
           key: _formKey,
           child: ListView(
+            primary: true,
             children: <Widget>[
               FormCard(
                 mainAxisSize: MainAxisSize.max,
