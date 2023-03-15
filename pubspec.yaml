@@ -102,9 +102,6 @@ flutter:
     - assets/images/logo-dark.png
     - assets/images/apple.png
     - assets/images/google.png
-    - assets/images/twitter.png
-    - assets/images/youtube.png
-    - assets/images/icon.png
     #- assets/posenet_mv1_075_float_from_checkpoints.tflite
     - assets/tone.mp4
 
