@@ -177,6 +177,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               song.isNew ? localization.publishSong : localization.updateSong),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextFormField(
                 autocorrect: false,
@@ -223,13 +224,13 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               TextFormField(
                 autocorrect: false,
                 controller: _descriptionController,
-                maxLines: 2,
+                maxLines: 4,
                 decoration: InputDecoration(
                   labelText: localization.description,
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 30),
                 child: Row(
                   children: <Widget>[
                     IconText(
@@ -420,23 +421,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       );
     }
 
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          Material(
-            child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: selectedStackIndex == kStackIndexForm
-                  ? _form()
-                  : selectedStackIndex == kStackIndexProgress
-                      ? _progress()
-                      : _success(),
-            ),
-          ),
-          Expanded(child: Container()),
-        ],
-      ),
-    );
+    return selectedStackIndex == kStackIndexForm
+        ? _form()
+        : selectedStackIndex == kStackIndexProgress
+            ? _progress()
+            : _success();
   }
 }

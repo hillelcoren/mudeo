@@ -183,10 +183,7 @@ class _SongRenderState extends State<SongRender> {
               FFmpegKit.cancel();
               Navigator.of(context).pop();
             },
-            child: Text((_videoTimestamp == 0
-                    ? localization.cancel
-                    : localization.close)
-                .toUpperCase())),
+            child: Text(localization.cancel.toUpperCase())),
         if (_videoTimestamp == null)
           TextButton(
               onPressed: () => createVideo(),
