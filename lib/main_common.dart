@@ -55,6 +55,9 @@ class MudeoAppState extends State<MudeoApp> {
             textSelectionTheme: TextSelectionThemeData(
               selectionHandleColor: Colors.lightBlueAccent,
             ),
+            tooltipTheme: TooltipThemeData(
+              waitDuration: Duration(milliseconds: 500),
+            ),
             fontFamily: fontFamily,
           ),
           title: widget.store.state.isDance ? 'Dance Like Me' : 'mudeo',
