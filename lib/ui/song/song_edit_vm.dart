@@ -127,7 +127,7 @@ class SongEditVM {
             duration: duration,
           ));
 
-          if (!hasHeadset && song.tracks.isNotEmpty) {
+          if (!hasHeadset && song.includedTracks.isNotEmpty) {
             final track = song.includedTracks.last;
             final index = song.tracks.indexOf(track);
             store.dispatch(UpdateSong(store.state.uiState.song.rebuild((b) =>
