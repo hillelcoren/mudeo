@@ -43,7 +43,7 @@ class _LoginState extends State<LoginScreen> {
 
   String _error = '';
 
-  bool _showLogin = false;
+  bool _showLogin = true;
   bool _showEmail = Platform.isAndroid ? false : true;
   bool _termsChecked = false;
   bool _autoValidate = false;
@@ -435,7 +435,7 @@ class _LoginState extends State<LoginScreen> {
               SizedBox(width: 8),
               IconButton(
                 tooltip: localization.contactUs,
-                onPressed: () => launchUrlString('mailto:contact@mudeo.app'),
+                onPressed: () => launchUrlString('mailto:$kMudeoContactEmail'),
                 icon: Icon(
                   MdiIcons.email,
                   size: 30,
