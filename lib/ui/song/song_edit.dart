@@ -1353,7 +1353,6 @@ class TrackView extends StatelessWidget {
               showDialog<TrackEditDialog>(
                 context: context,
                 builder: (BuildContext context) {
-                  print('## hasHeadset: $hasHeadset');
                   return TrackEditDialog(
                     videoPlayer: videoPlayer,
                     viewModel: viewModel,
