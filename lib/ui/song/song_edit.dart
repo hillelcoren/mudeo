@@ -1600,7 +1600,10 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         ),
                       ),
                     ElevatedButton(
-                      child: Text(AppLocalization.of(context).monitor),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                        child: Text(AppLocalization.of(context).monitor),
+                      ),
                       onPressed: _isActive
                           ? null
                           : () {
@@ -1652,9 +1655,12 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                     widget.isFirst || !widget.hasHeadset
                         ? SizedBox()
                         : Padding(
-                            padding: const EdgeInsets.only(top: 8),
+                            padding: const EdgeInsets.only(top: 10),
                             child: ElevatedButton(
-                              child: Text(localization.adjust),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                                child: Text(localization.adjust),
+                              ),
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.purple),
                               onPressed: () {
@@ -1687,19 +1693,25 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           )
                         : SizedBox(),
                         */
-                    SizedBox(height: 8),
+                    SizedBox(height: 10),
                     ElevatedButton(
-                      child: Text(AppLocalization.of(context).download),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                        child: Text(AppLocalization.of(context).download),
+                      ),
                       style: ElevatedButton.styleFrom(primary: Colors.green),
                       onPressed: () async {
                         Share.shareFiles([await widget.track.video.path]);
                       },
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 10),
                     ElevatedButton(
-                      child: Text(widget.track.video.isOld
-                          ? localization.remove
-                          : localization.delete),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+                        child: Text(widget.track.video.isOld
+                            ? localization.remove
+                            : localization.delete),
+                      ),
                       style: ElevatedButton.styleFrom(primary: Colors.red),
                       onPressed: () {
                         Navigator.of(context).pop();
