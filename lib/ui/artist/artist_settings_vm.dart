@@ -64,7 +64,10 @@ class ArtistSettingsVM {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: Text(localization.uploading),
-                content: LoadingIndicator(height: 200.0),
+                content: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: LinearProgressIndicator(),
+                ),
               );
             });
         completer.future.then((_) {

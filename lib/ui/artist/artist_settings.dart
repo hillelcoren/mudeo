@@ -206,26 +206,38 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       OutlinedButton(
-                        child: Text(localization.profileImage,
-                            style: TextStyle(fontSize: 18)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(localization.profileImage,
+                              style: TextStyle(fontSize: 18)),
+                        ),
                         onPressed: () async {
-                          var image = await pickFile(fileType: FileType.image);
-                          viewModel.onUpdateImage(
-                              context, kArtistImageProfile, image);
+                          var image = await pickFile(
+                              fileType: FileType.image, fileIndex: 'image');
+                          if (image != null) {
+                            viewModel.onUpdateImage(
+                                context, kArtistImageProfile, image);
+                          }
                         },
                       ),
                       OutlinedButton(
-                        child: Text(localization.headerImage,
-                            style: TextStyle(fontSize: 18)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(localization.headerImage,
+                              style: TextStyle(fontSize: 18)),
+                        ),
                         onPressed: () async {
-                          var image = await pickFile(fileType: FileType.image);
-                          viewModel.onUpdateImage(
-                              context, kArtistImageHeader, image);
+                          var image = await pickFile(
+                              fileType: FileType.image, fileIndex: 'image');
+                          if (image != null) {
+                            viewModel.onUpdateImage(
+                                context, kArtistImageHeader, image);
+                          }
                         },
                       ),
                     ],
