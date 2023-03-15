@@ -161,38 +161,22 @@ class _LoginState extends State<LoginScreen> {
     final TextStyle linkStyle =
         themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
 
-    return Stack(
-      children: <Widget>[
-        SizedBox(
-          height: 250,
-          child: ClipPath(
-            clipper: ArcClipper(),
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                colors: [
-                  //Colors.grey.shade800,
-                  Colors.black,
-                  Colors.black,
-                  //Theme.of(context).buttonColor,
-                  //Theme.of(context).buttonColor.withOpacity(.7),
-                ],
-              )),
+    return SingleChildScrollView(
+      primary: true,
+      child: Column(
+        children: <Widget>[
+          Container(color: Colors.black, width: double.infinity, height: 20),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 80, top: 40, right: 80, bottom: 20),
+            child: ConstrainedBox(
+              child: Image.asset('assets/images/logo-dark.png'),
+              constraints: BoxConstraints(maxHeight: 50),
             ),
           ),
-        ),
-        ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 80, top: 60, right: 80, bottom: 20),
-              // TODO: set dance logo
-              child: state.isDance
-                  ? SizedBox()
-                  : Image.asset('assets/images/logo-dark.png'),
-            ),
-            Form(
+          SizedBox(
+            width: 400,
+            child: Form(
               key: _formKey,
               child: FormCard(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -413,39 +397,11 @@ class _LoginState extends State<LoginScreen> {
                 ],
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
-}
-
-// https://github.com/iampawan/Flutter-UI-Kit
-class ArcClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(0, size.height - 30);
-
-    final firstControlPoint = Offset(size.width / 4, size.height);
-    final firstPoint = Offset(size.width / 2, size.height);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstPoint.dx, firstPoint.dy);
-
-    final secondControlPoint =
-        Offset(size.width - (size.width / 4), size.height);
-    final secondPoint = Offset(size.width, size.height - 30);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondPoint.dx, secondPoint.dy);
-
-    path.lineTo(size.width, 0);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
 class _ToggleButtons extends StatelessWidget {
@@ -466,25 +422,27 @@ class _ToggleButtons extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final double toggleWidth = isDesktop ? 178 : (width - 70) / 2;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: ToggleButtons(
-        constraints: BoxConstraints(),
-        children: [
-          Container(
-            width: toggleWidth,
-            height: 40,
-            child: Center(child: Text(tabLabels[0].toUpperCase())),
-          ),
-          Container(
-            width: toggleWidth,
-            height: 40,
-            child: Center(child: Text(tabLabels[1].toUpperCase())),
-          ),
-        ],
-        isSelected: selectedIndex == 0 ? [true, false] : [false, true],
-        onPressed: (index) => onTabChanged(index),
-      ),
-    );
+    return LayoutBuilder(builder: (context, layout) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: ToggleButtons(
+          constraints: BoxConstraints(minWidth: (layout.maxWidth - 8) / 2),
+          children: [
+            Container(
+              //width: toggleWidth,
+              height: 40,
+              child: Center(child: Text(tabLabels[0].toUpperCase())),
+            ),
+            Container(
+              //width: toggleWidth,
+              height: 40,
+              child: Center(child: Text(tabLabels[1].toUpperCase())),
+            ),
+          ],
+          isSelected: selectedIndex == 0 ? [true, false] : [false, true],
+          onPressed: (index) => onTabChanged(index),
+        ),
+      );
+    });
   }
 }
