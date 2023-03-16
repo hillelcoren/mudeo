@@ -43,7 +43,7 @@ class _LoginState extends State<LoginScreen> {
 
   String _error = '';
 
-  bool _showLogin = true;
+  bool _showLogin = false;
   bool _showEmail = Platform.isAndroid ? false : true;
   bool _termsChecked = false;
   bool _autoValidate = false;
@@ -195,14 +195,14 @@ class _LoginState extends State<LoginScreen> {
                           children: <Widget>[
                             _ToggleButtons(
                               tabLabels: [
-                                localization.login,
                                 localization.signUp,
+                                localization.login,
                               ],
-                              selectedIndex: _showLogin ? 0 : 1,
+                              selectedIndex: _showLogin ? 1 : 0,
                               onTabChanged: (index) {
                                 setState(() {
                                   _error = '';
-                                  _showLogin = index == 0;
+                                  _showLogin = index == 1;
                                 });
                               },
                             ),
@@ -353,7 +353,7 @@ class _LoginState extends State<LoginScreen> {
                   ElevatedButton(
                       onPressed: _isLoading ? null : () => _submitForm(),
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(12),
                         child: Text(_showLogin
                             ? (_showEmail
                                     ? localization.login
