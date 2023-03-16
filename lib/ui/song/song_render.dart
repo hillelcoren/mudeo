@@ -12,6 +12,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/ui/app/dialogs/error_dialog.dart';
 import 'package:mudeo/ui/auth/upgrade_dialog.dart';
+import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
 import 'package:share_plus/share_plus.dart';
@@ -137,7 +138,6 @@ class _SongRenderState extends State<SongRender> {
                 showToast(localization.downloadedSong);
 
                 if (state.artist.isPaid) {
-
                 } else {
                   /*
                   showDialog<UpgradeDialog>(
@@ -185,30 +185,35 @@ class _SongRenderState extends State<SongRender> {
               child: Text(localization.add.toUpperCase())),
         if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
-              onPressed: () async {
-                final store = StoreProvider.of<AppState>(context);
-                var video = VideoEntity()
-                    .rebuild((b) => b..timestamp = _videoTimestamp);
+              onPressed: () {
+                confirmCallback(
+                    context: context,
+                    callback: () async {
+                      final store = StoreProvider.of<AppState>(context);
+                      var video = VideoEntity()
+                          .rebuild((b) => b..timestamp = _videoTimestamp);
 
-                BuiltMap<String, double> volumeData;
-                final path = await video.path;
-                try {
-                  volumeData = await FfmpegUtils.calculateVolumeData(path);
-                } catch (error) {
-                  // do nothing
-                }
+                      BuiltMap<String, double> volumeData;
+                      final path = await video.path;
+                      try {
+                        volumeData =
+                            await FfmpegUtils.calculateVolumeData(path);
+                      } catch (error) {
+                        // do nothing
+                      }
 
-                final thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
-                await FfmpegUtils.createThumbnail(path, thumbnailPath);
+                      final thumbnailPath =
+                          path.replaceFirst('.mp4', '-thumb.jpg');
+                      await FfmpegUtils.createThumbnail(path, thumbnailPath);
 
-                video = video.rebuild((b) => b
-                  ..volumeData.replace(volumeData)
-                  ..thumbnailUrl = thumbnailPath);
+                      video = video.rebuild((b) => b
+                        ..volumeData.replace(volumeData)
+                        ..thumbnailUrl = thumbnailPath);
 
-                final track = TrackEntity(video: video);
-                var song = store.state.uiState.song;
+                      final track = TrackEntity(video: video);
+                      var song = store.state.uiState.song;
 
-                /*
+                      /*
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
                   ..tracks.replace(BuiltList<TrackEntity>(song.tracks
@@ -218,13 +223,15 @@ class _SongRenderState extends State<SongRender> {
                         ..add(track))));
                         */
 
-                song = song.rebuild((b) => b
-                  ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
-                  ..tracks.replace([track]));
+                      song = song.rebuild((b) => b
+                        ..updatedAt =
+                            DateTime.now().millisecondsSinceEpoch.toString()
+                        ..tracks.replace([track]));
 
-                store.dispatch(UpdateSong(song));
+                      store.dispatch(UpdateSong(song));
 
-                Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    });
               },
               child: Text(localization.replace.toUpperCase())),
         TextButton(
