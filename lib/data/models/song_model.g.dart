@@ -88,101 +88,112 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
       serializers.serialize(object.isRendered,
           specifiedType: const FullType(bool)),
     ];
-    if (object.color != null) {
+    Object value;
+    value = object.color;
+    if (value != null) {
       result
         ..add('color')
-        ..add(serializers.serialize(object.color,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.artistId != null) {
+    value = object.artistId;
+    if (value != null) {
       result
         ..add('user_id')
-        ..add(serializers.serialize(object.artistId,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.artist != null) {
+    value = object.artist;
+    if (value != null) {
       result
         ..add('user')
-        ..add(serializers.serialize(object.artist,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(ArtistEntity)));
     }
-    if (object.genreId != null) {
+    value = object.genreId;
+    if (value != null) {
       result
         ..add('genre_id')
-        ..add(serializers.serialize(object.genreId,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.parentId != null) {
+    value = object.parentId;
+    if (value != null) {
       result
         ..add('parent_id')
-        ..add(serializers.serialize(object.parentId,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.blurhash != null) {
+    value = object.blurhash;
+    if (value != null) {
       result
         ..add('blurhash')
-        ..add(serializers.serialize(object.blurhash,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.countPlay != null) {
+    value = object.countPlay;
+    if (value != null) {
       result
         ..add('count_play')
-        ..add(serializers.serialize(object.countPlay,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.countLike != null) {
+    value = object.countLike;
+    if (value != null) {
       result
         ..add('count_like')
-        ..add(serializers.serialize(object.countLike,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.trackVideoUrl != null) {
+    value = object.trackVideoUrl;
+    if (value != null) {
       result
         ..add('track_video_url')
-        ..add(serializers.serialize(object.trackVideoUrl,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.youTubeId != null) {
+    value = object.youTubeId;
+    if (value != null) {
       result
         ..add('youtube_id')
-        ..add(serializers.serialize(object.youTubeId,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.twitterId != null) {
+    value = object.twitterId;
+    if (value != null) {
       result
         ..add('twitter_id')
-        ..add(serializers.serialize(object.twitterId,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.joinedArtists != null) {
+    value = object.joinedArtists;
+    if (value != null) {
       result
         ..add('joined_users')
-        ..add(serializers.serialize(object.joinedArtists,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(
                 BuiltList, const [const FullType(ArtistEntity)])));
     }
-    if (object.sharingKey != null) {
+    value = object.sharingKey;
+    if (value != null) {
       result
         ..add('sharing_key')
-        ..add(serializers.serialize(object.sharingKey,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.id != null) {
+    value = object.id;
+    if (value != null) {
       result
         ..add('id')
-        ..add(serializers.serialize(object.id,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.deletedAt != null) {
+    value = object.deletedAt;
+    if (value != null) {
       result
         ..add('deleted_at')
-        ..add(serializers.serialize(object.deletedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.updatedAt != null) {
+    value = object.updatedAt;
+    if (value != null) {
       result
         ..add('updated_at')
-        ..add(serializers.serialize(object.updatedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -197,7 +208,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'title':
           result.title = serializers.deserialize(value,
@@ -354,47 +365,51 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
       serializers.serialize(object.video,
           specifiedType: const FullType(VideoEntity)),
     ];
-    if (object.isIncluded != null) {
+    Object value;
+    value = object.isIncluded;
+    if (value != null) {
       result
         ..add('is_included')
-        ..add(serializers.serialize(object.isIncluded,
-            specifiedType: const FullType(bool)));
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
     }
-    if (object.delay != null) {
+    value = object.delay;
+    if (value != null) {
       result
         ..add('delay')
-        ..add(serializers.serialize(object.delay,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.volume != null) {
+    value = object.volume;
+    if (value != null) {
       result
         ..add('volume')
-        ..add(serializers.serialize(object.volume,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.orderId != null) {
+    value = object.orderId;
+    if (value != null) {
       result
         ..add('order_id')
-        ..add(serializers.serialize(object.orderId,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.deletedAt != null) {
+    value = object.deletedAt;
+    if (value != null) {
       result
         ..add('deleted_at')
-        ..add(serializers.serialize(object.deletedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.updatedAt != null) {
+    value = object.updatedAt;
+    if (value != null) {
       result
         ..add('updated_at')
-        ..add(serializers.serialize(object.updatedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.id != null) {
+    value = object.id;
+    if (value != null) {
       result
         ..add('id')
-        ..add(serializers.serialize(object.id,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     return result;
   }
@@ -408,7 +423,7 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'is_included':
           result.isIncluded = serializers.deserialize(value,
@@ -471,23 +486,26 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
       serializers.serialize(object.description,
           specifiedType: const FullType(String)),
     ];
-    if (object.deletedAt != null) {
+    Object value;
+    value = object.deletedAt;
+    if (value != null) {
       result
         ..add('deleted_at')
-        ..add(serializers.serialize(object.deletedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.updatedAt != null) {
+    value = object.updatedAt;
+    if (value != null) {
       result
         ..add('updated_at')
-        ..add(serializers.serialize(object.updatedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.id != null) {
+    value = object.id;
+    if (value != null) {
       result
         ..add('id')
-        ..add(serializers.serialize(object.id,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     return result;
   }
@@ -502,7 +520,7 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'user':
           result.artist.replace(serializers.deserialize(value,
@@ -557,16 +575,19 @@ class _$SongLikeEntitySerializer
       'song_id',
       serializers.serialize(object.songId, specifiedType: const FullType(int)),
     ];
-    if (object.deletedAt != null) {
+    Object value;
+    value = object.deletedAt;
+    if (value != null) {
       result
         ..add('deleted_at')
-        ..add(serializers.serialize(object.deletedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.updatedAt != null) {
+    value = object.updatedAt;
+    if (value != null) {
       result
         ..add('updated_at')
-        ..add(serializers.serialize(object.updatedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -582,7 +603,7 @@ class _$SongLikeEntitySerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
@@ -629,16 +650,19 @@ class _$SongFlagEntitySerializer
       'song_id',
       serializers.serialize(object.songId, specifiedType: const FullType(int)),
     ];
-    if (object.deletedAt != null) {
+    Object value;
+    value = object.deletedAt;
+    if (value != null) {
       result
         ..add('deleted_at')
-        ..add(serializers.serialize(object.deletedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.updatedAt != null) {
+    value = object.updatedAt;
+    if (value != null) {
       result
         ..add('updated_at')
-        ..add(serializers.serialize(object.updatedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -654,7 +678,7 @@ class _$SongFlagEntitySerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
@@ -700,16 +724,19 @@ class _$ArtistFlagEntitySerializer
       serializers.serialize(object.artistId,
           specifiedType: const FullType(int)),
     ];
-    if (object.deletedAt != null) {
+    Object value;
+    value = object.deletedAt;
+    if (value != null) {
       result
         ..add('deleted_at')
-        ..add(serializers.serialize(object.deletedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.updatedAt != null) {
+    value = object.updatedAt;
+    if (value != null) {
       result
         ..add('updated_at')
-        ..add(serializers.serialize(object.updatedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
     return result;
@@ -725,7 +752,7 @@ class _$ArtistFlagEntitySerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
@@ -763,72 +790,81 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
       'user_id',
       serializers.serialize(object.userId, specifiedType: const FullType(int)),
     ];
-    if (object.timestamp != null) {
+    Object value;
+    value = object.timestamp;
+    if (value != null) {
       result
         ..add('timestamp')
-        ..add(serializers.serialize(object.timestamp,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.url != null) {
+    value = object.url;
+    if (value != null) {
       result
         ..add('url')
-        ..add(serializers.serialize(object.url,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.recognitions != null) {
+    value = object.recognitions;
+    if (value != null) {
       result
         ..add('recognitions')
-        ..add(serializers.serialize(object.recognitions,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.thumbnailUrl != null) {
+    value = object.thumbnailUrl;
+    if (value != null) {
       result
         ..add('thumbnail_url')
-        ..add(serializers.serialize(object.thumbnailUrl,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.remoteVideoId != null) {
+    value = object.remoteVideoId;
+    if (value != null) {
       result
         ..add('remote_video_id')
-        ..add(serializers.serialize(object.remoteVideoId,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.volumeData != null) {
+    value = object.volumeData;
+    if (value != null) {
       result
         ..add('volume_data')
-        ..add(serializers.serialize(object.volumeData,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(BuiltMap,
                 const [const FullType(String), const FullType(double)])));
     }
-    if (object.description != null) {
+    value = object.description;
+    if (value != null) {
       result
         ..add('description')
-        ..add(serializers.serialize(object.description,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.duration != null) {
+    value = object.duration;
+    if (value != null) {
       result
         ..add('duration')
-        ..add(serializers.serialize(object.duration,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
-    if (object.deletedAt != null) {
+    value = object.deletedAt;
+    if (value != null) {
       result
         ..add('deleted_at')
-        ..add(serializers.serialize(object.deletedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.updatedAt != null) {
+    value = object.updatedAt;
+    if (value != null) {
       result
         ..add('updated_at')
-        ..add(serializers.serialize(object.updatedAt,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    if (object.id != null) {
+    value = object.id;
+    if (value != null) {
       result
         ..add('id')
-        ..add(serializers.serialize(object.id,
-            specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
     return result;
   }
@@ -842,7 +878,7 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'user_id':
           result.userId = serializers.deserialize(value,
@@ -930,7 +966,7 @@ class _$SongListResponseSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -974,7 +1010,7 @@ class _$SongItemResponseSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -1020,7 +1056,7 @@ class _$CommentItemResponseSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -1062,7 +1098,7 @@ class _$LikeSongResponseSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -1104,7 +1140,7 @@ class _$FlagSongResponseSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -1146,7 +1182,7 @@ class _$VideoItemResponseSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -1226,7 +1262,7 @@ class _$SongEntity extends SongEntity {
   final String updatedAt;
 
   factory _$SongEntity([void Function(SongEntityBuilder) updates]) =>
-      (new SongEntityBuilder()..update(updates)).build();
+      (new SongEntityBuilder()..update(updates))._build();
 
   _$SongEntity._(
       {this.title,
@@ -1262,54 +1298,28 @@ class _$SongEntity extends SongEntity {
       this.deletedAt,
       this.updatedAt})
       : super._() {
-    if (title == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'title');
-    }
-    if (description == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'description');
-    }
-    if (url == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'url');
-    }
-    if (width == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'width');
-    }
-    if (height == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'height');
-    }
-    if (duration == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'duration');
-    }
-    if (isFlagged == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'isFlagged');
-    }
-    if (isPublic == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'isPublic');
-    }
-    if (isApproved == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'isApproved');
-    }
-    if (isFeatured == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'isFeatured');
-    }
-    if (videoUrl == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'videoUrl');
-    }
-    if (thumbnailUrl == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'thumbnailUrl');
-    }
-    if (tracks == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'tracks');
-    }
-    if (comments == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'comments');
-    }
-    if (layout == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'layout');
-    }
-    if (isRendered == null) {
-      throw new BuiltValueNullFieldError('SongEntity', 'isRendered');
-    }
+    BuiltValueNullFieldError.checkNotNull(title, r'SongEntity', 'title');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'SongEntity', 'description');
+    BuiltValueNullFieldError.checkNotNull(url, r'SongEntity', 'url');
+    BuiltValueNullFieldError.checkNotNull(width, r'SongEntity', 'width');
+    BuiltValueNullFieldError.checkNotNull(height, r'SongEntity', 'height');
+    BuiltValueNullFieldError.checkNotNull(duration, r'SongEntity', 'duration');
+    BuiltValueNullFieldError.checkNotNull(
+        isFlagged, r'SongEntity', 'isFlagged');
+    BuiltValueNullFieldError.checkNotNull(isPublic, r'SongEntity', 'isPublic');
+    BuiltValueNullFieldError.checkNotNull(
+        isApproved, r'SongEntity', 'isApproved');
+    BuiltValueNullFieldError.checkNotNull(
+        isFeatured, r'SongEntity', 'isFeatured');
+    BuiltValueNullFieldError.checkNotNull(videoUrl, r'SongEntity', 'videoUrl');
+    BuiltValueNullFieldError.checkNotNull(
+        thumbnailUrl, r'SongEntity', 'thumbnailUrl');
+    BuiltValueNullFieldError.checkNotNull(tracks, r'SongEntity', 'tracks');
+    BuiltValueNullFieldError.checkNotNull(comments, r'SongEntity', 'comments');
+    BuiltValueNullFieldError.checkNotNull(layout, r'SongEntity', 'layout');
+    BuiltValueNullFieldError.checkNotNull(
+        isRendered, r'SongEntity', 'isRendered');
   }
 
   @override
@@ -1401,7 +1411,7 @@ class _$SongEntity extends SongEntity {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongEntity')
+    return (newBuiltValueToStringHelper(r'SongEntity')
           ..add('title', title)
           ..add('description', description)
           ..add('url', url)
@@ -1579,39 +1589,40 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   SongEntityBuilder();
 
   SongEntityBuilder get _$this {
-    if (_$v != null) {
-      _title = _$v.title;
-      _description = _$v.description;
-      _url = _$v.url;
-      _width = _$v.width;
-      _height = _$v.height;
-      _color = _$v.color;
-      _artistId = _$v.artistId;
-      _artist = _$v.artist?.toBuilder();
-      _genreId = _$v.genreId;
-      _parentId = _$v.parentId;
-      _duration = _$v.duration;
-      _blurhash = _$v.blurhash;
-      _countPlay = _$v.countPlay;
-      _countLike = _$v.countLike;
-      _isFlagged = _$v.isFlagged;
-      _isPublic = _$v.isPublic;
-      _isApproved = _$v.isApproved;
-      _isFeatured = _$v.isFeatured;
-      _videoUrl = _$v.videoUrl;
-      _trackVideoUrl = _$v.trackVideoUrl;
-      _youTubeId = _$v.youTubeId;
-      _twitterId = _$v.twitterId;
-      _thumbnailUrl = _$v.thumbnailUrl;
-      _tracks = _$v.tracks?.toBuilder();
-      _joinedArtists = _$v.joinedArtists?.toBuilder();
-      _comments = _$v.comments?.toBuilder();
-      _layout = _$v.layout;
-      _isRendered = _$v.isRendered;
-      _sharingKey = _$v.sharingKey;
-      _id = _$v.id;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+    final $v = _$v;
+    if ($v != null) {
+      _title = $v.title;
+      _description = $v.description;
+      _url = $v.url;
+      _width = $v.width;
+      _height = $v.height;
+      _color = $v.color;
+      _artistId = $v.artistId;
+      _artist = $v.artist?.toBuilder();
+      _genreId = $v.genreId;
+      _parentId = $v.parentId;
+      _duration = $v.duration;
+      _blurhash = $v.blurhash;
+      _countPlay = $v.countPlay;
+      _countLike = $v.countLike;
+      _isFlagged = $v.isFlagged;
+      _isPublic = $v.isPublic;
+      _isApproved = $v.isApproved;
+      _isFeatured = $v.isFeatured;
+      _videoUrl = $v.videoUrl;
+      _trackVideoUrl = $v.trackVideoUrl;
+      _youTubeId = $v.youTubeId;
+      _twitterId = $v.twitterId;
+      _thumbnailUrl = $v.thumbnailUrl;
+      _tracks = $v.tracks.toBuilder();
+      _joinedArtists = $v.joinedArtists?.toBuilder();
+      _comments = $v.comments.toBuilder();
+      _layout = $v.layout;
+      _isRendered = $v.isRendered;
+      _sharingKey = $v.sharingKey;
+      _id = $v.id;
+      _deletedAt = $v.deletedAt;
+      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -1619,9 +1630,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
   @override
   void replace(SongEntity other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SongEntity;
   }
 
@@ -1631,39 +1640,51 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   }
 
   @override
-  _$SongEntity build() {
+  SongEntity build() => _build();
+
+  _$SongEntity _build() {
     _$SongEntity _$result;
     try {
       _$result = _$v ??
           new _$SongEntity._(
-              title: title,
-              description: description,
-              url: url,
-              width: width,
-              height: height,
+              title: BuiltValueNullFieldError.checkNotNull(
+                  title, r'SongEntity', 'title'),
+              description: BuiltValueNullFieldError.checkNotNull(
+                  description, r'SongEntity', 'description'),
+              url: BuiltValueNullFieldError.checkNotNull(
+                  url, r'SongEntity', 'url'),
+              width: BuiltValueNullFieldError.checkNotNull(
+                  width, r'SongEntity', 'width'),
+              height: BuiltValueNullFieldError.checkNotNull(
+                  height, r'SongEntity', 'height'),
               color: color,
               artistId: artistId,
               artist: _artist?.build(),
               genreId: genreId,
               parentId: parentId,
-              duration: duration,
+              duration: BuiltValueNullFieldError.checkNotNull(
+                  duration, r'SongEntity', 'duration'),
               blurhash: blurhash,
               countPlay: countPlay,
               countLike: countLike,
-              isFlagged: isFlagged,
-              isPublic: isPublic,
-              isApproved: isApproved,
-              isFeatured: isFeatured,
-              videoUrl: videoUrl,
+              isFlagged: BuiltValueNullFieldError.checkNotNull(
+                  isFlagged, r'SongEntity', 'isFlagged'),
+              isPublic: BuiltValueNullFieldError.checkNotNull(
+                  isPublic, r'SongEntity', 'isPublic'),
+              isApproved: BuiltValueNullFieldError.checkNotNull(
+                  isApproved, r'SongEntity', 'isApproved'),
+              isFeatured: BuiltValueNullFieldError.checkNotNull(
+                  isFeatured, r'SongEntity', 'isFeatured'),
+              videoUrl: BuiltValueNullFieldError.checkNotNull(videoUrl, r'SongEntity', 'videoUrl'),
               trackVideoUrl: trackVideoUrl,
               youTubeId: youTubeId,
               twitterId: twitterId,
-              thumbnailUrl: thumbnailUrl,
+              thumbnailUrl: BuiltValueNullFieldError.checkNotNull(thumbnailUrl, r'SongEntity', 'thumbnailUrl'),
               tracks: tracks.build(),
               joinedArtists: _joinedArtists?.build(),
               comments: comments.build(),
-              layout: layout,
-              isRendered: isRendered,
+              layout: BuiltValueNullFieldError.checkNotNull(layout, r'SongEntity', 'layout'),
+              isRendered: BuiltValueNullFieldError.checkNotNull(isRendered, r'SongEntity', 'isRendered'),
               sharingKey: sharingKey,
               id: id,
               deletedAt: deletedAt,
@@ -1682,7 +1703,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
         comments.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'SongEntity', _$failedField, e.toString());
+            r'SongEntity', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -1710,7 +1731,7 @@ class _$TrackEntity extends TrackEntity {
   final int id;
 
   factory _$TrackEntity([void Function(TrackEntityBuilder) updates]) =>
-      (new TrackEntityBuilder()..update(updates)).build();
+      (new TrackEntityBuilder()..update(updates))._build();
 
   _$TrackEntity._(
       {this.isIncluded,
@@ -1722,9 +1743,7 @@ class _$TrackEntity extends TrackEntity {
       this.updatedAt,
       this.id})
       : super._() {
-    if (video == null) {
-      throw new BuiltValueNullFieldError('TrackEntity', 'video');
-    }
+    BuiltValueNullFieldError.checkNotNull(video, r'TrackEntity', 'video');
   }
 
   @override
@@ -1766,7 +1785,7 @@ class _$TrackEntity extends TrackEntity {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('TrackEntity')
+    return (newBuiltValueToStringHelper(r'TrackEntity')
           ..add('isIncluded', isIncluded)
           ..add('delay', delay)
           ..add('volume', volume)
@@ -1817,15 +1836,16 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   TrackEntityBuilder();
 
   TrackEntityBuilder get _$this {
-    if (_$v != null) {
-      _isIncluded = _$v.isIncluded;
-      _delay = _$v.delay;
-      _volume = _$v.volume;
-      _orderId = _$v.orderId;
-      _video = _$v.video?.toBuilder();
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
-      _id = _$v.id;
+    final $v = _$v;
+    if ($v != null) {
+      _isIncluded = $v.isIncluded;
+      _delay = $v.delay;
+      _volume = $v.volume;
+      _orderId = $v.orderId;
+      _video = $v.video.toBuilder();
+      _deletedAt = $v.deletedAt;
+      _updatedAt = $v.updatedAt;
+      _id = $v.id;
       _$v = null;
     }
     return this;
@@ -1833,9 +1853,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
   @override
   void replace(TrackEntity other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$TrackEntity;
   }
 
@@ -1845,7 +1863,9 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   }
 
   @override
-  _$TrackEntity build() {
+  TrackEntity build() => _build();
+
+  _$TrackEntity _build() {
     _$TrackEntity _$result;
     try {
       _$result = _$v ??
@@ -1865,7 +1885,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
         video.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'TrackEntity', _$failedField, e.toString());
+            r'TrackEntity', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -1891,7 +1911,7 @@ class _$CommentEntity extends CommentEntity {
   final int id;
 
   factory _$CommentEntity([void Function(CommentEntityBuilder) updates]) =>
-      (new CommentEntityBuilder()..update(updates)).build();
+      (new CommentEntityBuilder()..update(updates))._build();
 
   _$CommentEntity._(
       {this.artist,
@@ -1902,18 +1922,12 @@ class _$CommentEntity extends CommentEntity {
       this.updatedAt,
       this.id})
       : super._() {
-    if (artist == null) {
-      throw new BuiltValueNullFieldError('CommentEntity', 'artist');
-    }
-    if (artistId == null) {
-      throw new BuiltValueNullFieldError('CommentEntity', 'artistId');
-    }
-    if (songId == null) {
-      throw new BuiltValueNullFieldError('CommentEntity', 'songId');
-    }
-    if (description == null) {
-      throw new BuiltValueNullFieldError('CommentEntity', 'description');
-    }
+    BuiltValueNullFieldError.checkNotNull(artist, r'CommentEntity', 'artist');
+    BuiltValueNullFieldError.checkNotNull(
+        artistId, r'CommentEntity', 'artistId');
+    BuiltValueNullFieldError.checkNotNull(songId, r'CommentEntity', 'songId');
+    BuiltValueNullFieldError.checkNotNull(
+        description, r'CommentEntity', 'description');
   }
 
   @override
@@ -1952,7 +1966,7 @@ class _$CommentEntity extends CommentEntity {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('CommentEntity')
+    return (newBuiltValueToStringHelper(r'CommentEntity')
           ..add('artist', artist)
           ..add('artistId', artistId)
           ..add('songId', songId)
@@ -2000,14 +2014,15 @@ class CommentEntityBuilder
   CommentEntityBuilder();
 
   CommentEntityBuilder get _$this {
-    if (_$v != null) {
-      _artist = _$v.artist?.toBuilder();
-      _artistId = _$v.artistId;
-      _songId = _$v.songId;
-      _description = _$v.description;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
-      _id = _$v.id;
+    final $v = _$v;
+    if ($v != null) {
+      _artist = $v.artist.toBuilder();
+      _artistId = $v.artistId;
+      _songId = $v.songId;
+      _description = $v.description;
+      _deletedAt = $v.deletedAt;
+      _updatedAt = $v.updatedAt;
+      _id = $v.id;
       _$v = null;
     }
     return this;
@@ -2015,9 +2030,7 @@ class CommentEntityBuilder
 
   @override
   void replace(CommentEntity other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CommentEntity;
   }
 
@@ -2027,15 +2040,20 @@ class CommentEntityBuilder
   }
 
   @override
-  _$CommentEntity build() {
+  CommentEntity build() => _build();
+
+  _$CommentEntity _build() {
     _$CommentEntity _$result;
     try {
       _$result = _$v ??
           new _$CommentEntity._(
               artist: artist.build(),
-              artistId: artistId,
-              songId: songId,
-              description: description,
+              artistId: BuiltValueNullFieldError.checkNotNull(
+                  artistId, r'CommentEntity', 'artistId'),
+              songId: BuiltValueNullFieldError.checkNotNull(
+                  songId, r'CommentEntity', 'songId'),
+              description: BuiltValueNullFieldError.checkNotNull(
+                  description, r'CommentEntity', 'description'),
               deletedAt: deletedAt,
               updatedAt: updatedAt,
               id: id);
@@ -2046,7 +2064,7 @@ class CommentEntityBuilder
         artist.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'CommentEntity', _$failedField, e.toString());
+            r'CommentEntity', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2068,20 +2086,14 @@ class _$SongLikeEntity extends SongLikeEntity {
   final String updatedAt;
 
   factory _$SongLikeEntity([void Function(SongLikeEntityBuilder) updates]) =>
-      (new SongLikeEntityBuilder()..update(updates)).build();
+      (new SongLikeEntityBuilder()..update(updates))._build();
 
   _$SongLikeEntity._(
       {this.id, this.userId, this.songId, this.deletedAt, this.updatedAt})
       : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('SongLikeEntity', 'id');
-    }
-    if (userId == null) {
-      throw new BuiltValueNullFieldError('SongLikeEntity', 'userId');
-    }
-    if (songId == null) {
-      throw new BuiltValueNullFieldError('SongLikeEntity', 'songId');
-    }
+    BuiltValueNullFieldError.checkNotNull(id, r'SongLikeEntity', 'id');
+    BuiltValueNullFieldError.checkNotNull(userId, r'SongLikeEntity', 'userId');
+    BuiltValueNullFieldError.checkNotNull(songId, r'SongLikeEntity', 'songId');
   }
 
   @override
@@ -2113,7 +2125,7 @@ class _$SongLikeEntity extends SongLikeEntity {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongLikeEntity')
+    return (newBuiltValueToStringHelper(r'SongLikeEntity')
           ..add('id', id)
           ..add('userId', userId)
           ..add('songId', songId)
@@ -2150,12 +2162,13 @@ class SongLikeEntityBuilder
   SongLikeEntityBuilder();
 
   SongLikeEntityBuilder get _$this {
-    if (_$v != null) {
-      _id = _$v.id;
-      _userId = _$v.userId;
-      _songId = _$v.songId;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _userId = $v.userId;
+      _songId = $v.songId;
+      _deletedAt = $v.deletedAt;
+      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -2163,9 +2176,7 @@ class SongLikeEntityBuilder
 
   @override
   void replace(SongLikeEntity other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SongLikeEntity;
   }
 
@@ -2175,12 +2186,17 @@ class SongLikeEntityBuilder
   }
 
   @override
-  _$SongLikeEntity build() {
+  SongLikeEntity build() => _build();
+
+  _$SongLikeEntity _build() {
     final _$result = _$v ??
         new _$SongLikeEntity._(
-            id: id,
-            userId: userId,
-            songId: songId,
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'SongLikeEntity', 'id'),
+            userId: BuiltValueNullFieldError.checkNotNull(
+                userId, r'SongLikeEntity', 'userId'),
+            songId: BuiltValueNullFieldError.checkNotNull(
+                songId, r'SongLikeEntity', 'songId'),
             deletedAt: deletedAt,
             updatedAt: updatedAt);
     replace(_$result);
@@ -2201,20 +2217,14 @@ class _$SongFlagEntity extends SongFlagEntity {
   final String updatedAt;
 
   factory _$SongFlagEntity([void Function(SongFlagEntityBuilder) updates]) =>
-      (new SongFlagEntityBuilder()..update(updates)).build();
+      (new SongFlagEntityBuilder()..update(updates))._build();
 
   _$SongFlagEntity._(
       {this.id, this.userId, this.songId, this.deletedAt, this.updatedAt})
       : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('SongFlagEntity', 'id');
-    }
-    if (userId == null) {
-      throw new BuiltValueNullFieldError('SongFlagEntity', 'userId');
-    }
-    if (songId == null) {
-      throw new BuiltValueNullFieldError('SongFlagEntity', 'songId');
-    }
+    BuiltValueNullFieldError.checkNotNull(id, r'SongFlagEntity', 'id');
+    BuiltValueNullFieldError.checkNotNull(userId, r'SongFlagEntity', 'userId');
+    BuiltValueNullFieldError.checkNotNull(songId, r'SongFlagEntity', 'songId');
   }
 
   @override
@@ -2246,7 +2256,7 @@ class _$SongFlagEntity extends SongFlagEntity {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongFlagEntity')
+    return (newBuiltValueToStringHelper(r'SongFlagEntity')
           ..add('id', id)
           ..add('userId', userId)
           ..add('songId', songId)
@@ -2283,12 +2293,13 @@ class SongFlagEntityBuilder
   SongFlagEntityBuilder();
 
   SongFlagEntityBuilder get _$this {
-    if (_$v != null) {
-      _id = _$v.id;
-      _userId = _$v.userId;
-      _songId = _$v.songId;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _userId = $v.userId;
+      _songId = $v.songId;
+      _deletedAt = $v.deletedAt;
+      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -2296,9 +2307,7 @@ class SongFlagEntityBuilder
 
   @override
   void replace(SongFlagEntity other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SongFlagEntity;
   }
 
@@ -2308,12 +2317,17 @@ class SongFlagEntityBuilder
   }
 
   @override
-  _$SongFlagEntity build() {
+  SongFlagEntity build() => _build();
+
+  _$SongFlagEntity _build() {
     final _$result = _$v ??
         new _$SongFlagEntity._(
-            id: id,
-            userId: userId,
-            songId: songId,
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'SongFlagEntity', 'id'),
+            userId: BuiltValueNullFieldError.checkNotNull(
+                userId, r'SongFlagEntity', 'userId'),
+            songId: BuiltValueNullFieldError.checkNotNull(
+                songId, r'SongFlagEntity', 'songId'),
             deletedAt: deletedAt,
             updatedAt: updatedAt);
     replace(_$result);
@@ -2333,16 +2347,13 @@ class _$ArtistFlagEntity extends ArtistFlagEntity {
 
   factory _$ArtistFlagEntity(
           [void Function(ArtistFlagEntityBuilder) updates]) =>
-      (new ArtistFlagEntityBuilder()..update(updates)).build();
+      (new ArtistFlagEntityBuilder()..update(updates))._build();
 
   _$ArtistFlagEntity._({this.id, this.artistId, this.deletedAt, this.updatedAt})
       : super._() {
-    if (id == null) {
-      throw new BuiltValueNullFieldError('ArtistFlagEntity', 'id');
-    }
-    if (artistId == null) {
-      throw new BuiltValueNullFieldError('ArtistFlagEntity', 'artistId');
-    }
+    BuiltValueNullFieldError.checkNotNull(id, r'ArtistFlagEntity', 'id');
+    BuiltValueNullFieldError.checkNotNull(
+        artistId, r'ArtistFlagEntity', 'artistId');
   }
 
   @override
@@ -2372,7 +2383,7 @@ class _$ArtistFlagEntity extends ArtistFlagEntity {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ArtistFlagEntity')
+    return (newBuiltValueToStringHelper(r'ArtistFlagEntity')
           ..add('id', id)
           ..add('artistId', artistId)
           ..add('deletedAt', deletedAt)
@@ -2404,11 +2415,12 @@ class ArtistFlagEntityBuilder
   ArtistFlagEntityBuilder();
 
   ArtistFlagEntityBuilder get _$this {
-    if (_$v != null) {
-      _id = _$v.id;
-      _artistId = _$v.artistId;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+    final $v = _$v;
+    if ($v != null) {
+      _id = $v.id;
+      _artistId = $v.artistId;
+      _deletedAt = $v.deletedAt;
+      _updatedAt = $v.updatedAt;
       _$v = null;
     }
     return this;
@@ -2416,9 +2428,7 @@ class ArtistFlagEntityBuilder
 
   @override
   void replace(ArtistFlagEntity other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ArtistFlagEntity;
   }
 
@@ -2428,11 +2438,15 @@ class ArtistFlagEntityBuilder
   }
 
   @override
-  _$ArtistFlagEntity build() {
+  ArtistFlagEntity build() => _build();
+
+  _$ArtistFlagEntity _build() {
     final _$result = _$v ??
         new _$ArtistFlagEntity._(
-            id: id,
-            artistId: artistId,
+            id: BuiltValueNullFieldError.checkNotNull(
+                id, r'ArtistFlagEntity', 'id'),
+            artistId: BuiltValueNullFieldError.checkNotNull(
+                artistId, r'ArtistFlagEntity', 'artistId'),
             deletedAt: deletedAt,
             updatedAt: updatedAt);
     replace(_$result);
@@ -2467,7 +2481,7 @@ class _$VideoEntity extends VideoEntity {
   final int id;
 
   factory _$VideoEntity([void Function(VideoEntityBuilder) updates]) =>
-      (new VideoEntityBuilder()..update(updates)).build();
+      (new VideoEntityBuilder()..update(updates))._build();
 
   _$VideoEntity._(
       {this.userId,
@@ -2483,9 +2497,7 @@ class _$VideoEntity extends VideoEntity {
       this.updatedAt,
       this.id})
       : super._() {
-    if (userId == null) {
-      throw new BuiltValueNullFieldError('VideoEntity', 'userId');
-    }
+    BuiltValueNullFieldError.checkNotNull(userId, r'VideoEntity', 'userId');
   }
 
   @override
@@ -2541,7 +2553,7 @@ class _$VideoEntity extends VideoEntity {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('VideoEntity')
+    return (newBuiltValueToStringHelper(r'VideoEntity')
           ..add('userId', userId)
           ..add('timestamp', timestamp)
           ..add('url', url)
@@ -2615,19 +2627,20 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   VideoEntityBuilder();
 
   VideoEntityBuilder get _$this {
-    if (_$v != null) {
-      _userId = _$v.userId;
-      _timestamp = _$v.timestamp;
-      _url = _$v.url;
-      _recognitions = _$v.recognitions;
-      _thumbnailUrl = _$v.thumbnailUrl;
-      _remoteVideoId = _$v.remoteVideoId;
-      _volumeData = _$v.volumeData?.toBuilder();
-      _description = _$v.description;
-      _duration = _$v.duration;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
-      _id = _$v.id;
+    final $v = _$v;
+    if ($v != null) {
+      _userId = $v.userId;
+      _timestamp = $v.timestamp;
+      _url = $v.url;
+      _recognitions = $v.recognitions;
+      _thumbnailUrl = $v.thumbnailUrl;
+      _remoteVideoId = $v.remoteVideoId;
+      _volumeData = $v.volumeData?.toBuilder();
+      _description = $v.description;
+      _duration = $v.duration;
+      _deletedAt = $v.deletedAt;
+      _updatedAt = $v.updatedAt;
+      _id = $v.id;
       _$v = null;
     }
     return this;
@@ -2635,9 +2648,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
 
   @override
   void replace(VideoEntity other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$VideoEntity;
   }
 
@@ -2647,12 +2658,15 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   }
 
   @override
-  _$VideoEntity build() {
+  VideoEntity build() => _build();
+
+  _$VideoEntity _build() {
     _$VideoEntity _$result;
     try {
       _$result = _$v ??
           new _$VideoEntity._(
-              userId: userId,
+              userId: BuiltValueNullFieldError.checkNotNull(
+                  userId, r'VideoEntity', 'userId'),
               timestamp: timestamp,
               url: url,
               recognitions: recognitions,
@@ -2671,7 +2685,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
         _volumeData?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'VideoEntity', _$failedField, e.toString());
+            r'VideoEntity', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2686,12 +2700,10 @@ class _$SongListResponse extends SongListResponse {
 
   factory _$SongListResponse(
           [void Function(SongListResponseBuilder) updates]) =>
-      (new SongListResponseBuilder()..update(updates)).build();
+      (new SongListResponseBuilder()..update(updates))._build();
 
   _$SongListResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('SongListResponse', 'data');
-    }
+    BuiltValueNullFieldError.checkNotNull(data, r'SongListResponse', 'data');
   }
 
   @override
@@ -2715,7 +2727,7 @@ class _$SongListResponse extends SongListResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongListResponse')..add('data', data))
+    return (newBuiltValueToStringHelper(r'SongListResponse')..add('data', data))
         .toString();
   }
 }
@@ -2732,8 +2744,9 @@ class SongListResponseBuilder
   SongListResponseBuilder();
 
   SongListResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _data = $v.data.toBuilder();
       _$v = null;
     }
     return this;
@@ -2741,9 +2754,7 @@ class SongListResponseBuilder
 
   @override
   void replace(SongListResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SongListResponse;
   }
 
@@ -2753,7 +2764,9 @@ class SongListResponseBuilder
   }
 
   @override
-  _$SongListResponse build() {
+  SongListResponse build() => _build();
+
+  _$SongListResponse _build() {
     _$SongListResponse _$result;
     try {
       _$result = _$v ?? new _$SongListResponse._(data: data.build());
@@ -2764,7 +2777,7 @@ class SongListResponseBuilder
         data.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'SongListResponse', _$failedField, e.toString());
+            r'SongListResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2779,12 +2792,10 @@ class _$SongItemResponse extends SongItemResponse {
 
   factory _$SongItemResponse(
           [void Function(SongItemResponseBuilder) updates]) =>
-      (new SongItemResponseBuilder()..update(updates)).build();
+      (new SongItemResponseBuilder()..update(updates))._build();
 
   _$SongItemResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('SongItemResponse', 'data');
-    }
+    BuiltValueNullFieldError.checkNotNull(data, r'SongItemResponse', 'data');
   }
 
   @override
@@ -2808,7 +2819,7 @@ class _$SongItemResponse extends SongItemResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SongItemResponse')..add('data', data))
+    return (newBuiltValueToStringHelper(r'SongItemResponse')..add('data', data))
         .toString();
   }
 }
@@ -2824,8 +2835,9 @@ class SongItemResponseBuilder
   SongItemResponseBuilder();
 
   SongItemResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _data = $v.data.toBuilder();
       _$v = null;
     }
     return this;
@@ -2833,9 +2845,7 @@ class SongItemResponseBuilder
 
   @override
   void replace(SongItemResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$SongItemResponse;
   }
 
@@ -2845,7 +2855,9 @@ class SongItemResponseBuilder
   }
 
   @override
-  _$SongItemResponse build() {
+  SongItemResponse build() => _build();
+
+  _$SongItemResponse _build() {
     _$SongItemResponse _$result;
     try {
       _$result = _$v ?? new _$SongItemResponse._(data: data.build());
@@ -2856,7 +2868,7 @@ class SongItemResponseBuilder
         data.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'SongItemResponse', _$failedField, e.toString());
+            r'SongItemResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2871,12 +2883,10 @@ class _$CommentItemResponse extends CommentItemResponse {
 
   factory _$CommentItemResponse(
           [void Function(CommentItemResponseBuilder) updates]) =>
-      (new CommentItemResponseBuilder()..update(updates)).build();
+      (new CommentItemResponseBuilder()..update(updates))._build();
 
   _$CommentItemResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('CommentItemResponse', 'data');
-    }
+    BuiltValueNullFieldError.checkNotNull(data, r'CommentItemResponse', 'data');
   }
 
   @override
@@ -2901,7 +2911,7 @@ class _$CommentItemResponse extends CommentItemResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('CommentItemResponse')
+    return (newBuiltValueToStringHelper(r'CommentItemResponse')
           ..add('data', data))
         .toString();
   }
@@ -2918,8 +2928,9 @@ class CommentItemResponseBuilder
   CommentItemResponseBuilder();
 
   CommentItemResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _data = $v.data.toBuilder();
       _$v = null;
     }
     return this;
@@ -2927,9 +2938,7 @@ class CommentItemResponseBuilder
 
   @override
   void replace(CommentItemResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$CommentItemResponse;
   }
 
@@ -2939,7 +2948,9 @@ class CommentItemResponseBuilder
   }
 
   @override
-  _$CommentItemResponse build() {
+  CommentItemResponse build() => _build();
+
+  _$CommentItemResponse _build() {
     _$CommentItemResponse _$result;
     try {
       _$result = _$v ?? new _$CommentItemResponse._(data: data.build());
@@ -2950,7 +2961,7 @@ class CommentItemResponseBuilder
         data.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'CommentItemResponse', _$failedField, e.toString());
+            r'CommentItemResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -2965,12 +2976,10 @@ class _$LikeSongResponse extends LikeSongResponse {
 
   factory _$LikeSongResponse(
           [void Function(LikeSongResponseBuilder) updates]) =>
-      (new LikeSongResponseBuilder()..update(updates)).build();
+      (new LikeSongResponseBuilder()..update(updates))._build();
 
   _$LikeSongResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('LikeSongResponse', 'data');
-    }
+    BuiltValueNullFieldError.checkNotNull(data, r'LikeSongResponse', 'data');
   }
 
   @override
@@ -2994,7 +3003,7 @@ class _$LikeSongResponse extends LikeSongResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('LikeSongResponse')..add('data', data))
+    return (newBuiltValueToStringHelper(r'LikeSongResponse')..add('data', data))
         .toString();
   }
 }
@@ -3011,8 +3020,9 @@ class LikeSongResponseBuilder
   LikeSongResponseBuilder();
 
   LikeSongResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _data = $v.data.toBuilder();
       _$v = null;
     }
     return this;
@@ -3020,9 +3030,7 @@ class LikeSongResponseBuilder
 
   @override
   void replace(LikeSongResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$LikeSongResponse;
   }
 
@@ -3032,7 +3040,9 @@ class LikeSongResponseBuilder
   }
 
   @override
-  _$LikeSongResponse build() {
+  LikeSongResponse build() => _build();
+
+  _$LikeSongResponse _build() {
     _$LikeSongResponse _$result;
     try {
       _$result = _$v ?? new _$LikeSongResponse._(data: data.build());
@@ -3043,7 +3053,7 @@ class LikeSongResponseBuilder
         data.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'LikeSongResponse', _$failedField, e.toString());
+            r'LikeSongResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -3058,12 +3068,10 @@ class _$FlagSongResponse extends FlagSongResponse {
 
   factory _$FlagSongResponse(
           [void Function(FlagSongResponseBuilder) updates]) =>
-      (new FlagSongResponseBuilder()..update(updates)).build();
+      (new FlagSongResponseBuilder()..update(updates))._build();
 
   _$FlagSongResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('FlagSongResponse', 'data');
-    }
+    BuiltValueNullFieldError.checkNotNull(data, r'FlagSongResponse', 'data');
   }
 
   @override
@@ -3087,7 +3095,7 @@ class _$FlagSongResponse extends FlagSongResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('FlagSongResponse')..add('data', data))
+    return (newBuiltValueToStringHelper(r'FlagSongResponse')..add('data', data))
         .toString();
   }
 }
@@ -3104,8 +3112,9 @@ class FlagSongResponseBuilder
   FlagSongResponseBuilder();
 
   FlagSongResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _data = $v.data.toBuilder();
       _$v = null;
     }
     return this;
@@ -3113,9 +3122,7 @@ class FlagSongResponseBuilder
 
   @override
   void replace(FlagSongResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$FlagSongResponse;
   }
 
@@ -3125,7 +3132,9 @@ class FlagSongResponseBuilder
   }
 
   @override
-  _$FlagSongResponse build() {
+  FlagSongResponse build() => _build();
+
+  _$FlagSongResponse _build() {
     _$FlagSongResponse _$result;
     try {
       _$result = _$v ?? new _$FlagSongResponse._(data: data.build());
@@ -3136,7 +3145,7 @@ class FlagSongResponseBuilder
         data.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'FlagSongResponse', _$failedField, e.toString());
+            r'FlagSongResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -3151,12 +3160,10 @@ class _$VideoItemResponse extends VideoItemResponse {
 
   factory _$VideoItemResponse(
           [void Function(VideoItemResponseBuilder) updates]) =>
-      (new VideoItemResponseBuilder()..update(updates)).build();
+      (new VideoItemResponseBuilder()..update(updates))._build();
 
   _$VideoItemResponse._({this.data}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('VideoItemResponse', 'data');
-    }
+    BuiltValueNullFieldError.checkNotNull(data, r'VideoItemResponse', 'data');
   }
 
   @override
@@ -3180,7 +3187,8 @@ class _$VideoItemResponse extends VideoItemResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('VideoItemResponse')..add('data', data))
+    return (newBuiltValueToStringHelper(r'VideoItemResponse')
+          ..add('data', data))
         .toString();
   }
 }
@@ -3196,8 +3204,9 @@ class VideoItemResponseBuilder
   VideoItemResponseBuilder();
 
   VideoItemResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _data = $v.data.toBuilder();
       _$v = null;
     }
     return this;
@@ -3205,9 +3214,7 @@ class VideoItemResponseBuilder
 
   @override
   void replace(VideoItemResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$VideoItemResponse;
   }
 
@@ -3217,7 +3224,9 @@ class VideoItemResponseBuilder
   }
 
   @override
-  _$VideoItemResponse build() {
+  VideoItemResponse build() => _build();
+
+  _$VideoItemResponse _build() {
     _$VideoItemResponse _$result;
     try {
       _$result = _$v ?? new _$VideoItemResponse._(data: data.build());
@@ -3228,7 +3237,7 @@ class VideoItemResponseBuilder
         data.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'VideoItemResponse', _$failedField, e.toString());
+            r'VideoItemResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -3237,4 +3246,4 @@ class VideoItemResponseBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

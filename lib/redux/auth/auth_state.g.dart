@@ -38,7 +38,7 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'artist':
           result.artist.replace(serializers.deserialize(value,
@@ -62,15 +62,12 @@ class _$AuthState extends AuthState {
   final bool isAuthenticated;
 
   factory _$AuthState([void Function(AuthStateBuilder) updates]) =>
-      (new AuthStateBuilder()..update(updates)).build();
+      (new AuthStateBuilder()..update(updates))._build();
 
   _$AuthState._({this.artist, this.isAuthenticated}) : super._() {
-    if (artist == null) {
-      throw new BuiltValueNullFieldError('AuthState', 'artist');
-    }
-    if (isAuthenticated == null) {
-      throw new BuiltValueNullFieldError('AuthState', 'isAuthenticated');
-    }
+    BuiltValueNullFieldError.checkNotNull(artist, r'AuthState', 'artist');
+    BuiltValueNullFieldError.checkNotNull(
+        isAuthenticated, r'AuthState', 'isAuthenticated');
   }
 
   @override
@@ -95,7 +92,7 @@ class _$AuthState extends AuthState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AuthState')
+    return (newBuiltValueToStringHelper(r'AuthState')
           ..add('artist', artist)
           ..add('isAuthenticated', isAuthenticated))
         .toString();
@@ -118,9 +115,10 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   AuthStateBuilder();
 
   AuthStateBuilder get _$this {
-    if (_$v != null) {
-      _artist = _$v.artist?.toBuilder();
-      _isAuthenticated = _$v.isAuthenticated;
+    final $v = _$v;
+    if ($v != null) {
+      _artist = $v.artist.toBuilder();
+      _isAuthenticated = $v.isAuthenticated;
       _$v = null;
     }
     return this;
@@ -128,9 +126,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
 
   @override
   void replace(AuthState other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$AuthState;
   }
 
@@ -140,12 +136,16 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   }
 
   @override
-  _$AuthState build() {
+  AuthState build() => _build();
+
+  _$AuthState _build() {
     _$AuthState _$result;
     try {
       _$result = _$v ??
           new _$AuthState._(
-              artist: artist.build(), isAuthenticated: isAuthenticated);
+              artist: artist.build(),
+              isAuthenticated: BuiltValueNullFieldError.checkNotNull(
+                  isAuthenticated, r'AuthState', 'isAuthenticated'));
     } catch (_) {
       String _$failedField;
       try {
@@ -153,7 +153,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
         artist.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'AuthState', _$failedField, e.toString());
+            r'AuthState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -162,4 +162,4 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

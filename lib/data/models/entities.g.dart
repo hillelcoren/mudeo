@@ -76,7 +76,7 @@ class _$ErrorMessageSerializer implements StructuredSerializer<ErrorMessage> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'message':
           result.message = serializers.deserialize(value,
@@ -103,10 +103,12 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
       serializers.serialize(object.data,
           specifiedType: const FullType(LoginResponseData)),
     ];
-    if (object.error != null) {
+    Object value;
+    value = object.error;
+    if (value != null) {
       result
         ..add('error')
-        ..add(serializers.serialize(object.error,
+        ..add(serializers.serialize(value,
             specifiedType: const FullType(ErrorMessage)));
     }
     return result;
@@ -122,7 +124,7 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -169,7 +171,7 @@ class _$LoginResponseDataSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'version':
           result.version = serializers.deserialize(value,
@@ -220,7 +222,7 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'songsFailedAt':
           result.songsFailedAt = serializers.deserialize(value,
@@ -286,12 +288,10 @@ class _$ErrorMessage extends ErrorMessage {
   final String message;
 
   factory _$ErrorMessage([void Function(ErrorMessageBuilder) updates]) =>
-      (new ErrorMessageBuilder()..update(updates)).build();
+      (new ErrorMessageBuilder()..update(updates))._build();
 
   _$ErrorMessage._({this.message}) : super._() {
-    if (message == null) {
-      throw new BuiltValueNullFieldError('ErrorMessage', 'message');
-    }
+    BuiltValueNullFieldError.checkNotNull(message, r'ErrorMessage', 'message');
   }
 
   @override
@@ -314,7 +314,7 @@ class _$ErrorMessage extends ErrorMessage {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ErrorMessage')
+    return (newBuiltValueToStringHelper(r'ErrorMessage')
           ..add('message', message))
         .toString();
   }
@@ -331,8 +331,9 @@ class ErrorMessageBuilder
   ErrorMessageBuilder();
 
   ErrorMessageBuilder get _$this {
-    if (_$v != null) {
-      _message = _$v.message;
+    final $v = _$v;
+    if ($v != null) {
+      _message = $v.message;
       _$v = null;
     }
     return this;
@@ -340,9 +341,7 @@ class ErrorMessageBuilder
 
   @override
   void replace(ErrorMessage other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$ErrorMessage;
   }
 
@@ -352,8 +351,13 @@ class ErrorMessageBuilder
   }
 
   @override
-  _$ErrorMessage build() {
-    final _$result = _$v ?? new _$ErrorMessage._(message: message);
+  ErrorMessage build() => _build();
+
+  _$ErrorMessage _build() {
+    final _$result = _$v ??
+        new _$ErrorMessage._(
+            message: BuiltValueNullFieldError.checkNotNull(
+                message, r'ErrorMessage', 'message'));
     replace(_$result);
     return _$result;
   }
@@ -366,12 +370,10 @@ class _$LoginResponse extends LoginResponse {
   final ErrorMessage error;
 
   factory _$LoginResponse([void Function(LoginResponseBuilder) updates]) =>
-      (new LoginResponseBuilder()..update(updates)).build();
+      (new LoginResponseBuilder()..update(updates))._build();
 
   _$LoginResponse._({this.data, this.error}) : super._() {
-    if (data == null) {
-      throw new BuiltValueNullFieldError('LoginResponse', 'data');
-    }
+    BuiltValueNullFieldError.checkNotNull(data, r'LoginResponse', 'data');
   }
 
   @override
@@ -394,7 +396,7 @@ class _$LoginResponse extends LoginResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('LoginResponse')
+    return (newBuiltValueToStringHelper(r'LoginResponse')
           ..add('data', data)
           ..add('error', error))
         .toString();
@@ -417,9 +419,10 @@ class LoginResponseBuilder
   LoginResponseBuilder();
 
   LoginResponseBuilder get _$this {
-    if (_$v != null) {
-      _data = _$v.data?.toBuilder();
-      _error = _$v.error?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _data = $v.data.toBuilder();
+      _error = $v.error?.toBuilder();
       _$v = null;
     }
     return this;
@@ -427,9 +430,7 @@ class LoginResponseBuilder
 
   @override
   void replace(LoginResponse other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$LoginResponse;
   }
 
@@ -439,7 +440,9 @@ class LoginResponseBuilder
   }
 
   @override
-  _$LoginResponse build() {
+  LoginResponse build() => _build();
+
+  _$LoginResponse _build() {
     _$LoginResponse _$result;
     try {
       _$result = _$v ??
@@ -453,7 +456,7 @@ class LoginResponseBuilder
         _error?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'LoginResponse', _$failedField, e.toString());
+            r'LoginResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -468,12 +471,11 @@ class _$LoginResponseData extends LoginResponseData {
 
   factory _$LoginResponseData(
           [void Function(LoginResponseDataBuilder) updates]) =>
-      (new LoginResponseDataBuilder()..update(updates)).build();
+      (new LoginResponseDataBuilder()..update(updates))._build();
 
   _$LoginResponseData._({this.version}) : super._() {
-    if (version == null) {
-      throw new BuiltValueNullFieldError('LoginResponseData', 'version');
-    }
+    BuiltValueNullFieldError.checkNotNull(
+        version, r'LoginResponseData', 'version');
   }
 
   @override
@@ -497,7 +499,7 @@ class _$LoginResponseData extends LoginResponseData {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('LoginResponseData')
+    return (newBuiltValueToStringHelper(r'LoginResponseData')
           ..add('version', version))
         .toString();
   }
@@ -514,8 +516,9 @@ class LoginResponseDataBuilder
   LoginResponseDataBuilder();
 
   LoginResponseDataBuilder get _$this {
-    if (_$v != null) {
-      _version = _$v.version;
+    final $v = _$v;
+    if ($v != null) {
+      _version = $v.version;
       _$v = null;
     }
     return this;
@@ -523,9 +526,7 @@ class LoginResponseDataBuilder
 
   @override
   void replace(LoginResponseData other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$LoginResponseData;
   }
 
@@ -535,8 +536,13 @@ class LoginResponseDataBuilder
   }
 
   @override
-  _$LoginResponseData build() {
-    final _$result = _$v ?? new _$LoginResponseData._(version: version);
+  LoginResponseData build() => _build();
+
+  _$LoginResponseData _build() {
+    final _$result = _$v ??
+        new _$LoginResponseData._(
+            version: BuiltValueNullFieldError.checkNotNull(
+                version, r'LoginResponseData', 'version'));
     replace(_$result);
     return _$result;
   }
@@ -553,23 +559,17 @@ class _$DataState extends DataState {
   final BuiltMap<int, ArtistEntity> artistMap;
 
   factory _$DataState([void Function(DataStateBuilder) updates]) =>
-      (new DataStateBuilder()..update(updates)).build();
+      (new DataStateBuilder()..update(updates))._build();
 
   _$DataState._(
       {this.songsFailedAt, this.songsUpdateAt, this.songMap, this.artistMap})
       : super._() {
-    if (songsFailedAt == null) {
-      throw new BuiltValueNullFieldError('DataState', 'songsFailedAt');
-    }
-    if (songsUpdateAt == null) {
-      throw new BuiltValueNullFieldError('DataState', 'songsUpdateAt');
-    }
-    if (songMap == null) {
-      throw new BuiltValueNullFieldError('DataState', 'songMap');
-    }
-    if (artistMap == null) {
-      throw new BuiltValueNullFieldError('DataState', 'artistMap');
-    }
+    BuiltValueNullFieldError.checkNotNull(
+        songsFailedAt, r'DataState', 'songsFailedAt');
+    BuiltValueNullFieldError.checkNotNull(
+        songsUpdateAt, r'DataState', 'songsUpdateAt');
+    BuiltValueNullFieldError.checkNotNull(songMap, r'DataState', 'songMap');
+    BuiltValueNullFieldError.checkNotNull(artistMap, r'DataState', 'artistMap');
   }
 
   @override
@@ -599,7 +599,7 @@ class _$DataState extends DataState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DataState')
+    return (newBuiltValueToStringHelper(r'DataState')
           ..add('songsFailedAt', songsFailedAt)
           ..add('songsUpdateAt', songsUpdateAt)
           ..add('songMap', songMap)
@@ -633,11 +633,12 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   DataStateBuilder();
 
   DataStateBuilder get _$this {
-    if (_$v != null) {
-      _songsFailedAt = _$v.songsFailedAt;
-      _songsUpdateAt = _$v.songsUpdateAt;
-      _songMap = _$v.songMap?.toBuilder();
-      _artistMap = _$v.artistMap?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _songsFailedAt = $v.songsFailedAt;
+      _songsUpdateAt = $v.songsUpdateAt;
+      _songMap = $v.songMap.toBuilder();
+      _artistMap = $v.artistMap.toBuilder();
       _$v = null;
     }
     return this;
@@ -645,9 +646,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
 
   @override
   void replace(DataState other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$DataState;
   }
 
@@ -657,13 +656,17 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   }
 
   @override
-  _$DataState build() {
+  DataState build() => _build();
+
+  _$DataState _build() {
     _$DataState _$result;
     try {
       _$result = _$v ??
           new _$DataState._(
-              songsFailedAt: songsFailedAt,
-              songsUpdateAt: songsUpdateAt,
+              songsFailedAt: BuiltValueNullFieldError.checkNotNull(
+                  songsFailedAt, r'DataState', 'songsFailedAt'),
+              songsUpdateAt: BuiltValueNullFieldError.checkNotNull(
+                  songsUpdateAt, r'DataState', 'songsUpdateAt'),
               songMap: songMap.build(),
               artistMap: artistMap.build());
     } catch (_) {
@@ -675,7 +678,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
         artistMap.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'DataState', _$failedField, e.toString());
+            r'DataState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -684,4 +687,4 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

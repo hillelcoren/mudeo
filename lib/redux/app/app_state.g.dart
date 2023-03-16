@@ -50,7 +50,7 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object value = iterator.current;
       switch (key) {
         case 'isLoading':
           result.isLoading = serializers.deserialize(value,
@@ -98,7 +98,7 @@ class _$AppState extends AppState {
   final UIState uiState;
 
   factory _$AppState([void Function(AppStateBuilder) updates]) =>
-      (new AppStateBuilder()..update(updates)).build();
+      (new AppStateBuilder()..update(updates))._build();
 
   _$AppState._(
       {this.isLoading,
@@ -108,24 +108,12 @@ class _$AppState extends AppState {
       this.dataState,
       this.uiState})
       : super._() {
-    if (isLoading == null) {
-      throw new BuiltValueNullFieldError('AppState', 'isLoading');
-    }
-    if (isSaving == null) {
-      throw new BuiltValueNullFieldError('AppState', 'isSaving');
-    }
-    if (isDance == null) {
-      throw new BuiltValueNullFieldError('AppState', 'isDance');
-    }
-    if (authState == null) {
-      throw new BuiltValueNullFieldError('AppState', 'authState');
-    }
-    if (dataState == null) {
-      throw new BuiltValueNullFieldError('AppState', 'dataState');
-    }
-    if (uiState == null) {
-      throw new BuiltValueNullFieldError('AppState', 'uiState');
-    }
+    BuiltValueNullFieldError.checkNotNull(isLoading, r'AppState', 'isLoading');
+    BuiltValueNullFieldError.checkNotNull(isSaving, r'AppState', 'isSaving');
+    BuiltValueNullFieldError.checkNotNull(isDance, r'AppState', 'isDance');
+    BuiltValueNullFieldError.checkNotNull(authState, r'AppState', 'authState');
+    BuiltValueNullFieldError.checkNotNull(dataState, r'AppState', 'dataState');
+    BuiltValueNullFieldError.checkNotNull(uiState, r'AppState', 'uiState');
   }
 
   @override
@@ -192,13 +180,14 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   AppStateBuilder();
 
   AppStateBuilder get _$this {
-    if (_$v != null) {
-      _isLoading = _$v.isLoading;
-      _isSaving = _$v.isSaving;
-      _isDance = _$v.isDance;
-      _authState = _$v.authState?.toBuilder();
-      _dataState = _$v.dataState?.toBuilder();
-      _uiState = _$v.uiState?.toBuilder();
+    final $v = _$v;
+    if ($v != null) {
+      _isLoading = $v.isLoading;
+      _isSaving = $v.isSaving;
+      _isDance = $v.isDance;
+      _authState = $v.authState.toBuilder();
+      _dataState = $v.dataState.toBuilder();
+      _uiState = $v.uiState.toBuilder();
       _$v = null;
     }
     return this;
@@ -206,9 +195,7 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
 
   @override
   void replace(AppState other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$AppState;
   }
 
@@ -218,14 +205,19 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   }
 
   @override
-  _$AppState build() {
+  AppState build() => _build();
+
+  _$AppState _build() {
     _$AppState _$result;
     try {
       _$result = _$v ??
           new _$AppState._(
-              isLoading: isLoading,
-              isSaving: isSaving,
-              isDance: isDance,
+              isLoading: BuiltValueNullFieldError.checkNotNull(
+                  isLoading, r'AppState', 'isLoading'),
+              isSaving: BuiltValueNullFieldError.checkNotNull(
+                  isSaving, r'AppState', 'isSaving'),
+              isDance: BuiltValueNullFieldError.checkNotNull(
+                  isDance, r'AppState', 'isDance'),
               authState: authState.build(),
               dataState: dataState.build(),
               uiState: uiState.build());
@@ -240,7 +232,7 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
         uiState.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'AppState', _$failedField, e.toString());
+            r'AppState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -249,4 +241,4 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
