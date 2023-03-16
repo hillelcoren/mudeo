@@ -75,7 +75,7 @@ class _SongScaffoldState extends State<SongScaffold> {
 
     if (isDesktop()) {
       SharedPreferences.getInstance().then((prefs) {
-        headsetState = prefs.getBool(kSharedPrefHasHeadphones)
+        headsetState = (prefs.getBool(kSharedPrefHasHeadphones) == true)
             ? HeadsetState.CONNECT
             : HeadsetState.DISCONNECT;
       });
@@ -1265,14 +1265,18 @@ class _SongEditState extends State<SongEdit> {
                           actions.add(localization.deleteSong);
                         }
                          */
-                        if (macOSVideoDevices.length > 1 ||
-                            availableCameraDirections.keys.length > 1)
-                          actions.add(localization.camera);
+                        if ((Platform.isMacOS &&
+                                macOSVideoDevices.length > 1) ||
+                            availableCameraDirections.keys
+                                    .where(
+                                        (key) => availableCameraDirections[key])
+                                    .length >
+                                1) actions.add(localization.camera);
+                        if (isDesktop()) actions.add(localization.aspectRatio);
                         if (isDesktop() && macOSAudioDevices.length > 1)
                           actions.add(localization.microphone);
                         actions.add(localization.headphones);
-                        if (isDesktop()) actions.add(localization.aspectRatio);
-                        if (!kReleaseMode)
+                        if (!kReleaseMode && Platform.isMacOS)
                           actions.add(localization.resetCamera);
                         return actions
                             .map((action) => PopupMenuItem(

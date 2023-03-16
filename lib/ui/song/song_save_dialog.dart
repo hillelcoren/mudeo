@@ -190,11 +190,12 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
-              child: DropdownButton<int>(
+              child: DropdownButtonFormField<int>(
+                  decoration: InputDecoration(
+                    labelText: localization.genre,
+                  ),
                   key: ValueKey(song.genreId),
                   isExpanded: true,
-                  hint: Text(
-                      state.isDance ? localization.style : localization.genre),
                   onChanged: (value) {
                     SharedPreferences.getInstance().then(
                         (prefs) => prefs.setInt(kSharedPrefGenreId, value));
