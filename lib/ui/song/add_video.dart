@@ -203,7 +203,7 @@ class MudeoVideoListItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (song.tracks.length > 1 && song.isOld)
+                  if (song.includedTracks.length > 1 && song.isOld)
                     ThumbnailIcon(
                       onSelected: () => onSongSelected(song),
                       url: song.imageUrl,

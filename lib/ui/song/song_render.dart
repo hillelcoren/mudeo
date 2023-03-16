@@ -38,7 +38,7 @@ class _SongRenderState extends State<SongRender> {
     super.didChangeDependencies();
 
     final song = widget.song;
-    if (song.layout == kVideoLayoutGrid && song.tracks.length != 4) {
+    if (song.layout == kVideoLayoutGrid && song.includedTracks.length != 4) {
       final store = StoreProvider.of<AppState>(context);
       store.dispatch(
           UpdateSong(widget.song.rebuild((b) => b..layout = kVideoLayoutRow)));
@@ -300,7 +300,7 @@ class _SongRenderState extends State<SongRender> {
                         Text(
                           localization.grid,
                           style: TextStyle(
-                              color: song.tracks.length == 4
+                              color: song.includedTracks.length == 4
                                   ? Colors.white
                                   : Colors.grey),
                         ),
