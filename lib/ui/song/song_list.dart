@@ -440,7 +440,7 @@ class SongFooter extends StatelessWidget {
                         builder: (BuildContext context) {
                           final localization = AppLocalization.of(context);
                           return AlertDialog(
-                            content: Text(kIsWeb
+                            title: Text(kIsWeb
                                 ? localization.requireMobileToLike
                                 : localization.requireAccountToLike),
                           );
