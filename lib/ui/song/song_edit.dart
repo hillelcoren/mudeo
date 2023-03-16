@@ -696,24 +696,39 @@ class _SongEditState extends State<SongEdit> {
           final localization = AppLocalization.of(context);
           return SimpleDialog(
             title: Text(localization.camera),
-            children: macOSVideoDevices
-                .map((device) => SimpleDialogOption(
-                      onPressed: () {
-                        setState(() {
-                          selectedVideoDevice = device.deviceId;
-                        });
+            children: Platform.isMacOS
+                ? macOSVideoDevices
+                    .map((device) => SimpleDialogOption(
+                          onPressed: () {
+                            setState(() {
+                              selectedVideoDevice = device.deviceId;
+                            });
 
-                        Navigator.of(context).pop();
-                      },
-                      child: ListTile(
-                        title: Text(device.localizedName),
-                        subtitle: Text(device.manufacturer),
-                        trailing: device.deviceId == selectedVideoDevice
-                            ? Icon(Icons.check_circle_outline)
-                            : null,
-                      ),
-                    ))
-                .toList(),
+                            Navigator.of(context).pop();
+                          },
+                          child: ListTile(
+                            title: Text(device.localizedName),
+                            subtitle: Text(device.manufacturer),
+                            trailing: device.deviceId == selectedVideoDevice
+                                ? Icon(Icons.check_circle_outline)
+                                : null,
+                          ),
+                        ))
+                    .toList()
+                : availableCameraDirections.keys
+                    .map((device) => SimpleDialogOption(
+                          onPressed: () {
+                            selectCameraDirection(device);
+                            Navigator.of(context).pop();
+                          },
+                          child: ListTile(
+                            title: Text(device.name),
+                            trailing: device.name == cameraDirection.name
+                                ? Icon(Icons.check_circle_outline)
+                                : null,
+                          ),
+                        ))
+                    .toList(),
           );
         });
   }
@@ -1140,6 +1155,7 @@ class _SongEditState extends State<SongEdit> {
                     ),
                     SizedBox(height: 2),
                      */
+                    /*
                     if (!Platform.isMacOS) ...[
                       if (availableCameraDirections.keys
                               .where((direction) =>
@@ -1164,6 +1180,7 @@ class _SongEditState extends State<SongEdit> {
                                   ),
                         )
                     ],
+                    */
                     LargeIconButton(
                       tooltip: isPastThreeSeconds
                           ? localization.stop
@@ -1239,14 +1256,12 @@ class _SongEditState extends State<SongEdit> {
                           actions.add(localization.deleteSong);
                         }
                          */
-                        if (isDesktop()) {
-                          if (macOSVideoDevices.length > 1)
-                            actions.add(localization.camera);
-                          if (macOSAudioDevices.length > 1)
-                            actions.add(localization.microphone);
-                        }
-                        if (isDesktop() || !kReleaseMode)
-                          actions.add(localization.headphones);
+                        if (macOSVideoDevices.length > 1 ||
+                            availableCameraDirections.keys.length > 1)
+                          actions.add(localization.camera);
+                        if (isDesktop() && macOSAudioDevices.length > 1)
+                          actions.add(localization.microphone);
+                        actions.add(localization.headphones);
                         if (isDesktop()) actions.add(localization.aspectRatio);
                         if (!kReleaseMode)
                           actions.add(localization.resetCamera);
