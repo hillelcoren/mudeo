@@ -380,7 +380,7 @@ class ArtistPage extends StatelessWidget {
                     ),
                   Column(
                     children: <Widget>[
-                      SizedBox(height: 20),
+                      SizedBox(height: 40),
                       _profileImage(),
                       SizedBox(height: 20),
                       Stack(
