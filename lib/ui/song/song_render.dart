@@ -276,7 +276,7 @@ class _SongRenderState extends State<SongRender> {
                 InkWell(
                   onTap: () => _setLayout(kVideoLayoutRow),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(
                       children: [
                         IgnorePointer(
@@ -295,7 +295,7 @@ class _SongRenderState extends State<SongRender> {
                 InkWell(
                   onTap: () => _setLayout(kVideoLayoutColumn),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(
                       children: [
                         IgnorePointer(
@@ -316,7 +316,7 @@ class _SongRenderState extends State<SongRender> {
                       ? () => _setLayout(kVideoLayoutGrid)
                       : null,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(
                       children: [
                         IgnorePointer(

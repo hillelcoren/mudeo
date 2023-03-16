@@ -52,7 +52,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   bool songIsPublic;
   String songUrl;
   String sharingKey;
-  String layout = kVideoLayoutRow;
+  String selectedLayout = kVideoLayoutRow;
 
   Future<void> _captureAndSharePng(SongEntity song) async {
     try {
@@ -95,7 +95,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     _titleController.text = song.title;
     _descriptionController.text = song.description;
     selectedGenreId = song.genreId;
-    layout = song.layout;
+    selectedLayout = song.layout;
     isPublic = song.isPublic;
 
     _controllers
@@ -115,7 +115,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   }
 
   void _setLayout(String value) {
-    setState(() => layout = value);
+    setState(() => selectedLayout = value);
     _onChanged();
   }
 
@@ -124,7 +124,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       ..title = _titleController.text.trim()
       ..description = _descriptionController.text.trim()
       ..genreId = selectedGenreId
-      ..layout = layout
+      ..layout = selectedLayout
       ..isPublic = isPublic);
 
     if (song != widget.viewModel.song) {
@@ -168,29 +168,90 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final viewModel = widget.viewModel;
     final state = viewModel.state;
     final song = viewModel.song;
+    final enableGrid = song.includedTracks.length == 4;
 
     final categories = state.isDance ? kStyles : kGenres;
 
     Widget _form() {
       return Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            TextFormField(
-              autocorrect: false,
-              controller: _titleController,
-              autofocus: _titleController.text.isEmpty ? true : false,
-              decoration: InputDecoration(
-                labelText: localization.title,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 6, bottom: 12),
+                child: Row(
+                  children: <Widget>[
+                    IconText(
+                      icon: Icons.public,
+                      text: localization.allVideosArePublic,
+                    ),
+                    /*
+                      if (state.isDance || song.isPublic)
+                        IconText(
+                          icon: Icons.public,
+                          text: localization.public,
+                        )
+                      else
+                        Padding(
+                          padding: const EdgeInsets.only(left: 1),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text(
+                                    localization.public,
+                                  ),
+                                  value: true,
+                                ),
+                                DropdownMenuItem(
+                                  child: Text(
+                                    localization.private,
+                                  ),
+                                  value: false,
+                                ),
+                              ],
+                              onChanged: (value) {
+                                if (true || state.artist.hasPrivateStorage) {
+                                  setState(() => isPublic = value);
+                                  _onChanged();
+                                } else {
+                                  setState(() => isPublic = true);
+                                  _onChanged();
+                                  if (!value) {
+                                    Navigator.of(context).pop();
+                                    showDialog<UpgradeDialog>(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return UpgradeDialog();
+                                        });
+                                  }
+                                }
+                              },
+                              value: isPublic,
+                            ),
+                          ),
+                        ),
+                        */
+                    Spacer(),
+                    SizedBox(width: 50),
+                  ],
+                ),
               ),
-              validator: (value) =>
-                  value.isEmpty ? localization.fieldIsRequired : null,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: DropdownButtonFormField<int>(
+              TextFormField(
+                autocorrect: false,
+                controller: _titleController,
+                autofocus: _titleController.text.isEmpty ? true : false,
+                decoration: InputDecoration(
+                  labelText: localization.title,
+                ),
+                validator: (value) =>
+                    value.isEmpty ? localization.fieldIsRequired : null,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+              ),
+              DropdownButtonFormField<int>(
                   decoration: InputDecoration(
                     labelText: localization.genre,
                   ),
@@ -201,13 +262,16 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                         (prefs) => prefs.setInt(kSharedPrefGenreId, value));
                     viewModel.onChangedSong(song.rebuild((b) => b
                       ..genreId = value
-                      ..layout = layout
+                      ..layout = selectedLayout
                       ..title = _titleController.text.trim()
                       ..description = _descriptionController.text.trim()));
                     setState(() {
                       selectedGenreId = value;
                     });
                   },
+                  validator: (value) =>
+                      (value ?? 0) == 0 ? localization.fieldIsRequired : null,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   value: selectedGenreId > 0
                       ? selectedGenreId
                       : song.genreId > 0
@@ -219,76 +283,57 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             child: Text(localization.lookup(categories[id])),
                           ))
                       .toList()),
-            ),
-            TextFormField(
-              autocorrect: false,
-              controller: _descriptionController,
-              maxLines: 4,
-              decoration: InputDecoration(
-                labelText: localization.description,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: Row(
-                children: <Widget>[
-                  IconText(
-                    icon: Icons.public,
-                    text: localization.public,
+              DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: localization.layout,
                   ),
-                  /*
-                    if (state.isDance || song.isPublic)
-                      IconText(
-                        icon: Icons.public,
-                        text: localization.public,
-                      )
-                    else
-                      Padding(
-                        padding: const EdgeInsets.only(left: 1),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            items: [
-                              DropdownMenuItem(
-                                child: Text(
-                                  localization.public,
-                                ),
-                                value: true,
-                              ),
-                              DropdownMenuItem(
-                                child: Text(
-                                  localization.private,
-                                ),
-                                value: false,
-                              ),
-                            ],
-                            onChanged: (value) {
-                              if (true || state.artist.hasPrivateStorage) {
-                                setState(() => isPublic = value);
-                                _onChanged();
-                              } else {
-                                setState(() => isPublic = true);
-                                _onChanged();
-                                if (!value) {
-                                  Navigator.of(context).pop();
-                                  showDialog<UpgradeDialog>(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return UpgradeDialog();
-                                      });
-                                }
-                              }
-                            },
-                            value: isPublic,
-                          ),
-                        ),
-                      ),
-                      */
-                  Spacer(),
-                  SizedBox(width: 50),
-                ],
+                  key: ValueKey(song.layout),
+                  isExpanded: true,
+                  onChanged: (value) {
+                    viewModel.onChangedSong(song.rebuild((b) => b
+                      ..genreId = selectedGenreId
+                      ..layout = value
+                      ..title = _titleController.text.trim()
+                      ..description = _descriptionController.text.trim()));
+                    setState(() {
+                      selectedLayout = value;
+                    });
+                  },
+                  validator: (value) =>
+                      (value ?? 0) == 0 ? localization.fieldIsRequired : null,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  value: selectedLayout != null
+                      ? selectedLayout
+                      : (song.layout ?? '').isNotEmpty
+                          ? song.layout
+                          : kVideoLayoutRow,
+                  items: [
+                    DropdownMenuItem(
+                      child: Text(localization.row),
+                      value: kVideoLayoutRow,
+                    ),
+                    DropdownMenuItem(
+                      child: Text(localization.column),
+                      value: kVideoLayoutColumn,
+                    ),
+                    DropdownMenuItem(
+                      child: Opacity(
+                          child: Text(localization.grid),
+                          opacity: enableGrid ? 1 : .4),
+                      value: kVideoLayoutGrid,
+                      enabled: enableGrid,
+                    ),
+                  ]),
+              TextFormField(
+                autocorrect: false,
+                controller: _descriptionController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  labelText: localization.description,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }
