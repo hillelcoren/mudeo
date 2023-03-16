@@ -7,8 +7,10 @@ import 'package:camera_macos/camera_macos_file.dart';
 import 'package:camera_macos/camera_macos_platform_interface.dart';
 import 'package:camera_macos/camera_macos_view.dart';
 import 'package:camera_macos/exceptions.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:headset_connection_event/headset_event.dart';
 import 'package:http/http.dart' as http;
@@ -1259,7 +1261,15 @@ class _SongEditState extends State<SongEdit> {
                             await File(path)
                                 .writeAsBytes(copyResponse.bodyBytes);
                           }
-                          Share.shareFiles([path]);
+
+                          await FileSaver.instance.saveFile(
+                              '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                              File(path).readAsBytesSync(),
+                              'mp4',
+                              mimeType: MimeType.MPEG);
+
+                          showToast(localization.downloadedSong);
+
                           return;
                         } else {
                           showDialog<AlertDialog>(

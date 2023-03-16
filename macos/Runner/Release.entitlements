@@ -14,5 +14,7 @@
 	<true/>
 	<key>com.apple.security.device.camera</key>
 	<true/>
+	<key>com.apple.security.files.downloads.read-write</key>
+    <true/>
 </dict>
 </plist>

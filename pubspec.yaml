@@ -73,6 +73,7 @@ dependencies:
   permission_handler:
   headset_connection_event:
   flutter_styled_toast: ^2.0.0
+  file_saver: ^0.1.1
 
 dependency_overrides:
   platform: ^3.1.0

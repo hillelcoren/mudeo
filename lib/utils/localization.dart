@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'downloaded_song': 'Song has been downloaded',
       'add': 'Add',
       'replace': 'Replace',
       'publish_song': 'Publish Song',
@@ -821,6 +822,8 @@ class AppLocalization {
   String get add => _localizedValues[locale.toString()]['add'];
 
   String get replace => _localizedValues[locale.toString()]['replace'];
+
+  String get downloadedSong => _localizedValues[locale.toString()]['downloaded_song'];
 
   String get notConnected =>
       _localizedValues[locale.toString()]['not_connected'];

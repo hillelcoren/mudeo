@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
@@ -33,7 +34,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-
 
 //import 'package:mudeo/utils/web_stub.dart'
 //    if (dart.library.html) 'package:mudeo/utils/web.dart';
@@ -462,15 +462,12 @@ class SongFooter extends StatelessWidget {
                           ? localization.shareDance
                           : localization.shareSong),
                 if (!kIsWeb) localization.download,
-                (kIsWeb)
-                    ? localization.openInNewTab
-                    : localization.openInBrowser,
-                if (song.isPublic)
-                  state.isDance
-                      ? localization.copyLinkToDance
-                      : localization.copyLinkToSong
-                else
-                  localization.copyLinkToVideo,
+                if (song.isPublic) ...[
+                  if (kIsWeb)
+                    localization.openInNewTab
+                  else
+                    localization.copyLinkToSong
+                ],
                 if ((song.twitterId ?? '').isNotEmpty)
                   localization.viewOnTwitter,
                 if ((song.youTubeId ?? '').isNotEmpty)
@@ -486,10 +483,8 @@ class SongFooter extends StatelessWidget {
                   state.isDance
                       ? localization.leaveDance
                       : localization.leaveSong,
-                if (!kIsWeb)
-                  state.isDance
-                      ? localization.reportDance
-                      : localization.reportSong,
+                if (!kIsWeb && song.artistId != state.artist.id)
+                  localization.reportSong,
               ];
               return actions
                   .map((action) => PopupMenuItem(
@@ -520,10 +515,19 @@ class SongFooter extends StatelessWidget {
                       await http.Client().get(song.videoUrl);
                   await File(path).writeAsBytes(copyResponse.bodyBytes);
                 }
-                Share.shareFiles([path]);
+
+                await FileSaver.instance.saveFile(
+                    '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                    File(path).readAsBytesSync(),
+                    'mp4',
+                    mimeType: MimeType.MPEG);
+
+                showToast(localization.downloadedSong);
+
+                //Share.shareFiles([path]);
                 return;
               } else if (action == localization.copyLinkToSong ||
-                  action == localization.copyLinkToDance)   {
+                  action == localization.copyLinkToDance) {
                 Clipboard.setData(new ClipboardData(text: song.url));
                 showToast(localization.copiedToClipboard);
                 return;
@@ -909,7 +913,8 @@ class _CommentRowState extends State<CommentRow> {
                                     onPressed: () {
                                       final completer = Completer<Null>()
                                         ..future.then((value) {
-                                          showToast(localization.reportedComment);
+                                          showToast(
+                                              localization.reportedComment);
                                           if (Navigator.of(context).canPop()) {
                                             Navigator.of(context).pop();
                                           }
