@@ -662,7 +662,7 @@ class ArtistPage extends StatelessWidget {
                 SongItem(
                   song: state.dataState.songMap[songId],
                   enableShowArtist: false,
-                )
+                ),
             ],
           ),
         );

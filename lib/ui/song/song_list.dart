@@ -360,7 +360,7 @@ class SongFooter extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.videocam),
-            tooltip: localization.cloneSong,
+            tooltip: artist.belongsToSong(song) ? localization.edit : localization.record,
             onPressed: () {
               if (!state.authState.hasValidToken) {
                 showDialog<AlertDialog>(
@@ -381,9 +381,6 @@ class SongFooter extends StatelessWidget {
 
               if (!artist.belongsToSong(song)) {
                 newSong = song.fork;
-              }
-              if (state.isDance && !state.artist.belongsToSong(newSong)) {
-                newSong = newSong.justKeepFirstTrack;
               }
 
               if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
