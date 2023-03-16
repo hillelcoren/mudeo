@@ -214,7 +214,13 @@ class _SongEditState extends State<SongEdit> {
   void initState() {
     super.initState();
 
-    _headphonesConnected = widget.hasHeadset;
+    if (isDesktop(context)) {
+      SharedPreferences.getInstance().then((prefs) {
+        _headphonesConnected = prefs.getBool(kSharedPrefHasHeadphones);
+      });
+    } else {
+      _headphonesConnected = widget.hasHeadset;
+    }
 
     SharedPreferences.getInstance().then((sharedPrefs) {
       cameraDirection = convertCameraDirectionFromString(
