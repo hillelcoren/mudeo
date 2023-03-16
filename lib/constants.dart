@@ -45,6 +45,7 @@ const String kSharedPrefCalibrated = 'calibrated';
 const String kSharedPrefHasHeadphones = 'has_headphones';
 const String kSharedPrefWidth = 'width';
 const String kSharedPrefHeight = 'height';
+const String kSharedPrefAspectRatio = 'aspect_ratio';
 
 const String kCameraDirectionFront = 'front';
 const String kCameraDirectionBack = 'back';

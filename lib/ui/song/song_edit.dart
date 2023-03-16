@@ -218,7 +218,8 @@ class _SongEditState extends State<SongEdit> {
 
     if (isDesktop()) {
       SharedPreferences.getInstance().then((prefs) {
-        _headphonesConnected = prefs.getBool(kSharedPrefHasHeadphones);
+        _headphonesConnected = prefs.getBool(kSharedPrefHasHeadphones) ?? false;
+        selectedAspectRatio = prefs.getString(kSharedPrefAspectRatio) ?? '16:9';
       });
     } else {
       _headphonesConnected = widget.hasHeadset;
@@ -726,12 +727,14 @@ class _SongEditState extends State<SongEdit> {
             title: Text(localization.aspectRatio),
             children: aspectRatios.keys
                 .map((aspectRatio) => SimpleDialogOption(
-                      onPressed: () {
+                      onPressed: () async {
                         if (selectedAspectRatio != aspectRatio) {
                           setState(() {
                             selectedAspectRatio = aspectRatio;
                           });
                         }
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.setString(kSharedPrefAspectRatio, aspectRatio);
                         Navigator.of(context).pop();
                       },
                       child: ListTile(
