@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:path/path.dart' as p;
 import 'package:built_collection/built_collection.dart';
 import 'package:chewie/chewie.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
-import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -15,6 +15,7 @@ import 'package:mudeo/ui/auth/upgrade_dialog.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/ffmpeg.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
@@ -138,12 +139,15 @@ class _SongRenderState extends State<SongRender> {
                         Rect.fromLTWH(0, 0, size.width, size.height / 2),
                   );
                 } else {
-                  await FileSaver.instance.saveFile(
-                      '$title ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                      File(path).readAsBytesSync(),
-                      'mp4',
-                      mimeType: MimeType.MPEG);
-
+                  final Directory directory = await getDownloadsDirectory();
+                  final date = DateTime.now()
+                      .toIso8601String()
+                      .split('.')[0]
+                      .replaceFirst('T', ' ')
+                      .replaceAll(':', '-');
+                  var downloadPath =
+                      p.join(directory.path, '${song.displayTitle} $date.mp4');
+                  await File(path).copy(downloadPath);
                   showToast(localization.downloadedSong);
                 }
 

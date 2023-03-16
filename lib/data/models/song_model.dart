@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -176,6 +177,14 @@ abstract class SongEntity extends Object
       TrackEntity(video: video, orderId: tracks.length);
 
   VideoEntity get newVideo => trackWithNewVideo?.video;
+
+  String get displayTitle {
+    if (title.trim().isEmpty) {
+      return 'mudeo';
+    }
+
+    return title;
+  }
 
   bool get hasNewVideos => newVideo != null;
 
@@ -482,12 +491,12 @@ abstract class VideoEntity extends Object
     }
 
     final Directory directory = await getApplicationDocumentsDirectory();
-    final String folder = '${directory.path}/mudeo/cache';
+    final String folder = p.join(directory.path, 'mudeo', 'cache', 'videos');
     await Directory(folder).create(recursive: true);
 
     String id = video.isOld ? '${video.id}' : 'new';
 
-    return '$folder/$id-${video.timestamp}.mp4';
+    return p.join(folder, '$id-${video.timestamp}.mp4');
   }
 
   Map<int, double> getVolumeMap(int start, int end) {

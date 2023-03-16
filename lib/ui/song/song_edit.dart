@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:path/path.dart' as p;
 import 'package:camera_macos/camera_macos_controller.dart';
 import 'package:camera_macos/camera_macos_device.dart';
 import 'package:camera_macos/camera_macos_file.dart';
 import 'package:camera_macos/camera_macos_platform_interface.dart';
 import 'package:camera_macos/camera_macos_view.dart';
 import 'package:camera_macos/exceptions.dart';
-import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
@@ -1304,7 +1304,8 @@ class _SongEditState extends State<SongEdit> {
                         } else if (action == localization.download) {
                           final Directory directory =
                               await getApplicationDocumentsDirectory();
-                          final String folder = '${directory.path}/mudeo/cache';
+                          final String folder =
+                              '${directory.path}/mudeo/cache/videos';
                           await Directory(folder).create(recursive: true);
                           final path = '$folder/${song.title}.mp4';
                           if (!await File(path).exists()) {
@@ -1323,12 +1324,16 @@ class _SongEditState extends State<SongEdit> {
                                   0, 0, size.width, size.height / 2),
                             );
                           } else {
-                            await FileSaver.instance.saveFile(
-                                '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                                File(path).readAsBytesSync(),
-                                'mp4',
-                                mimeType: MimeType.MPEG);
-
+                            final Directory directory =
+                                await getDownloadsDirectory();
+                            final date = DateTime.now()
+                                .toIso8601String()
+                                .split('.')[0]
+                                .replaceFirst('T', ' ')
+                                .replaceAll(':', '-');
+                            var downloadPath = p.join(directory.path,
+                                '${song.displayTitle} $date.mp4');
+                            await File(path).copy(downloadPath);
                             showToast(localization.downloadedSong);
                           }
                           return;
@@ -1617,6 +1622,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
   Widget build(BuildContext context) {
     final state = widget.viewModel.state;
     final localization = AppLocalization.of(context);
+    final song = widget.viewModel.song;
     final buttonWidth = 160.0;
     final buttonHeight = 55.0;
     final bottomPadding = 16.0;
@@ -1807,11 +1813,16 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                                 0, 0, size.width, size.height / 2),
                           );
                         } else {
-                          await FileSaver.instance.saveFile(
-                              'mudeo ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                              File(path).readAsBytesSync(),
-                              'mp4',
-                              mimeType: MimeType.MPEG);
+                          final Directory directory =
+                              await getDownloadsDirectory();
+                          final date = DateTime.now()
+                              .toIso8601String()
+                              .split('.')[0]
+                              .replaceFirst('T', ' ')
+                              .replaceAll(':', '-');
+                          var downloadPath = p.join(
+                              directory.path, '${song.displayTitle} $date.mp4');
+                          await File(path).copy(downloadPath);
                           showToast(localization.downloadedSong);
                         }
                       },

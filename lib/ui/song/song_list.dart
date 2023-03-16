@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:file_saver/file_saver.dart';
+import 'package:path/path.dart' as p;
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
@@ -525,7 +525,7 @@ class SongFooter extends StatelessWidget {
               } else if (action == localization.download) {
                 final Directory directory =
                     await getApplicationDocumentsDirectory();
-                final String folder = '${directory.path}/mudeo/cache';
+                final String folder = '${directory.path}/mudeo/cache/videos';
                 await Directory(folder).create(recursive: true);
                 final path = '$folder/${song.title}.mp4';
                 if (!await File(path).exists()) {
@@ -543,12 +543,15 @@ class SongFooter extends StatelessWidget {
                         Rect.fromLTWH(0, 0, size.width, size.height / 2),
                   );
                 } else {
-                  await FileSaver.instance.saveFile(
-                      '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                      File(path).readAsBytesSync(),
-                      'mp4',
-                      mimeType: MimeType.MPEG);
-
+                  final Directory directory = await getDownloadsDirectory();
+                  final date = DateTime.now()
+                      .toIso8601String()
+                      .split('.')[0]
+                      .replaceFirst('T', ' ')
+                      .replaceAll(':', '-');
+                  var downloadPath =
+                      p.join(directory.path, '${song.displayTitle} $date.mp4');
+                  await File(path).copy(downloadPath);
                   showToast(localization.downloadedSong);
                 }
                 return;

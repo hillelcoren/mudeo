@@ -12,7 +12,7 @@ import 'package:path_provider/path_provider.dart';
 class FfmpegUtils {
   static Future<int> renderSong(SongEntity song) async {
     final Directory directory = await getApplicationDocumentsDirectory();
-    final String folder = '${directory.path}/ffmpeg';
+    final String folder = '${directory.path}/mudeo/cache/ffmpeg';
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
     final output = await VideoEntity.getPath(
         VideoEntity().rebuild((b) => b..timestamp = timestamp));
@@ -129,7 +129,7 @@ class FfmpegUtils {
   static Future<BuiltMap<String, double>> calculateVolumeData(
       String path) async {
     final Directory directory = await getApplicationDocumentsDirectory();
-    final String folder = '${directory.path}/ffmpeg';
+    final String folder = '${directory.path}/mudeo/cache/ffmpeg';
     await Directory(folder).create(recursive: true);
     final audioPath = '$folder/data.txt';
 

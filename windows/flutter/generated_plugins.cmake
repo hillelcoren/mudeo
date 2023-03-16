@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   camera_windows
-  file_saver
   permission_handler_windows
   screen_retriever
   share_plus

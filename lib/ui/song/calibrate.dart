@@ -74,7 +74,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
       _cameraController.stopVideoRecording();
 
       final Directory directory = await getApplicationDocumentsDirectory();
-      final String folder = '${directory.path}/calibrate';
+      final String folder = '${directory.path}/mudeo/cache/calibrate';
       await Directory(folder).create(recursive: true);
       //final audioPath = '$folder/data.txt';
 
