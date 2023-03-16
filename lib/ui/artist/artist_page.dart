@@ -389,8 +389,8 @@ class ArtistPage extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(
                                 color: Colors.black12.withOpacity(.4),
-                                borderRadius: BorderRadius.all(Radius.circular(10))
-                            ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
                             width: 250,
                             height: 80,
                           ),
@@ -438,8 +438,7 @@ class ArtistPage extends StatelessWidget {
                                     child: ElevatedButton(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            localization.joinSong,
+                                        child: Text(localization.joinSong,
                                             style: TextStyle(fontSize: 18)),
                                       ),
                                       onPressed: () {
@@ -536,25 +535,33 @@ class ArtistPage extends StatelessWidget {
                                             !viewModel
                                                 .state.authState.hasValidToken)
                                         ? SizedBox()
-                                        : ElevatedButton(
-                                            child: Text(
-                                                isFollowing
-                                                    ? localization.unfollow
-                                                    : localization.follow,
-                                                style: TextStyle(fontSize: 18)),
-                                            onPressed: () => viewModel
-                                                .onFollowPressed(artist),
-                                            /*
-                                            color: isFollowing
-                                                ? Colors.grey
-                                                : Colors.lightBlue,
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        30.0))
-                                                        */
+                                        : SizedBox(
+                                            width: 250,
+                                            child: ElevatedButton(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                    isFollowing
+                                                        ? localization.unfollow
+                                                        : localization.follow,
+                                                    style: TextStyle(
+                                                        fontSize: 18)),
+                                              ),
+                                              onPressed: () => viewModel
+                                                  .onFollowPressed(artist),
+                                              /*
+                                              color: isFollowing
+                                                  ? Colors.grey
+                                                  : Colors.lightBlue,
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 10),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0))
+                                                          */
+                                            ),
                                           ),
                           ],
                         ),
