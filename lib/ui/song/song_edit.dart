@@ -1305,7 +1305,7 @@ class _SongEditState extends State<SongEdit> {
                           final Directory directory =
                               await getApplicationDocumentsDirectory();
                           final String folder =
-                              '${directory.path}/mudeo/cache/videos';
+                              p.join(directory.path, 'mudeo', 'videos');
                           await Directory(folder).create(recursive: true);
                           final path = '$folder/${song.title}.mp4';
                           if (!await File(path).exists()) {

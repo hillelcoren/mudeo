@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,9 +16,9 @@ class FileStorage {
 
   Future<File> _getLocalFile() async {
     final directory = await getDirectory();
-    final String folder = '${directory.path}/mudeo/cache';
+    final String folder = p.join(directory.path, 'mudeo', 'cache');
     await Directory(folder).create(recursive: true);
-    return File('${folder}/mudeo_$tag.json');
+    return File(p.join(folder, 'mudeo_$tag.json'));
   }
 
   Future<dynamic> load() async {

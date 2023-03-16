@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:path/path.dart' as p;
 import 'package:mudeo/main_common.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:camera/camera.dart';
@@ -74,7 +75,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
       _cameraController.stopVideoRecording();
 
       final Directory directory = await getApplicationDocumentsDirectory();
-      final String folder = '${directory.path}/mudeo/cache/calibrate';
+      final String folder = p.join(directory.path, 'mudeo', 'calibrate');
       await Directory(folder).create(recursive: true);
       //final audioPath = '$folder/data.txt';
 
