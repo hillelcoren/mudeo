@@ -418,19 +418,18 @@ class SongFooter extends StatelessWidget {
               IconButton(
                 icon: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
-                  transitionBuilder: (child, anim) =>
-                      FadeTransition(opacity: anim, child: child),
-                  child: state.isSaving
+                  transitionBuilder: (child, anim) => ScaleTransition(scale: anim, child: child),
+                  child: state.isSaving || artist.likedSong(song.id)
                       ? Icon(
-                          Icons.favorite_border,
-                          key: const ValueKey('favorite_border'),
-                          color: Colors.red,
-                        )
+                    Icons.favorite,
+                    key: const ValueKey('favorite'),
+                    color: Colors.red,
+                  )
                       : Icon(
-                          Icons.favorite,
-                          key: const ValueKey('favorite'),
-                          color: likedSong ? Colors.red : null,
-                        ),
+                    Icons.favorite,
+                    key: const ValueKey('favorite_red'),
+                    color: artist.likedSong(song.id) ? Colors.red : null,
+                  ),
                 ),
                 tooltip: localization.like,
                 onPressed: () {
