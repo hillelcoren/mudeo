@@ -42,6 +42,7 @@ const String kSharedPrefGenreId = 'genre_id';
 const String kSharedPrefShownVideo = 'shown_video';
 const String kSharedPrefFullScreen = 'full_screen';
 const String kSharedPrefCalibrated = 'calibrated';
+const String kSharedPrefHasHeadphones = 'has_headphones';
 
 const String kCameraDirectionFront = 'front';
 const String kCameraDirectionBack = 'back';

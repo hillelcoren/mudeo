@@ -71,16 +71,24 @@ class _SongScaffoldState extends State<SongScaffold> {
 
     checkPermissions();
 
-    headsetPlugin.getCurrentState.then((_val) {
-      setState(() {
-        headsetState = _val;
-      });
-    });
+    SharedPreferences.getInstance().then((prefs) {
+      headsetState = prefs.getBool(kSharedPrefHasHeadphones)
+          ? HeadsetState.CONNECT
+          : HeadsetState.DISCONNECT;
 
-    headsetPlugin.setListener((_val) {
-      setState(() {
-        headsetState = _val;
-      });
+      if (!isDesktop(context)) {
+        headsetPlugin.getCurrentState.then((_val) {
+          setState(() {
+            headsetState = _val;
+          });
+        });
+
+        headsetPlugin.setListener((_val) {
+          setState(() {
+            headsetState = _val;
+          });
+        });
+      }
     });
   }
 
@@ -737,8 +745,10 @@ class _SongEditState extends State<SongEdit> {
           final localization = AppLocalization.of(context);
           return SimpleDialog(title: Text(localization.headphones), children: [
             SimpleDialogOption(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(context).pop();
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setBool(kSharedPrefHasHeadphones, true);
                 setState(() {
                   _headphonesConnected = true;
                 });
@@ -751,8 +761,10 @@ class _SongEditState extends State<SongEdit> {
               ),
             ),
             SimpleDialogOption(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(context).pop();
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setBool(kSharedPrefHasHeadphones, false);
                 setState(() {
                   _headphonesConnected = false;
                 });
