@@ -418,18 +418,19 @@ class SongFooter extends StatelessWidget {
               IconButton(
                 icon: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
-                  transitionBuilder: (child, anim) => ScaleTransition(scale: anim, child: child),
+                  transitionBuilder: (child, anim) =>
+                      ScaleTransition(scale: anim, child: child),
                   child: state.isSaving || artist.likedSong(song.id)
                       ? Icon(
-                    Icons.favorite,
-                    key: const ValueKey('favorite'),
-                    color: Colors.red,
-                  )
+                          Icons.favorite,
+                          key: const ValueKey('favorite'),
+                          color: Colors.red,
+                        )
                       : Icon(
-                    Icons.favorite,
-                    key: const ValueKey('favorite_red'),
-                    color: artist.likedSong(song.id) ? Colors.red : null,
-                  ),
+                          Icons.favorite,
+                          key: const ValueKey('favorite_red'),
+                          color: artist.likedSong(song.id) ? Colors.red : null,
+                        ),
                 ),
                 tooltip: localization.like,
                 onPressed: () {
@@ -456,18 +457,19 @@ class SongFooter extends StatelessWidget {
               Text('${song.countLike + 1}'),
             ],
           ),
-          Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.message),
-                tooltip: localization.comments,
-                onPressed: onMessagePressed,
-              ),
-              song.comments.length > 0
-                  ? Text('${song.comments.length}')
-                  : SizedBox(),
-            ],
-          ),
+          if (!Navigator.of(context).canPop())
+            Row(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.message),
+                  tooltip: localization.comments,
+                  onPressed: onMessagePressed,
+                ),
+                song.comments.length > 0
+                    ? Text('${song.comments.length}')
+                    : SizedBox(),
+              ],
+            ),
           PopupMenuButton<String>(
             icon: Icon(Icons.more_vert, size: 30),
             itemBuilder: (BuildContext context) {
