@@ -913,7 +913,14 @@ class _SongEditState extends State<SongEdit> {
       if (cameraController == null) return SizedBox();
       final value = cameraController.value;
       if (!value.isInitialized) return SizedBox();
-      aspectRatio = 1 / value.aspectRatio;
+
+      // TODO remove this: #97540
+      if (Platform.isWindows) {
+        //aspectRatio = value.aspectRatio / 1;
+        aspectRatio = aspectRatios[selectedAspectRatio];
+      } else {
+        aspectRatio = 1 / value.aspectRatio;
+      }
     }
 
     final localization = AppLocalization.of(context);
