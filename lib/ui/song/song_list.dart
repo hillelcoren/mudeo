@@ -524,7 +524,6 @@ class SongFooter extends StatelessWidget {
 
                 showToast(localization.downloadedSong);
 
-                //Share.shareFiles([path]);
                 return;
               } else if (action == localization.copyLinkToSong ||
                   action == localization.copyLinkToDance) {

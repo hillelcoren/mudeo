@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:built_collection/built_collection.dart';
 import 'package:chewie/chewie.dart';
 import 'package:ffmpeg_kit_flutter_min_gpl/ffmpeg_kit.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/redux/app/app_state.dart';
@@ -121,8 +123,17 @@ class _SongRenderState extends State<SongRender> {
         if (_videoTimestamp != null && _videoTimestamp > 0)
           TextButton(
               onPressed: () async {
-                if (true || state.artist.isPaid) {
-                  Share.shareFiles([await videoPath]);
+                final path = await videoPath;
+                await FileSaver.instance.saveFile(
+                    '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                    File(path).readAsBytesSync(),
+                    'mp4',
+                    mimeType: MimeType.MPEG);
+
+                showToast(localization.downloadedSong);
+
+                if (state.artist.isPaid) {
+
                 } else {
                   /*
                   showDialog<UpgradeDialog>(
@@ -130,7 +141,7 @@ class _SongRenderState extends State<SongRender> {
                       builder: (BuildContext context) {
                         return UpgradeDialog();
                       });
-                      */
+                   */
                 }
               },
               child: Text(localization.download.toUpperCase())),
@@ -158,7 +169,6 @@ class _SongRenderState extends State<SongRender> {
 
                 final track = TrackEntity(video: video);
                 var song = store.state.uiState.song;
-
 
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
@@ -194,7 +204,6 @@ class _SongRenderState extends State<SongRender> {
                 final track = TrackEntity(video: video);
                 var song = store.state.uiState.song;
 
-
                 /*
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
@@ -206,8 +215,8 @@ class _SongRenderState extends State<SongRender> {
                         */
 
                 song = song.rebuild((b) => b
-                ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
-                ..tracks.replace([track]));
+                  ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
+                  ..tracks.replace([track]));
 
                 store.dispatch(UpdateSong(song));
 
