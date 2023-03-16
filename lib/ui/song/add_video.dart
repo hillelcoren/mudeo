@@ -379,6 +379,7 @@ class ThumbnailIcon extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             (url ?? '').isEmpty
                 ? Placeholder()
@@ -397,14 +398,9 @@ class ThumbnailIcon extends StatelessWidget {
                             imageUrl: url,
                           ))
                     : Image.file(File(url)),
-            Align(
-              alignment: Alignment.center,
-              child: Center(
-                child: Icon(
-                  Icons.add_circle_outline,
-                  size: 34,
-                ),
-              ),
+            Icon(
+              Icons.add_circle_outline,
+              size: 34,
             )
           ],
         ),
