@@ -1212,14 +1212,15 @@ class _SongEditState extends State<SongEdit> {
                         onPressed: isEmpty || isRecording || countdownTimer > 0
                             ? null
                             : (isPlaying ? stopPlaying : play)),
-                    LargeIconButton(
-                      tooltip: localization.merge,
-                      iconData: Icons.movie,
-                      onPressed:
-                          disableButtons || song.includedTracks.length < 2
-                              ? null
-                              : () => _renderSong(),
-                    ),
+                    if (!Platform.isWindows)
+                      LargeIconButton(
+                        tooltip: localization.merge,
+                        iconData: Icons.movie,
+                        onPressed:
+                            disableButtons || song.includedTracks.length < 2
+                                ? null
+                                : () => _renderSong(),
+                      ),
                     LargeIconButton(
                         tooltip: song.isNew
                             ? localization.publish
