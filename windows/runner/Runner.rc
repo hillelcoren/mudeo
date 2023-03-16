@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "app.mudeo" "\0"
+            VALUE "CompanyName", "mudeo" "\0"
             VALUE "FileDescription", "mudeo" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "mudeo" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 app.mudeo. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 mudeo. All rights reserved." "\0"
             VALUE "OriginalFilename", "mudeo.exe" "\0"
             VALUE "ProductName", "mudeo" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
