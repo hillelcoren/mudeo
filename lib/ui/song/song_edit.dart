@@ -1806,7 +1806,6 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                                 0, 0, size.width, size.height / 2),
                           );
                         } else {
-                          print('## PATH: $path');
                           await FileSaver.instance.saveFile(
                               'mudeo ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
                               File(path).readAsBytesSync(),
