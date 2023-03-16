@@ -626,7 +626,7 @@ class _SongEditState extends State<SongEdit> {
       if (track == null) {
         continue;
       }
-      if (!isRecording || index == _activeTrack) {
+      if (isDesktop() || (!isRecording || index == _activeTrack)) {
         final player = entry.value;
         final delay =
             Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
@@ -1653,21 +1653,22 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           values: [widget.track.volume.toDouble()],
                         ),
                       ),
-                    ElevatedButton(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 4, vertical: 10),
-                        child: Text(AppLocalization.of(context).monitor),
+                    if (isMobile())
+                      ElevatedButton(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 10),
+                          child: Text(AppLocalization.of(context).monitor),
+                        ),
+                        onPressed: _isActive
+                            ? null
+                            : () {
+                                widget.onActivatePressed();
+                                setState(() {
+                                  _isActive = true;
+                                });
+                              },
                       ),
-                      onPressed: _isActive
-                          ? null
-                          : () {
-                              widget.onActivatePressed();
-                              setState(() {
-                                _isActive = true;
-                              });
-                            },
-                    ),
                     /*
                     if (state.isDance && state.authState.artist.isAdmin)
                       Padding(
