@@ -1301,14 +1301,23 @@ class _SongEditState extends State<SongEdit> {
                                 .writeAsBytes(copyResponse.bodyBytes);
                           }
 
-                          await FileSaver.instance.saveFile(
-                              '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                              File(path).readAsBytesSync(),
-                              'mp4',
-                              mimeType: MimeType.MPEG);
+                          if (Platform.isAndroid) {
+                            final Size size = MediaQuery.of(context).size;
+                            Share.shareXFiles(
+                              [XFile(path)],
+                              text: song.url,
+                              sharePositionOrigin: Rect.fromLTWH(
+                                  0, 0, size.width, size.height / 2),
+                            );
+                          } else {
+                            await FileSaver.instance.saveFile(
+                                '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                                File(path).readAsBytesSync(),
+                                'mp4',
+                                mimeType: MimeType.MPEG);
 
-                          showToast(localization.downloadedSong);
-
+                            showToast(localization.downloadedSong);
+                          }
                           return;
                         } else {
                           showDialog<AlertDialog>(
@@ -1775,13 +1784,23 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       ),
                       style: ElevatedButton.styleFrom(primary: Colors.green),
                       onPressed: () async {
+                        final Size size = MediaQuery.of(context).size;
                         final path = await widget.track.video.path;
-                        await FileSaver.instance.saveFile(
-                            'mudeo ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                            File(path).readAsBytesSync(),
-                            'mp4',
-                            mimeType: MimeType.MPEG);
-                        showToast(localization.downloadedSong);
+                        if (Platform.isAndroid) {
+                          Share.shareXFiles(
+                            [XFile(path)],
+                            text: widget.viewModel.song.url,
+                            sharePositionOrigin: Rect.fromLTWH(
+                                0, 0, size.width, size.height / 2),
+                          );
+                        } else {
+                          await FileSaver.instance.saveFile(
+                              'mudeo ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                              File(path).readAsBytesSync(),
+                              'mp4',
+                              mimeType: MimeType.MPEG);
+                          showToast(localization.downloadedSong);
+                        }
                       },
                     ),
                     SizedBox(height: 10),

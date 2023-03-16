@@ -534,14 +534,23 @@ class SongFooter extends StatelessWidget {
                   await File(path).writeAsBytes(copyResponse.bodyBytes);
                 }
 
-                await FileSaver.instance.saveFile(
-                    '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                    File(path).readAsBytesSync(),
-                    'mp4',
-                    mimeType: MimeType.MPEG);
+                if (Platform.isAndroid) {
+                  final Size size = MediaQuery.of(context).size;
+                  Share.shareXFiles(
+                    [XFile(path)],
+                    text: song.url,
+                    sharePositionOrigin:
+                        Rect.fromLTWH(0, 0, size.width, size.height / 2),
+                  );
+                } else {
+                  await FileSaver.instance.saveFile(
+                      '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                      File(path).readAsBytesSync(),
+                      'mp4',
+                      mimeType: MimeType.MPEG);
 
-                showToast(localization.downloadedSong);
-
+                  showToast(localization.downloadedSong);
+                }
                 return;
               } else if (action == localization.copyLinkToSong ||
                   action == localization.copyLinkToDance) {

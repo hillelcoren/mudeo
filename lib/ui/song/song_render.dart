@@ -129,24 +129,34 @@ class _SongRenderState extends State<SongRender> {
                 if (title.isNotEmpty) {
                   title = 'mudeo';
                 }
-                await FileSaver.instance.saveFile(
-                    '$title ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
-                    File(path).readAsBytesSync(),
-                    'mp4',
-                    mimeType: MimeType.MPEG);
+                if (Platform.isAndroid) {
+                  final Size size = MediaQuery.of(context).size;
+                  Share.shareXFiles(
+                    [XFile(path)],
+                    text: song.url,
+                    sharePositionOrigin:
+                        Rect.fromLTWH(0, 0, size.width, size.height / 2),
+                  );
+                } else {
+                  await FileSaver.instance.saveFile(
+                      '$title ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                      File(path).readAsBytesSync(),
+                      'mp4',
+                      mimeType: MimeType.MPEG);
 
-                showToast(localization.downloadedSong);
+                  showToast(localization.downloadedSong);
+                }
 
+                /*
                 if (state.artist.isPaid) {
                 } else {
-                  /*
                   showDialog<UpgradeDialog>(
                       context: context,
                       builder: (BuildContext context) {
                         return UpgradeDialog();
                       });
-                   */
                 }
+                */
               },
               child: Text(localization.download.toUpperCase())),
         if (_videoTimestamp != null && _videoTimestamp > 0 && song.canAddTrack)

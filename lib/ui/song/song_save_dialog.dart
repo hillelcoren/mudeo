@@ -56,14 +56,18 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
 
   Future<void> _captureAndSharePng(SongEntity song) async {
     try {
+      final Size size = MediaQuery.of(context).size;
       RenderRepaintBoundary boundary =
           qrCodeGlobalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
-      Share.shareXFiles([XFile.fromData(pngBytes, mimeType: 'png')],
-          text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey);
+      Share.shareXFiles(
+        [XFile.fromData(pngBytes, mimeType: 'png')],
+        text: widget.viewModel.state.appUrl + '\n\nSecret: ' + sharingKey,
+        sharePositionOrigin: Rect.fromLTWH(0, 0, size.width, size.height / 2),
+      );
     } catch (e) {
       print(e.toString());
     }
