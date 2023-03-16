@@ -389,7 +389,7 @@ class _SongEditState extends State<SongEdit> {
           });
           Timer(Duration(seconds: 1), () {
             if (countdownTimer == 2) {
-              if (!Platform.isMacOS) {
+              if (!Platform.isMacOS && !Platform.isWindows) {
                 cameraController.prepareForVideoRecording();
               }
               setState(() {
