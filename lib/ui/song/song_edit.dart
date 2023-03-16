@@ -1140,7 +1140,11 @@ class _SongEditState extends State<SongEdit> {
                         )
                     ],
                     LargeIconButton(
-                      tooltip: localization.record,
+                      tooltip: isPastThreeSeconds
+                          ? localization.stop
+                          : (isRecording || countdownTimer > 0)
+                              ? localization.cancel
+                              : localization.record,
                       iconData: _getRecordIcon(),
                       onPressed: _getRecordingFunction(),
                       color: isPlaying || isRecording || countdownTimer > 0
