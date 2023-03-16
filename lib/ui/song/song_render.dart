@@ -124,8 +124,12 @@ class _SongRenderState extends State<SongRender> {
           TextButton(
               onPressed: () async {
                 final path = await videoPath;
+                var title = song.title.trim();
+                if (title.isNotEmpty) {
+                  title = 'mudeo';
+                }
                 await FileSaver.instance.saveFile(
-                    '${song.title} ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                    '$title ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
                     File(path).readAsBytesSync(),
                     'mp4',
                     mimeType: MimeType.MPEG);

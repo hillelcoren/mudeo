@@ -1737,7 +1737,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       onPressed: () async {
                         final path = await widget.track.video.path;
                         await FileSaver.instance.saveFile(
-                            'mudeo - ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                            'mudeo ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
                             File(path).readAsBytesSync(),
                             'mp4',
                             mimeType: MimeType.MPEG);
