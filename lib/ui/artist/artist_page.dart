@@ -429,7 +429,7 @@ class ArtistPage extends StatelessWidget {
                           children: <Widget>[
                             if (showSettings)
                               Padding(
-                                  padding: const EdgeInsets.only(bottom: 20),
+                                  padding: const EdgeInsets.only(bottom: 12),
                                   child: SizedBox(
                                     width: 200,
                                     child: ElevatedButton(
@@ -460,7 +460,7 @@ class ArtistPage extends StatelessWidget {
                                   )),
                             if (showSettings)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
+                                padding: const EdgeInsets.only(bottom: 12),
                                 child: SizedBox(
                                   width: 200,
                                   child: ElevatedButton(
@@ -488,7 +488,7 @@ class ArtistPage extends StatelessWidget {
                             /*
                             if (showSettings)
                               Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
+                                padding: const EdgeInsets.only(bottom: 12),
                                 child: RaisedButton(
                                   child: Text(localization.refresh,
                                       style: TextStyle(fontSize: 18)),

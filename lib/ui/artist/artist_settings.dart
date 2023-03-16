@@ -210,35 +210,47 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      OutlinedButton(
+                      Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(localization.profileImage,
-                              style: TextStyle(fontSize: 18)),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: OutlinedButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(localization.profileImage,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 18)),
+                            ),
+                            onPressed: () async {
+                              var image = await pickFile(
+                                  fileType: FileType.image, fileIndex: 'image');
+                              if (image != null) {
+                                viewModel.onUpdateImage(
+                                    context, kArtistImageProfile, image);
+                              }
+                            },
+                          ),
                         ),
-                        onPressed: () async {
-                          var image = await pickFile(
-                              fileType: FileType.image, fileIndex: 'image');
-                          if (image != null) {
-                            viewModel.onUpdateImage(
-                                context, kArtistImageProfile, image);
-                          }
-                        },
                       ),
-                      OutlinedButton(
+                      Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(localization.headerImage,
-                              style: TextStyle(fontSize: 18)),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: OutlinedButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(localization.headerImage,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 18)),
+                            ),
+                            onPressed: () async {
+                              var image = await pickFile(
+                                  fileType: FileType.image, fileIndex: 'image');
+                              if (image != null) {
+                                viewModel.onUpdateImage(
+                                    context, kArtistImageHeader, image);
+                              }
+                            },
+                          ),
                         ),
-                        onPressed: () async {
-                          var image = await pickFile(
-                              fileType: FileType.image, fileIndex: 'image');
-                          if (image != null) {
-                            viewModel.onUpdateImage(
-                                context, kArtistImageHeader, image);
-                          }
-                        },
                       ),
                     ],
                   ),
