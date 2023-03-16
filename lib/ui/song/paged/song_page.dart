@@ -159,10 +159,24 @@ class _SongActions extends StatelessWidget {
           ),
         if (state.authState.hasValidToken)
           LargeIconButton(
-            iconData: state.isSaving ? Icons.favorite_border : Icons.favorite,
+            icon: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              transitionBuilder: (child, anim) =>
+                  FadeTransition(opacity: anim, child: child),
+              child: state.isSaving
+                  ? Icon(
+                Icons.favorite_border,
+                key: const ValueKey('favorite_border'),
+                color: Colors.red,
+              )
+                  : Icon(
+                Icons.favorite,
+                key: const ValueKey('favorite'),
+                color: artist.likedSong(song.id) ? Colors.red : null,
+              ),
+            ),
             tooltip: localization.favorite,
             count: song.countLike + 1,
-            color: artist.likedSong(song.id) ? Colors.red : null,
             onPressed: state.isSaving ? null : () {
               store.dispatch(LikeSongRequest(song: song));
             },
@@ -201,6 +215,7 @@ class _SongActions extends StatelessWidget {
 class LargeIconButton extends StatelessWidget {
   const LargeIconButton({
     this.iconData,
+    this.icon,
     this.tooltip,
     this.onPressed,
     this.color,
@@ -211,6 +226,7 @@ class LargeIconButton extends StatelessWidget {
 
   final IconData iconData;
   final String tooltip;
+  final Widget icon;
   final Function onPressed;
   final bool requireLoggedIn;
   final Color color;
@@ -226,7 +242,7 @@ class LargeIconButton extends StatelessWidget {
         children: <Widget>[
           IconButton(
             iconSize: 38,
-            icon: Icon(
+            icon: icon ?? Icon(
               iconData,
               size: 38,
               color: color,

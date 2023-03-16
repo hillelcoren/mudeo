@@ -340,6 +340,7 @@ class SongFooter extends StatelessWidget {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
     final artist = state.authState.artist;
+    final likedSong = artist.likedSong(song.id);
 
     _editSong({SongEntity song, BuildContext context}) {
       // TODO remove this workaround for selecting selected song in list view
@@ -415,9 +416,27 @@ class SongFooter extends StatelessWidget {
           Row(
             children: <Widget>[
               IconButton(
-                icon: Icon(state.isSaving ? Icons.favorite_border : Icons.favorite),
+                icon: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  transitionBuilder: (child, anim) =>
+                      FadeTransition(opacity: anim, child: child),
+                  child: state.isSaving
+                      ? Icon(
+                          Icons.favorite_border,
+                          key: const ValueKey('favorite_border'),
+                          color: Colors.red,
+                        )
+                      : Icon(
+                          Icons.favorite,
+                          key: const ValueKey('favorite'),
+                          color: likedSong ? Colors.red : null,
+                        ),
+                ),
                 tooltip: localization.like,
-                onPressed: state.isSaving ? null : () {
+                onPressed: () {
+                  if (state.isSaving) {
+                    return;
+                  }
                   if (!state.authState.hasValidToken) {
                     showDialog<AlertDialog>(
                         context: context,
@@ -434,7 +453,6 @@ class SongFooter extends StatelessWidget {
 
                   store.dispatch(LikeSongRequest(song: song));
                 },
-                color: artist.likedSong(song.id) ? Colors.redAccent : null,
               ),
               Text('${song.countLike + 1}'),
             ],
