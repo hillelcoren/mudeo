@@ -387,9 +387,12 @@ class ArtistPage extends StatelessWidget {
                         alignment: Alignment.center,
                         children: <Widget>[
                           Container(
-                            color: Colors.black12.withOpacity(.2),
-                            width: double.infinity,
-                            height: 70,
+                            decoration: BoxDecoration(
+                                color: Colors.black12.withOpacity(.4),
+                                borderRadius: BorderRadius.all(Radius.circular(10))
+                            ),
+                            width: 250,
+                            height: 80,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -431,7 +434,7 @@ class ArtistPage extends StatelessWidget {
                               Padding(
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: SizedBox(
-                                    width: 200,
+                                    width: 250,
                                     child: ElevatedButton(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -462,7 +465,7 @@ class ArtistPage extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: SizedBox(
-                                  width: 200,
+                                  width: 250,
                                   child: ElevatedButton(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -505,7 +508,7 @@ class ArtistPage extends StatelessWidget {
                              */
                             showSettings
                                 ? SizedBox(
-                                    width: 200,
+                                    width: 250,
                                     child: ElevatedButton(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
