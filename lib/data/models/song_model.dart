@@ -482,7 +482,7 @@ abstract class VideoEntity extends Object
     }
 
     final Directory directory = await getApplicationDocumentsDirectory();
-    final String folder = '${directory.path}/videos';
+    final String folder = '${directory.path}/mudeo/cache';
     await Directory(folder).create(recursive: true);
 
     String id = video.isOld ? '${video.id}' : 'new';

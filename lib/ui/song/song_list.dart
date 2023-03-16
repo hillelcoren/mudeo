@@ -525,7 +525,7 @@ class SongFooter extends StatelessWidget {
               } else if (action == localization.download) {
                 final Directory directory =
                     await getApplicationDocumentsDirectory();
-                final String folder = '${directory.path}/videos';
+                final String folder = '${directory.path}/mudeo';
                 await Directory(folder).create(recursive: true);
                 final path = '$folder/${song.title}.mp4';
                 if (!await File(path).exists()) {

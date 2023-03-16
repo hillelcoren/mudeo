@@ -314,11 +314,7 @@ class _SongEditState extends State<SongEdit> {
           videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
         );
         videoPlayers[track.id] = player;
-        if (viewModel.state.isDance && !isFirst) {
-          player.setVolume(0);
-        } else {
-          player.setVolume(track.volume.toDouble());
-        }
+        player.setVolume(track.volume.toDouble());
         await player.initialize();
         isFirst = false;
       }());
@@ -487,6 +483,7 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void saveRecording() async {
+    print('## saveRecording: ${DateTime.now().toIso8601String()}');
     final viewModel = widget.viewModel;
     final timestamp = viewModel.state.uiState.recordingTimestamp;
     final endTimestamp = DateTime.now().millisecondsSinceEpoch;
@@ -526,6 +523,7 @@ class _SongEditState extends State<SongEdit> {
         final track = song.includedTracks.last;
         _activeTrack = song.includedTracks.length;
         if (videoPlayers.containsKey(track.id)) {
+          print('## MUTING: ${track.id}');
           videoPlayers[track.id].setVolume(0);
         }
       }
@@ -536,6 +534,8 @@ class _SongEditState extends State<SongEdit> {
       duration,
       _headphonesConnected,
     );
+
+    print('## SAVE TRACK: $trackId');
 
     setState(() {
       isPastThreeSeconds = false;
@@ -1303,7 +1303,7 @@ class _SongEditState extends State<SongEdit> {
                         } else if (action == localization.download) {
                           final Directory directory =
                               await getApplicationDocumentsDirectory();
-                          final String folder = '${directory.path}/videos';
+                          final String folder = '${directory.path}/mudeo';
                           await Directory(folder).create(recursive: true);
                           final path = '$folder/${song.title}.mp4';
                           if (!await File(path).exists()) {
@@ -1806,6 +1806,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                                 0, 0, size.width, size.height / 2),
                           );
                         } else {
+                          print('## PATH: $path');
                           await FileSaver.instance.saveFile(
                               'mudeo ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
                               File(path).readAsBytesSync(),
