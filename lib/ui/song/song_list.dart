@@ -415,9 +415,9 @@ class SongFooter extends StatelessWidget {
           Row(
             children: <Widget>[
               IconButton(
-                icon: Icon(Icons.favorite),
+                icon: Icon(state.isSaving ? Icons.favorite_border : Icons.favorite),
                 tooltip: localization.like,
-                onPressed: () {
+                onPressed: state.isSaving ? null : () {
                   if (!state.authState.hasValidToken) {
                     showDialog<AlertDialog>(
                         context: context,

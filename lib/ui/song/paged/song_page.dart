@@ -159,11 +159,11 @@ class _SongActions extends StatelessWidget {
           ),
         if (state.authState.hasValidToken)
           LargeIconButton(
-            iconData: Icons.favorite,
+            iconData: state.isSaving ? Icons.favorite_border : Icons.favorite,
             tooltip: localization.favorite,
             count: song.countLike + 1,
             color: artist.likedSong(song.id) ? Colors.red : null,
-            onPressed: () {
+            onPressed: state.isSaving ? null : () {
               store.dispatch(LikeSongRequest(song: song));
             },
           ),
