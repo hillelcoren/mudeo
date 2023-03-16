@@ -159,6 +159,42 @@ class _SongRenderState extends State<SongRender> {
                 final track = TrackEntity(video: video);
                 var song = store.state.uiState.song;
 
+
+                song = song.rebuild((b) => b
+                  ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
+                  ..tracks.add(track));
+
+                store.dispatch(UpdateSong(song));
+
+                Navigator.of(context).pop();
+              },
+              child: Text(localization.add.toUpperCase())),
+        if (_videoTimestamp != null && _videoTimestamp > 0)
+          TextButton(
+              onPressed: () async {
+                final store = StoreProvider.of<AppState>(context);
+                var video = VideoEntity()
+                    .rebuild((b) => b..timestamp = _videoTimestamp);
+
+                BuiltMap<String, double> volumeData;
+                final path = await video.path;
+                try {
+                  volumeData = await FfmpegUtils.calculateVolumeData(path);
+                } catch (error) {
+                  // do nothing
+                }
+
+                final thumbnailPath = path.replaceFirst('.mp4', '-thumb.jpg');
+                await FfmpegUtils.createThumbnail(path, thumbnailPath);
+
+                video = video.rebuild((b) => b
+                  ..volumeData.replace(volumeData)
+                  ..thumbnailUrl = thumbnailPath);
+
+                final track = TrackEntity(video: video);
+                var song = store.state.uiState.song;
+
+
                 /*
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
@@ -170,14 +206,14 @@ class _SongRenderState extends State<SongRender> {
                         */
 
                 song = song.rebuild((b) => b
-                  ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
-                  ..tracks.add(track));
+                ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
+                ..tracks.replace([track]));
 
                 store.dispatch(UpdateSong(song));
 
                 Navigator.of(context).pop();
               },
-              child: Text(localization.addVideo.toUpperCase())),
+              child: Text(localization.replace.toUpperCase())),
         TextButton(
             onPressed: () {
               FFmpegKit.cancel();
