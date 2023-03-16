@@ -1239,17 +1239,17 @@ class _SongEditState extends State<SongEdit> {
                           actions.add(localization.deleteSong);
                         }
                          */
-                        if (Platform.isMacOS) {
+                        if (isDesktop()) {
                           if (macOSVideoDevices.length > 1)
                             actions.add(localization.camera);
                           if (macOSAudioDevices.length > 1)
                             actions.add(localization.microphone);
+                        }
+                        if (isDesktop() || !kReleaseMode)
                           actions.add(localization.headphones);
-                          actions.add(localization.aspectRatio);
-                        }
-                        if (!kReleaseMode) {
+                        if (isDesktop()) actions.add(localization.aspectRatio);
+                        if (!kReleaseMode)
                           actions.add(localization.resetCamera);
-                        }
                         return actions
                             .map((action) => PopupMenuItem(
                                   child: Text(action),
