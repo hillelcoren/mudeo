@@ -214,6 +214,7 @@ class MudeoVideoListItem extends StatelessWidget {
               Container(
                 height: 180,
                 child: ListView(
+                  shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: song.includedTracks.map((track) {
                     /*
@@ -369,7 +370,6 @@ class ThumbnailIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     const double height = 180;
-    const double width = 200;
 
     return InkWell(
       onTap: () {
@@ -380,32 +380,25 @@ class ThumbnailIcon extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Stack(
           children: <Widget>[
-            SizedBox(
-              height: height,
-              width: width,
-              child: (url ?? '').isEmpty
-                  ? Placeholder()
-                  : url.startsWith('http')
-                      ? (kIsWeb
-                          ? Image.network(
-                              url,
-                              fit: BoxFit.contain,
-                              alignment: Alignment.center,
-                              height: height,
-                              width: width,
-                            )
-                          : CachedNetworkImage(
-                              fit: BoxFit.contain,
-                              alignment: Alignment.center,
-                              height: height,
-                              width: width,
-                              imageUrl: url,
-                            ))
-                      : Image.file(File(url)),
-            ),
-            SizedBox(
-              height: height,
-              width: width,
+            (url ?? '').isEmpty
+                ? Placeholder()
+                : url.startsWith('http')
+                    ? (kIsWeb
+                        ? Image.network(
+                            url,
+                            fit: BoxFit.contain,
+                            alignment: Alignment.center,
+                            height: height,
+                          )
+                        : CachedNetworkImage(
+                            fit: BoxFit.contain,
+                            alignment: Alignment.center,
+                            height: height,
+                            imageUrl: url,
+                          ))
+                    : Image.file(File(url)),
+            Align(
+              alignment: Alignment.center,
               child: Center(
                 child: Icon(
                   Icons.add_circle_outline,

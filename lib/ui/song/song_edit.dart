@@ -73,25 +73,25 @@ class _SongScaffoldState extends State<SongScaffold> {
       checkPermissions();
     }
 
-    SharedPreferences.getInstance().then((prefs) {
-      headsetState = prefs.getBool(kSharedPrefHasHeadphones)
-          ? HeadsetState.CONNECT
-          : HeadsetState.DISCONNECT;
-
-      if (!isDesktop()) {
-        headsetPlugin.getCurrentState.then((_val) {
-          setState(() {
-            headsetState = _val;
-          });
+    if (isDesktop()) {
+      SharedPreferences.getInstance().then((prefs) {
+        headsetState = prefs.getBool(kSharedPrefHasHeadphones)
+            ? HeadsetState.CONNECT
+            : HeadsetState.DISCONNECT;
+      });
+    } else {
+      headsetPlugin.getCurrentState.then((_val) {
+        setState(() {
+          headsetState = _val;
         });
+      });
 
-        headsetPlugin.setListener((_val) {
-          setState(() {
-            headsetState = _val;
-          });
+      headsetPlugin.setListener((_val) {
+        setState(() {
+          headsetState = _val;
         });
-      }
-    });
+      });
+    }
   }
 
   void checkPermissions() async {
