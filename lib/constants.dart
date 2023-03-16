@@ -43,6 +43,8 @@ const String kSharedPrefShownVideo = 'shown_video';
 const String kSharedPrefFullScreen = 'full_screen';
 const String kSharedPrefCalibrated = 'calibrated';
 const String kSharedPrefHasHeadphones = 'has_headphones';
+const String kSharedPrefWidth = 'width';
+const String kSharedPrefHeight = 'height';
 
 const String kCameraDirectionFront = 'front';
 const String kCameraDirectionBack = 'back';

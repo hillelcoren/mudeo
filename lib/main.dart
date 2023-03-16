@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/main_common.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/sentry.dart';
 import 'package:sentry/sentry.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
@@ -16,7 +17,11 @@ import 'package:flutter/material.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
 import 'package:screen/screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player_win/video_player_win.dart';
+import 'package:window_manager/window_manager.dart';
+
+import 'constants.dart';
 
 void main() async {
   //InAppPurchaseConnection.enablePendingPurchases();
@@ -32,6 +37,23 @@ void main() async {
       : SentryClient(
           dsn: Config.SENTRY_DNS,
           environmentAttributes: await getSentryEvent());
+
+  if (isDesktop()) {
+    await windowManager.ensureInitialized();
+
+    final prefs = await SharedPreferences.getInstance();
+    windowManager.waitUntilReadyToShow(
+        WindowOptions(
+          center: true,
+          size: Size(
+            prefs.getDouble(kSharedPrefWidth) ?? 800,
+            prefs.getDouble(kSharedPrefHeight) ?? 600,
+          ),
+        ), () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
 
   final store = Store<AppState>(appReducer,
       initialState: AppState(),
