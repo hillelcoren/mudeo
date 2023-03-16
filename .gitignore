@@ -78,3 +78,5 @@ android/app/build.gradle
 android/app/release/
 .flutter-plugins-dependencies
 ios/Flutter/flutter_export_environment.sh
+/cache
+*.mp4
