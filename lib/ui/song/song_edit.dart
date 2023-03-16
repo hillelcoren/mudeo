@@ -510,6 +510,7 @@ class _SongEditState extends State<SongEdit> {
     }
 
     final imagePath = path.replaceFirst('.mp4', '-thumb.jpg');
+
     await FfmpegUtils.createThumbnail(path, imagePath);
 
     final video = VideoEntity().rebuild((b) => b

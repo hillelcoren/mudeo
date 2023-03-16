@@ -36,7 +36,8 @@ class FfmpegUtils {
 
       final session = await FFprobeKit.getMediaInformation(path);
       final information = await session.getMediaInformation();
-      final width = information.getStreams().first.getAllProperties()['width'] ?? 1920;
+      final width =
+          information.getStreams().first.getAllProperties()['width'] ?? 1920;
       final height =
           information.getStreams().first.getAllProperties()['width'] ?? 1080;
 
@@ -110,7 +111,8 @@ class FfmpegUtils {
     filter += "${filterAudio}amix=inputs=${count}[a]";
 
     command += '-filter_complex $filter -vsync 2 -map \'[v]\' -map \'[a]\' ';
-    command += '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
+    command +=
+        '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
     //command += '-vcodec \'h264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
     command += output;
@@ -123,7 +125,6 @@ class FfmpegUtils {
 
     return ReturnCode.isSuccess(returnCode) ? timestamp : null;
   }
-
 
   static Future<BuiltMap<String, double>> calculateVolumeData(
       String path) async {
@@ -180,7 +181,12 @@ class FfmpegUtils {
     return obj;
   }
 
-  static Future<bool> createThumbnail(String videoPath, String imagePath) async {
+  static Future<bool> createThumbnail(
+      String videoPath, String imagePath) async {
+    if (Platform.isWindows) {
+      return null;
+    }
+
     final command = '-i $videoPath -vframes 1 $imagePath';
 
     //print('## THUMB Command: $command');
