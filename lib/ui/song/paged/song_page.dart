@@ -162,24 +162,27 @@ class _SongActions extends StatelessWidget {
           LargeIconButton(
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
-              transitionBuilder: (child, anim) => ScaleTransition(scale: anim, child: child),
+              transitionBuilder: (child, anim) =>
+                  ScaleTransition(scale: anim, child: child),
               child: state.isSaving || artist.likedSong(song.id)
                   ? Icon(
-                Icons.favorite,
-                key: const ValueKey('favorite'),
-                color: Colors.red,
-              )
+                      Icons.favorite,
+                      key: const ValueKey('favorite'),
+                      color: Colors.red,
+                    )
                   : Icon(
-                Icons.favorite,
-                key: const ValueKey('favorite_red'),
-                color: artist.likedSong(song.id) ? Colors.red : null,
-              ),
+                      Icons.favorite,
+                      key: const ValueKey('favorite_red'),
+                      color: artist.likedSong(song.id) ? Colors.red : null,
+                    ),
             ),
             tooltip: localization.favorite,
             count: song.countLike + 1,
-            onPressed: state.isSaving ? null : () {
-              store.dispatch(LikeSongRequest(song: song));
-            },
+            onPressed: state.isSaving
+                ? null
+                : () {
+                    store.dispatch(LikeSongRequest(song: song));
+                  },
           ),
         if (!kIsWeb)
           LargeIconButton(
@@ -207,7 +210,10 @@ class _SongActions extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return SongShareDialog(song: song);
+                  return SongShareDialog(
+                    song: song,
+                    shareSecret: false,
+                  );
                 });
           },
         ),
@@ -246,11 +252,12 @@ class LargeIconButton extends StatelessWidget {
         children: <Widget>[
           IconButton(
             iconSize: 38,
-            icon: icon ?? Icon(
-              iconData,
-              size: 38,
-              color: color,
-            ),
+            icon: icon ??
+                Icon(
+                  iconData,
+                  size: 38,
+                  color: color,
+                ),
             tooltip: tooltip,
             onPressed: onPressed,
           ),

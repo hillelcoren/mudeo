@@ -15,9 +15,13 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SongShareDialog extends StatefulWidget {
-  const SongShareDialog({this.song});
+  const SongShareDialog({
+    this.song,
+    this.shareSecret,
+  });
 
   final SongEntity song;
+  final bool shareSecret;
 
   @override
   _SongShareDialogState createState() => _SongShareDialogState();
@@ -25,7 +29,6 @@ class SongShareDialog extends StatefulWidget {
 
 class _SongShareDialogState extends State<SongShareDialog> {
   GlobalKey qrCodeGlobalKey = new GlobalKey();
-
 
   Future<void> _captureAndSharePng(SongEntity song) async {
     final store = StoreProvider.of<AppState>(context);
@@ -119,17 +122,23 @@ class _SongShareDialogState extends State<SongShareDialog> {
         TextButton(
           child: Text(localization.copy.toUpperCase()),
           onPressed: () {
-            Clipboard.setData(new ClipboardData(text: song.url));
+            final sharingKey = widget.song.sharingKey ?? '';
+
+            if (widget.shareSecret && sharingKey.isNotEmpty) {
+              Clipboard.setData(new ClipboardData(text: sharingKey));
+            } else {
+              Clipboard.setData(new ClipboardData(text: song.url));
+            }
+
             showToast(localization.copiedToClipboard);
           },
         ),
-
         TextButton(
           child: Text(localization.share.toUpperCase()),
           onPressed: () {
             final sharingKey = widget.song.sharingKey ?? '';
 
-            if (sharingKey.isEmpty) {
+            if (!widget.shareSecret || sharingKey.isEmpty) {
               Share.share(widget.song.url, subject: widget.song.title);
             }
 
@@ -140,7 +149,6 @@ class _SongShareDialogState extends State<SongShareDialog> {
           child: Text(localization.close.toUpperCase()),
           onPressed: () => Navigator.of(context).pop(),
         ),
-
       ],
     );
   }

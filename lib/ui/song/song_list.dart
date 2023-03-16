@@ -360,7 +360,9 @@ class SongFooter extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.videocam),
-            tooltip: artist.belongsToSong(song) ? localization.edit : localization.record,
+            tooltip: artist.belongsToSong(song)
+                ? localization.edit
+                : localization.record,
             onPressed: () {
               if (!state.authState.hasValidToken) {
                 showDialog<AlertDialog>(
@@ -564,7 +566,10 @@ class SongFooter extends StatelessWidget {
                 showDialog<SongShareDialog>(
                     context: context,
                     builder: (BuildContext context) {
-                      return SongShareDialog(song: song);
+                      return SongShareDialog(
+                        song: song,
+                        shareSecret: action == localization.addFriends,
+                      );
                     });
                 return;
               } else if (action == localization.leaveDance ||
