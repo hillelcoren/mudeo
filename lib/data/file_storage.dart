@@ -14,9 +14,10 @@ class FileStorage {
   final Future<Directory> Function() getDirectory;
 
   Future<File> _getLocalFile() async {
-    final dir = await getDirectory();
-
-    return File('${dir.path}/invoiceninja__$tag.json');
+    final directory = await getDirectory();
+    final String folder = '${directory.path}/mudeo/cache';
+    await Directory(folder).create(recursive: true);
+    return File('${folder}/mudeo_$tag.json');
   }
 
   Future<dynamic> load() async {
