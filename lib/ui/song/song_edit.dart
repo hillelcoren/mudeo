@@ -1735,7 +1735,13 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       ),
                       style: ElevatedButton.styleFrom(primary: Colors.green),
                       onPressed: () async {
-                        Share.shareFiles([await widget.track.video.path]);
+                        final path = await widget.track.video.path;
+                        await FileSaver.instance.saveFile(
+                            'mudeo - ${DateTime.now().toIso8601String().split('.')[0].replaceFirst('T', ' ')}',
+                            File(path).readAsBytesSync(),
+                            'mp4',
+                            mimeType: MimeType.MPEG);
+                        showToast(localization.downloadedSong);
                       },
                     ),
                     SizedBox(height: 10),
