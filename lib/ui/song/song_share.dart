@@ -26,6 +26,7 @@ class SongShareDialog extends StatefulWidget {
 class _SongShareDialogState extends State<SongShareDialog> {
   GlobalKey qrCodeGlobalKey = new GlobalKey();
 
+
   Future<void> _captureAndSharePng(SongEntity song) async {
     final store = StoreProvider.of<AppState>(context);
 
@@ -38,11 +39,6 @@ class _SongShareDialogState extends State<SongShareDialog> {
 
       Share.shareXFiles([XFile.fromData(pngBytes, mimeType: 'png')],
           text: store.state.appUrl + '\n\nSecret: ' + song.sharingKey);
-
-      /*
-      await Share.file('QR Code', 'qr_code.png', pngBytes, 'image/png',
-          text: store.state.appUrl + '\n\nSecret: ' + song.sharingKey);
-       */
     } catch (e) {
       print(e.toString());
     }
@@ -121,20 +117,30 @@ class _SongShareDialogState extends State<SongShareDialog> {
       ),
       actions: [
         TextButton(
-          child: Text(localization.close.toUpperCase()),
-          onPressed: () => Navigator.of(context).pop(),
+          child: Text(localization.copy.toUpperCase()),
+          onPressed: () {
+            Clipboard.setData(new ClipboardData(text: song.url));
+            showToast(localization.copiedToClipboard);
+          },
         ),
+
         TextButton(
           child: Text(localization.share.toUpperCase()),
           onPressed: () {
             final sharingKey = widget.song.sharingKey ?? '';
+
             if (sharingKey.isEmpty) {
               Share.share(widget.song.url, subject: widget.song.title);
             }
 
             _captureAndSharePng(widget.song);
           },
-        )
+        ),
+        TextButton(
+          child: Text(localization.close.toUpperCase()),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+
       ],
     );
   }

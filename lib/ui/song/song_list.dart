@@ -560,7 +560,6 @@ class SongFooter extends StatelessWidget {
                     ViewArtist(context: context, artist: originalArtist));
                 return;
               } else if (action == localization.shareSong ||
-                  action == localization.shareDance ||
                   action == localization.addFriends) {
                 showDialog<SongShareDialog>(
                     context: context,
