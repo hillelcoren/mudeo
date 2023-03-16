@@ -716,13 +716,14 @@ class _SongEditState extends State<SongEdit> {
                         ))
                     .toList()
                 : availableCameraDirections.keys
+                    .where((direction) => availableCameraDirections[direction])
                     .map((device) => SimpleDialogOption(
                           onPressed: () {
                             selectCameraDirection(device);
                             Navigator.of(context).pop();
                           },
                           child: ListTile(
-                            title: Text(device.name),
+                            title: Text(localization.lookup(device.name)),
                             trailing: device.name == cameraDirection.name
                                 ? Icon(Icons.check_circle_outline)
                                 : null,

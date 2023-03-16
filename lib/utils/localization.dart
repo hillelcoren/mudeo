@@ -824,7 +824,8 @@ class AppLocalization {
 
   String get replace => _localizedValues[locale.toString()]['replace'];
 
-  String get downloadedSong => _localizedValues[locale.toString()]['downloaded_song'];
+  String get downloadedSong =>
+      _localizedValues[locale.toString()]['downloaded_song'];
 
   String get copy => _localizedValues[locale.toString()]['copy'];
 
