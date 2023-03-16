@@ -17,6 +17,15 @@ bool isMobile() {
   return Platform.isAndroid || Platform.isIOS;
 }
 
+
+bool isDesktop() {
+  if (kIsWeb) {
+    return false;
+  }
+
+  return Platform.isWindows || Platform.isMacOS || Platform.isLinux;
+}
+
 String getAppStoreURL(BuildContext context) {
   final store = StoreProvider.of<AppState>(context);
   if (store.state.isDance) {
@@ -50,12 +59,4 @@ Future<String> getDevice() async {
   } else {
     return '';
   }
-}
-
-bool isDesktop(BuildContext context) {
-  if (kIsWeb) {
-    return false;
-  }
-
-  return Platform.isWindows || Platform.isMacOS || Platform.isLinux;
 }

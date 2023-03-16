@@ -69,14 +69,16 @@ class _SongScaffoldState extends State<SongScaffold> {
   void initState() {
     super.initState();
 
-    checkPermissions();
+    if (isMobile()) {
+      checkPermissions();
+    }
 
     SharedPreferences.getInstance().then((prefs) {
       headsetState = prefs.getBool(kSharedPrefHasHeadphones)
           ? HeadsetState.CONNECT
           : HeadsetState.DISCONNECT;
 
-      if (!isDesktop(context)) {
+      if (!isDesktop()) {
         headsetPlugin.getCurrentState.then((_val) {
           setState(() {
             headsetState = _val;
@@ -214,7 +216,7 @@ class _SongEditState extends State<SongEdit> {
   void initState() {
     super.initState();
 
-    if (isDesktop(context)) {
+    if (isDesktop()) {
       SharedPreferences.getInstance().then((prefs) {
         _headphonesConnected = prefs.getBool(kSharedPrefHasHeadphones);
       });

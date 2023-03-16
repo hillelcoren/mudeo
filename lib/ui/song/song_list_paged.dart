@@ -443,7 +443,7 @@ class _SongListItemState extends State<_SongListItem>
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                if (!isDesktop(context) && kIsWeb)
+                                if (!isDesktop() && kIsWeb)
                                   TextButton(
                                     child:
                                         Text('Apple App Store'.toUpperCase()),
@@ -470,7 +470,7 @@ class _SongListItemState extends State<_SongListItem>
                                   )
                                 else
                                   Expanded(child: SizedBox()),
-                                if (!isDesktop(context) && kIsWeb)
+                                if (!isDesktop() && kIsWeb)
                                   TextButton(
                                     child:
                                         Text('Google Play Store'.toUpperCase()),

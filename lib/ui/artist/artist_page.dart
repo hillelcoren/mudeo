@@ -363,8 +363,8 @@ class ArtistPage extends StatelessWidget {
           onRefresh: () => viewModel.onRefreshed(context),
           child: ListView(
             shrinkWrap: true,
-            primary: isDesktop(context) ? true : false,
-            controller: isDesktop(context) ? null : scrollController,
+            primary: isDesktop() ? true : false,
+            controller: isDesktop() ? null : scrollController,
             children: <Widget>[
               Stack(
                 fit: StackFit.loose,
