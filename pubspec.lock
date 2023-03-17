@@ -1202,19 +1202,20 @@ packages:
   video_player_macos:
     dependency: "direct main"
     description:
-      name: video_player_macos
-      sha256: "9155542ea434f777767dafa3f73ba0ca88950baa194750a569582ee37893fed7"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/video_player/video_player_macos"
+      ref: HEAD
+      resolved-ref: bae932d006e9171fcb57becc7000513cea78076e
+      url: "https://github.com/ollyde/flutter_macos_video_player.git"
+    source: git
     version: "1.0.6"
   video_player_platform_interface:
     dependency: transitive
     description:
       name: video_player_platform_interface
-      sha256: "318a6d20577e1c78cf0bf40670883cc571ea860c72a4f7426d7dacce4bdd4343"
+      sha256: a8c4dcae2a7a6e7cc1d7f9808294d968eca1993af34a98e95b9bdfa959bec684
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.4"
+    version: "6.1.0"
   video_player_web:
     dependency: transitive
     description:
@@ -1226,11 +1227,12 @@ packages:
   video_player_win:
     dependency: "direct main"
     description:
-      name: video_player_win
-      sha256: f148d5af0aa4272ec382c565f390d641f28cd2023376bd77500d46f63ebf6ca5
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.5"
+      path: "."
+      ref: HEAD
+      resolved-ref: "3673dd3a2f2a9dc65c65663404824b99bb73768d"
+      url: "https://github.com/jakky1/video_player_win.git"
+    source: git
+    version: "2.2.0"
   visibility_detector:
     dependency: "direct main"
     description:
