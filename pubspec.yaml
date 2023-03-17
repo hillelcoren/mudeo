@@ -29,10 +29,10 @@ dependencies:
   camera_windows: ^0.2.1+5
   #video_player: ^0.10.12+2
   video_player: ^2.6.0
-  #video_player_win: ^2.2.0
-  video_player_win:
-    git:
-      url: https://github.com/jakky1/video_player_win.git
+  video_player_win: 1.1.6
+  #video_player_win:
+  #  git:
+  #    url: https://github.com/jakky1/video_player_win.git
   video_player_macos:
     git:
       url: https://github.com/ollyde/flutter_macos_video_player.git
