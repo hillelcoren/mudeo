@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/data/file_storage.dart';
@@ -72,6 +73,10 @@ Middleware<AppState> _createLoadState(
   return (Store<AppState> store, dynamic action, NextDispatcher next) async {
     print('## Load state...');
     try {
+      if (!kReleaseMode) {
+        // throw '## FORCE CLEAR ##';
+      }
+
       final prefs = await SharedPreferences.getInstance();
       final appVersion = prefs.getString(kSharedPrefAppVersion);
       prefs.setString(kSharedPrefAppVersion, kAppVersion);
@@ -84,12 +89,11 @@ Middleware<AppState> _createLoadState(
       uiState = await uiRepository.loadUIState();
       dataState = await dataRepository.loadDataState();
 
-      final AppState appState = AppState(
-        isDance: store.state.isDance
-      ).rebuild((b) => b
-        ..authState.replace(authState)
-        ..uiState.replace(uiState)
-        ..dataState.replace(dataState));
+      final AppState appState =
+          AppState(isDance: store.state.isDance).rebuild((b) => b
+            ..authState.replace(authState)
+            ..uiState.replace(uiState)
+            ..dataState.replace(dataState));
 
       AppBuilder.of(action.context).rebuild();
       store.dispatch(LoadStateSuccess(appState));

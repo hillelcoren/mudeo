@@ -26,6 +26,7 @@ class SongRepository {
 
     final dynamic response = await webClient.get(url, state.artist.token);
 
+    final now = DateTime.now();
     final SongListResponse songResponse =
         serializers.deserializeWith(SongListResponse.serializer, response);
 
