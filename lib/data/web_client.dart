@@ -45,7 +45,7 @@ class WebClient {
 
   Future<dynamic> get(String url, String token) async {
     url = _checkUrl(url);
-    debugPrint('GET: $url TOKEN: $token');
+    debugPrint('GET: $url');
 
     url += '&per_page=$kMaxRecordsPerApiPage';
 
@@ -58,7 +58,7 @@ class WebClient {
     );
 
     //debugPrint('Response: ${response.body}');
-    print('Response: ${response.body}');
+    //print('Response: ${response.body}');
 
     if (response.statusCode >= 400) {
       debugPrint('==== FAILED ====');
@@ -93,7 +93,6 @@ class WebClient {
       'Content-Type': 'application/json',
     };
 
-
     if (filePath != null) {
       final file = File(filePath);
       var stream = http.ByteStream(DelegatingStream.typed(file.openRead()));
@@ -111,12 +110,9 @@ class WebClient {
       response = await http.Response.fromStream(await request.send())
           .timeout(const Duration(minutes: 10));
     } else if (multipartFile != null) {
-      print('## UPLAOD');
-      print('## $url');
-      print('## $multipartFile');
       response = await _uploadFiles(url, token, multipartFile, data: data);
     } else {
-      debugPrint('Request: $data');
+      //debugPrint('Request: $data');
 
       response = await http.Client().post(
         url,
@@ -125,7 +121,7 @@ class WebClient {
       );
     }
 
-    debugPrint('Response: ${response.body}');
+    //debugPrint('Response: ${response.body}');
 
     if (response.statusCode >= 300) {
       debugPrint('==== FAILED ====');
@@ -151,7 +147,7 @@ class WebClient {
   }) async {
     url = _checkUrl(url);
     debugPrint('PUT: $url');
-    debugPrint('Request: $data');
+    //debugPrint('Request: $data');
 
     final http.Response response = await http.Client().put(
       url,
@@ -244,7 +240,6 @@ class WebClient {
   Future<http.Response> _uploadFiles(
       String url, String token, MultipartFile multipartFile,
       {String method = 'POST', dynamic data}) async {
-
     final request = http.MultipartRequest(method, Uri.parse(url))
       ..fields.addAll(data ?? {})
       ..headers.addAll(_getHeaders(url, token))

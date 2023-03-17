@@ -63,7 +63,7 @@ void main() async {
         ..addAll(createStoreArtistsMiddleware())
         ..addAll(createStorePersistenceMiddleware())
         ..addAll([
-          LoggingMiddleware<dynamic>.printer(),
+          //LoggingMiddleware<dynamic>.printer(),
         ]));
 
   if (_sentry == null) {
