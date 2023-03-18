@@ -1227,11 +1227,12 @@ packages:
   video_player_win:
     dependency: "direct main"
     description:
-      name: video_player_win
-      sha256: e844165b55dc8e84caba69c8f18f183e02cc6332a0b86cdadbc55cbbf726fcf3
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.6"
+      path: "."
+      ref: master
+      resolved-ref: b60d8530a9625649b16e53c71fe000ec649fb7fe
+      url: "https://github.com/jakky1/video_player_win.git"
+    source: git
+    version: "2.2.0"
   visibility_detector:
     dependency: "direct main"
     description:

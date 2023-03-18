@@ -64,6 +64,20 @@ class _SongScaffoldState extends State<SongScaffold> {
   HeadsetState headsetState;
   bool isCameraEnabled = false;
   bool isMicrophoneEnabled = false;
+  CameraController cameraController;
+  GlobalKey cameraKey = GlobalKey();
+  CameraMacOSController macOSCameraController;
+  List<CameraMacOSDevice> macOSVideoDevices = [];
+  List<CameraMacOSDevice> macOSAudioDevices = [];
+  String selectedVideoDevice;
+  String selectedAudioDevice;
+  CameraLensDirection cameraDirection;
+
+  Map<CameraLensDirection, bool> availableCameraDirections = {
+    CameraLensDirection.front: false,
+    CameraLensDirection.back: false,
+    CameraLensDirection.external: false,
+  };
 
   @override
   void initState() {
@@ -92,153 +106,12 @@ class _SongScaffoldState extends State<SongScaffold> {
         });
       });
     }
-  }
-
-  void checkPermissions() async {
-    if (isCameraEnabled && isMicrophoneEnabled) {
-      return;
-    }
-
-    final statuses = await [
-      Permission.camera,
-      Permission.microphone,
-    ].request();
-
-    if (statuses[Permission.camera].isGranted) {
-      isCameraEnabled = true;
-    }
-
-    if (statuses[Permission.microphone].isGranted) {
-      isMicrophoneEnabled = true;
-    }
-
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-    final state = widget.viewModel.state;
-    final uiState = state.uiState;
-    final song = widget.viewModel.song;
-    final authArtist = widget.viewModel.state.authState.artist;
-    final isMissingRecognitions = false;
-
-    if (isMobile() && (!isCameraEnabled || !isMicrophoneEnabled)) {
-      return Center(
-        child: ElevatedButton(
-          child: Text(
-            !isCameraEnabled
-                ? localization.enableCamera
-                : localization.enableMicrophone,
-          ),
-          onPressed: () async {
-            await checkPermissions();
-
-            if (!isCameraEnabled || !isMicrophoneEnabled) {
-              openAppSettings();
-            }
-          },
-        ),
-      );
-    }
-
-    return Material(
-      child: Stack(
-        children: [
-          SongEdit(
-            viewModel: widget.viewModel,
-            hasHeadset: headsetState == HeadsetState.CONNECT,
-            //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
-            key: ValueKey('${widget.viewModel.song.updatedAt}'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SongEdit extends StatefulWidget {
-  const SongEdit({
-    Key key,
-    @required this.viewModel,
-    @required this.hasHeadset,
-  }) : super(key: key);
-
-  final SongEditVM viewModel;
-  final bool hasHeadset;
-
-  @override
-  _SongEditState createState() => _SongEditState();
-}
-
-class _SongEditState extends State<SongEdit> {
-  Map<int, VideoPlayerController> videoPlayers = {};
-  CameraController cameraController;
-  GlobalKey cameraKey = GlobalKey();
-  CameraMacOSController macOSCameraController;
-  bool isPlaying = false, isRecording = false;
-  bool isPastThreeSeconds = false;
-  int countdownTimer = 0;
-  String path;
-  Timer recordTimer;
-  Timer cancelTimer;
-  Timer playTimer;
-  Completer _readyCompleter;
-  int _activeTrack = 0;
-  bool _headphonesConnected = false;
-
-  String selectedAspectRatio = '16:9';
-  Map<String, double> aspectRatios = {
-    '1:1': 1,
-    '4:3': 4 / 3, // 1.33
-    //'8:5': 8 / 5, // 1.6
-    '16:9': 16 / 9, // 1.77
-    '16:10': 16 / 10, // 1.6
-  };
-
-  List<CameraMacOSDevice> macOSVideoDevices = [];
-  String selectedVideoDevice;
-
-  List<CameraMacOSDevice> macOSAudioDevices = [];
-  String selectedAudioDevice;
-
-  CameraLensDirection cameraDirection = CameraLensDirection.front;
-  Map<CameraLensDirection, bool> availableCameraDirections = {
-    CameraLensDirection.front: false,
-    CameraLensDirection.back: false,
-    CameraLensDirection.external: false,
-  };
-
-  bool get disableButtons => isPlaying || isRecording || countdownTimer > 0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (isDesktop()) {
-      SharedPreferences.getInstance().then((prefs) {
-        _headphonesConnected = prefs.getBool(kSharedPrefHasHeadphones) ?? false;
-        selectedAspectRatio = prefs.getString(kSharedPrefAspectRatio) ?? '16:9';
-      });
-    } else {
-      _headphonesConnected = widget.hasHeadset;
-    }
 
     SharedPreferences.getInstance().then((sharedPrefs) {
       cameraDirection = convertCameraDirectionFromString(
           sharedPrefs.getString(kSharedPrefCameraDirection));
-
       initCamera();
     });
-  }
-
-  void didUpdateWidget(SongEdit oldWidget) {
-    if (widget.hasHeadset != oldWidget.hasHeadset) {
-      _headphonesConnected = widget.hasHeadset;
-    }
-
-    super.didUpdateWidget(oldWidget);
   }
 
   void initCamera() async {
@@ -293,6 +166,186 @@ class _SongEditState extends State<SongEdit> {
     }
   }
 
+  void checkPermissions() async {
+    if (isCameraEnabled && isMicrophoneEnabled) {
+      return;
+    }
+
+    final statuses = await [
+      Permission.camera,
+      Permission.microphone,
+    ].request();
+
+    if (statuses[Permission.camera].isGranted) {
+      isCameraEnabled = true;
+    }
+
+    if (statuses[Permission.microphone].isGranted) {
+      isMicrophoneEnabled = true;
+    }
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    cameraController?.dispose();
+
+    /*
+    if (Platform.isMacOS) {
+      destroyCamera();
+    }
+     */
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final localization = AppLocalization.of(context);
+    final state = widget.viewModel.state;
+    final uiState = state.uiState;
+    final song = widget.viewModel.song;
+    final authArtist = widget.viewModel.state.authState.artist;
+    final isMissingRecognitions = false;
+
+    if (isMobile() && (!isCameraEnabled || !isMicrophoneEnabled)) {
+      return Center(
+        child: ElevatedButton(
+          child: Text(
+            !isCameraEnabled
+                ? localization.enableCamera
+                : localization.enableMicrophone,
+          ),
+          onPressed: () async {
+            await checkPermissions();
+
+            if (!isCameraEnabled || !isMicrophoneEnabled) {
+              openAppSettings();
+            }
+          },
+        ),
+      );
+    }
+
+    return Material(
+      child: Stack(
+        children: [
+          SongEdit(
+            viewModel: widget.viewModel,
+            hasHeadset: headsetState == HeadsetState.CONNECT,
+            //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+            key: ValueKey('${widget.viewModel.song.updatedAt}'),
+            cameraController: cameraController,
+            cameraKey: cameraKey,
+            macOSCameraController: macOSCameraController,
+            macOSAudioDevices: macOSAudioDevices,
+            macOSVideoDevices: macOSVideoDevices,
+            selectedAudioDevice: selectedAudioDevice,
+            selectedVideoDevice: selectedVideoDevice,
+            cameraDirection: cameraDirection,
+            availableCameraDirections: availableCameraDirections,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SongEdit extends StatefulWidget {
+  const SongEdit({
+    Key key,
+    @required this.viewModel,
+    @required this.hasHeadset,
+    @required this.cameraController,
+    @required this.cameraKey,
+    @required this.macOSCameraController,
+    @required this.macOSAudioDevices,
+    @required this.macOSVideoDevices,
+    @required this.selectedAudioDevice,
+    @required this.selectedVideoDevice,
+    @required this.cameraDirection,
+    @required this.availableCameraDirections,
+  }) : super(key: key);
+
+  final SongEditVM viewModel;
+  final bool hasHeadset;
+  final CameraController cameraController;
+  final GlobalKey cameraKey;
+  final CameraMacOSController macOSCameraController;
+  final List<CameraMacOSDevice> macOSVideoDevices;
+  final List<CameraMacOSDevice> macOSAudioDevices;
+  final String selectedVideoDevice;
+  final String selectedAudioDevice;
+  final CameraLensDirection cameraDirection;
+  final Map<CameraLensDirection, bool> availableCameraDirections;
+
+  @override
+  _SongEditState createState() => _SongEditState();
+}
+
+class _SongEditState extends State<SongEdit> {
+  Map<int, VideoPlayerController> videoPlayers = {};
+  bool isPlaying = false, isRecording = false;
+  bool isPastThreeSeconds = false;
+  int countdownTimer = 0;
+  String path;
+  Timer recordTimer;
+  Timer cancelTimer;
+  Timer playTimer;
+  Completer _readyCompleter;
+  int _activeTrack = 0;
+  bool _headphonesConnected = false;
+  String selectedVideoDevice;
+  String selectedAudioDevice;
+  CameraLensDirection cameraDirection;
+
+  String selectedAspectRatio = '16:9';
+  Map<String, double> aspectRatios = {
+    '1:1': 1,
+    '4:3': 4 / 3, // 1.33
+    //'8:5': 8 / 5, // 1.6
+    '16:9': 16 / 9, // 1.77
+    '16:10': 16 / 10, // 1.6
+  };
+
+  String _selectedVideoDevice;
+  String _selectedAudioDevice;
+
+  CameraLensDirection _cameraDirection = CameraLensDirection.front;
+
+  bool get disableButtons => isPlaying || isRecording || countdownTimer > 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (isDesktop()) {
+      SharedPreferences.getInstance().then((prefs) {
+        _headphonesConnected = prefs.getBool(kSharedPrefHasHeadphones) ?? false;
+        selectedAspectRatio = prefs.getString(kSharedPrefAspectRatio) ?? '16:9';
+      });
+    } else {
+      _headphonesConnected = widget.hasHeadset;
+    }
+
+    /*
+    SharedPreferences.getInstance().then((sharedPrefs) {
+      _cameraDirection = convertCameraDirectionFromString(
+          sharedPrefs.getString(kSharedPrefCameraDirection));
+      initCamera();
+    });
+    */
+  }
+
+  void didUpdateWidget(SongEdit oldWidget) {
+    if (widget.hasHeadset != oldWidget.hasHeadset) {
+      _headphonesConnected = widget.hasHeadset;
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
@@ -334,7 +387,6 @@ class _SongEditState extends State<SongEdit> {
   @override
   void dispose() {
     videoPlayers.forEach((int, videoPlayer) => videoPlayer?.dispose());
-    cameraController?.dispose();
 
     /*
     if (Platform.isMacOS) {
@@ -345,6 +397,7 @@ class _SongEditState extends State<SongEdit> {
     super.dispose();
   }
 
+  /*
   Future<void> destroyCamera() async {
     print("## Destroy camera");
     try {
@@ -360,6 +413,7 @@ class _SongEditState extends State<SongEdit> {
       //
     }
   }
+  */
 
   void record() async {
     if (countdownTimer > 0) {
@@ -373,7 +427,7 @@ class _SongEditState extends State<SongEdit> {
 
     // TODO remove this, it's needed to prevent the app from crashing
     if (Platform.isIOS) {
-      initCamera();
+      //initCamera();
     }
 
     setState(() {
@@ -386,7 +440,7 @@ class _SongEditState extends State<SongEdit> {
           Timer(Duration(seconds: 1), () {
             if (countdownTimer == 2) {
               if (!Platform.isMacOS && !Platform.isWindows) {
-                cameraController.prepareForVideoRecording();
+                widget.cameraController.prepareForVideoRecording();
               }
               setState(() {
                 countdownTimer = 1;
@@ -426,7 +480,7 @@ class _SongEditState extends State<SongEdit> {
       play(isRecording: true);
       if (Platform.isMacOS) {
         print('## PATH: $path');
-        macOSCameraController.recordVideo(
+        widget.macOSCameraController.recordVideo(
           url: path,
           maxVideoDuration: 300,
           onVideoRecordingFinished:
@@ -437,7 +491,7 @@ class _SongEditState extends State<SongEdit> {
           },
         );
       } else {
-        cameraController.startVideoRecording();
+        widget.cameraController.startVideoRecording();
       }
     });
   }
@@ -460,11 +514,11 @@ class _SongEditState extends State<SongEdit> {
 
     try {
       if (Platform.isMacOS) {
-        if (macOSCameraController.isRecording) {
-          await macOSCameraController.stopRecording();
+        if (widget.macOSCameraController.isRecording) {
+          await widget.macOSCameraController.stopRecording();
         }
       } else {
-        final video = await cameraController.stopVideoRecording();
+        final video = await widget.cameraController.stopVideoRecording();
         final videoFile = File(video.path);
         try {
           await videoFile.rename(path);
@@ -496,7 +550,7 @@ class _SongEditState extends State<SongEdit> {
 
     // TODO remove this: https://github.com/flutter/flutter/issues/30689
     if (Platform.isIOS) {
-      await cameraController.initialize();
+      await widget.cameraController.initialize();
     }
 
     BuiltMap<String, double> volumeData = BuiltMap(<String, double>{});
@@ -668,11 +722,11 @@ class _SongEditState extends State<SongEdit> {
           final localization = AppLocalization.of(context);
           return SimpleDialog(
             title: Text(localization.microphone),
-            children: macOSAudioDevices
+            children: widget.macOSAudioDevices
                 .map((device) => SimpleDialogOption(
                       onPressed: () {
                         setState(() {
-                          selectedAudioDevice = device.deviceId;
+                          _selectedAudioDevice = device.deviceId;
                         });
 
                         Navigator.of(context).pop();
@@ -680,7 +734,7 @@ class _SongEditState extends State<SongEdit> {
                       child: ListTile(
                         title: Text(device.localizedName),
                         subtitle: Text(device.manufacturer),
-                        trailing: device.deviceId == selectedAudioDevice
+                        trailing: device.deviceId == _selectedAudioDevice
                             ? Icon(Icons.check_circle_outline)
                             : null,
                       ),
@@ -698,11 +752,11 @@ class _SongEditState extends State<SongEdit> {
           return SimpleDialog(
             title: Text(localization.camera),
             children: Platform.isMacOS
-                ? macOSVideoDevices
+                ? widget.macOSVideoDevices
                     .map((device) => SimpleDialogOption(
                           onPressed: () {
                             setState(() {
-                              selectedVideoDevice = device.deviceId;
+                              _selectedVideoDevice = device.deviceId;
                             });
 
                             Navigator.of(context).pop();
@@ -710,14 +764,15 @@ class _SongEditState extends State<SongEdit> {
                           child: ListTile(
                             title: Text(device.localizedName),
                             subtitle: Text(device.manufacturer),
-                            trailing: device.deviceId == selectedVideoDevice
+                            trailing: device.deviceId == _selectedVideoDevice
                                 ? Icon(Icons.check_circle_outline)
                                 : null,
                           ),
                         ))
                     .toList()
-                : availableCameraDirections.keys
-                    .where((direction) => availableCameraDirections[direction])
+                : widget.availableCameraDirections.keys
+                    .where((direction) =>
+                        widget.availableCameraDirections[direction])
                     .map((device) => SimpleDialogOption(
                           onPressed: () {
                             selectCameraDirection(device);
@@ -725,7 +780,7 @@ class _SongEditState extends State<SongEdit> {
                           },
                           child: ListTile(
                             title: Text(localization.lookup(device.name)),
-                            trailing: device.name == cameraDirection.name
+                            trailing: device.name == _cameraDirection.name
                                 ? Icon(Icons.check_circle_outline)
                                 : null,
                           ),
@@ -816,7 +871,7 @@ class _SongEditState extends State<SongEdit> {
           return SimpleDialog(
             title: Text(localization.camera),
             children: <Widget>[
-              availableCameraDirections[CameraLensDirection.front]
+              widget.availableCameraDirections[CameraLensDirection.front]
                   ? SimpleDialogOption(
                       onPressed: () {
                         selectCameraDirection(CameraLensDirection.front);
@@ -832,7 +887,7 @@ class _SongEditState extends State<SongEdit> {
                       ),
                     )
                   : SizedBox(),
-              availableCameraDirections[CameraLensDirection.back]
+              widget.availableCameraDirections[CameraLensDirection.back]
                   ? SimpleDialogOption(
                       onPressed: () {
                         selectCameraDirection(CameraLensDirection.back);
@@ -848,7 +903,7 @@ class _SongEditState extends State<SongEdit> {
                       ),
                     )
                   : SizedBox(),
-              availableCameraDirections[CameraLensDirection.external]
+              widget.availableCameraDirections[CameraLensDirection.external]
                   ? SimpleDialogOption(
                       onPressed: () {
                         selectCameraDirection(CameraLensDirection.external);
@@ -874,8 +929,8 @@ class _SongEditState extends State<SongEdit> {
     prefs.setString(
         kSharedPrefCameraDirection, convertCameraDirectionToString(direction));
     setState(() {
-      cameraDirection = direction;
-      initCamera();
+      _cameraDirection = direction;
+      //initCamera();
     });
   }
 
@@ -911,8 +966,8 @@ class _SongEditState extends State<SongEdit> {
     if (Platform.isMacOS) {
       aspectRatio = aspectRatios[selectedAspectRatio];
     } else {
-      if (cameraController == null) return SizedBox();
-      final value = cameraController.value;
+      if (widget.cameraController == null) return SizedBox();
+      final value = widget.cameraController.value;
       if (!value.isInitialized) return SizedBox();
 
       // TODO remove this: #97540
@@ -986,18 +1041,18 @@ class _SongEditState extends State<SongEdit> {
               aspectRatio: aspectRatio,
               child: Platform.isMacOS
                   ? CameraMacOSView(
-                      key: cameraKey,
+                      key: widget.cameraKey,
                       fit: BoxFit.fill,
-                      audioDeviceId: selectedAudioDevice,
-                      deviceId: selectedVideoDevice,
+                      audioDeviceId: _selectedAudioDevice,
+                      deviceId: _selectedVideoDevice,
                       cameraMode: CameraMacOSMode.video,
                       onCameraInizialized: (CameraMacOSController controller) {
                         setState(() {
-                          this.macOSCameraController = controller;
+                          //widget.macOSCameraController = controller;
                         });
                       },
                     )
-                  : cameraController.buildPreview(),
+                  : widget.cameraController.buildPreview(),
             ),
           ),
           decoration: BoxDecoration(
@@ -1267,14 +1322,14 @@ class _SongEditState extends State<SongEdit> {
                         }
                          */
                         if ((Platform.isMacOS &&
-                                macOSVideoDevices.length > 1) ||
-                            availableCameraDirections.keys
-                                    .where(
-                                        (key) => availableCameraDirections[key])
+                                widget.macOSVideoDevices.length > 1) ||
+                            widget.availableCameraDirections.keys
+                                    .where((key) =>
+                                        widget.availableCameraDirections[key])
                                     .length >
                                 1) actions.add(localization.camera);
                         if (isDesktop()) actions.add(localization.aspectRatio);
-                        if (isDesktop() && macOSAudioDevices.length > 1)
+                        if (isDesktop() && widget.macOSAudioDevices.length > 1)
                           actions.add(localization.microphone);
                         actions.add(localization.headphones);
                         if (!kReleaseMode && Platform.isMacOS)
@@ -1288,7 +1343,7 @@ class _SongEditState extends State<SongEdit> {
                       },
                       onSelected: (String action) async {
                         if (action == localization.resetCamera) {
-                          destroyCamera();
+                          //destroyCamera();
                         } else if (action == localization.openInBrowser ||
                             action == localization.openInNewTab) {
                           launch(song.url);
