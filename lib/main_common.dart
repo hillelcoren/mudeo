@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,6 +40,7 @@ class MudeoAppState extends State<MudeoApp> {
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
           });
           final fontFamily = kIsWeb ? 'Roboto' : null;
+          final analytics = FirebaseAnalytics();
 
           return WindowManager(
             child: MaterialApp(
@@ -53,6 +56,9 @@ class MudeoAppState extends State<MudeoApp> {
               //initialRoute: MainScreen.route,
               //locale: AppLocalization.createLocale(localeSelector(state)),
               locale: AppLocalization.createLocale('en'),
+              navigatorObservers: [
+                if (!kIsWeb) FirebaseAnalyticsObserver(analytics: analytics),
+              ],
               theme: ThemeData(
                 pageTransitionsTheme: pageTransitionsTheme,
                 brightness: Brightness.dark,
