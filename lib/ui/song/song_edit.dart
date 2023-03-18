@@ -1326,7 +1326,8 @@ class _SongEditState extends State<SongEdit> {
                                         widget.availableCameraDirections[key])
                                     .length >
                                 1) actions.add(localization.camera);
-                        if (isDesktop()) actions.add(localization.aspectRatio);
+                        if (Platform.isMacOS)
+                          actions.add(localization.aspectRatio);
                         if (isDesktop() && widget.macOSAudioDevices.length > 1)
                           actions.add(localization.microphone);
                         actions.add(localization.headphones);
