@@ -87,6 +87,7 @@ class SongRepository {
           recognitions: video.recognitions,
           timestamp: video.timestamp,
           data: json.encode(data),
+          fileIndex: 'video',
           filePath: video.remoteVideoId != null
               ? null
               : await VideoEntity.getPath(video));
