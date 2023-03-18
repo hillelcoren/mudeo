@@ -971,7 +971,6 @@ class _SongEditState extends State<SongEdit> {
       // TODO remove this: #97540
       if (Platform.isWindows) {
         aspectRatio = value.aspectRatio / 1;
-        //aspectRatio = aspectRatios[selectedAspectRatio];
       } else {
         aspectRatio = 1 / value.aspectRatio;
       }
