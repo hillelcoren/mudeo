@@ -162,6 +162,8 @@ class _SongActions extends StatelessWidget {
           LargeIconButton(
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
+              switchInCurve: Curves.bounceInOut,
+              switchOutCurve: Curves.bounceInOut,
               transitionBuilder: (child, anim) =>
                   ScaleTransition(scale: anim, child: child),
               child: state.isSaving || artist.likedSong(song.id)

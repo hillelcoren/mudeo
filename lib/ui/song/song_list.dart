@@ -417,6 +417,8 @@ class SongFooter extends StatelessWidget {
               IconButton(
                 icon: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
+                  switchInCurve: Curves.easeInOut,
+                  switchOutCurve: Curves.easeInOut,
                   transitionBuilder: (child, anim) =>
                       ScaleTransition(scale: anim, child: child),
                   child: state.isSaving || artist.likedSong(song.id)
