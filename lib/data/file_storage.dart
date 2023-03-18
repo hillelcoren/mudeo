@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:mudeo/utils/platforms.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,12 @@ class FileStorage {
 
   Future<File> _getLocalFile() async {
     final directory = await getDirectory();
+
+    // TODO remove this
+    if (isMobile()) {
+      return File('${directory.path}/invoiceninja__$tag.json');
+    }
+
     final String folder = p.join(directory.path, 'mudeo', 'cache');
     await Directory(folder).create(recursive: true);
     return File(p.join(folder, 'mudeo_$tag.json'));
