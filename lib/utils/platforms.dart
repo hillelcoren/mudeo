@@ -7,6 +7,18 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 
+bool supportsFFMpeg() {
+  if (kIsWeb) {
+    return false;
+  }
+
+  if (Platform.isWindows) {
+    return false;
+  }
+
+  return true;
+}
+
 String getPlatform() => Platform.isAndroid ? 'android' : 'ios';
 
 bool isMobile() {
@@ -16,7 +28,6 @@ bool isMobile() {
 
   return Platform.isAndroid || Platform.isIOS;
 }
-
 
 bool isDesktop() {
   if (kIsWeb) {

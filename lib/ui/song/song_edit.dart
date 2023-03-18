@@ -554,10 +554,12 @@ class _SongEditState extends State<SongEdit> {
     }
 
     BuiltMap<String, double> volumeData = BuiltMap(<String, double>{});
-    try {
-      volumeData = await FfmpegUtils.calculateVolumeData(path);
-    } catch (error) {
-      // do nothing
+    if (supportsFFMpeg()) {
+      try {
+        volumeData = await FfmpegUtils.calculateVolumeData(path);
+      } catch (error) {
+        // do nothing
+      }
     }
 
     final imagePath = path.replaceFirst('.mp4', '-thumb.jpg');
@@ -1807,33 +1809,34 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       ),
                       */
 
-                    widget.isFirst || !widget.hasHeadset
-                        ? SizedBox()
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: ElevatedButton(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 4, vertical: 10),
-                                child: Text(localization.adjust),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.purple),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                showDialog<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return TrackSyncer(
-                                        song: widget.viewModel.song,
-                                        track: widget.track,
-                                        onDelayChanged: (delay) =>
-                                            widget.onDelayChanged(delay),
-                                      );
-                                    });
-                              },
-                            ),
+                    if (!widget.isFirst &&
+                        widget.hasHeadset &&
+                        supportsFFMpeg())
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: ElevatedButton(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 4, vertical: 10),
+                            child: Text(localization.adjust),
                           ),
+                          style:
+                              ElevatedButton.styleFrom(primary: Colors.purple),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            showDialog<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return TrackSyncer(
+                                    song: widget.viewModel.song,
+                                    track: widget.track,
+                                    onDelayChanged: (delay) =>
+                                        widget.onDelayChanged(delay),
+                                  );
+                                });
+                          },
+                        ),
+                      ),
                     /*
                     track.video.isRemoteVideo
                         ? Padding(
