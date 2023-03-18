@@ -16,6 +16,7 @@ import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_actions.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
+import 'package:mudeo/utils/localization.dart';
 import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/ui/app/first_interaction.dart';
 import 'package:mudeo/ui/app/loading_indicator.dart';
@@ -93,8 +94,14 @@ class _SongListPagedState extends State<SongListPaged> {
                       ),
                       entity: state.dataState.songMap[allSongIds[index]],
                       isLastSong: index >= allSongIds.length - 1,
+                      isFirstSong: index == 0,
                       onNextPressed: () {
                         widget.pageController.nextPage(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.easeInCubic);
+                      },
+                      onPreviousPressed: () {
+                        widget.pageController.previousPage(
                             duration: Duration(milliseconds: 500),
                             curve: Curves.easeInCubic);
                       },
@@ -198,13 +205,17 @@ class _SongListItem extends StatefulWidget {
     @required this.fade,
     @required this.entity,
     @required this.onNextPressed,
+    @required this.onPreviousPressed,
     @required this.isLastSong,
+    @required this.isFirstSong,
   }) : super(key: key);
 
   final Animation<double> fade;
   final SongEntity entity;
   final Function onNextPressed;
+  final Function onPreviousPressed;
   final bool isLastSong;
+  final bool isFirstSong;
 
   @override
   _SongListItemState createState() => _SongListItemState();
@@ -303,6 +314,7 @@ class _SongListItemState extends State<_SongListItem>
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
+    final localization = AppLocalization.of(context);
     final bool isMixDown = (song.trackVideoUrl ?? '').isNotEmpty;
 
     return VideoControllerScope(
@@ -460,6 +472,7 @@ class _SongListItemState extends State<_SongListItem>
                                     child: Padding(
                                       padding: const EdgeInsets.only(bottom: 8),
                                       child: IconButton(
+                                        tooltip: localization.nextVideo,
                                         icon: Icon(
                                           Icons.keyboard_arrow_down,
                                           size: 45,
@@ -541,6 +554,18 @@ class _SongListItemState extends State<_SongListItem>
                   ),
                 ),
               ),
+              if ((isDesktop() || kIsWeb) && !widget.isFirstSong)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: IconButton(
+                    tooltip: localization.previousVideo,
+                    icon: Icon(
+                      Icons.keyboard_arrow_up,
+                      size: 45,
+                    ),
+                    onPressed: widget.onPreviousPressed,
+                  ),
+                )
             ],
           ),
         ),
