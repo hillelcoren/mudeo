@@ -253,6 +253,14 @@ class _SongListItemState extends State<_SongListItem>
     if (info.visibleFraction > 0.5) {
       if (!kIsWeb || _hasInteracted.value) {
         _playVideos();
+        if (Platform.isWindows) {
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            _pauseVideos();
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              _playVideos();
+            });
+          });
+        }
       }
     } else {
       _pauseVideos();
