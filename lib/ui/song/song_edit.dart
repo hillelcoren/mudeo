@@ -479,13 +479,11 @@ class _SongEditState extends State<SongEdit> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       play(isRecording: true);
       if (Platform.isMacOS) {
-        print('## PATH: $path');
         widget.macOSCameraController.recordVideo(
           url: path,
-          maxVideoDuration: 300,
+          maxVideoDuration: 310,
           onVideoRecordingFinished:
               (CameraMacOSFile file, CameraMacOSException exception) {
-            print('## onVideoRecordingFinished');
             // called when maxVideoDuration has been reached
             // do something with the file or catch the exception
           },
@@ -590,8 +588,6 @@ class _SongEditState extends State<SongEdit> {
       duration,
       _headphonesConnected,
     );
-
-    print('## SAVE TRACK: $trackId');
 
     setState(() {
       isPastThreeSeconds = false;

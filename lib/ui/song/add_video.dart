@@ -12,6 +12,7 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/redux/song/song_selectors.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/platforms.dart';
 
 class AddVideo extends StatelessWidget {
   AddVideo({
@@ -177,6 +178,7 @@ class MudeoVideoListItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -381,7 +383,7 @@ class ThumbnailIcon extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            (url ?? '').isEmpty
+            (url ?? '').isEmpty || (url.contains('new') && !supportsFFMpeg())
                 ? Placeholder()
                 : url.startsWith('http')
                     ? (kIsWeb
