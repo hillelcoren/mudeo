@@ -232,20 +232,24 @@ class _SongScaffoldState extends State<SongScaffold> {
       child: Stack(
         children: [
           SongEdit(
-            viewModel: widget.viewModel,
-            hasHeadset: headsetState == HeadsetState.CONNECT,
-            //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
-            key: ValueKey('${widget.viewModel.song.updatedAt}'),
-            cameraController: cameraController,
-            cameraKey: cameraKey,
-            macOSCameraController: macOSCameraController,
-            macOSAudioDevices: macOSAudioDevices,
-            macOSVideoDevices: macOSVideoDevices,
-            selectedAudioDevice: selectedAudioDevice,
-            selectedVideoDevice: selectedVideoDevice,
-            cameraDirection: cameraDirection,
-            availableCameraDirections: availableCameraDirections,
-          ),
+              viewModel: widget.viewModel,
+              hasHeadset: headsetState == HeadsetState.CONNECT,
+              //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+              key: ValueKey('${widget.viewModel.song.updatedAt}'),
+              cameraController: cameraController,
+              cameraKey: cameraKey,
+              macOSCameraController: macOSCameraController,
+              macOSAudioDevices: macOSAudioDevices,
+              macOSVideoDevices: macOSVideoDevices,
+              selectedAudioDevice: selectedAudioDevice,
+              selectedVideoDevice: selectedVideoDevice,
+              cameraDirection: cameraDirection,
+              availableCameraDirections: availableCameraDirections,
+              onMacOSCameraInizialized: (controller) {
+                setState(() {
+                  macOSCameraController = controller;
+                });
+              }),
         ],
       ),
     );
@@ -266,6 +270,7 @@ class SongEdit extends StatefulWidget {
     @required this.selectedVideoDevice,
     @required this.cameraDirection,
     @required this.availableCameraDirections,
+    @required this.onMacOSCameraInizialized,
   }) : super(key: key);
 
   final SongEditVM viewModel;
@@ -279,6 +284,7 @@ class SongEdit extends StatefulWidget {
   final String selectedAudioDevice;
   final CameraLensDirection cameraDirection;
   final Map<CameraLensDirection, bool> availableCameraDirections;
+  final Function(CameraMacOSController controller) onMacOSCameraInizialized;
 
   @override
   _SongEditState createState() => _SongEditState();
@@ -1044,9 +1050,13 @@ class _SongEditState extends State<SongEdit> {
                       deviceId: _selectedVideoDevice,
                       cameraMode: CameraMacOSMode.video,
                       onCameraInizialized: (CameraMacOSController controller) {
+                        widget.onMacOSCameraInizialized(controller);
+
+                        /*
                         setState(() {
-                          //widget.macOSCameraController = controller;
+                          widget.macOSCameraController = controller;
                         });
+                        */
                       },
                     )
                   : widget.cameraController.buildPreview(),
