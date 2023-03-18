@@ -501,20 +501,21 @@ class _SongListItemState extends State<_SongListItem>
                       padding: const EdgeInsets.only(top: 8, bottom: 24.0),
                       child: Row(
                         children: <Widget>[
-                          ValueListenableBuilder<bool>(
-                            valueListenable: _songPrefs.fullscreen,
-                            builder: (BuildContext context, bool isFullscreen,
-                                Widget child) {
-                              return IconButton(
-                                onPressed: _toggleFullscreen,
-                                icon: Icon(
-                                  isFullscreen
-                                      ? Icons.fullscreen_exit
-                                      : Icons.fullscreen,
-                                ),
-                              );
-                            },
-                          ),
+                          if (!Platform.isWindows)
+                            ValueListenableBuilder<bool>(
+                              valueListenable: _songPrefs.fullscreen,
+                              builder: (BuildContext context, bool isFullscreen,
+                                  Widget child) {
+                                return IconButton(
+                                  onPressed: _toggleFullscreen,
+                                  icon: Icon(
+                                    isFullscreen
+                                        ? Icons.fullscreen_exit
+                                        : Icons.fullscreen,
+                                  ),
+                                );
+                              },
+                            ),
                           ValueListenableBuilder<bool>(
                             valueListenable: _songPrefs.mute,
                             builder: (BuildContext context, bool isMuted,
@@ -750,7 +751,10 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                           return ErrorWidget(snapshot.error);
                         } else {
                           return FittedBox(
-                            fit: isFullScreen ? BoxFit.cover : BoxFit.fitWidth,
+                            fit: Platform.isWindows || isFullScreen
+                                ? BoxFit.cover
+                                : BoxFit.fitWidth,
+                            clipBehavior: Clip.hardEdge,
                             child: SizedBox(
                               width: _controller?.value?.size?.width ?? 0,
                               height: _controller?.value?.size?.height ?? 0,
@@ -797,6 +801,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
                 ],
               );
             });
+
         if (!constraints.isTight) {
           child = AspectRatio(
             aspectRatio: _thumbnailSize?.aspectRatio ?? 1.33,
