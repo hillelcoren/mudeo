@@ -452,13 +452,13 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: InkWell(
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: song.sharingKey));
+                    Clipboard.setData(ClipboardData(text: sharingKey));
                     showToast(localization.copiedToClipboard);
                   },
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    child: Text(song.sharingKey ?? ''),
+                    child: Text(sharingKey ?? ''),
                   ),
                 ),
               ),
