@@ -32,6 +32,7 @@ dependencies:
     git:
       url: https://github.com/jakky1/video_player_win.git
       ref: master
+  #video_player_macos: 1.0.6
   video_player_macos:
     git:
       url: https://github.com/ollyde/flutter_macos_video_player.git
