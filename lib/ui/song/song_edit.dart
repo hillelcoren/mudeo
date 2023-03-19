@@ -261,6 +261,16 @@ class _SongScaffoldState extends State<SongScaffold> {
                 initCamera();
               });
             },
+            setMacOSAudioDevice: (device) {
+              setState(() {
+                selectedAudioDevice = device;
+              });
+            },
+            setMacOSVideoDevice: (device) {
+              setState(() {
+                selectedVideoDevice = device;
+              });
+            },
           ),
         ],
       ),
@@ -284,6 +294,8 @@ class SongEdit extends StatefulWidget {
     @required this.availableCameraDirections,
     @required this.onMacOSCameraInizialized,
     @required this.setCameraDirection,
+    @required this.setMacOSAudioDevice,
+    @required this.setMacOSVideoDevice,
   }) : super(key: key);
 
   final SongEditVM viewModel;
@@ -297,8 +309,10 @@ class SongEdit extends StatefulWidget {
   final String selectedAudioDevice;
   final CameraLensDirection cameraDirection;
   final Map<CameraLensDirection, bool> availableCameraDirections;
-  final Function(CameraMacOSController controller) onMacOSCameraInizialized;
   final Function(CameraLensDirection) setCameraDirection;
+  final Function(CameraMacOSController controller) onMacOSCameraInizialized;
+  final Function(String) setMacOSVideoDevice;
+  final Function(String) setMacOSAudioDevice;
 
   @override
   _SongEditState createState() => _SongEditState();
@@ -328,10 +342,11 @@ class _SongEditState extends State<SongEdit> {
     '16:10': 16 / 10, // 1.6
   };
 
+  /*
   String _selectedVideoDevice;
   String _selectedAudioDevice;
-
   CameraLensDirection _cameraDirection = CameraLensDirection.front;
+  */
 
   bool get disableButtons => isPlaying || isRecording || countdownTimer > 0;
 
@@ -732,16 +747,13 @@ class _SongEditState extends State<SongEdit> {
             children: widget.macOSAudioDevices
                 .map((device) => SimpleDialogOption(
                       onPressed: () {
-                        setState(() {
-                          _selectedAudioDevice = device.deviceId;
-                        });
-
+                        widget.setMacOSAudioDevice(device.deviceId);
                         Navigator.of(context).pop();
                       },
                       child: ListTile(
                         title: Text(device.localizedName),
                         subtitle: Text(device.manufacturer),
-                        trailing: device.deviceId == _selectedAudioDevice
+                        trailing: device.deviceId == widget.selectedAudioDevice
                             ? Icon(Icons.check_circle_outline)
                             : null,
                       ),
@@ -762,18 +774,16 @@ class _SongEditState extends State<SongEdit> {
                 ? widget.macOSVideoDevices
                     .map((device) => SimpleDialogOption(
                           onPressed: () {
-                            setState(() {
-                              _selectedVideoDevice = device.deviceId;
-                            });
-
+                            widget.setMacOSVideoDevice(device.deviceId);
                             Navigator.of(context).pop();
                           },
                           child: ListTile(
                             title: Text(device.localizedName),
                             subtitle: Text(device.manufacturer),
-                            trailing: device.deviceId == _selectedVideoDevice
-                                ? Icon(Icons.check_circle_outline)
-                                : null,
+                            trailing:
+                                device.deviceId == widget.selectedVideoDevice
+                                    ? Icon(Icons.check_circle_outline)
+                                    : null,
                           ),
                         ))
                     .toList()
@@ -787,7 +797,7 @@ class _SongEditState extends State<SongEdit> {
                           },
                           child: ListTile(
                             title: Text(localization.lookup(device.name)),
-                            trailing: device.name == _cameraDirection.name
+                            trailing: device.name == widget.cameraDirection.name
                                 ? Icon(Icons.check_circle_outline)
                                 : null,
                           ),
@@ -867,67 +877,6 @@ class _SongEditState extends State<SongEdit> {
               ),
             ),
           ]);
-        });
-  }
-
-  void onSettingsPressed() {
-    showDialog<SimpleDialog>(
-        context: context,
-        builder: (BuildContext context) {
-          final localization = AppLocalization.of(context);
-          return SimpleDialog(
-            title: Text(localization.camera),
-            children: <Widget>[
-              widget.availableCameraDirections[CameraLensDirection.front]
-                  ? SimpleDialogOption(
-                      onPressed: () {
-                        widget.setCameraDirection(CameraLensDirection.front);
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconText(
-                          icon: Icons.camera_front,
-                          text: localization.front,
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
-              widget.availableCameraDirections[CameraLensDirection.back]
-                  ? SimpleDialogOption(
-                      onPressed: () {
-                        widget.setCameraDirection(CameraLensDirection.back);
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconText(
-                          icon: Icons.camera_rear,
-                          text: localization.back,
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
-              widget.availableCameraDirections[CameraLensDirection.external]
-                  ? SimpleDialogOption(
-                      onPressed: () {
-                        widget.setCameraDirection(CameraLensDirection.external);
-                        Navigator.pop(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconText(
-                          icon: Icons.camera_alt,
-                          text: localization.external,
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
-            ],
-          );
         });
   }
 
@@ -1040,8 +989,8 @@ class _SongEditState extends State<SongEdit> {
                   ? CameraMacOSView(
                       key: widget.cameraKey,
                       fit: BoxFit.fill,
-                      audioDeviceId: _selectedAudioDevice,
-                      deviceId: _selectedVideoDevice,
+                      audioDeviceId: widget.selectedAudioDevice,
+                      deviceId: widget.selectedVideoDevice,
                       cameraMode: CameraMacOSMode.video,
                       onCameraInizialized: (CameraMacOSController controller) {
                         widget.onMacOSCameraInizialized(controller);
