@@ -13,11 +13,13 @@ class IconText extends StatelessWidget {
       children: <Widget>[
         Icon(icon),
         SizedBox(width: 20.0),
-        Text(
-          text,
-          style: this.textStyle,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+        Expanded(
+          child: Text(
+            text,
+            style: this.textStyle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );
