@@ -1761,7 +1761,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         widget.hasHeadset &&
                         supportsFFMpeg())
                       Padding(
-                        padding: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 8),
                         child: ElevatedButton(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -1800,7 +1800,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           )
                         : SizedBox(),
                         */
-                    SizedBox(height: 10),
+                    SizedBox(height: 8),
                     ElevatedButton(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -1833,7 +1833,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         }
                       },
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 8),
                     ElevatedButton(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(

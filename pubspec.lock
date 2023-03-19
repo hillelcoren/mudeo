@@ -126,10 +126,26 @@ packages:
     description:
       path: "packages/camera/camera"
       ref: HEAD
-      resolved-ref: "5c5e32ea807d98c397f8ab7bc16382a7ed9e52b2"
+      resolved-ref: "8917c5a4abf9c6e6c049167bd727d40cc6248267"
       url: "https://github.com/hillelcoren/plugins.git"
     source: git
-    version: "0.9.4+19"
+    version: "0.10.3"
+  camera_android:
+    dependency: transitive
+    description:
+      name: camera_android
+      sha256: "772c111c78f31f868b98dbf6dbeda8d6ff77acea773a92ea5705ee2f7949ebfb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.5"
+  camera_avfoundation:
+    dependency: transitive
+    description:
+      name: camera_avfoundation
+      sha256: "7ac8b950672716722af235eed7a7c37896853669800b7da706bb0a9fd41d3737"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.13+1"
   camera_macos:
     dependency: "direct main"
     description:
@@ -150,10 +166,10 @@ packages:
     dependency: transitive
     description:
       name: camera_web
-      sha256: "18cdbee5441e9a6fb129fdd9b68a06d1b8c5236932ba97d5faeaefe80db2e5bd"
+      sha256: d77965f32479ee6d8f48205dcf10f845d7210595c6c00faa51eab265d1cae993
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1+6"
+    version: "0.3.1+3"
   camera_windows:
     dependency: "direct main"
     description:
