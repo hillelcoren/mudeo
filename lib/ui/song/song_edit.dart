@@ -519,27 +519,17 @@ class _SongEditState extends State<SongEdit> {
   }
 
   Future stopRecording() async {
-    setState(() {
-      isRecording = false;
-      countdownTimer = 0;
-    });
     stopPlaying();
 
     recordTimer?.cancel();
     cancelTimer?.cancel();
-
-    setState(() {
-      isPastThreeSeconds = false;
-    });
-
-    widget.viewModel.onStopRecording();
 
     try {
       if (Platform.isMacOS) {
         if (widget.macOSCameraController.isRecording) {
           await widget.macOSCameraController.stopRecording();
         }
-      } else {
+      } else if (isRecording) {
         final video = await widget.cameraController.stopVideoRecording();
         final videoFile = File(video.path);
         try {
@@ -556,6 +546,14 @@ class _SongEditState extends State<SongEdit> {
             return ErrorDialog(error);
           });
     }
+
+    setState(() {
+      isRecording = false;
+      countdownTimer = 0;
+      isPastThreeSeconds = false;
+    });
+
+    widget.viewModel.onStopRecording();
   }
 
   void saveRecording() async {
