@@ -61,6 +61,10 @@ class _SongShareDialogState extends State<SongShareDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(localization.qrCodeHelp),
+          ),
           Flexible(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -114,10 +118,6 @@ class _SongShareDialogState extends State<SongShareDialog> {
                   child: Text(song.sharingKey),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(localization.qrCodeHelp),
             ),
           ],
         ],
