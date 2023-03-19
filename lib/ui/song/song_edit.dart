@@ -145,12 +145,6 @@ class _SongScaffoldState extends State<SongScaffold> {
         )..initialize().then((value) {
             if (mounted) setState(() {});
 
-            if (Platform.isIOS) {
-              Future.delayed(Duration(milliseconds: 100), () {
-                if (mounted) setState(() {});
-              });
-            }
-
             /*
           final sharedPrefs = await SharedPreferences.getInstance();
           if (sharedPrefs.getBool(kSharedPrefCalibrated) != true) {
@@ -449,11 +443,6 @@ class _SongEditState extends State<SongEdit> {
     final state = viewModel.state;
     final prefs = await SharedPreferences.getInstance();
 
-    // TODO remove this, it's needed to prevent the app from crashing
-    if (Platform.isIOS) {
-      //initCamera();
-    }
-
     setState(() {
       countdownTimer = 3;
       Timer(Duration(seconds: 1), () {
@@ -567,11 +556,6 @@ class _SongEditState extends State<SongEdit> {
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     );
     await videoPlayer.initialize();
-
-    // TODO remove this: https://github.com/flutter/flutter/issues/30689
-    if (Platform.isIOS) {
-      await widget.cameraController.initialize();
-    }
 
     BuiltMap<String, double> volumeData = BuiltMap(<String, double>{});
     if (supportsFFMpeg()) {
