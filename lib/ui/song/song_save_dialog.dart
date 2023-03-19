@@ -458,7 +458,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                    child: Text(song.sharingKey),
+                    child: Text(song.sharingKey ?? ''),
                   ),
                 ),
               ),
