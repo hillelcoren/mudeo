@@ -233,24 +233,35 @@ class _SongScaffoldState extends State<SongScaffold> {
       child: Stack(
         children: [
           SongEdit(
-              viewModel: widget.viewModel,
-              hasHeadset: headsetState == HeadsetState.CONNECT,
-              //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
-              key: ValueKey('${widget.viewModel.song.updatedAt}'),
-              cameraController: cameraController,
-              cameraKey: cameraKey,
-              macOSCameraController: macOSCameraController,
-              macOSAudioDevices: macOSAudioDevices,
-              macOSVideoDevices: macOSVideoDevices,
-              selectedAudioDevice: selectedAudioDevice,
-              selectedVideoDevice: selectedVideoDevice,
-              cameraDirection: cameraDirection,
-              availableCameraDirections: availableCameraDirections,
-              onMacOSCameraInizialized: (controller) {
-                setState(() {
-                  macOSCameraController = controller;
-                });
-              }),
+            viewModel: widget.viewModel,
+            hasHeadset: headsetState == HeadsetState.CONNECT,
+            //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
+            key: ValueKey('${widget.viewModel.song.updatedAt}'),
+            cameraController: cameraController,
+            cameraKey: cameraKey,
+            macOSCameraController: macOSCameraController,
+            macOSAudioDevices: macOSAudioDevices,
+            macOSVideoDevices: macOSVideoDevices,
+            selectedAudioDevice: selectedAudioDevice,
+            selectedVideoDevice: selectedVideoDevice,
+            cameraDirection: cameraDirection,
+            availableCameraDirections: availableCameraDirections,
+            onMacOSCameraInizialized: (controller) {
+              setState(() {
+                macOSCameraController = controller;
+              });
+            },
+            setCameraDirection: (direction) async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              prefs.setString(kSharedPrefCameraDirection,
+                  convertCameraDirectionToString(direction));
+              setState(() {
+                cameraDirection = direction;
+                initCamera();
+              });
+            },
+          ),
         ],
       ),
     );
@@ -272,6 +283,7 @@ class SongEdit extends StatefulWidget {
     @required this.cameraDirection,
     @required this.availableCameraDirections,
     @required this.onMacOSCameraInizialized,
+    @required this.setCameraDirection,
   }) : super(key: key);
 
   final SongEditVM viewModel;
@@ -286,6 +298,7 @@ class SongEdit extends StatefulWidget {
   final CameraLensDirection cameraDirection;
   final Map<CameraLensDirection, bool> availableCameraDirections;
   final Function(CameraMacOSController controller) onMacOSCameraInizialized;
+  final Function(CameraLensDirection) setCameraDirection;
 
   @override
   _SongEditState createState() => _SongEditState();
@@ -769,7 +782,7 @@ class _SongEditState extends State<SongEdit> {
                         widget.availableCameraDirections[direction])
                     .map((device) => SimpleDialogOption(
                           onPressed: () {
-                            selectCameraDirection(device);
+                            widget.setCameraDirection(device);
                             Navigator.of(context).pop();
                           },
                           child: ListTile(
@@ -868,7 +881,7 @@ class _SongEditState extends State<SongEdit> {
               widget.availableCameraDirections[CameraLensDirection.front]
                   ? SimpleDialogOption(
                       onPressed: () {
-                        selectCameraDirection(CameraLensDirection.front);
+                        widget.setCameraDirection(CameraLensDirection.front);
                         Navigator.pop(context);
                       },
                       child: Padding(
@@ -884,7 +897,7 @@ class _SongEditState extends State<SongEdit> {
               widget.availableCameraDirections[CameraLensDirection.back]
                   ? SimpleDialogOption(
                       onPressed: () {
-                        selectCameraDirection(CameraLensDirection.back);
+                        widget.setCameraDirection(CameraLensDirection.back);
                         Navigator.pop(context);
                       },
                       child: Padding(
@@ -900,7 +913,7 @@ class _SongEditState extends State<SongEdit> {
               widget.availableCameraDirections[CameraLensDirection.external]
                   ? SimpleDialogOption(
                       onPressed: () {
-                        selectCameraDirection(CameraLensDirection.external);
+                        widget.setCameraDirection(CameraLensDirection.external);
                         Navigator.pop(context);
                       },
                       child: Padding(
@@ -916,16 +929,6 @@ class _SongEditState extends State<SongEdit> {
             ],
           );
         });
-  }
-
-  void selectCameraDirection(CameraLensDirection direction) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(
-        kSharedPrefCameraDirection, convertCameraDirectionToString(direction));
-    setState(() {
-      _cameraDirection = direction;
-      //initCamera();
-    });
   }
 
   void onSavePressed(BuildContext context, SongEditVM viewModel) {
