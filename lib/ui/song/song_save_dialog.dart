@@ -180,6 +180,11 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              IconText(
+                icon: Icons.public,
+                text: localization.allVideosArePublic,
+              ),
+              /*
               Padding(
                 padding: EdgeInsets.only(top: 6, bottom: 12),
                 child: Row(
@@ -188,7 +193,6 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                       icon: Icons.public,
                       text: localization.allVideosArePublic,
                     ),
-                    /*
                       if (state.isDance || song.isPublic)
                         IconText(
                           icon: Icons.public,
@@ -234,12 +238,12 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                             ),
                           ),
                         ),
-                        */
                     Spacer(),
                     SizedBox(width: 50),
                   ],
                 ),
               ),
+              */
               TextFormField(
                 autocorrect: false,
                 controller: _titleController,
