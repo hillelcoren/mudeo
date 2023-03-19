@@ -45,6 +45,7 @@ import 'package:mudeo/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 
 class SongScaffold extends StatefulWidget {
@@ -299,7 +300,6 @@ class _SongEditState extends State<SongEdit> {
   Timer recordTimer;
   Timer cancelTimer;
   Timer playTimer;
-  Completer _readyCompleter;
   int _activeTrack = 0;
   bool _headphonesConnected = false;
   String selectedVideoDevice;
@@ -356,38 +356,28 @@ class _SongEditState extends State<SongEdit> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
 
-    bool isFirst = true;
     final futures = List<Future>();
     final viewModel = widget.viewModel;
     for (final track in viewModel.song.includedTracks) {
-      futures.add(() async {
-        final video = track.video;
-        VideoPlayerController player;
-        String path = await VideoEntity.getPath(video);
-        if (!await File(path).exists() && video.url.isNotEmpty) {
-          final http.Response copyResponse = await http.Client().get(video.url);
-          await File(path).writeAsBytes(copyResponse.bodyBytes);
-        }
-        player = VideoPlayerController.file(
-          File(path),
-          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-        );
-        videoPlayers[track.id] = player;
-        player.setVolume(track.volume.toDouble());
-        await player.initialize();
-        isFirst = false;
-      }());
-    }
-    final completer = Completer();
-    Future.wait(futures)
-        .then(completer.complete)
-        .catchError(completer.completeError);
-    _readyCompleter = completer;
-    _readyCompleter.future.then((value) {
-      if (mounted) {
-        setState(() {});
+      final video = track.video;
+      VideoPlayerController player;
+      String path = await VideoEntity.getPath(video);
+      if (!await File(path).exists() && video.url.isNotEmpty) {
+        final http.Response copyResponse = await http.Client().get(video.url);
+        await File(path).writeAsBytes(copyResponse.bodyBytes);
       }
-    });
+      player = VideoPlayerController.file(
+        File(path),
+        videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+      );
+
+      videoPlayers[track.id] = player;
+
+      player.setVolume(track.volume.toDouble());
+      futures.add(player.initialize());
+    }
+
+    Future.wait(futures).then((_) => setState(() {}));
   }
 
   @override
