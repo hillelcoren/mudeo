@@ -145,6 +145,7 @@ class _SongActions extends StatelessWidget {
                             Navigator.pop(context);
                           }),
                       new TextButton(
+                          autofocus: true,
                           child: Text(localization.ok.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);

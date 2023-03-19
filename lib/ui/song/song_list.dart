@@ -399,6 +399,7 @@ class SongFooter extends StatelessWidget {
                             Navigator.pop(context);
                           }),
                       new TextButton(
+                          autofocus: true,
                           child: Text(localization.ok.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
@@ -619,6 +620,7 @@ class SongFooter extends StatelessWidget {
                               child: Text(localization.cancel.toUpperCase()),
                               onPressed: () => Navigator.pop(context)),
                           TextButton(
+                              autofocus: true,
                               child: Text(localization.ok.toUpperCase()),
                               onPressed: () {
                                 Navigator.pop(context);
@@ -661,6 +663,7 @@ class SongFooter extends StatelessWidget {
                             child: Text(localization.cancel.toUpperCase()),
                             onPressed: () => Navigator.pop(context)),
                         TextButton(
+                            autofocus: true,
                             child: Text(localization.ok.toUpperCase()),
                             onPressed: () {
                               store.dispatch(FlagSongRequest(song: song));
@@ -903,6 +906,7 @@ class _CommentRowState extends State<CommentRow> {
                                         Text(localization.cancel.toUpperCase()),
                                     onPressed: () => Navigator.pop(context)),
                                 TextButton(
+                                    autofocus: true,
                                     child: Text(localization.ok.toUpperCase()),
                                     onPressed: () {
                                       final completer = Completer<Null>()
@@ -942,6 +946,7 @@ class _CommentRowState extends State<CommentRow> {
                                         Text(localization.cancel.toUpperCase()),
                                     onPressed: () => Navigator.pop(context)),
                                 TextButton(
+                                    autofocus: true,
                                     child: Text(localization.ok.toUpperCase()),
                                     onPressed: () {
                                       final completer = Completer<Null>()
@@ -1104,6 +1109,7 @@ class _SongCommentsState extends State<SongComments> {
           : song.title),
       actions: [
         TextButton(
+            autofocus: true,
             onPressed: () => Navigator.of(context).pop(),
             child: Text(localization.close.toUpperCase())),
       ],

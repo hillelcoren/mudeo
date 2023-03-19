@@ -938,6 +938,7 @@ class _SongEditState extends State<SongEdit> {
               title: Text(localization.requireAccountToUpload),
               actions: [
                 TextButton(
+                    autofocus: true,
                     onPressed: () => Navigator.of(context).pop(),
                     child: Text(localization.close.toUpperCase()))
               ],
@@ -1405,6 +1406,7 @@ class _SongEditState extends State<SongEdit> {
                                         onPressed: () =>
                                             Navigator.pop(context)),
                                     TextButton(
+                                        autofocus: true,
                                         child:
                                             Text(localization.ok.toUpperCase()),
                                         onPressed: () {
@@ -1907,6 +1909,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                                     Navigator.pop(context);
                                   }),
                               new TextButton(
+                                  autofocus: true,
                                   child: Text(localization.ok.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);

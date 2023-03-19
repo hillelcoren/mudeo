@@ -73,7 +73,7 @@ class _UpgradeDialogState extends State<UpgradeDialog> {
                 content: Text(localization.thankYouForYourPurchase),
                 actions: <Widget>[
                   TextButton(
-  
+                    autofocus: true,
                     child: Text(localization.dismiss.toUpperCase()),
                     onPressed: () {
                       Navigator.of(context).pop();

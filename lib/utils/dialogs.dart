@@ -45,6 +45,7 @@ void confirmCallback({
               Navigator.pop(context);
             }),
         TextButton(
+            autofocus: true,
             child: Text(confirmLabel != null
                 ? confirmLabel.toUpperCase()
                 : localization.ok.toUpperCase()),

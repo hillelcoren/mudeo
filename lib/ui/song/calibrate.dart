@@ -171,6 +171,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
           child: Text(_currentState == STATE_CONFIRM
               ? localization.start
               : localization.ok),
+          autofocus: true,
           onPressed: () {
             if (_currentState == STATE_PROMPT) {
               _showCalibration();

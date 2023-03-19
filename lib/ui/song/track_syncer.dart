@@ -97,9 +97,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
             });
           },
         ),
-
         if (!_isSyncing)
           TextButton(
+            autofocus: true,
             child: Text(localization.close.toUpperCase()),
             onPressed: () {
               widget.onDelayChanged(_delay);
@@ -161,49 +161,50 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     isFirst: i == 0,
                   ),
                 ),
-              if (_showDetails)...[
-              SizedBox(height: 10),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: Slider(
-                      min: kMinLatencyDelay.toDouble(),
-                      max: kMaxLatencyDelay.toDouble(),
-                      value: _delay.toDouble(),
-                      onChanged: (value) {
-                        setState(() {
-                          _delay = value.toInt();
-                          _delayController.text = '${value.toInt()}';
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    flex: 1,
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: _delayController,
-                      decoration: InputDecoration(
-                        labelText: localization.milliseconds,
+              if (_showDetails) ...[
+                SizedBox(height: 10),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 2,
+                      child: Slider(
+                        min: kMinLatencyDelay.toDouble(),
+                        max: kMaxLatencyDelay.toDouble(),
+                        value: _delay.toDouble(),
+                        onChanged: (value) {
+                          setState(() {
+                            _delay = value.toInt();
+                            _delayController.text = '${value.toInt()}';
+                          });
+                        },
                       ),
-                      onChanged: (String value) {
-                        setState(() {
-                          int delay = int.parse(value);
-                          if (delay > kMaxLatencyDelay) {
-                            delay = kMaxLatencyDelay;
-                          } else if (delay < kMinLatencyDelay) {
-                            delay = kMinLatencyDelay;
-                          }
-                          _delay = delay;
-                        });
-                      },
                     ),
-                  ),
-                ],
-              )],
+                    SizedBox(width: 20),
+                    Expanded(
+                      flex: 1,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: _delayController,
+                        decoration: InputDecoration(
+                          labelText: localization.milliseconds,
+                        ),
+                        onChanged: (String value) {
+                          setState(() {
+                            int delay = int.parse(value);
+                            if (delay > kMaxLatencyDelay) {
+                              delay = kMaxLatencyDelay;
+                            } else if (delay < kMinLatencyDelay) {
+                              delay = kMinLatencyDelay;
+                            }
+                            _delay = delay;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              ],
               if (_isSyncing)
                 Padding(
                   padding: const EdgeInsets.only(top: 40),

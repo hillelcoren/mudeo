@@ -473,6 +473,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           ),
           if (viewModel.state.authState.hasValidToken) ...[
             TextButton(
+              autofocus: true,
               onPressed: () => _onSubmit(),
               child: Text(song.isNew
                   ? localization.publish.toUpperCase()

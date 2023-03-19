@@ -87,6 +87,7 @@ class _LoginState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: TextButton(
+                    autofocus: true,
                     child: Text(AppLocalization.of(context).close),
                     onPressed: () => Navigator.of(context).pop(),
                   ),

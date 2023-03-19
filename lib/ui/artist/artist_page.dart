@@ -313,6 +313,7 @@ class ArtistPage extends StatelessWidget {
                                 Navigator.pop(context);
                               }),
                           new TextButton(
+                              autofocus: true,
                               child: Text(localization.ok.toUpperCase()),
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -646,6 +647,7 @@ class ArtistPage extends StatelessWidget {
                                                     onPressed: () =>
                                                         Navigator.pop(context)),
                                                 TextButton(
+                                                    autofocus: true,
                                                     child: Text(localization.ok
                                                         .toUpperCase()),
                                                     onPressed: () {

@@ -150,6 +150,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
           },
         ),
         TextButton(
+          autofocus: true,
           child: Text(localization.close.toUpperCase()),
           onPressed: () => Navigator.of(context).pop(),
         ),

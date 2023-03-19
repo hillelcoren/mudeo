@@ -175,6 +175,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
             )
           else
             TextButton(
+              autofocus: true,
               child: Text(localization.save.toUpperCase()),
               onPressed: () => _onSubmit(),
             )
