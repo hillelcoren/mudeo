@@ -1121,7 +1121,7 @@ class _SongEditState extends State<SongEdit> {
                         }).toList(),
                         if (song.canAddTrack)
                           Padding(
-                            padding: const EdgeInsets.all(38),
+                            padding: const EdgeInsets.all(16),
                             child: Center(
                               child: IconButton(
                                 iconSize: 38,
