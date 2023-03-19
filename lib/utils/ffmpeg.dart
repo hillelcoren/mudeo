@@ -114,11 +114,10 @@ class FfmpegUtils {
     command += '-filter_complex $filter -vsync 2 -map \'[v]\' -map \'[a]\' ';
     command +=
         '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
-    //command += '-vcodec \'h264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
     command += output;
 
-    //print('## Command: $command');
+    print('## Command: $command');
 
     final response = await FFmpegKit.execute(command);
 

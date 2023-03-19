@@ -1277,7 +1277,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: b60d8530a9625649b16e53c71fe000ec649fb7fe
+      resolved-ref: "031512a9e5449d343fc76c71c07867454ca66c8f"
       url: "https://github.com/jakky1/video_player_win.git"
     source: git
     version: "2.2.0"
