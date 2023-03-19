@@ -459,7 +459,7 @@ class SongFooter extends StatelessWidget {
               Text('${song.countLike + 1}'),
             ],
           ),
-          if (!Navigator.of(context).canPop())
+          if (artist.id == state.artist.id)
             Row(
               children: <Widget>[
                 IconButton(
