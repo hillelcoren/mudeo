@@ -1010,8 +1010,8 @@ class _SongEditState extends State<SongEdit> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding:
-                const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 80),
+            padding: const EdgeInsets.only(
+                top: 15, left: 15, right: 15, bottom: 180),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
