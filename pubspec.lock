@@ -186,14 +186,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      sha256: fb98c0f6d12c920a02ee2d998da788bca066ca5f148492b7085ee23372b12306
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -362,22 +354,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.6"
-  firebase:
-    dependency: transitive
-    description:
-      name: firebase
-      sha256: "587cc00f86bba331e5b033ea85e4cc787d8874e250141de8307c876547236519"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.3.3"
   firebase_analytics:
     dependency: "direct main"
     description:
       name: firebase_analytics
-      sha256: e4da7f41b225c9f21d43a30d4ac508c79e88da4fce766f55ee204b9681a8b481
+      sha256: cd8dfab25d54e89c306bf5c8b8e3e7227147946e286c12e2ceb6b4c5fa00034e
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.16"
+    version: "5.0.15"
   firebase_analytics_platform_interface:
     dependency: transitive
     description:
@@ -386,14 +370,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  firebase_analytics_web:
-    dependency: transitive
-    description:
-      name: firebase_analytics_web
-      sha256: c2562a0913a326525dbdf243c685ca9ca29426b38bd9d6781482f3fcdaea20f0
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.1"
   fixnum:
     dependency: transitive
     description:
@@ -550,10 +526,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "411262398b34f52b9baac4860a1aa6e4779037ba9289c19b4cd16928efa97a2b"
+      sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.2"
+    version: "0.13.5"
   http_multi_server:
     dependency: transitive
     description:
@@ -566,10 +542,10 @@ packages:
     dependency: transitive
     description:
       name: http_parser
-      sha256: "9d2b0626e9e402fc98e6868360da8f256064d6c0b8e4c3edcca5e02fb0b95da9"
+      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.4"
+    version: "4.0.2"
   image:
     dependency: transitive
     description:
@@ -650,6 +626,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.7096"
+  media_kit:
+    dependency: "direct main"
+    description:
+      name: media_kit
+      sha256: "6458c657406fa736e2584e18a4afbb9e395b1b2dd214a0160ce1fad8f0d2c43a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
+  media_kit_libs_windows_audio:
+    dependency: "direct main"
+    description:
+      name: media_kit_libs_windows_audio
+      sha256: "417c1578cd9dbd490a7ac5ba447e31d3c3139a65c089b31095b7980d54aeeec5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
+  media_kit_libs_windows_video:
+    dependency: "direct main"
+    description:
+      name: media_kit_libs_windows_video
+      sha256: aadc5b6a24b8cfc3adda910fa824ed2af6cb2d33fef84227d2bb2900ce207bd6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  media_kit_native_event_loop:
+    dependency: "direct main"
+    description:
+      name: media_kit_native_event_loop
+      sha256: e0efd10c310fa1506b516de8d2c9ff7add8745bdb615c94dba718e22484ce8b0
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  media_kit_video:
+    dependency: "direct main"
+    description:
+      name: media_kit_video
+      sha256: "787e027081a826374baf1af41b6870caa182c44a68dadb20f0b9a6ca24be68bc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   memoize:
     dependency: "direct main"
     description:
@@ -922,6 +938,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.25.0"
+  safe_local_storage:
+    dependency: transitive
+    description:
+      name: safe_local_storage
+      sha256: "7ca14be87040e6badfcdb9c71e963846c4e7d827dbc9f62cab7496497352f8d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   screen:
     dependency: "direct main"
     description:
@@ -1022,10 +1046,10 @@ packages:
     dependency: transitive
     description:
       name: shelf
-      sha256: d16d1197f877e814f767be03c1c5940a397ae0ddb46dcfb9b5465074bb80ee37
+      sha256: c24a96135a2ccd62c64b69315a14adc5c3419df63b4d7c05832a346fdb73682c
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.9"
+    version: "1.4.0"
   shelf_web_socket:
     dependency: transitive
     description:
@@ -1135,6 +1159,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  uri_parser:
+    dependency: transitive
+    description:
+      name: uri_parser
+      sha256: f47b97479d6c818f739135e3abdd64d629804ea4fff7a5e394a37ca6fe8dce0a
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1275,12 +1307,11 @@ packages:
   video_player_win:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "031512a9e5449d343fc76c71c07867454ca66c8f"
-      url: "https://github.com/jakky1/video_player_win.git"
-    source: git
-    version: "2.2.0"
+      name: video_player_win
+      sha256: f752953e9f805d045c11204665d794b6d923bfb1257426421881c2c1b3ea3354
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
   visibility_detector:
     dependency: "direct main"
     description:

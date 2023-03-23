@@ -50,7 +50,7 @@ class WebClient {
     url += '&per_page=$kMaxRecordsPerApiPage';
 
     final http.Response response = await http.Client().get(
-      url,
+      Uri.parse(url),
       headers: {
         'X-API-TOKEN': token,
         'X-API-SECRET': Config.API_SECRET,
@@ -115,7 +115,7 @@ class WebClient {
       //debugPrint('Request: $data');
 
       response = await http.Client().post(
-        url,
+        Uri.parse(url),
         body: data,
         headers: headers,
       );
@@ -150,7 +150,7 @@ class WebClient {
     //debugPrint('Request: $data');
 
     final http.Response response = await http.Client().put(
-      url,
+      Uri.parse(url),
       body: data,
       headers: {
         'X-API-TOKEN': token,
@@ -181,7 +181,7 @@ class WebClient {
     debugPrint('DELETE: $url');
 
     final http.Response response = await http.Client().delete(
-      url,
+      Uri.parse(url),
       headers: {
         'X-API-TOKEN': token,
         'X-API-SECRET': Config.API_SECRET,

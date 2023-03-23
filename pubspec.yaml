@@ -28,10 +28,10 @@ dependencies:
   camera_macos:
   camera_windows: ^0.2.1+5
   video_player: ^2.6.0
-  video_player_win:
-    git:
-      url: https://github.com/jakky1/video_player_win.git
-      ref: master
+  video_player_win: ^2.2.2
+  #  git:
+  #    url: https://github.com/jakky1/video_player_win.git
+  #    ref: master
   video_player_macos:
     git:
       url: https://github.com/ollyde/flutter_macos_video_player.git
@@ -40,7 +40,7 @@ dependencies:
   screen:
   flutter_redux:
   redux_logging:
-  http:  ^0.12.2
+  http:
   shared_preferences:
   built_value:
   built_collection:
@@ -80,6 +80,14 @@ dependencies:
   flutter_styled_toast: ^2.0.0
   window_manager: ^0.3.1
   path:
+  media_kit: ^0.0.1
+  media_kit_video: ^0.0.1
+  media_kit_native_event_loop: ^1.0.0
+  media_kit_libs_windows_video: ^1.0.0
+  media_kit_libs_windows_audio: ^1.0.0
+  #media_kit_libs_ios_video: ^1.0.0
+  #media_kit_libs_macos_video: ^1.0.0
+  #media_kit_libs_linux: ^1.0.0    
 
 dependency_overrides:
   platform: ^3.1.0

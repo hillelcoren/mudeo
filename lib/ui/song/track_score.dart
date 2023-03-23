@@ -143,8 +143,8 @@ class _TrackScoreState extends State<TrackScore> {
 
     String path = await VideoEntity.getPath(video);
     if (!await File(path).exists()) {
-      final http.Response response =
-          await http.Client().get(widget.song.tracks.first.video.url);
+      final http.Response response = await http.Client()
+          .get(Uri.parse(widget.song.tracks.first.video.url));
       await File(path).writeAsBytes(response.bodyBytes);
     }
 
@@ -160,7 +160,8 @@ class _TrackScoreState extends State<TrackScore> {
     path = await VideoEntity.getPath(video);
 
     if (!await File(path).exists()) {
-      final http.Response copyResponse = await http.Client().get(video.url);
+      final http.Response copyResponse =
+          await http.Client().get(Uri.parse(video.url));
       await File(path).writeAsBytes(copyResponse.bodyBytes);
     }
 

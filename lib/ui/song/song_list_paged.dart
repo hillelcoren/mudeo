@@ -253,6 +253,7 @@ class _SongListItemState extends State<_SongListItem>
     if (info.visibleFraction > 0.5) {
       if (!kIsWeb || _hasInteracted.value) {
         _playVideos();
+        /*
         if (Platform.isWindows) {
           WidgetsBinding.instance.addPostFrameCallback((_) async {
             _pauseVideos();
@@ -261,6 +262,7 @@ class _SongListItemState extends State<_SongListItem>
             });
           });
         }
+        */
       }
     } else {
       _pauseVideos();
@@ -675,7 +677,7 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
     try {
       final http.Response thumbnailResponse =
-          await client.get(video.thumbnailUrl + '?clear_cache=0');
+          await client.get(Uri.parse(video.thumbnailUrl + '?clear_cache=0'));
       ui.Image thumbnail =
           await decodeImageFromList(thumbnailResponse.bodyBytes);
       if (mounted) {
@@ -707,8 +709,8 @@ class _TrackVideoPlayerState extends State<_TrackVideoPlayer> {
 
       if (!await File(path).exists()) {
         // FIXME Warning.. it can take some time to download the video.
-        final http.Response copyResponse =
-            await client.get(isMixDown ? widget.videoUrl : video.url);
+        final http.Response copyResponse = await client
+            .get(Uri.parse(isMixDown ? widget.videoUrl : video.url));
         await File(path).writeAsBytes(copyResponse.bodyBytes);
       }
     }

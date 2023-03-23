@@ -385,7 +385,8 @@ class _SongEditState extends State<SongEdit> {
       VideoPlayerController player;
       String path = await VideoEntity.getPath(video);
       if (!await File(path).exists() && video.url.isNotEmpty) {
-        final http.Response copyResponse = await http.Client().get(video.url);
+        final http.Response copyResponse =
+            await http.Client().get(Uri.parse(video.url));
         await File(path).writeAsBytes(copyResponse.bodyBytes);
       }
       player = VideoPlayerController.file(
@@ -646,7 +647,8 @@ class _SongEditState extends State<SongEdit> {
     showProcessingDialog(context);
     String path = await VideoEntity.getPath(video);
     if (!await File(path).exists() && video.url.isNotEmpty) {
-      final http.Response response = await http.Client().get(video.url);
+      final http.Response response =
+          await http.Client().get(Uri.parse(video.url));
       await File(path).writeAsBytes(response.bodyBytes);
     }
     final data = await convertVideoToRecognitions(
@@ -1298,7 +1300,8 @@ class _SongEditState extends State<SongEdit> {
                           final path = '$folder/${song.title}.mp4';
                           if (!await File(path).exists()) {
                             final http.Response copyResponse =
-                                await http.Client().get(song.videoUrl);
+                                await http.Client()
+                                    .get(Uri.parse(song.videoUrl));
                             await File(path)
                                 .writeAsBytes(copyResponse.bodyBytes);
                           }

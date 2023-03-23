@@ -533,7 +533,7 @@ class SongFooter extends StatelessWidget {
                 final path = '$folder/${song.title}.mp4';
                 if (!await File(path).exists()) {
                   final http.Response copyResponse =
-                      await http.Client().get(song.videoUrl);
+                      await http.Client().get(Uri.parse(song.videoUrl));
                   await File(path).writeAsBytes(copyResponse.bodyBytes);
                 }
 
