@@ -6,6 +6,7 @@ import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:sentry/sentry.dart';
 
+/*
 Future<Event> getSentryEvent(
     {AppState state, dynamic exception, dynamic stackTrace}) async {
   OperatingSystem os;
@@ -62,3 +63,4 @@ Future<Event> getSentryEvent(
         )),
   );
 }
+*/

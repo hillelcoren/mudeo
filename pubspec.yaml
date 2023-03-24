@@ -49,7 +49,7 @@ dependencies:
   cached_network_image:
   share_plus:
   google_sign_in:
-  sentry: 3.0.1
+  sentry:
   intl:
   font_awesome_flutter:
   #flutter_xlider: 3.4.0

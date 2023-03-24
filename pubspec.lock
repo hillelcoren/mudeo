@@ -966,10 +966,10 @@ packages:
     dependency: "direct main"
     description:
       name: sentry
-      sha256: b490e7af0d5ea06ca690467b6c53f0fbe02d53aae8cba09dac5f0f349fb195fe
+      sha256: faecda9087cd6d1c2b95bd5e16cce0adeef2e9aa34b8016b150b314be7b5c642
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "7.2.0"
   share_plus:
     dependency: "direct main"
     description:
@@ -1231,14 +1231,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.5"
-  usage:
-    dependency: transitive
-    description:
-      name: usage
-      sha256: b570ca6282b2b3418c9d1362d536533087917183ccc97f45667800411a92ed50
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.4.2"
   uuid:
     dependency: transitive
     description:

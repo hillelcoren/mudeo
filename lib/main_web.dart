@@ -4,6 +4,8 @@ import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mudeo/.env.dart';
+import 'package:mudeo/constants.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_middleware.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
@@ -24,15 +26,6 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  final SentryClient _sentry = null;
-  /*
-  final SentryClient _sentry = Config.SENTRY_DNS.isEmpty
-      ? null
-      : SentryClient(
-      dsn: Config.SENTRY_DNS,
-      environmentAttributes: await getSentryEvent());
-  */
-
   final flavor = html.window.document.documentElement.dataset['flavor'];
   bool isDance = (flavor == 'dance');
 
@@ -49,7 +42,15 @@ void main() async {
           LoggingMiddleware<dynamic>.printer(),
         ]));
 
-  if (_sentry == null) {
+  if (kReleaseMode) {
+    await Sentry.init(
+      (options) {
+        options.dsn = Config.SENTRY_DNS;
+        options.dist = kAppVersion;
+      },
+      appRunner: () => runApp(MudeoApp(store: store)),
+    );
+  } else {
     runZonedGuarded<Future<void>>(() async {
       runApp(MudeoApp(store: store));
     }, (Object exception, StackTrace stackTrace) async {
@@ -57,22 +58,8 @@ void main() async {
         print('ERROR: $exception\nSTACK: $stackTrace');
       }
     });
-  } else {
-    runZonedGuarded<Future<void>>(() async {
-      runApp(MudeoApp(store: store));
-    }, (Object exception, StackTrace stackTrace) async {
-      if (kDebugMode) {
-        print('$exception\n$stackTrace');
-      } else {
-        final event = await getSentryEvent(
-          state: store.state,
-          exception: exception,
-          stackTrace: stackTrace,
-        );
-        _sentry.capture(event: event);
-      }
-    });
   }
+
   FlutterError.onError = (FlutterErrorDetails details) {
     if (kDebugMode) {
       FlutterError.dumpErrorToConsole(details);

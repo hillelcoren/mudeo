@@ -32,12 +32,6 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  final SentryClient _sentry = Config.SENTRY_DNS.isEmpty
-      ? null
-      : SentryClient(
-          dsn: Config.SENTRY_DNS,
-          environmentAttributes: await getSentryEvent());
-
   if (isDesktop()) {
     await windowManager.ensureInitialized();
 
@@ -66,23 +60,16 @@ void main() async {
           //LoggingMiddleware<dynamic>.printer(),
         ]));
 
-  if (_sentry == null) {
-    runApp(MudeoApp(store: store));
+  if (kReleaseMode) {
+    await Sentry.init(
+      (options) {
+        options.dsn = Config.SENTRY_DNS;
+        options.dist = kAppVersion;
+      },
+      appRunner: () => runApp(MudeoApp(store: store)),
+    );
   } else {
-    runZoned<Future<void>>(() async {
-      runApp(MudeoApp(store: store));
-    }, onError: (dynamic exception, dynamic stackTrace) async {
-      if (kDebugMode) {
-        print(stackTrace);
-      } else {
-        final event = await getSentryEvent(
-          state: store.state,
-          exception: exception,
-          stackTrace: stackTrace,
-        );
-        _sentry.capture(event: event);
-      }
-    });
+    runApp(MudeoApp(store: store));
   }
   FlutterError.onError = (FlutterErrorDetails details) {
     if (kDebugMode) {
