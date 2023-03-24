@@ -63,7 +63,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 20),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Text(localization.secretHelp),
           ),
           if ((song.sharingKey ?? '').isEmpty)
