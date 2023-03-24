@@ -30,6 +30,7 @@ class SongShareDialog extends StatefulWidget {
 class _SongShareDialogState extends State<SongShareDialog> {
   GlobalKey qrCodeGlobalKey = new GlobalKey();
 
+  /*
   Future<void> _captureAndSharePng(SongEntity song) async {
     final store = StoreProvider.of<AppState>(context);
 
@@ -50,6 +51,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
       print(e.toString());
     }
   }
+  */
 
   @override
   Widget build(BuildContext context) {
@@ -118,13 +120,11 @@ class _SongShareDialogState extends State<SongShareDialog> {
         TextButton(
           child: Text(localization.share.toUpperCase()),
           onPressed: () {
-            final sharingKey = widget.song.sharingKey ?? '';
-
-            if (!widget.shareSecret || sharingKey.isEmpty) {
-              Share.share(widget.song.url, subject: widget.song.title);
-            }
-
-            _captureAndSharePng(widget.song);
+            Share.share(
+                (song.sharingKey ?? '').isEmpty
+                    ? song.url
+                    : localization.secret + ': ' + song.sharingKey,
+                subject: 'mudeo | ' + song.title);
           },
         ),
         TextButton(

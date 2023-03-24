@@ -54,6 +54,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   String sharingKey;
   String selectedLayout = kVideoLayoutRow;
 
+  /*
   Future<void> _captureAndSharePng(SongEntity song) async {
     try {
       final Size size = MediaQuery.of(context).size;
@@ -72,6 +73,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       print(e.toString());
     }
   }
+  */
 
   @override
   void didChangeDependencies() {
@@ -506,7 +508,11 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           ),
           TextButton(
             child: Text(localization.share.toUpperCase()),
-            onPressed: () => _captureAndSharePng(song),
+            onPressed: () => Share.share(
+                (song.sharingKey ?? '').isEmpty
+                    ? song.url
+                    : localization.secret + ': ' + song.sharingKey,
+                subject: 'mudeo | ' + song.title),
           ),
         ]
       ],
