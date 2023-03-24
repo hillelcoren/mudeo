@@ -1187,29 +1187,27 @@ class _SongCommentsState extends State<SongComments> {
             ),
           ),
           SizedBox(height: 20),
-          SizedBox(
-            height: 200,
-            child: song.comments.isEmpty
-                ? Center(
-                    child: Text(
-                      localization.noComments,
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w300),
-                    ),
-                  )
-                : ListView(
-                    shrinkWrap: true,
-                    children: song.comments.reversed
-                        .map((comment) => CommentRow(
-                              key: ValueKey(comment.id),
-                              song: song,
-                              comment: comment,
-                            ))
-                        .toList(),
-                  ),
-          )
+          if (song.comments.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Center(
+                child: Text(
+                  localization.noComments,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w300),
+                ),
+              ),
+            )
+          else
+            ...song.comments
+                .map((comment) => CommentRow(
+                      key: ValueKey(comment.id),
+                      song: song,
+                      comment: comment,
+                    ))
+                .toList()
         ],
       ),
     );
