@@ -141,7 +141,7 @@ class _SongScaffoldState extends State<SongScaffold> {
         cameraController = CameraController(
           cameras
               .firstWhere((camera) => camera.lensDirection == cameraDirection),
-          ResolutionPreset.low,
+          isDesktop() ? ResolutionPreset.medium : ResolutionPreset.low,
         )..initialize().then((value) {
             if (mounted) setState(() {});
 
