@@ -1113,102 +1113,105 @@ class _SongCommentsState extends State<SongComments> {
             onPressed: () => Navigator.of(context).pop(),
             child: Text(localization.close.toUpperCase())),
       ],
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          if (state.authState.hasValidToken)
-            TextFormField(
-              autofocus: false,
-              minLines: 1,
-              maxLines: 3,
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(kMaxCommentLength),
-              ],
-              controller: _textController,
-              focusNode: _textFocusNode,
-              decoration: InputDecoration(
-                labelText: localization.addAPublicComment,
-                //icon: Icon(Icons.comment),
-              ),
-            ),
-          SizedBox(height: 8),
-          Visibility(
-            visible: _showSubmitButton,
-            child: Padding(
-              padding: EdgeInsets.only(top: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  if (!state.isSaving)
-                    TextButton(
-                      child: Text(localization.cancel.toUpperCase()),
-                      onPressed: () {
-                        _textController.clear();
-                        _textFocusNode.unfocus();
-                      },
-                    ),
-                  SizedBox(width: 10),
-                  state.isSaving
-                      ? Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 35, vertical: 10),
-                          child: SizedBox(
-                              child: CircularProgressIndicator(),
-                              width: 20,
-                              height: 20),
-                        )
-                      : ElevatedButton(
-                          child: Text(localization.comment.toUpperCase()),
-                          onPressed: _enableSubmitButton
-                              ? () {
-                                  final Completer<Null> completer =
-                                      Completer<Null>();
-                                  final comment = song.newComment(
-                                      state.authState.artist.id,
-                                      _textController.text.trim());
-                                  store.dispatch(SaveCommentRequest(
-                                      completer: completer, comment: comment));
-                                  completer.future.then((value) {
-                                    _textController.clear();
-                                    _textFocusNode.unfocus();
-                                  });
-
-                                  /*
-                                  if (Navigator.of(context).canPop()) {
-                                    Navigator.of(context).pop();
-                                  }
-                                  */
-                                }
-                              : null,
-                        )
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            if (state.authState.hasValidToken)
+              TextFormField(
+                autofocus: false,
+                minLines: 1,
+                maxLines: 3,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(kMaxCommentLength),
                 ],
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          if (song.comments.isEmpty)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Center(
-                child: Text(
-                  localization.noComments,
-                  style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w300),
+                controller: _textController,
+                focusNode: _textFocusNode,
+                decoration: InputDecoration(
+                  labelText: localization.addAPublicComment,
+                  //icon: Icon(Icons.comment),
                 ),
               ),
-            )
-          else
-            ...song.comments
-                .map((comment) => CommentRow(
-                      key: ValueKey(comment.id),
-                      song: song,
-                      comment: comment,
-                    ))
-                .toList()
-        ],
+            SizedBox(height: 8),
+            Visibility(
+              visible: _showSubmitButton,
+              child: Padding(
+                padding: EdgeInsets.only(top: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    if (!state.isSaving)
+                      TextButton(
+                        child: Text(localization.cancel.toUpperCase()),
+                        onPressed: () {
+                          _textController.clear();
+                          _textFocusNode.unfocus();
+                        },
+                      ),
+                    SizedBox(width: 10),
+                    state.isSaving
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 35, vertical: 10),
+                            child: SizedBox(
+                                child: CircularProgressIndicator(),
+                                width: 20,
+                                height: 20),
+                          )
+                        : ElevatedButton(
+                            child: Text(localization.comment.toUpperCase()),
+                            onPressed: _enableSubmitButton
+                                ? () {
+                                    final Completer<Null> completer =
+                                        Completer<Null>();
+                                    final comment = song.newComment(
+                                        state.authState.artist.id,
+                                        _textController.text.trim());
+                                    store.dispatch(SaveCommentRequest(
+                                        completer: completer,
+                                        comment: comment));
+                                    completer.future.then((value) {
+                                      _textController.clear();
+                                      _textFocusNode.unfocus();
+                                    });
+
+                                    /*
+                                    if (Navigator.of(context).canPop()) {
+                                      Navigator.of(context).pop();
+                                    }
+                                    */
+                                  }
+                                : null,
+                          )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            if (song.comments.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Center(
+                  child: Text(
+                    localization.noComments,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w300),
+                  ),
+                ),
+              )
+            else
+              ...song.comments
+                  .map((comment) => CommentRow(
+                        key: ValueKey(comment.id),
+                        song: song,
+                        comment: comment,
+                      ))
+                  .toList()
+          ],
+        ),
       ),
     );
   }
