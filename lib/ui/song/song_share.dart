@@ -10,7 +10,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/redux/app/app_state.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+//import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -60,50 +60,28 @@ class _SongShareDialogState extends State<SongShareDialog> {
       title: Text(song.title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 20),
-            child: Text(localization.qrCodeHelp),
+            child: Text(localization.secretHelp),
           ),
-          Flexible(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: (song.sharingKey ?? '').isEmpty
-                  ? TextButton(
-                      //padding: const EdgeInsets.all(0),
-                      onPressed: () {
-                        launch(song.url, forceSafariVC: false);
-                      },
-                      child: Text(
-                        song.url.replaceFirst('https://', ''),
-                        style: TextStyle(
-                            fontSize: 20, color: Colors.lightBlueAccent),
-                      ),
-                    )
-                  : SizedBox(
-                      width: 200,
-                      child: RepaintBoundary(
-                        key: qrCodeGlobalKey,
-                        child: QrImage(
-                          data: widget.song.sharingKey,
-                          version: QrVersions.auto,
-                          gapless: false,
-                          backgroundColor: Colors.white,
-                          errorStateBuilder: (cxt, err) {
-                            return Container(
-                              child: Center(
-                                child: Text(
-                                  'Something went wrong...',
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+          if ((song.sharingKey ?? '').isEmpty)
+            Flexible(
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: TextButton(
+                    //padding: const EdgeInsets.all(0),
+                    onPressed: () {
+                      launch(song.url, forceSafariVC: false);
+                    },
+                    child: Text(
+                      song.url.replaceFirst('https://', ''),
+                      style: TextStyle(
+                          fontSize: 20, color: Colors.lightBlueAccent),
                     ),
+                  )),
             ),
-          ),
           if ((song.sharingKey ?? '').isNotEmpty) ...[
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),

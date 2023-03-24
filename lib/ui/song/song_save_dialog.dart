@@ -14,7 +14,7 @@ import 'package:mudeo/ui/app/icon_text.dart';
 import 'package:mudeo/ui/app/progress_button.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/utils/localization.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+//import 'package:qr_flutter/qr_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -421,8 +421,9 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
-                child: Text(localization.qrCodeHelp),
+                child: Text(localization.secretHelp),
               ),
+              /*
               Center(
                 child: SizedBox(
                   width: 200,
@@ -448,6 +449,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   ),
                 ),
               ),
+              */
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: InkWell(

@@ -72,7 +72,7 @@ dependencies:
   visibility_detector:
   #ffmpeg_kit_flutter: ^5.1.0
   ffmpeg_kit_flutter_min_gpl: ^5.1.0
-  qr_flutter:
+  #qr_flutter:
   #esys_flutter_share:
   material_design_icons_flutter:
   permission_handler:
