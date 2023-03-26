@@ -24,6 +24,12 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
       'isAuthenticated',
       serializers.serialize(object.isAuthenticated,
           specifiedType: const FullType(bool)),
+      'hideAppReview',
+      serializers.serialize(object.hideAppReview,
+          specifiedType: const FullType(bool)),
+      'installedAt',
+      serializers.serialize(object.installedAt,
+          specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -38,7 +44,7 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final dynamic value = iterator.current;
       switch (key) {
         case 'artist':
           result.artist.replace(serializers.deserialize(value,
@@ -47,6 +53,14 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
         case 'isAuthenticated':
           result.isAuthenticated = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'hideAppReview':
+          result.hideAppReview = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
+        case 'installedAt':
+          result.installedAt = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
       }
     }
@@ -60,14 +74,29 @@ class _$AuthState extends AuthState {
   final ArtistEntity artist;
   @override
   final bool isAuthenticated;
+  @override
+  final bool hideAppReview;
+  @override
+  final int installedAt;
 
   factory _$AuthState([void Function(AuthStateBuilder) updates]) =>
-      (new AuthStateBuilder()..update(updates))._build();
+      (new AuthStateBuilder()..update(updates)).build();
 
-  _$AuthState._({this.artist, this.isAuthenticated}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(artist, r'AuthState', 'artist');
-    BuiltValueNullFieldError.checkNotNull(
-        isAuthenticated, r'AuthState', 'isAuthenticated');
+  _$AuthState._(
+      {this.artist, this.isAuthenticated, this.hideAppReview, this.installedAt})
+      : super._() {
+    if (artist == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'artist');
+    }
+    if (isAuthenticated == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'isAuthenticated');
+    }
+    if (hideAppReview == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'hideAppReview');
+    }
+    if (installedAt == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'installedAt');
+    }
   }
 
   @override
@@ -82,19 +111,26 @@ class _$AuthState extends AuthState {
     if (identical(other, this)) return true;
     return other is AuthState &&
         artist == other.artist &&
-        isAuthenticated == other.isAuthenticated;
+        isAuthenticated == other.isAuthenticated &&
+        hideAppReview == other.hideAppReview &&
+        installedAt == other.installedAt;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, artist.hashCode), isAuthenticated.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, artist.hashCode), isAuthenticated.hashCode),
+            hideAppReview.hashCode),
+        installedAt.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'AuthState')
+    return (newBuiltValueToStringHelper('AuthState')
           ..add('artist', artist)
-          ..add('isAuthenticated', isAuthenticated))
+          ..add('isAuthenticated', isAuthenticated)
+          ..add('hideAppReview', hideAppReview)
+          ..add('installedAt', installedAt))
         .toString();
   }
 }
@@ -112,13 +148,25 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   set isAuthenticated(bool isAuthenticated) =>
       _$this._isAuthenticated = isAuthenticated;
 
-  AuthStateBuilder();
+  bool _hideAppReview;
+  bool get hideAppReview => _$this._hideAppReview;
+  set hideAppReview(bool hideAppReview) =>
+      _$this._hideAppReview = hideAppReview;
+
+  int _installedAt;
+  int get installedAt => _$this._installedAt;
+  set installedAt(int installedAt) => _$this._installedAt = installedAt;
+
+  AuthStateBuilder() {
+    AuthState._initializeBuilder(this);
+  }
 
   AuthStateBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _artist = $v.artist.toBuilder();
-      _isAuthenticated = $v.isAuthenticated;
+    if (_$v != null) {
+      _artist = _$v.artist?.toBuilder();
+      _isAuthenticated = _$v.isAuthenticated;
+      _hideAppReview = _$v.hideAppReview;
+      _installedAt = _$v.installedAt;
       _$v = null;
     }
     return this;
@@ -126,7 +174,9 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
 
   @override
   void replace(AuthState other) {
-    ArgumentError.checkNotNull(other, 'other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$AuthState;
   }
 
@@ -136,16 +186,15 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   }
 
   @override
-  AuthState build() => _build();
-
-  _$AuthState _build() {
+  _$AuthState build() {
     _$AuthState _$result;
     try {
       _$result = _$v ??
           new _$AuthState._(
               artist: artist.build(),
-              isAuthenticated: BuiltValueNullFieldError.checkNotNull(
-                  isAuthenticated, r'AuthState', 'isAuthenticated'));
+              isAuthenticated: isAuthenticated,
+              hideAppReview: hideAppReview,
+              installedAt: installedAt);
     } catch (_) {
       String _$failedField;
       try {
@@ -153,7 +202,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
         artist.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'AuthState', _$failedField, e.toString());
+            'AuthState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -162,4 +211,4 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

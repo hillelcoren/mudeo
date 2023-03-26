@@ -76,7 +76,7 @@ class _$ErrorMessageSerializer implements StructuredSerializer<ErrorMessage> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final dynamic value = iterator.current;
       switch (key) {
         case 'message':
           result.message = serializers.deserialize(value,
@@ -103,12 +103,10 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
       serializers.serialize(object.data,
           specifiedType: const FullType(LoginResponseData)),
     ];
-    Object value;
-    value = object.error;
-    if (value != null) {
+    if (object.error != null) {
       result
         ..add('error')
-        ..add(serializers.serialize(value,
+        ..add(serializers.serialize(object.error,
             specifiedType: const FullType(ErrorMessage)));
     }
     return result;
@@ -124,7 +122,7 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final dynamic value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
@@ -171,7 +169,7 @@ class _$LoginResponseDataSerializer
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final dynamic value = iterator.current;
       switch (key) {
         case 'version':
           result.version = serializers.deserialize(value,
@@ -222,7 +220,7 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final dynamic value = iterator.current;
       switch (key) {
         case 'songsFailedAt':
           result.songsFailedAt = serializers.deserialize(value,
@@ -234,13 +232,17 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
           break;
         case 'songMap':
           result.songMap.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap,
-                  const [const FullType(int), const FullType(SongEntity)])));
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(int),
+                const FullType(SongEntity)
+              ])) as BuiltMap<dynamic, dynamic>);
           break;
         case 'artistMap':
           result.artistMap.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltMap,
-                  const [const FullType(int), const FullType(ArtistEntity)])));
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(int),
+                const FullType(ArtistEntity)
+              ])) as BuiltMap<dynamic, dynamic>);
           break;
       }
     }
@@ -288,10 +290,12 @@ class _$ErrorMessage extends ErrorMessage {
   final String message;
 
   factory _$ErrorMessage([void Function(ErrorMessageBuilder) updates]) =>
-      (new ErrorMessageBuilder()..update(updates))._build();
+      (new ErrorMessageBuilder()..update(updates)).build();
 
   _$ErrorMessage._({this.message}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(message, r'ErrorMessage', 'message');
+    if (message == null) {
+      throw new BuiltValueNullFieldError('ErrorMessage', 'message');
+    }
   }
 
   @override
@@ -314,7 +318,7 @@ class _$ErrorMessage extends ErrorMessage {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'ErrorMessage')
+    return (newBuiltValueToStringHelper('ErrorMessage')
           ..add('message', message))
         .toString();
   }
@@ -331,9 +335,8 @@ class ErrorMessageBuilder
   ErrorMessageBuilder();
 
   ErrorMessageBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _message = $v.message;
+    if (_$v != null) {
+      _message = _$v.message;
       _$v = null;
     }
     return this;
@@ -341,7 +344,9 @@ class ErrorMessageBuilder
 
   @override
   void replace(ErrorMessage other) {
-    ArgumentError.checkNotNull(other, 'other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$ErrorMessage;
   }
 
@@ -351,13 +356,8 @@ class ErrorMessageBuilder
   }
 
   @override
-  ErrorMessage build() => _build();
-
-  _$ErrorMessage _build() {
-    final _$result = _$v ??
-        new _$ErrorMessage._(
-            message: BuiltValueNullFieldError.checkNotNull(
-                message, r'ErrorMessage', 'message'));
+  _$ErrorMessage build() {
+    final _$result = _$v ?? new _$ErrorMessage._(message: message);
     replace(_$result);
     return _$result;
   }
@@ -370,10 +370,12 @@ class _$LoginResponse extends LoginResponse {
   final ErrorMessage error;
 
   factory _$LoginResponse([void Function(LoginResponseBuilder) updates]) =>
-      (new LoginResponseBuilder()..update(updates))._build();
+      (new LoginResponseBuilder()..update(updates)).build();
 
   _$LoginResponse._({this.data, this.error}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(data, r'LoginResponse', 'data');
+    if (data == null) {
+      throw new BuiltValueNullFieldError('LoginResponse', 'data');
+    }
   }
 
   @override
@@ -396,7 +398,7 @@ class _$LoginResponse extends LoginResponse {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'LoginResponse')
+    return (newBuiltValueToStringHelper('LoginResponse')
           ..add('data', data)
           ..add('error', error))
         .toString();
@@ -419,10 +421,9 @@ class LoginResponseBuilder
   LoginResponseBuilder();
 
   LoginResponseBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _data = $v.data.toBuilder();
-      _error = $v.error?.toBuilder();
+    if (_$v != null) {
+      _data = _$v.data?.toBuilder();
+      _error = _$v.error?.toBuilder();
       _$v = null;
     }
     return this;
@@ -430,7 +431,9 @@ class LoginResponseBuilder
 
   @override
   void replace(LoginResponse other) {
-    ArgumentError.checkNotNull(other, 'other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$LoginResponse;
   }
 
@@ -440,9 +443,7 @@ class LoginResponseBuilder
   }
 
   @override
-  LoginResponse build() => _build();
-
-  _$LoginResponse _build() {
+  _$LoginResponse build() {
     _$LoginResponse _$result;
     try {
       _$result = _$v ??
@@ -456,7 +457,7 @@ class LoginResponseBuilder
         _error?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'LoginResponse', _$failedField, e.toString());
+            'LoginResponse', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -471,11 +472,12 @@ class _$LoginResponseData extends LoginResponseData {
 
   factory _$LoginResponseData(
           [void Function(LoginResponseDataBuilder) updates]) =>
-      (new LoginResponseDataBuilder()..update(updates))._build();
+      (new LoginResponseDataBuilder()..update(updates)).build();
 
   _$LoginResponseData._({this.version}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        version, r'LoginResponseData', 'version');
+    if (version == null) {
+      throw new BuiltValueNullFieldError('LoginResponseData', 'version');
+    }
   }
 
   @override
@@ -499,7 +501,7 @@ class _$LoginResponseData extends LoginResponseData {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'LoginResponseData')
+    return (newBuiltValueToStringHelper('LoginResponseData')
           ..add('version', version))
         .toString();
   }
@@ -516,9 +518,8 @@ class LoginResponseDataBuilder
   LoginResponseDataBuilder();
 
   LoginResponseDataBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _version = $v.version;
+    if (_$v != null) {
+      _version = _$v.version;
       _$v = null;
     }
     return this;
@@ -526,7 +527,9 @@ class LoginResponseDataBuilder
 
   @override
   void replace(LoginResponseData other) {
-    ArgumentError.checkNotNull(other, 'other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$LoginResponseData;
   }
 
@@ -536,13 +539,8 @@ class LoginResponseDataBuilder
   }
 
   @override
-  LoginResponseData build() => _build();
-
-  _$LoginResponseData _build() {
-    final _$result = _$v ??
-        new _$LoginResponseData._(
-            version: BuiltValueNullFieldError.checkNotNull(
-                version, r'LoginResponseData', 'version'));
+  _$LoginResponseData build() {
+    final _$result = _$v ?? new _$LoginResponseData._(version: version);
     replace(_$result);
     return _$result;
   }
@@ -559,17 +557,23 @@ class _$DataState extends DataState {
   final BuiltMap<int, ArtistEntity> artistMap;
 
   factory _$DataState([void Function(DataStateBuilder) updates]) =>
-      (new DataStateBuilder()..update(updates))._build();
+      (new DataStateBuilder()..update(updates)).build();
 
   _$DataState._(
       {this.songsFailedAt, this.songsUpdateAt, this.songMap, this.artistMap})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        songsFailedAt, r'DataState', 'songsFailedAt');
-    BuiltValueNullFieldError.checkNotNull(
-        songsUpdateAt, r'DataState', 'songsUpdateAt');
-    BuiltValueNullFieldError.checkNotNull(songMap, r'DataState', 'songMap');
-    BuiltValueNullFieldError.checkNotNull(artistMap, r'DataState', 'artistMap');
+    if (songsFailedAt == null) {
+      throw new BuiltValueNullFieldError('DataState', 'songsFailedAt');
+    }
+    if (songsUpdateAt == null) {
+      throw new BuiltValueNullFieldError('DataState', 'songsUpdateAt');
+    }
+    if (songMap == null) {
+      throw new BuiltValueNullFieldError('DataState', 'songMap');
+    }
+    if (artistMap == null) {
+      throw new BuiltValueNullFieldError('DataState', 'artistMap');
+    }
   }
 
   @override
@@ -599,7 +603,7 @@ class _$DataState extends DataState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'DataState')
+    return (newBuiltValueToStringHelper('DataState')
           ..add('songsFailedAt', songsFailedAt)
           ..add('songsUpdateAt', songsUpdateAt)
           ..add('songMap', songMap)
@@ -633,12 +637,11 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   DataStateBuilder();
 
   DataStateBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _songsFailedAt = $v.songsFailedAt;
-      _songsUpdateAt = $v.songsUpdateAt;
-      _songMap = $v.songMap.toBuilder();
-      _artistMap = $v.artistMap.toBuilder();
+    if (_$v != null) {
+      _songsFailedAt = _$v.songsFailedAt;
+      _songsUpdateAt = _$v.songsUpdateAt;
+      _songMap = _$v.songMap?.toBuilder();
+      _artistMap = _$v.artistMap?.toBuilder();
       _$v = null;
     }
     return this;
@@ -646,7 +649,9 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
 
   @override
   void replace(DataState other) {
-    ArgumentError.checkNotNull(other, 'other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$DataState;
   }
 
@@ -656,17 +661,13 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   }
 
   @override
-  DataState build() => _build();
-
-  _$DataState _build() {
+  _$DataState build() {
     _$DataState _$result;
     try {
       _$result = _$v ??
           new _$DataState._(
-              songsFailedAt: BuiltValueNullFieldError.checkNotNull(
-                  songsFailedAt, r'DataState', 'songsFailedAt'),
-              songsUpdateAt: BuiltValueNullFieldError.checkNotNull(
-                  songsUpdateAt, r'DataState', 'songsUpdateAt'),
+              songsFailedAt: songsFailedAt,
+              songsUpdateAt: songsUpdateAt,
               songMap: songMap.build(),
               artistMap: artistMap.build());
     } catch (_) {
@@ -678,7 +679,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
         artistMap.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'DataState', _$failedField, e.toString());
+            'DataState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -687,4 +688,4 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

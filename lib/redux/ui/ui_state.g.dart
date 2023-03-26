@@ -44,7 +44,7 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final Object value = iterator.current;
+      final dynamic value = iterator.current;
       switch (key) {
         case 'selectedTabIndex':
           result.selectedTabIndex = serializers.deserialize(value,
@@ -80,17 +80,23 @@ class _$UIState extends UIState {
   final ArtistEntity artist;
 
   factory _$UIState([void Function(UIStateBuilder) updates]) =>
-      (new UIStateBuilder()..update(updates))._build();
+      (new UIStateBuilder()..update(updates)).build();
 
   _$UIState._(
       {this.selectedTabIndex, this.recordingTimestamp, this.song, this.artist})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        selectedTabIndex, r'UIState', 'selectedTabIndex');
-    BuiltValueNullFieldError.checkNotNull(
-        recordingTimestamp, r'UIState', 'recordingTimestamp');
-    BuiltValueNullFieldError.checkNotNull(song, r'UIState', 'song');
-    BuiltValueNullFieldError.checkNotNull(artist, r'UIState', 'artist');
+    if (selectedTabIndex == null) {
+      throw new BuiltValueNullFieldError('UIState', 'selectedTabIndex');
+    }
+    if (recordingTimestamp == null) {
+      throw new BuiltValueNullFieldError('UIState', 'recordingTimestamp');
+    }
+    if (song == null) {
+      throw new BuiltValueNullFieldError('UIState', 'song');
+    }
+    if (artist == null) {
+      throw new BuiltValueNullFieldError('UIState', 'artist');
+    }
   }
 
   @override
@@ -120,7 +126,7 @@ class _$UIState extends UIState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper(r'UIState')
+    return (newBuiltValueToStringHelper('UIState')
           ..add('selectedTabIndex', selectedTabIndex)
           ..add('recordingTimestamp', recordingTimestamp)
           ..add('song', song)
@@ -154,12 +160,11 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
   UIStateBuilder();
 
   UIStateBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _selectedTabIndex = $v.selectedTabIndex;
-      _recordingTimestamp = $v.recordingTimestamp;
-      _song = $v.song.toBuilder();
-      _artist = $v.artist.toBuilder();
+    if (_$v != null) {
+      _selectedTabIndex = _$v.selectedTabIndex;
+      _recordingTimestamp = _$v.recordingTimestamp;
+      _song = _$v.song?.toBuilder();
+      _artist = _$v.artist?.toBuilder();
       _$v = null;
     }
     return this;
@@ -167,7 +172,9 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
 
   @override
   void replace(UIState other) {
-    ArgumentError.checkNotNull(other, 'other');
+    if (other == null) {
+      throw new ArgumentError.notNull('other');
+    }
     _$v = other as _$UIState;
   }
 
@@ -177,17 +184,13 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
   }
 
   @override
-  UIState build() => _build();
-
-  _$UIState _build() {
+  _$UIState build() {
     _$UIState _$result;
     try {
       _$result = _$v ??
           new _$UIState._(
-              selectedTabIndex: BuiltValueNullFieldError.checkNotNull(
-                  selectedTabIndex, r'UIState', 'selectedTabIndex'),
-              recordingTimestamp: BuiltValueNullFieldError.checkNotNull(
-                  recordingTimestamp, r'UIState', 'recordingTimestamp'),
+              selectedTabIndex: selectedTabIndex,
+              recordingTimestamp: recordingTimestamp,
               song: song.build(),
               artist: artist.build());
     } catch (_) {
@@ -199,7 +202,7 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
         artist.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            r'UIState', _$failedField, e.toString());
+            'UIState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -208,4 +211,4 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
