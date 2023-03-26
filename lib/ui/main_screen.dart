@@ -338,7 +338,7 @@ class _MobileScreenState extends State<MobileScreen> {
                   onPressed: () async {
                     store.dispatch(HideReviewApp());
                     final isAvailable = await _inAppReview.isAvailable();
-                    if (isAvailable) {
+                    if (isAvailable && !isAndroid()) {
                       _inAppReview.requestReview();
                     } else {
                       _inAppReview.openStoreListing(
