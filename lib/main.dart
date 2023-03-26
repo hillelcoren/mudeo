@@ -65,6 +65,8 @@ void main() async {
       (options) {
         options.dsn = Config.SENTRY_DNS;
         options.dist = kAppVersion;
+        options.release = kAppVersion;
+        options.environment = 'Production';
       },
       appRunner: () => runApp(MudeoApp(store: store)),
     );
