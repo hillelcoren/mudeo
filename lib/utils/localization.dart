@@ -20,6 +20,9 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'would_you_rate_the_app': 'Would you like to rate the app?',
+      'sure': 'Sure!',
+      'no_thanks': 'No thanks',
       'trim': 'Trim',
       'secret_help': 'Share the secret to add collaborators',
       'next_video': 'Next Video',
@@ -98,9 +101,7 @@ class AppLocalization {
       'copy_link_to_dance': 'Copy link to dance',
       'report_dance': 'Report Dance',
       'new_dance': 'New Dance',
-      'sure': 'Sure',
       'help_video': 'Help Video',
-      'no_thanks': 'No Thanks',
       'welcome_to_the_app': 'Welcome to :name 🥳',
       'want_to_watch_the_video':
           'Would you like to watch a short video explaining how to use the app?',
@@ -848,6 +849,11 @@ class AppLocalization {
   String get secretHelp => _localizedValues[locale.toString()]['secret_help'];
 
   String get trim => _localizedValues[locale.toString()]['trim'];
+
+  String get wouldYouRateTheApp =>
+      _localizedValues[locale.toString()]['would_you_rate_the_app'];
+
+  String get no_thanks => _localizedValues[locale.toString()]['no_thanks'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

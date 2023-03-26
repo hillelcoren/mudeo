@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:mudeo/constants.dart';
 import 'package:mudeo/redux/app/app_actions.dart';
 import 'package:mudeo/redux/app/app_state.dart';
+import 'package:mudeo/redux/auth/auth_actions.dart';
 import 'package:mudeo/ui/app/first_interaction.dart';
 import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
@@ -14,6 +16,7 @@ import 'package:mudeo/ui/song/song_list_paged_vm.dart';
 import 'package:mudeo/ui/song/song_prefs.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
+import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/web_stub.dart'
     if (dart.library.html) 'package:mudeo/utils/web.dart';
 import 'package:redux/redux.dart';
@@ -190,7 +193,7 @@ class ScreenTabs {
   static const PROFILE = 3;
 }
 
-class MobileScreen extends StatelessWidget {
+class MobileScreen extends StatefulWidget {
   const MobileScreen({
     @required this.viewModel,
     @required this.profileScrollController,
@@ -204,23 +207,31 @@ class MobileScreen extends StatelessWidget {
   final PageController unfeaturedSongsPageController;
 
   @override
+  State<MobileScreen> createState() => _MobileScreenState();
+}
+
+class _MobileScreenState extends State<MobileScreen> {
+  final InAppReview _inAppReview = InAppReview.instance;
+
+  @override
   Widget build(BuildContext context) {
-    final state = viewModel.state;
+    final store = StoreProvider.of<AppState>(context);
+    final state = widget.viewModel.state;
     final uiState = state.uiState;
 
     if (kIsWeb) {
       return SongListPagedScreen(
-        pageController: featuredSongsPageController,
+        pageController: widget.featuredSongsPageController,
       );
     }
 
     List<Widget> _views = [
       SongListPagedScreen(
-        pageController: featuredSongsPageController,
+        pageController: widget.featuredSongsPageController,
         isFeatured: true,
       ),
       SongListPagedScreen(
-        pageController: unfeaturedSongsPageController,
+        pageController: widget.unfeaturedSongsPageController,
         isFeatured: false,
       ),
       SongEditScreen(),
@@ -229,7 +240,7 @@ class MobileScreen extends StatelessWidget {
           ArtistScreen(
             artist: state.authState.artist,
             showSettings: true,
-            scrollController: profileScrollController,
+            scrollController: widget.profileScrollController,
           )
         else
           LoginScreenBuilder(),
@@ -237,69 +248,123 @@ class MobileScreen extends StatelessWidget {
     final currentIndex = state.uiState.selectedTabIndex;
     final localization = AppLocalization.of(context);
 
-    return CupertinoTabScaffold(
-      key: ValueKey(uiState.song.id),
-      tabBar: CupertinoTabBar(
-        backgroundColor: Colors.black38,
-        currentIndex: uiState.selectedTabIndex,
-        onTap: (index) {
-          final currentIndex = state.uiState.selectedTabIndex;
-          if (currentIndex == ScreenTabs.LIST_FEATURED &&
-              index == ScreenTabs.LIST_FEATURED) {
-            featuredSongsPageController.animateTo(0,
-                duration: Duration(milliseconds: 5),
-                curve: Curves.easeInOutCubic);
-          } else if (currentIndex == ScreenTabs.LIST_ALL &&
-              index == ScreenTabs.LIST_ALL) {
-            unfeaturedSongsPageController.animateTo(0,
-                duration: Duration(milliseconds: 5),
-                curve: Curves.easeInOutCubic);
-          } else if (currentIndex == ScreenTabs.PROFILE &&
-              index == ScreenTabs.PROFILE) {
-            profileScrollController.animateTo(
-                profileScrollController.position.minScrollExtent,
-                duration: Duration(milliseconds: 500),
-                curve: Curves.easeInOutCubic);
-          }
-          viewModel.onTabChanged(index);
-        },
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            label: currentIndex == ScreenTabs.LIST_FEATURED
-                ? localization.featured
-                : null,
-            icon: Icon(MdiIcons.trophy,
-                color: currentIndex == ScreenTabs.LIST_FEATURED
-                    ? null
-                    : Colors.white),
-          ),
-          BottomNavigationBarItem(
-            label: currentIndex == ScreenTabs.LIST_ALL
-                ? localization.newest
-                : null,
-            icon: Icon(MdiIcons.playlistMusic,
-                color:
-                    currentIndex == ScreenTabs.LIST_ALL ? null : Colors.white),
-          ),
-          BottomNavigationBarItem(
-            label: currentIndex == ScreenTabs.EDIT ? localization.record : null,
-            icon: Icon(Icons.videocam,
-                color: currentIndex == ScreenTabs.EDIT ? null : Colors.white),
-          ),
-          if (!kIsWeb)
-            BottomNavigationBarItem(
-              label: currentIndex == ScreenTabs.PROFILE
-                  ? localization.profile
-                  : null,
-              icon: Icon(Icons.person,
-                  color:
-                      currentIndex == ScreenTabs.PROFILE ? null : Colors.white),
+    return Column(
+      children: [
+        Expanded(
+          child: CupertinoTabScaffold(
+            key: ValueKey(uiState.song.id),
+            tabBar: CupertinoTabBar(
+              backgroundColor: Colors.black38,
+              currentIndex: uiState.selectedTabIndex,
+              onTap: (index) {
+                final currentIndex = state.uiState.selectedTabIndex;
+                if (currentIndex == ScreenTabs.LIST_FEATURED &&
+                    index == ScreenTabs.LIST_FEATURED) {
+                  widget.featuredSongsPageController.animateTo(0,
+                      duration: Duration(milliseconds: 5),
+                      curve: Curves.easeInOutCubic);
+                } else if (currentIndex == ScreenTabs.LIST_ALL &&
+                    index == ScreenTabs.LIST_ALL) {
+                  widget.unfeaturedSongsPageController.animateTo(0,
+                      duration: Duration(milliseconds: 5),
+                      curve: Curves.easeInOutCubic);
+                } else if (currentIndex == ScreenTabs.PROFILE &&
+                    index == ScreenTabs.PROFILE) {
+                  widget.profileScrollController.animateTo(
+                      widget.profileScrollController.position.minScrollExtent,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeInOutCubic);
+                }
+                widget.viewModel.onTabChanged(index);
+              },
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  label: currentIndex == ScreenTabs.LIST_FEATURED
+                      ? localization.featured
+                      : null,
+                  icon: Icon(MdiIcons.trophy,
+                      color: currentIndex == ScreenTabs.LIST_FEATURED
+                          ? null
+                          : Colors.white),
+                ),
+                BottomNavigationBarItem(
+                  label: currentIndex == ScreenTabs.LIST_ALL
+                      ? localization.newest
+                      : null,
+                  icon: Icon(MdiIcons.playlistMusic,
+                      color: currentIndex == ScreenTabs.LIST_ALL
+                          ? null
+                          : Colors.white),
+                ),
+                BottomNavigationBarItem(
+                  label: currentIndex == ScreenTabs.EDIT
+                      ? localization.record
+                      : null,
+                  icon: Icon(Icons.videocam,
+                      color: currentIndex == ScreenTabs.EDIT
+                          ? null
+                          : Colors.white),
+                ),
+                if (!kIsWeb)
+                  BottomNavigationBarItem(
+                    label: currentIndex == ScreenTabs.PROFILE
+                        ? localization.profile
+                        : null,
+                    icon: Icon(Icons.person,
+                        color: currentIndex == ScreenTabs.PROFILE
+                            ? null
+                            : Colors.white),
+                  ),
+              ],
             ),
-        ],
-      ),
-      tabBuilder: (BuildContext context, int index) {
-        return _views[index];
-      },
+            tabBuilder: (BuildContext context, int index) {
+              return _views[index];
+            },
+          ),
+        ),
+        if (state.authState.showAppReview)
+          Material(
+            color: Colors.black,
+            child: Row(
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    localization.wouldYouRateTheApp,
+                  ),
+                )),
+                TextButton(
+                  onPressed: () async {
+                    store.dispatch(HideReviewApp());
+                    final isAvailable = await _inAppReview.isAvailable();
+                    if (isAvailable) {
+                      _inAppReview.requestReview();
+                    } else {
+                      _inAppReview.openStoreListing(
+                          appStoreId:
+                              isAndroid() ? kPlayStoreAppId : kAppStoreAppId,
+                          microsoftStoreId: kMicrosoftAppStoreId);
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(localization.sure),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    store.dispatch(HideReviewApp());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(localization.noThanks),
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mudeo/data/models/artist_model.dart';
 
 part 'auth_state.g.dart';
@@ -29,6 +30,22 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
     ..isAuthenticated = false);
 
   bool get hasValidToken => artist.token != null && artist.token.isNotEmpty;
+
+  bool get showAppReview {
+    if (!kReleaseMode) {
+      //return true;
+    }
+
+    if (hideAppReview) {
+      return false;
+    }
+
+    final dateInstalled = DateTime.fromMillisecondsSinceEpoch(installedAt);
+    final dateNow = DateTime.now();
+    final difference = dateNow.difference(dateInstalled);
+
+    return difference.inDays >= 7;
+  }
 
   // ignore: unused_element
   static void _initializeBuilder(AuthStateBuilder builder) => builder

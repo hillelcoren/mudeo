@@ -37,6 +37,14 @@ bool isDesktop() {
   return Platform.isWindows || Platform.isMacOS || Platform.isLinux;
 }
 
+bool isAndroid() {
+  if (kIsWeb) {
+    return false;
+  }
+
+  return Platform.isAndroid;
+}
+
 String getAppStoreURL(BuildContext context) {
   final store = StoreProvider.of<AppState>(context);
   if (store.state.isDance) {

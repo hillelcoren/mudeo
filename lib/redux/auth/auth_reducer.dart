@@ -13,7 +13,12 @@ Reducer<AuthState> authReducer = combineReducers([
   TypedReducer<AuthState, FollowArtistSuccess>(followArtistReducer),
   TypedReducer<AuthState, FlagArtist>(flagArtistReducer),
   TypedReducer<AuthState, EnablePrivateStorage>(enablePrivateStorageReducer),
+  TypedReducer<AuthState, HideReviewApp>(hideReviewAppReducer),
 ]);
+
+AuthState hideReviewAppReducer(AuthState authState, HideReviewApp action) {
+  return authState.rebuild((b) => b..hideAppReview = true);
+}
 
 AuthState enablePrivateStorageReducer(
     AuthState authState, EnablePrivateStorage action) {
