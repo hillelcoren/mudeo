@@ -79,8 +79,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
                     },
                     child: Text(
                       song.url.replaceFirst('https://', ''),
-                      style: TextStyle(
-                          fontSize: 20, color: Colors.lightBlueAccent),
+                      style: TextStyle(fontSize: 20, color: Colors.blue),
                     ),
                   )),
             ),
