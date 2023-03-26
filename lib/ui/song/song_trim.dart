@@ -18,6 +18,7 @@ class SongTrim extends StatefulWidget {
 
 class _SongTrimState extends State<SongTrim> {
   VideoEditorController _controller;
+  bool _isTrimming = false;
 
   @override
   void initState() {
@@ -50,26 +51,31 @@ class _SongTrimState extends State<SongTrim> {
     final localization = AppLocalization.of(context);
 
     return AlertDialog(
-      content: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              CropGridViewer.preview(controller: _controller),
-              SizedBox(height: 20),
-              TrimSlider(
-                controller: _controller,
-                height: 100,
-                child: TrimTimeline(
-                  controller: _controller,
-                  padding: const EdgeInsets.only(top: 10),
+      content: _isTrimming
+          ? Padding(
+              padding: const EdgeInsets.only(top: 30, bottom: 10),
+              child: LinearProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CropGridViewer.preview(controller: _controller),
+                    SizedBox(height: 20),
+                    TrimSlider(
+                      controller: _controller,
+                      height: 100,
+                      child: TrimTimeline(
+                        controller: _controller,
+                        padding: const EdgeInsets.only(top: 10),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
       actions: [
         TextButton(
           onPressed: () {
@@ -79,7 +85,9 @@ class _SongTrimState extends State<SongTrim> {
         ),
         TextButton(
           onPressed: () {
+            setState(() => _isTrimming = true);
             _controller.exportVideo(onCompleted: (file) {
+              setState(() => _isTrimming = false);
               file.copy(widget.file.path);
               Navigator.of(context)
                   .pop(_controller.trimmedDuration.inMilliseconds);
