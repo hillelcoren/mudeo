@@ -20,7 +20,8 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      'would_you_rate_the_app': 'Would you like to rate the app?',
+      'review_app': 'Review App',
+      'would_you_review_the_app': 'Would you like to review the app?',
       'sure': 'Sure!',
       'no_thanks': 'No thanks',
       'trim': 'Trim',
@@ -850,10 +851,10 @@ class AppLocalization {
 
   String get trim => _localizedValues[locale.toString()]['trim'];
 
-  String get wouldYouRateTheApp =>
-      _localizedValues[locale.toString()]['would_you_rate_the_app'];
+  String get wouldYouReviewTheApp =>
+      _localizedValues[locale.toString()]['would_you_review_the_app'];
 
-  String get no_thanks => _localizedValues[locale.toString()]['no_thanks'];
+  String get reviewApp => _localizedValues[locale.toString()]['review_app'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

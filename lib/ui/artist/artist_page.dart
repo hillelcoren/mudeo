@@ -1,6 +1,7 @@
 import 'dart:io';
 
 //import 'package:flutter_youtube/flutter_youtube.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:mudeo/.env.dart';
 import 'package:mudeo/main_common.dart';
 import 'package:mudeo/ui/song/song_join.dart';
@@ -26,7 +27,7 @@ import 'package:mudeo/utils/platforms.dart';
 import 'package:mudeo/utils/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ArtistPage extends StatelessWidget {
+class ArtistPage extends StatefulWidget {
   ArtistPage(
       {@required this.viewModel,
       this.artist,
@@ -39,18 +40,26 @@ class ArtistPage extends StatelessWidget {
   final ScrollController scrollController;
 
   @override
+  State<ArtistPage> createState() => _ArtistPageState();
+}
+
+class _ArtistPageState extends State<ArtistPage> {
+  final InAppReview _inAppReview = InAppReview.instance;
+
+  @override
   Widget build(BuildContext context) {
     Widget _profileImage() {
       return ClipRRect(
         borderRadius: BorderRadius.circular(140),
-        child: artist.profileImageUrl == null || artist.profileImageUrl.isEmpty
+        child: widget.artist.profileImageUrl == null ||
+                widget.artist.profileImageUrl.isEmpty
             ? Container(
                 color: Colors.black38,
                 padding: EdgeInsets.all(15),
                 child: Icon(Icons.person, size: 70),
               )
             : Image.network(
-                artist.profileImageUrl,
+                widget.artist.profileImageUrl,
                 width: 140,
                 height: 140,
                 fit: BoxFit.cover,
@@ -64,10 +73,11 @@ class ArtistPage extends StatelessWidget {
     final TextStyle linkStyle =
         themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
 
-    final isFollowing = viewModel.state.authState.artist.isFollowing(artist.id);
-    final state = viewModel.state;
-    final songIds = memoizedSongIds(
-        state.dataState.songMap, state.authState.artist, null, artist.id, null);
+    final isFollowing =
+        widget.viewModel.state.authState.artist.isFollowing(widget.artist.id);
+    final state = widget.viewModel.state;
+    final songIds = memoizedSongIds(state.dataState.songMap,
+        state.authState.artist, null, widget.artist.id, null);
     final version = '${localization.version} ${kAppVersion.split('+')[0]}';
 
     void _showMenu() {
@@ -110,24 +120,23 @@ class ArtistPage extends StatelessWidget {
                         forceSafariVC: false);
                   },
                 ),
-                if (state.isDance)
-                  SimpleDialogOption(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: IconText(
-                        icon: state.isDance
-                            ? FontAwesomeIcons.music
-                            : FontAwesomeIcons.users,
-                        text: state.isDance ? 'Try mudeo' : 'Try Dance Like Me',
-                        textStyle: TextStyle(fontSize: 18),
-                      ),
+                SimpleDialogOption(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: IconText(
+                      icon: FontAwesomeIcons.star,
+                      text: localization.reviewApp,
+                      textStyle: TextStyle(fontSize: 18),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      launch(getOtherAppStoreURL(context),
-                          forceSafariVC: false);
-                    },
                   ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _inAppReview.openStoreListing(
+                        appStoreId:
+                            isAndroid() ? kPlayStoreAppId : kAppStoreAppId,
+                        microsoftStoreId: kMicrosoftAppStoreId);
+                  },
+                ),
                 SimpleDialogOption(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -344,7 +353,7 @@ class ArtistPage extends StatelessWidget {
                         message: localization.deleteAccount,
                         help: localization.deleteAccountWarning,
                         callback: () {
-                          viewModel.onDeleteAccountPressed();
+                          widget.viewModel.onDeleteAccountPressed();
                         });
                   },
                 ),
@@ -354,27 +363,27 @@ class ArtistPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: showSettings
+      appBar: widget.showSettings
           ? null
           : AppBar(
-              title: Text(artist.name),
+              title: Text(widget.artist.name),
             ),
       body: Builder(builder: (BuildContext context) {
         return RefreshIndicator(
-          onRefresh: () => viewModel.onRefreshed(context),
+          onRefresh: () => widget.viewModel.onRefreshed(context),
           child: ListView(
             shrinkWrap: true,
             primary: isDesktop() ? true : false,
-            controller: isDesktop() ? null : scrollController,
+            controller: isDesktop() ? null : widget.scrollController,
             children: <Widget>[
               Stack(
                 fit: StackFit.loose,
                 //alignment: Alignment.center,
                 children: <Widget>[
-                  if (artist.headerImageUrl != null &&
-                      artist.headerImageUrl.isNotEmpty)
+                  if (widget.artist.headerImageUrl != null &&
+                      widget.artist.headerImageUrl.isNotEmpty)
                     Image.network(
-                      artist.headerImageUrl,
+                      widget.artist.headerImageUrl,
                       height: 550,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -400,9 +409,9 @@ class ArtistPage extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                if (artist.isNameSet) ...[
+                                if (widget.artist.isNameSet) ...[
                                   Text(
-                                    artist.name,
+                                    widget.artist.name,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline6
@@ -410,11 +419,11 @@ class ArtistPage extends StatelessWidget {
                                   ),
                                   SizedBox(height: 8),
                                 ],
-                                if (artist.handle != null &&
-                                    artist.handle.isNotEmpty)
+                                if (widget.artist.handle != null &&
+                                    widget.artist.handle.isNotEmpty)
                                   Text(
-                                    '@${artist.handle}',
-                                    style: artist.isNameSet
+                                    '@${widget.artist.handle}',
+                                    style: widget.artist.isNameSet
                                         ? Theme.of(context).textTheme.subtitle1
                                         : Theme.of(context)
                                             .textTheme
@@ -431,7 +440,7 @@ class ArtistPage extends StatelessWidget {
                             top: 20, bottom: 15, left: 60, right: 60),
                         child: Column(
                           children: <Widget>[
-                            if (showSettings)
+                            if (widget.showSettings)
                               Padding(
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: SizedBox(
@@ -461,7 +470,7 @@ class ArtistPage extends StatelessWidget {
                                                 */
                                     ),
                                   )),
-                            if (showSettings)
+                            if (widget.showSettings)
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: SizedBox(
@@ -476,7 +485,8 @@ class ArtistPage extends StatelessWidget {
                                       final store =
                                           StoreProvider.of<AppState>(context);
                                       store.dispatch(EditArtist(
-                                          context: context, artist: artist));
+                                          context: context,
+                                          artist: widget.artist));
                                     },
                                     /*
                                       color: Colors.black87,
@@ -506,7 +516,7 @@ class ArtistPage extends StatelessWidget {
                                 ),
                               ),
                              */
-                            showSettings
+                            widget.showSettings
                                 ? SizedBox(
                                     width: 250,
                                     child: ElevatedButton(
@@ -525,16 +535,17 @@ class ArtistPage extends StatelessWidget {
                                       */
                                     ),
                                   )
-                                : viewModel.state.isSaving
+                                : widget.viewModel.state.isSaving
                                     ? SizedBox(
                                         child: CircularProgressIndicator(),
                                         width: 48,
                                         height: 48,
                                       )
-                                    : (viewModel.state.authState.artist.id ==
-                                                artist.id ||
-                                            !viewModel
-                                                .state.authState.hasValidToken)
+                                    : (widget.viewModel.state.authState.artist
+                                                    .id ==
+                                                widget.artist.id ||
+                                            !widget.viewModel.state.authState
+                                                .hasValidToken)
                                         ? SizedBox()
                                         : SizedBox(
                                             width: 250,
@@ -549,8 +560,9 @@ class ArtistPage extends StatelessWidget {
                                                     style: TextStyle(
                                                         fontSize: 18)),
                                               ),
-                                              onPressed: () => viewModel
-                                                  .onFollowPressed(artist),
+                                              onPressed: () => widget.viewModel
+                                                  .onFollowPressed(
+                                                      widget.artist),
                                               /*
                                               color: isFollowing
                                                   ? Colors.grey
@@ -567,20 +579,21 @@ class ArtistPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      artist.description != null &&
-                              artist.description.isNotEmpty
+                      widget.artist.description != null &&
+                              widget.artist.description.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               child: Text(
                                 // TODO remove this null check
-                                artist.description ?? '',
+                                widget.artist.description ?? '',
                                 style: TextStyle(
                                   fontSize: 16,
                                 ),
                               ),
                             )
                           : SizedBox(),
-                      artist.website != null && artist.website.isNotEmpty
+                      widget.artist.website != null &&
+                              widget.artist.website.isNotEmpty
                           ? Padding(
                               padding: EdgeInsets.only(top: 12, bottom: 6),
                               child: RichText(
@@ -588,8 +601,10 @@ class ArtistPage extends StatelessWidget {
                                   children: <TextSpan>[
                                     LinkTextSpan(
                                       style: linkStyle,
-                                      text: formatLinkForHuman(artist.website),
-                                      url: formatLinkForBrowser(artist.website),
+                                      text: formatLinkForHuman(
+                                          widget.artist.website),
+                                      url: formatLinkForBrowser(
+                                          widget.artist.website),
                                     ),
                                   ],
                                 ),
@@ -605,14 +620,14 @@ class ArtistPage extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
-                                children: artist.socialLinks.keys
+                                children: widget.artist.socialLinks.keys
                                     .map((type) => SocialIconButton(
                                         type: type,
-                                        url: artist.socialLinks[type]))
+                                        url: widget.artist.socialLinks[type]))
                                     .toList(),
                               ),
                             ),
-                            showSettings
+                            widget.showSettings
                                 ? SizedBox()
                                 : PopupMenuButton<String>(
                                     icon: Icon(Icons.keyboard_arrow_down,
@@ -651,8 +666,9 @@ class ArtistPage extends StatelessWidget {
                                                     child: Text(localization.ok
                                                         .toUpperCase()),
                                                     onPressed: () {
-                                                      viewModel.onBlockPressed(
-                                                          artist);
+                                                      widget.viewModel
+                                                          .onBlockPressed(
+                                                              widget.artist);
                                                       Navigator.pop(context);
                                                     })
                                               ],

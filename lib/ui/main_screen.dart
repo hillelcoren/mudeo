@@ -331,7 +331,7 @@ class _MobileScreenState extends State<MobileScreen> {
                     child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    localization.wouldYouRateTheApp,
+                    localization.wouldYouReviewTheApp,
                   ),
                 )),
                 TextButton(
