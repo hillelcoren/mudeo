@@ -1747,7 +1747,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
 
                     if (widget.isFirst &&
                         song.includedTracks.length == 1 &&
-                        song.isNew)
+                        song.isNew &&
+                        !isDesktop())
                       Padding(
                         padding: const EdgeInsets.only(top: 8),
                         child: ElevatedButton(
