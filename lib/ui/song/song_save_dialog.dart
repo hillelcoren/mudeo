@@ -394,7 +394,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     child: Text(
                       songUrl.replaceFirst('https://', ''),
                       style: TextStyle(
-                          fontSize: 20, color: Colors.lightBlueAccent),
+                          fontSize: 20, color: Theme.of(context).colorScheme.primary),
                     ),
                   ),
                 ),
