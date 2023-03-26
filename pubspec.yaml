@@ -80,14 +80,7 @@ dependencies:
   flutter_styled_toast: ^2.0.0
   window_manager: ^0.3.1
   path:
-  media_kit: ^0.0.1
-  media_kit_video: ^0.0.1
-  media_kit_native_event_loop: ^1.0.0
-  media_kit_libs_windows_video: ^1.0.0
-  media_kit_libs_windows_audio: ^1.0.0
-  #media_kit_libs_ios_video: ^1.0.0
-  #media_kit_libs_macos_video: ^1.0.0
-  #media_kit_libs_linux: ^1.0.0    
+  video_editor: ^2.4.0
 
 dependency_overrides:
   platform: ^3.1.0

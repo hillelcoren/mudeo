@@ -626,46 +626,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.7096"
-  media_kit:
-    dependency: "direct main"
-    description:
-      name: media_kit
-      sha256: "6458c657406fa736e2584e18a4afbb9e395b1b2dd214a0160ce1fad8f0d2c43a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
-  media_kit_libs_windows_audio:
-    dependency: "direct main"
-    description:
-      name: media_kit_libs_windows_audio
-      sha256: "417c1578cd9dbd490a7ac5ba447e31d3c3139a65c089b31095b7980d54aeeec5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  media_kit_libs_windows_video:
-    dependency: "direct main"
-    description:
-      name: media_kit_libs_windows_video
-      sha256: aadc5b6a24b8cfc3adda910fa824ed2af6cb2d33fef84227d2bb2900ce207bd6
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  media_kit_native_event_loop:
-    dependency: "direct main"
-    description:
-      name: media_kit_native_event_loop
-      sha256: e0efd10c310fa1506b516de8d2c9ff7add8745bdb615c94dba718e22484ce8b0
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
-  media_kit_video:
-    dependency: "direct main"
-    description:
-      name: media_kit_video
-      sha256: "787e027081a826374baf1af41b6870caa182c44a68dadb20f0b9a6ca24be68bc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   memoize:
     dependency: "direct main"
     description:
@@ -922,14 +882,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.25.0"
-  safe_local_storage:
-    dependency: transitive
-    description:
-      name: safe_local_storage
-      sha256: "7ca14be87040e6badfcdb9c71e963846c4e7d827dbc9f62cab7496497352f8d8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   screen:
     dependency: "direct main"
     description:
@@ -1135,6 +1087,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  transparent_image:
+    dependency: transitive
+    description:
+      name: transparent_image
+      sha256: e8991d955a2094e197ca24c645efec2faf4285772a4746126ca12875e54ca02f
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   typed_data:
     dependency: transitive
     description:
@@ -1143,14 +1103,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  uri_parser:
-    dependency: transitive
-    description:
-      name: uri_parser
-      sha256: f47b97479d6c818f739135e3abdd64d629804ea4fff7a5e394a37ca6fe8dce0a
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -1231,6 +1183,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  video_editor:
+    dependency: "direct main"
+    description:
+      name: video_editor
+      sha256: "180e1470e10d5f1b69de8996e282e024e36736c6ece36025ea040e8cdacd798f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.0"
   video_player:
     dependency: "direct main"
     description:
@@ -1288,6 +1248,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  video_thumbnail:
+    dependency: transitive
+    description:
+      name: video_thumbnail
+      sha256: "3455c189d3f0bb4e3fc2236475aa84fe598b9b2d0e08f43b9761f5bc44210016"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.3"
   visibility_detector:
     dependency: "direct main"
     description:

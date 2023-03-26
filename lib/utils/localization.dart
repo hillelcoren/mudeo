@@ -20,6 +20,7 @@ class AppLocalization {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+      'trim': 'Trim',
       'secret_help': 'Share the secret to add collaborators',
       'next_video': 'Next Video',
       'previous_video': 'Previous Video',
@@ -845,6 +846,8 @@ class AppLocalization {
       _localizedValues[locale.toString()]['previous_video'];
 
   String get secretHelp => _localizedValues[locale.toString()]['secret_help'];
+
+  String get trim => _localizedValues[locale.toString()]['trim'];
 
   String lookup(String key) {
     final lookupKey = toSnakeCase(key);

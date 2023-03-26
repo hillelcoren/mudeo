@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:mudeo/ui/song/song_trim.dart';
 import 'package:path/path.dart' as p;
 import 'package:camera_macos/camera_macos_controller.dart';
 import 'package:camera_macos/camera_macos_device.dart';
@@ -1744,6 +1745,34 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       ),
                       */
 
+                    if (widget.isFirst &&
+                        song.includedTracks.length == 1 &&
+                        song.isNew)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: ElevatedButton(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 4, vertical: 10),
+                            child: Text(localization.trim),
+                          ),
+                          style:
+                              ElevatedButton.styleFrom(primary: Colors.purple),
+                          onPressed: () async {
+                            final path = await widget.track.video.path;
+                            Navigator.of(context).pop();
+                            final duration = await showDialog<int>(
+                                context: context,
+                                builder: (context) =>
+                                    SongTrim(file: File(path)));
+                            if (duration != null) {
+                              widget.videoPlayer.initialize();
+                              widget.viewModel.onChangedSong(
+                                  song.rebuild((b) => b..duration = duration));
+                            }
+                          },
+                        ),
+                      ),
                     if (!widget.isFirst &&
                         widget.hasHeadset &&
                         supportsFFMpeg())
