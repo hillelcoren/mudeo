@@ -13,7 +13,7 @@ abstract class StopSaving {}
 class RefreshData {
   RefreshData({this.completer});
 
-  final Completer completer;
+  final Completer? completer;
 }
 
 class UpdateTabIndex implements PersistUI {

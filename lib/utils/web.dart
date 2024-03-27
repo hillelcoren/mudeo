@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 
 Future<String> webFilePicker() {
   final completer = new Completer<String>();
-  final InputElement input = document.createElement('input');
+  final InputElement input = document.createElement('input') as InputElement;
   input
     ..type = 'file'
     ..accept = 'image/*';
   input.onChange.listen((e) async {
-    final List<File> files = input.files;
+    final List<File> files = input.files!;
     final reader = new FileReader();
     reader.readAsDataUrl(files[0]);
     reader.onError.listen((error) => completer.completeError(error));
     await reader.onLoad.first;
-    completer.complete(reader.result as String);
+    completer.complete(reader.result as String?);
   });
   input.click();
   return completer.future;
@@ -37,20 +37,20 @@ void registerWebView(String html) {
 // TODO remove this once supported by Flutter
 class HandCursor extends StatelessWidget {
   const HandCursor({
-    Key key,
+    Key? key,
     this.child,
   }) : super(key: key);
 
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onHover: (PointerHoverEvent evt) {
-        window.document.documentElement.style.cursor = 'pointer';
+        window.document.documentElement!.style.cursor = 'pointer';
       },
       onExit: (PointerExitEvent evt) {
-        window.document.documentElement.style.cursor = 'auto';
+        window.document.documentElement!.style.cursor = 'auto';
       },
       child: child,
     );
@@ -62,12 +62,12 @@ class HandCursor extends StatelessWidget {
  * Utils for device detection.
  */
 class Device {
-  static bool _isOpera;
-  static bool _isIE;
-  static bool _isFirefox;
-  static bool _isWebKit;
-  static String _cachedCssPrefix;
-  static String _cachedPropertyPrefix;
+  static bool? _isOpera;
+  static bool? _isIE;
+  static bool? _isFirefox;
+  static bool? _isWebKit;
+  static String? _cachedCssPrefix;
+  static String? _cachedPropertyPrefix;
   /**
    * Gets the browser's user agent. Using this function allows tests to inject
    * the user agent.
@@ -77,7 +77,7 @@ class Device {
   /**
    * Determines if the current device is running Opera.
    */
-  static bool get isOpera {
+  static bool? get isOpera {
     if (_isOpera == null) {
       _isOpera = userAgent.contains("Opera", 0);
     }
@@ -86,16 +86,16 @@ class Device {
   /**
    * Determines if the current device is running Internet Explorer.
    */
-  static bool get isIE {
+  static bool? get isIE {
     if (_isIE == null) {
-      _isIE = !isOpera && userAgent.contains("Trident/", 0);
+      _isIE = !isOpera! && userAgent.contains("Trident/", 0);
     }
     return _isIE;
   }
   /**
    * Determines if the current device is running Firefox.
    */
-  static bool get isFirefox {
+  static bool? get isFirefox {
     if (_isFirefox == null) {
       _isFirefox = userAgent.contains("Firefox", 0);
     }
@@ -104,9 +104,9 @@ class Device {
   /**
    * Determines if the current device is running WebKit.
    */
-  static bool get isWebKit {
+  static bool? get isWebKit {
     if (_isWebKit == null) {
-      _isWebKit = !isOpera && userAgent.contains("WebKit", 0);
+      _isWebKit = !isOpera! && userAgent.contains("WebKit", 0);
     }
     return _isWebKit;
   }
@@ -114,13 +114,13 @@ class Device {
    * Gets the CSS property prefix for the current platform.
    */
   static String get cssPrefix {
-    String prefix = _cachedCssPrefix;
+    String? prefix = _cachedCssPrefix;
     if (prefix != null) return prefix;
-    if (isFirefox) {
+    if (isFirefox!) {
       prefix = '-moz-';
-    } else if (isIE) {
+    } else if (isIE!) {
       prefix = '-ms-';
-    } else if (isOpera) {
+    } else if (isOpera!) {
       prefix = '-o-';
     } else {
       prefix = '-webkit-';
@@ -131,13 +131,13 @@ class Device {
    * Prefix as used for JS property names.
    */
   static String get propertyPrefix {
-    String prefix = _cachedPropertyPrefix;
+    String? prefix = _cachedPropertyPrefix;
     if (prefix != null) return prefix;
-    if (isFirefox) {
+    if (isFirefox!) {
       prefix = 'moz';
-    } else if (isIE) {
+    } else if (isIE!) {
       prefix = 'ms';
-    } else if (isOpera) {
+    } else if (isOpera!) {
       prefix = 'o';
     } else {
       prefix = 'webkit';

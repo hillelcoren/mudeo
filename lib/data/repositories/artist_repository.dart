@@ -17,18 +17,18 @@ class ArtistRepository {
 
   final WebClient webClient;
 
-  Future<ArtistEntity> loadItem(AppState state, int entityId) async {
+  Future<ArtistEntity?> loadItem(AppState state, int? entityId) async {
     String url = '${state.apiUrl}/users/$entityId?include=songs,song_flags,song_likes,following';
 
-    final dynamic response = await webClient.get(url, state.artist.token);
+    final dynamic response = await webClient.get(url, state.artist!.token!);
 
     final ArtistItemResponse artistResponse =
-        serializers.deserializeWith(ArtistItemResponse.serializer, response);
+        serializers.deserializeWith(ArtistItemResponse.serializer, response)!;
 
     return artistResponse.data;
   }
 
-  Future<BuiltList<ArtistEntity>> loadList(
+  Future<BuiltList<ArtistEntity>?> loadList(
       AuthState auth, int updatedAt) async {
     return null;
 
@@ -50,8 +50,8 @@ class ArtistRepository {
     */
   }
 
-  Future<ArtistEntity> saveData(AppState state, ArtistEntity artist,
-      [EntityAction action]) async {
+  Future<ArtistEntity?> saveData(AppState state, ArtistEntity artist,
+      [EntityAction? action]) async {
     final data = serializers.serializeWith(ArtistEntity.serializer, artist);
 
     var url = '${state.apiUrl}/users/${artist.id}?include=songs,song_flags,song_likes,following';
@@ -59,41 +59,41 @@ class ArtistRepository {
       url += '&action=' + action.toString();
     }
     dynamic response =
-        await webClient.put(url, state.artist.token, json.encode(data));
+        await webClient.put(url, state.artist!.token!, json.encode(data));
 
     final ArtistItemResponse artistResponse =
-        serializers.deserializeWith(ArtistItemResponse.serializer, response);
+        serializers.deserializeWith(ArtistItemResponse.serializer, response)!;
 
     return artistResponse.data;
   }
 
-  Future<ArtistEntity> saveImage(
-      AppState state, MultipartFile image, String imageType) async {
+  Future<ArtistEntity?> saveImage(
+      AppState state, MultipartFile? image, String? imageType) async {
 
     dynamic response = await webClient.post(
-        '${state.apiUrl}/user/$imageType', state.artist.token, multipartFile: image, fileIndex: 'image');
+        '${state.apiUrl}/user/$imageType', state.artist!.token, multipartFile: image, fileIndex: 'image');
 
     final ArtistItemResponse artistResponse =
-        serializers.deserializeWith(ArtistItemResponse.serializer, response);
+        serializers.deserializeWith(ArtistItemResponse.serializer, response)!;
 
     return artistResponse.data;
   }
 
-  Future<ArtistFollowingEntity> followArtist(AppState state, ArtistEntity artist,
-      {ArtistFollowingEntity artistFollowing}) async {
+  Future<ArtistFollowingEntity?> followArtist(AppState state, ArtistEntity artist,
+      {ArtistFollowingEntity? artistFollowing}) async {
     dynamic response;
 
     if (artistFollowing != null) {
       var url = '${state.apiUrl}/user_follow/${artist.id}';
-      response = await webClient.delete(url, state.artist.token);
+      response = await webClient.delete(url, state.artist!.token!);
 
       return artistFollowing;
     } else {
       var url = '${state.apiUrl}/user_follow?user_following_id=${artist.id}';
-      response = await webClient.post(url, state.artist.token);
+      response = await webClient.post(url, state.artist!.token);
 
       final ArtistFollowingItemResponse songResponse =
-      serializers.deserializeWith(ArtistFollowingItemResponse.serializer, response);
+      serializers.deserializeWith(ArtistFollowingItemResponse.serializer, response)!;
 
       return songResponse.data;
     }

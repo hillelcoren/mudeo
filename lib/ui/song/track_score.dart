@@ -14,8 +14,8 @@ import 'package:mudeo/utils/localization.dart';
 class TrackScore extends StatefulWidget {
   TrackScore({this.song, this.video});
 
-  final SongEntity song;
-  final VideoEntity video;
+  final SongEntity? song;
+  final VideoEntity? video;
 
   @override
   _TrackScoreState createState() => _TrackScoreState();
@@ -24,11 +24,11 @@ class TrackScore extends StatefulWidget {
 class _TrackScoreState extends State<TrackScore> {
   bool _isProcessing = false;
   bool _maskBackground = true;
-  double _distance;
-  List<int> _frameTimes;
-  List<double> _frameScores;
-  List<String> _origPaths;
-  List<String> _copyPaths;
+  double _distance = 0.0;
+  List<int>? _frameTimes;
+  late List<double> _frameScores;
+  late List<String> _origPaths;
+  late List<String> _copyPaths;
 
   @override
   void initState() {
@@ -38,17 +38,17 @@ class _TrackScoreState extends State<TrackScore> {
   }
 
   void _calculateScore() {
-    final song = widget.song;
-    final origTrack = song.tracks.first;
+    final song = widget.song!;
+    final origTrack = song.tracks!.first!;
 
-    if ((origTrack.video.recognitions ?? '').isEmpty ||
-        (widget.video.recognitions ?? '').isEmpty) {
+    if ((origTrack.video!.recognitions ?? '').isEmpty ||
+        (widget.video!.recognitions ?? '').isEmpty) {
       print('## ERROR: recognitions are null');
       return;
     }
 
-    final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.video.recognitions);
+    final origData = jsonDecode(origTrack.video!.recognitions!);
+    final copyData = jsonDecode(widget.video!.recognitions!);
 
     _distance = 0;
     int countParts = 0;
@@ -63,10 +63,10 @@ class _TrackScoreState extends State<TrackScore> {
 
     _frameScores = [];
     int count = 0;
-    for (int i = 0; i < song.duration; i += kRecognitionFrameSpeed) {
+    for (int i = 0; i < song.duration!; i += kRecognitionFrameSpeed) {
       final value = _calculateFrameScore(count);
       if (value != null) {
-        _distance += value;
+        _distance = _distance + value;
         countParts++;
         _frameScores.add(value);
       } else {
@@ -76,15 +76,15 @@ class _TrackScoreState extends State<TrackScore> {
     }
 
     setState(() {
-      _distance = countParts > 0 ? (_distance / countParts) : 1;
+      _distance = countParts > 0 ? (_distance! / countParts) : 1;
     });
   }
 
-  double _calculateFrameScore(int index) {
-    final song = widget.song;
-    final origTrack = song.tracks.first;
-    final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.video.recognitions);
+  double? _calculateFrameScore(int index) {
+    final song = widget.song!;
+    final origTrack = song.tracks!.first!;
+    final origData = jsonDecode(origTrack.video!.recognitions!);
+    final copyData = jsonDecode(widget.video!.recognitions!);
 
     print('## LENGTH: ${origData.length} ${copyData.length}');
     if (index >= origData.length || index >= copyData.length) {
@@ -106,8 +106,8 @@ class _TrackScoreState extends State<TrackScore> {
       final origPart = orig['$part'];
       final copyPart = copy['$part'];
 
-      List<double> vector1 = [];
-      List<double> vector2 = [];
+      List<double?> vector1 = [];
+      List<double?> vector2 = [];
 
       if (origPart != null && copyPart != null) {
         vector1.add(origPart[0]);
@@ -117,7 +117,8 @@ class _TrackScoreState extends State<TrackScore> {
       }
 
       if (vector1.isNotEmpty && vector2.isNotEmpty) {
-        _distance += cosineDistance(vector1, vector2);
+        _distance +=
+            cosineDistance(vector1 as List<double>, vector2 as List<double>);
         countParts++;
       }
     }
@@ -125,7 +126,7 @@ class _TrackScoreState extends State<TrackScore> {
     if (countParts == 0) {
       return null;
     }
-    return _distance / countParts;
+    return _distance! / countParts;
   }
 
   void _calculateDetails() async {
@@ -138,18 +139,18 @@ class _TrackScoreState extends State<TrackScore> {
     _origPaths = [];
     _copyPaths = [];
 
-    final song = widget.song;
-    var video = song.tracks.first.video;
+    final song = widget.song!;
+    var video = song.tracks!.first!.video;
 
-    String path = await VideoEntity.getPath(video);
+    String path = (await VideoEntity.getPath(video))!;
     if (!await File(path).exists()) {
       final http.Response response = await http.Client()
-          .get(Uri.parse(widget.song.tracks.first.video.url));
+          .get(Uri.parse(widget.song!.tracks!.first!.video!.url!));
       await File(path).writeAsBytes(response.bodyBytes);
     }
 
-    for (int i = 0; i < song.duration; i += frameLength) {
-      _frameTimes.add(i);
+    for (int i = 0; i < song.duration!; i += frameLength) {
+      _frameTimes!.add(i);
       final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
       await FfmpegUtils.createThumbnail(path, thumbnailPath);
 
@@ -157,15 +158,15 @@ class _TrackScoreState extends State<TrackScore> {
     }
 
     video = widget.video;
-    path = await VideoEntity.getPath(video);
+    path = (await VideoEntity.getPath(video))!;
 
     if (!await File(path).exists()) {
       final http.Response copyResponse =
-          await http.Client().get(Uri.parse(video.url));
+          await http.Client().get(Uri.parse(video!.url!));
       await File(path).writeAsBytes(copyResponse.bodyBytes);
     }
 
-    for (int i = 0; i < song.duration; i += frameLength) {
+    for (int i = 0; i < song.duration!; i += frameLength) {
       final thumbnailPath = path.replaceFirst('.mp4', '-$i.jpg');
       await FfmpegUtils.createThumbnail(path, thumbnailPath);
       _copyPaths.add(thumbnailPath);
@@ -185,33 +186,33 @@ class _TrackScoreState extends State<TrackScore> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final song = widget.song;
-    final origTrack = song.tracks.first;
+    final song = widget.song!;
+    final origTrack = song.tracks!.first!;
 
-    if ((origTrack.video.recognitions ?? '').isEmpty ||
-        (widget.video.recognitions ?? '').isEmpty) {
+    if ((origTrack.video!.recognitions ?? '').isEmpty ||
+        (widget.video!.recognitions ?? '').isEmpty) {
       print('## ERROR: recognitions are null');
       return SizedBox();
     }
 
-    final origData = jsonDecode(origTrack.video.recognitions);
-    final copyData = jsonDecode(widget.video.recognitions);
+    final origData = jsonDecode(origTrack.video!.recognitions!);
+    final copyData = jsonDecode(widget.video!.recognitions!);
 
     return AlertDialog(
       contentPadding: const EdgeInsets.all(16),
       actions: <Widget>[
         if (_frameTimes == null)
           TextButton(
-            child: Text(localization.showDetails.toUpperCase()),
+            child: Text(localization!.showDetails!.toUpperCase()),
             onPressed: () {
               _calculateDetails();
             },
           )
-        else if (_frameTimes.isNotEmpty)
+        else if (_frameTimes!.isNotEmpty)
           TextButton(
             child: Text((_maskBackground
-                    ? localization.showImage
-                    : localization.blurImage)
+                    ? localization!.showImage
+                    : localization!.blurImage)!
                 .toUpperCase()),
             onPressed: () {
               setState(() {
@@ -220,7 +221,7 @@ class _TrackScoreState extends State<TrackScore> {
             },
           ),
         TextButton(
-          child: Text(localization.close.toUpperCase()),
+          child: Text(localization!.close!.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -239,11 +240,11 @@ class _TrackScoreState extends State<TrackScore> {
                   if (_distance != null) ...[
                     Padding(
                       padding: const EdgeInsets.all(15),
-                      child: Text(localization.yourScoreIs),
+                      child: Text(localization.yourScoreIs!),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      '${max((100 - (_distance * 100)).round(), 0)}%',
+                      '${max((100 - (_distance! * 100)).round(), 0)}%',
                       style: Theme.of(context).textTheme.headline4,
                     ),
                     SizedBox(height: 20),
@@ -256,11 +257,11 @@ class _TrackScoreState extends State<TrackScore> {
                             aspectRatio: 0.75,
                             child: ListView.builder(
                               scrollDirection: Axis.vertical,
-                              itemCount: _frameTimes.length,
+                              itemCount: _frameTimes!.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final i = index;
                                 final frameIndex =
-                                    _frameTimes.indexOf(_frameTimes[i]);
+                                    _frameTimes!.indexOf(_frameTimes![i]);
 
                                 return Row(
                                   children: <Widget>[
@@ -319,15 +320,15 @@ class _TrackScoreState extends State<TrackScore> {
 
 class _PoseDisplay extends StatelessWidget {
   const _PoseDisplay({
-    Key key,
-    @required this.index,
-    @required this.frame,
-    @required this.color,
-    @required this.child,
+    Key? key,
+    required this.index,
+    required this.frame,
+    required this.color,
+    required this.child,
   }) : super(key: key);
 
   final int index;
-  final Map<String, List<dynamic>> frame;
+  final Map<String, List<dynamic>>? frame;
   final Color color;
   final Widget child;
 
@@ -346,13 +347,13 @@ class _PoseDisplay extends StatelessWidget {
 
 class _PosePainter extends CustomPainter {
   _PosePainter({
-    @required this.index,
-    @required this.frame,
-    @required this.color,
+    required this.index,
+    required this.frame,
+    required this.color,
   });
 
   final int index;
-  final Map<String, List<dynamic>> frame;
+  final Map<String, List<dynamic>>? frame;
   final Color color;
 
   @override
@@ -368,7 +369,7 @@ class _PosePainter extends CustomPainter {
       ..color = color;
 
     Offset _extract(int key) {
-      final value = frame[key.toString()];
+      final value = frame![key.toString()];
       if (value == null) {
         return Offset(0, 0);
       }
@@ -401,7 +402,7 @@ class _PosePainter extends CustomPainter {
     _drawLine(canvas, size, _extract(kRecognitionPartLeftShoulder),
         _extract(kRecognitionPartRightShoulder), paint);
 
-    for (final entry in frame.entries) {
+    for (final entry in frame!.entries) {
       final point = entry.value.cast<double>();
       final dx = point[0] * size.width;
       final dy = point[1] * size.height;

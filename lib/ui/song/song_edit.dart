@@ -51,8 +51,8 @@ import 'package:video_player/video_player.dart';
 
 class SongScaffold extends StatefulWidget {
   const SongScaffold({
-    Key key,
-    @required this.viewModel,
+    Key? key,
+    required this.viewModel,
   }) : super(key: key);
 
   final SongEditVM viewModel;
@@ -63,17 +63,17 @@ class SongScaffold extends StatefulWidget {
 
 class _SongScaffoldState extends State<SongScaffold> {
   HeadsetEvent headsetPlugin = new HeadsetEvent();
-  HeadsetState headsetState;
+  HeadsetState? headsetState;
   bool isCameraEnabled = false;
   bool isMicrophoneEnabled = false;
-  CameraController cameraController;
+  CameraController? cameraController;
   GlobalKey cameraKey = GlobalKey();
-  CameraMacOSController macOSCameraController;
+  CameraMacOSController? macOSCameraController;
   List<CameraMacOSDevice> macOSVideoDevices = [];
   List<CameraMacOSDevice> macOSAudioDevices = [];
-  String selectedVideoDevice;
-  String selectedAudioDevice;
-  CameraLensDirection cameraDirection;
+  String? selectedVideoDevice;
+  String? selectedAudioDevice;
+  CameraLensDirection? cameraDirection;
 
   Map<CameraLensDirection, bool> availableCameraDirections = {
     CameraLensDirection.front: false,
@@ -172,11 +172,11 @@ class _SongScaffoldState extends State<SongScaffold> {
       Permission.microphone,
     ].request();
 
-    if (statuses[Permission.camera].isGranted) {
+    if (statuses[Permission.camera]!.isGranted) {
       isCameraEnabled = true;
     }
 
-    if (statuses[Permission.microphone].isGranted) {
+    if (statuses[Permission.microphone]!.isGranted) {
       isMicrophoneEnabled = true;
     }
 
@@ -202,7 +202,7 @@ class _SongScaffoldState extends State<SongScaffold> {
     final state = widget.viewModel.state;
     final uiState = state.uiState;
     final song = widget.viewModel.song;
-    final authArtist = widget.viewModel.state.authState.artist;
+    final authArtist = widget.viewModel.state.authState!.artist;
     final isMissingRecognitions = false;
 
     if (isMobile() && (!isCameraEnabled || !isMicrophoneEnabled)) {
@@ -210,11 +210,11 @@ class _SongScaffoldState extends State<SongScaffold> {
         child: ElevatedButton(
           child: Text(
             !isCameraEnabled
-                ? localization.enableCamera
-                : localization.enableMicrophone,
+                ? localization!.enableCamera!
+                : localization!.enableMicrophone!,
           ),
           onPressed: () async {
-            await checkPermissions();
+            //await checkPermissions();
 
             if (!isCameraEnabled || !isMicrophoneEnabled) {
               openAppSettings();
@@ -231,7 +231,7 @@ class _SongScaffoldState extends State<SongScaffold> {
             viewModel: widget.viewModel,
             hasHeadset: headsetState == HeadsetState.CONNECT,
             //key: ValueKey('${viewModel.song.id}-${viewModel.song.updatedAt}'),
-            key: ValueKey('${widget.viewModel.song.updatedAt}'),
+            key: ValueKey('${widget.viewModel.song!.updatedAt}'),
             cameraController: cameraController,
             cameraKey: cameraKey,
             macOSCameraController: macOSCameraController,
@@ -275,34 +275,34 @@ class _SongScaffoldState extends State<SongScaffold> {
 
 class SongEdit extends StatefulWidget {
   const SongEdit({
-    Key key,
-    @required this.viewModel,
-    @required this.hasHeadset,
-    @required this.cameraController,
-    @required this.cameraKey,
-    @required this.macOSCameraController,
-    @required this.macOSAudioDevices,
-    @required this.macOSVideoDevices,
-    @required this.selectedAudioDevice,
-    @required this.selectedVideoDevice,
-    @required this.cameraDirection,
-    @required this.availableCameraDirections,
-    @required this.onMacOSCameraInizialized,
-    @required this.setCameraDirection,
-    @required this.setMacOSAudioDevice,
-    @required this.setMacOSVideoDevice,
+    Key? key,
+    required this.viewModel,
+    required this.hasHeadset,
+    required this.cameraController,
+    required this.cameraKey,
+    required this.macOSCameraController,
+    required this.macOSAudioDevices,
+    required this.macOSVideoDevices,
+    required this.selectedAudioDevice,
+    required this.selectedVideoDevice,
+    required this.cameraDirection,
+    required this.availableCameraDirections,
+    required this.onMacOSCameraInizialized,
+    required this.setCameraDirection,
+    required this.setMacOSAudioDevice,
+    required this.setMacOSVideoDevice,
   }) : super(key: key);
 
   final SongEditVM viewModel;
   final bool hasHeadset;
-  final CameraController cameraController;
+  final CameraController? cameraController;
   final GlobalKey cameraKey;
-  final CameraMacOSController macOSCameraController;
+  final CameraMacOSController? macOSCameraController;
   final List<CameraMacOSDevice> macOSVideoDevices;
   final List<CameraMacOSDevice> macOSAudioDevices;
-  final String selectedVideoDevice;
-  final String selectedAudioDevice;
-  final CameraLensDirection cameraDirection;
+  final String? selectedVideoDevice;
+  final String? selectedAudioDevice;
+  final CameraLensDirection? cameraDirection;
   final Map<CameraLensDirection, bool> availableCameraDirections;
   final Function(CameraLensDirection) setCameraDirection;
   final Function(CameraMacOSController controller) onMacOSCameraInizialized;
@@ -314,19 +314,19 @@ class SongEdit extends StatefulWidget {
 }
 
 class _SongEditState extends State<SongEdit> {
-  Map<int, VideoPlayerController> videoPlayers = {};
+  Map<int?, VideoPlayerController> videoPlayers = {};
   bool isPlaying = false, isRecording = false;
   bool isPastThreeSeconds = false;
   int countdownTimer = 0;
-  String path;
-  Timer recordTimer;
-  Timer cancelTimer;
-  Timer playTimer;
+  String? path;
+  Timer? recordTimer;
+  Timer? cancelTimer;
+  Timer? playTimer;
   int _activeTrack = 0;
   bool _headphonesConnected = false;
-  String selectedVideoDevice;
-  String selectedAudioDevice;
-  CameraLensDirection cameraDirection;
+  String? selectedVideoDevice;
+  String? selectedAudioDevice;
+  CameraLensDirection? cameraDirection;
 
   String selectedAspectRatio = '16:9';
   Map<String, double> aspectRatios = {
@@ -379,15 +379,15 @@ class _SongEditState extends State<SongEdit> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
 
-    final futures = List<Future>();
+    final futures = <Future>[];
     final viewModel = widget.viewModel;
-    for (final track in viewModel.song.includedTracks) {
-      final video = track.video;
+    for (final track in viewModel.song!.includedTracks) {
+      final video = track!.video;
       VideoPlayerController player;
-      String path = await VideoEntity.getPath(video);
-      if (!await File(path).exists() && video.url.isNotEmpty) {
+      String path = (await VideoEntity.getPath(video))!;
+      if (!await File(path).exists() && video!.url!.isNotEmpty) {
         final http.Response copyResponse =
-            await http.Client().get(Uri.parse(video.url));
+            await http.Client().get(Uri.parse(video.url!));
         await File(path).writeAsBytes(copyResponse.bodyBytes);
       }
       player = VideoPlayerController.file(
@@ -397,7 +397,7 @@ class _SongEditState extends State<SongEdit> {
 
       videoPlayers[track.id] = player;
 
-      player.setVolume(track.volume.toDouble());
+      player.setVolume(track.volume!.toDouble());
       futures.add(player.initialize());
     }
 
@@ -455,7 +455,7 @@ class _SongEditState extends State<SongEdit> {
           Timer(Duration(seconds: 1), () {
             if (countdownTimer == 2) {
               if (!Platform.isMacOS && !Platform.isWindows) {
-                widget.cameraController.prepareForVideoRecording();
+                widget.cameraController!.prepareForVideoRecording();
               }
               setState(() {
                 countdownTimer = 1;
@@ -479,7 +479,7 @@ class _SongEditState extends State<SongEdit> {
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     widget.viewModel.onStartRecording(timestamp);
 
-    final song = widget.viewModel.song;
+    final song = widget.viewModel.song!;
     path = await VideoEntity.getPath(
         VideoEntity().rebuild((b) => b..timestamp = timestamp));
     cancelTimer = Timer(Duration(seconds: 3), () {
@@ -487,24 +487,24 @@ class _SongEditState extends State<SongEdit> {
     });
     recordTimer = Timer(
       Duration(
-          milliseconds: song.duration > 0 ? song.duration : kMaxSongDuration),
+          milliseconds: song.duration! > 0 ? song.duration! : kMaxSongDuration),
       () => saveRecording(),
     );
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       play(isRecording: true);
       if (Platform.isMacOS) {
-        widget.macOSCameraController.recordVideo(
+        widget.macOSCameraController!.recordVideo(
           url: path,
           maxVideoDuration: 310,
           onVideoRecordingFinished:
-              (CameraMacOSFile file, CameraMacOSException exception) {
+              (CameraMacOSFile? file, CameraMacOSException? exception) {
             // called when maxVideoDuration has been reached
             // do something with the file or catch the exception
           },
         );
       } else {
-        widget.cameraController.startVideoRecording();
+        widget.cameraController!.startVideoRecording();
       }
     });
   }
@@ -517,16 +517,16 @@ class _SongEditState extends State<SongEdit> {
 
     try {
       if (Platform.isMacOS) {
-        if (widget.macOSCameraController.isRecording) {
-          await widget.macOSCameraController.stopRecording();
+        if (widget.macOSCameraController!.isRecording) {
+          await widget.macOSCameraController!.stopRecording();
         }
       } else if (isRecording) {
-        final video = await widget.cameraController.stopVideoRecording();
+        final video = await widget.cameraController!.stopVideoRecording();
         final videoFile = File(video.path);
         try {
-          await videoFile.rename(path);
+          await videoFile.rename(path!);
         } on FileSystemException catch (_) {
-          await videoFile.copy(path);
+          await videoFile.copy(path!);
           await videoFile.delete();
         }
       }
@@ -550,11 +550,11 @@ class _SongEditState extends State<SongEdit> {
   void saveRecording() async {
     print('## saveRecording: ${DateTime.now().toIso8601String()}');
     final viewModel = widget.viewModel;
-    final timestamp = viewModel.state.uiState.recordingTimestamp;
+    final timestamp = viewModel.state.uiState!.recordingTimestamp!;
     final endTimestamp = DateTime.now().millisecondsSinceEpoch;
     await stopRecording();
     VideoPlayerController videoPlayer = VideoPlayerController.file(
-      File(path),
+      File(path!),
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     );
     await videoPlayer.initialize();
@@ -568,7 +568,7 @@ class _SongEditState extends State<SongEdit> {
       }
     }
 
-    final imagePath = path.replaceFirst('.mp4', '-thumb.jpg');
+    final imagePath = path!.replaceFirst('.mp4', '-thumb.jpg');
 
     await FfmpegUtils.createThumbnail(path, imagePath);
 
@@ -580,13 +580,13 @@ class _SongEditState extends State<SongEdit> {
     final duration = endTimestamp - timestamp;
 
     if (!_headphonesConnected) {
-      final song = viewModel.song;
+      final song = viewModel.song!;
       if (song.includedTracks.isNotEmpty) {
-        final track = song.includedTracks.last;
+        final track = song.includedTracks.last!;
         _activeTrack = song.includedTracks.length;
         if (videoPlayers.containsKey(track.id)) {
           print('## MUTING: ${track.id}');
-          videoPlayers[track.id].setVolume(0);
+          videoPlayers[track.id]!.setVolume(0);
         }
       }
     }
@@ -637,19 +637,19 @@ class _SongEditState extends State<SongEdit> {
      */
   }
 
-  Future<String> updateRecognitions(
-      {@required VideoEntity video,
-      @required int duration,
-      @required int delay}) async {
-    if (!widget.viewModel.state.isDance) {
+  Future<String?> updateRecognitions(
+      {required VideoEntity? video,
+      required int? duration,
+      required int delay}) async {
+    if (!widget.viewModel.state.isDance!) {
       return null;
     }
 
     showProcessingDialog(context);
-    String path = await VideoEntity.getPath(video);
-    if (!await File(path).exists() && video.url.isNotEmpty) {
+    String path = (await VideoEntity.getPath(video))!;
+    if (!await File(path).exists() && video!.url!.isNotEmpty) {
       final http.Response response =
-          await http.Client().get(Uri.parse(video.url));
+          await http.Client().get(Uri.parse(video.url!));
       await File(path).writeAsBytes(response.bodyBytes);
     }
     final data = await convertVideoToRecognitions(
@@ -662,8 +662,8 @@ class _SongEditState extends State<SongEdit> {
     return data;
   }
 
-  Future play({bool isRecording = false}) async {
-    Future future;
+  Future? play({bool isRecording = false}) async {
+    Future? future;
     if (videoPlayers.isEmpty) return;
 
     // This is required to get the videos to start playing in sync
@@ -672,18 +672,18 @@ class _SongEditState extends State<SongEdit> {
       videoPlayer.pause();
     }
 
-    int minDelay = 0;
-    int maxDelay = 0;
-    final tracks = widget.viewModel.song.includedTracks;
+    int? minDelay = 0;
+    int? maxDelay = 0;
+    final tracks = widget.viewModel.song!.includedTracks;
     for (final track in tracks) {
-      if ((track.delay ?? 0) < minDelay) minDelay = track.delay;
-      if ((track.delay ?? 0) > maxDelay) maxDelay = track.delay;
+      if ((track!.delay ?? 0) < minDelay!) minDelay = track.delay;
+      if ((track.delay ?? 0) > maxDelay!) maxDelay = track.delay;
     }
 
     bool isFirst = true;
     int index = 0;
     for (final entry in videoPlayers.entries) {
-      final track = tracks.firstWhere((track) => track.id == entry.key,
+      final track = tracks.firstWhere((track) => track!.id == entry.key,
           orElse: () => null);
       if (track == null) {
         continue;
@@ -691,7 +691,7 @@ class _SongEditState extends State<SongEdit> {
       if (isDesktop() || (!isRecording || index == _activeTrack)) {
         final player = entry.value;
         final delay =
-            Duration(milliseconds: (minDelay * -1) + (track.delay ?? 0));
+            Duration(milliseconds: (minDelay! * -1) + (track.delay ?? 0));
         player.seekTo(Duration.zero);
         if (delay == 0) {
           if (isFirst) {
@@ -709,7 +709,7 @@ class _SongEditState extends State<SongEdit> {
 
     setState(() => isPlaying = true);
     playTimer = Timer(
-      Duration(milliseconds: widget.viewModel.song.duration),
+      Duration(milliseconds: widget.viewModel.song!.duration!),
       () => setState(() => isPlaying = false),
     );
 
@@ -726,9 +726,9 @@ class _SongEditState extends State<SongEdit> {
     showDialog(
         context: context,
         builder: (context) {
-          final localization = AppLocalization.of(context);
+          final localization = AppLocalization.of(context)!;
           return SimpleDialog(
-            title: Text(localization.microphone),
+            title: Text(localization.microphone!),
             children: widget.macOSAudioDevices
                 .map((device) => SimpleDialogOption(
                       onPressed: () {
@@ -736,8 +736,8 @@ class _SongEditState extends State<SongEdit> {
                         Navigator.of(context).pop();
                       },
                       child: ListTile(
-                        title: Text(device.localizedName),
-                        subtitle: Text(device.manufacturer),
+                        title: Text(device.localizedName!),
+                        subtitle: Text(device.manufacturer!),
                         trailing: device.deviceId == widget.selectedAudioDevice
                             ? Icon(Icons.check_circle_outline)
                             : null,
@@ -752,9 +752,9 @@ class _SongEditState extends State<SongEdit> {
     showDialog(
         context: context,
         builder: (context) {
-          final localization = AppLocalization.of(context);
+          final localization = AppLocalization.of(context)!;
           return SimpleDialog(
-            title: Text(localization.camera),
+            title: Text(localization.camera!),
             children: Platform.isMacOS
                 ? widget.macOSVideoDevices
                     .map((device) => SimpleDialogOption(
@@ -763,8 +763,8 @@ class _SongEditState extends State<SongEdit> {
                             Navigator.of(context).pop();
                           },
                           child: ListTile(
-                            title: Text(device.localizedName),
-                            subtitle: Text(device.manufacturer),
+                            title: Text(device.localizedName!),
+                            subtitle: Text(device.manufacturer!),
                             trailing:
                                 device.deviceId == widget.selectedVideoDevice
                                     ? Icon(Icons.check_circle_outline)
@@ -774,17 +774,18 @@ class _SongEditState extends State<SongEdit> {
                     .toList()
                 : widget.availableCameraDirections.keys
                     .where((direction) =>
-                        widget.availableCameraDirections[direction])
+                        widget.availableCameraDirections[direction]!)
                     .map((device) => SimpleDialogOption(
                           onPressed: () {
                             widget.setCameraDirection(device);
                             Navigator.of(context).pop();
                           },
                           child: ListTile(
-                            title: Text(localization.lookup(device.name)),
-                            trailing: device.name == widget.cameraDirection.name
-                                ? Icon(Icons.check_circle_outline)
-                                : null,
+                            title: Text(localization.lookup(device.name)!),
+                            trailing:
+                                device.name == widget.cameraDirection!.name
+                                    ? Icon(Icons.check_circle_outline)
+                                    : null,
                           ),
                         ))
                     .toList(),
@@ -796,9 +797,9 @@ class _SongEditState extends State<SongEdit> {
     showDialog(
         context: context,
         builder: (context) {
-          final localization = AppLocalization.of(context);
+          final localization = AppLocalization.of(context)!;
           return SimpleDialog(
-            title: Text(localization.aspectRatio),
+            title: Text(localization.aspectRatio!),
             children: aspectRatios.keys
                 .map((aspectRatio) => SimpleDialogOption(
                       onPressed: () async {
@@ -827,8 +828,8 @@ class _SongEditState extends State<SongEdit> {
     showDialog(
         context: context,
         builder: (context) {
-          final localization = AppLocalization.of(context);
-          return SimpleDialog(title: Text(localization.headphones), children: [
+          final localization = AppLocalization.of(context)!;
+          return SimpleDialog(title: Text(localization.headphones!), children: [
             SimpleDialogOption(
               onPressed: () async {
                 Navigator.of(context).pop();
@@ -839,7 +840,7 @@ class _SongEditState extends State<SongEdit> {
                 });
               },
               child: ListTile(
-                title: Text(localization.connected),
+                title: Text(localization.connected!),
                 trailing: _headphonesConnected
                     ? Icon(Icons.check_circle_outline)
                     : null,
@@ -855,7 +856,7 @@ class _SongEditState extends State<SongEdit> {
                 });
               },
               child: ListTile(
-                title: Text(localization.notConnected),
+                title: Text(localization.notConnected!),
                 trailing: !_headphonesConnected
                     ? Icon(Icons.check_circle_outline)
                     : null,
@@ -866,18 +867,18 @@ class _SongEditState extends State<SongEdit> {
   }
 
   void onSavePressed(BuildContext context, SongEditVM viewModel) {
-    if (!viewModel.state.authState.hasValidToken) {
+    if (!viewModel.state.authState!.hasValidToken) {
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
-            final localization = AppLocalization.of(context);
+            final localization = AppLocalization.of(context)!;
             return AlertDialog(
-              title: Text(localization.requireAccountToUpload),
+              title: Text(localization.requireAccountToUpload!),
               actions: [
                 TextButton(
                     autofocus: true,
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text(localization.close.toUpperCase()))
+                    child: Text(localization.close!.toUpperCase()))
               ],
             );
           });
@@ -894,12 +895,12 @@ class _SongEditState extends State<SongEdit> {
 
   @override
   Widget build(BuildContext context) {
-    double aspectRatio = 1;
+    double? aspectRatio = 1;
     if (Platform.isMacOS) {
       aspectRatio = aspectRatios[selectedAspectRatio];
     } else {
       if (widget.cameraController == null) return SizedBox();
-      final value = widget.cameraController.value;
+      final value = widget.cameraController!.value;
       if (!value.isInitialized) return SizedBox();
 
       // TODO remove this: #97540
@@ -914,7 +915,7 @@ class _SongEditState extends State<SongEdit> {
     final viewModel = widget.viewModel;
     final store = StoreProvider.of<AppState>(context);
     final state = viewModel.state;
-    final song = viewModel.song;
+    final song = viewModel.song!;
     final isEmpty = song.includedTracks.isEmpty;
 
     IconData _getRecordIcon() {
@@ -936,7 +937,7 @@ class _SongEditState extends State<SongEdit> {
       }
     }
 
-    Function _getRecordingFunction() {
+    Function? _getRecordingFunction() {
       if (isRecording || countdownTimer > 0) {
         if (!isPastThreeSeconds || (isRecording && !isEmpty)) {
           return stopRecording;
@@ -957,10 +958,10 @@ class _SongEditState extends State<SongEdit> {
           });
     }
 
-    final bool isFullScreen = state.isDance &&
+    final bool isFullScreen = state.isDance! &&
         (isRecording || countdownTimer > 0) &&
-        song.tracks.isNotEmpty;
-    final firstTrack = isFullScreen ? song.tracks.first : null;
+        song.tracks!.isNotEmpty;
+    final firstTrack = isFullScreen ? song.tracks!.first : null;
     final firstVideoPlayer = videoPlayers[firstTrack?.id];
 
     return Stack(
@@ -969,7 +970,7 @@ class _SongEditState extends State<SongEdit> {
           duration: Duration(milliseconds: 200),
           child: Center(
             child: AspectRatio(
-              aspectRatio: aspectRatio,
+              aspectRatio: aspectRatio!,
               child: Platform.isMacOS
                   ? CameraMacOSView(
                       key: widget.cameraKey,
@@ -987,7 +988,7 @@ class _SongEditState extends State<SongEdit> {
                         */
                       },
                     )
-                  : widget.cameraController.buildPreview(),
+                  : widget.cameraController!.buildPreview(),
             ),
           ),
           decoration: BoxDecoration(
@@ -1028,7 +1029,7 @@ class _SongEditState extends State<SongEdit> {
                       scrollDirection: Axis.horizontal,
                       children: [
                         ...song.includedTracks.map((track) {
-                          final videoPlayer = videoPlayers[track.id];
+                          final videoPlayer = videoPlayers[track!.id];
                           final songIndex = song.includedTracks.indexOf(track);
 
                           if (videoPlayer == null) {
@@ -1065,12 +1066,12 @@ class _SongEditState extends State<SongEdit> {
                                   final track = song.includedTracks
                                       .sublist(
                                           0, song.includedTracks.length - 1)
-                                      .last;
-                                  videoPlayers[track.id].setVolume(100);
+                                      .last!;
+                                  videoPlayers[track.id]!.setVolume(100);
                                 }
                               }
 
-                              videoPlayers[track.id].dispose();
+                              videoPlayers[track.id]!.dispose();
                               videoPlayers.remove(track.id);
                               viewModel.onDeleteVideoPressed(
                                   song, track, _headphonesConnected);
@@ -1085,7 +1086,7 @@ class _SongEditState extends State<SongEdit> {
                             },
                             onDelayChanged: (track, delay) {
                               final song =
-                                  viewModel.song.setTrackDelay(track, delay);
+                                  viewModel.song!.setTrackDelay(track, delay);
                               viewModel.onChangedSong(song);
                               /*
                                 if (delay != track.delay) {
@@ -1182,10 +1183,10 @@ class _SongEditState extends State<SongEdit> {
                     */
                     LargeIconButton(
                       tooltip: isPastThreeSeconds
-                          ? localization.stop
+                          ? localization!.stop
                           : (isRecording || countdownTimer > 0)
-                              ? localization.cancel
-                              : localization.record,
+                              ? localization!.cancel
+                              : localization!.record,
                       iconData: _getRecordIcon(),
                       onPressed: _getRecordingFunction(),
                       color: isPlaying || isRecording || countdownTimer > 0
@@ -1231,7 +1232,7 @@ class _SongEditState extends State<SongEdit> {
                       ),
                       itemBuilder: (BuildContext context) {
                         final actions = [localization.newSong];
-                        if (song.isOld || song.parentId > 0) {
+                        if (song.isOld || song.parentId! > 0) {
                           actions.add(localization.resetSong);
                         }
                         if (song.isOld) {
@@ -1260,7 +1261,7 @@ class _SongEditState extends State<SongEdit> {
                                 widget.macOSVideoDevices.length > 1) ||
                             widget.availableCameraDirections.keys
                                     .where((key) =>
-                                        widget.availableCameraDirections[key])
+                                        widget.availableCameraDirections[key]!)
                                     .length >
                                 1) actions.add(localization.camera);
                         if (Platform.isMacOS)
@@ -1272,7 +1273,7 @@ class _SongEditState extends State<SongEdit> {
                           actions.add(localization.resetCamera);
                         return actions
                             .map((action) => PopupMenuItem(
-                                  child: Text(action),
+                                  child: Text(action!),
                                   value: action,
                                 ))
                             .toList();
@@ -1282,7 +1283,7 @@ class _SongEditState extends State<SongEdit> {
                           //destroyCamera();
                         } else if (action == localization.openInBrowser ||
                             action == localization.openInNewTab) {
-                          launch(song.url);
+                          launch(song.url!);
                           return;
                         } else if (action == localization.camera) {
                           onVideoSettingsPressed();
@@ -1302,7 +1303,7 @@ class _SongEditState extends State<SongEdit> {
                           if (!await File(path).exists()) {
                             final http.Response copyResponse =
                                 await http.Client()
-                                    .get(Uri.parse(song.videoUrl));
+                                    .get(Uri.parse(song.videoUrl!));
                             await File(path)
                                 .writeAsBytes(copyResponse.bodyBytes);
                           }
@@ -1317,7 +1318,7 @@ class _SongEditState extends State<SongEdit> {
                             );
                           } else {
                             final Directory directory =
-                                await getDownloadsDirectory();
+                                (await getDownloadsDirectory())!;
                             final date = DateTime.now()
                                 .toIso8601String()
                                 .split('.')[0]
@@ -1335,18 +1336,18 @@ class _SongEditState extends State<SongEdit> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   semanticLabel: localization.areYouSure,
-                                  title: Text(localization.loseChanges),
-                                  content: Text(localization.areYouSure),
+                                  title: Text(localization.loseChanges!),
+                                  content: Text(localization.areYouSure!),
                                   actions: <Widget>[
                                     TextButton(
                                         child: Text(
-                                            localization.cancel.toUpperCase()),
+                                            localization.cancel!.toUpperCase()),
                                         onPressed: () =>
                                             Navigator.pop(context)),
                                     TextButton(
                                         autofocus: true,
-                                        child:
-                                            Text(localization.ok.toUpperCase()),
+                                        child: Text(
+                                            localization.ok!.toUpperCase()),
                                         onPressed: () {
                                           Navigator.pop(context);
                                           if (action == localization.newSong) {
@@ -1402,18 +1403,18 @@ class _SongEditState extends State<SongEdit> {
 
 class TrackView extends StatelessWidget {
   TrackView({
-    Key key,
-    @required this.videoPlayer,
-    @required this.aspectRatio,
-    @required this.viewModel,
-    @required this.track,
-    @required this.onDeletePressed,
-    @required this.onDelayChanged,
-    @required this.isFirst,
-    @required this.onFixPressed,
-    @required this.isActive,
-    @required this.onActivatePressed,
-    @required this.hasHeadset,
+    Key? key,
+    required this.videoPlayer,
+    required this.aspectRatio,
+    required this.viewModel,
+    required this.track,
+    required this.onDeletePressed,
+    required this.onDelayChanged,
+    required this.isFirst,
+    required this.onFixPressed,
+    required this.isActive,
+    required this.onActivatePressed,
+    required this.hasHeadset,
   }) : super(key: key);
 
   final SongEditVM viewModel;
@@ -1434,7 +1435,7 @@ class TrackView extends StatelessWidget {
     final localization = AppLocalization.of(context);
 
     return InkWell(
-      onTap: state.isDance
+      onTap: state.isDance!
           ? null
           : () {
               showDialog<TrackEditDialog>(
@@ -1462,7 +1463,7 @@ class TrackView extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 6),
             child: videoPlayer == null
                 ? SizedBox(width: 139)
-                : track.video.isRemoteVideo
+                : track!.video!.isRemoteVideo
                     ? Stack(
                         children: <Widget>[
                           AspectRatio(
@@ -1474,7 +1475,7 @@ class TrackView extends StatelessWidget {
                             color: Colors.black,
                             child: Center(
                               child: Text(
-                                AppLocalization.of(context).backingTrack,
+                                AppLocalization.of(context)!.backingTrack!,
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 20),
                               ),
@@ -1576,21 +1577,21 @@ class TrackView extends StatelessWidget {
 
 class TrackEditDialog extends StatefulWidget {
   TrackEditDialog({
-    @required this.videoPlayer,
-    @required this.track,
-    @required this.viewModel,
-    @required this.onDeletePressed,
-    @required this.onFixPressed,
-    @required this.onDelayChanged,
-    @required this.isFirst,
-    @required this.isActive,
-    @required this.onActivatePressed,
-    @required this.hasHeadset,
+    required this.videoPlayer,
+    required this.track,
+    required this.viewModel,
+    required this.onDeletePressed,
+    required this.onFixPressed,
+    required this.onDelayChanged,
+    required this.isFirst,
+    required this.isActive,
+    required this.onActivatePressed,
+    required this.hasHeadset,
   });
 
   final SongEditVM viewModel;
   final VideoPlayerController videoPlayer;
-  final TrackEntity track;
+  final TrackEntity? track;
   final Function onDeletePressed;
   final Function onFixPressed;
   final Function(int) onDelayChanged;
@@ -1604,7 +1605,7 @@ class TrackEditDialog extends StatefulWidget {
 }
 
 class _TrackEditDialogState extends State<TrackEditDialog> {
-  bool _isActive;
+  late bool _isActive;
 
   void initState() {
     super.initState();
@@ -1633,7 +1634,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    if (!state.isDance)
+                    if (!state.isDance!)
                       Container(
                         height: 200,
                         width: 100,
@@ -1683,11 +1684,11 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           onDragCompleted:
                               (handlerIndex, lowerValue, upperValue) {
                             widget.videoPlayer.setVolume(lowerValue / 100);
-                            final song = widget.viewModel.song.setTrackVolume(
-                                widget.track, lowerValue.toInt());
+                            final song = widget.viewModel.song!.setTrackVolume(
+                                widget.track!, lowerValue.toInt());
                             widget.viewModel.onChangedSong(song);
                           },
-                          values: [widget.track.volume.toDouble()],
+                          values: [widget.track!.volume!.toDouble()],
                         ),
                       ),
                     if (isMobile())
@@ -1695,7 +1696,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 10),
-                          child: Text(AppLocalization.of(context).monitor),
+                          child: Text(AppLocalization.of(context)!.monitor!),
                         ),
                         onPressed: _isActive
                             ? null
@@ -1746,7 +1747,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       */
 
                     if (widget.isFirst &&
-                        song.includedTracks.length == 1 &&
+                        song!.includedTracks.length == 1 &&
                         song.isNew &&
                         !isDesktop())
                       Padding(
@@ -1755,17 +1756,17 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 4, vertical: 10),
-                            child: Text(localization.trim),
+                            child: Text(localization!.trim!),
                           ),
                           style:
                               ElevatedButton.styleFrom(primary: Colors.purple),
                           onPressed: () async {
-                            final path = await widget.track.video.path;
+                            final path = await widget.track!.video!.path;
                             Navigator.of(context).pop();
                             final duration = await showDialog<int>(
                                 context: context,
                                 builder: (context) =>
-                                    SongTrim(file: File(path)));
+                                    SongTrim(file: File(path!)));
                             if (duration != null) {
                               widget.videoPlayer.initialize();
                               widget.viewModel.onChangedSong(
@@ -1783,7 +1784,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 4, vertical: 10),
-                            child: Text(localization.adjust),
+                            child: Text(localization!.adjust!),
                           ),
                           style:
                               ElevatedButton.styleFrom(primary: Colors.purple),
@@ -1822,31 +1823,31 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 4, vertical: 10),
-                        child: Text(AppLocalization.of(context).download),
+                        child: Text(AppLocalization.of(context)!.download!),
                       ),
                       style: ElevatedButton.styleFrom(primary: Colors.green),
                       onPressed: () async {
                         final Size size = MediaQuery.of(context).size;
-                        final path = await widget.track.video.path;
+                        final path = await widget.track!.video!.path;
                         if (Platform.isAndroid) {
                           Share.shareXFiles(
-                            [XFile(path)],
-                            text: widget.viewModel.song.url,
+                            [XFile(path!)],
+                            text: widget.viewModel.song!.url,
                             sharePositionOrigin: Rect.fromLTWH(
                                 0, 0, size.width, size.height / 2),
                           );
                         } else {
                           final Directory directory =
-                              await getDownloadsDirectory();
+                              (await getDownloadsDirectory())!;
                           final date = DateTime.now()
                               .toIso8601String()
                               .split('.')[0]
                               .replaceFirst('T', ' ')
                               .replaceAll(':', '-');
-                          var downloadPath = p.join(
-                              directory.path, '${song.displayTitle} $date.mp4');
-                          await File(path).copy(downloadPath);
-                          showToast(localization.downloadedSong);
+                          var downloadPath = p.join(directory.path,
+                              '${song!.displayTitle} $date.mp4');
+                          await File(path!).copy(downloadPath);
+                          showToast(localization!.downloadedSong);
                         }
                       },
                     ),
@@ -1855,9 +1856,9 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 4, vertical: 10),
-                        child: Text(widget.track.video.isOld
-                            ? localization.remove
-                            : localization.delete),
+                        child: Text(widget.track!.video!.isOld
+                            ? localization!.remove!
+                            : localization!.delete!),
                       ),
                       style: ElevatedButton.styleFrom(primary: Colors.red),
                       onPressed: () {
@@ -1866,18 +1867,18 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             semanticLabel: localization.areYouSure,
-                            title: Text(localization.removeVideo),
-                            content: Text(localization.areYouSure),
+                            title: Text(localization.removeVideo!),
+                            content: Text(localization.areYouSure!),
                             actions: <Widget>[
                               new TextButton(
                                   child:
-                                      Text(localization.cancel.toUpperCase()),
+                                      Text(localization.cancel!.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   }),
                               new TextButton(
                                   autofocus: true,
-                                  child: Text(localization.ok.toUpperCase()),
+                                  child: Text(localization.ok!.toUpperCase()),
                                   onPressed: () {
                                     Navigator.pop(context);
                                     widget.onDeletePressed();
@@ -1908,12 +1909,12 @@ class ExpandedButton extends StatelessWidget {
     this.label,
   });
 
-  final IconData icon;
-  final Function onPressed;
-  final Color color;
-  final SongEditVM viewModel;
-  final double iconHeight;
-  final String label;
+  final IconData? icon;
+  final Function? onPressed;
+  final Color? color;
+  final SongEditVM? viewModel;
+  final double? iconHeight;
+  final String? label;
 
   @override
   Widget build(BuildContext context) {
@@ -1922,18 +1923,18 @@ class ExpandedButton extends StatelessWidget {
     return Expanded(
       child: Tooltip(
         message: icon == Icons.play_arrow
-            ? localization.play
+            ? localization!.play
             : icon == Icons.stop
-                ? localization.stop
+                ? localization!.stop
                 : icon == Icons.delete
-                    ? localization.delete
-                    : localization.record,
+                    ? localization!.delete
+                    : localization!.record,
         child: MaterialButton(
           color: Colors.black38,
           height: 60,
-          onPressed: onPressed,
+          onPressed: onPressed as void Function()?,
           child: label != null
-              ? Text(label,
+              ? Text(label!,
                   style: TextStyle(
                       color: color, fontSize: 24, fontWeight: FontWeight.bold))
               : Icon(icon, size: iconHeight ?? 32, color: color),

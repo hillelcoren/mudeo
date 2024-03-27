@@ -17,20 +17,20 @@ abstract class UIState implements Built<UIState, UIStateBuilder> {
 
   UIState._();
 
-  int get selectedTabIndex;
+  int? get selectedTabIndex;
 
-  int get recordingTimestamp;
+  int? get recordingTimestamp;
 
-  SongEntity get song;
+  SongEntity? get song;
 
-  ArtistEntity get artist;
+  ArtistEntity? get artist;
 
   Duration get recordingDuration => Duration(
       milliseconds: recordingTimestamp == 0
           ? 0
-          : DateTime.now().millisecondsSinceEpoch - recordingTimestamp);
+          : DateTime.now().millisecondsSinceEpoch - recordingTimestamp!);
 
-  bool get isRecording => recordingTimestamp > 0;
+  bool get isRecording => recordingTimestamp! > 0;
 
   static Serializer<UIState> get serializer => _$uIStateSerializer;
 }

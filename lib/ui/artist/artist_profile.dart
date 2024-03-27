@@ -4,14 +4,14 @@ import 'package:mudeo/data/models/artist_model.dart';
 class ArtistProfile extends StatelessWidget {
   ArtistProfile({this.artist, this.onTap});
 
-  final ArtistEntity artist;
-  final Function onTap;
+  final ArtistEntity? artist;
+  final Function? onTap;
 
   @override
   Widget build(BuildContext context) {
-    String url = artist.profileImageUrl ?? '';
+    String url = artist!.profileImageUrl ?? '';
     if (url.isEmpty) {
-      url = artist.headerImageUrl ?? '';
+      url = artist!.headerImageUrl ?? '';
     }
 
     return Material(
@@ -21,7 +21,7 @@ class ArtistProfile extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         child: url.isEmpty
             ? Container(
                 color: Colors.grey[900],

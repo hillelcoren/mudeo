@@ -8,7 +8,7 @@ import 'package:mudeo/utils/localization.dart';
 import 'package:video_editor/video_editor.dart';
 
 class SongTrim extends StatefulWidget {
-  const SongTrim({Key key, @required this.file}) : super(key: key);
+  const SongTrim({Key? key, required this.file}) : super(key: key);
 
   final File file;
 
@@ -17,7 +17,7 @@ class SongTrim extends StatefulWidget {
 }
 
 class _SongTrimState extends State<SongTrim> {
-  VideoEditorController _controller;
+  late VideoEditorController _controller;
   bool _isTrimming = false;
 
   @override
@@ -48,7 +48,7 @@ class _SongTrimState extends State<SongTrim> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
 
     return AlertDialog(
       content: _isTrimming
@@ -81,7 +81,7 @@ class _SongTrimState extends State<SongTrim> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text(localization.cancel.toUpperCase()),
+          child: Text(localization.cancel!.toUpperCase()),
         ),
         TextButton(
           onPressed: () {
@@ -93,7 +93,7 @@ class _SongTrimState extends State<SongTrim> {
                   .pop(_controller.trimmedDuration.inMilliseconds);
             });
           },
-          child: Text(localization.trim.toUpperCase()),
+          child: Text(localization.trim!.toUpperCase()),
         ),
       ],
     );

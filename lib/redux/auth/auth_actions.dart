@@ -20,7 +20,7 @@ class LoadStateSuccess {
 class LoadUserLogin {
   LoadUserLogin(this.context);
 
-  final BuildContext context;
+  final BuildContext? context;
 }
 
 class GoogleLoginRequest implements StartLoading {
@@ -30,9 +30,9 @@ class GoogleLoginRequest implements StartLoading {
     this.oauthToken,
   });
 
-  final Completer completer;
-  final String email; // TODO remove this property, break up _saveAuthLocal
-  final String oauthToken;
+  final Completer? completer;
+  final String? email; // TODO remove this property, break up _saveAuthLocal
+  final String? oauthToken;
 }
 
 class GoogleSignUpRequest implements StartLoading {
@@ -47,14 +47,14 @@ class GoogleSignUpRequest implements StartLoading {
     this.platform,
   });
 
-  final Completer completer;
-  final String handle;
-  final String email;
-  final String name;
-  final String oauthId;
-  final String photoUrl;
-  final String oauthToken;
-  final String platform;
+  final Completer? completer;
+  final String? handle;
+  final String? email;
+  final String? name;
+  final String? oauthId;
+  final String? photoUrl;
+  final String? oauthToken;
+  final String? platform;
 }
 
 class UserSignUpRequest implements StartLoading {
@@ -66,11 +66,11 @@ class UserSignUpRequest implements StartLoading {
     this.platform,
   });
 
-  final Completer completer;
-  final String handle;
-  final String email;
-  final String password;
-  final String platform;
+  final Completer? completer;
+  final String? handle;
+  final String? email;
+  final String? password;
+  final String? platform;
 }
 
 class UserLoginRequest implements StartLoading {
@@ -81,17 +81,17 @@ class UserLoginRequest implements StartLoading {
       this.platform,
       this.oneTimePassword});
 
-  final Completer completer;
-  final String email;
-  final String password;
-  final String platform;
-  final String oneTimePassword;
+  final Completer? completer;
+  final String? email;
+  final String? password;
+  final String? platform;
+  final String? oneTimePassword;
 }
 
 class UserLoginSuccess implements StopLoading, PersistAuth {
   UserLoginSuccess(this.artist);
 
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
 }
 
 class UserLoginFailure implements StopLoading {
@@ -115,7 +115,7 @@ class DeleteAccountFailure implements StopLoading {
 
 class EnablePrivateStorage implements PersistAuth {
   EnablePrivateStorage({this.expires});
-  final String expires;
+  final String? expires;
 }
 
 class HideReviewApp implements PersistAuth {}

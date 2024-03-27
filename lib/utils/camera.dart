@@ -14,7 +14,7 @@ String convertCameraDirectionToString(CameraLensDirection direction) {
   return kCameraDirectionFront;
 }
 
-CameraLensDirection convertCameraDirectionFromString(String direction) {
+CameraLensDirection convertCameraDirectionFromString(String? direction) {
   switch (direction) {
     case kCameraDirectionFront:
       return CameraLensDirection.front;

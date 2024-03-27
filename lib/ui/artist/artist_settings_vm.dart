@@ -15,7 +15,7 @@ import 'package:mudeo/utils/localization.dart';
 import 'package:redux/redux.dart';
 
 class ArtistSettingsScreen extends StatelessWidget {
-  const ArtistSettingsScreen({Key key}) : super(key: key);
+  const ArtistSettingsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +32,11 @@ class ArtistSettingsScreen extends StatelessWidget {
 
 class ArtistSettingsVM {
   ArtistSettingsVM({
-    @required this.state,
-    @required this.isChanged,
-    @required this.onSavePressed,
-    @required this.onChangedArtist,
-    @required this.onUpdateImage,
+    required this.state,
+    required this.isChanged,
+    required this.onSavePressed,
+    required this.onChangedArtist,
+    required this.onUpdateImage,
   });
 
   final AppState state;
@@ -50,7 +50,7 @@ class ArtistSettingsVM {
 
     return ArtistSettingsVM(
       state: state,
-      isChanged: state.authState.artist != state.uiState.artist,
+      isChanged: state.authState!.artist != state.uiState!.artist,
       onChangedArtist: (artist) {
         store.dispatch(UpdateArtist(artist));
       },
@@ -63,7 +63,7 @@ class ArtistSettingsVM {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text(localization.uploading),
+                title: Text(localization!.uploading!),
                 content: Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: LinearProgressIndicator(),
@@ -83,7 +83,7 @@ class ArtistSettingsVM {
       onSavePressed: (context) {
         final completer = Completer<Null>();
         store.dispatch(SaveArtistRequest(
-            artist: state.uiState.artist, completer: completer));
+            artist: state.uiState!.artist, completer: completer));
         completer.future.then((_) {
           Navigator.of(context).pop();
         }).catchError((Object error) {

@@ -14,7 +14,7 @@ import 'package:redux/redux.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreenBuilder extends StatelessWidget {
-  const LoginScreenBuilder({Key key}) : super(key: key);
+  const LoginScreenBuilder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,31 +33,32 @@ class LoginScreenBuilder extends StatelessWidget {
 
 class LoginVM {
   LoginVM({
-    @required this.state,
-    @required this.isLoading,
-    @required this.authState,
-    @required this.onLoginPressed,
-    @required this.onEmailSignUpPressed,
-    @required this.onGoogleSignUpPressed,
-    @required this.onGoogleLoginPressed,
+    required this.state,
+    required this.isLoading,
+    required this.authState,
+    required this.onLoginPressed,
+    required this.onEmailSignUpPressed,
+    required this.onGoogleSignUpPressed,
+    required this.onGoogleLoginPressed,
   });
 
   AppState state;
-  bool isLoading;
-  AuthState authState;
+  bool? isLoading;
+  AuthState? authState;
   final Function(BuildContext,
       {String handle,
       String email,
       String password,
       Completer<Null> completer}) onEmailSignUpPressed;
-  final Function(BuildContext, {String handle, Completer<Null> completer})
-      onGoogleSignUpPressed;
   final Function(BuildContext,
-      {String email,
-      String password,
-      String oneTimePassword,
+      {String? handle,
+      required Completer<Null> completer}) onGoogleSignUpPressed;
+  final Function(BuildContext,
+      {String? email,
+      String? password,
+      String? oneTimePassword,
       Completer<Null> completer}) onLoginPressed;
-  final Function(BuildContext, {Completer<Null> completer})
+  final Function(BuildContext, {required Completer<Null> completer})
       onGoogleLoginPressed;
 
   static LoginVM fromStore(Store<AppState> store) {
@@ -70,7 +71,7 @@ class LoginVM {
     );
 
     void _handleLogin(BuildContext context) {
-      AppBuilder.of(context).rebuild();
+      AppBuilder.of(context)!.rebuild();
       store.dispatch(LoadSongs(clearCache: true));
     }
 
@@ -79,7 +80,7 @@ class LoginVM {
         isLoading: store.state.isLoading,
         authState: store.state.authState,
         onGoogleSignUpPressed: (BuildContext context,
-            {String handle, Completer<Null> completer}) async {
+            {String? handle, required Completer<Null> completer}) async {
           completer.complete();
           completer = Completer<Null>();
 
@@ -96,7 +97,7 @@ class LoginVM {
                   name: account.displayName,
                   photoUrl: account.photoUrl,
                 ));
-                completer.future.then((_) => _handleLogin(context));
+                completer.future.then(((_) => _handleLogin(context)));
               });
             }
           } catch (error) {
@@ -105,7 +106,7 @@ class LoginVM {
           }
         },
         onGoogleLoginPressed: (BuildContext context,
-            {Completer<Null> completer}) async {
+            {required Completer<Null> completer}) async {
           completer.complete();
           completer = Completer<Null>();
 
@@ -117,7 +118,7 @@ class LoginVM {
                   completer: completer,
                   oauthToken: value.idToken,
                 ));
-                completer.future.then((_) => _handleLogin(context));
+                completer.future.then(((_) => _handleLogin(context)));
               });
             }
           } catch (error) {
@@ -126,39 +127,39 @@ class LoginVM {
           }
         },
         onEmailSignUpPressed: (BuildContext context,
-            {String handle,
-            String email,
-            String password,
-            Completer<Null> completer}) {
-          if (store.state.isLoading) {
+            {String? handle,
+            String? email,
+            String? password,
+            Completer<Null>? completer}) {
+          if (store.state.isLoading!) {
             return;
           }
 
           store.dispatch(UserSignUpRequest(
             completer: completer,
-            handle: handle.trim(),
-            email: email.trim(),
-            password: password.trim(),
+            handle: handle!.trim(),
+            email: email!.trim(),
+            password: password!.trim(),
           ));
-          completer.future.then((_) => _handleLogin(context));
+          completer!.future.then(((_) => _handleLogin(context)));
         },
         onLoginPressed: (BuildContext context,
-            {String email,
-            String password,
-            String oneTimePassword,
-            Completer<Null> completer}) async {
-          if (store.state.isLoading) {
+            {String? email,
+            String? password,
+            String? oneTimePassword,
+            Completer<Null>? completer}) async {
+          if (store.state.isLoading!) {
             return;
           }
 
           store.dispatch(UserLoginRequest(
             completer: completer,
-            email: email.trim(),
-            password: password.trim(),
+            email: email!.trim(),
+            password: password!.trim(),
             platform: getPlatform(),
-            oneTimePassword: oneTimePassword.trim(),
+            oneTimePassword: oneTimePassword!.trim(),
           ));
-          completer.future.then((_) => _handleLogin(context));
+          completer!.future.then(((_) => _handleLogin(context)));
         });
   }
 }

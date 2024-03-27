@@ -11,9 +11,9 @@ class ActionIconButton extends StatelessWidget {
 
   final bool isSaving;
   final bool isDirty;
-  final Function onPressed;
-  final String tooltip;
-  final IconData icon;
+  final Function? onPressed;
+  final String? tooltip;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ActionIconButton extends StatelessWidget {
     }
 
     return IconButton(
-      onPressed: isDirty ? onPressed : null,
+      onPressed: isDirty ? onPressed as void Function()? : null,
       tooltip: tooltip,
       icon: Icon(icon),
     );

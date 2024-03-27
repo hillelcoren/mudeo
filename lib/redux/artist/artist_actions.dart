@@ -8,8 +8,8 @@ import 'package:mudeo/redux/app/app_actions.dart';
 class ViewArtist implements PersistUI {
   ViewArtist({this.context, this.artist});
 
-  final BuildContext context;
-  final ArtistEntity artist;
+  final BuildContext? context;
+  final ArtistEntity? artist;
 }
 
 class ViewArtistList implements PersistUI {
@@ -21,8 +21,8 @@ class ViewArtistList implements PersistUI {
 class EditArtist implements PersistUI {
   EditArtist({this.artist, this.context});
 
-  final ArtistEntity artist;
-  final BuildContext context;
+  final ArtistEntity? artist;
+  final BuildContext? context;
 }
 
 class UpdateArtist implements PersistUI {
@@ -34,7 +34,7 @@ class UpdateArtist implements PersistUI {
 class LoadArtist {
   LoadArtist({this.completer, this.force = false});
 
-  final Completer completer;
+  final Completer? completer;
   final bool force;
 }
 
@@ -54,7 +54,7 @@ class LoadArtistFailure implements StopLoading {
 class LoadArtistSuccess implements PersistData, StopLoading {
   LoadArtistSuccess(this.artist);
 
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
 
   @override
   String toString() {
@@ -65,7 +65,7 @@ class LoadArtistSuccess implements PersistData, StopLoading {
 class LoadArtists {
   LoadArtists({this.completer, this.force = false});
 
-  final Completer completer;
+  final Completer? completer;
   final bool force;
 }
 
@@ -96,15 +96,15 @@ class LoadArtistsSuccess implements PersistData, StopLoading {
 class SaveArtistRequest implements StartSaving {
   SaveArtistRequest({this.artist, this.completer});
 
-  final Completer completer;
-  final ArtistEntity artist;
+  final Completer? completer;
+  final ArtistEntity? artist;
 }
 
 class SaveArtistSuccess
     implements StopSaving, PersistData, PersistUI, PersistAuth {
   SaveArtistSuccess(this.artist);
 
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
 }
 
 class AddArtistSuccess implements StopSaving, PersistData, PersistUI {
@@ -123,22 +123,22 @@ class SaveArtistFailure implements StopSaving {
 class FlagArtist {
   FlagArtist({this.artist, this.completer});
 
-  final Completer completer;
-  final ArtistEntity artist;
+  final Completer? completer;
+  final ArtistEntity? artist;
 }
 
 class FollowArtistRequest implements StartSaving {
   FollowArtistRequest({this.artist, this.completer});
 
-  final Completer completer;
-  final ArtistEntity artist;
+  final Completer? completer;
+  final ArtistEntity? artist;
 }
 
 class FollowArtistSuccess implements StopSaving, PersistAuth {
   FollowArtistSuccess({this.artistFollowing, this.unfollow});
 
-  final ArtistFollowingEntity artistFollowing;
-  final bool unfollow;
+  final ArtistFollowingEntity? artistFollowing;
+  final bool? unfollow;
 }
 
 class FollowArtistFailure implements StopSaving {
@@ -163,7 +163,7 @@ class SortArtists implements PersistUI {
 class SaveArtistImage implements StartLoading {
   SaveArtistImage({this.type, this.image, this.completer});
 
-  final Completer completer;
-  final String type;
-  final MultipartFile image;
+  final Completer? completer;
+  final String? type;
+  final MultipartFile? image;
 }

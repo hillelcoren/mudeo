@@ -74,19 +74,19 @@ class WebClient {
 
   Future<dynamic> post(
     String url,
-    String token, {
+    String? token, {
     dynamic data,
-    MultipartFile multipartFile,
-    String filePath,
+    MultipartFile? multipartFile,
+    String? filePath,
     String fileIndex = 'file',
-    String recognitions,
-    int timestamp,
+    String? recognitions,
+    int? timestamp,
   }) async {
     url = _checkUrl(url);
     debugPrint('POST: $url');
     http.Response response;
 
-    Map<String, String> headers = {
+    Map<String, String?> headers = {
       'X-API-TOKEN': token,
       'X-API-SECRET': Config.API_SECRET,
       'X-Requested-With': 'XMLHttpRequest',
@@ -103,7 +103,7 @@ class WebClient {
           'recognitions': recognitions ?? '',
           'timestamp': '$timestamp',
         })
-        ..headers.addAll(headers)
+        ..headers.addAll(headers as Map<String, String>)
         ..files.add(http.MultipartFile(fileIndex, stream, length,
             filename: basename(file.path)));
 
@@ -117,7 +117,7 @@ class WebClient {
       response = await http.Client().post(
         Uri.parse(url),
         body: data,
-        headers: headers,
+        headers: headers as Map<String, String>?,
       );
     }
 
@@ -141,8 +141,8 @@ class WebClient {
     String url,
     String token,
     dynamic data, {
-    MultipartFile multipartFile,
-    String filePath,
+    MultipartFile? multipartFile,
+    String? filePath,
     String fileIndex = 'file',
   }) async {
     url = _checkUrl(url);
@@ -206,12 +206,12 @@ class WebClient {
     }
   }
 
-  Map<String, String> _getHeaders(
+  Map<String, String?> _getHeaders(
     String url,
-    String token, {
-    String secret,
-    String password,
-    String idToken,
+    String? token, {
+    String? secret,
+    String? password,
+    String? idToken,
   }) {
     secret = Config.API_SECRET;
 
@@ -223,26 +223,26 @@ class WebClient {
     };
 
     if ((token ?? '').isNotEmpty) {
-      headers['X-API-Token'] = token;
+      headers['X-API-Token'] = token ?? '';
     }
 
     if ((idToken ?? '').isNotEmpty) {
-      headers['X-API-OAUTH-PASSWORD'] = idToken;
+      headers['X-API-OAUTH-PASSWORD'] = idToken ?? '';
     }
 
     if ((password ?? '').isNotEmpty) {
-      headers['X-API-PASSWORD-BASE64'] = base64Encode(utf8.encode(password));
+      headers['X-API-PASSWORD-BASE64'] = base64Encode(utf8.encode(password!));
     }
 
     return headers;
   }
 
   Future<http.Response> _uploadFiles(
-      String url, String token, MultipartFile multipartFile,
+      String url, String? token, MultipartFile multipartFile,
       {String method = 'POST', dynamic data}) async {
     final request = http.MultipartRequest(method, Uri.parse(url))
       ..fields.addAll(data ?? {})
-      ..headers.addAll(_getHeaders(url, token))
+      ..headers.addAll(_getHeaders(url, token) as Map<String, String>)
       ..files.add(multipartFile);
 
     return await http.Response.fromStream(await request.send())

@@ -10,10 +10,10 @@ import 'package:http/http.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 
-Future<MultipartFile> pickFile(
-    {String fileIndex,
-      FileType fileType,
-      List<String> allowedExtensions}) async {
+Future<MultipartFile?> pickFile(
+    {String? fileIndex,
+      FileType? fileType,
+      List<String>? allowedExtensions}) async {
   if (kIsWeb || Platform.isMacOS) {
     return _pickFile(
       fileIndex: fileIndex,
@@ -38,10 +38,10 @@ Future<MultipartFile> pickFile(
   }
 }
 
-Future<MultipartFile> _pickFile(
-    {String fileIndex,
-      FileType fileType,
-      List<String> allowedExtensions}) async {
+Future<MultipartFile?> _pickFile(
+    {String? fileIndex,
+      FileType? fileType,
+      List<String>? allowedExtensions}) async {
   final result = await FilePicker.platform.pickFiles(
     type: fileType ?? FileType.custom,
     allowedExtensions: allowedExtensions ?? [],
@@ -52,7 +52,7 @@ Future<MultipartFile> _pickFile(
 
   if (result != null && result.files.isNotEmpty) {
     final file = result.files.first;
-    return MultipartFile.fromBytes(fileIndex ?? 'file', file.bytes,
+    return MultipartFile.fromBytes(fileIndex ?? 'file', file.bytes!,
         filename: file.name);
   }
 

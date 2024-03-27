@@ -16,10 +16,10 @@ import 'package:mudeo/utils/platforms.dart';
 
 class AddVideo extends StatelessWidget {
   AddVideo({
-    @required this.song,
-    @required this.onRemoteVideoSelected,
-    @required this.onTrackSelected,
-    @required this.onSongSelected,
+    required this.song,
+    required this.onRemoteVideoSelected,
+    required this.onTrackSelected,
+    required this.onSongSelected,
   });
 
   final SongEntity song;
@@ -94,9 +94,9 @@ class AddVideo extends StatelessWidget {
 
 class MudeoVideoSelector extends StatelessWidget {
   MudeoVideoSelector({
-    @required this.song,
-    @required this.onTrackSelected,
-    @required this.onSongSelected,
+    required this.song,
+    required this.onTrackSelected,
+    required this.onSongSelected,
   });
 
   final SongEntity song;
@@ -107,9 +107,9 @@ class MudeoVideoSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
     final store = StoreProvider.of<AppState>(context);
-    final dataState = store.state.dataState;
+    final dataState = store.state.dataState!;
     final songMap = dataState.songMap;
-    final parentSong = song.hasParent ? songMap[song.parentId] : null;
+    final parentSong = song.hasParent ? songMap![song.parentId] : null;
     final childSongIds = memoizedChildSongIds(songMap, song);
     final usedVideoIds = <int>[];
 
@@ -134,7 +134,7 @@ class MudeoVideoSelector extends StatelessWidget {
             usedVideoIds: usedVideoIds,
           ),
           ...childSongIds.map((songId) => MudeoVideoListItem(
-                song: songMap[songId],
+                song: songMap![songId]!,
                 relationship: kVideoRelationshipChild,
                 onTrackSelected: onTrackSelected,
                 onSongSelected: onSongSelected,
@@ -145,7 +145,7 @@ class MudeoVideoSelector extends StatelessWidget {
     } else {
       return Center(
         child: Text(
-          localization.noSavedVideos,
+          localization!.noSavedVideos!,
           style: TextStyle(fontSize: 20, color: Colors.grey),
         ),
       );
@@ -155,11 +155,11 @@ class MudeoVideoSelector extends StatelessWidget {
 
 class MudeoVideoListItem extends StatelessWidget {
   MudeoVideoListItem({
-    @required this.song,
-    @required this.relationship,
-    @required this.onTrackSelected,
-    @required this.onSongSelected,
-    @required this.usedVideoIds,
+    required this.song,
+    required this.relationship,
+    required this.onTrackSelected,
+    required this.onSongSelected,
+    required this.usedVideoIds,
   });
 
   final SongEntity song;
@@ -171,7 +171,7 @@ class MudeoVideoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
 
     return Column(
       children: <Widget>[
@@ -188,27 +188,27 @@ class MudeoVideoListItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          (song.title ?? '').isEmpty
-                              ? localization.newSong
-                              : song.title,
-                          style: theme.headline5.copyWith(fontSize: 20),
+                          (song!.title ?? '').isEmpty
+                              ? localization.newSong!
+                              : song!.title!,
+                          style: theme.headline5!.copyWith(fontSize: 20),
                           overflow: TextOverflow.ellipsis,
                         ),
                         SizedBox(height: 6),
-                        Text(song.artist?.displayName ?? '',
+                        Text(song!.artist?.displayName ?? '',
                             style: theme.subtitle1),
                         SizedBox(height: 6),
-                        Text(localization.lookup(song.layout) +
+                        Text(localization.lookup(song!.layout)! +
                             (relationship != kVideoRelationshipSelf
-                                ? ' • ' + localization.lookup(relationship)
+                                ? ' • ' + localization.lookup(relationship)!
                                 : '')),
                       ],
                     ),
                   ),
-                  if (song.includedTracks.length > 1 && song.isOld)
+                  if (song!.includedTracks.length > 1 && song!.isOld)
                     ThumbnailIcon(
                       onSelected: () => onSongSelected(song),
-                      url: song.imageUrl,
+                      url: song!.imageUrl,
                     ),
                 ],
               ),
@@ -218,7 +218,7 @@ class MudeoVideoListItem extends StatelessWidget {
                 child: ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  children: song.includedTracks.map((track) {
+                  children: song!.includedTracks.map((track) {
                     /*
                     if (usedVideoIds.contains(track.video.id) ||
                         !track.video.hasThumbnail) {
@@ -229,9 +229,9 @@ class MudeoVideoListItem extends StatelessWidget {
                     */
 
                     return ThumbnailIcon(
-                      url: track.video.thumbnailUrl,
+                      url: track!.video!.thumbnailUrl,
                       onSelected: () => onTrackSelected(track),
-                      isBackingTrack: track.video.isRemoteVideo,
+                      isBackingTrack: track.video!.isRemoteVideo,
                     );
                   }).toList(),
                 ),
@@ -248,14 +248,14 @@ class MudeoVideoListItem extends StatelessWidget {
 class YouTubeVideoSelector extends StatefulWidget {
   YouTubeVideoSelector({this.onRemoteVideoSelected});
 
-  final Function(String) onRemoteVideoSelected;
+  final Function(String)? onRemoteVideoSelected;
 
   @override
   _YouTubeVideoSelectorState createState() => _YouTubeVideoSelectorState();
 }
 
 class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
-  TextEditingController _textController;
+  TextEditingController? _textController;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -266,7 +266,7 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
 
   @override
   void dispose() {
-    _textController.dispose();
+    _textController!.dispose();
     super.dispose();
   }
 
@@ -286,18 +286,18 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
   bool isValidVideoId(String value) => convertToVideoId(value).length == 11;
 
   void submitForm() {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
     Navigator.pop(context);
-    widget.onRemoteVideoSelected(convertToVideoId(_textController.text));
-    _textController.clear();
+    widget.onRemoteVideoSelected!(convertToVideoId(_textController!.text));
+    _textController!.clear();
   }
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     final store = StoreProvider.of<AppState>(context);
 
     return Padding(
@@ -311,7 +311,7 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
               controller: _textController,
               textInputAction: TextInputAction.done,
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return localization.pleaseProvideAValue;
                 } else if (!isValidVideoId(value)) {
                   return localization.errorInvalidValue;
@@ -332,10 +332,10 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextButton(
-                  child: Text(localization.cancel.toUpperCase()),
+                  child: Text(localization.cancel!.toUpperCase()),
                   onPressed: () {
                     Navigator.pop(context);
-                    _textController.clear();
+                    _textController!.clear();
                   }),
               SizedBox(width: 8),
               ProgressButton(
@@ -348,7 +348,7 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
           ),
           SizedBox(height: 30),
           Text(
-            localization.youtubeWarning,
+            localization.youtubeWarning!,
             style: TextStyle(fontSize: 16),
           ),
         ],
@@ -359,13 +359,13 @@ class _YouTubeVideoSelectorState extends State<YouTubeVideoSelector> {
 
 class ThumbnailIcon extends StatelessWidget {
   ThumbnailIcon({
-    @required this.onSelected,
-    @required this.url,
+    required this.onSelected,
+    required this.url,
     this.isBackingTrack = false,
   });
 
   final Function onSelected;
-  final String url;
+  final String? url;
   final bool isBackingTrack;
 
   @override
@@ -383,12 +383,12 @@ class ThumbnailIcon extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            (url ?? '').isEmpty || (url.contains('new') && !supportsFFMpeg())
+            (url ?? '').isEmpty || (url!.contains('new') && !supportsFFMpeg())
                 ? Placeholder()
-                : url.startsWith('http')
+                : url!.startsWith('http')
                     ? (kIsWeb
                         ? Image.network(
-                            url,
+                            url!,
                             fit: BoxFit.contain,
                             alignment: Alignment.center,
                             height: height,
@@ -397,9 +397,9 @@ class ThumbnailIcon extends StatelessWidget {
                             fit: BoxFit.contain,
                             alignment: Alignment.center,
                             height: height,
-                            imageUrl: url,
+                            imageUrl: url!,
                           ))
-                    : Image.file(File(url)),
+                    : Image.file(File(url!)),
             Icon(
               Icons.add_circle_outline,
               size: 34,

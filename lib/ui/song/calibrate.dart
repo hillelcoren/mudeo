@@ -25,8 +25,8 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
 
   int _currentState = STATE_PROMPT;
 
-  VideoPlayerController _videoController;
-  CameraController _cameraController;
+  VideoPlayerController? _videoController;
+  CameraController? _cameraController;
 
   @override
   void initState() {
@@ -65,14 +65,14 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
     // TODO need to update this code
     //final videoPath = await VideoEntity().path;
     //_cameraController.startVideoRecording(videoPath);
-    _videoController.play();
+    _videoController!.play();
 
     setState(() {
       _currentState = STATE_CALIBRATE;
     });
 
     Timer(Duration(seconds: 2), () async {
-      _cameraController.stopVideoRecording();
+      _cameraController!.stopVideoRecording();
 
       final Directory directory = await getApplicationDocumentsDirectory();
       final String folder = p.join(directory.path, 'mudeo', 'calibrate');
@@ -102,11 +102,11 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     Widget content;
 
     if (_currentState == STATE_PROMPT) {
-      content = Text(localization.calibrationMessage);
+      content = Text(localization.calibrationMessage!);
     } else {
       content = Column(
         mainAxisSize: MainAxisSize.min,
@@ -117,8 +117,8 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
               children: [
                 Flexible(
                   child: AspectRatio(
-                    aspectRatio: _videoController?.value?.aspectRatio ?? 1,
-                    child: VideoPlayer(_videoController),
+                    aspectRatio: _videoController?.value.aspectRatio ?? 1,
+                    child: VideoPlayer(_videoController!),
                   ),
                 ),
                 Flexible(
@@ -130,8 +130,8 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
                           : null,
                     ),
                     child: AspectRatio(
-                      aspectRatio: _cameraController?.value?.aspectRatio ?? 1,
-                      child: CameraPreview(_cameraController),
+                      aspectRatio: _cameraController?.value.aspectRatio ?? 1,
+                      child: CameraPreview(_cameraController!),
                     ),
                   ),
                 ),
@@ -141,7 +141,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
           Padding(
               padding: const EdgeInsets.only(top: 16),
               child: _currentState == STATE_CONFIRM
-                  ? Text(localization.calibrationWarning)
+                  ? Text(localization.calibrationWarning!)
                   : _currentState == STATE_UPLOAD
                       ? LinearProgressIndicator()
                       : SizedBox()),
@@ -150,7 +150,7 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
     }
 
     return AlertDialog(
-      title: Text(localization.calibrate),
+      title: Text(localization.calibrate!),
       // TODO remove the column
       content: Column(
         children: [
@@ -161,16 +161,16 @@ class _CalibrationDialogState extends State<CalibrationDialog> {
       actions: [
         TextButton(
           child: Text(_currentState == STATE_PROMPT
-              ? localization.noThanks
-              : localization.cancel),
+              ? localization.noThanks!
+              : localization.cancel!),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
           child: Text(_currentState == STATE_CONFIRM
-              ? localization.start
-              : localization.ok),
+              ? localization.start!
+              : localization.ok!),
           autofocus: true,
           onPressed: () {
             if (_currentState == STATE_PROMPT) {

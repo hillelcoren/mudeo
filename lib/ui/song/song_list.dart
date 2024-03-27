@@ -40,9 +40,9 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 class SongList extends StatefulWidget {
   const SongList({
-    Key key,
-    @required this.viewModel,
-    @required this.scrollController,
+    Key? key,
+    required this.viewModel,
+    required this.scrollController,
   }) : super(key: key);
 
   final SongListVM viewModel;
@@ -54,7 +54,7 @@ class SongList extends StatefulWidget {
 
 class _SongListState extends State<SongList>
     with SingleTickerProviderStateMixin {
-  TabController _controller;
+  TabController? _controller;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _SongListState extends State<SongList>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
@@ -79,14 +79,14 @@ class _SongListState extends State<SongList>
     final state = widget.viewModel.state;
 
     final allSongIds = memoizedSongIds(
-        state.dataState.songMap, state.authState.artist, null, null, null);
-    final featureSongIds = memoizedSongIds(state.dataState.songMap,
-        state.authState.artist, null, null, kSongFilterFeatured);
-    final newestSongIds = memoizedSongIds(state.dataState.songMap,
-        state.authState.artist, null, null, kSongFilterNewest);
+        state.dataState!.songMap, state.authState!.artist, null, null, null);
+    final featureSongIds = memoizedSongIds(state.dataState!.songMap,
+        state.authState!.artist, null, null, kSongFilterFeatured);
+    final newestSongIds = memoizedSongIds(state.dataState!.songMap,
+        state.authState!.artist, null, null, kSongFilterNewest);
 
     return Scaffold(
-      appBar: state.isDance
+      appBar: state.isDance!
           ? null
           : AppBar(
               title: null,
@@ -96,7 +96,7 @@ class _SongListState extends State<SongList>
                   controller: _controller,
                   tabs: <Widget>[
                     Tab(
-                      text: localization.featured,
+                      text: localization!.featured,
                     ),
                     Tab(
                       text: localization.newest,
@@ -105,7 +105,7 @@ class _SongListState extends State<SongList>
                 ),
               ),
             ),
-      body: state.isDance
+      body: state.isDance!
           ? RefreshIndicator(
               onRefresh: () => widget.viewModel.onRefreshed(context),
               child: DraggableScrollbar.arrows(
@@ -117,9 +117,9 @@ class _SongListState extends State<SongList>
                   controller: widget.scrollController,
                   itemCount: allSongIds.length,
                   itemBuilder: (BuildContext context, index) {
-                    final data = widget.viewModel.state.dataState;
+                    final data = widget.viewModel.state.dataState!;
                     final songId = allSongIds[index];
-                    final song = data.songMap[songId];
+                    final song = data.songMap![songId];
                     return SongItem(
                       song: song,
                       enableShowArtist: !kIsWeb,
@@ -142,9 +142,9 @@ class _SongListState extends State<SongList>
                       controller: widget.scrollController,
                       itemCount: featureSongIds.length,
                       itemBuilder: (BuildContext context, index) {
-                        final data = widget.viewModel.state.dataState;
+                        final data = widget.viewModel.state.dataState!;
                         final songId = featureSongIds[index];
-                        final song = data.songMap[songId];
+                        final song = data.songMap![songId];
                         return SongItem(
                           song: song,
                           enableShowArtist: !kIsWeb,
@@ -164,9 +164,9 @@ class _SongListState extends State<SongList>
                       controller: widget.scrollController,
                       itemCount: newestSongIds.length,
                       itemBuilder: (BuildContext context, index) {
-                        final data = widget.viewModel.state.dataState;
+                        final data = widget.viewModel.state.dataState!;
                         final songId = newestSongIds[index];
-                        final song = data.songMap[songId];
+                        final song = data.songMap![songId];
                         return SongItem(
                           song: song,
                           enableShowArtist: !kIsWeb,
@@ -187,7 +187,7 @@ class SongItem extends StatefulWidget {
     this.enableShowArtist = true,
   });
 
-  final SongEntity song;
+  final SongEntity? song;
   final bool enableShowArtist;
 
   @override
@@ -200,7 +200,7 @@ class _SongItemState extends State<SongItem> {
         context: context,
         builder: (BuildContext context) {
           return SongComments(
-            songId: widget.song.id,
+            songId: widget.song!.id,
             onClosePressed: () {
               Navigator.of(context).pop();
             },
@@ -214,8 +214,8 @@ class _SongItemState extends State<SongItem> {
   @override
   Widget build(BuildContext context) {
     final localization = AppLocalization.of(context);
-    final song = widget.song;
-    final tracks = song.tracks;
+    final song = widget.song!;
+    final tracks = song.tracks!;
     final lastTrack = tracks.isNotEmpty ? tracks.last : null;
     final lastVideo = lastTrack?.video ?? VideoEntity();
     final gradientColor = Colors.black12.withOpacity(.75);
@@ -273,11 +273,12 @@ class _SongItemState extends State<SongItem> {
           !song.hasThumbnail && lastVideo.isRemoteVideo
               ? Center(
                   child: Text(
-                    localization.backingTrack,
+                    localization!.backingTrack!,
                     style: TextStyle(color: Colors.grey, fontSize: 20),
                   ),
                 )
-              : (song.isRendered && song.hasThumbnail) || lastVideo.hasThumbnail
+              : (song.isRendered! && song.hasThumbnail) ||
+                      lastVideo.hasThumbnail
                   ? SongImage(song: song)
                   : SizedBox(),
           Material(
@@ -331,20 +332,20 @@ class _SongItemState extends State<SongItem> {
 class SongFooter extends StatelessWidget {
   SongFooter(this.song, this.onMessagePressed);
 
-  final SongEntity song;
+  final SongEntity? song;
   final Function onMessagePressed;
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
-    final artist = state.authState.artist;
-    final likedSong = artist.likedSong(song.id);
+    final artist = state.authState!.artist!;
+    final likedSong = artist.likedSong(song!.id);
 
-    _editSong({SongEntity song, BuildContext context}) {
+    _editSong({required SongEntity song, BuildContext? context}) {
       // TODO remove this workaround for selecting selected song in list view
-      if (state.uiState.song.id == song.id) {
+      if (state.uiState!.song!.id == song.id) {
         store.dispatch(EditSong(song: SongEntity(), context: context));
         WidgetsBinding.instance.addPostFrameCallback(
             (_) => store.dispatch(EditSong(song: song, context: context)));
@@ -360,56 +361,56 @@ class SongFooter extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.videocam),
-            tooltip: artist.belongsToSong(song)
+            tooltip: artist.belongsToSong(song!)
                 ? localization.edit
                 : localization.record,
             onPressed: () {
-              if (!state.authState.hasValidToken) {
+              if (!state.authState!.hasValidToken) {
                 showDialog<AlertDialog>(
                     context: context,
                     builder: (BuildContext context) {
                       final localization = AppLocalization.of(context);
                       return AlertDialog(
                         content: Text(kIsWeb
-                            ? localization.requireMobileToCollaborate
-                            : localization.requireAccountToCollaborate),
+                            ? localization!.requireMobileToCollaborate!
+                            : localization!.requireAccountToCollaborate!),
                       );
                     });
                 return;
               }
 
-              final uiSong = state.uiState.song;
-              SongEntity newSong = song;
+              final uiSong = state.uiState!.song!;
+              SongEntity? newSong = song;
 
-              if (!artist.belongsToSong(song)) {
-                newSong = song.fork;
+              if (!artist.belongsToSong(song!)) {
+                newSong = song!.fork;
               }
 
-              if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
+              if (uiSong.hasNewVideos && uiSong.id != newSong!.id) {
                 showDialog<AlertDialog>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     semanticLabel: localization.areYouSure,
-                    title: Text(localization.loseChanges),
-                    content: Text(localization.areYouSure),
+                    title: Text(localization.loseChanges!),
+                    content: Text(localization.areYouSure!),
                     actions: <Widget>[
                       new TextButton(
-                          child: Text(localization.cancel.toUpperCase()),
+                          child: Text(localization.cancel!.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
                       new TextButton(
                           autofocus: true,
-                          child: Text(localization.ok.toUpperCase()),
+                          child: Text(localization.ok!.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
-                            _editSong(song: newSong, context: context);
+                            _editSong(song: newSong!, context: context);
                           })
                     ],
                   ),
                 );
               } else {
-                _editSong(song: newSong, context: context);
+                _editSong(song: newSong!, context: context);
               }
             },
           ),
@@ -422,7 +423,7 @@ class SongFooter extends StatelessWidget {
                   switchOutCurve: Curves.easeInOut,
                   transitionBuilder: (child, anim) =>
                       ScaleTransition(scale: anim, child: child),
-                  child: state.isSaving || artist.likedSong(song.id)
+                  child: state.isSaving! || artist.likedSong(song!.id)
                       ? Icon(
                           Icons.favorite,
                           key: const ValueKey('favorite'),
@@ -431,23 +432,23 @@ class SongFooter extends StatelessWidget {
                       : Icon(
                           Icons.favorite,
                           key: const ValueKey('favorite_red'),
-                          color: artist.likedSong(song.id) ? Colors.red : null,
+                          color: artist.likedSong(song!.id) ? Colors.red : null,
                         ),
                 ),
                 tooltip: localization.like,
                 onPressed: () {
-                  if (state.isSaving) {
+                  if (state.isSaving!) {
                     return;
                   }
-                  if (!state.authState.hasValidToken) {
+                  if (!state.authState!.hasValidToken) {
                     showDialog<AlertDialog>(
                         context: context,
                         builder: (BuildContext context) {
                           final localization = AppLocalization.of(context);
                           return AlertDialog(
                             title: Text(kIsWeb
-                                ? localization.requireMobileToLike
-                                : localization.requireAccountToLike),
+                                ? localization!.requireMobileToLike!
+                                : localization!.requireAccountToLike!),
                           );
                         });
                     return;
@@ -456,19 +457,19 @@ class SongFooter extends StatelessWidget {
                   store.dispatch(LikeSongRequest(song: song));
                 },
               ),
-              Text('${song.countLike + 1}'),
+              Text('${song!.countLike! + 1}'),
             ],
           ),
-          if (song.artistId == state.authState.artist.id)
+          if (song!.artistId == state.authState!.artist!.id)
             Row(
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.message),
                   tooltip: localization.comments,
-                  onPressed: onMessagePressed,
+                  onPressed: onMessagePressed as void Function()?,
                 ),
-                song.comments.length > 0
-                    ? Text('${song.comments.length}')
+                song!.comments!.length > 0
+                    ? Text('${song!.comments!.length}')
                     : SizedBox(),
               ],
             ),
@@ -477,39 +478,39 @@ class SongFooter extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               final actions = [
                 if (!kIsWeb)
-                  ((song.sharingKey ?? '').isNotEmpty
+                  ((song!.sharingKey ?? '').isNotEmpty
                       ? localization.addFriends
-                      : state.isDance
+                      : state.isDance!
                           ? localization.shareDance
                           : localization.shareSong),
                 if (!kIsWeb) localization.download,
-                if (song.isPublic) ...[
+                if (song!.isPublic!) ...[
                   if (kIsWeb)
                     localization.openInNewTab
                   else
                     localization.copyLinkToSong
                 ],
-                if ((song.twitterId ?? '').isNotEmpty)
+                if ((song!.twitterId ?? '').isNotEmpty)
                   localization.viewOnTwitter,
-                if ((song.youTubeId ?? '').isNotEmpty)
+                if ((song!.youTubeId ?? '').isNotEmpty)
                   localization.viewOnYouTube,
-                if (song.parentId > 0) localization.viewOriginal,
-                if (song.artistId == state.authState.artist.id)
-                  state.isDance
+                if (song!.parentId! > 0) localization.viewOriginal,
+                if (song!.artistId == state.authState!.artist!.id)
+                  state.isDance!
                       ? localization.deleteDance
                       : localization.deleteSong
-                else if (song.joinedArtists != null &&
-                    song.joinedArtists.any(
-                        (artist) => artist.id == state.authState.artist.id))
-                  state.isDance
+                else if (song!.joinedArtists != null &&
+                    song!.joinedArtists!.any(
+                        (artist) => artist.id == state.authState!.artist!.id))
+                  state.isDance!
                       ? localization.leaveDance
                       : localization.leaveSong,
-                if (!kIsWeb && song.artistId != state.artist.id)
+                if (!kIsWeb && song!.artistId != state.artist!.id)
                   localization.reportSong,
               ];
               return actions
                   .map((action) => PopupMenuItem(
-                        child: Text(action),
+                        child: Text(action!),
                         value: action,
                       ))
                   .toList();
@@ -517,23 +518,23 @@ class SongFooter extends StatelessWidget {
             onSelected: (String action) async {
               if (action == localization.openInBrowser ||
                   action == localization.openInNewTab) {
-                launch(song.url);
+                launch(song!.url!);
                 return;
               } else if (action == localization.viewOnTwitter) {
-                launch(song.twitterUrl(state.twitterHandle));
+                launch(song!.twitterUrl(state.twitterHandle));
                 return;
               } else if (action == localization.viewOnYouTube) {
-                launch(song.youTubeUrl);
+                launch(song!.youTubeUrl);
                 return;
               } else if (action == localization.download) {
                 final Directory directory =
                     await getApplicationDocumentsDirectory();
                 final String folder = p.join(directory.path, 'mudeo', 'videos');
                 await Directory(folder).create(recursive: true);
-                final path = '$folder/${song.title}.mp4';
+                final path = '$folder/${song!.title}.mp4';
                 if (!await File(path).exists()) {
                   final http.Response copyResponse =
-                      await http.Client().get(Uri.parse(song.videoUrl));
+                      await http.Client().get(Uri.parse(song!.videoUrl!));
                   await File(path).writeAsBytes(copyResponse.bodyBytes);
                 }
 
@@ -541,37 +542,38 @@ class SongFooter extends StatelessWidget {
                   final Size size = MediaQuery.of(context).size;
                   Share.shareXFiles(
                     [XFile(path)],
-                    text: song.url,
+                    text: song!.url,
                     sharePositionOrigin:
                         Rect.fromLTWH(0, 0, size.width, size.height / 2),
                   );
                 } else {
-                  final Directory directory = await getDownloadsDirectory();
+                  final Directory directory = (await getDownloadsDirectory())!;
                   final date = DateTime.now()
                       .toIso8601String()
                       .split('.')[0]
                       .replaceFirst('T', ' ')
                       .replaceAll(':', '-');
                   var downloadPath =
-                      p.join(directory.path, '${song.displayTitle} $date.mp4');
+                      p.join(directory.path, '${song!.displayTitle} $date.mp4');
                   await File(path).copy(downloadPath);
                   showToast(localization.downloadedSong);
                 }
                 return;
               } else if (action == localization.copyLinkToSong ||
                   action == localization.copyLinkToDance) {
-                Clipboard.setData(new ClipboardData(text: song.url));
+                Clipboard.setData(new ClipboardData(text: song!.url));
                 showToast(localization.copiedToClipboard);
                 return;
               } else if (action == localization.copyLinkToVideo) {
-                Clipboard.setData(new ClipboardData(text: song.videoUrl));
+                Clipboard.setData(new ClipboardData(text: song!.videoUrl));
                 showToast(localization.copiedToClipboard);
                 return;
               } else if (action == localization.viewOriginal) {
-                final originalSong = state.dataState.songMap[song.parentId] ??
-                    SongEntity(id: song.parentId);
+                final originalSong =
+                    state.dataState!.songMap![song!.parentId] ??
+                        SongEntity(id: song!.parentId);
                 final originalArtist =
-                    state.dataState.artistMap[originalSong.artistId] ??
+                    state.dataState!.artistMap![originalSong.artistId] ??
                         ArtistEntity(id: originalSong.artistId);
                 store.dispatch(
                     ViewArtist(context: context, artist: originalArtist));
@@ -590,7 +592,7 @@ class SongFooter extends StatelessWidget {
               } else if (action == localization.leaveDance ||
                   action == localization.leaveSong) {
                 confirmCallback(
-                    message: state.isDance
+                    message: state.isDance!
                         ? localization.leaveDance
                         : localization.leaveSong,
                     context: context,
@@ -601,7 +603,7 @@ class SongFooter extends StatelessWidget {
                             .dispatch(LoadSongs(clearCache: true, force: true));
                       });
                       store.dispatch(LeaveSongRequest(
-                        songId: song.id,
+                        songId: song!.id,
                         completer: completer,
                       ));
                     });
@@ -613,15 +615,15 @@ class SongFooter extends StatelessWidget {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         semanticLabel: localization.areYouSure,
-                        title: Text(localization.deleteSong),
-                        content: Text(localization.areYouSure),
+                        title: Text(localization.deleteSong!),
+                        content: Text(localization.areYouSure!),
                         actions: <Widget>[
                           TextButton(
-                              child: Text(localization.cancel.toUpperCase()),
+                              child: Text(localization.cancel!.toUpperCase()),
                               onPressed: () => Navigator.pop(context)),
                           TextButton(
                               autofocus: true,
-                              child: Text(localization.ok.toUpperCase()),
+                              child: Text(localization.ok!.toUpperCase()),
                               onPressed: () {
                                 Navigator.pop(context);
                                 store.dispatch(DeleteSongRequest(
@@ -635,15 +637,15 @@ class SongFooter extends StatelessWidget {
                 return;
               }
 
-              if (!state.authState.hasValidToken) {
+              if (!state.authState!.hasValidToken) {
                 showDialog<AlertDialog>(
                     context: context,
                     builder: (BuildContext context) {
                       final localization = AppLocalization.of(context);
                       return AlertDialog(
                         content: Text(kIsWeb
-                            ? localization.requireMobileToReport
-                            : localization.requireAccountToReport),
+                            ? localization!.requireMobileToReport!
+                            : localization!.requireAccountToReport!),
                       );
                     });
                 return;
@@ -654,17 +656,17 @@ class SongFooter extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       semanticLabel: localization.areYouSure,
-                      title: Text(state.isDance
-                          ? localization.reportDance
-                          : localization.reportSong),
-                      content: Text(localization.areYouSure),
+                      title: Text(state.isDance!
+                          ? localization.reportDance!
+                          : localization.reportSong!),
+                      content: Text(localization.areYouSure!),
                       actions: <Widget>[
                         TextButton(
-                            child: Text(localization.cancel.toUpperCase()),
+                            child: Text(localization.cancel!.toUpperCase()),
                             onPressed: () => Navigator.pop(context)),
                         TextButton(
                             autofocus: true,
-                            child: Text(localization.ok.toUpperCase()),
+                            child: Text(localization.ok!.toUpperCase()),
                             onPressed: () {
                               store.dispatch(FlagSongRequest(song: song));
                               Navigator.pop(context);
@@ -681,21 +683,21 @@ class SongFooter extends StatelessWidget {
 }
 
 class SongHeader extends StatelessWidget {
-  SongHeader({@required this.song, @required this.enableShowArtist});
+  SongHeader({required this.song, required this.enableShowArtist});
 
-  final SongEntity song;
+  final SongEntity? song;
   final bool enableShowArtist;
 
   @override
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
     final localization = AppLocalization.of(context);
-    final artist = song.artist ?? ArtistEntity();
+    final artist = song!.artist ?? ArtistEntity();
     final ThemeData themeData = Theme.of(context);
-    final TextStyle artistStyle = themeData.textTheme.bodyText1
+    final TextStyle artistStyle = themeData.textTheme.bodyText1!
         .copyWith(color: themeData.accentColor, fontSize: 16);
     final TextStyle genreStyle =
-        artistStyle.copyWith(color: kGenreColors[song.genreId]);
+        artistStyle.copyWith(color: kGenreColors[song!.genreId]);
     final TextStyle dotStyle = artistStyle.copyWith(color: Colors.white);
 
     return Padding(
@@ -704,7 +706,7 @@ class SongHeader extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           ArtistProfile(
-            artist: song.artist,
+            artist: song!.artist,
             onTap: () => enableShowArtist
                 ? store.dispatch(ViewArtist(context: context, artist: artist))
                 : null,
@@ -715,7 +717,7 @@ class SongHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  song.title,
+                  song!.title!,
                   style: Theme.of(context).textTheme.headline6,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -732,15 +734,15 @@ class SongHeader extends StatelessWidget {
                         style: artistStyle,
                         text: '@${artist.handle}',
                       ),
-                      song.genreId == null || song.genreId == 0
+                      song!.genreId == null || song!.genreId == 0
                           ? TextSpan()
                           : TextSpan(text: ' • ', style: dotStyle),
-                      song.genreId == null || song.genreId == 0
+                      song!.genreId == null || song!.genreId == 0
                           ? TextSpan()
                           : TextSpan(
-                              text: localization.lookup(store.state.isDance
-                                  ? kStyles[song.genreId]
-                                  : kGenres[song.genreId]),
+                              text: localization!.lookup(store.state.isDance!
+                                  ? kStyles[song!.genreId]
+                                  : kGenres[song!.genreId]),
                               style: genreStyle,
                             ),
                     ],
@@ -779,8 +781,8 @@ class VideoPlayer extends StatefulWidget {
 }
 
 class _VideoPlayerState extends State<VideoPlayer> {
-  VideoPlayerController videoPlayerController;
-  ChewieController chewieController;
+  VideoPlayerController? videoPlayerController;
+  ChewieController? chewieController;
 
   @override
   void initState() {
@@ -790,11 +792,11 @@ class _VideoPlayerState extends State<VideoPlayer> {
 
   void initVideo() async {
     videoPlayerController = VideoPlayerController.network(widget.videoUrl);
-    videoPlayerController.initialize().then((_) {
+    videoPlayerController!.initialize().then((_) {
       setState(() {
         chewieController = ChewieController(
-          videoPlayerController: videoPlayerController,
-          aspectRatio: videoPlayerController.value.aspectRatio,
+          videoPlayerController: videoPlayerController!,
+          aspectRatio: videoPlayerController!.value.aspectRatio,
           autoPlay: true,
           looping: false,
           showControls: true,
@@ -824,7 +826,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
           FittedBox(
             fit: BoxFit.contain,
             child: Chewie(
-              controller: chewieController,
+              controller: chewieController!,
             ),
           ),
           IconButton(
@@ -840,10 +842,10 @@ class _VideoPlayerState extends State<VideoPlayer> {
 }
 
 class CommentRow extends StatefulWidget {
-  CommentRow({Key key, this.comment, this.song}) : super(key: key);
+  CommentRow({Key? key, this.comment, this.song}) : super(key: key);
 
-  final SongEntity song;
-  final CommentEntity comment;
+  final SongEntity? song;
+  final CommentEntity? comment;
 
   @override
   _CommentRowState createState() => _CommentRowState();
@@ -856,7 +858,7 @@ class _CommentRowState extends State<CommentRow> {
   Widget build(BuildContext context) {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
-    final authArtistId = state.authState.artist.id;
+    final authArtistId = state.authState!.artist!.id;
     final localization = AppLocalization.of(context);
 
     return Material(
@@ -875,39 +877,39 @@ class _CommentRowState extends State<CommentRow> {
                     children: <TextSpan>[
                       TextSpan(
                           style: TextStyle(color: Colors.grey, fontSize: 17),
-                          text: widget.comment.artist.displayName),
+                          text: widget.comment!.artist!.displayName),
                       TextSpan(
                         style: TextStyle(fontSize: 17, color: Colors.white),
-                        text: '   ${widget.comment.description}',
+                        text: '   ${widget.comment!.description}',
                       ),
                     ],
                   ),
                 ),
               ),
-              if (isSelected && !state.isSaving) SizedBox(width: 10),
-              if (isSelected && !state.isSaving)
-                if (widget.comment.artistId == authArtistId ||
-                    widget.song.artistId == authArtistId)
+              if (isSelected && !state.isSaving!) SizedBox(width: 10),
+              if (isSelected && !state.isSaving!)
+                if (widget.comment!.artistId == authArtistId ||
+                    widget.song!.artistId == authArtistId)
                   ElevatedButton(
                     //color: Colors.redAccent,
-                    child:
-                        Text(AppLocalization.of(context).delete.toUpperCase()),
+                    child: Text(
+                        AppLocalization.of(context)!.delete!.toUpperCase()),
                     onPressed: () {
                       showDialog<AlertDialog>(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              semanticLabel: localization.areYouSure,
-                              title: Text(localization.deleteComment),
-                              content: Text(localization.areYouSure),
+                              semanticLabel: localization!.areYouSure,
+                              title: Text(localization.deleteComment!),
+                              content: Text(localization.areYouSure!),
                               actions: <Widget>[
                                 TextButton(
-                                    child:
-                                        Text(localization.cancel.toUpperCase()),
+                                    child: Text(
+                                        localization.cancel!.toUpperCase()),
                                     onPressed: () => Navigator.pop(context)),
                                 TextButton(
                                     autofocus: true,
-                                    child: Text(localization.ok.toUpperCase()),
+                                    child: Text(localization.ok!.toUpperCase()),
                                     onPressed: () {
                                       final completer = Completer<Null>()
                                         ..future.then((value) {
@@ -930,24 +932,24 @@ class _CommentRowState extends State<CommentRow> {
                 else
                   ElevatedButton(
                     //color: Colors.redAccent,
-                    child:
-                        Text(AppLocalization.of(context).report.toUpperCase()),
+                    child: Text(
+                        AppLocalization.of(context)!.report!.toUpperCase()),
                     onPressed: () {
                       showDialog<AlertDialog>(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              semanticLabel: localization.areYouSure,
-                              title: Text(localization.report),
-                              content: Text(localization.areYouSure),
+                              semanticLabel: localization!.areYouSure,
+                              title: Text(localization.report!),
+                              content: Text(localization.areYouSure!),
                               actions: <Widget>[
                                 TextButton(
-                                    child:
-                                        Text(localization.cancel.toUpperCase()),
+                                    child: Text(
+                                        localization.cancel!.toUpperCase()),
                                     onPressed: () => Navigator.pop(context)),
                                 TextButton(
                                     autofocus: true,
-                                    child: Text(localization.ok.toUpperCase()),
+                                    child: Text(localization.ok!.toUpperCase()),
                                     onPressed: () {
                                       final completer = Completer<Null>()
                                         ..future.then((value) {
@@ -959,7 +961,7 @@ class _CommentRowState extends State<CommentRow> {
                                         });
                                       store.dispatch(FlagSongRequest(
                                           song: widget.song,
-                                          commentId: widget.comment.id,
+                                          commentId: widget.comment!.id,
                                           completer: completer));
                                       if (Navigator.of(context).canPop()) {
                                         Navigator.of(context).pop();
@@ -980,7 +982,7 @@ class _CommentRowState extends State<CommentRow> {
 
 class SongImage extends StatelessWidget {
   const SongImage({
-    @required this.song,
+    required this.song,
   });
 
   final SongEntity song;
@@ -988,18 +990,18 @@ class SongImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      song.imageUrl,
+      song.imageUrl!,
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
       loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent loadingProgress) {
+          ImageChunkEvent? loadingProgress) {
         if (loadingProgress == null) return child;
         if (!kIsWeb && (song.blurhash ?? '').isNotEmpty)
           return Container(
             height: double.infinity,
             width: double.infinity,
-            child: BlurHash(hash: song.blurhash),
+            child: BlurHash(hash: song.blurhash!),
           );
         else
           return Container();
@@ -1054,20 +1056,20 @@ class SongImage extends StatelessWidget {
 
 class SongComments extends StatefulWidget {
   const SongComments({
-    @required this.songId,
-    @required this.onClosePressed,
+    required this.songId,
+    required this.onClosePressed,
   });
 
   final Function onClosePressed;
-  final int songId;
+  final int? songId;
 
   @override
   _SongCommentsState createState() => _SongCommentsState();
 }
 
 class _SongCommentsState extends State<SongComments> {
-  TextEditingController _textController;
-  FocusNode _textFocusNode;
+  TextEditingController? _textController;
+  FocusNode? _textFocusNode;
   bool _showSubmitButton = false;
   bool _enableSubmitButton = false;
 
@@ -1075,50 +1077,51 @@ class _SongCommentsState extends State<SongComments> {
   void initState() {
     super.initState();
     _textFocusNode = FocusNode();
-    _textFocusNode.addListener(() {
-      if (_showSubmitButton != _textFocusNode.hasFocus) {
-        setState(() => _showSubmitButton = _textFocusNode.hasFocus);
+    _textFocusNode!.addListener(() {
+      if (_showSubmitButton != _textFocusNode!.hasFocus) {
+        setState(() => _showSubmitButton = _textFocusNode!.hasFocus);
       }
     });
 
     _textController = TextEditingController();
-    _textController.addListener(() {
-      if (_enableSubmitButton != _textController.text.isNotEmpty) {
-        setState(() => _enableSubmitButton = _textController.text.isNotEmpty);
+    _textController!.addListener(() {
+      if (_enableSubmitButton != _textController!.text.isNotEmpty) {
+        setState(() => _enableSubmitButton = _textController!.text.isNotEmpty);
       }
     });
   }
 
   @override
   void dispose() {
-    _textFocusNode.dispose();
-    _textController.dispose();
+    _textFocusNode!.dispose();
+    _textController!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
-    final song = state.dataState.songMap[widget.songId];
+    final song = state.dataState!.songMap![widget.songId]!;
 
     return AlertDialog(
-      title: Text(song.description != null && song.description.trim().isNotEmpty
-          ? song.description
-          : song.title),
+      title: Text(
+          song.description != null && song.description!.trim().isNotEmpty
+              ? song.description!
+              : song.title!),
       actions: [
         TextButton(
             autofocus: true,
             onPressed: () => Navigator.of(context).pop(),
-            child: Text(localization.close.toUpperCase())),
+            child: Text(localization.close!.toUpperCase())),
       ],
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            if (state.authState.hasValidToken)
+            if (state.authState!.hasValidToken)
               TextFormField(
                 autofocus: false,
                 minLines: 1,
@@ -1141,16 +1144,16 @@ class _SongCommentsState extends State<SongComments> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    if (!state.isSaving)
+                    if (!state.isSaving!)
                       TextButton(
-                        child: Text(localization.cancel.toUpperCase()),
+                        child: Text(localization.cancel!.toUpperCase()),
                         onPressed: () {
-                          _textController.clear();
-                          _textFocusNode.unfocus();
+                          _textController!.clear();
+                          _textFocusNode!.unfocus();
                         },
                       ),
                     SizedBox(width: 10),
-                    state.isSaving
+                    state.isSaving!
                         ? Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 35, vertical: 10),
@@ -1160,20 +1163,20 @@ class _SongCommentsState extends State<SongComments> {
                                 height: 20),
                           )
                         : ElevatedButton(
-                            child: Text(localization.comment.toUpperCase()),
+                            child: Text(localization.comment!.toUpperCase()),
                             onPressed: _enableSubmitButton
                                 ? () {
                                     final Completer<Null> completer =
                                         Completer<Null>();
                                     final comment = song.newComment(
-                                        state.authState.artist.id,
-                                        _textController.text.trim());
+                                        state.authState!.artist!.id,
+                                        _textController!.text.trim());
                                     store.dispatch(SaveCommentRequest(
                                         completer: completer,
                                         comment: comment));
                                     completer.future.then((value) {
-                                      _textController.clear();
-                                      _textFocusNode.unfocus();
+                                      _textController!.clear();
+                                      _textFocusNode!.unfocus();
                                     });
 
                                     /*
@@ -1189,12 +1192,12 @@ class _SongCommentsState extends State<SongComments> {
               ),
             ),
             SizedBox(height: 20),
-            if (song.comments.isEmpty)
+            if (song.comments!.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Center(
                   child: Text(
-                    localization.noComments,
+                    localization.noComments!,
                     style: TextStyle(
                         fontSize: 18,
                         color: Colors.grey,
@@ -1203,9 +1206,9 @@ class _SongCommentsState extends State<SongComments> {
                 ),
               )
             else
-              ...song.comments
+              ...song.comments!
                   .map((comment) => CommentRow(
-                        key: ValueKey(comment.id),
+                        key: ValueKey(comment!.id),
                         song: song,
                         comment: comment,
                       ))

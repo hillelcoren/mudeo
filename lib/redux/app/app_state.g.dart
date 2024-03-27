@@ -15,9 +15,9 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
   final String wireName = 'AppState';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, AppState object,
+  Iterable<Object?> serialize(Serializers serializers, AppState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'isLoading',
       serializers.serialize(object.isLoading,
           specifiedType: const FullType(bool)),
@@ -42,39 +42,39 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
   }
 
   @override
-  AppState deserialize(Serializers serializers, Iterable<Object> serialized,
+  AppState deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new AppStateBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'isLoading':
           result.isLoading = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'isSaving':
           result.isSaving = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'isDance':
           result.isDance = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'authState':
           result.authState.replace(serializers.deserialize(value,
-              specifiedType: const FullType(AuthState)) as AuthState);
+              specifiedType: const FullType(AuthState)) as AuthState?);
           break;
         case 'dataState':
           result.dataState.replace(serializers.deserialize(value,
-              specifiedType: const FullType(DataState)) as DataState);
+              specifiedType: const FullType(DataState)) as DataState?);
           break;
         case 'uiState':
           result.uiState.replace(serializers.deserialize(value,
-              specifiedType: const FullType(UIState)) as UIState);
+              specifiedType: const FullType(UIState)) as UIState?);
           break;
       }
     }
@@ -85,19 +85,19 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
 
 class _$AppState extends AppState {
   @override
-  final bool isLoading;
+  final bool? isLoading;
   @override
-  final bool isSaving;
+  final bool? isSaving;
   @override
-  final bool isDance;
+  final bool? isDance;
   @override
-  final AuthState authState;
+  final AuthState? authState;
   @override
-  final DataState dataState;
+  final DataState? dataState;
   @override
-  final UIState uiState;
+  final UIState? uiState;
 
-  factory _$AppState([void Function(AppStateBuilder) updates]) =>
+  factory _$AppState([void Function(AppStateBuilder)? updates]) =>
       (new AppStateBuilder()..update(updates)).build();
 
   _$AppState._(
@@ -161,31 +161,31 @@ class _$AppState extends AppState {
 }
 
 class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
-  _$AppState _$v;
+  _$AppState? _$v;
 
-  bool _isLoading;
-  bool get isLoading => _$this._isLoading;
-  set isLoading(bool isLoading) => _$this._isLoading = isLoading;
+  bool? _isLoading;
+  bool? get isLoading => _$this._isLoading;
+  set isLoading(bool? isLoading) => _$this._isLoading = isLoading;
 
-  bool _isSaving;
-  bool get isSaving => _$this._isSaving;
-  set isSaving(bool isSaving) => _$this._isSaving = isSaving;
+  bool? _isSaving;
+  bool? get isSaving => _$this._isSaving;
+  set isSaving(bool? isSaving) => _$this._isSaving = isSaving;
 
-  bool _isDance;
-  bool get isDance => _$this._isDance;
-  set isDance(bool isDance) => _$this._isDance = isDance;
+  bool? _isDance;
+  bool? get isDance => _$this._isDance;
+  set isDance(bool? isDance) => _$this._isDance = isDance;
 
-  AuthStateBuilder _authState;
+  AuthStateBuilder? _authState;
   AuthStateBuilder get authState =>
       _$this._authState ??= new AuthStateBuilder();
   set authState(AuthStateBuilder authState) => _$this._authState = authState;
 
-  DataStateBuilder _dataState;
+  DataStateBuilder? _dataState;
   DataStateBuilder get dataState =>
       _$this._dataState ??= new DataStateBuilder();
   set dataState(DataStateBuilder dataState) => _$this._dataState = dataState;
 
-  UIStateBuilder _uiState;
+  UIStateBuilder? _uiState;
   UIStateBuilder get uiState => _$this._uiState ??= new UIStateBuilder();
   set uiState(UIStateBuilder uiState) => _$this._uiState = uiState;
 
@@ -193,12 +193,12 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
 
   AppStateBuilder get _$this {
     if (_$v != null) {
-      _isLoading = _$v.isLoading;
-      _isSaving = _$v.isSaving;
-      _isDance = _$v.isDance;
-      _authState = _$v.authState?.toBuilder();
-      _dataState = _$v.dataState?.toBuilder();
-      _uiState = _$v.uiState?.toBuilder();
+      _isLoading = _$v!.isLoading;
+      _isSaving = _$v!.isSaving;
+      _isDance = _$v!.isDance;
+      _authState = _$v!.authState?.toBuilder();
+      _dataState = _$v!.dataState?.toBuilder();
+      _uiState = _$v!.uiState?.toBuilder();
       _$v = null;
     }
     return this;
@@ -213,7 +213,7 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   }
 
   @override
-  void update(void Function(AppStateBuilder) updates) {
+  void update(void Function(AppStateBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -230,7 +230,7 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
               dataState: dataState.build(),
               uiState: uiState.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'authState';
         authState.build();

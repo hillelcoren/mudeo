@@ -66,9 +66,9 @@ Middleware<AppState> _createLoadState(
   PersistenceRepository uiRepository,
   PersistenceRepository dataRepository,
 ) {
-  AuthState authState;
-  UIState uiState;
-  DataState dataState;
+  AuthState? authState;
+  UIState? uiState;
+  DataState? dataState;
 
   return (Store<AppState> store, dynamic action, NextDispatcher next) async {
     print('## Load state...');
@@ -95,7 +95,7 @@ Middleware<AppState> _createLoadState(
             ..uiState.replace(uiState)
             ..dataState.replace(dataState));
 
-      AppBuilder.of(action.context).rebuild();
+      AppBuilder.of(action.context)!.rebuild();
       store.dispatch(LoadStateSuccess(appState));
       print('## State loaded');
 
@@ -178,7 +178,7 @@ Middleware<AppState> _updateTabIndex() {
     // first process the action so the data is in the state
     next(action);
 
-    final dataState = store.state.dataState;
+    final dataState = store.state.dataState!;
     if (dataState.areSongsStale && !dataState.loadFailedRecently) {
       store.dispatch(LoadSongs());
     }

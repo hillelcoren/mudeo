@@ -26,7 +26,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  final flavor = html.window.document.documentElement.dataset['flavor'];
+  final flavor = html.window.document.documentElement!.dataset['flavor'];
   bool isDance = (flavor == 'dance');
 
   print('### IS DANCE: $isDance ###');
@@ -64,7 +64,7 @@ void main() async {
     if (kDebugMode) {
       FlutterError.dumpErrorToConsole(details);
     } else {
-      Zone.current.handleUncaughtError(details.exception, details.stack);
+      Zone.current.handleUncaughtError(details.exception, details.stack!);
     }
   };
 }

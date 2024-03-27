@@ -6,7 +6,7 @@ class SnackBarRow extends StatelessWidget {
     this.icon = Icons.check_circle,
   });
 
-  final String message;
+  final String? message;
   final IconData icon;
 
   @override
@@ -16,7 +16,7 @@ class SnackBarRow extends StatelessWidget {
         Icon(icon),
         Padding(
           padding: EdgeInsets.only(left: 10.0),
-          child: Text(message),
+          child: Text(message!),
         )
       ],
     );

@@ -4,7 +4,7 @@ version: 0.0.61+61
 publish_to: none
 
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 flutter_icons:
   android: "launcher_icon"
@@ -37,33 +37,35 @@ dependencies:
       url: https://github.com/ollyde/flutter_macos_video_player.git
       path: packages/video_player/video_player_macos
   path_provider: ^2.0.13
-  screen:
-  flutter_redux:
-  redux_logging:
+  #screen:
+  flutter_redux: ^0.10.0
+  redux_logging: ^0.5.1
   http:
   shared_preferences:
   built_value:
   built_collection:
   memoize:
   url_launcher:
-  cached_network_image:
-  share_plus: ^6.3.1
+  #cached_network_image: ^3.3.1
+  cached_network_image: ^3.0.0
+  share_plus: ^7.2.2
   google_sign_in:
   sentry: ^7.2.0
   intl:
   font_awesome_flutter:
   #flutter_xlider: 3.4.0
   file_picker: ^5.2.5
-  firebase_analytics: ^5.0.11
+  firebase_analytics: any
   flutter_xlider:
     git:
       url: https://github.com/Ali-Azmoud/flutter_xlider.git
       ref: master
-  image_picker:
+  #image_picker: ^1.0.7
+  image_picker: ^0.7.0
   chewie:
   #flutter_youtube: ^2.0.0
   draggable_scrollbar:
-  flutter_blurhash:
+  #flutter_blurhash: ^0.8.2
   #in_app_purchase: ^3.1.5
   #rounded_loading_button: 2.0.2
   device_info:
@@ -71,7 +73,8 @@ dependencies:
   document_analysis:
   visibility_detector:
   #ffmpeg_kit_flutter: ^5.1.0
-  ffmpeg_kit_flutter_min_gpl: ^5.1.0
+  #ffmpeg_kit_flutter_min_gpl: ^6.0.3
+  ffmpeg_kit_flutter_min_gpl: any
   #qr_flutter:
   #esys_flutter_share:
   material_design_icons_flutter:
@@ -80,7 +83,7 @@ dependencies:
   flutter_styled_toast: ^2.0.0
   window_manager: ^0.3.1
   path:
-  video_editor: ^2.4.0
+  video_editor: 2.4.0
   in_app_review: ^2.0.6
 
 dependency_overrides:
@@ -93,7 +96,7 @@ dependency_overrides:
 dev_dependencies:
   #flutter_test:
   #  sdk: flutter
-  build_runner: ^1.7.2
+  build_runner: ^2.3.3
   built_value_generator: any
   #build_runner: ^1.2.8
   #built_value_generator: ^6.3.1

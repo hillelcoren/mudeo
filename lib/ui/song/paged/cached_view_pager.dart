@@ -3,9 +3,9 @@ import 'package:flutter/rendering.dart' show ViewportOffset;
 
 class PageViewWithCacheExtent extends StatelessWidget {
   const PageViewWithCacheExtent({
-    Key key,
-    @required this.controller,
-    @required this.childDelegate,
+    Key? key,
+    required this.controller,
+    required this.childDelegate,
     this.onPageChanged,
     this.cachedPages = 0,
     this.physics,
@@ -14,10 +14,10 @@ class PageViewWithCacheExtent extends StatelessWidget {
         super(key: key);
 
   final PageController controller;
-  final ValueChanged<int> onPageChanged;
+  final ValueChanged<int>? onPageChanged;
   final SliverChildDelegate childDelegate;
   final int cachedPages;
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class PageViewWithCacheExtent extends StatelessWidget {
         if (notification.depth == 0 &&
             notification is ScrollUpdateNotification) {
           final PageMetrics metrics = notification.metrics as PageMetrics;
-          onPageChanged?.call(metrics.page.round());
+          onPageChanged?.call(metrics.page!.round());
         }
         return false;
       },

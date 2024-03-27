@@ -5,14 +5,14 @@ export 'package:flutter/foundation.dart' show ValueListenable;
 
 class FirstInteractionTracker extends StatefulWidget {
   const FirstInteractionTracker({
-    Key key,
+    Key? key,
     this.child,
   }) : super(key: key);
 
-  final Widget child;
+  final Widget? child;
 
   static ValueListenable<bool> of(BuildContext context) {
-    final state = context.findAncestorStateOfType<_FirstInteractionState>();
+    final state = context.findAncestorStateOfType<_FirstInteractionState>()!;
     return state._hasUserInteracted;
   }
 

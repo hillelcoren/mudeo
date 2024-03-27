@@ -16,7 +16,7 @@ part 'song_model.g.dart';
 abstract class SongEntity extends Object
     with BaseEntity
     implements SelectableEntity, Built<SongEntity, SongEntityBuilder> {
-  factory SongEntity({int id, int genreId}) {
+  factory SongEntity({int? id, int? genreId}) {
     return _$SongEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       layout: kVideoLayoutRow,
@@ -47,106 +47,93 @@ abstract class SongEntity extends Object
 
   SongEntity._();
 
-  String get title;
+  String? get title;
 
-  String get description;
+  String? get description;
 
-  String get url;
+  String? get url;
 
-  int get width;
+  int? get width;
 
-  int get height;
+  int? get height;
 
-  @nullable
-  String get color;
+  String? get color;
 
-  @nullable
   @BuiltValueField(wireName: 'user_id')
-  int get artistId;
+  int? get artistId;
 
-  @nullable
   @BuiltValueField(wireName: 'user')
-  ArtistEntity get artist;
+  ArtistEntity? get artist;
 
-  @nullable
   @BuiltValueField(wireName: 'genre_id')
-  int get genreId;
+  int? get genreId;
 
-  @nullable
   @BuiltValueField(wireName: 'parent_id')
-  int get parentId;
+  int? get parentId;
 
-  int get duration;
+  int? get duration;
 
-  @nullable
-  String get blurhash;
+  String? get blurhash;
 
-  @nullable
   @BuiltValueField(wireName: 'count_play')
-  int get countPlay;
+  int? get countPlay;
 
-  @nullable
   @BuiltValueField(wireName: 'count_like')
-  int get countLike;
+  int? get countLike;
 
   @BuiltValueField(wireName: 'is_flagged')
-  bool get isFlagged;
+  bool? get isFlagged;
 
   @BuiltValueField(wireName: 'is_public')
-  bool get isPublic;
+  bool? get isPublic;
 
   @BuiltValueField(wireName: 'is_approved')
-  bool get isApproved;
+  bool? get isApproved;
 
   @BuiltValueField(wireName: 'is_featured')
-  bool get isFeatured;
+  bool? get isFeatured;
 
   @BuiltValueField(wireName: 'video_url')
-  String get videoUrl;
+  String? get videoUrl;
 
-  @nullable
   @BuiltValueField(wireName: 'track_video_url')
-  String get trackVideoUrl;
+  String? get trackVideoUrl;
 
-  @nullable
   @BuiltValueField(wireName: 'youtube_id')
-  String get youTubeId;
+  String? get youTubeId;
 
-  @nullable
   @BuiltValueField(wireName: 'twitter_id')
-  String get twitterId;
+  String? get twitterId;
 
   @BuiltValueField(wireName: 'thumbnail_url')
-  String get thumbnailUrl;
+  String? get thumbnailUrl;
 
   @BuiltValueField(wireName: 'song_videos')
-  BuiltList<TrackEntity> get tracks;
+  BuiltList<TrackEntity?>? get tracks;
 
-  @nullable
   @BuiltValueField(wireName: 'joined_users')
-  BuiltList<ArtistEntity> get joinedArtists;
+  BuiltList<ArtistEntity>? get joinedArtists;
 
-  BuiltList<CommentEntity> get comments;
+  BuiltList<CommentEntity?>? get comments;
 
-  String get layout;
+  String? get layout;
 
   @BuiltValueField(wireName: 'is_rendered')
-  bool get isRendered;
+  bool? get isRendered;
 
-  @nullable
   @BuiltValueField(wireName: 'sharing_key')
-  String get sharingKey;
+  String? get sharingKey;
 
   @override
-  String get listDisplayName {
+  String? get listDisplayName {
     return title;
   }
 
-  String get imageUrl {
-    if (isRendered && hasThumbnail) {
+  String? get imageUrl {
+    if (isRendered! && hasThumbnail) {
       return thumbnailUrl;
     } else {
-      final lastTrack = tracks.isNotEmpty ? tracks.last : null;
+      final lastTrack = tracks!.isNotEmpty ? tracks!.last : null;
       final lastVideo = lastTrack?.video ?? VideoEntity();
       return lastVideo.thumbnailUrl;
     }
@@ -155,7 +142,7 @@ abstract class SongEntity extends Object
   bool get hasYouTubeId => (youTubeId ?? '').isNotEmpty;
 
   bool get hasDelay =>
-      includedTracks.where((track) => track.delay != 0).isNotEmpty;
+      includedTracks.where((track) => track!.delay != 0).isNotEmpty;
 
   String twitterUrl(String handle) =>
       'https://twitter.com/$handle/status/$twitterId';
@@ -166,20 +153,20 @@ abstract class SongEntity extends Object
       'https://www.youtube.com/embed/$youTubeId?autoplay=1&modestbranding=1&rel=0';
 
   bool get hasThumbnail =>
-      thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
+      thumbnailUrl != null && thumbnailUrl!.trim().isNotEmpty;
 
-  CommentEntity newComment(int artistId, String comment) =>
+  CommentEntity newComment(int? artistId, String comment) =>
       CommentEntity(description: comment).rebuild((b) => b
         ..songId = id
         ..artistId = artistId);
 
   TrackEntity newTrack(VideoEntity video) =>
-      TrackEntity(video: video, orderId: tracks.length);
+      TrackEntity(video: video, orderId: tracks!.length);
 
-  VideoEntity get newVideo => trackWithNewVideo?.video;
+  VideoEntity? get newVideo => trackWithNewVideo?.video;
 
-  String get displayTitle {
-    if (title.trim().isEmpty) {
+  String? get displayTitle {
+    if (title!.trim().isEmpty) {
       return 'mudeo';
     }
 
@@ -188,19 +175,19 @@ abstract class SongEntity extends Object
 
   bool get hasNewVideos => newVideo != null;
 
-  bool get hasParent => parentId != null && parentId > 0;
+  bool get hasParent => parentId != null && parentId! > 0;
 
-  TrackEntity get trackWithNewVideo =>
-      tracks.firstWhere((track) => track.video.isNew, orElse: () => null);
+  TrackEntity? get trackWithNewVideo =>
+      tracks!.firstWhere((track) => track!.video!.isNew, orElse: () => null);
 
-  SongEntity setTrackVolume(TrackEntity track, int volume) {
-    final index = tracks.indexOf(track);
+  SongEntity setTrackVolume(TrackEntity track, int? volume) {
+    final index = tracks!.indexOf(track);
     final updatedTrack = track.rebuild((b) => b..volume = volume);
     return rebuild((b) => b..tracks[index] = updatedTrack);
   }
 
   SongEntity setTrackDelay(TrackEntity track, int delay) {
-    final index = tracks.indexOf(track);
+    final index = tracks!.indexOf(track);
     if (index < 0) {
       return this;
     }
@@ -212,20 +199,20 @@ abstract class SongEntity extends Object
     SongEntity updatedSong = this;
     TrackEntity updatedTrack;
 
-    updatedTrack = updatedSong.tracks[index].rebuild((b) => b..delay = delay);
+    updatedTrack = updatedSong.tracks![index]!.rebuild((b) => b..delay = delay);
     updatedSong = updatedSong.rebuild((b) => b..tracks[index] = updatedTrack);
 
     return updatedSong;
   }
 
-  List<String> get videoURLs =>
-      tracks.map((track) => track.video.url).toList()..add(videoUrl);
+  List<String?> get videoURLs =>
+      tracks!.map((track) => track!.video!.url).toList()..add(videoUrl);
 
   bool get canAddTrack =>
-      tracks.where((track) => track.isIncluded ?? true).length < kMaxTracks;
+      tracks!.where((track) => track!.isIncluded ?? true).length < kMaxTracks;
 
-  List<TrackEntity> get includedTracks =>
-      tracks.where((track) => track.isIncluded ?? true).toList();
+  List<TrackEntity?> get includedTracks =>
+      tracks!.where((track) => track!.isIncluded ?? true).toList();
 
   SongEntity get fork => rebuild((b) => b
     ..parentId = id
@@ -237,14 +224,14 @@ abstract class SongEntity extends Object
     ..id = DateTime.now().millisecondsSinceEpoch * -1);
 
   SongEntity get justKeepFirstTrack => rebuild(
-      (b) => b..tracks.removeWhere((track) => tracks.indexOf(track) != 0));
+      (b) => b..tracks.removeWhere((track) => tracks!.indexOf(track) != 0));
 
   SongEntity get updateOrderByIds {
     int counter = 0;
     final sortedTracks = <TrackEntity>[];
 
-    tracks.forEach((track) {
-      final updatedTrack = track.rebuild((b) => b..orderId = counter);
+    tracks!.forEach((track) {
+      final updatedTrack = track!.rebuild((b) => b..orderId = counter);
       sortedTracks.insert(counter++, updatedTrack);
     });
 
@@ -257,7 +244,7 @@ abstract class SongEntity extends Object
 abstract class TrackEntity extends Object
     with BaseEntity
     implements Built<TrackEntity, TrackEntityBuilder> {
-  factory TrackEntity({int id, int orderId, VideoEntity video}) {
+  factory TrackEntity({int? id, int? orderId, VideoEntity? video}) {
     return _$TrackEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       volume: kDefaultTrackVolume,
@@ -276,21 +263,17 @@ abstract class TrackEntity extends Object
           ..isIncluded = true,
       );
 
-  @nullable
   @BuiltValueField(wireName: 'is_included')
-  bool get isIncluded;
+  bool? get isIncluded;
 
-  @nullable
-  int get delay;
+  int? get delay;
 
-  @nullable
-  int get volume;
+  int? get volume;
 
-  @nullable
   @BuiltValueField(wireName: 'order_id')
-  int get orderId;
+  int? get orderId;
 
-  VideoEntity get video;
+  VideoEntity? get video;
 
   @override
   String get listDisplayName {
@@ -303,7 +286,7 @@ abstract class TrackEntity extends Object
 abstract class CommentEntity extends Object
     with BaseEntity
     implements Built<CommentEntity, CommentEntityBuilder> {
-  factory CommentEntity({int id, String description}) {
+  factory CommentEntity({int? id, String? description}) {
     return _$CommentEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       artist: ArtistEntity(),
@@ -316,18 +299,18 @@ abstract class CommentEntity extends Object
   CommentEntity._();
 
   @BuiltValueField(wireName: 'user')
-  ArtistEntity get artist;
+  ArtistEntity? get artist;
 
   @BuiltValueField(wireName: 'user_id')
-  int get artistId;
+  int? get artistId;
 
   @BuiltValueField(wireName: 'song_id')
-  int get songId;
+  int? get songId;
 
-  String get description;
+  String? get description;
 
   @override
-  String get listDisplayName {
+  String? get listDisplayName {
     return description;
   }
 
@@ -347,13 +330,13 @@ abstract class SongLikeEntity extends Object
 
   SongLikeEntity._();
 
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: 'user_id')
-  int get userId;
+  int? get userId;
 
   @BuiltValueField(wireName: 'song_id')
-  int get songId;
+  int? get songId;
 
   @override
   String get listDisplayName {
@@ -377,13 +360,13 @@ abstract class SongFlagEntity extends Object
 
   SongFlagEntity._();
 
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: 'user_id')
-  int get userId;
+  int? get userId;
 
   @BuiltValueField(wireName: 'song_id')
-  int get songId;
+  int? get songId;
 
   @override
   String get listDisplayName {
@@ -397,7 +380,7 @@ abstract class SongFlagEntity extends Object
 abstract class ArtistFlagEntity extends Object
     with BaseEntity
     implements Built<ArtistFlagEntity, ArtistFlagEntityBuilder> {
-  factory ArtistFlagEntity({int artistId}) {
+  factory ArtistFlagEntity({int? artistId}) {
     return _$ArtistFlagEntity._(
       id: 0,
       artistId: artistId ?? 0,
@@ -406,10 +389,10 @@ abstract class ArtistFlagEntity extends Object
 
   ArtistFlagEntity._();
 
-  int get id;
+  int? get id;
 
   @BuiltValueField(wireName: 'user_id')
-  int get artistId;
+  int? get artistId;
 
   @override
   String get listDisplayName {
@@ -423,7 +406,7 @@ abstract class ArtistFlagEntity extends Object
 abstract class VideoEntity extends Object
     with BaseEntity
     implements Built<VideoEntity, VideoEntityBuilder> {
-  factory VideoEntity({int id}) {
+  factory VideoEntity({int? id}) {
     return _$VideoEntity._(
       id: id ?? DateTime.now().millisecondsSinceEpoch * -1,
       userId: 0,
@@ -438,53 +421,45 @@ abstract class VideoEntity extends Object
   VideoEntity._();
 
   @BuiltValueField(wireName: 'user_id')
-  int get userId;
+  int? get userId;
 
-  @nullable
-  int get timestamp;
+  int? get timestamp;
 
-  @nullable
-  String get url;
+  String? get url;
 
-  @nullable
-  String get recognitions;
+  String? get recognitions;
 
-  @nullable
   @BuiltValueField(wireName: 'thumbnail_url')
-  String get thumbnailUrl;
+  String? get thumbnailUrl;
 
-  @nullable
   @BuiltValueField(wireName: 'remote_video_id')
-  String get remoteVideoId;
+  String? get remoteVideoId;
 
-  @nullable
   @BuiltValueField(wireName: 'volume_data')
-  BuiltMap<String, double> get volumeData;
+  BuiltMap<String, double>? get volumeData;
 
   @override
   String get listDisplayName {
     return timestamp.toString();
   }
 
-  @nullable
-  String get description;
+  String? get description;
 
-  @nullable
-  int get duration;
+  int? get duration;
 
   bool get hasThumbnail =>
-      thumbnailUrl != null && thumbnailUrl.trim().isNotEmpty;
+      thumbnailUrl != null && thumbnailUrl!.trim().isNotEmpty;
 
   bool get isRemoteVideo =>
-      remoteVideoId != null && remoteVideoId.trim().isNotEmpty;
+      remoteVideoId != null && remoteVideoId!.trim().isNotEmpty;
 
   String get remoteVideoUrl => 'https://www.youtube.com/watch?v=$remoteVideoId';
 
-  Future<String> get path => VideoEntity.getPath(this);
+  Future<String?> get path => VideoEntity.getPath(this);
 
-  bool get hasVolumeData => volumeData != null && volumeData.keys.isNotEmpty;
+  bool get hasVolumeData => volumeData != null && volumeData!.keys.isNotEmpty;
 
-  static Future<String> getPath(VideoEntity video) async {
+  static Future<String?> getPath(VideoEntity? video) async {
     // TODO add web support
     if (kIsWeb) {
       return null;
@@ -494,24 +469,24 @@ abstract class VideoEntity extends Object
     final String folder = p.join(directory.path, 'mudeo', 'videos');
     await Directory(folder).create(recursive: true);
 
-    String id = video.isOld ? '${video.id}' : 'new';
+    String id = video!.isOld ? '${video.id}' : 'new';
 
     return p.join(folder, '$id-${video.timestamp}.mp4');
   }
 
-  Map<int, double> getVolumeMap(int start, int end) {
-    final map = Map<int, double>();
+  Map<int, double?> getVolumeMap(int start, int end) {
+    final map = Map<int, double?>();
 
-    double volume = 20;
+    double? volume = 20;
 
     for (int i = start; i <= end; i++) {
       var time = (i).toString();
 
-      if (volumeData.containsKey(time)) {
-        volume = volumeData[time];
+      if (volumeData!.containsKey(time)) {
+        volume = volumeData![time];
       }
 
-      if (volume > 120) {
+      if (volume! > 120) {
         volume = 120;
       } else if (volume < 20) {
         volume = 20;
@@ -533,7 +508,7 @@ abstract class SongListResponse
 
   SongListResponse._();
 
-  BuiltList<SongEntity> get data;
+  BuiltList<SongEntity>? get data;
 
   static Serializer<SongListResponse> get serializer =>
       _$songListResponseSerializer;
@@ -546,7 +521,7 @@ abstract class SongItemResponse
 
   SongItemResponse._();
 
-  SongEntity get data;
+  SongEntity? get data;
 
   static Serializer<SongItemResponse> get serializer =>
       _$songItemResponseSerializer;
@@ -559,7 +534,7 @@ abstract class CommentItemResponse
 
   CommentItemResponse._();
 
-  CommentEntity get data;
+  CommentEntity? get data;
 
   static Serializer<CommentItemResponse> get serializer =>
       _$commentItemResponseSerializer;
@@ -572,7 +547,7 @@ abstract class LikeSongResponse
 
   LikeSongResponse._();
 
-  SongLikeEntity get data;
+  SongLikeEntity? get data;
 
   static Serializer<LikeSongResponse> get serializer =>
       _$likeSongResponseSerializer;
@@ -585,7 +560,7 @@ abstract class FlagSongResponse
 
   FlagSongResponse._();
 
-  SongFlagEntity get data;
+  SongFlagEntity? get data;
 
   static Serializer<FlagSongResponse> get serializer =>
       _$flagSongResponseSerializer;
@@ -598,7 +573,7 @@ abstract class VideoItemResponse
 
   VideoItemResponse._();
 
-  VideoEntity get data;
+  VideoEntity? get data;
 
   static Serializer<VideoItemResponse> get serializer =>
       _$videoItemResponseSerializer;

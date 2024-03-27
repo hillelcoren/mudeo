@@ -5,7 +5,7 @@ import 'dart:convert';
 //import 'package:tflite/tflite.dart';
 
 Future<String> convertVideoToRecognitions(
-    {String path, int duration, int delay}) async {
+    {String? path, int? duration, int? delay}) async {
   List<dynamic> data = [];
   /*
   int frameLength = kRecognitionFrameSpeed;

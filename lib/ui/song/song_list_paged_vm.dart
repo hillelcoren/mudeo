@@ -12,12 +12,12 @@ import 'package:redux/redux.dart';
 
 class SongListPagedScreen extends StatelessWidget {
   const SongListPagedScreen({
-    Key key,
-    @required this.pageController,
-    @required this.isFeatured,
+    Key? key,
+    required this.pageController,
+    required this.isFeatured,
   }) : super(key: key);
 
-  final PageController pageController;
+  final PageController? pageController;
   final bool isFeatured;
 
   @override
@@ -46,9 +46,9 @@ class SongListPagedScreen extends StatelessWidget {
 
 class SongListPagedVM {
   SongListPagedVM({
-    @required this.state,
-    @required this.isLoaded,
-    @required this.onRefreshed,
+    required this.state,
+    required this.isLoaded,
+    required this.onRefreshed,
   });
 
   final AppState state;
@@ -57,9 +57,11 @@ class SongListPagedVM {
 
   static SongListPagedVM fromStore(Store<AppState> store) {
     Future<Null> _handleRefresh(BuildContext context) {
-      if (store.state.isLoading) {
+      /*
+      if (store.state.isLoading!) {
         return Future<Null>(null);
       }
+      */
 
       final completer = Completer<Null>();
       store.dispatch(LoadSongs(completer: completer, force: true));
@@ -70,7 +72,7 @@ class SongListPagedVM {
 
     return SongListPagedVM(
       state: state,
-      isLoaded: state.dataState.areSongsLoaded,
+      isLoaded: state.dataState!.areSongsLoaded,
       onRefreshed: (context) => _handleRefresh(context),
     );
   }

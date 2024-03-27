@@ -16,7 +16,6 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:mudeo/redux/app/app_reducer.dart';
 import 'package:redux_logging/redux_logging.dart';
-import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player_win/video_player_win.dart';
 import 'package:window_manager/window_manager.dart';
@@ -27,7 +26,7 @@ void main() async {
   //InAppPurchaseConnection.enablePendingPurchases();
   if (!kIsWeb && Platform.isWindows) WindowsVideoPlayer.registerWith();
   WidgetsFlutterBinding.ensureInitialized();
-  Screen.keepOn(true);
+  //Screen.keepOn(true);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -77,7 +76,7 @@ void main() async {
     if (kDebugMode) {
       FlutterError.dumpErrorToConsole(details);
     } else {
-      Zone.current.handleUncaughtError(details.exception, details.stack);
+      Zone.current.handleUncaughtError(details.exception, details.stack!);
     }
   };
 }

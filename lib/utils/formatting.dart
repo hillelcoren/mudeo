@@ -9,6 +9,6 @@ String formatDuration(Duration duration, {bool showSeconds = true}) {
   }
 }
 
-double roundNumber(num value) {
+double? roundNumber(num value) {
   return double.tryParse(value.toStringAsPrecision(4));
 }

@@ -29,15 +29,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ArtistPage extends StatefulWidget {
   ArtistPage(
-      {@required this.viewModel,
+      {required this.viewModel,
       this.artist,
       this.scrollController,
       this.showSettings = false});
 
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
   final bool showSettings;
   final ArtistPageVM viewModel;
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
   @override
   State<ArtistPage> createState() => _ArtistPageState();
@@ -51,15 +51,15 @@ class _ArtistPageState extends State<ArtistPage> {
     Widget _profileImage() {
       return ClipRRect(
         borderRadius: BorderRadius.circular(140),
-        child: widget.artist.profileImageUrl == null ||
-                widget.artist.profileImageUrl.isEmpty
+        child: widget.artist!.profileImageUrl == null ||
+                widget.artist!.profileImageUrl!.isEmpty
             ? Container(
                 color: Colors.black38,
                 padding: EdgeInsets.all(15),
                 child: Icon(Icons.person, size: 70),
               )
             : Image.network(
-                widget.artist.profileImageUrl,
+                widget.artist!.profileImageUrl!,
                 width: 140,
                 height: 140,
                 fit: BoxFit.cover,
@@ -67,17 +67,17 @@ class _ArtistPageState extends State<ArtistPage> {
       );
     }
 
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     final ThemeData themeData = Theme.of(context);
     //final TextStyle aboutTextStyle = themeData.textTheme.bodyText2;
     final TextStyle linkStyle =
-        themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
+        themeData.textTheme.bodyText1!.copyWith(color: themeData.accentColor);
 
     final isFollowing =
-        widget.viewModel.state.authState.artist.isFollowing(widget.artist.id);
+        widget.viewModel.state.authState!.artist!.isFollowing(widget.artist!.id);
     final state = widget.viewModel.state;
-    final songIds = memoizedSongIds(state.dataState.songMap,
-        state.authState.artist, null, widget.artist.id, null);
+    final songIds = memoizedSongIds(state.dataState!.songMap,
+        state.authState!.artist, null, widget.artist!.id, null);
     final version = '${localization.version} ${kAppVersion.split('+')[0]}';
 
     void _showMenu() {
@@ -246,7 +246,7 @@ class _ArtistPageState extends State<ArtistPage> {
                                             height: 40.0,
                                           ),
                                           */
-                      applicationVersion: state.isDance
+                      applicationVersion: state.isDance!
                           ? version
                           : '$version\n\n${localization.pronounced}: moo-day-oh  😊',
                       applicationLegalese:
@@ -313,17 +313,17 @@ class _ArtistPageState extends State<ArtistPage> {
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         semanticLabel: localization.areYouSure,
-                        title: Text(localization.logoutFromTheApp),
-                        content: Text(localization.areYouSure),
+                        title: Text(localization.logoutFromTheApp!),
+                        content: Text(localization.areYouSure!),
                         actions: <Widget>[
                           new TextButton(
-                              child: Text(localization.cancel.toUpperCase()),
+                              child: Text(localization.cancel!.toUpperCase()),
                               onPressed: () {
                                 Navigator.pop(context);
                               }),
                           new TextButton(
                               autofocus: true,
-                              child: Text(localization.ok.toUpperCase()),
+                              child: Text(localization.ok!.toUpperCase()),
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 final store =
@@ -366,7 +366,7 @@ class _ArtistPageState extends State<ArtistPage> {
       appBar: widget.showSettings
           ? null
           : AppBar(
-              title: Text(widget.artist.name),
+              title: Text(widget.artist!.name!),
             ),
       body: Builder(builder: (BuildContext context) {
         return RefreshIndicator(
@@ -380,10 +380,10 @@ class _ArtistPageState extends State<ArtistPage> {
                 fit: StackFit.loose,
                 //alignment: Alignment.center,
                 children: <Widget>[
-                  if (widget.artist.headerImageUrl != null &&
-                      widget.artist.headerImageUrl.isNotEmpty)
+                  if (widget.artist!.headerImageUrl != null &&
+                      widget.artist!.headerImageUrl!.isNotEmpty)
                     Image.network(
-                      widget.artist.headerImageUrl,
+                      widget.artist!.headerImageUrl!,
                       height: 550,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -409,25 +409,25 @@ class _ArtistPageState extends State<ArtistPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                if (widget.artist.isNameSet) ...[
+                                if (widget.artist!.isNameSet) ...[
                                   Text(
-                                    widget.artist.name,
+                                    widget.artist!.name!,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline6
+                                        .headline6!
                                         .copyWith(color: Colors.white),
                                   ),
                                   SizedBox(height: 8),
                                 ],
-                                if (widget.artist.handle != null &&
-                                    widget.artist.handle.isNotEmpty)
+                                if (widget.artist!.handle != null &&
+                                    widget.artist!.handle!.isNotEmpty)
                                   Text(
-                                    '@${widget.artist.handle}',
-                                    style: widget.artist.isNameSet
+                                    '@${widget.artist!.handle}',
+                                    style: widget.artist!.isNameSet
                                         ? Theme.of(context).textTheme.subtitle1
                                         : Theme.of(context)
                                             .textTheme
-                                            .headline6
+                                            .headline6!
                                             .copyWith(color: Colors.white),
                                   )
                               ],
@@ -448,7 +448,7 @@ class _ArtistPageState extends State<ArtistPage> {
                                     child: ElevatedButton(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text(localization.joinSong,
+                                        child: Text(localization.joinSong!,
                                             style: TextStyle(fontSize: 18)),
                                       ),
                                       onPressed: () {
@@ -478,7 +478,7 @@ class _ArtistPageState extends State<ArtistPage> {
                                   child: ElevatedButton(
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(localization.editProfile,
+                                      child: Text(localization.editProfile!,
                                           style: TextStyle(fontSize: 18)),
                                     ),
                                     onPressed: () {
@@ -522,7 +522,7 @@ class _ArtistPageState extends State<ArtistPage> {
                                     child: ElevatedButton(
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text(localization.options,
+                                        child: Text(localization.options!,
                                             style: TextStyle(fontSize: 18)),
                                       ),
                                       onPressed: () => _showMenu(),
@@ -535,16 +535,16 @@ class _ArtistPageState extends State<ArtistPage> {
                                       */
                                     ),
                                   )
-                                : widget.viewModel.state.isSaving
+                                : widget.viewModel.state.isSaving!
                                     ? SizedBox(
                                         child: CircularProgressIndicator(),
                                         width: 48,
                                         height: 48,
                                       )
-                                    : (widget.viewModel.state.authState.artist
+                                    : (widget.viewModel.state.authState!.artist!
                                                     .id ==
-                                                widget.artist.id ||
-                                            !widget.viewModel.state.authState
+                                                widget.artist!.id ||
+                                            !widget.viewModel.state.authState!
                                                 .hasValidToken)
                                         ? SizedBox()
                                         : SizedBox(
@@ -555,8 +555,8 @@ class _ArtistPageState extends State<ArtistPage> {
                                                     const EdgeInsets.all(8.0),
                                                 child: Text(
                                                     isFollowing
-                                                        ? localization.unfollow
-                                                        : localization.follow,
+                                                        ? localization.unfollow!
+                                                        : localization.follow!,
                                                     style: TextStyle(
                                                         fontSize: 18)),
                                               ),
@@ -579,21 +579,21 @@ class _ArtistPageState extends State<ArtistPage> {
                           ],
                         ),
                       ),
-                      widget.artist.description != null &&
-                              widget.artist.description.isNotEmpty
+                      widget.artist!.description != null &&
+                              widget.artist!.description!.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               child: Text(
                                 // TODO remove this null check
-                                widget.artist.description ?? '',
+                                widget.artist!.description ?? '',
                                 style: TextStyle(
                                   fontSize: 16,
                                 ),
                               ),
                             )
                           : SizedBox(),
-                      widget.artist.website != null &&
-                              widget.artist.website.isNotEmpty
+                      widget.artist!.website != null &&
+                              widget.artist!.website!.isNotEmpty
                           ? Padding(
                               padding: EdgeInsets.only(top: 12, bottom: 6),
                               child: RichText(
@@ -602,9 +602,9 @@ class _ArtistPageState extends State<ArtistPage> {
                                     LinkTextSpan(
                                       style: linkStyle,
                                       text: formatLinkForHuman(
-                                          widget.artist.website),
+                                          widget.artist!.website!),
                                       url: formatLinkForBrowser(
-                                          widget.artist.website),
+                                          widget.artist!.website!),
                                     ),
                                   ],
                                 ),
@@ -620,10 +620,10 @@ class _ArtistPageState extends State<ArtistPage> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
-                                children: widget.artist.socialLinks.keys
+                                children: widget.artist!.socialLinks.keys
                                     .map((type) => SocialIconButton(
                                         type: type,
-                                        url: widget.artist.socialLinks[type]))
+                                        url: widget.artist!.socialLinks[type]))
                                     .toList(),
                               ),
                             ),
@@ -638,7 +638,7 @@ class _ArtistPageState extends State<ArtistPage> {
                                       ];
                                       return actions
                                           .map((action) => PopupMenuItem(
-                                                child: Text(action),
+                                                child: Text(action!),
                                                 value: action,
                                               ))
                                           .toList();
@@ -651,19 +651,19 @@ class _ArtistPageState extends State<ArtistPage> {
                                               semanticLabel:
                                                   localization.areYouSure,
                                               title: Text(
-                                                  localization.blockArtist),
+                                                  localization.blockArtist!),
                                               content:
-                                                  Text(localization.areYouSure),
+                                                  Text(localization.areYouSure!),
                                               actions: <Widget>[
                                                 TextButton(
                                                     child: Text(localization
-                                                        .cancel
+                                                        .cancel!
                                                         .toUpperCase()),
                                                     onPressed: () =>
                                                         Navigator.pop(context)),
                                                 TextButton(
                                                     autofocus: true,
-                                                    child: Text(localization.ok
+                                                    child: Text(localization.ok!
                                                         .toUpperCase()),
                                                     onPressed: () {
                                                       widget.viewModel
@@ -683,9 +683,9 @@ class _ArtistPageState extends State<ArtistPage> {
                   ),
                 ],
               ),
-              for (int songId in songIds)
+              for (int? songId in songIds)
                 SongItem(
-                  song: state.dataState.songMap[songId],
+                  song: state.dataState!.songMap![songId],
                   enableShowArtist: false,
                 ),
             ],
@@ -699,14 +699,14 @@ class _ArtistPageState extends State<ArtistPage> {
 class SocialIconButton extends StatelessWidget {
   SocialIconButton({this.type, this.url});
 
-  final String type;
-  final String url;
+  final String? type;
+  final String? url;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        launch(url, forceSafariVC: false);
+        launch(url!, forceSafariVC: false);
       },
       tooltip: type,
       icon: Icon(socialIcons[type], size: 30),

@@ -56,9 +56,9 @@ class _$ErrorMessageSerializer implements StructuredSerializer<ErrorMessage> {
   final String wireName = 'ErrorMessage';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ErrorMessage object,
+  Iterable<Object?> serialize(Serializers serializers, ErrorMessage object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'message',
       serializers.serialize(object.message,
           specifiedType: const FullType(String)),
@@ -68,19 +68,19 @@ class _$ErrorMessageSerializer implements StructuredSerializer<ErrorMessage> {
   }
 
   @override
-  ErrorMessage deserialize(Serializers serializers, Iterable<Object> serialized,
+  ErrorMessage deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ErrorMessageBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'message':
           result.message = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -96,9 +96,9 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
   final String wireName = 'LoginResponse';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, LoginResponse object,
+  Iterable<Object?> serialize(Serializers serializers, LoginResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'data',
       serializers.serialize(object.data,
           specifiedType: const FullType(LoginResponseData)),
@@ -114,24 +114,24 @@ class _$LoginResponseSerializer implements StructuredSerializer<LoginResponse> {
 
   @override
   LoginResponse deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LoginResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
                   specifiedType: const FullType(LoginResponseData))
-              as LoginResponseData);
+              as LoginResponseData?);
           break;
         case 'error':
           result.error.replace(serializers.deserialize(value,
-              specifiedType: const FullType(ErrorMessage)) as ErrorMessage);
+              specifiedType: const FullType(ErrorMessage)) as ErrorMessage?);
           break;
       }
     }
@@ -148,9 +148,9 @@ class _$LoginResponseDataSerializer
   final String wireName = 'LoginResponseData';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, LoginResponseData object,
+  Iterable<Object?> serialize(Serializers serializers, LoginResponseData object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'version',
       serializers.serialize(object.version,
           specifiedType: const FullType(String)),
@@ -161,19 +161,19 @@ class _$LoginResponseDataSerializer
 
   @override
   LoginResponseData deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LoginResponseDataBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'version':
           result.version = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -189,9 +189,9 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
   final String wireName = 'DataState';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, DataState object,
+  Iterable<Object?> serialize(Serializers serializers, DataState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'songsFailedAt',
       serializers.serialize(object.songsFailedAt,
           specifiedType: const FullType(int)),
@@ -212,23 +212,23 @@ class _$DataStateSerializer implements StructuredSerializer<DataState> {
   }
 
   @override
-  DataState deserialize(Serializers serializers, Iterable<Object> serialized,
+  DataState deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new DataStateBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'songsFailedAt':
           result.songsFailedAt = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'songsUpdateAt':
           result.songsUpdateAt = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'songMap':
           result.songMap.replace(serializers.deserialize(value,
@@ -287,9 +287,9 @@ class _$EntityTypeSerializer implements PrimitiveSerializer<EntityType> {
 
 class _$ErrorMessage extends ErrorMessage {
   @override
-  final String message;
+  final String? message;
 
-  factory _$ErrorMessage([void Function(ErrorMessageBuilder) updates]) =>
+  factory _$ErrorMessage([void Function(ErrorMessageBuilder)? updates]) =>
       (new ErrorMessageBuilder()..update(updates)).build();
 
   _$ErrorMessage._({this.message}) : super._() {
@@ -326,24 +326,24 @@ class _$ErrorMessage extends ErrorMessage {
 
 class ErrorMessageBuilder
     implements Builder<ErrorMessage, ErrorMessageBuilder> {
-  _$ErrorMessage _$v;
+  _$ErrorMessage? _$v;
 
-  String _message;
-  String get message => _$this._message;
-  set message(String message) => _$this._message = message;
+  String? _message;
+  String? get message => _$this._message;
+  set message(String? message) => _$this._message = message;
 
   ErrorMessageBuilder();
 
   ErrorMessageBuilder get _$this {
     if (_$v != null) {
-      _message = _$v.message;
+      _message = _$v!.message;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(ErrorMessage other) {
+  void replace(ErrorMessage? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -351,7 +351,7 @@ class ErrorMessageBuilder
   }
 
   @override
-  void update(void Function(ErrorMessageBuilder) updates) {
+  void update(void Function(ErrorMessageBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -365,11 +365,11 @@ class ErrorMessageBuilder
 
 class _$LoginResponse extends LoginResponse {
   @override
-  final LoginResponseData data;
+  final LoginResponseData? data;
   @override
-  final ErrorMessage error;
+  final ErrorMessage? error;
 
-  factory _$LoginResponse([void Function(LoginResponseBuilder) updates]) =>
+  factory _$LoginResponse([void Function(LoginResponseBuilder)? updates]) =>
       (new LoginResponseBuilder()..update(updates)).build();
 
   _$LoginResponse._({this.data, this.error}) : super._() {
@@ -407,14 +407,14 @@ class _$LoginResponse extends LoginResponse {
 
 class LoginResponseBuilder
     implements Builder<LoginResponse, LoginResponseBuilder> {
-  _$LoginResponse _$v;
+  _$LoginResponse? _$v;
 
-  LoginResponseDataBuilder _data;
+  LoginResponseDataBuilder? _data;
   LoginResponseDataBuilder get data =>
       _$this._data ??= new LoginResponseDataBuilder();
   set data(LoginResponseDataBuilder data) => _$this._data = data;
 
-  ErrorMessageBuilder _error;
+  ErrorMessageBuilder? _error;
   ErrorMessageBuilder get error => _$this._error ??= new ErrorMessageBuilder();
   set error(ErrorMessageBuilder error) => _$this._error = error;
 
@@ -422,8 +422,8 @@ class LoginResponseBuilder
 
   LoginResponseBuilder get _$this {
     if (_$v != null) {
-      _data = _$v.data?.toBuilder();
-      _error = _$v.error?.toBuilder();
+      _data = _$v!.data?.toBuilder();
+      _error = _$v!.error?.toBuilder();
       _$v = null;
     }
     return this;
@@ -438,7 +438,7 @@ class LoginResponseBuilder
   }
 
   @override
-  void update(void Function(LoginResponseBuilder) updates) {
+  void update(void Function(LoginResponseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -449,7 +449,7 @@ class LoginResponseBuilder
       _$result = _$v ??
           new _$LoginResponse._(data: data.build(), error: _error?.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
@@ -468,10 +468,10 @@ class LoginResponseBuilder
 
 class _$LoginResponseData extends LoginResponseData {
   @override
-  final String version;
+  final String? version;
 
   factory _$LoginResponseData(
-          [void Function(LoginResponseDataBuilder) updates]) =>
+          [void Function(LoginResponseDataBuilder)? updates]) =>
       (new LoginResponseDataBuilder()..update(updates)).build();
 
   _$LoginResponseData._({this.version}) : super._() {
@@ -509,24 +509,24 @@ class _$LoginResponseData extends LoginResponseData {
 
 class LoginResponseDataBuilder
     implements Builder<LoginResponseData, LoginResponseDataBuilder> {
-  _$LoginResponseData _$v;
+  _$LoginResponseData? _$v;
 
-  String _version;
-  String get version => _$this._version;
-  set version(String version) => _$this._version = version;
+  String? _version;
+  String? get version => _$this._version;
+  set version(String? version) => _$this._version = version;
 
   LoginResponseDataBuilder();
 
   LoginResponseDataBuilder get _$this {
     if (_$v != null) {
-      _version = _$v.version;
+      _version = _$v!.version;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(LoginResponseData other) {
+  void replace(LoginResponseData? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -534,7 +534,7 @@ class LoginResponseDataBuilder
   }
 
   @override
-  void update(void Function(LoginResponseDataBuilder) updates) {
+  void update(void Function(LoginResponseDataBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -548,15 +548,15 @@ class LoginResponseDataBuilder
 
 class _$DataState extends DataState {
   @override
-  final int songsFailedAt;
+  final int? songsFailedAt;
   @override
-  final int songsUpdateAt;
+  final int? songsUpdateAt;
   @override
-  final BuiltMap<int, SongEntity> songMap;
+  final BuiltMap<int?, SongEntity?>? songMap;
   @override
-  final BuiltMap<int, ArtistEntity> artistMap;
+  final BuiltMap<int, ArtistEntity>? artistMap;
 
-  factory _$DataState([void Function(DataStateBuilder) updates]) =>
+  factory _$DataState([void Function(DataStateBuilder)? updates]) =>
       (new DataStateBuilder()..update(updates)).build();
 
   _$DataState._(
@@ -613,22 +613,22 @@ class _$DataState extends DataState {
 }
 
 class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
-  _$DataState _$v;
+  _$DataState? _$v;
 
-  int _songsFailedAt;
-  int get songsFailedAt => _$this._songsFailedAt;
-  set songsFailedAt(int songsFailedAt) => _$this._songsFailedAt = songsFailedAt;
+  int? _songsFailedAt;
+  int? get songsFailedAt => _$this._songsFailedAt;
+  set songsFailedAt(int? songsFailedAt) => _$this._songsFailedAt = songsFailedAt;
 
-  int _songsUpdateAt;
-  int get songsUpdateAt => _$this._songsUpdateAt;
-  set songsUpdateAt(int songsUpdateAt) => _$this._songsUpdateAt = songsUpdateAt;
+  int? _songsUpdateAt;
+  int? get songsUpdateAt => _$this._songsUpdateAt;
+  set songsUpdateAt(int? songsUpdateAt) => _$this._songsUpdateAt = songsUpdateAt;
 
-  MapBuilder<int, SongEntity> _songMap;
-  MapBuilder<int, SongEntity> get songMap =>
-      _$this._songMap ??= new MapBuilder<int, SongEntity>();
-  set songMap(MapBuilder<int, SongEntity> songMap) => _$this._songMap = songMap;
+  MapBuilder<int?, SongEntity?>? _songMap;
+  MapBuilder<int?, SongEntity?> get songMap =>
+      _$this._songMap ??= new MapBuilder<int?, SongEntity?>();
+  set songMap(MapBuilder<int?, SongEntity?> songMap) => _$this._songMap = songMap;
 
-  MapBuilder<int, ArtistEntity> _artistMap;
+  MapBuilder<int, ArtistEntity>? _artistMap;
   MapBuilder<int, ArtistEntity> get artistMap =>
       _$this._artistMap ??= new MapBuilder<int, ArtistEntity>();
   set artistMap(MapBuilder<int, ArtistEntity> artistMap) =>
@@ -638,17 +638,17 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
 
   DataStateBuilder get _$this {
     if (_$v != null) {
-      _songsFailedAt = _$v.songsFailedAt;
-      _songsUpdateAt = _$v.songsUpdateAt;
-      _songMap = _$v.songMap?.toBuilder();
-      _artistMap = _$v.artistMap?.toBuilder();
+      _songsFailedAt = _$v!.songsFailedAt;
+      _songsUpdateAt = _$v!.songsUpdateAt;
+      _songMap = _$v!.songMap?.toBuilder();
+      _artistMap = _$v!.artistMap?.toBuilder();
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(DataState other) {
+  void replace(DataState? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -656,7 +656,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
   }
 
   @override
-  void update(void Function(DataStateBuilder) updates) {
+  void update(void Function(DataStateBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -671,7 +671,7 @@ class DataStateBuilder implements Builder<DataState, DataStateBuilder> {
               songMap: songMap.build(),
               artistMap: artistMap.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'songMap';
         songMap.build();

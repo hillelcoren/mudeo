@@ -13,7 +13,7 @@ abstract class ErrorMessage
 
   ErrorMessage._();
 
-  String get message;
+  String? get message;
 
   static Serializer<ErrorMessage> get serializer => _$errorMessageSerializer;
 }
@@ -25,10 +25,9 @@ abstract class LoginResponse
 
   LoginResponse._();
 
-  LoginResponseData get data;
+  LoginResponseData? get data;
 
-  @nullable
-  ErrorMessage get error;
+  ErrorMessage? get error;
 
   static Serializer<LoginResponse> get serializer => _$loginResponseSerializer;
 }
@@ -40,7 +39,7 @@ abstract class LoginResponseData
 
   LoginResponseData._();
 
-  String get version;
+  String? get version;
 
   static Serializer<LoginResponseData> get serializer =>
       _$loginResponseDataSerializer;
@@ -58,20 +57,20 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
 
   DataState._();
 
-  int get songsFailedAt;
+  int? get songsFailedAt;
 
-  int get songsUpdateAt;
+  int? get songsUpdateAt;
 
-  BuiltMap<int, SongEntity> get songMap;
+  BuiltMap<int?, SongEntity?>? get songMap;
 
-  BuiltMap<int, ArtistEntity> get artistMap;
+  BuiltMap<int, ArtistEntity>? get artistMap;
 
   bool get loadFailedRecently {
     if (songsFailedAt == 0) {
       return false;
     }
 
-    return DateTime.now().millisecondsSinceEpoch - songsFailedAt <
+    return DateTime.now().millisecondsSinceEpoch - songsFailedAt! <
         kMillisecondsToRetryData;
   }
 
@@ -80,20 +79,19 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
       return true;
     }
 
-    return DateTime.now().millisecondsSinceEpoch - songsUpdateAt >
+    return DateTime.now().millisecondsSinceEpoch - songsUpdateAt! >
         kMillisecondsToRefreshData;
   }
 
-  bool get areSongsLoaded => songsUpdateAt > 0;
+  bool get areSongsLoaded => songsUpdateAt! > 0;
 
   static Serializer<DataState> get serializer => _$dataStateSerializer;
 }
 
 abstract class SelectableEntity {
-  @nullable
-  int get id;
+  int? get id;
 
-  String get listDisplayName => 'Error: listDisplayName not set';
+  String? get listDisplayName => 'Error: listDisplayName not set';
 }
 
 class EntityAction extends EnumClass {
@@ -115,23 +113,21 @@ abstract class BaseEntity implements SelectableEntity {
   int get createdAt;
   */
 
-  @nullable
   @BuiltValueField(wireName: 'deleted_at')
-  String get deletedAt;
+  String? get deletedAt;
 
-  @nullable
   @BuiltValueField(wireName: 'updated_at')
-  String get updatedAt;
+  String? get updatedAt;
 
   String get entityKey => '__${entityType}__${id}__';
 
   EntityType get entityType => throw 'EntityType not set: ${this}';
 
-  bool get isNew => id == null || id < 0;
+  bool get isNew => id == null || id! < 0;
 
   bool get isOld => !isNew;
 
-  bool get isDeleted => deletedAt != null && deletedAt.isNotEmpty;
+  bool get isDeleted => deletedAt != null && deletedAt!.isNotEmpty;
 
   bool get isActive => !isDeleted;
 

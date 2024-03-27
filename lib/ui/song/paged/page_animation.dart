@@ -6,8 +6,8 @@ class PageAnimation extends Animation<double>
         AnimationLocalListenersMixin,
         AnimationLocalStatusListenersMixin {
   PageAnimation({
-    @required this.index,
-    @required this.controller,
+    required this.index,
+    required this.controller,
     this.curve = Curves.fastOutSlowIn,
   })  : _value = 1.0,
         assert(controller != null),
@@ -31,7 +31,7 @@ class PageAnimation extends Animation<double>
   }
 
   void _onPageScrolled() {
-    final relOffset = (1.0 - ((controller.page - index).abs() * 2.0));
+    final relOffset = (1.0 - ((controller.page! - index).abs() * 2.0));
     final value = curve.transform(relOffset.clamp(0.0, 1.0));
     if (value != _value) {
       _value = value;

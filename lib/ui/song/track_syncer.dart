@@ -9,13 +9,13 @@ import 'package:mudeo/utils/localization.dart';
 
 class TrackSyncer extends StatefulWidget {
   const TrackSyncer({
-    @required this.song,
-    @required this.track,
-    @required this.onDelayChanged,
+    required this.song,
+    required this.track,
+    required this.onDelayChanged,
   });
 
-  final SongEntity song;
-  final TrackEntity track;
+  final SongEntity? song;
+  final TrackEntity? track;
   final Function(int) onDelayChanged;
 
   @override
@@ -27,9 +27,9 @@ class _TrackSyncerState extends State<TrackSyncer> {
   double _timeSpan = 9;
   int _timeStart = 0;
   bool _isSyncing = false;
-  int _delay;
+  int _delay = 0;
   bool _showDetails = false;
-  TextEditingController _delayController;
+  TextEditingController? _delayController;
 
   @override
   void initState() {
@@ -41,13 +41,13 @@ class _TrackSyncerState extends State<TrackSyncer> {
   void didChangeDependencies() async {
     super.didChangeDependencies();
 
-    _delay = widget.track.delay;
-    _delayController.text = '$_delay';
+    _delay = widget.track!.delay!;
+    _delayController!.text = '$_delay';
   }
 
   @override
   void dispose() {
-    _delayController.dispose();
+    _delayController!.dispose();
     super.dispose();
   }
 
@@ -56,19 +56,19 @@ class _TrackSyncerState extends State<TrackSyncer> {
       _isSyncing = true;
     });
 
-    final track = widget.track;
+    final track = widget.track!;
 
-    if (track.video.volumeData != null) {
+    if (track.video!.volumeData != null) {
       final start = _timeStart * -1;
       final end = start + (_timeSpan.floor() * 1000);
 
       int delay = await compute(getMinDelay, [
-        track.video.getVolumeMap(start, end),
-        track.video.getVolumeMap(start, end),
+        track.video!.getVolumeMap(start, end),
+        track.video!.getVolumeMap(start, end),
       ]);
       setState(() {
         _delay = delay;
-        _delayController.text = '$delay';
+        _delayController!.text = '$delay';
         _isSyncing = false;
       });
     }
@@ -76,21 +76,21 @@ class _TrackSyncerState extends State<TrackSyncer> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
 
-    final song = widget.song;
-    final tracks = [song.tracks.first, widget.track];
+    final song = widget.song!;
+    final tracks = [song.tracks!.first, widget.track];
 
     return AlertDialog(
-      title: Text(AppLocalization.of(context).trackAdjustment),
+      title: Text(AppLocalization.of(context)!.trackAdjustment!),
       actions: <Widget>[
-        if (false && !_isSyncing && widget.track.video.hasVolumeData)
+        if (false && !_isSyncing && widget.track!.video!.hasVolumeData)
           TextButton(
-            child: Text(localization.sync.toUpperCase()),
+            child: Text(localization.sync!.toUpperCase()),
             onPressed: () => _syncVideos(),
           ),
         TextButton(
-          child: Text(localization.details.toUpperCase()),
+          child: Text(localization.details!.toUpperCase()),
           onPressed: () {
             setState(() {
               _showDetails = !_showDetails;
@@ -100,7 +100,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
         if (!_isSyncing)
           TextButton(
             autofocus: true,
-            child: Text(localization.close.toUpperCase()),
+            child: Text(localization.close!.toUpperCase()),
             onPressed: () {
               widget.onDelayChanged(_delay);
               Navigator.of(context).pop();
@@ -114,7 +114,7 @@ class _TrackSyncerState extends State<TrackSyncer> {
             children: [
               Row(
                 children: <Widget>[
-                  Text(localization.zoom.toUpperCase()),
+                  Text(localization.zoom!.toUpperCase()),
                   Expanded(
                     child: Slider(
                       min: 1,
@@ -138,17 +138,17 @@ class _TrackSyncerState extends State<TrackSyncer> {
                     if (i == 0) {
                       setState(() {
                         final value = _timeStart +
-                            details.primaryDelta.toInt() * _timeSpan.floor();
+                            details.primaryDelta!.toInt() * _timeSpan.floor();
                         _timeStart = value > 0 ? 0 : value;
                       });
                     } else {
-                      var delay = _delay +
-                          (details.primaryDelta.toInt() * _timeSpan.floor());
+                      var delay = _delay! +
+                          (details.primaryDelta!.toInt() * _timeSpan.floor());
                       delay =
                           max(kMinLatencyDelay, min(kMaxLatencyDelay, delay));
                       setState(() {
                         _delay = delay;
-                        _delayController.text = '$delay';
+                        _delayController!.text = '$delay';
                       });
                     }
                   },
@@ -171,11 +171,11 @@ class _TrackSyncerState extends State<TrackSyncer> {
                       child: Slider(
                         min: kMinLatencyDelay.toDouble(),
                         max: kMaxLatencyDelay.toDouble(),
-                        value: _delay.toDouble(),
+                        value: _delay!.toDouble(),
                         onChanged: (value) {
                           setState(() {
                             _delay = value.toInt();
-                            _delayController.text = '${value.toInt()}';
+                            _delayController!.text = '${value.toInt()}';
                           });
                         },
                       ),
@@ -220,29 +220,29 @@ class _TrackSyncerState extends State<TrackSyncer> {
 
 class TrackVolume extends StatelessWidget {
   const TrackVolume({
-    @required this.track,
-    @required this.timeSpan,
-    @required this.timeStart,
-    @required this.isSyncing,
-    @required this.delay,
-    @required this.isFirst,
+    required this.track,
+    required this.timeSpan,
+    required this.timeStart,
+    required this.isSyncing,
+    required this.delay,
+    required this.isFirst,
   });
 
-  final TrackEntity track;
+  final TrackEntity? track;
   final double timeSpan;
   final bool isSyncing;
   final int timeStart;
-  final int delay;
+  final int? delay;
   final bool isFirst;
 
   @override
   Widget build(BuildContext context) {
-    if (track.video.volumeData == null) {
+    if (track!.video!.volumeData == null) {
       return Container(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            AppLocalization.of(context).saveVideoToProcessAudio,
+            AppLocalization.of(context)!.saveVideoToProcessAudio!,
             style: Theme.of(context).textTheme.caption,
           ),
         ),
@@ -284,22 +284,22 @@ class TrackVolume extends StatelessWidget {
 
 class VolumePainter extends CustomPainter {
   const VolumePainter({
-    @required this.track,
-    @required this.timeSpan,
-    @required this.timeStart,
-    @required this.color,
-    @required this.delay,
+    required this.track,
+    required this.timeSpan,
+    required this.timeStart,
+    required this.color,
+    required this.delay,
   });
 
-  final TrackEntity track;
+  final TrackEntity? track;
   final double timeSpan;
   final Color color;
   final int timeStart;
-  final int delay;
+  final int? delay;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final video = track.video;
+    final video = track!.video;
     var paint = Paint();
     paint.color = color;
     paint.style = PaintingStyle.fill;
@@ -310,16 +310,16 @@ class VolumePainter extends CustomPainter {
 
     final volumeData = video.volumeData;
 
-    double volume = 0;
+    double? volume = 0;
 
     for (int i = timeStart; i <= timeSpan - timeStart; i++) {
-      var time = (i - delay).toString();
+      var time = (i - delay!).toString();
 
-      if (volumeData.containsKey(time)) {
+      if (volumeData!.containsKey(time)) {
         volume = volumeData[time];
       }
 
-      if (volume > 120) {
+      if (volume! > 120) {
         volume = 120;
       } else if (volume < 20) {
         volume = 20;
@@ -348,7 +348,7 @@ class VolumePainter extends CustomPainter {
   }
 }
 
-int getMinDelay(List<Map<int, double>> maps) {
+int getMinDelay(List<Map<int, double?>> maps) {
   final video1Map = maps[0];
   final video2Map = maps[1];
   double minDiff = 999999999;
@@ -358,8 +358,8 @@ int getMinDelay(List<Map<int, double>> maps) {
 
     for (int k = 1000; k <= 9000; k++) {
       if (video1Map.containsKey(k) && video2Map.containsKey(k + j)) {
-        final oldVolume = video1Map[k];
-        final newVolume = video2Map[k + j];
+        final oldVolume = video1Map[k]!;
+        final newVolume = video2Map[k + j]!;
         final diff = oldVolume > newVolume
             ? oldVolume - newVolume
             : newVolume - oldVolume;

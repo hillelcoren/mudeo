@@ -9,13 +9,13 @@ abstract class SongPreferences {
 
 class SongPreferencesWidget extends StatefulWidget {
   const SongPreferencesWidget({
-    Key key,
+    Key? key,
     this.child,
   }) : super(key: key);
 
-  final Widget child;
+  final Widget? child;
 
-  static SongPreferences of(BuildContext context) {
+  static SongPreferences? of(BuildContext context) {
     return context.findAncestorStateOfType<_SongPreferencesState>();
   }
 
@@ -26,7 +26,7 @@ class SongPreferencesWidget extends StatefulWidget {
 class _SongPreferencesState extends State<SongPreferencesWidget>
     implements SongPreferences {
 
-  SharedPreferences _sharedPreferences;
+  late SharedPreferences _sharedPreferences;
 
   @override
   final ValueNotifier<bool> fullscreen = ValueNotifier<bool>(false);
@@ -60,6 +60,6 @@ class _SongPreferencesState extends State<SongPreferencesWidget>
   }
 
   Widget build(BuildContext context) {
-    return widget.child;
+    return widget.child!;
   }
 }

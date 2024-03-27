@@ -14,8 +14,8 @@ class AuthRepository {
 
   final WebClient webClient;
 
-  Future<ArtistEntity> login(
-      AppState state, {String email, String password, String oneTimePassword}) async {
+  Future<ArtistEntity?> login(
+      AppState state, {String? email, String? password, String? oneTimePassword}) async {
     final credentials = {
       'email': email,
       'password': password,
@@ -28,8 +28,8 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<ArtistEntity> signUp(
-      AppState state, {String handle, String email, String password, String platform}) async {
+  Future<ArtistEntity?> signUp(
+      AppState state, {String? handle, String? email, String? password, String? platform}) async {
 
     final credentials = {
       'email': email,
@@ -44,14 +44,14 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<ArtistEntity> googleSignUp(
+  Future<ArtistEntity?> googleSignUp(
       AppState state,
-      {String handle,
-      String email,
-      String oauthToken,
-      String oauthId,
-      String name,
-      String photoUrl}) async {
+      {String? handle,
+      String? email,
+      String? oauthToken,
+      String? oauthId,
+      String? name,
+      String? photoUrl}) async {
     final credentials = {
       'email': email,
       'handle': handle,
@@ -69,7 +69,7 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<ArtistEntity> oauthLogin(AppState state, {String token}) async {
+  Future<ArtistEntity?> oauthLogin(AppState state, {String? token}) async {
     final credentials = {
       'token': token,
       'provider': 'google',
@@ -81,8 +81,8 @@ class AuthRepository {
     return sendRequest(url: url, data: credentials);
   }
 
-  Future<ArtistEntity> refresh(
-      AppState state, {int artistId, String token, String platform}) async {
+  Future<ArtistEntity?> refresh(
+      AppState state, {int? artistId, required String token, String? platform}) async {
     String url =
         '${state.apiUrl}/user?include=song_likes,song_flags,following';
 
@@ -94,8 +94,8 @@ class AuthRepository {
     return loginResponse;
   }
 
-  Future<ArtistEntity> sendRequest(
-      {String url, dynamic data, String token}) async {
+  Future<ArtistEntity?> sendRequest(
+      {required String url, dynamic data, String? token}) async {
     final dynamic response =
         await webClient.post(url, token ?? '', data: json.encode(data));
 
@@ -106,7 +106,7 @@ class AuthRepository {
   }
 
   Future<dynamic> deleteAccount(
-      AppState state, {int artistId, String token}) async {
+      AppState state, {int? artistId, required String token}) async {
     String url = '${state.apiUrl}/users/$artistId';
 
     final dynamic response = await webClient.delete(url, token);

@@ -4,8 +4,8 @@ import 'package:mudeo/ui/app/icon_text.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton({
-    @required this.label,
-    @required this.onPressed,
+    required this.label,
+    required this.onPressed,
     this.icon,
     this.color,
     this.width,
@@ -13,13 +13,13 @@ class AppButton extends StatelessWidget {
     this.height,
   });
 
-  final Color color;
-  final IconData icon;
-  final String label;
+  final Color? color;
+  final IconData? icon;
+  final String? label;
   final Function onPressed;
-  final double width;
-  final double height;
-  final TextStyle textStyle;
+  final double? width;
+  final double? height;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class AppButton extends StatelessWidget {
                 textStyle: textStyle,
               )
             : Text(
-                label,
+                label!,
                 style: textStyle,
               ),
         onPressed: () => this.onPressed(),

@@ -3,15 +3,15 @@ import 'package:mudeo/constants.dart';
 
 class FormCard extends StatelessWidget {
   const FormCard({
-    Key key,
+    Key? key,
     this.crossAxisAlignment,
     this.mainAxisSize,
-    @required this.children,
+    required this.children,
   }) : super(key: key);
 
   final List<Widget> children;
-  final CrossAxisAlignment crossAxisAlignment;
-  final MainAxisSize mainAxisSize;
+  final CrossAxisAlignment? crossAxisAlignment;
+  final MainAxisSize? mainAxisSize;
 
   @override
   Widget build(BuildContext context) {

@@ -15,11 +15,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class SongPage extends StatelessWidget {
   const SongPage({
-    Key key,
-    @required this.song,
+    Key? key,
+    required this.song,
   }) : super(key: key);
 
-  final SongEntity song;
+  final SongEntity? song;
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +27,10 @@ class SongPage extends StatelessWidget {
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
 
-    String description = song.description ?? '';
-    if (song.genreId > 0) {
+    String description = song!.description ?? '';
+    if (song!.genreId! > 0) {
       description += ' #' +
-          (state.isDance ? kStyles[song.genreId] : kGenres[song.genreId]);
+          (state.isDance! ? kStyles[song!.genreId]! : kGenres[song!.genreId]!);
     }
 
     return Container(
@@ -49,7 +49,7 @@ class SongPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  '@${song.artist.handle}',
+                  '@${song!.artist!.handle}',
                   style: textTheme.headline6,
                 ),
                 SizedBox(height: 14),
@@ -58,7 +58,7 @@ class SongPage extends StatelessWidget {
                   SizedBox(height: 12),
                 ],
                 Text(
-                  '🎵  ${song.title}',
+                  '🎵  ${song!.title}',
                   style: textTheme.bodyText1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -76,20 +76,20 @@ class SongPage extends StatelessWidget {
 }
 
 class _SongActions extends StatelessWidget {
-  const _SongActions({@required this.song});
+  const _SongActions({required this.song});
 
-  final SongEntity song;
+  final SongEntity? song;
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     final store = StoreProvider.of<AppState>(context);
     final state = store.state;
-    final artist = state.authState.artist;
+    final artist = state.authState!.artist;
 
-    _editSong({SongEntity song, BuildContext context}) {
+    _editSong({required SongEntity song, BuildContext? context}) {
       // TODO remove this workaround for selecting selected song in list view
-      if (state.uiState.song.id == song.id) {
+      if (state.uiState!.song!.id == song.id) {
         store.dispatch(EditSong(song: SongEntity(), context: context));
         WidgetsBinding.instance.addPostFrameCallback(
             (_) => store.dispatch(EditSong(song: song, context: context)));
@@ -103,13 +103,13 @@ class _SongActions extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         ArtistProfile(
-          artist: song.artist,
+          artist: song!.artist,
           onTap: () => kIsWeb
               ? null
               : store.dispatch(
                   ViewArtist(
                     context: context,
-                    artist: song.artist,
+                    artist: song!.artist,
                   ),
                 ),
         ),
@@ -119,46 +119,46 @@ class _SongActions extends StatelessWidget {
             iconData: Icons.video_call,
             tooltip: localization.record,
             onPressed: () {
-              final uiSong = state.uiState.song;
-              SongEntity newSong = song;
+              final uiSong = state.uiState!.song!;
+              SongEntity? newSong = song;
 
-              if (!artist.belongsToSong(song)) {
-                newSong = song.fork;
+              if (!artist!.belongsToSong(song!)) {
+                newSong = song!.fork;
 
-                if (state.isDance) {
+                if (state.isDance!) {
                   newSong = newSong.justKeepFirstTrack;
                 }
               }
 
-              if (uiSong.hasNewVideos && uiSong.id != newSong.id) {
+              if (uiSong.hasNewVideos && uiSong.id != newSong!.id) {
                 showDialog<AlertDialog>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     semanticLabel: localization.areYouSure,
-                    title: Text(localization.loseChanges),
-                    content: Text(localization.areYouSure),
+                    title: Text(localization.loseChanges!),
+                    content: Text(localization.areYouSure!),
                     actions: <Widget>[
                       new TextButton(
-                          child: Text(localization.cancel.toUpperCase()),
+                          child: Text(localization.cancel!.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
                           }),
                       new TextButton(
                           autofocus: true,
-                          child: Text(localization.ok.toUpperCase()),
+                          child: Text(localization.ok!.toUpperCase()),
                           onPressed: () {
                             Navigator.pop(context);
-                            _editSong(song: newSong, context: context);
+                            _editSong(song: newSong!, context: context);
                           })
                     ],
                   ),
                 );
               } else {
-                _editSong(song: newSong, context: context);
+                _editSong(song: newSong!, context: context);
               }
             },
           ),
-        if (state.authState.hasValidToken)
+        if (state.authState!.hasValidToken)
           LargeIconButton(
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
@@ -166,7 +166,7 @@ class _SongActions extends StatelessWidget {
               switchOutCurve: Curves.bounceInOut,
               transitionBuilder: (child, anim) =>
                   ScaleTransition(scale: anim, child: child),
-              child: state.isSaving || artist.likedSong(song.id)
+              child: state.isSaving! || artist!.likedSong(song!.id)
                   ? Icon(
                       Icons.favorite,
                       key: const ValueKey('favorite'),
@@ -175,12 +175,12 @@ class _SongActions extends StatelessWidget {
                   : Icon(
                       Icons.favorite,
                       key: const ValueKey('favorite_red'),
-                      color: artist.likedSong(song.id) ? Colors.red : null,
+                      color: artist.likedSong(song!.id) ? Colors.red : null,
                     ),
             ),
             tooltip: localization.favorite,
-            count: song.countLike + 1,
-            onPressed: state.isSaving
+            count: song!.countLike! + 1,
+            onPressed: state.isSaving!
                 ? null
                 : () {
                     store.dispatch(LikeSongRequest(song: song));
@@ -190,13 +190,13 @@ class _SongActions extends StatelessWidget {
           LargeIconButton(
             iconData: Icons.comment,
             tooltip: localization.comment,
-            count: song.comments.length,
+            count: song!.comments!.length,
             onPressed: () {
               showDialog<SongComments>(
                   context: context,
                   builder: (BuildContext context) {
                     return SongComments(
-                      songId: song.id,
+                      songId: song!.id,
                       onClosePressed: () {
                         Navigator.of(context).pop();
                       },
@@ -236,13 +236,13 @@ class LargeIconButton extends StatelessWidget {
     this.requireLoggedIn = false,
   });
 
-  final IconData iconData;
-  final String tooltip;
-  final Widget icon;
-  final Function onPressed;
+  final IconData? iconData;
+  final String? tooltip;
+  final Widget? icon;
+  final Function? onPressed;
   final bool requireLoggedIn;
-  final Color color;
-  final int count;
+  final Color? color;
+  final int? count;
   final bool showCount;
 
   @override
@@ -261,7 +261,7 @@ class LargeIconButton extends StatelessWidget {
                   color: color,
                 ),
             tooltip: tooltip,
-            onPressed: onPressed,
+            onPressed: onPressed as void Function()?,
           ),
           /*
           if (showCount)

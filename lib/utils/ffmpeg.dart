@@ -11,7 +11,7 @@ import 'package:mudeo/data/models/song_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FfmpegUtils {
-  static Future<int> renderSong(SongEntity song) async {
+  static Future<int?> renderSong(SongEntity song) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = p.join(directory.path, 'mudeo', 'ffmpeg');
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -27,36 +27,36 @@ class FfmpegUtils {
     int minWidth = 999999999;
     int minHeight = 999999999;
 
-    for (var i = 0; i < song.tracks.length; i++) {
-      final track = song.tracks[i];
-      final path = await track.video.path;
+    for (var i = 0; i < song.tracks!.length; i++) {
+      final track = song.tracks![i]!;
+      final path = await track.video!.path;
 
-      if (track.isDeleted || !track.isIncluded) {
+      if (track.isDeleted || !track.isIncluded!) {
         continue;
       }
 
-      final session = await FFprobeKit.getMediaInformation(path);
-      final information = await session.getMediaInformation();
+      final session = await FFprobeKit.getMediaInformation(path!);
+      final information = await session.getMediaInformation()!;
       final width =
-          information.getStreams().first.getAllProperties()['width'] ?? 1920;
+          information.getStreams().first.getAllProperties()!['width'] ?? 1920;
       final height =
-          information.getStreams().first.getAllProperties()['width'] ?? 1080;
+          information.getStreams().first.getAllProperties()!['width'] ?? 1080;
 
       minWidth = min(minWidth, width);
       minHeight = min(minHeight, height);
     }
 
-    for (var i = 0; i < song.tracks.length; i++) {
-      final track = song.tracks[i];
-      final path = await track.video.path;
+    for (var i = 0; i < song.tracks!.length; i++) {
+      final track = song.tracks![i]!;
+      final path = await track.video!.path;
       final delay = track.delay;
       final volume = track.volume;
 
-      if (track.isDeleted || !track.isIncluded) {
+      if (track.isDeleted || !track.isIncluded!) {
         continue;
       }
 
-      if (count > 0 && delay < 0) {
+      if (count > 0 && delay! < 0) {
         command += '-ss ${delay / 1000 * -1} ';
       }
 
@@ -73,18 +73,18 @@ class FfmpegUtils {
             "[$count:v]scale=-2:$minHeight[$count-scale:v];$filterVideo";
       }
 
-      if (delay > 0) {
+      if (delay! > 0) {
         filterVideo = "[$count-scale:v]tpad=start_duration=" +
             (delay / 1000).toString() +
             "[$count-delay:v];" +
             "[$count:a]adelay=$delay|$delay[$count-delay:a];" +
             "[$count-delay:a]volume=" +
-            (volume / 100).toString() +
+            (volume! / 100).toString() +
             "[$count-volume:a];" +
             "$filterVideo[$count-delay:v]";
       } else {
         filterVideo = "[$count:a]volume=" +
-            (volume / 100).toString() +
+            (volume! / 100).toString() +
             "[$count-volume:a];$filterVideo[$count-scale:v]";
       }
 
@@ -115,7 +115,7 @@ class FfmpegUtils {
     command +=
         '-vcodec \'libx264\' -vprofile \'baseline\' -level 3.0 -movflags \'faststart\' -pix_fmt \'yuv420p\' ';
 
-    command += output;
+    command += output!;
 
     print('## Command: $command');
 
@@ -127,7 +127,7 @@ class FfmpegUtils {
   }
 
   static Future<BuiltMap<String, double>> calculateVolumeData(
-      String path) async {
+      String? path) async {
     final Directory directory = await getApplicationDocumentsDirectory();
     final String folder = p.join(directory.path, 'mudeo', 'ffmpeg');
     await Directory(folder).create(recursive: true);
@@ -141,7 +141,7 @@ class FfmpegUtils {
     final lines = contents.split('\n');
     BuiltMap<String, double> obj = BuiltMap<String, double>();
 
-    double time = 0;
+    double? time = 0;
     Map<double, double> times = {};
     double min = 99999;
     double max = 0;
@@ -149,7 +149,7 @@ class FfmpegUtils {
     for (var item in lines) {
       if (item.startsWith('frame')) {
         time = double.tryParse(item.substring(item.indexOf('pts_time:') + 9));
-        time = (time.floor() * 1000) + ((time - time.floor()) * 1000);
+        time = (time!.floor() * 1000) + ((time - time.floor()) * 1000);
         if (time > 10000) {
           break;
         }
@@ -163,7 +163,7 @@ class FfmpegUtils {
           } else if (volume > 100) {
             max = 100;
           } else {
-            times[time.floorToDouble()] = volume;
+            times[time!.floorToDouble()] = volume;
             if (volume > max) {
               max = volume;
             } else if (volume < min) {
@@ -181,8 +181,8 @@ class FfmpegUtils {
     return obj;
   }
 
-  static Future<bool> createThumbnail(
-      String videoPath, String imagePath) async {
+  static Future<bool?> createThumbnail(
+      String? videoPath, String imagePath) async {
     if (Platform.isWindows) {
       return null;
     }
@@ -203,6 +203,6 @@ double round(double value, int precision) {
     return 0;
   }
 
-  final int fac = pow(10, precision);
+  final int fac = pow(10, precision) as int;
   return (value * fac).round() / fac;
 }

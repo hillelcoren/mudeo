@@ -20,8 +20,8 @@ class SongShareDialog extends StatefulWidget {
     this.shareSecret,
   });
 
-  final SongEntity song;
-  final bool shareSecret;
+  final SongEntity? song;
+  final bool? shareSecret;
 
   @override
   _SongShareDialogState createState() => _SongShareDialogState();
@@ -55,18 +55,18 @@ class _SongShareDialogState extends State<SongShareDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
-    final song = widget.song;
+    final localization = AppLocalization.of(context)!;
+    final song = widget.song!;
 
     return AlertDialog(
-      title: Text(song.title),
+      title: Text(song.title!),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(localization.secretHelp),
+            child: Text(localization.secretHelp!),
           ),
           if ((song.sharingKey ?? '').isEmpty)
             Flexible(
@@ -75,10 +75,10 @@ class _SongShareDialogState extends State<SongShareDialog> {
                   child: TextButton(
                     //padding: const EdgeInsets.all(0),
                     onPressed: () {
-                      launch(song.url, forceSafariVC: false);
+                      launch(song.url!, forceSafariVC: false);
                     },
                     child: Text(
-                      song.url.replaceFirst('https://', ''),
+                      song.url!.replaceFirst('https://', ''),
                       style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
                     ),
                   )),
@@ -94,7 +94,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  child: Text(song.sharingKey),
+                  child: Text(song.sharingKey!),
                 ),
               ),
             ),
@@ -103,11 +103,11 @@ class _SongShareDialogState extends State<SongShareDialog> {
       ),
       actions: [
         TextButton(
-          child: Text(localization.copy.toUpperCase()),
+          child: Text(localization.copy!.toUpperCase()),
           onPressed: () {
-            final sharingKey = widget.song.sharingKey ?? '';
+            final sharingKey = widget.song!.sharingKey ?? '';
 
-            if (widget.shareSecret && sharingKey.isNotEmpty) {
+            if (widget.shareSecret! && sharingKey.isNotEmpty) {
               Clipboard.setData(new ClipboardData(text: sharingKey));
             } else {
               Clipboard.setData(new ClipboardData(text: song.url));
@@ -117,18 +117,18 @@ class _SongShareDialogState extends State<SongShareDialog> {
           },
         ),
         TextButton(
-          child: Text(localization.share.toUpperCase()),
+          child: Text(localization.share!.toUpperCase()),
           onPressed: () {
             Share.share(
                 (song.sharingKey ?? '').isEmpty
-                    ? song.url
-                    : localization.secret + ': ' + song.sharingKey,
-                subject: 'mudeo | ' + song.title);
+                    ? song.url!
+                    : localization.secret! + ': ' + song.sharingKey!,
+                subject: 'mudeo | ' + song.title!);
           },
         ),
         TextButton(
           autofocus: true,
-          child: Text(localization.close.toUpperCase()),
+          child: Text(localization.close!.toUpperCase()),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ],

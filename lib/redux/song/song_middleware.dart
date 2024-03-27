@@ -37,15 +37,15 @@ Middleware<AppState> _saveSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     SongEntity song = action.song;
 
-    if (store.state.isSaving) {
+    if (store.state.isSaving!) {
       next(action);
     }
 
     if (song.hasNewVideos) {
-      repository.saveVideo(store.state, song.newVideo).then((video) {
+      repository.saveVideo(store.state, song.newVideo!).then((video) {
         store.dispatch(SaveVideoSuccess(song: song, video: video));
         store.dispatch(SaveSongRequest(
-            song: store.state.uiState.song, completer: action.completer));
+            song: store.state.uiState!.song, completer: action.completer));
       }).catchError((Object error) {
         print(error);
         store.dispatch(SaveVideoFailure(error));
@@ -74,7 +74,7 @@ Middleware<AppState> _saveSong(SongRepository repository) {
 
 Middleware<AppState> _saveVideo(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    if (store.state.isSaving) {
+    if (store.state.isSaving!) {
       next(action);
     }
 
@@ -97,25 +97,25 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
     final AppState state = store.state;
 
     if (!action.force && !action.clearCache) {
-      if (!state.dataState.areSongsStale ||
-          state.dataState.loadFailedRecently) {
+      if (!state.dataState!.areSongsStale ||
+          state.dataState!.loadFailedRecently) {
         next(action);
         return;
       }
     }
 
-    if (state.isLoading) {
+    if (state.isLoading!) {
       next(action);
       return;
     }
 
     final int updatedAt =
-        action.clearCache ? 0 : (state.dataState.songsUpdateAt / 1000).round();
+        action.clearCache ? 0 : (state.dataState!.songsUpdateAt! / 1000).round();
 
     store.dispatch(LoadSongsRequest());
     repository.loadList(state, updatedAt).then((data) {
       store.dispatch(LoadSongsSuccess(data));
-      if (state.authState.hasValidToken) {
+      if (state.authState!.hasValidToken) {
         repository.loadUserList(state, updatedAt).then((data) {
           store.dispatch(LoadSongsSuccess(data));
           if (action.completer != null) {
@@ -141,9 +141,9 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
 
 Middleware<AppState> _likeSong(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    final AuthState state = store.state.authState;
+    final AuthState state = store.state.authState!;
     final song = action.song;
-    final songLike = state.artist.getSongLike(song.id);
+    final songLike = state.artist!.getSongLike(song.id);
 
     repository.likeSong(store.state, song, songLike: songLike).then((data) {
       store.dispatch(LikeSongSuccess(songLike: data, unlike: songLike != null));
@@ -208,7 +208,7 @@ Middleware<AppState> _saveComment(SongRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     CommentEntity origComment = action.comment;
 
-    if (store.state.isSaving) {
+    if (store.state.isSaving!) {
       next(action);
     }
 

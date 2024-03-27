@@ -13,14 +13,14 @@ class ViewSongList implements PersistUI {
 class EditSong implements PersistUI {
   EditSong({this.song, this.context});
 
-  final SongEntity song;
-  final BuildContext context;
+  final SongEntity? song;
+  final BuildContext? context;
 }
 
 class UpdateSong implements PersistUI {
   UpdateSong(this.song);
 
-  final SongEntity song;
+  final SongEntity? song;
 }
 
 class LoadSongs {
@@ -30,15 +30,15 @@ class LoadSongs {
     this.clearCache = false,
   });
 
-  final Completer completer;
+  final Completer? completer;
   final bool force;
   final bool clearCache;
 }
 
 class JoinSongRequest implements StartLoading {
   JoinSongRequest({
-    @required this.secret,
-    @required this.completer,
+    required this.secret,
+    required this.completer,
   });
 
   final String secret;
@@ -47,15 +47,15 @@ class JoinSongRequest implements StartLoading {
 
 class JoinSongSuccess implements StopLoading, PersistData {
   JoinSongSuccess({
-    @required this.song,
+    required this.song,
   });
 
-  final SongEntity song;
+  final SongEntity? song;
 }
 
 class JoinSongFailure implements StopLoading {
   JoinSongFailure({
-    @required this.error,
+    required this.error,
   });
 
   final Object error;
@@ -63,25 +63,25 @@ class JoinSongFailure implements StopLoading {
 
 class LeaveSongRequest implements StartLoading {
   LeaveSongRequest({
-    @required this.songId,
-    @required this.completer,
+    required this.songId,
+    required this.completer,
   });
 
-  final int songId;
+  final int? songId;
   final Completer completer;
 }
 
 class LeaveSongSuccess implements StopLoading, PersistData {
   LeaveSongSuccess({
-    @required this.songId,
+    required this.songId,
   });
 
-  final int songId;
+  final int? songId;
 }
 
 class LeaveSongFailure implements StopLoading {
   LeaveSongFailure({
-    @required this.error,
+    required this.error,
   });
 
   final Object error;
@@ -103,7 +103,7 @@ class LoadSongsFailure implements StopLoading {
 class LoadSongsSuccess implements PersistData, StopLoading {
   LoadSongsSuccess(this.songs);
 
-  final BuiltList<SongEntity> songs;
+  final BuiltList<SongEntity>? songs;
 
   @override
   String toString() {
@@ -114,14 +114,14 @@ class LoadSongsSuccess implements PersistData, StopLoading {
 class SaveCommentRequest implements StartSaving {
   SaveCommentRequest({this.comment, this.completer});
 
-  final Completer completer;
-  final CommentEntity comment;
+  final Completer? completer;
+  final CommentEntity? comment;
 }
 
 class SaveCommentSuccess implements StopSaving, PersistData, PersistUI {
   SaveCommentSuccess(this.comment);
 
-  final CommentEntity comment;
+  final CommentEntity? comment;
 }
 
 class SaveCommentFailure implements StopSaving {
@@ -133,8 +133,8 @@ class SaveCommentFailure implements StopSaving {
 class DeleteCommentRequest implements StartSaving {
   DeleteCommentRequest({this.comment, this.completer});
 
-  final Completer completer;
-  final CommentEntity comment;
+  final Completer? completer;
+  final CommentEntity? comment;
 }
 
 class DeleteCommentSuccess implements StopSaving, PersistData, PersistUI {
@@ -152,14 +152,14 @@ class DeleteCommentFailure implements StopSaving {
 class DeleteSongRequest implements StartSaving {
   DeleteSongRequest({this.song, this.completer});
 
-  final Completer completer;
-  final SongEntity song;
+  final Completer? completer;
+  final SongEntity? song;
 }
 
 class DeleteSongSuccess implements StopSaving, PersistData, PersistUI {
   DeleteSongSuccess(this.song);
 
-  final SongEntity song;
+  final SongEntity? song;
 }
 
 class DeleteSongFailure implements StopSaving {
@@ -171,14 +171,14 @@ class DeleteSongFailure implements StopSaving {
 class SaveSongRequest implements StartSaving {
   SaveSongRequest({this.song, this.completer});
 
-  final Completer completer;
-  final SongEntity song;
+  final Completer? completer;
+  final SongEntity? song;
 }
 
 class SaveSongSuccess implements StopSaving, PersistData, PersistUI {
   SaveSongSuccess(this.song);
 
-  final SongEntity song;
+  final SongEntity? song;
 }
 
 class SaveSongFailure implements StopSaving {
@@ -190,15 +190,15 @@ class SaveSongFailure implements StopSaving {
 class LikeSongRequest implements StartSaving {
   LikeSongRequest({this.song, this.completer});
 
-  final Completer completer;
-  final SongEntity song;
+  final Completer? completer;
+  final SongEntity? song;
 }
 
 class LikeSongSuccess implements StopSaving, PersistAuth {
   LikeSongSuccess({this.songLike, this.unlike});
 
-  final SongLikeEntity songLike;
-  final bool unlike;
+  final SongLikeEntity? songLike;
+  final bool? unlike;
 }
 
 class LikeSongFailure implements StopSaving {
@@ -214,15 +214,15 @@ class FlagSongRequest implements StartSaving {
     this.commentId,
   });
 
-  final Completer completer;
-  final SongEntity song;
-  final int commentId;
+  final Completer? completer;
+  final SongEntity? song;
+  final int? commentId;
 }
 
 class FlagSongSuccess implements StopSaving, PersistAuth {
   FlagSongSuccess(this.songFlag);
 
-  final SongFlagEntity songFlag;
+  final SongFlagEntity? songFlag;
 }
 
 class FlagSongFailure implements StopSaving {
@@ -234,17 +234,17 @@ class FlagSongFailure implements StopSaving {
 class SaveVideoRequest implements StartSaving {
   SaveVideoRequest({this.song, this.video, this.completer});
 
-  final Completer completer;
-  final SongEntity song;
-  final VideoEntity video;
+  final Completer? completer;
+  final SongEntity? song;
+  final VideoEntity? video;
 }
 
 class SaveVideoSuccess implements StopSaving, PersistData, PersistUI {
   SaveVideoSuccess({this.song, this.video, this.refreshUI = false});
 
   final bool refreshUI;
-  final SongEntity song;
-  final VideoEntity video;
+  final SongEntity? song;
+  final VideoEntity? video;
 }
 
 class SaveVideoFailure implements StopSaving, PersistData, PersistUI {
@@ -256,7 +256,7 @@ class SaveVideoFailure implements StopSaving, PersistData, PersistUI {
 class AddSongSuccess implements StopSaving, PersistData, PersistUI {
   AddSongSuccess(this.song);
 
-  final SongEntity song;
+  final SongEntity? song;
 }
 
 class FilterSongs {
@@ -278,8 +278,8 @@ class AddTrack implements PersistUI {
     this.refreshUI = false,
   });
 
-  final TrackEntity track;
-  final int duration;
+  final TrackEntity? track;
+  final int? duration;
   final bool refreshUI; // TODO remove this
 }
 
@@ -297,6 +297,6 @@ class UpdateVideo implements PersistUI {
     this.video,
   });
 
-  final String recognitions;
-  final VideoEntity video;
+  final String? recognitions;
+  final VideoEntity? video;
 }

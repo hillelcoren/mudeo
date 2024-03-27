@@ -14,8 +14,8 @@ import 'package:mudeo/utils/platforms.dart';
 
 class ArtistSettings extends StatefulWidget {
   const ArtistSettings({
-    Key key,
-    @required this.viewModel,
+    Key? key,
+    required this.viewModel,
   }) : super(key: key);
 
   final ArtistSettingsVM viewModel;
@@ -63,18 +63,18 @@ class _ArtistSettingsState extends State<ArtistSettings> {
     _controllers
         .forEach((dynamic controller) => controller.removeListener(_onChanged));
 
-    final artist = widget.viewModel.state.authState.artist;
-    _nameController.text = artist.name;
-    _descriptionController.text = artist.description;
+    final artist = widget.viewModel.state.authState!.artist!;
+    _nameController.text = artist.name!;
+    _descriptionController.text = artist.description!;
     //_emailController.text = artist.email;
     //_handleController.text = artist.handle;
-    _twitchController.text = artist.twitchURL;
-    _facebookController.text = artist.facebookURL;
-    _instagramController.text = artist.instagramURL;
-    _youtubeController.text = artist.youTubeURL;
-    _twitterController.text = artist.twitterURL;
-    _soundCloudController.text = artist.soundCloudURL;
-    _websiteController.text = artist.website;
+    _twitchController.text = artist.twitchURL!;
+    _facebookController.text = artist.facebookURL!;
+    _instagramController.text = artist.instagramURL!;
+    _youtubeController.text = artist.youTubeURL!;
+    _twitterController.text = artist.twitterURL!;
+    _soundCloudController.text = artist.soundCloudURL!;
+    _websiteController.text = artist.website!;
 
     _controllers
         .forEach((dynamic controller) => controller.addListener(_onChanged));
@@ -94,9 +94,9 @@ class _ArtistSettingsState extends State<ArtistSettings> {
 
   void _onChanged() {
     final viewModel = widget.viewModel;
-    final uiState = viewModel.state.uiState;
+    final uiState = viewModel.state.uiState!;
 
-    final artist = uiState.artist.rebuild((b) => b
+    final artist = uiState.artist!.rebuild((b) => b
       ..name = _nameController.text.trim()
       ..description = _descriptionController.text.trim()
       //..handle = _handleController.text.trim()
@@ -115,7 +115,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
   }
 
   void _onSubmit() {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
     widget.viewModel.onSavePressed(context);
@@ -123,20 +123,20 @@ class _ArtistSettingsState extends State<ArtistSettings> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     final viewModel = widget.viewModel;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(localization.editProfile),
+        title: Text(localization.editProfile!),
         actions: <Widget>[
-          viewModel.state.isSaving
+          viewModel.state.isSaving!
               ? SizedBox()
               : TextButton(
-                  child: Text(localization.save),
+                  child: Text(localization.save!),
                   onPressed: _onSubmit,
                 ),
-          viewModel.state.isSaving
+          viewModel.state.isSaving!
               ? Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: Center(
@@ -216,7 +216,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                           child: OutlinedButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(localization.profileImage,
+                              child: Text(localization.profileImage!,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 18)),
                             ),
@@ -237,7 +237,7 @@ class _ArtistSettingsState extends State<ArtistSettings> {
                           child: OutlinedButton(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(localization.headerImage,
+                              child: Text(localization.headerImage!,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(fontSize: 18)),
                             ),

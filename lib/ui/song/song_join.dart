@@ -18,8 +18,8 @@ class SongJoinDialog extends StatefulWidget {
 class _SongJoinDialogState extends State<SongJoinDialog> {
   bool _useQrCode = false;
   bool _isLoading = false;
-  SongEntity _song;
-  TextEditingController _secretController;
+  SongEntity? _song;
+  TextEditingController? _secretController;
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -30,17 +30,17 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
 
   @override
   void dispose() {
-    _secretController.dispose();
+    _secretController!.dispose();
     super.dispose();
   }
 
-  void _onSubmit({String secret}) {
+  void _onSubmit({String? secret}) {
     if (secret == null) {
-      if (!_formKey.currentState.validate()) {
+      if (!_formKey.currentState!.validate()) {
         return;
       }
 
-      secret = _secretController.text.trim();
+      secret = _secretController!.text.trim();
     }
 
     setState(() {
@@ -80,7 +80,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
 
     return AlertDialog(
       title:
-          Text(state.isDance ? localization.joinDance : localization.joinSong),
+          Text(state.isDance! ? localization!.joinDance! : localization!.joinSong!),
       content: Form(
         key: _formKey,
         child: _song != null
@@ -88,11 +88,11 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(state.isDance
-                      ? localization.joinedDance
-                      : localization.joinedSong),
+                  Text(state.isDance!
+                      ? localization.joinedDance!
+                      : localization.joinedSong!),
                   SizedBox(height: 16),
-                  Text(_song.title),
+                  Text(_song!.title!),
                 ],
               )
             : _isLoading
@@ -144,7 +144,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
       actions: [
         if (!_isLoading)
           TextButton(
-            child: Text(localization.close.toUpperCase()),
+            child: Text(localization.close!.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
           ),
         if (_song != null)
@@ -163,7 +163,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
         else if (!_isLoading)
           if (_useQrCode)
             TextButton(
-              child: Text(localization.scan.toUpperCase()),
+              child: Text(localization.scan!.toUpperCase()),
               onPressed: () async {
                 /*
                 String qrResult =
@@ -176,7 +176,7 @@ class _SongJoinDialogState extends State<SongJoinDialog> {
           else
             TextButton(
               autofocus: true,
-              child: Text(localization.save.toUpperCase()),
+              child: Text(localization.save!.toUpperCase()),
               onPressed: () => _onSubmit(),
             )
       ],

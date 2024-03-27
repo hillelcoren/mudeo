@@ -12,8 +12,8 @@ import 'package:redux/redux.dart';
 
 class SongListScreen extends StatelessWidget {
   const SongListScreen({
-    Key key,
-    @required this.scrollController,
+    Key? key,
+    required this.scrollController,
   }) : super(key: key);
 
   final ScrollController scrollController;
@@ -43,9 +43,9 @@ class SongListScreen extends StatelessWidget {
 
 class SongListVM {
   SongListVM({
-    @required this.state,
-    @required this.isLoaded,
-    @required this.onRefreshed,
+    required this.state,
+    required this.isLoaded,
+    required this.onRefreshed,
   });
 
   final AppState state;
@@ -54,9 +54,11 @@ class SongListVM {
 
   static SongListVM fromStore(Store<AppState> store) {
     Future<Null> _handleRefresh(BuildContext context) {
-      if (store.state.isLoading) {
+      /*
+      if (store.state.isLoading!) {
         return Future<Null>(null);
       }
+      */
 
       final completer = Completer<Null>();
       store.dispatch(LoadSongs(completer: completer, force: true));
@@ -67,7 +69,7 @@ class SongListVM {
 
     return SongListVM(
       state: state,
-      isLoaded: state.dataState.areSongsLoaded,
+      isLoaded: state.dataState!.areSongsLoaded,
       onRefreshed: (context) => _handleRefresh(context),
     );
   }

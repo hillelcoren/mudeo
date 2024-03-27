@@ -16,8 +16,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
-    Key key,
-    @required this.viewModel,
+    Key? key,
+    required this.viewModel,
   }) : super(key: key);
 
   final LoginVM viewModel;
@@ -45,7 +45,7 @@ class _LoginState extends State<LoginScreen> {
 
   bool _showLogin = false;
   bool _showEmail = Platform.isAndroid ? false : true;
-  bool _termsChecked = false;
+  bool? _termsChecked = false;
   bool _autoValidate = false;
 
   @override
@@ -58,12 +58,12 @@ class _LoginState extends State<LoginScreen> {
   }
 
   void _submitForm() {
-    if (widget.viewModel.isLoading) {
+    if (widget.viewModel.isLoading!) {
       return;
     }
 
     final localization = AppLocalization.of(context);
-    final bool isValid = _formKey.currentState.validate();
+    final bool isValid = _formKey.currentState!.validate();
 
     setState(() {
       _autoValidate = !isValid;
@@ -75,20 +75,20 @@ class _LoginState extends State<LoginScreen> {
       return;
     }
 
-    if (!_showLogin && !_termsChecked) {
+    if (!_showLogin && !_termsChecked!) {
       //_buttonController.reset();
       showDialog<AlertDialog>(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text(localization.termsOfService),
-              content: Text(localization.pleaseAgreeToTerms),
+              title: Text(localization!.termsOfService!),
+              content: Text(localization.pleaseAgreeToTerms!),
               actions: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: TextButton(
                     autofocus: true,
-                    child: Text(AppLocalization.of(context).close),
+                    child: Text(AppLocalization.of(context)!.close!),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 )
@@ -154,16 +154,16 @@ class _LoginState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalization.of(context);
+    final localization = AppLocalization.of(context)!;
     final viewModel = widget.viewModel;
     final state = viewModel.state;
     final isOneTimePassword = _error.contains(OTP_ERROR) ||
         _oneTimePasswordController.text.isNotEmpty;
 
     final ThemeData themeData = Theme.of(context);
-    final TextStyle aboutTextStyle = themeData.textTheme.bodyText1;
+    final TextStyle? aboutTextStyle = themeData.textTheme.bodyText1;
     final TextStyle linkStyle =
-        themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
+        themeData.textTheme.bodyText1!.copyWith(color: themeData.accentColor);
 
     return SingleChildScrollView(
       primary: true,
@@ -236,7 +236,7 @@ class _LoginState extends State<LoginScreen> {
                                         ? AutovalidateMode.onUserInteraction
                                         : AutovalidateMode.disabled,
                                     validator: (val) =>
-                                        val.isEmpty || val.trim().isEmpty
+                                        val!.isEmpty || val.trim().isEmpty
                                             ? localization.pleaseEnterYourHandle
                                             : null,
                                     onFieldSubmitted: (String value) =>
@@ -258,7 +258,7 @@ class _LoginState extends State<LoginScreen> {
                                         ? AutovalidateMode.onUserInteraction
                                         : AutovalidateMode.disabled,
                                     validator: (val) =>
-                                        val.isEmpty || val.trim().isEmpty
+                                        val!.isEmpty || val.trim().isEmpty
                                             ? localization.pleaseEnterYourEmail
                                             : null,
                                     focusNode: _focusNode1,
@@ -279,7 +279,7 @@ class _LoginState extends State<LoginScreen> {
                                       labelText: localization.password,
                                       icon: Icon(FontAwesomeIcons.lock),
                                     ),
-                                    validator: (val) => val.isEmpty ||
+                                    validator: (val) => val!.isEmpty ||
                                             val.trim().isEmpty
                                         ? localization.pleaseEnterYourPassword
                                         : null,
@@ -310,7 +310,7 @@ class _LoginState extends State<LoginScreen> {
                                           children: <TextSpan>[
                                             TextSpan(
                                               style: aboutTextStyle,
-                                              text: localization.iAgreeToThe +
+                                              text: localization.iAgreeToThe! +
                                                   ' ',
                                             ),
                                             LinkTextSpan(
@@ -322,7 +322,7 @@ class _LoginState extends State<LoginScreen> {
                                             TextSpan(
                                               style: aboutTextStyle,
                                               text:
-                                                  ' ' + localization.and + ' ',
+                                                  ' ' + localization.and! + ' ',
                                             ),
                                             LinkTextSpan(
                                               style: linkStyle,
@@ -358,11 +358,11 @@ class _LoginState extends State<LoginScreen> {
                         child: Text(_showLogin
                             ? (_showEmail
                                     ? localization.login
-                                    : localization.loginWithGoogle)
+                                    : localization.loginWithGoogle)!
                                 .toUpperCase()
                             : (_showEmail
                                     ? localization.signUp
-                                    : localization.signUpWithGoogle)
+                                    : localization.signUpWithGoogle)!
                                 .toUpperCase()),
                       )),
                   /*
@@ -382,11 +382,11 @@ class _LoginState extends State<LoginScreen> {
                   ),
                   */
                   SizedBox(height: 15),
-                  isOneTimePassword && !viewModel.isLoading
+                  isOneTimePassword && !viewModel.isLoading!
                       ? Padding(
                           padding: EdgeInsets.only(top: 12, bottom: 12),
                           child: AppButton(
-                            label: localization.cancel.toUpperCase(),
+                            label: localization.cancel!.toUpperCase(),
                             color: Colors.grey,
                             onPressed: () {
                               setState(() {
@@ -455,12 +455,12 @@ class _LoginState extends State<LoginScreen> {
 
 class _ToggleButtons extends StatelessWidget {
   const _ToggleButtons({
-    @required this.selectedIndex,
-    @required this.onTabChanged,
-    @required this.tabLabels,
+    required this.selectedIndex,
+    required this.onTabChanged,
+    required this.tabLabels,
   });
 
-  final List<String> tabLabels;
+  final List<String?> tabLabels;
   final int selectedIndex;
   final Function(int) onTabChanged;
 
@@ -479,11 +479,11 @@ class _ToggleButtons extends StatelessWidget {
           children: [
             Container(
               height: 40,
-              child: Center(child: Text(tabLabels[0].toUpperCase())),
+              child: Center(child: Text(tabLabels[0]!.toUpperCase())),
             ),
             Container(
               height: 40,
-              child: Center(child: Text(tabLabels[1].toUpperCase())),
+              child: Center(child: Text(tabLabels[1]!.toUpperCase())),
             ),
           ],
           isSelected: selectedIndex == 0 ? [true, false] : [false, true],

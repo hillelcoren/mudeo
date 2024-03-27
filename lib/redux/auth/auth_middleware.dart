@@ -51,8 +51,8 @@ Middleware<AppState> _createLoginRequest(AuthRepository repository) {
             email: action.email,
             password: action.password,
             oneTimePassword: action.oneTimePassword)
-        .then((ArtistEntity artist) {
-      if (artist.token == null) {
+        .then((ArtistEntity? artist) {
+      if (artist!.token == null) {
         // TODO enable this code
         //throw 'Error: token is blank';
       }
@@ -85,8 +85,8 @@ Middleware<AppState> _createGoogleSignUpRequest(AuthRepository repository) {
       name: action.name,
       photoUrl: action.photoUrl,
     )
-        .then((ArtistEntity artist) {
-      _saveAuthLocal(artist);
+        .then((ArtistEntity? artist) {
+      _saveAuthLocal(artist!);
       store.dispatch(UserLoginSuccess(artist));
 
       action.completer.complete(null);
@@ -108,8 +108,8 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
             email: action.email,
             password: action.password,
             platform: action.platform)
-        .then((ArtistEntity artist) {
-      _saveAuthLocal(artist);
+        .then((ArtistEntity? artist) {
+      _saveAuthLocal(artist!);
       store.dispatch(UserLoginSuccess(artist));
       action.completer.complete(null);
     }).catchError((Object error) {
@@ -125,7 +125,7 @@ Middleware<AppState> _createSignUpRequest(AuthRepository repository) {
 Middleware<AppState> _createOAuthRequest(AuthRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     repository.oauthLogin(store.state, token: action.oauthToken).then((artist) {
-      _saveAuthLocal(artist);
+      _saveAuthLocal(artist!);
       store.dispatch(UserLoginSuccess(artist));
       action.completer.complete(null);
     }).catchError((Object error) {
@@ -143,12 +143,12 @@ Middleware<AppState> _createRefreshRequest(AuthRepository repository) {
     next(action);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString(kSharedPrefToken);
+    final String token = prefs.getString(kSharedPrefToken)!;
 
     repository
         .refresh(
       store.state,
-      artistId: store.state.authState.artist.id,
+      artistId: store.state.authState!.artist!.id,
       token: token,
     )
         .then((artist) {
@@ -169,12 +169,12 @@ Middleware<AppState> _createDeleteRequest(AuthRepository repository) {
     next(action);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString(kSharedPrefToken);
+    final String token = prefs.getString(kSharedPrefToken)!;
 
     repository
         .deleteAccount(
       store.state,
-      artistId: store.state.authState.artist.id,
+      artistId: store.state.authState!.artist!.id,
       token: token,
     )
         .then((response) {

@@ -5,14 +5,14 @@ class LiveText extends StatefulWidget {
   const LiveText(this.value, {this.style});
 
   final Function value;
-  final Function style;
+  final Function? style;
 
   @override
   _LiveTextState createState() => _LiveTextState();
 }
 
 class _LiveTextState extends State<LiveText> {
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _LiveTextState extends State<LiveText> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer!.cancel();
     _timer = null;
     super.dispose();
   }
@@ -32,7 +32,7 @@ class _LiveTextState extends State<LiveText> {
   Widget build(BuildContext context) {
     return Text(
       widget.value(),
-      style: widget.style(),
+      style: widget.style!(),
     );
   }
 }

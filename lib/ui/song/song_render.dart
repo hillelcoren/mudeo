@@ -20,7 +20,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
 class SongRender extends StatefulWidget {
-  const SongRender({@required this.song});
+  const SongRender({required this.song});
   final SongEntity song;
 
   @override
@@ -28,13 +28,13 @@ class SongRender extends StatefulWidget {
 }
 
 class _SongRenderState extends State<SongRender> {
-  ChewieController _chewieController;
-  VideoPlayerController _videoPlayerController;
-  String _layout = kVideoLayoutRow;
+  ChewieController? _chewieController;
+  VideoPlayerController? _videoPlayerController;
+  String? _layout = kVideoLayoutRow;
   bool _hasError = false;
-  int _videoTimestamp;
+  int? _videoTimestamp;
 
-  Future<String> get videoPath async => await VideoEntity.getPath(
+  Future<String?> get videoPath async => await VideoEntity.getPath(
       VideoEntity().rebuild((b) => b..timestamp = _videoTimestamp));
 
   @override
@@ -60,7 +60,7 @@ class _SongRenderState extends State<SongRender> {
     super.dispose();
   }
 
-  void _setLayout(String value) {
+  void _setLayout(String? value) {
     setState(() {
       _layout = value;
     });
@@ -75,7 +75,7 @@ class _SongRenderState extends State<SongRender> {
     });
 
     final store = StoreProvider.of<AppState>(context);
-    FfmpegUtils.renderSong(store.state.uiState.song)
+    FfmpegUtils.renderSong(store.state.uiState!.song!)
         .then((videoTimestamp) async {
       _videoTimestamp = videoTimestamp;
       final videoPath = await this.videoPath;
@@ -85,11 +85,11 @@ class _SongRenderState extends State<SongRender> {
           _hasError = true;
         } else {
           _videoPlayerController = VideoPlayerController.file(File(videoPath));
-          _videoPlayerController.initialize().then((_) {
+          _videoPlayerController!.initialize().then((_) {
             setState(() {
               _chewieController = ChewieController(
-                videoPlayerController: _videoPlayerController,
-                aspectRatio: _videoPlayerController.value.aspectRatio,
+                videoPlayerController: _videoPlayerController!,
+                aspectRatio: _videoPlayerController!.value.aspectRatio,
                 autoPlay: true,
                 looping: false,
                 showControls: true,
@@ -118,28 +118,28 @@ class _SongRenderState extends State<SongRender> {
     return AlertDialog(
       title: _videoPlayerController == null
           ? Text(_videoTimestamp == null
-              ? localization.createVideo
-              : localization.creatingVideo)
+              ? localization!.createVideo!
+              : localization!.creatingVideo!)
           : null,
       actions: [
-        if (_videoTimestamp != null && _videoTimestamp > 0)
+        if (_videoTimestamp != null && _videoTimestamp! > 0)
           TextButton(
               onPressed: () async {
                 final path = await videoPath;
-                var title = song.title.trim();
+                var title = song.title!.trim();
                 if (title.isNotEmpty) {
                   title = 'mudeo';
                 }
                 if (Platform.isAndroid) {
                   final Size size = MediaQuery.of(context).size;
                   Share.shareXFiles(
-                    [XFile(path)],
+                    [XFile(path!)],
                     text: song.url,
                     sharePositionOrigin:
                         Rect.fromLTWH(0, 0, size.width, size.height / 2),
                   );
                 } else {
-                  final Directory directory = await getDownloadsDirectory();
+                  final Directory directory = (await getDownloadsDirectory())!;
                   final date = DateTime.now()
                       .toIso8601String()
                       .split('.')[0]
@@ -147,8 +147,8 @@ class _SongRenderState extends State<SongRender> {
                       .replaceAll(':', '-');
                   var downloadPath =
                       p.join(directory.path, '${song.displayTitle} $date.mp4');
-                  await File(path).copy(downloadPath);
-                  showToast(localization.downloadedSong);
+                  await File(path!).copy(downloadPath);
+                  showToast(localization!.downloadedSong);
                 }
 
                 /*
@@ -162,16 +162,16 @@ class _SongRenderState extends State<SongRender> {
                 }
                 */
               },
-              child: Text(localization.download.toUpperCase())),
-        if (_videoTimestamp != null && _videoTimestamp > 0 && song.canAddTrack)
+              child: Text(localization!.download!.toUpperCase())),
+        if (_videoTimestamp != null && _videoTimestamp! > 0 && song.canAddTrack)
           TextButton(
               onPressed: () async {
                 final store = StoreProvider.of<AppState>(context);
                 var video = VideoEntity()
                     .rebuild((b) => b..timestamp = _videoTimestamp);
 
-                BuiltMap<String, double> volumeData;
-                final path = await video.path;
+                late BuiltMap<String, double> volumeData;
+                final path = (await video.path)!;
                 try {
                   volumeData = await FfmpegUtils.calculateVolumeData(path);
                 } catch (error) {
@@ -186,7 +186,7 @@ class _SongRenderState extends State<SongRender> {
                   ..thumbnailUrl = thumbnailPath);
 
                 final track = TrackEntity(video: video);
-                var song = store.state.uiState.song;
+                var song = store.state.uiState!.song!;
 
                 song = song.rebuild((b) => b
                   ..updatedAt = DateTime.now().millisecondsSinceEpoch.toString()
@@ -196,8 +196,8 @@ class _SongRenderState extends State<SongRender> {
 
                 Navigator.of(context).pop();
               },
-              child: Text(localization.add.toUpperCase())),
-        if (_videoTimestamp != null && _videoTimestamp > 0)
+              child: Text(localization!.add!.toUpperCase())),
+        if (_videoTimestamp != null && _videoTimestamp! > 0)
           TextButton(
               onPressed: () {
                 confirmCallback(
@@ -207,8 +207,8 @@ class _SongRenderState extends State<SongRender> {
                       var video = VideoEntity()
                           .rebuild((b) => b..timestamp = _videoTimestamp);
 
-                      BuiltMap<String, double> volumeData;
-                      final path = await video.path;
+                      late BuiltMap<String, double> volumeData;
+                      final path = (await video.path)!;
                       try {
                         volumeData =
                             await FfmpegUtils.calculateVolumeData(path);
@@ -225,7 +225,7 @@ class _SongRenderState extends State<SongRender> {
                         ..thumbnailUrl = thumbnailPath);
 
                       final track = TrackEntity(video: video);
-                      var song = store.state.uiState.song;
+                      var song = store.state.uiState!.song!;
 
                       /*
                 song = song.rebuild((b) => b
@@ -247,20 +247,20 @@ class _SongRenderState extends State<SongRender> {
                       Navigator.of(context).pop();
                     });
               },
-              child: Text(localization.replace.toUpperCase())),
+              child: Text(localization!.replace!.toUpperCase())),
         TextButton(
             onPressed: () {
               FFmpegKit.cancel();
               Navigator.of(context).pop();
             },
             child: Text(((_videoTimestamp ?? 0) == 0
-                    ? localization.cancel
-                    : localization.close)
+                    ? localization!.cancel
+                    : localization!.close)!
                 .toUpperCase())),
         if (_videoTimestamp == null)
           TextButton(
               onPressed: () => createVideo(),
-              child: Text(localization.start.toUpperCase())),
+              child: Text(localization.start!.toUpperCase())),
       ],
       content: _videoTimestamp == null
           ? Column(
@@ -273,7 +273,7 @@ class _SongRenderState extends State<SongRender> {
                     bottom: 12,
                   ),
                   child: Text(
-                    localization.layout,
+                    localization.layout!,
                     style: TextStyle(color: Colors.grey, fontSize: 15),
                   ),
                 ),
@@ -291,7 +291,7 @@ class _SongRenderState extends State<SongRender> {
                             onChanged: _setLayout,
                           ),
                         ),
-                        Text(localization.row),
+                        Text(localization.row!),
                       ],
                     ),
                   ),
@@ -310,7 +310,7 @@ class _SongRenderState extends State<SongRender> {
                             onChanged: _setLayout,
                           ),
                         ),
-                        Text(localization.column),
+                        Text(localization.column!),
                       ],
                     ),
                   ),
@@ -332,7 +332,7 @@ class _SongRenderState extends State<SongRender> {
                           ),
                         ),
                         Text(
-                          localization.grid,
+                          localization.grid!,
                           style: TextStyle(
                               color: song.includedTracks.length == 4
                                   ? Colors.white
@@ -348,9 +348,9 @@ class _SongRenderState extends State<SongRender> {
               ? _ErrorWidget()
               : _videoPlayerController == null
                   ? _LoadingWidget()
-                  : _videoPlayerController.value.hasError
+                  : _videoPlayerController!.value.hasError
                       ? _ErrorWidget(
-                          error: _videoPlayerController.value.errorDescription,
+                          error: _videoPlayerController!.value.errorDescription,
                         )
                       : ColoredBox(
                           color: Colors.black,
@@ -359,7 +359,7 @@ class _SongRenderState extends State<SongRender> {
                               : FittedBox(
                                   fit: BoxFit.contain,
                                   child: Chewie(
-                                    controller: _chewieController,
+                                    controller: _chewieController!,
                                   ),
                                 ),
                         ),
@@ -369,7 +369,7 @@ class _SongRenderState extends State<SongRender> {
 
 class _ErrorWidget extends StatelessWidget {
   const _ErrorWidget({this.error});
-  final String error;
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -386,7 +386,7 @@ class _ErrorWidget extends StatelessWidget {
             size: 42,
           ),
         ),
-        Text(error ?? localization.failedToRender),
+        Text(error ?? localization!.failedToRender!),
       ],
     );
   }
@@ -399,7 +399,7 @@ class _LoadingWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppLocalization.of(context).thisMayTakeAFewMinutes),
+        Text(AppLocalization.of(context)!.thisMayTakeAFewMinutes!),
         SizedBox(height: 32),
         LinearProgressIndicator(),
       ],

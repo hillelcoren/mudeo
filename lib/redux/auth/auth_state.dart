@@ -17,30 +17,30 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   AuthState._();
 
-  ArtistEntity get artist;
+  ArtistEntity? get artist;
 
-  bool get isAuthenticated;
+  bool? get isAuthenticated;
 
-  bool get hideAppReview;
+  bool? get hideAppReview;
 
-  int get installedAt;
+  int? get installedAt;
 
   AuthState get reset => rebuild((b) => b
     ..artist.replace(ArtistEntity())
     ..isAuthenticated = false);
 
-  bool get hasValidToken => artist.token != null && artist.token.isNotEmpty;
+  bool get hasValidToken => artist!.token != null && artist!.token!.isNotEmpty;
 
   bool get showAppReview {
     if (!kReleaseMode) {
       //return true;
     }
 
-    if (hideAppReview) {
+    if (hideAppReview!) {
       return false;
     }
 
-    final dateInstalled = DateTime.fromMillisecondsSinceEpoch(installedAt);
+    final dateInstalled = DateTime.fromMillisecondsSinceEpoch(installedAt!);
     final dateNow = DateTime.now();
     final difference = dateNow.difference(dateInstalled);
 

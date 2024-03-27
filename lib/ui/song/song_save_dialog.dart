@@ -21,8 +21,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class SongSaveDialog extends StatefulWidget {
   const SongSaveDialog({
-    Key key,
-    @required this.viewModel,
+    Key? key,
+    required this.viewModel,
   }) : super(key: key);
 
   final SongEditVM viewModel;
@@ -44,15 +44,15 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   GlobalKey qrCodeGlobalKey = new GlobalKey();
   List<TextEditingController> _controllers = [];
   bool isSaving = false;
-  bool isPublic = true;
+  bool? isPublic = true;
   bool sharingEnabled = false;
   bool sharingGroupEnabled = false;
   int selectedStackIndex = kStackIndexForm;
-  int selectedGenreId = 0;
-  bool songIsPublic;
-  String songUrl;
-  String sharingKey;
-  String selectedLayout = kVideoLayoutRow;
+  int? selectedGenreId = 0;
+  bool? songIsPublic;
+  String? songUrl;
+  String? sharingKey;
+  String? selectedLayout = kVideoLayoutRow;
 
   /*
   Future<void> _captureAndSharePng(SongEntity song) async {
@@ -81,7 +81,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
       return;
     }
 
-    final song = widget.viewModel.song;
+    final song = widget.viewModel.song!;
     songIsPublic = song.isPublic;
     songUrl = song.url;
     sharingKey = song.sharingKey;
@@ -94,8 +94,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     _controllers
         .forEach((dynamic controller) => controller.removeListener(_onChanged));
 
-    _titleController.text = song.title;
-    _descriptionController.text = song.description;
+    _titleController.text = song.title!;
+    _descriptionController.text = song.description!;
     selectedGenreId = song.genreId;
     selectedLayout = song.layout;
     isPublic = song.isPublic;
@@ -122,7 +122,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   }
 
   void _onChanged() {
-    final song = widget.viewModel.song.rebuild((b) => b
+    final song = widget.viewModel.song!.rebuild((b) => b
       ..title = _titleController.text.trim()
       ..description = _descriptionController.text.trim()
       ..genreId = selectedGenreId
@@ -135,7 +135,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
   }
 
   void _onSubmit() {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
 
@@ -169,10 +169,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     final localization = AppLocalization.of(context);
     final viewModel = widget.viewModel;
     final state = viewModel.state;
-    final song = viewModel.song;
+    final song = viewModel.song!;
     final enableGrid = song.includedTracks.length == 4;
 
-    final categories = state.isDance ? kStyles : kGenres;
+    final categories = state.isDance! ? kStyles : kGenres;
 
     Widget _form() {
       return Form(
@@ -184,7 +184,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
             children: <Widget>[
               IconText(
                 icon: Icons.public,
-                text: localization.allVideosArePublic,
+                text: localization!.allVideosArePublic,
               ),
               /*
               Padding(
@@ -254,7 +254,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   labelText: localization.title,
                 ),
                 validator: (value) =>
-                    value.isEmpty ? localization.fieldIsRequired : null,
+                    value!.isEmpty ? localization.fieldIsRequired : null,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
               DropdownButtonFormField<int>(
@@ -265,7 +265,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   isExpanded: true,
                   onChanged: (value) {
                     SharedPreferences.getInstance().then(
-                        (prefs) => prefs.setInt(kSharedPrefGenreId, value));
+                        (prefs) => prefs.setInt(kSharedPrefGenreId, value!));
                     viewModel.onChangedSong(song.rebuild((b) => b
                       ..genreId = value
                       ..layout = selectedLayout
@@ -278,15 +278,15 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   validator: (value) =>
                       (value ?? 0) == 0 ? localization.fieldIsRequired : null,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  value: selectedGenreId > 0
+                  value: selectedGenreId! > 0
                       ? selectedGenreId
-                      : song.genreId > 0
+                      : song.genreId! > 0
                           ? song.genreId
                           : null,
                   items: categories.keys
                       .map((id) => DropdownMenuItem(
                             value: id,
-                            child: Text(localization.lookup(categories[id])),
+                            child: Text(localization.lookup(categories[id])!),
                           ))
                       .toList()),
               DropdownButtonFormField<String>(
@@ -315,16 +315,16 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                           : kVideoLayoutRow,
                   items: [
                     DropdownMenuItem(
-                      child: Text(localization.row),
+                      child: Text(localization.row!),
                       value: kVideoLayoutRow,
                     ),
                     DropdownMenuItem(
-                      child: Text(localization.column),
+                      child: Text(localization.column!),
                       value: kVideoLayoutColumn,
                     ),
                     DropdownMenuItem(
                       child: Opacity(
-                          child: Text(localization.grid),
+                          child: Text(localization.grid!),
                           opacity: enableGrid ? 1 : .4),
                       value: kVideoLayoutGrid,
                       enabled: enableGrid,
@@ -350,7 +350,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Align(
-            child: Text('${localization.uploading}...'),
+            child: Text('${localization!.uploading}...'),
             alignment: Alignment.centerLeft,
           ),
           Padding(
@@ -378,10 +378,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(localization.yourSongHasBeenSaved),
+            Text(localization!.yourSongHasBeenSaved!),
             SizedBox(height: 8),
             if (songUrl != null &&
-                songUrl.isNotEmpty &&
+                songUrl!.isNotEmpty &&
                 songIsPublic == true) ...[
               Center(
                 child: Padding(
@@ -389,10 +389,10 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                   child: TextButton(
                     //padding: const EdgeInsets.all(0),
                     onPressed: () {
-                      launch(songUrl, forceSafariVC: false);
+                      launch(songUrl!, forceSafariVC: false);
                     },
                     child: Text(
-                      songUrl.replaceFirst('https://', ''),
+                      songUrl!.replaceFirst('https://', ''),
                       style: TextStyle(
                           fontSize: 20, color: Theme.of(context).colorScheme.primary),
                     ),
@@ -423,7 +423,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
-                child: Text(localization.secretHelp),
+                child: Text(localization!.secretHelp!),
               ),
               /*
               Center(
@@ -472,29 +472,29 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
 
     return AlertDialog(
       title:
-          Text(song.isNew ? localization.publishSong : localization.updateSong),
+          Text(song.isNew ? localization!.publishSong! : localization!.updateSong!),
       actions: [
         if (selectedStackIndex == kStackIndexForm) ...[
           TextButton(
-            child: Text(localization.cancel.toUpperCase()),
+            child: Text(localization.cancel!.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          if (viewModel.state.authState.hasValidToken) ...[
+          if (viewModel.state.authState!.hasValidToken) ...[
             TextButton(
               autofocus: true,
               onPressed: () => _onSubmit(),
               child: Text(song.isNew
-                  ? localization.publish.toUpperCase()
-                  : localization.update.toUpperCase()),
+                  ? localization.publish!.toUpperCase()
+                  : localization.update!.toUpperCase()),
             ),
           ]
         ] else if (selectedStackIndex == kStackIndexSuccess) ...[
           TextButton(
-            child: Text(localization.close.toUpperCase()),
+            child: Text(localization.close!.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
           ),
           TextButton(
-            child: Text(localization.addFriends.toUpperCase()),
+            child: Text(localization.addFriends!.toUpperCase()),
             onPressed: () {
               setState(() {
                 selectedStackIndex = kStackIndexAddFriends;
@@ -503,16 +503,16 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
           ),
         ] else if (selectedStackIndex == kStackIndexAddFriends) ...[
           TextButton(
-            child: Text(localization.close.toUpperCase()),
+            child: Text(localization.close!.toUpperCase()),
             onPressed: () => Navigator.of(context).pop(),
           ),
           TextButton(
-            child: Text(localization.share.toUpperCase()),
+            child: Text(localization.share!.toUpperCase()),
             onPressed: () => Share.share(
                 (song.sharingKey ?? '').isEmpty
-                    ? song.url
-                    : localization.secret + ': ' + song.sharingKey,
-                subject: 'mudeo | ' + song.title),
+                    ? song.url!
+                    : localization.secret! + ': ' + song.sharingKey!,
+                subject: 'mudeo | ' + song.title!),
           ),
         ]
       ],

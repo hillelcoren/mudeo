@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Color convertHexStringToColor(String value) {
+Color? convertHexStringToColor(String value) {
   if (value == null) {
     return null;
   }
@@ -15,7 +15,7 @@ Color convertHexStringToColor(String value) {
   }
 }
 
-String convertColorToHexString(Color color) {
+String? convertColorToHexString(Color color) {
   try {
     final hex = color.value.toRadixString(16);
     return '#' + hex.substring(2, hex.length);

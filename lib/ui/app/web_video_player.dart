@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class WebVideoPlayer extends StatefulWidget {
   const WebVideoPlayer({
-    Key key,
+    Key? key,
     this.src,
     this.width,
     this.height,
@@ -18,21 +18,21 @@ class WebVideoPlayer extends StatefulWidget {
     this.disabledSeeking = false,
   }) : super(key: key);
 
-  final int width;
-  final int height;
+  final int? width;
+  final int? height;
   final bool autoplay;
   final bool showControls;
   final bool disabledSeeking;
-  final String src;
+  final String? src;
   final double startAt;
-  final ui.VoidCallback onComplete;
+  final ui.VoidCallback? onComplete;
 
   @override
   _WebVideoPlayerState createState() => _WebVideoPlayerState();
 }
 
 class _WebVideoPlayerState extends State<WebVideoPlayer> {
-  VideoElement video;
+  late VideoElement video;
 
   double position = 0;
 
@@ -44,20 +44,20 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
     ui.platformViewRegistry.registerViewFactory(widget.src, (int viewId) {
       video = VideoElement()
         ..id = 'videoPlayer${DateTime.now().millisecondsSinceEpoch}'
-        ..width = widget.width
-        ..height = widget.height
-        ..src = widget.src
+        ..width = widget.width!
+        ..height = widget.height!
+        ..src = widget.src!
         ..autoplay = widget.autoplay
         ..controls = widget.showControls
         ..disableRemotePlayback = true
         ..style.border = 'none';
-      video.attributes['controlsList'] = 'nodownload nofullscreen';
+      video!.attributes['controlsList'] = 'nodownload nofullscreen';
       video
         ..onPlay.listen((event) {
           if (mounted) setState(() => isPlaying = true);
         })
         ..onTimeUpdate.listen((event) {
-          position = !video.seeking ? video.currentTime : position;
+          position = !video!.seeking ? video!.currentTime as double : position;
         });
 
       return video;
@@ -78,9 +78,9 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
       /*mainAxisSize: MainAxisSize.min,*/
       children: [
         SizedBox(
-          width: widget.width.toDouble(),
-          height: widget.height.toDouble(),
-          child: HtmlElementView(viewType: widget.src),
+          width: widget.width!.toDouble(),
+          height: widget.height!.toDouble(),
+          child: HtmlElementView(viewType: widget.src!),
         ),
       ],
     );

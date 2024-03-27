@@ -15,9 +15,9 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
   final String wireName = 'UIState';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, UIState object,
+  Iterable<Object?> serialize(Serializers serializers, UIState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'selectedTabIndex',
       serializers.serialize(object.selectedTabIndex,
           specifiedType: const FullType(int)),
@@ -36,31 +36,31 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
   }
 
   @override
-  UIState deserialize(Serializers serializers, Iterable<Object> serialized,
+  UIState deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new UIStateBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'selectedTabIndex':
           result.selectedTabIndex = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'recordingTimestamp':
           result.recordingTimestamp = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'song':
           result.song.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SongEntity)) as SongEntity);
+              specifiedType: const FullType(SongEntity)) as SongEntity?);
           break;
         case 'artist':
           result.artist.replace(serializers.deserialize(value,
-              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity?);
           break;
       }
     }
@@ -71,15 +71,15 @@ class _$UIStateSerializer implements StructuredSerializer<UIState> {
 
 class _$UIState extends UIState {
   @override
-  final int selectedTabIndex;
+  final int? selectedTabIndex;
   @override
-  final int recordingTimestamp;
+  final int? recordingTimestamp;
   @override
-  final SongEntity song;
+  final SongEntity? song;
   @override
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
 
-  factory _$UIState([void Function(UIStateBuilder) updates]) =>
+  factory _$UIState([void Function(UIStateBuilder)? updates]) =>
       (new UIStateBuilder()..update(updates)).build();
 
   _$UIState._(
@@ -136,23 +136,23 @@ class _$UIState extends UIState {
 }
 
 class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
-  _$UIState _$v;
+  _$UIState? _$v;
 
-  int _selectedTabIndex;
-  int get selectedTabIndex => _$this._selectedTabIndex;
-  set selectedTabIndex(int selectedTabIndex) =>
+  int? _selectedTabIndex;
+  int? get selectedTabIndex => _$this._selectedTabIndex;
+  set selectedTabIndex(int? selectedTabIndex) =>
       _$this._selectedTabIndex = selectedTabIndex;
 
-  int _recordingTimestamp;
-  int get recordingTimestamp => _$this._recordingTimestamp;
-  set recordingTimestamp(int recordingTimestamp) =>
+  int? _recordingTimestamp;
+  int? get recordingTimestamp => _$this._recordingTimestamp;
+  set recordingTimestamp(int? recordingTimestamp) =>
       _$this._recordingTimestamp = recordingTimestamp;
 
-  SongEntityBuilder _song;
+  SongEntityBuilder? _song;
   SongEntityBuilder get song => _$this._song ??= new SongEntityBuilder();
   set song(SongEntityBuilder song) => _$this._song = song;
 
-  ArtistEntityBuilder _artist;
+  ArtistEntityBuilder? _artist;
   ArtistEntityBuilder get artist =>
       _$this._artist ??= new ArtistEntityBuilder();
   set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
@@ -161,17 +161,17 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
 
   UIStateBuilder get _$this {
     if (_$v != null) {
-      _selectedTabIndex = _$v.selectedTabIndex;
-      _recordingTimestamp = _$v.recordingTimestamp;
-      _song = _$v.song?.toBuilder();
-      _artist = _$v.artist?.toBuilder();
+      _selectedTabIndex = _$v!.selectedTabIndex;
+      _recordingTimestamp = _$v!.recordingTimestamp;
+      _song = _$v!.song?.toBuilder();
+      _artist = _$v!.artist?.toBuilder();
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(UIState other) {
+  void replace(UIState? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -179,7 +179,7 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
   }
 
   @override
-  void update(void Function(UIStateBuilder) updates) {
+  void update(void Function(UIStateBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -194,7 +194,7 @@ class UIStateBuilder implements Builder<UIState, UIStateBuilder> {
               song: song.build(),
               artist: artist.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'song';
         song.build();

@@ -121,7 +121,7 @@ Middleware<AppState> _loadArtist(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
     final AppState state = store.state;
 
-    if (state.isLoading) {
+    if (state.isLoading!) {
       next(action);
       return;
     }
@@ -190,10 +190,10 @@ Middleware<AppState> _loadArtists(ArtistRepository repository) {
 
 Middleware<AppState> _followArtist(ArtistRepository repository) {
   return (Store<AppState> store, dynamic action, NextDispatcher next) {
-    final AuthState state = store.state.authState;
+    final AuthState state = store.state.authState!;
 
     final artist = action.artist;
-    final artistFollowing = state.artist.getFollowing(artist.id);
+    final artistFollowing = state.artist!.getFollowing(artist.id);
 
     repository
         .followArtist(store.state, artist, artistFollowing: artistFollowing)

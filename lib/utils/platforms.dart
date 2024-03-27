@@ -47,7 +47,7 @@ bool isAndroid() {
 
 String getAppStoreURL(BuildContext context) {
   final store = StoreProvider.of<AppState>(context);
-  if (store.state.isDance) {
+  if (store.state.isDance!) {
     return Platform.isAndroid ? kDanceGoogleStoreUrl : kDanceAppleStoreUrl;
   } else {
     return Platform.isAndroid
@@ -58,7 +58,7 @@ String getAppStoreURL(BuildContext context) {
 
 String getOtherAppStoreURL(BuildContext context) {
   final store = StoreProvider.of<AppState>(context);
-  if (!store.state.isDance) {
+  if (!store.state.isDance!) {
     return Platform.isAndroid ? kDanceGoogleStoreUrl : kDanceAppleStoreUrl;
   } else {
     return Platform.isAndroid

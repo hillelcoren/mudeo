@@ -15,9 +15,9 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
   final String wireName = 'AuthState';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, AuthState object,
+  Iterable<Object?> serialize(Serializers serializers, AuthState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'artist',
       serializers.serialize(object.artist,
           specifiedType: const FullType(ArtistEntity)),
@@ -36,31 +36,31 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
   }
 
   @override
-  AuthState deserialize(Serializers serializers, Iterable<Object> serialized,
+  AuthState deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new AuthStateBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'artist':
           result.artist.replace(serializers.deserialize(value,
-              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity?);
           break;
         case 'isAuthenticated':
           result.isAuthenticated = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'hideAppReview':
           result.hideAppReview = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'installedAt':
           result.installedAt = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -71,15 +71,15 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
 
 class _$AuthState extends AuthState {
   @override
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
   @override
-  final bool isAuthenticated;
+  final bool? isAuthenticated;
   @override
-  final bool hideAppReview;
+  final bool? hideAppReview;
   @override
-  final int installedAt;
+  final int? installedAt;
 
-  factory _$AuthState([void Function(AuthStateBuilder) updates]) =>
+  factory _$AuthState([void Function(AuthStateBuilder)? updates]) =>
       (new AuthStateBuilder()..update(updates)).build();
 
   _$AuthState._(
@@ -136,26 +136,26 @@ class _$AuthState extends AuthState {
 }
 
 class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
-  _$AuthState _$v;
+  _$AuthState? _$v;
 
-  ArtistEntityBuilder _artist;
+  ArtistEntityBuilder? _artist;
   ArtistEntityBuilder get artist =>
       _$this._artist ??= new ArtistEntityBuilder();
   set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
 
-  bool _isAuthenticated;
-  bool get isAuthenticated => _$this._isAuthenticated;
-  set isAuthenticated(bool isAuthenticated) =>
+  bool? _isAuthenticated;
+  bool? get isAuthenticated => _$this._isAuthenticated;
+  set isAuthenticated(bool? isAuthenticated) =>
       _$this._isAuthenticated = isAuthenticated;
 
-  bool _hideAppReview;
-  bool get hideAppReview => _$this._hideAppReview;
-  set hideAppReview(bool hideAppReview) =>
+  bool? _hideAppReview;
+  bool? get hideAppReview => _$this._hideAppReview;
+  set hideAppReview(bool? hideAppReview) =>
       _$this._hideAppReview = hideAppReview;
 
-  int _installedAt;
-  int get installedAt => _$this._installedAt;
-  set installedAt(int installedAt) => _$this._installedAt = installedAt;
+  int? _installedAt;
+  int? get installedAt => _$this._installedAt;
+  set installedAt(int? installedAt) => _$this._installedAt = installedAt;
 
   AuthStateBuilder() {
     AuthState._initializeBuilder(this);
@@ -163,17 +163,17 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
 
   AuthStateBuilder get _$this {
     if (_$v != null) {
-      _artist = _$v.artist?.toBuilder();
-      _isAuthenticated = _$v.isAuthenticated;
-      _hideAppReview = _$v.hideAppReview;
-      _installedAt = _$v.installedAt;
+      _artist = _$v!.artist?.toBuilder();
+      _isAuthenticated = _$v!.isAuthenticated;
+      _hideAppReview = _$v!.hideAppReview;
+      _installedAt = _$v!.installedAt;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(AuthState other) {
+  void replace(AuthState? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -181,7 +181,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   }
 
   @override
-  void update(void Function(AuthStateBuilder) updates) {
+  void update(void Function(AuthStateBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -196,7 +196,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
               hideAppReview: hideAppReview,
               installedAt: installedAt);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'artist';
         artist.build();

@@ -7,7 +7,7 @@ void showProcessingDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(AppLocalization.of(context).processing),
+        title: Text(AppLocalization.of(context)!.processing!),
         content: LinearProgressIndicator(),
       );
     },
@@ -15,17 +15,17 @@ void showProcessingDialog(BuildContext context) {
 }
 
 void confirmCallback({
-  @required BuildContext context,
-  @required VoidCallback callback,
-  String message,
-  String help,
-  String areYouSure,
-  String confirmLabel,
-  String declineLabel,
+  required BuildContext context,
+  required VoidCallback callback,
+  String? message,
+  String? help,
+  String? areYouSure,
+  String? confirmLabel,
+  String? declineLabel,
 }) {
   final localization = AppLocalization.of(context);
 
-  String content = areYouSure ?? localization.areYouSure;
+  String content = areYouSure ?? localization!.areYouSure!;
   if (help != null) {
     content += '\n\n' + help;
   }
@@ -33,14 +33,14 @@ void confirmCallback({
   showDialog<AlertDialog>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
-      semanticLabel: localization.areYouSure,
+      semanticLabel: localization!.areYouSure,
       title: message == null ? null : Text(message),
-      content: Text(content),
+      content: Text(content!),
       actions: <Widget>[
         TextButton(
             child: Text(declineLabel != null
                 ? declineLabel.toUpperCase()
-                : localization.cancel.toUpperCase()),
+                : localization.cancel!.toUpperCase()),
             onPressed: () {
               Navigator.pop(context);
             }),
@@ -48,7 +48,7 @@ void confirmCallback({
             autofocus: true,
             child: Text(confirmLabel != null
                 ? confirmLabel.toUpperCase()
-                : localization.ok.toUpperCase()),
+                : localization.ok!.toUpperCase()),
             onPressed: () {
               Navigator.pop(context);
               callback();

@@ -15,12 +15,12 @@ import 'package:redux/redux.dart';
 
 class ArtistScreen extends StatelessWidget {
   const ArtistScreen(
-      {Key key, this.artist, this.scrollController, this.showSettings = false})
+      {Key? key, this.artist, this.scrollController, this.showSettings = false})
       : super(key: key);
 
   final bool showSettings;
-  final ArtistEntity artist;
-  final ScrollController scrollController;
+  final ArtistEntity? artist;
+  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +40,16 @@ class ArtistScreen extends StatelessWidget {
 
 class ArtistPageVM {
   ArtistPageVM({
-    @required this.state,
-    @required this.onFollowPressed,
-    @required this.onBlockPressed,
-    @required this.onRefreshed,
-    @required this.onDeleteAccountPressed,
+    required this.state,
+    required this.onFollowPressed,
+    required this.onBlockPressed,
+    required this.onRefreshed,
+    required this.onDeleteAccountPressed,
   });
 
   final AppState state;
-  final Function(ArtistEntity) onFollowPressed;
-  final Function(ArtistEntity) onBlockPressed;
+  final Function(ArtistEntity?) onFollowPressed;
+  final Function(ArtistEntity?) onBlockPressed;
   final Function(BuildContext) onRefreshed;
   final Function onDeleteAccountPressed;
 
@@ -57,11 +57,13 @@ class ArtistPageVM {
     final state = store.state;
 
     Future<Null> _handleRefresh(BuildContext context) {
-      if (store.state.isLoading) {
+      /*
+      if (store.state.isLoading!) {
         return Future<Null>(null);
       }
+      */
       final completer = snackBarCompleter(
-          context, AppLocalization.of(context).refreshComplete);
+          context, AppLocalization.of(context)!.refreshComplete);
       store.dispatch(
           LoadSongs(completer: completer, force: true, clearCache: true));
       return completer.future;

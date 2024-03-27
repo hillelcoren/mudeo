@@ -12,12 +12,12 @@ import 'package:mudeo/redux/ui/ui_state.dart';
 
 class PersistenceRepository {
   const PersistenceRepository({
-    @required this.fileStorage,
+    required this.fileStorage,
   });
 
   final FileStorage fileStorage;
 
-  Future<File> saveDataState(DataState state) async {
+  Future<File?> saveDataState(DataState? state) async {
     /*
     final stateWithoutToken = state.rebuild(
             (b) => b..data.replace(state.data.rebuild((b) => b..token = '')));
@@ -27,35 +27,35 @@ class PersistenceRepository {
     return await fileStorage.save(json.encode(data));
   }
 
-  Future<DataState> loadDataState() async {
-    final String data = await fileStorage.load();
+  Future<DataState?> loadDataState() async {
+    final String data = await (fileStorage.load() as FutureOr<String>);
     final dataState =
     serializers.deserializeWith(DataState.serializer, json.decode(data));
 
     return dataState;
   }
 
-  Future<File> saveAuthState(AuthState state) async {
+  Future<File?> saveAuthState(AuthState? state) async {
     final data = serializers.serializeWith(AuthState.serializer, state);
     return await fileStorage.save(json.encode(data));
   }
 
-  Future<AuthState> loadAuthState() async {
-    final String data = await fileStorage.load();
+  Future<AuthState?> loadAuthState() async {
+    final String data = await (fileStorage.load() as FutureOr<String>);
     return serializers.deserializeWith(AuthState.serializer, json.decode(data));
   }
 
-  Future<File> saveUIState(UIState state) async {
+  Future<File?> saveUIState(UIState? state) async {
     final data = serializers.serializeWith(UIState.serializer, state);
     return await fileStorage.save(json.encode(data));
   }
 
-  Future<UIState> loadUIState() async {
-    final String data = await fileStorage.load();
+  Future<UIState?> loadUIState() async {
+    final String data = await (fileStorage.load() as FutureOr<String>);
     return serializers.deserializeWith(UIState.serializer, json.decode(data));
   }
 
-  Future<FileSystemEntity> delete() async {
+  Future<FileSystemEntity?> delete() async {
     return await fileStorage
         .exists()
         .then((exists) => exists ? fileStorage.delete() : null);

@@ -18,8 +18,8 @@ import 'package:mudeo/redux/app/app_state.dart';
 import 'package:flutter/material.dart';
 
 class MudeoApp extends StatefulWidget {
-  const MudeoApp({Key key, this.store}) : super(key: key);
-  final Store<AppState> store;
+  const MudeoApp({Key? key, this.store}) : super(key: key);
+  final Store<AppState>? store;
 
   @override
   MudeoAppState createState() => MudeoAppState();
@@ -31,7 +31,7 @@ class MudeoAppState extends State<MudeoApp> {
     return StyledToast(
       locale: const Locale('en', 'US'),
       child: StoreProvider<AppState>(
-        store: widget.store,
+        store: widget.store!,
         child: AppBuilder(builder: (context) {
           //final state = widget.store.state;
           Intl.defaultLocale = 'en';
@@ -40,7 +40,7 @@ class MudeoAppState extends State<MudeoApp> {
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
           });
           final fontFamily = kIsWeb ? 'Roboto' : null;
-          final analytics = FirebaseAnalytics();
+          final analytics = FirebaseAnalytics.instance;
 
           return WindowManager(
             child: MaterialApp(
@@ -71,12 +71,12 @@ class MudeoAppState extends State<MudeoApp> {
                 ),
                 fontFamily: fontFamily,
               ),
-              title: widget.store.state.isDance ? 'Dance Like Me' : 'mudeo',
+              title: widget.store!.state.isDance! ? 'Dance Like Me' : 'mudeo',
               routes: {
                 MainScreen.route: (context) {
-                  final state = widget.store.state.dataState;
+                  final state = widget.store!.state.dataState!;
                   if (state.areSongsLoaded && state.areSongsStale) {
-                    widget.store.dispatch(LoadSongs());
+                    widget.store!.dispatch(LoadSongs());
                   }
                   return MainScreenBuilder();
                 },

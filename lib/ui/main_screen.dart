@@ -13,6 +13,7 @@ import 'package:mudeo/ui/artist/artist_page_vm.dart';
 import 'package:mudeo/ui/auth/login_vm.dart';
 import 'package:mudeo/ui/song/song_edit_vm.dart';
 import 'package:mudeo/ui/song/song_list_paged_vm.dart';
+import 'package:mudeo/ui/song/song_list_paged.dart';
 import 'package:mudeo/ui/song/song_prefs.dart';
 import 'package:mudeo/utils/dialogs.dart';
 import 'package:mudeo/utils/localization.dart';
@@ -25,7 +26,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MainScreenBuilder extends StatelessWidget {
-  const MainScreenBuilder({Key key}) : super(key: key);
+  const MainScreenBuilder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class MainScreenBuilder extends StatelessWidget {
             store.state.helpVideoId != null) {
           prefs.setBool(kSharedPrefShownVideo, true);
           confirmCallback(
-            message: localization.welcomeToTheApp
+            message: localization!.welcomeToTheApp!
                 .replaceFirst(':name', store.state.appName),
             context: context,
             areYouSure: localization.wantToWatchTheVideo,
@@ -73,8 +74,8 @@ class MainScreenBuilder extends StatelessWidget {
 
 class MainScreenVM {
   MainScreenVM({
-    @required this.state,
-    @required this.onTabChanged,
+    required this.state,
+    required this.onTabChanged,
   });
 
   final AppState state;
@@ -92,8 +93,8 @@ class MainScreen extends StatefulWidget {
   static String route = '/main';
 
   const MainScreen({
-    Key key,
-    @required this.viewModel,
+    Key? key,
+    required this.viewModel,
   }) : super(key: key);
 
   final MainScreenVM viewModel;
@@ -103,9 +104,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ScrollController _profileScrollController;
-  PageController _featuredSongsPageController;
-  PageController _unfeaturedSongsPageController;
+  ScrollController? _profileScrollController;
+  PageController? _featuredSongsPageController;
+  PageController? _unfeaturedSongsPageController;
 
   @override
   void initState() {
@@ -117,9 +118,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    _profileScrollController.dispose();
-    _featuredSongsPageController.dispose();
-    _unfeaturedSongsPageController.dispose();
+    _profileScrollController!.dispose();
+    _featuredSongsPageController!.dispose();
+    _unfeaturedSongsPageController!.dispose();
     super.dispose();
   }
 
@@ -153,14 +154,14 @@ class _MainScreenState extends State<MainScreen> {
 
 class DesktopScreen extends StatefulWidget {
   const DesktopScreen({
-    @required this.viewModel,
-    @required this.profileScrollController,
-    @required this.songPageController,
+    required this.viewModel,
+    required this.profileScrollController,
+    required this.songPageController,
   });
 
   final MainScreenVM viewModel;
-  final ScrollController profileScrollController;
-  final ScrollController songPageController;
+  final ScrollController? profileScrollController;
+  final ScrollController? songPageController;
 
   @override
   _DesktopScreenState createState() => _DesktopScreenState();
@@ -174,7 +175,8 @@ class _DesktopScreenState extends State<DesktopScreen> {
         Expanded(
           flex: 2,
           child: SongListPagedScreen(
-            pageController: widget.songPageController,
+            pageController: widget.songPageController as PageController?,
+            isFeatured: false,
           ),
         ),
         Expanded(
@@ -195,16 +197,16 @@ class ScreenTabs {
 
 class MobileScreen extends StatefulWidget {
   const MobileScreen({
-    @required this.viewModel,
-    @required this.profileScrollController,
-    @required this.featuredSongsPageController,
-    @required this.unfeaturedSongsPageController,
+    required this.viewModel,
+    required this.profileScrollController,
+    required this.featuredSongsPageController,
+    required this.unfeaturedSongsPageController,
   });
 
   final MainScreenVM viewModel;
-  final ScrollController profileScrollController;
-  final PageController featuredSongsPageController;
-  final PageController unfeaturedSongsPageController;
+  final ScrollController? profileScrollController;
+  final PageController? featuredSongsPageController;
+  final PageController? unfeaturedSongsPageController;
 
   @override
   State<MobileScreen> createState() => _MobileScreenState();
@@ -222,6 +224,7 @@ class _MobileScreenState extends State<MobileScreen> {
     if (kIsWeb) {
       return SongListPagedScreen(
         pageController: widget.featuredSongsPageController,
+        isFeatured: false,
       );
     }
 
@@ -236,42 +239,42 @@ class _MobileScreenState extends State<MobileScreen> {
       ),
       SongEditScreen(),
       if (!kIsWeb)
-        if (state.authState.hasValidToken)
+        if (state.authState!.hasValidToken)
           ArtistScreen(
-            artist: state.authState.artist,
+            artist: state.authState!.artist,
             showSettings: true,
             scrollController: widget.profileScrollController,
           )
         else
           LoginScreenBuilder(),
     ];
-    final currentIndex = state.uiState.selectedTabIndex;
+    final currentIndex = state.uiState!.selectedTabIndex;
     final localization = AppLocalization.of(context);
 
     return Column(
       children: [
         Expanded(
           child: CupertinoTabScaffold(
-            key: ValueKey(uiState.song.id),
+            key: ValueKey(uiState!.song!.id),
             tabBar: CupertinoTabBar(
               backgroundColor: Colors.black38,
-              currentIndex: uiState.selectedTabIndex,
+              currentIndex: uiState.selectedTabIndex!,
               onTap: (index) {
-                final currentIndex = state.uiState.selectedTabIndex;
+                final currentIndex = state.uiState!.selectedTabIndex;
                 if (currentIndex == ScreenTabs.LIST_FEATURED &&
                     index == ScreenTabs.LIST_FEATURED) {
-                  widget.featuredSongsPageController.animateTo(0,
+                  widget.featuredSongsPageController!.animateTo(0,
                       duration: Duration(milliseconds: 5),
                       curve: Curves.easeInOutCubic);
                 } else if (currentIndex == ScreenTabs.LIST_ALL &&
                     index == ScreenTabs.LIST_ALL) {
-                  widget.unfeaturedSongsPageController.animateTo(0,
+                  widget.unfeaturedSongsPageController!.animateTo(0,
                       duration: Duration(milliseconds: 5),
                       curve: Curves.easeInOutCubic);
                 } else if (currentIndex == ScreenTabs.PROFILE &&
                     index == ScreenTabs.PROFILE) {
-                  widget.profileScrollController.animateTo(
-                      widget.profileScrollController.position.minScrollExtent,
+                  widget.profileScrollController!.animateTo(
+                      widget.profileScrollController!.position.minScrollExtent,
                       duration: Duration(milliseconds: 500),
                       curve: Curves.easeInOutCubic);
                 }
@@ -280,7 +283,7 @@ class _MobileScreenState extends State<MobileScreen> {
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   label: currentIndex == ScreenTabs.LIST_FEATURED
-                      ? localization.featured
+                      ? localization!.featured
                       : null,
                   icon: Icon(MdiIcons.trophy,
                       color: currentIndex == ScreenTabs.LIST_FEATURED
@@ -289,7 +292,7 @@ class _MobileScreenState extends State<MobileScreen> {
                 ),
                 BottomNavigationBarItem(
                   label: currentIndex == ScreenTabs.LIST_ALL
-                      ? localization.newest
+                      ? localization!.newest
                       : null,
                   icon: Icon(MdiIcons.playlistMusic,
                       color: currentIndex == ScreenTabs.LIST_ALL
@@ -298,7 +301,7 @@ class _MobileScreenState extends State<MobileScreen> {
                 ),
                 BottomNavigationBarItem(
                   label: currentIndex == ScreenTabs.EDIT
-                      ? localization.record
+                      ? localization!.record
                       : null,
                   icon: Icon(Icons.videocam,
                       color: currentIndex == ScreenTabs.EDIT
@@ -308,7 +311,7 @@ class _MobileScreenState extends State<MobileScreen> {
                 if (!kIsWeb)
                   BottomNavigationBarItem(
                     label: currentIndex == ScreenTabs.PROFILE
-                        ? localization.profile
+                        ? localization!.profile
                         : null,
                     icon: Icon(Icons.person,
                         color: currentIndex == ScreenTabs.PROFILE
@@ -322,7 +325,7 @@ class _MobileScreenState extends State<MobileScreen> {
             },
           ),
         ),
-        if (state.authState.showAppReview)
+        if (state.authState!.showAppReview)
           Material(
             color: Colors.black,
             child: Row(
@@ -331,7 +334,7 @@ class _MobileScreenState extends State<MobileScreen> {
                     child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Text(
-                    localization.wouldYouReviewTheApp,
+                    localization!.wouldYouReviewTheApp!,
                   ),
                 )),
                 TextButton(
@@ -349,7 +352,7 @@ class _MobileScreenState extends State<MobileScreen> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Text(localization.sure),
+                    child: Text(localization.sure!),
                   ),
                 ),
                 TextButton(
@@ -358,7 +361,7 @@ class _MobileScreenState extends State<MobileScreen> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: Text(localization.noThanks),
+                    child: Text(localization.noThanks!),
                   ),
                 ),
               ],
@@ -394,7 +397,7 @@ class CustomPlaceholder extends StatelessWidget {
                     ),
                     onTap: () {
                       launch(
-                          store.state.isDance
+                          store.state.isDance!
                               ? kDanceGoogleStoreUrl
                               : kMudeoGoogleStoreUrl,
                           forceSafariVC: false);
@@ -410,7 +413,7 @@ class CustomPlaceholder extends StatelessWidget {
                     ),
                     onTap: () {
                       launch(
-                          store.state.isDance
+                          store.state.isDance!
                               ? kDanceAppleStoreUrl
                               : kMudeoAppleStoreUrl,
                           forceSafariVC: false);

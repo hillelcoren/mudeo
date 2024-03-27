@@ -5,29 +5,29 @@ import 'package:mudeo/data/models/artist_model.dart';
 import 'package:mudeo/data/models/song_model.dart';
 
 var memoizedSongIds = memo5(
-    (BuiltMap<int, SongEntity> songMap, ArtistEntity artist, bool isFeatured,
-            [int filterArtistId, String filter]) =>
-        songIdsSelector(songMap, artist, isFeatured, filterArtistId, filter));
+    (BuiltMap<int?, SongEntity?>? songMap, ArtistEntity? artist, bool? isFeatured,
+            [int? filterArtistId, String? filter]) =>
+        songIdsSelector(songMap!, artist, isFeatured, filterArtistId, filter));
 
-List<int> songIdsSelector(
-    BuiltMap<int, SongEntity> songMap, ArtistEntity artist, bool isFeatured,
-    [int filterArtistId, String filter]) {
+List<int?> songIdsSelector(
+    BuiltMap<int?, SongEntity?> songMap, ArtistEntity? artist, bool? isFeatured,
+    [int? filterArtistId, String? filter]) {
   final songIds = songMap.keys.where((songId) {
     final song = songMap[songId];
 
-    if (isFeatured == true && !song.isFeatured) {
+    if (isFeatured == true && !song!.isFeatured!) {
       return false;
-    } else if (isFeatured == false && song.isFeatured) {
+    } else if (isFeatured == false && song!.isFeatured!) {
       return false;
     }
 
     if (filterArtistId != null) {
       bool isMatch = false;
 
-      if (song.artistId == filterArtistId) {
+      if (song!.artistId == filterArtistId) {
         isMatch = true;
       } else if (song.joinedArtists != null &&
-          song.joinedArtists.any((artist) => artist.id == filterArtistId)) {
+          song.joinedArtists!.any((artist) => artist.id == filterArtistId)) {
         isMatch = true;
       }
 
@@ -35,13 +35,13 @@ List<int> songIdsSelector(
         return false;
       }
     } else {
-      if (!song.isApproved) {
+      if (!song!.isApproved!) {
         return false;
       }
 
-      if (filter == kSongFilterFeatured && !song.isFeatured) {
+      if (filter == kSongFilterFeatured && !song.isFeatured!) {
         return false;
-      } else if (filter == kSongFilterNewest && song.isFeatured) {
+      } else if (filter == kSongFilterNewest && song.isFeatured!) {
         return false;
       }
     }
@@ -50,24 +50,24 @@ List<int> songIdsSelector(
       return false;
     }
 
-    return !artist.flaggedSong(songId) && !artist.flaggedArtist(song.artistId);
+    return !artist!.flaggedSong(songId) && !artist.flaggedArtist(song.artistId);
   }).toList();
 
-  songIds.sort((songIda, songIdb) => songMap[songIdb].id - songMap[songIda].id);
+  songIds.sort((songIda, songIdb) => songMap[songIdb]!.id! - songMap[songIda]!.id!);
 
   return songIds;
 }
 
 var memoizedChildSongIds = memo2(
-    (BuiltMap<int, SongEntity> songMap, SongEntity song) =>
-        childSongIdsSelector(songMap, song));
+    (BuiltMap<int?, SongEntity?>? songMap, SongEntity song) =>
+        childSongIdsSelector(songMap!, song));
 
-List<int> childSongIdsSelector(
-    BuiltMap<int, SongEntity> songMap, SongEntity song) {
-  List<int> songIds = [];
+List<int?> childSongIdsSelector(
+    BuiltMap<int?, SongEntity?> songMap, SongEntity song) {
+  List<int?> songIds = [];
 
   songMap.forEach((key, child) {
-    if (child.hasParent && child.parentId == song.id && child.isActive) {
+    if (child!.hasParent && child.parentId == song.id && child.isActive) {
       songIds.add(child.id);
     }
   });

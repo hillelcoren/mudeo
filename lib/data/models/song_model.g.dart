@@ -37,9 +37,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
   final String wireName = 'SongEntity';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, SongEntity object,
+  Iterable<Object?> serialize(Serializers serializers, SongEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'title',
       serializers.serialize(object.title,
           specifiedType: const FullType(String)),
@@ -189,107 +189,107 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
   }
 
   @override
-  SongEntity deserialize(Serializers serializers, Iterable<Object> serialized,
+  SongEntity deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'title':
           result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'url':
           result.url = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'width':
           result.width = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'height':
           result.height = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'color':
           result.color = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'user_id':
           result.artistId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'user':
           result.artist.replace(serializers.deserialize(value,
-              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity?);
           break;
         case 'genre_id':
           result.genreId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'parent_id':
           result.parentId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'duration':
           result.duration = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'blurhash':
           result.blurhash = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'count_play':
           result.countPlay = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'count_like':
           result.countLike = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'is_flagged':
           result.isFlagged = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'is_public':
           result.isPublic = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'is_approved':
           result.isApproved = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'is_featured':
           result.isFeatured = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'video_url':
           result.videoUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'track_video_url':
           result.trackVideoUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'youtube_id':
           result.youTubeId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'twitter_id':
           result.twitterId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'thumbnail_url':
           result.thumbnailUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'song_videos':
           result.tracks.replace(serializers.deserialize(value,
@@ -311,27 +311,27 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'layout':
           result.layout = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'is_rendered':
           result.isRendered = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'sharing_key':
           result.sharingKey = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updated_at':
           result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -347,9 +347,9 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
   final String wireName = 'TrackEntity';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, TrackEntity object,
+  Iterable<Object?> serialize(Serializers serializers, TrackEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'video',
       serializers.serialize(object.video,
           specifiedType: const FullType(VideoEntity)),
@@ -400,47 +400,47 @@ class _$TrackEntitySerializer implements StructuredSerializer<TrackEntity> {
   }
 
   @override
-  TrackEntity deserialize(Serializers serializers, Iterable<Object> serialized,
+  TrackEntity deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new TrackEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'is_included':
           result.isIncluded = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool;
+              specifiedType: const FullType(bool)) as bool?;
           break;
         case 'delay':
           result.delay = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'volume':
           result.volume = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'order_id':
           result.orderId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'video':
           result.video.replace(serializers.deserialize(value,
-              specifiedType: const FullType(VideoEntity)) as VideoEntity);
+              specifiedType: const FullType(VideoEntity)) as VideoEntity?);
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updated_at':
           result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -456,9 +456,9 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
   final String wireName = 'CommentEntity';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, CommentEntity object,
+  Iterable<Object?> serialize(Serializers serializers, CommentEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'user',
       serializers.serialize(object.artist,
           specifiedType: const FullType(ArtistEntity)),
@@ -494,43 +494,43 @@ class _$CommentEntitySerializer implements StructuredSerializer<CommentEntity> {
 
   @override
   CommentEntity deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new CommentEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'user':
           result.artist.replace(serializers.deserialize(value,
-              specifiedType: const FullType(ArtistEntity)) as ArtistEntity);
+              specifiedType: const FullType(ArtistEntity)) as ArtistEntity?);
           break;
         case 'user_id':
           result.artistId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'song_id':
           result.songId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'description':
           result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updated_at':
           result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -547,9 +547,9 @@ class _$SongLikeEntitySerializer
   final String wireName = 'SongLikeEntity';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, SongLikeEntity object,
+  Iterable<Object?> serialize(Serializers serializers, SongLikeEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'user_id',
@@ -574,35 +574,35 @@ class _$SongLikeEntitySerializer
 
   @override
   SongLikeEntity deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongLikeEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'user_id':
           result.userId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'song_id':
           result.songId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updated_at':
           result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -619,9 +619,9 @@ class _$SongFlagEntitySerializer
   final String wireName = 'SongFlagEntity';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, SongFlagEntity object,
+  Iterable<Object?> serialize(Serializers serializers, SongFlagEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'user_id',
@@ -646,35 +646,35 @@ class _$SongFlagEntitySerializer
 
   @override
   SongFlagEntity deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongFlagEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'user_id':
           result.userId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'song_id':
           result.songId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updated_at':
           result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -691,9 +691,9 @@ class _$ArtistFlagEntitySerializer
   final String wireName = 'ArtistFlagEntity';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, ArtistFlagEntity object,
+  Iterable<Object?> serialize(Serializers serializers, ArtistFlagEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'id',
       serializers.serialize(object.id, specifiedType: const FullType(int)),
       'user_id',
@@ -717,31 +717,31 @@ class _$ArtistFlagEntitySerializer
 
   @override
   ArtistFlagEntity deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new ArtistFlagEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'user_id':
           result.artistId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updated_at':
           result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -757,9 +757,9 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   final String wireName = 'VideoEntity';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, VideoEntity object,
+  Iterable<Object?> serialize(Serializers serializers, VideoEntity object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'user_id',
       serializers.serialize(object.userId, specifiedType: const FullType(int)),
     ];
@@ -834,39 +834,39 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
   }
 
   @override
-  VideoEntity deserialize(Serializers serializers, Iterable<Object> serialized,
+  VideoEntity deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new VideoEntityBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'user_id':
           result.userId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'timestamp':
           result.timestamp = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'url':
           result.url = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'recognitions':
           result.recognitions = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'thumbnail_url':
           result.thumbnailUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'remote_video_id':
           result.remoteVideoId = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'volume_data':
           result.volumeData.replace(serializers.deserialize(value,
@@ -877,23 +877,23 @@ class _$VideoEntitySerializer implements StructuredSerializer<VideoEntity> {
           break;
         case 'description':
           result.description = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'duration':
           result.duration = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
         case 'deleted_at':
           result.deletedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'updated_at':
           result.updatedAt = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int)) as int?;
           break;
       }
     }
@@ -910,9 +910,9 @@ class _$SongListResponseSerializer
   final String wireName = 'SongListResponse';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, SongListResponse object,
+  Iterable<Object?> serialize(Serializers serializers, SongListResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'data',
       serializers.serialize(object.data,
           specifiedType:
@@ -924,13 +924,13 @@ class _$SongListResponseSerializer
 
   @override
   SongListResponse deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongListResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
@@ -955,9 +955,9 @@ class _$SongItemResponseSerializer
   final String wireName = 'SongItemResponse';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, SongItemResponse object,
+  Iterable<Object?> serialize(Serializers serializers, SongItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'data',
       serializers.serialize(object.data,
           specifiedType: const FullType(SongEntity)),
@@ -968,19 +968,19 @@ class _$SongItemResponseSerializer
 
   @override
   SongItemResponse deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new SongItemResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SongEntity)) as SongEntity);
+              specifiedType: const FullType(SongEntity)) as SongEntity?);
           break;
       }
     }
@@ -1000,10 +1000,10 @@ class _$CommentItemResponseSerializer
   final String wireName = 'CommentItemResponse';
 
   @override
-  Iterable<Object> serialize(
+  Iterable<Object?> serialize(
       Serializers serializers, CommentItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'data',
       serializers.serialize(object.data,
           specifiedType: const FullType(CommentEntity)),
@@ -1014,19 +1014,19 @@ class _$CommentItemResponseSerializer
 
   @override
   CommentItemResponse deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new CommentItemResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(CommentEntity)) as CommentEntity);
+              specifiedType: const FullType(CommentEntity)) as CommentEntity?);
           break;
       }
     }
@@ -1043,9 +1043,9 @@ class _$LikeSongResponseSerializer
   final String wireName = 'LikeSongResponse';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, LikeSongResponse object,
+  Iterable<Object?> serialize(Serializers serializers, LikeSongResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'data',
       serializers.serialize(object.data,
           specifiedType: const FullType(SongLikeEntity)),
@@ -1056,19 +1056,19 @@ class _$LikeSongResponseSerializer
 
   @override
   LikeSongResponse deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new LikeSongResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SongLikeEntity)) as SongLikeEntity);
+              specifiedType: const FullType(SongLikeEntity)) as SongLikeEntity?);
           break;
       }
     }
@@ -1085,9 +1085,9 @@ class _$FlagSongResponseSerializer
   final String wireName = 'FlagSongResponse';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, FlagSongResponse object,
+  Iterable<Object?> serialize(Serializers serializers, FlagSongResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'data',
       serializers.serialize(object.data,
           specifiedType: const FullType(SongFlagEntity)),
@@ -1098,19 +1098,19 @@ class _$FlagSongResponseSerializer
 
   @override
   FlagSongResponse deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new FlagSongResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SongFlagEntity)) as SongFlagEntity);
+              specifiedType: const FullType(SongFlagEntity)) as SongFlagEntity?);
           break;
       }
     }
@@ -1127,9 +1127,9 @@ class _$VideoItemResponseSerializer
   final String wireName = 'VideoItemResponse';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, VideoItemResponse object,
+  Iterable<Object?> serialize(Serializers serializers, VideoItemResponse object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'data',
       serializers.serialize(object.data,
           specifiedType: const FullType(VideoEntity)),
@@ -1140,19 +1140,19 @@ class _$VideoItemResponseSerializer
 
   @override
   VideoItemResponse deserialize(
-      Serializers serializers, Iterable<Object> serialized,
+      Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new VideoItemResponseBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current as String?;
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
         case 'data':
           result.data.replace(serializers.deserialize(value,
-              specifiedType: const FullType(VideoEntity)) as VideoEntity);
+              specifiedType: const FullType(VideoEntity)) as VideoEntity?);
           break;
       }
     }
@@ -1163,71 +1163,71 @@ class _$VideoItemResponseSerializer
 
 class _$SongEntity extends SongEntity {
   @override
-  final String title;
+  final String? title;
   @override
-  final String description;
+  final String? description;
   @override
-  final String url;
+  final String? url;
   @override
-  final int width;
+  final int? width;
   @override
-  final int height;
+  final int? height;
   @override
-  final String color;
+  final String? color;
   @override
-  final int artistId;
+  final int? artistId;
   @override
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
   @override
-  final int genreId;
+  final int? genreId;
   @override
-  final int parentId;
+  final int? parentId;
   @override
-  final int duration;
+  final int? duration;
   @override
-  final String blurhash;
+  final String? blurhash;
   @override
-  final int countPlay;
+  final int? countPlay;
   @override
-  final int countLike;
+  final int? countLike;
   @override
-  final bool isFlagged;
+  final bool? isFlagged;
   @override
-  final bool isPublic;
+  final bool? isPublic;
   @override
-  final bool isApproved;
+  final bool? isApproved;
   @override
-  final bool isFeatured;
+  final bool? isFeatured;
   @override
-  final String videoUrl;
+  final String? videoUrl;
   @override
-  final String trackVideoUrl;
+  final String? trackVideoUrl;
   @override
-  final String youTubeId;
+  final String? youTubeId;
   @override
-  final String twitterId;
+  final String? twitterId;
   @override
-  final String thumbnailUrl;
+  final String? thumbnailUrl;
   @override
-  final BuiltList<TrackEntity> tracks;
+  final BuiltList<TrackEntity?>? tracks;
   @override
-  final BuiltList<ArtistEntity> joinedArtists;
+  final BuiltList<ArtistEntity>? joinedArtists;
   @override
-  final BuiltList<CommentEntity> comments;
+  final BuiltList<CommentEntity?>? comments;
   @override
-  final String layout;
+  final String? layout;
   @override
-  final bool isRendered;
+  final bool? isRendered;
   @override
-  final String sharingKey;
+  final String? sharingKey;
   @override
-  final int id;
+  final int? id;
   @override
-  final String deletedAt;
+  final String? deletedAt;
   @override
-  final String updatedAt;
+  final String? updatedAt;
 
-  factory _$SongEntity([void Function(SongEntityBuilder) updates]) =>
+  factory _$SongEntity([void Function(SongEntityBuilder)? updates]) =>
       (new SongEntityBuilder()..update(updates)).build();
 
   _$SongEntity._(
@@ -1441,186 +1441,186 @@ class _$SongEntity extends SongEntity {
 }
 
 class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
-  _$SongEntity _$v;
+  _$SongEntity? _$v;
 
-  String _title;
-  String get title => _$this._title;
-  set title(String title) => _$this._title = title;
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
 
-  String _description;
-  String get description => _$this._description;
-  set description(String description) => _$this._description = description;
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
 
-  String _url;
-  String get url => _$this._url;
-  set url(String url) => _$this._url = url;
+  String? _url;
+  String? get url => _$this._url;
+  set url(String? url) => _$this._url = url;
 
-  int _width;
-  int get width => _$this._width;
-  set width(int width) => _$this._width = width;
+  int? _width;
+  int? get width => _$this._width;
+  set width(int? width) => _$this._width = width;
 
-  int _height;
-  int get height => _$this._height;
-  set height(int height) => _$this._height = height;
+  int? _height;
+  int? get height => _$this._height;
+  set height(int? height) => _$this._height = height;
 
-  String _color;
-  String get color => _$this._color;
-  set color(String color) => _$this._color = color;
+  String? _color;
+  String? get color => _$this._color;
+  set color(String? color) => _$this._color = color;
 
-  int _artistId;
-  int get artistId => _$this._artistId;
-  set artistId(int artistId) => _$this._artistId = artistId;
+  int? _artistId;
+  int? get artistId => _$this._artistId;
+  set artistId(int? artistId) => _$this._artistId = artistId;
 
-  ArtistEntityBuilder _artist;
+  ArtistEntityBuilder? _artist;
   ArtistEntityBuilder get artist =>
       _$this._artist ??= new ArtistEntityBuilder();
   set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
 
-  int _genreId;
-  int get genreId => _$this._genreId;
-  set genreId(int genreId) => _$this._genreId = genreId;
+  int? _genreId;
+  int? get genreId => _$this._genreId;
+  set genreId(int? genreId) => _$this._genreId = genreId;
 
-  int _parentId;
-  int get parentId => _$this._parentId;
-  set parentId(int parentId) => _$this._parentId = parentId;
+  int? _parentId;
+  int? get parentId => _$this._parentId;
+  set parentId(int? parentId) => _$this._parentId = parentId;
 
-  int _duration;
-  int get duration => _$this._duration;
-  set duration(int duration) => _$this._duration = duration;
+  int? _duration;
+  int? get duration => _$this._duration;
+  set duration(int? duration) => _$this._duration = duration;
 
-  String _blurhash;
-  String get blurhash => _$this._blurhash;
-  set blurhash(String blurhash) => _$this._blurhash = blurhash;
+  String? _blurhash;
+  String? get blurhash => _$this._blurhash;
+  set blurhash(String? blurhash) => _$this._blurhash = blurhash;
 
-  int _countPlay;
-  int get countPlay => _$this._countPlay;
-  set countPlay(int countPlay) => _$this._countPlay = countPlay;
+  int? _countPlay;
+  int? get countPlay => _$this._countPlay;
+  set countPlay(int? countPlay) => _$this._countPlay = countPlay;
 
-  int _countLike;
-  int get countLike => _$this._countLike;
-  set countLike(int countLike) => _$this._countLike = countLike;
+  int? _countLike;
+  int? get countLike => _$this._countLike;
+  set countLike(int? countLike) => _$this._countLike = countLike;
 
-  bool _isFlagged;
-  bool get isFlagged => _$this._isFlagged;
-  set isFlagged(bool isFlagged) => _$this._isFlagged = isFlagged;
+  bool? _isFlagged;
+  bool? get isFlagged => _$this._isFlagged;
+  set isFlagged(bool? isFlagged) => _$this._isFlagged = isFlagged;
 
-  bool _isPublic;
-  bool get isPublic => _$this._isPublic;
-  set isPublic(bool isPublic) => _$this._isPublic = isPublic;
+  bool? _isPublic;
+  bool? get isPublic => _$this._isPublic;
+  set isPublic(bool? isPublic) => _$this._isPublic = isPublic;
 
-  bool _isApproved;
-  bool get isApproved => _$this._isApproved;
-  set isApproved(bool isApproved) => _$this._isApproved = isApproved;
+  bool? _isApproved;
+  bool? get isApproved => _$this._isApproved;
+  set isApproved(bool? isApproved) => _$this._isApproved = isApproved;
 
-  bool _isFeatured;
-  bool get isFeatured => _$this._isFeatured;
-  set isFeatured(bool isFeatured) => _$this._isFeatured = isFeatured;
+  bool? _isFeatured;
+  bool? get isFeatured => _$this._isFeatured;
+  set isFeatured(bool? isFeatured) => _$this._isFeatured = isFeatured;
 
-  String _videoUrl;
-  String get videoUrl => _$this._videoUrl;
-  set videoUrl(String videoUrl) => _$this._videoUrl = videoUrl;
+  String? _videoUrl;
+  String? get videoUrl => _$this._videoUrl;
+  set videoUrl(String? videoUrl) => _$this._videoUrl = videoUrl;
 
-  String _trackVideoUrl;
-  String get trackVideoUrl => _$this._trackVideoUrl;
-  set trackVideoUrl(String trackVideoUrl) =>
+  String? _trackVideoUrl;
+  String? get trackVideoUrl => _$this._trackVideoUrl;
+  set trackVideoUrl(String? trackVideoUrl) =>
       _$this._trackVideoUrl = trackVideoUrl;
 
-  String _youTubeId;
-  String get youTubeId => _$this._youTubeId;
-  set youTubeId(String youTubeId) => _$this._youTubeId = youTubeId;
+  String? _youTubeId;
+  String? get youTubeId => _$this._youTubeId;
+  set youTubeId(String? youTubeId) => _$this._youTubeId = youTubeId;
 
-  String _twitterId;
-  String get twitterId => _$this._twitterId;
-  set twitterId(String twitterId) => _$this._twitterId = twitterId;
+  String? _twitterId;
+  String? get twitterId => _$this._twitterId;
+  set twitterId(String? twitterId) => _$this._twitterId = twitterId;
 
-  String _thumbnailUrl;
-  String get thumbnailUrl => _$this._thumbnailUrl;
-  set thumbnailUrl(String thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
+  String? _thumbnailUrl;
+  String? get thumbnailUrl => _$this._thumbnailUrl;
+  set thumbnailUrl(String? thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
 
-  ListBuilder<TrackEntity> _tracks;
-  ListBuilder<TrackEntity> get tracks =>
-      _$this._tracks ??= new ListBuilder<TrackEntity>();
-  set tracks(ListBuilder<TrackEntity> tracks) => _$this._tracks = tracks;
+  ListBuilder<TrackEntity?>? _tracks;
+  ListBuilder<TrackEntity?> get tracks =>
+      _$this._tracks ??= new ListBuilder<TrackEntity?>();
+  set tracks(ListBuilder<TrackEntity?> tracks) => _$this._tracks = tracks;
 
-  ListBuilder<ArtistEntity> _joinedArtists;
+  ListBuilder<ArtistEntity>? _joinedArtists;
   ListBuilder<ArtistEntity> get joinedArtists =>
       _$this._joinedArtists ??= new ListBuilder<ArtistEntity>();
   set joinedArtists(ListBuilder<ArtistEntity> joinedArtists) =>
       _$this._joinedArtists = joinedArtists;
 
-  ListBuilder<CommentEntity> _comments;
-  ListBuilder<CommentEntity> get comments =>
-      _$this._comments ??= new ListBuilder<CommentEntity>();
-  set comments(ListBuilder<CommentEntity> comments) =>
+  ListBuilder<CommentEntity?>? _comments;
+  ListBuilder<CommentEntity?> get comments =>
+      _$this._comments ??= new ListBuilder<CommentEntity?>();
+  set comments(ListBuilder<CommentEntity?> comments) =>
       _$this._comments = comments;
 
-  String _layout;
-  String get layout => _$this._layout;
-  set layout(String layout) => _$this._layout = layout;
+  String? _layout;
+  String? get layout => _$this._layout;
+  set layout(String? layout) => _$this._layout = layout;
 
-  bool _isRendered;
-  bool get isRendered => _$this._isRendered;
-  set isRendered(bool isRendered) => _$this._isRendered = isRendered;
+  bool? _isRendered;
+  bool? get isRendered => _$this._isRendered;
+  set isRendered(bool? isRendered) => _$this._isRendered = isRendered;
 
-  String _sharingKey;
-  String get sharingKey => _$this._sharingKey;
-  set sharingKey(String sharingKey) => _$this._sharingKey = sharingKey;
+  String? _sharingKey;
+  String? get sharingKey => _$this._sharingKey;
+  set sharingKey(String? sharingKey) => _$this._sharingKey = sharingKey;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  String _deletedAt;
-  String get deletedAt => _$this._deletedAt;
-  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+  String? _deletedAt;
+  String? get deletedAt => _$this._deletedAt;
+  set deletedAt(String? deletedAt) => _$this._deletedAt = deletedAt;
 
-  String _updatedAt;
-  String get updatedAt => _$this._updatedAt;
-  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
   SongEntityBuilder();
 
   SongEntityBuilder get _$this {
     if (_$v != null) {
-      _title = _$v.title;
-      _description = _$v.description;
-      _url = _$v.url;
-      _width = _$v.width;
-      _height = _$v.height;
-      _color = _$v.color;
-      _artistId = _$v.artistId;
-      _artist = _$v.artist?.toBuilder();
-      _genreId = _$v.genreId;
-      _parentId = _$v.parentId;
-      _duration = _$v.duration;
-      _blurhash = _$v.blurhash;
-      _countPlay = _$v.countPlay;
-      _countLike = _$v.countLike;
-      _isFlagged = _$v.isFlagged;
-      _isPublic = _$v.isPublic;
-      _isApproved = _$v.isApproved;
-      _isFeatured = _$v.isFeatured;
-      _videoUrl = _$v.videoUrl;
-      _trackVideoUrl = _$v.trackVideoUrl;
-      _youTubeId = _$v.youTubeId;
-      _twitterId = _$v.twitterId;
-      _thumbnailUrl = _$v.thumbnailUrl;
-      _tracks = _$v.tracks?.toBuilder();
-      _joinedArtists = _$v.joinedArtists?.toBuilder();
-      _comments = _$v.comments?.toBuilder();
-      _layout = _$v.layout;
-      _isRendered = _$v.isRendered;
-      _sharingKey = _$v.sharingKey;
-      _id = _$v.id;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+      _title = _$v!.title;
+      _description = _$v!.description;
+      _url = _$v!.url;
+      _width = _$v!.width;
+      _height = _$v!.height;
+      _color = _$v!.color;
+      _artistId = _$v!.artistId;
+      _artist = _$v!.artist?.toBuilder();
+      _genreId = _$v!.genreId;
+      _parentId = _$v!.parentId;
+      _duration = _$v!.duration;
+      _blurhash = _$v!.blurhash;
+      _countPlay = _$v!.countPlay;
+      _countLike = _$v!.countLike;
+      _isFlagged = _$v!.isFlagged;
+      _isPublic = _$v!.isPublic;
+      _isApproved = _$v!.isApproved;
+      _isFeatured = _$v!.isFeatured;
+      _videoUrl = _$v!.videoUrl;
+      _trackVideoUrl = _$v!.trackVideoUrl;
+      _youTubeId = _$v!.youTubeId;
+      _twitterId = _$v!.twitterId;
+      _thumbnailUrl = _$v!.thumbnailUrl;
+      _tracks = _$v!.tracks?.toBuilder();
+      _joinedArtists = _$v!.joinedArtists?.toBuilder();
+      _comments = _$v!.comments?.toBuilder();
+      _layout = _$v!.layout;
+      _isRendered = _$v!.isRendered;
+      _sharingKey = _$v!.sharingKey;
+      _id = _$v!.id;
+      _deletedAt = _$v!.deletedAt;
+      _updatedAt = _$v!.updatedAt;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(SongEntity other) {
+  void replace(SongEntity? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -1628,7 +1628,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   }
 
   @override
-  void update(void Function(SongEntityBuilder) updates) {
+  void update(void Function(SongEntityBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -1671,7 +1671,7 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
               deletedAt: deletedAt,
               updatedAt: updatedAt);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'artist';
         _artist?.build();
@@ -1695,23 +1695,23 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
 
 class _$TrackEntity extends TrackEntity {
   @override
-  final bool isIncluded;
+  final bool? isIncluded;
   @override
-  final int delay;
+  final int? delay;
   @override
-  final int volume;
+  final int? volume;
   @override
-  final int orderId;
+  final int? orderId;
   @override
-  final VideoEntity video;
+  final VideoEntity? video;
   @override
-  final String deletedAt;
+  final String? deletedAt;
   @override
-  final String updatedAt;
+  final String? updatedAt;
   @override
-  final int id;
+  final int? id;
 
-  factory _$TrackEntity([void Function(TrackEntityBuilder) updates]) =>
+  factory _$TrackEntity([void Function(TrackEntityBuilder)? updates]) =>
       (new TrackEntityBuilder()..update(updates)).build();
 
   _$TrackEntity._(
@@ -1782,52 +1782,52 @@ class _$TrackEntity extends TrackEntity {
 }
 
 class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
-  _$TrackEntity _$v;
+  _$TrackEntity? _$v;
 
-  bool _isIncluded;
-  bool get isIncluded => _$this._isIncluded;
-  set isIncluded(bool isIncluded) => _$this._isIncluded = isIncluded;
+  bool? _isIncluded;
+  bool? get isIncluded => _$this._isIncluded;
+  set isIncluded(bool? isIncluded) => _$this._isIncluded = isIncluded;
 
-  int _delay;
-  int get delay => _$this._delay;
-  set delay(int delay) => _$this._delay = delay;
+  int? _delay;
+  int? get delay => _$this._delay;
+  set delay(int? delay) => _$this._delay = delay;
 
-  int _volume;
-  int get volume => _$this._volume;
-  set volume(int volume) => _$this._volume = volume;
+  int? _volume;
+  int? get volume => _$this._volume;
+  set volume(int? volume) => _$this._volume = volume;
 
-  int _orderId;
-  int get orderId => _$this._orderId;
-  set orderId(int orderId) => _$this._orderId = orderId;
+  int? _orderId;
+  int? get orderId => _$this._orderId;
+  set orderId(int? orderId) => _$this._orderId = orderId;
 
-  VideoEntityBuilder _video;
+  VideoEntityBuilder? _video;
   VideoEntityBuilder get video => _$this._video ??= new VideoEntityBuilder();
   set video(VideoEntityBuilder video) => _$this._video = video;
 
-  String _deletedAt;
-  String get deletedAt => _$this._deletedAt;
-  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+  String? _deletedAt;
+  String? get deletedAt => _$this._deletedAt;
+  set deletedAt(String? deletedAt) => _$this._deletedAt = deletedAt;
 
-  String _updatedAt;
-  String get updatedAt => _$this._updatedAt;
-  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
   TrackEntityBuilder();
 
   TrackEntityBuilder get _$this {
     if (_$v != null) {
-      _isIncluded = _$v.isIncluded;
-      _delay = _$v.delay;
-      _volume = _$v.volume;
-      _orderId = _$v.orderId;
-      _video = _$v.video?.toBuilder();
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
-      _id = _$v.id;
+      _isIncluded = _$v!.isIncluded;
+      _delay = _$v!.delay;
+      _volume = _$v!.volume;
+      _orderId = _$v!.orderId;
+      _video = _$v!.video?.toBuilder();
+      _deletedAt = _$v!.deletedAt;
+      _updatedAt = _$v!.updatedAt;
+      _id = _$v!.id;
       _$v = null;
     }
     return this;
@@ -1842,7 +1842,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
   }
 
   @override
-  void update(void Function(TrackEntityBuilder) updates) {
+  void update(void Function(TrackEntityBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -1861,7 +1861,7 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
               updatedAt: updatedAt,
               id: id);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'video';
         video.build();
@@ -1878,21 +1878,21 @@ class TrackEntityBuilder implements Builder<TrackEntity, TrackEntityBuilder> {
 
 class _$CommentEntity extends CommentEntity {
   @override
-  final ArtistEntity artist;
+  final ArtistEntity? artist;
   @override
-  final int artistId;
+  final int? artistId;
   @override
-  final int songId;
+  final int? songId;
   @override
-  final String description;
+  final String? description;
   @override
-  final String deletedAt;
+  final String? deletedAt;
   @override
-  final String updatedAt;
+  final String? updatedAt;
   @override
-  final int id;
+  final int? id;
 
-  factory _$CommentEntity([void Function(CommentEntityBuilder) updates]) =>
+  factory _$CommentEntity([void Function(CommentEntityBuilder)? updates]) =>
       (new CommentEntityBuilder()..update(updates)).build();
 
   _$CommentEntity._(
@@ -1968,55 +1968,55 @@ class _$CommentEntity extends CommentEntity {
 
 class CommentEntityBuilder
     implements Builder<CommentEntity, CommentEntityBuilder> {
-  _$CommentEntity _$v;
+  _$CommentEntity? _$v;
 
-  ArtistEntityBuilder _artist;
+  ArtistEntityBuilder? _artist;
   ArtistEntityBuilder get artist =>
       _$this._artist ??= new ArtistEntityBuilder();
   set artist(ArtistEntityBuilder artist) => _$this._artist = artist;
 
-  int _artistId;
-  int get artistId => _$this._artistId;
-  set artistId(int artistId) => _$this._artistId = artistId;
+  int? _artistId;
+  int? get artistId => _$this._artistId;
+  set artistId(int? artistId) => _$this._artistId = artistId;
 
-  int _songId;
-  int get songId => _$this._songId;
-  set songId(int songId) => _$this._songId = songId;
+  int? _songId;
+  int? get songId => _$this._songId;
+  set songId(int? songId) => _$this._songId = songId;
 
-  String _description;
-  String get description => _$this._description;
-  set description(String description) => _$this._description = description;
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
 
-  String _deletedAt;
-  String get deletedAt => _$this._deletedAt;
-  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+  String? _deletedAt;
+  String? get deletedAt => _$this._deletedAt;
+  set deletedAt(String? deletedAt) => _$this._deletedAt = deletedAt;
 
-  String _updatedAt;
-  String get updatedAt => _$this._updatedAt;
-  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
   CommentEntityBuilder();
 
   CommentEntityBuilder get _$this {
     if (_$v != null) {
-      _artist = _$v.artist?.toBuilder();
-      _artistId = _$v.artistId;
-      _songId = _$v.songId;
-      _description = _$v.description;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
-      _id = _$v.id;
+      _artist = _$v!.artist?.toBuilder();
+      _artistId = _$v!.artistId;
+      _songId = _$v!.songId;
+      _description = _$v!.description;
+      _deletedAt = _$v!.deletedAt;
+      _updatedAt = _$v!.updatedAt;
+      _id = _$v!.id;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(CommentEntity other) {
+  void replace(CommentEntity? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -2024,7 +2024,7 @@ class CommentEntityBuilder
   }
 
   @override
-  void update(void Function(CommentEntityBuilder) updates) {
+  void update(void Function(CommentEntityBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2042,7 +2042,7 @@ class CommentEntityBuilder
               updatedAt: updatedAt,
               id: id);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'artist';
         artist.build();
@@ -2059,17 +2059,17 @@ class CommentEntityBuilder
 
 class _$SongLikeEntity extends SongLikeEntity {
   @override
-  final int id;
+  final int? id;
   @override
-  final int userId;
+  final int? userId;
   @override
-  final int songId;
+  final int? songId;
   @override
-  final String deletedAt;
+  final String? deletedAt;
   @override
-  final String updatedAt;
+  final String? updatedAt;
 
-  factory _$SongLikeEntity([void Function(SongLikeEntityBuilder) updates]) =>
+  factory _$SongLikeEntity([void Function(SongLikeEntityBuilder)? updates]) =>
       (new SongLikeEntityBuilder()..update(updates)).build();
 
   _$SongLikeEntity._(
@@ -2127,44 +2127,44 @@ class _$SongLikeEntity extends SongLikeEntity {
 
 class SongLikeEntityBuilder
     implements Builder<SongLikeEntity, SongLikeEntityBuilder> {
-  _$SongLikeEntity _$v;
+  _$SongLikeEntity? _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  int _userId;
-  int get userId => _$this._userId;
-  set userId(int userId) => _$this._userId = userId;
+  int? _userId;
+  int? get userId => _$this._userId;
+  set userId(int? userId) => _$this._userId = userId;
 
-  int _songId;
-  int get songId => _$this._songId;
-  set songId(int songId) => _$this._songId = songId;
+  int? _songId;
+  int? get songId => _$this._songId;
+  set songId(int? songId) => _$this._songId = songId;
 
-  String _deletedAt;
-  String get deletedAt => _$this._deletedAt;
-  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+  String? _deletedAt;
+  String? get deletedAt => _$this._deletedAt;
+  set deletedAt(String? deletedAt) => _$this._deletedAt = deletedAt;
 
-  String _updatedAt;
-  String get updatedAt => _$this._updatedAt;
-  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
   SongLikeEntityBuilder();
 
   SongLikeEntityBuilder get _$this {
     if (_$v != null) {
-      _id = _$v.id;
-      _userId = _$v.userId;
-      _songId = _$v.songId;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+      _id = _$v!.id;
+      _userId = _$v!.userId;
+      _songId = _$v!.songId;
+      _deletedAt = _$v!.deletedAt;
+      _updatedAt = _$v!.updatedAt;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(SongLikeEntity other) {
+  void replace(SongLikeEntity? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -2172,7 +2172,7 @@ class SongLikeEntityBuilder
   }
 
   @override
-  void update(void Function(SongLikeEntityBuilder) updates) {
+  void update(void Function(SongLikeEntityBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2192,17 +2192,17 @@ class SongLikeEntityBuilder
 
 class _$SongFlagEntity extends SongFlagEntity {
   @override
-  final int id;
+  final int? id;
   @override
-  final int userId;
+  final int? userId;
   @override
-  final int songId;
+  final int? songId;
   @override
-  final String deletedAt;
+  final String? deletedAt;
   @override
-  final String updatedAt;
+  final String? updatedAt;
 
-  factory _$SongFlagEntity([void Function(SongFlagEntityBuilder) updates]) =>
+  factory _$SongFlagEntity([void Function(SongFlagEntityBuilder)? updates]) =>
       (new SongFlagEntityBuilder()..update(updates)).build();
 
   _$SongFlagEntity._(
@@ -2260,44 +2260,44 @@ class _$SongFlagEntity extends SongFlagEntity {
 
 class SongFlagEntityBuilder
     implements Builder<SongFlagEntity, SongFlagEntityBuilder> {
-  _$SongFlagEntity _$v;
+  _$SongFlagEntity? _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  int _userId;
-  int get userId => _$this._userId;
-  set userId(int userId) => _$this._userId = userId;
+  int? _userId;
+  int? get userId => _$this._userId;
+  set userId(int? userId) => _$this._userId = userId;
 
-  int _songId;
-  int get songId => _$this._songId;
-  set songId(int songId) => _$this._songId = songId;
+  int? _songId;
+  int? get songId => _$this._songId;
+  set songId(int? songId) => _$this._songId = songId;
 
-  String _deletedAt;
-  String get deletedAt => _$this._deletedAt;
-  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+  String? _deletedAt;
+  String? get deletedAt => _$this._deletedAt;
+  set deletedAt(String? deletedAt) => _$this._deletedAt = deletedAt;
 
-  String _updatedAt;
-  String get updatedAt => _$this._updatedAt;
-  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
   SongFlagEntityBuilder();
 
   SongFlagEntityBuilder get _$this {
     if (_$v != null) {
-      _id = _$v.id;
-      _userId = _$v.userId;
-      _songId = _$v.songId;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+      _id = _$v!.id;
+      _userId = _$v!.userId;
+      _songId = _$v!.songId;
+      _deletedAt = _$v!.deletedAt;
+      _updatedAt = _$v!.updatedAt;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(SongFlagEntity other) {
+  void replace(SongFlagEntity? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -2305,7 +2305,7 @@ class SongFlagEntityBuilder
   }
 
   @override
-  void update(void Function(SongFlagEntityBuilder) updates) {
+  void update(void Function(SongFlagEntityBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2325,16 +2325,16 @@ class SongFlagEntityBuilder
 
 class _$ArtistFlagEntity extends ArtistFlagEntity {
   @override
-  final int id;
+  final int? id;
   @override
-  final int artistId;
+  final int? artistId;
   @override
-  final String deletedAt;
+  final String? deletedAt;
   @override
-  final String updatedAt;
+  final String? updatedAt;
 
   factory _$ArtistFlagEntity(
-          [void Function(ArtistFlagEntityBuilder) updates]) =>
+          [void Function(ArtistFlagEntityBuilder)? updates]) =>
       (new ArtistFlagEntityBuilder()..update(updates)).build();
 
   _$ArtistFlagEntity._({this.id, this.artistId, this.deletedAt, this.updatedAt})
@@ -2385,32 +2385,32 @@ class _$ArtistFlagEntity extends ArtistFlagEntity {
 
 class ArtistFlagEntityBuilder
     implements Builder<ArtistFlagEntity, ArtistFlagEntityBuilder> {
-  _$ArtistFlagEntity _$v;
+  _$ArtistFlagEntity? _$v;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  int _artistId;
-  int get artistId => _$this._artistId;
-  set artistId(int artistId) => _$this._artistId = artistId;
+  int? _artistId;
+  int? get artistId => _$this._artistId;
+  set artistId(int? artistId) => _$this._artistId = artistId;
 
-  String _deletedAt;
-  String get deletedAt => _$this._deletedAt;
-  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+  String? _deletedAt;
+  String? get deletedAt => _$this._deletedAt;
+  set deletedAt(String? deletedAt) => _$this._deletedAt = deletedAt;
 
-  String _updatedAt;
-  String get updatedAt => _$this._updatedAt;
-  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
   ArtistFlagEntityBuilder();
 
   ArtistFlagEntityBuilder get _$this {
     if (_$v != null) {
-      _id = _$v.id;
-      _artistId = _$v.artistId;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
+      _id = _$v!.id;
+      _artistId = _$v!.artistId;
+      _deletedAt = _$v!.deletedAt;
+      _updatedAt = _$v!.updatedAt;
       _$v = null;
     }
     return this;
@@ -2425,7 +2425,7 @@ class ArtistFlagEntityBuilder
   }
 
   @override
-  void update(void Function(ArtistFlagEntityBuilder) updates) {
+  void update(void Function(ArtistFlagEntityBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2444,31 +2444,31 @@ class ArtistFlagEntityBuilder
 
 class _$VideoEntity extends VideoEntity {
   @override
-  final int userId;
+  final int? userId;
   @override
-  final int timestamp;
+  final int? timestamp;
   @override
-  final String url;
+  final String? url;
   @override
-  final String recognitions;
+  final String? recognitions;
   @override
-  final String thumbnailUrl;
+  final String? thumbnailUrl;
   @override
-  final String remoteVideoId;
+  final String? remoteVideoId;
   @override
-  final BuiltMap<String, double> volumeData;
+  final BuiltMap<String, double>? volumeData;
   @override
-  final String description;
+  final String? description;
   @override
-  final int duration;
+  final int? duration;
   @override
-  final String deletedAt;
+  final String? deletedAt;
   @override
-  final String updatedAt;
+  final String? updatedAt;
   @override
-  final int id;
+  final int? id;
 
-  factory _$VideoEntity([void Function(VideoEntityBuilder) updates]) =>
+  factory _$VideoEntity([void Function(VideoEntityBuilder)? updates]) =>
       (new VideoEntityBuilder()..update(updates)).build();
 
   _$VideoEntity._(
@@ -2561,82 +2561,82 @@ class _$VideoEntity extends VideoEntity {
 }
 
 class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
-  _$VideoEntity _$v;
+  _$VideoEntity? _$v;
 
-  int _userId;
-  int get userId => _$this._userId;
-  set userId(int userId) => _$this._userId = userId;
+  int? _userId;
+  int? get userId => _$this._userId;
+  set userId(int? userId) => _$this._userId = userId;
 
-  int _timestamp;
-  int get timestamp => _$this._timestamp;
-  set timestamp(int timestamp) => _$this._timestamp = timestamp;
+  int? _timestamp;
+  int? get timestamp => _$this._timestamp;
+  set timestamp(int? timestamp) => _$this._timestamp = timestamp;
 
-  String _url;
-  String get url => _$this._url;
-  set url(String url) => _$this._url = url;
+  String? _url;
+  String? get url => _$this._url;
+  set url(String? url) => _$this._url = url;
 
-  String _recognitions;
-  String get recognitions => _$this._recognitions;
-  set recognitions(String recognitions) => _$this._recognitions = recognitions;
+  String? _recognitions;
+  String? get recognitions => _$this._recognitions;
+  set recognitions(String? recognitions) => _$this._recognitions = recognitions;
 
-  String _thumbnailUrl;
-  String get thumbnailUrl => _$this._thumbnailUrl;
-  set thumbnailUrl(String thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
+  String? _thumbnailUrl;
+  String? get thumbnailUrl => _$this._thumbnailUrl;
+  set thumbnailUrl(String? thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
 
-  String _remoteVideoId;
-  String get remoteVideoId => _$this._remoteVideoId;
-  set remoteVideoId(String remoteVideoId) =>
+  String? _remoteVideoId;
+  String? get remoteVideoId => _$this._remoteVideoId;
+  set remoteVideoId(String? remoteVideoId) =>
       _$this._remoteVideoId = remoteVideoId;
 
-  MapBuilder<String, double> _volumeData;
+  MapBuilder<String, double>? _volumeData;
   MapBuilder<String, double> get volumeData =>
       _$this._volumeData ??= new MapBuilder<String, double>();
   set volumeData(MapBuilder<String, double> volumeData) =>
       _$this._volumeData = volumeData;
 
-  String _description;
-  String get description => _$this._description;
-  set description(String description) => _$this._description = description;
+  String? _description;
+  String? get description => _$this._description;
+  set description(String? description) => _$this._description = description;
 
-  int _duration;
-  int get duration => _$this._duration;
-  set duration(int duration) => _$this._duration = duration;
+  int? _duration;
+  int? get duration => _$this._duration;
+  set duration(int? duration) => _$this._duration = duration;
 
-  String _deletedAt;
-  String get deletedAt => _$this._deletedAt;
-  set deletedAt(String deletedAt) => _$this._deletedAt = deletedAt;
+  String? _deletedAt;
+  String? get deletedAt => _$this._deletedAt;
+  set deletedAt(String? deletedAt) => _$this._deletedAt = deletedAt;
 
-  String _updatedAt;
-  String get updatedAt => _$this._updatedAt;
-  set updatedAt(String updatedAt) => _$this._updatedAt = updatedAt;
+  String? _updatedAt;
+  String? get updatedAt => _$this._updatedAt;
+  set updatedAt(String? updatedAt) => _$this._updatedAt = updatedAt;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
   VideoEntityBuilder();
 
   VideoEntityBuilder get _$this {
     if (_$v != null) {
-      _userId = _$v.userId;
-      _timestamp = _$v.timestamp;
-      _url = _$v.url;
-      _recognitions = _$v.recognitions;
-      _thumbnailUrl = _$v.thumbnailUrl;
-      _remoteVideoId = _$v.remoteVideoId;
-      _volumeData = _$v.volumeData?.toBuilder();
-      _description = _$v.description;
-      _duration = _$v.duration;
-      _deletedAt = _$v.deletedAt;
-      _updatedAt = _$v.updatedAt;
-      _id = _$v.id;
+      _userId = _$v!.userId;
+      _timestamp = _$v!.timestamp;
+      _url = _$v!.url;
+      _recognitions = _$v!.recognitions;
+      _thumbnailUrl = _$v!.thumbnailUrl;
+      _remoteVideoId = _$v!.remoteVideoId;
+      _volumeData = _$v!.volumeData?.toBuilder();
+      _description = _$v!.description;
+      _duration = _$v!.duration;
+      _deletedAt = _$v!.deletedAt;
+      _updatedAt = _$v!.updatedAt;
+      _id = _$v!.id;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(VideoEntity other) {
+  void replace(VideoEntity? other) {
     if (other == null) {
       throw new ArgumentError.notNull('other');
     }
@@ -2644,7 +2644,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
   }
 
   @override
-  void update(void Function(VideoEntityBuilder) updates) {
+  void update(void Function(VideoEntityBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2667,7 +2667,7 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
               updatedAt: updatedAt,
               id: id);
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'volumeData';
         _volumeData?.build();
@@ -2684,10 +2684,10 @@ class VideoEntityBuilder implements Builder<VideoEntity, VideoEntityBuilder> {
 
 class _$SongListResponse extends SongListResponse {
   @override
-  final BuiltList<SongEntity> data;
+  final BuiltList<SongEntity>? data;
 
   factory _$SongListResponse(
-          [void Function(SongListResponseBuilder) updates]) =>
+          [void Function(SongListResponseBuilder)? updates]) =>
       (new SongListResponseBuilder()..update(updates)).build();
 
   _$SongListResponse._({this.data}) : super._() {
@@ -2724,9 +2724,9 @@ class _$SongListResponse extends SongListResponse {
 
 class SongListResponseBuilder
     implements Builder<SongListResponse, SongListResponseBuilder> {
-  _$SongListResponse _$v;
+  _$SongListResponse? _$v;
 
-  ListBuilder<SongEntity> _data;
+  ListBuilder<SongEntity>? _data;
   ListBuilder<SongEntity> get data =>
       _$this._data ??= new ListBuilder<SongEntity>();
   set data(ListBuilder<SongEntity> data) => _$this._data = data;
@@ -2735,7 +2735,7 @@ class SongListResponseBuilder
 
   SongListResponseBuilder get _$this {
     if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+      _data = _$v!.data?.toBuilder();
       _$v = null;
     }
     return this;
@@ -2750,7 +2750,7 @@ class SongListResponseBuilder
   }
 
   @override
-  void update(void Function(SongListResponseBuilder) updates) {
+  void update(void Function(SongListResponseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2760,7 +2760,7 @@ class SongListResponseBuilder
     try {
       _$result = _$v ?? new _$SongListResponse._(data: data.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
@@ -2777,10 +2777,10 @@ class SongListResponseBuilder
 
 class _$SongItemResponse extends SongItemResponse {
   @override
-  final SongEntity data;
+  final SongEntity? data;
 
   factory _$SongItemResponse(
-          [void Function(SongItemResponseBuilder) updates]) =>
+          [void Function(SongItemResponseBuilder)? updates]) =>
       (new SongItemResponseBuilder()..update(updates)).build();
 
   _$SongItemResponse._({this.data}) : super._() {
@@ -2817,9 +2817,9 @@ class _$SongItemResponse extends SongItemResponse {
 
 class SongItemResponseBuilder
     implements Builder<SongItemResponse, SongItemResponseBuilder> {
-  _$SongItemResponse _$v;
+  _$SongItemResponse? _$v;
 
-  SongEntityBuilder _data;
+  SongEntityBuilder? _data;
   SongEntityBuilder get data => _$this._data ??= new SongEntityBuilder();
   set data(SongEntityBuilder data) => _$this._data = data;
 
@@ -2827,7 +2827,7 @@ class SongItemResponseBuilder
 
   SongItemResponseBuilder get _$this {
     if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+      _data = _$v!.data?.toBuilder();
       _$v = null;
     }
     return this;
@@ -2842,7 +2842,7 @@ class SongItemResponseBuilder
   }
 
   @override
-  void update(void Function(SongItemResponseBuilder) updates) {
+  void update(void Function(SongItemResponseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2852,7 +2852,7 @@ class SongItemResponseBuilder
     try {
       _$result = _$v ?? new _$SongItemResponse._(data: data.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
@@ -2869,10 +2869,10 @@ class SongItemResponseBuilder
 
 class _$CommentItemResponse extends CommentItemResponse {
   @override
-  final CommentEntity data;
+  final CommentEntity? data;
 
   factory _$CommentItemResponse(
-          [void Function(CommentItemResponseBuilder) updates]) =>
+          [void Function(CommentItemResponseBuilder)? updates]) =>
       (new CommentItemResponseBuilder()..update(updates)).build();
 
   _$CommentItemResponse._({this.data}) : super._() {
@@ -2911,9 +2911,9 @@ class _$CommentItemResponse extends CommentItemResponse {
 
 class CommentItemResponseBuilder
     implements Builder<CommentItemResponse, CommentItemResponseBuilder> {
-  _$CommentItemResponse _$v;
+  _$CommentItemResponse? _$v;
 
-  CommentEntityBuilder _data;
+  CommentEntityBuilder? _data;
   CommentEntityBuilder get data => _$this._data ??= new CommentEntityBuilder();
   set data(CommentEntityBuilder data) => _$this._data = data;
 
@@ -2921,7 +2921,7 @@ class CommentItemResponseBuilder
 
   CommentItemResponseBuilder get _$this {
     if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+      _data = _$v!.data?.toBuilder();
       _$v = null;
     }
     return this;
@@ -2936,7 +2936,7 @@ class CommentItemResponseBuilder
   }
 
   @override
-  void update(void Function(CommentItemResponseBuilder) updates) {
+  void update(void Function(CommentItemResponseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -2946,7 +2946,7 @@ class CommentItemResponseBuilder
     try {
       _$result = _$v ?? new _$CommentItemResponse._(data: data.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
@@ -2963,10 +2963,10 @@ class CommentItemResponseBuilder
 
 class _$LikeSongResponse extends LikeSongResponse {
   @override
-  final SongLikeEntity data;
+  final SongLikeEntity? data;
 
   factory _$LikeSongResponse(
-          [void Function(LikeSongResponseBuilder) updates]) =>
+          [void Function(LikeSongResponseBuilder)? updates]) =>
       (new LikeSongResponseBuilder()..update(updates)).build();
 
   _$LikeSongResponse._({this.data}) : super._() {
@@ -3003,9 +3003,9 @@ class _$LikeSongResponse extends LikeSongResponse {
 
 class LikeSongResponseBuilder
     implements Builder<LikeSongResponse, LikeSongResponseBuilder> {
-  _$LikeSongResponse _$v;
+  _$LikeSongResponse? _$v;
 
-  SongLikeEntityBuilder _data;
+  SongLikeEntityBuilder? _data;
   SongLikeEntityBuilder get data =>
       _$this._data ??= new SongLikeEntityBuilder();
   set data(SongLikeEntityBuilder data) => _$this._data = data;
@@ -3014,7 +3014,7 @@ class LikeSongResponseBuilder
 
   LikeSongResponseBuilder get _$this {
     if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+      _data = _$v!.data?.toBuilder();
       _$v = null;
     }
     return this;
@@ -3029,7 +3029,7 @@ class LikeSongResponseBuilder
   }
 
   @override
-  void update(void Function(LikeSongResponseBuilder) updates) {
+  void update(void Function(LikeSongResponseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -3039,7 +3039,7 @@ class LikeSongResponseBuilder
     try {
       _$result = _$v ?? new _$LikeSongResponse._(data: data.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
@@ -3056,10 +3056,10 @@ class LikeSongResponseBuilder
 
 class _$FlagSongResponse extends FlagSongResponse {
   @override
-  final SongFlagEntity data;
+  final SongFlagEntity? data;
 
   factory _$FlagSongResponse(
-          [void Function(FlagSongResponseBuilder) updates]) =>
+          [void Function(FlagSongResponseBuilder)? updates]) =>
       (new FlagSongResponseBuilder()..update(updates)).build();
 
   _$FlagSongResponse._({this.data}) : super._() {
@@ -3096,9 +3096,9 @@ class _$FlagSongResponse extends FlagSongResponse {
 
 class FlagSongResponseBuilder
     implements Builder<FlagSongResponse, FlagSongResponseBuilder> {
-  _$FlagSongResponse _$v;
+  _$FlagSongResponse? _$v;
 
-  SongFlagEntityBuilder _data;
+  SongFlagEntityBuilder? _data;
   SongFlagEntityBuilder get data =>
       _$this._data ??= new SongFlagEntityBuilder();
   set data(SongFlagEntityBuilder data) => _$this._data = data;
@@ -3107,7 +3107,7 @@ class FlagSongResponseBuilder
 
   FlagSongResponseBuilder get _$this {
     if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+      _data = _$v!.data?.toBuilder();
       _$v = null;
     }
     return this;
@@ -3122,7 +3122,7 @@ class FlagSongResponseBuilder
   }
 
   @override
-  void update(void Function(FlagSongResponseBuilder) updates) {
+  void update(void Function(FlagSongResponseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -3132,7 +3132,7 @@ class FlagSongResponseBuilder
     try {
       _$result = _$v ?? new _$FlagSongResponse._(data: data.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();
@@ -3149,10 +3149,10 @@ class FlagSongResponseBuilder
 
 class _$VideoItemResponse extends VideoItemResponse {
   @override
-  final VideoEntity data;
+  final VideoEntity? data;
 
   factory _$VideoItemResponse(
-          [void Function(VideoItemResponseBuilder) updates]) =>
+          [void Function(VideoItemResponseBuilder)? updates]) =>
       (new VideoItemResponseBuilder()..update(updates)).build();
 
   _$VideoItemResponse._({this.data}) : super._() {
@@ -3189,9 +3189,9 @@ class _$VideoItemResponse extends VideoItemResponse {
 
 class VideoItemResponseBuilder
     implements Builder<VideoItemResponse, VideoItemResponseBuilder> {
-  _$VideoItemResponse _$v;
+  _$VideoItemResponse? _$v;
 
-  VideoEntityBuilder _data;
+  VideoEntityBuilder? _data;
   VideoEntityBuilder get data => _$this._data ??= new VideoEntityBuilder();
   set data(VideoEntityBuilder data) => _$this._data = data;
 
@@ -3199,7 +3199,7 @@ class VideoItemResponseBuilder
 
   VideoItemResponseBuilder get _$this {
     if (_$v != null) {
-      _data = _$v.data?.toBuilder();
+      _data = _$v!.data?.toBuilder();
       _$v = null;
     }
     return this;
@@ -3214,7 +3214,7 @@ class VideoItemResponseBuilder
   }
 
   @override
-  void update(void Function(VideoItemResponseBuilder) updates) {
+  void update(void Function(VideoItemResponseBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -3224,7 +3224,7 @@ class VideoItemResponseBuilder
     try {
       _$result = _$v ?? new _$VideoItemResponse._(data: data.build());
     } catch (_) {
-      String _$failedField;
+      late String _$failedField;
       try {
         _$failedField = 'data';
         data.build();

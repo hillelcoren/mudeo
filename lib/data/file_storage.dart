@@ -40,7 +40,7 @@ class FileStorage {
     }
   }
 
-  Future<File> save(String data) async {
+  Future<File?> save(String data) async {
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(tag, data);
@@ -53,7 +53,7 @@ class FileStorage {
     }
   }
 
-  Future<FileSystemEntity> delete() async {
+  Future<FileSystemEntity?> delete() async {
     if (kIsWeb) {
       final prefs = await SharedPreferences.getInstance();
       prefs.remove(tag);

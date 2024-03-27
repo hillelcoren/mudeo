@@ -8,7 +8,7 @@ import 'package:mudeo/redux/auth/auth_reducer.dart';
 AppState appReducer(AppState state, dynamic action) {
   if (action is UserLogout) {
     return AppState(isDance: state.isDance)
-        .rebuild((b) => b..authState.replace(state.authState.reset));
+        .rebuild((b) => b..authState.replace(state.authState!.reset));
     //..uiState.enableDarkMode = state.uiState.enableDarkMode);
   } else if (action is LoadStateSuccess) {
     return action.state.rebuild((b) => b
