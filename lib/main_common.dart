@@ -62,7 +62,7 @@ class MudeoAppState extends State<MudeoApp> {
               theme: ThemeData(
                 pageTransitionsTheme: pageTransitionsTheme,
                 brightness: Brightness.dark,
-                accentColor: Colors.lightBlueAccent,
+                colorSchemeSeed: Colors.lightBlueAccent,
                 textSelectionTheme: TextSelectionThemeData(
                   selectionHandleColor: Colors.lightBlueAccent,
                 ),

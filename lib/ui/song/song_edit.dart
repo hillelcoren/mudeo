@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:camera_macos/camera_macos_arguments.dart';
 import 'package:mudeo/ui/song/song_trim.dart';
 import 'package:path/path.dart' as p;
 import 'package:camera_macos/camera_macos_controller.dart';
@@ -1758,8 +1759,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                                 horizontal: 4, vertical: 10),
                             child: Text(localization!.trim!),
                           ),
-                          style:
-                              ElevatedButton.styleFrom(primary: Colors.purple),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple),
                           onPressed: () async {
                             final path = await widget.track!.video!.path;
                             Navigator.of(context).pop();
@@ -1786,8 +1787,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                                 horizontal: 4, vertical: 10),
                             child: Text(localization!.adjust!),
                           ),
-                          style:
-                              ElevatedButton.styleFrom(primary: Colors.purple),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.purple),
                           onPressed: () {
                             Navigator.of(context).pop();
                             showDialog<void>(
@@ -1825,7 +1826,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                             horizontal: 4, vertical: 10),
                         child: Text(AppLocalization.of(context)!.download!),
                       ),
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green),
                       onPressed: () async {
                         final Size size = MediaQuery.of(context).size;
                         final path = await widget.track!.video!.path;
@@ -1860,7 +1862,8 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                             ? localization!.remove!
                             : localization!.delete!),
                       ),
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       onPressed: () {
                         Navigator.of(context).pop();
                         showDialog<AlertDialog>(

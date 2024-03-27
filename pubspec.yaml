@@ -46,8 +46,7 @@ dependencies:
   built_collection:
   memoize:
   url_launcher:
-  #cached_network_image: ^3.3.1
-  cached_network_image: ^3.0.0
+  cached_network_image: ^3.3.1
   share_plus: ^7.2.2
   google_sign_in:
   sentry: ^7.2.0
@@ -55,17 +54,16 @@ dependencies:
   font_awesome_flutter:
   #flutter_xlider: 3.4.0
   file_picker: ^5.2.5
-  firebase_analytics: any
+  firebase_analytics: ^10.9.0
   flutter_xlider:
     git:
       url: https://github.com/Ali-Azmoud/flutter_xlider.git
       ref: master
-  #image_picker: ^1.0.7
-  image_picker: ^0.7.0
+  image_picker: ^1.0.7
   chewie:
   #flutter_youtube: ^2.0.0
   draggable_scrollbar:
-  #flutter_blurhash: ^0.8.2
+  flutter_blurhash: ^0.8.2
   #in_app_purchase: ^3.1.5
   #rounded_loading_button: 2.0.2
   device_info:

@@ -163,7 +163,7 @@ class _LoginState extends State<LoginScreen> {
     final ThemeData themeData = Theme.of(context);
     final TextStyle? aboutTextStyle = themeData.textTheme.bodyText1;
     final TextStyle linkStyle =
-        themeData.textTheme.bodyText1!.copyWith(color: themeData.accentColor);
+        themeData.textTheme.bodyText1!.copyWith(color: Colors.lightBlueAccent);
 
     return SingleChildScrollView(
       primary: true,
@@ -302,8 +302,7 @@ class _LoginState extends State<LoginScreen> {
                                           setState(() => _termsChecked = value),
                                       controlAffinity:
                                           ListTileControlAffinity.leading,
-                                      activeColor:
-                                          Theme.of(context).accentColor,
+                                      activeColor: Colors.lightBlueAccent,
                                       value: _termsChecked,
                                       title: RichText(
                                         text: TextSpan(

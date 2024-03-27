@@ -79,7 +79,9 @@ class _SongShareDialogState extends State<SongShareDialog> {
                     },
                     child: Text(
                       song.url!.replaceFirst('https://', ''),
-                      style: TextStyle(fontSize: 20, color: Theme.of(context).colorScheme.primary),
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                   )),
             ),
@@ -88,7 +90,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: InkWell(
                 onTap: () {
-                  Clipboard.setData(ClipboardData(text: song.sharingKey));
+                  Clipboard.setData(ClipboardData(text: song.sharingKey ?? ''));
                   showToast(localization.copiedToClipboard);
                 },
                 child: Padding(
@@ -110,7 +112,7 @@ class _SongShareDialogState extends State<SongShareDialog> {
             if (widget.shareSecret! && sharingKey.isNotEmpty) {
               Clipboard.setData(new ClipboardData(text: sharingKey));
             } else {
-              Clipboard.setData(new ClipboardData(text: song.url));
+              Clipboard.setData(new ClipboardData(text: song.url!));
             }
 
             showToast(localization.copiedToClipboard);

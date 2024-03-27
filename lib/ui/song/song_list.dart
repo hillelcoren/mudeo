@@ -561,11 +561,11 @@ class SongFooter extends StatelessWidget {
                 return;
               } else if (action == localization.copyLinkToSong ||
                   action == localization.copyLinkToDance) {
-                Clipboard.setData(new ClipboardData(text: song!.url));
+                Clipboard.setData(new ClipboardData(text: song!.url!));
                 showToast(localization.copiedToClipboard);
                 return;
               } else if (action == localization.copyLinkToVideo) {
-                Clipboard.setData(new ClipboardData(text: song!.videoUrl));
+                Clipboard.setData(new ClipboardData(text: song!.videoUrl!));
                 showToast(localization.copiedToClipboard);
                 return;
               } else if (action == localization.viewOriginal) {
@@ -695,7 +695,7 @@ class SongHeader extends StatelessWidget {
     final artist = song!.artist ?? ArtistEntity();
     final ThemeData themeData = Theme.of(context);
     final TextStyle artistStyle = themeData.textTheme.bodyText1!
-        .copyWith(color: themeData.accentColor, fontSize: 16);
+        .copyWith(color: Colors.lightBlueAccent, fontSize: 16);
     final TextStyle genreStyle =
         artistStyle.copyWith(color: kGenreColors[song!.genreId]);
     final TextStyle dotStyle = artistStyle.copyWith(color: Colors.white);

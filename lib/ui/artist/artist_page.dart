@@ -71,10 +71,10 @@ class _ArtistPageState extends State<ArtistPage> {
     final ThemeData themeData = Theme.of(context);
     //final TextStyle aboutTextStyle = themeData.textTheme.bodyText2;
     final TextStyle linkStyle =
-        themeData.textTheme.bodyText1!.copyWith(color: themeData.accentColor);
+        themeData.textTheme.bodyText1!.copyWith(color: Colors.lightBlueAccent);
 
-    final isFollowing =
-        widget.viewModel.state.authState!.artist!.isFollowing(widget.artist!.id);
+    final isFollowing = widget.viewModel.state.authState!.artist!
+        .isFollowing(widget.artist!.id);
     final state = widget.viewModel.state;
     final songIds = memoizedSongIds(state.dataState!.songMap,
         state.authState!.artist, null, widget.artist!.id, null);
@@ -652,8 +652,8 @@ class _ArtistPageState extends State<ArtistPage> {
                                                   localization.areYouSure,
                                               title: Text(
                                                   localization.blockArtist!),
-                                              content:
-                                                  Text(localization.areYouSure!),
+                                              content: Text(
+                                                  localization.areYouSure!),
                                               actions: <Widget>[
                                                 TextButton(
                                                     child: Text(localization

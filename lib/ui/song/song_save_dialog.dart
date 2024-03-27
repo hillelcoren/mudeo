@@ -394,7 +394,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                     child: Text(
                       songUrl!.replaceFirst('https://', ''),
                       style: TextStyle(
-                          fontSize: 20, color: Theme.of(context).colorScheme.primary),
+                          fontSize: 20,
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                   ),
                 ),
@@ -456,7 +457,7 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: InkWell(
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: sharingKey));
+                    Clipboard.setData(ClipboardData(text: sharingKey ?? ''));
                     showToast(localization.copiedToClipboard);
                   },
                   child: Padding(
@@ -471,8 +472,8 @@ class _SongSaveDialogState extends State<SongSaveDialog> {
     }
 
     return AlertDialog(
-      title:
-          Text(song.isNew ? localization!.publishSong! : localization!.updateSong!),
+      title: Text(
+          song.isNew ? localization!.publishSong! : localization!.updateSong!),
       actions: [
         if (selectedStackIndex == kStackIndexForm) ...[
           TextButton(
