@@ -684,11 +684,7 @@ class _SongEditState extends State<SongEdit> {
     bool isFirst = true;
     int index = 0;
     for (final entry in videoPlayers.entries) {
-      final track = tracks.firstWhere((track) => track!.id == entry.key,
-          orElse: () => null);
-      if (track == null) {
-        continue;
-      }
+      final track = tracks.firstWhere((track) => track!.id == entry.key);
       if (isDesktop() || (!isRecording || index == _activeTrack)) {
         final player = entry.value;
         final delay =

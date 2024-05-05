@@ -109,12 +109,12 @@ abstract class SongEntity extends Object
   String? get thumbnailUrl;
 
   @BuiltValueField(wireName: 'song_videos')
-  BuiltList<TrackEntity?>? get tracks;
+  BuiltList<TrackEntity>? get tracks;
 
   @BuiltValueField(wireName: 'joined_users')
   BuiltList<ArtistEntity>? get joinedArtists;
 
-  BuiltList<CommentEntity?>? get comments;
+  BuiltList<CommentEntity>? get comments;
 
   String? get layout;
 
@@ -178,7 +178,7 @@ abstract class SongEntity extends Object
   bool get hasParent => parentId != null && parentId! > 0;
 
   TrackEntity? get trackWithNewVideo =>
-      tracks!.firstWhere((track) => track!.video!.isNew, orElse: () => null);
+      tracks!.firstWhere((track) => track!.video!.isNew);
 
   SongEntity setTrackVolume(TrackEntity track, int? volume) {
     final index = tracks!.indexOf(track);
@@ -211,7 +211,7 @@ abstract class SongEntity extends Object
   bool get canAddTrack =>
       tracks!.where((track) => track!.isIncluded ?? true).length < kMaxTracks;
 
-  List<TrackEntity?> get includedTracks =>
+  List<TrackEntity> get includedTracks =>
       tracks!.where((track) => track!.isIncluded ?? true).toList();
 
   SongEntity get fork => rebuild((b) => b

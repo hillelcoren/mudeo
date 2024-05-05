@@ -35,6 +35,15 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(SongEntity)]),
           () => new ListBuilder<SongEntity>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(TrackEntity)]),
+          () => new ListBuilder<TrackEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ArtistEntity)]),
+          () => new ListBuilder<ArtistEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(CommentEntity)]),
+          () => new ListBuilder<CommentEntity>())
+      ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType.nullable(SongLikeEntity)]),
           () => new ListBuilder<SongLikeEntity?>())
@@ -49,17 +58,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList,
               const [const FullType.nullable(ArtistFollowingEntity)]),
           () => new ListBuilder<ArtistFollowingEntity?>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType.nullable(TrackEntity)]),
-          () => new ListBuilder<TrackEntity?>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(ArtistEntity)]),
-          () => new ListBuilder<ArtistEntity>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType.nullable(CommentEntity)]),
-          () => new ListBuilder<CommentEntity?>())
       ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(double)]),

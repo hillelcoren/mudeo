@@ -117,7 +117,7 @@ UIState addTrackReducer(UIState? uiState, AddTrack action) {
     ..song.updatedAt = action.refreshUI
         ? DateTime.now().millisecondsSinceEpoch.toString()
         : song.updatedAt
-    ..song.tracks.add(track));
+    ..song.tracks.add(track!));
 }
 
 UIState updateSongReducer(UIState? uiState, UpdateSong action) {

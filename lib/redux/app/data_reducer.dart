@@ -64,7 +64,7 @@ DataState saveCommentReducer(DataState? dataState, SaveCommentSuccess action) {
   final song = dataState!.songMap![action.comment!.songId];
   return dataState.rebuild((b) => b
     ..songMap[song!.id!] =
-        song.rebuild((b) => b..comments.add(action.comment)));
+        song.rebuild((b) => b..comments.add(action.comment!)));
 }
 
 DataState deleteCommentReducer(

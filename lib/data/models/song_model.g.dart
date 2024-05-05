@@ -200,7 +200,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add('song_videos')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                BuiltList, const [const FullType.nullable(TrackEntity)])));
+                BuiltList, const [const FullType(TrackEntity)])));
     }
     value = object.joinedArtists;
     if (value != null) {
@@ -216,7 +216,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         ..add('comments')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                BuiltList, const [const FullType.nullable(CommentEntity)])));
+                BuiltList, const [const FullType(CommentEntity)])));
     }
     value = object.layout;
     if (value != null) {
@@ -368,7 +368,7 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
         case 'song_videos':
           result.tracks.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType.nullable(TrackEntity)]))!
+                      BuiltList, const [const FullType(TrackEntity)]))!
               as BuiltList<Object?>);
           break;
         case 'joined_users':
@@ -379,9 +379,9 @@ class _$SongEntitySerializer implements StructuredSerializer<SongEntity> {
           break;
         case 'comments':
           result.comments.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [
-                const FullType.nullable(CommentEntity)
-              ]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(CommentEntity)]))!
+              as BuiltList<Object?>);
           break;
         case 'layout':
           result.layout = serializers.deserialize(value,
@@ -1374,11 +1374,11 @@ class _$SongEntity extends SongEntity {
   @override
   final String? thumbnailUrl;
   @override
-  final BuiltList<TrackEntity?>? tracks;
+  final BuiltList<TrackEntity>? tracks;
   @override
   final BuiltList<ArtistEntity>? joinedArtists;
   @override
-  final BuiltList<CommentEntity?>? comments;
+  final BuiltList<CommentEntity>? comments;
   @override
   final String? layout;
   @override
@@ -1650,10 +1650,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   String? get thumbnailUrl => _$this._thumbnailUrl;
   set thumbnailUrl(String? thumbnailUrl) => _$this._thumbnailUrl = thumbnailUrl;
 
-  ListBuilder<TrackEntity?>? _tracks;
-  ListBuilder<TrackEntity?> get tracks =>
-      _$this._tracks ??= new ListBuilder<TrackEntity?>();
-  set tracks(ListBuilder<TrackEntity?>? tracks) => _$this._tracks = tracks;
+  ListBuilder<TrackEntity>? _tracks;
+  ListBuilder<TrackEntity> get tracks =>
+      _$this._tracks ??= new ListBuilder<TrackEntity>();
+  set tracks(ListBuilder<TrackEntity>? tracks) => _$this._tracks = tracks;
 
   ListBuilder<ArtistEntity>? _joinedArtists;
   ListBuilder<ArtistEntity> get joinedArtists =>
@@ -1661,10 +1661,10 @@ class SongEntityBuilder implements Builder<SongEntity, SongEntityBuilder> {
   set joinedArtists(ListBuilder<ArtistEntity>? joinedArtists) =>
       _$this._joinedArtists = joinedArtists;
 
-  ListBuilder<CommentEntity?>? _comments;
-  ListBuilder<CommentEntity?> get comments =>
-      _$this._comments ??= new ListBuilder<CommentEntity?>();
-  set comments(ListBuilder<CommentEntity?>? comments) =>
+  ListBuilder<CommentEntity>? _comments;
+  ListBuilder<CommentEntity> get comments =>
+      _$this._comments ??= new ListBuilder<CommentEntity>();
+  set comments(ListBuilder<CommentEntity>? comments) =>
       _$this._comments = comments;
 
   String? _layout;
