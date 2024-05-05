@@ -340,15 +340,10 @@ class _MobileScreenState extends State<MobileScreen> {
                 TextButton(
                   onPressed: () async {
                     store.dispatch(HideReviewApp());
-                    final isAvailable = await _inAppReview.isAvailable();
-                    if (isAvailable && !isAndroid()) {
-                      _inAppReview.requestReview();
-                    } else {
-                      _inAppReview.openStoreListing(
-                          appStoreId:
-                              isAndroid() ? kPlayStoreAppId : kAppStoreAppId,
-                          microsoftStoreId: kMicrosoftAppStoreId);
-                    }
+                    _inAppReview.openStoreListing(
+                        appStoreId:
+                            isAndroid() ? kPlayStoreAppId : kAppStoreAppId,
+                        microsoftStoreId: kMicrosoftAppStoreId);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16),
