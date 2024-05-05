@@ -86,8 +86,8 @@ class WebClient {
     debugPrint('POST: $url');
     http.Response response;
 
-    Map<String, String?> headers = {
-      'X-API-TOKEN': token,
+    Map<String, String> headers = {
+      'X-API-TOKEN': token ?? '',
       'X-API-SECRET': Config.API_SECRET,
       'X-Requested-With': 'XMLHttpRequest',
       'Content-Type': 'application/json',
@@ -206,7 +206,7 @@ class WebClient {
     }
   }
 
-  Map<String, String?> _getHeaders(
+  Map<String, String> _getHeaders(
     String url,
     String? token, {
     String? secret,

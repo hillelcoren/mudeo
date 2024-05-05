@@ -156,25 +156,25 @@ abstract class ArtistEntity extends Object
     return dateExpires.isAfter(DateTime.now());
   }
 
-  Map<String, String?> get socialLinks {
-    final data = Map<String, String?>();
+  Map<String, String> get socialLinks {
+    final data = Map<String, String>();
     if (twitterURL != null && twitterURL!.isNotEmpty) {
-      data[kLinkTypeTwitter] = twitterURL;
+      data[kLinkTypeTwitter] = twitterURL ?? '';
     }
     if (facebookURL != null && facebookURL!.isNotEmpty) {
-      data[kLinkTypeFacebook] = facebookURL;
+      data[kLinkTypeFacebook] = facebookURL ?? '';
     }
     if (youTubeURL != null && youTubeURL!.isNotEmpty) {
-      data[kLinkTypeYouTube] = youTubeURL;
+      data[kLinkTypeYouTube] = youTubeURL ?? '';
     }
     if (instagramURL != null && instagramURL!.isNotEmpty) {
-      data[kLinkTypeInstagram] = instagramURL;
+      data[kLinkTypeInstagram] = instagramURL ?? '';
     }
     if (soundCloudURL != null && soundCloudURL!.isNotEmpty) {
-      data[kLinkTypeSoundcloud] = soundCloudURL;
+      data[kLinkTypeSoundcloud] = soundCloudURL ?? '';
     }
     if (twitchURL != null && twitchURL!.isNotEmpty) {
-      data[kLinkTypeTwitch] = twitchURL;
+      data[kLinkTypeTwitch] = twitchURL ?? '';
     }
 
     return data;
