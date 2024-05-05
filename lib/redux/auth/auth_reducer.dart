@@ -17,7 +17,7 @@ Reducer<AuthState?> authReducer = combineReducers([
 ]);
 
 AuthState hideReviewAppReducer(AuthState? authState, HideReviewApp action) {
-  return authState!.rebuild((b) => b..hideAppReview = true);
+  return authState!.rebuild((b) => b..hideReviewApp = true);
 }
 
 AuthState enablePrivateStorageReducer(

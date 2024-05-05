@@ -33,10 +33,10 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
-    value = object.hideAppReview;
+    value = object.hideReviewApp;
     if (value != null) {
       result
-        ..add('hideAppReview')
+        ..add('hideReviewApp')
         ..add(
             serializers.serialize(value, specifiedType: const FullType(bool)));
     }
@@ -68,8 +68,8 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
           result.isAuthenticated = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
-        case 'hideAppReview':
-          result.hideAppReview = serializers.deserialize(value,
+        case 'hideReviewApp':
+          result.hideReviewApp = serializers.deserialize(value,
               specifiedType: const FullType(bool)) as bool?;
           break;
         case 'installedAt':
@@ -89,7 +89,7 @@ class _$AuthState extends AuthState {
   @override
   final bool? isAuthenticated;
   @override
-  final bool? hideAppReview;
+  final bool? hideReviewApp;
   @override
   final int? installedAt;
 
@@ -97,7 +97,7 @@ class _$AuthState extends AuthState {
       (new AuthStateBuilder()..update(updates))._build();
 
   _$AuthState._(
-      {this.artist, this.isAuthenticated, this.hideAppReview, this.installedAt})
+      {this.artist, this.isAuthenticated, this.hideReviewApp, this.installedAt})
       : super._();
 
   @override
@@ -113,7 +113,7 @@ class _$AuthState extends AuthState {
     return other is AuthState &&
         artist == other.artist &&
         isAuthenticated == other.isAuthenticated &&
-        hideAppReview == other.hideAppReview &&
+        hideReviewApp == other.hideReviewApp &&
         installedAt == other.installedAt;
   }
 
@@ -122,7 +122,7 @@ class _$AuthState extends AuthState {
     var _$hash = 0;
     _$hash = $jc(_$hash, artist.hashCode);
     _$hash = $jc(_$hash, isAuthenticated.hashCode);
-    _$hash = $jc(_$hash, hideAppReview.hashCode);
+    _$hash = $jc(_$hash, hideReviewApp.hashCode);
     _$hash = $jc(_$hash, installedAt.hashCode);
     _$hash = $jf(_$hash);
     return _$hash;
@@ -133,7 +133,7 @@ class _$AuthState extends AuthState {
     return (newBuiltValueToStringHelper(r'AuthState')
           ..add('artist', artist)
           ..add('isAuthenticated', isAuthenticated)
-          ..add('hideAppReview', hideAppReview)
+          ..add('hideReviewApp', hideReviewApp)
           ..add('installedAt', installedAt))
         .toString();
   }
@@ -152,10 +152,10 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   set isAuthenticated(bool? isAuthenticated) =>
       _$this._isAuthenticated = isAuthenticated;
 
-  bool? _hideAppReview;
-  bool? get hideAppReview => _$this._hideAppReview;
-  set hideAppReview(bool? hideAppReview) =>
-      _$this._hideAppReview = hideAppReview;
+  bool? _hideReviewApp;
+  bool? get hideReviewApp => _$this._hideReviewApp;
+  set hideReviewApp(bool? hideReviewApp) =>
+      _$this._hideReviewApp = hideReviewApp;
 
   int? _installedAt;
   int? get installedAt => _$this._installedAt;
@@ -170,7 +170,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
     if ($v != null) {
       _artist = $v.artist?.toBuilder();
       _isAuthenticated = $v.isAuthenticated;
-      _hideAppReview = $v.hideAppReview;
+      _hideReviewApp = $v.hideReviewApp;
       _installedAt = $v.installedAt;
       _$v = null;
     }
@@ -198,7 +198,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
           new _$AuthState._(
               artist: _artist?.build(),
               isAuthenticated: isAuthenticated,
-              hideAppReview: hideAppReview,
+              hideReviewApp: hideReviewApp,
               installedAt: installedAt);
     } catch (_) {
       late String _$failedField;

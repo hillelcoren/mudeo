@@ -10,7 +10,7 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
     return _$AuthState._(
       artist: ArtistEntity(),
       isAuthenticated: false,
-      hideAppReview: false,
+      hideReviewApp: false,
       installedAt: DateTime.now().millisecondsSinceEpoch,
     );
   }
@@ -21,7 +21,7 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   bool? get isAuthenticated;
 
-  bool? get hideAppReview;
+  bool? get hideReviewApp;
 
   int? get installedAt;
 
@@ -36,7 +36,7 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
       //return true;
     }
 
-    if (hideAppReview!) {
+    if (hideReviewApp!) {
       return false;
     }
 
@@ -49,7 +49,7 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   // ignore: unused_element
   static void _initializeBuilder(AuthStateBuilder builder) => builder
-    ..hideAppReview = false
+    ..hideReviewApp = false
     ..installedAt = DateTime.now().millisecondsSinceEpoch;
 
   static Serializer<AuthState> get serializer => _$authStateSerializer;
