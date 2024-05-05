@@ -163,9 +163,9 @@ class _SongScaffoldState extends State<SongScaffold> {
     }
   }
 
-  void checkPermissions() async {
+  Future<bool> checkPermissions() async {
     if (isCameraEnabled && isMicrophoneEnabled) {
-      return;
+      return true;
     }
 
     final statuses = await [
@@ -182,6 +182,8 @@ class _SongScaffoldState extends State<SongScaffold> {
     }
 
     setState(() {});
+
+    return isCameraEnabled && isMicrophoneEnabled;
   }
 
   @override
@@ -215,10 +217,12 @@ class _SongScaffoldState extends State<SongScaffold> {
                 : localization!.enableMicrophone!,
           ),
           onPressed: () async {
-            //await checkPermissions();
+            await checkPermissions();
 
             if (!isCameraEnabled || !isMicrophoneEnabled) {
               openAppSettings();
+            } else {
+              initCamera();
             }
           },
         ),
