@@ -54,7 +54,7 @@ dependencies:
   font_awesome_flutter:
   #flutter_xlider: 3.4.0
   file_picker: ^5.2.5
-  firebase_analytics: ^10.9.0
+  #firebase_analytics: ^10.9.0
   flutter_xlider:
     git:
       url: https://github.com/Ali-Azmoud/flutter_xlider.git

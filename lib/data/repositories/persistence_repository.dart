@@ -22,15 +22,14 @@ class PersistenceRepository {
     final stateWithoutToken = state.rebuild(
             (b) => b..data.replace(state.data.rebuild((b) => b..token = '')));
     */
-    final data =
-    serializers.serializeWith(DataState.serializer, state);
+    final data = serializers.serializeWith(DataState.serializer, state);
     return await fileStorage.save(json.encode(data));
   }
 
   Future<DataState?> loadDataState() async {
-    final String data = await (fileStorage.load() as FutureOr<String>);
+    final String data = await fileStorage.load();
     final dataState =
-    serializers.deserializeWith(DataState.serializer, json.decode(data));
+        serializers.deserializeWith(DataState.serializer, json.decode(data));
 
     return dataState;
   }
@@ -41,7 +40,7 @@ class PersistenceRepository {
   }
 
   Future<AuthState?> loadAuthState() async {
-    final String data = await (fileStorage.load() as FutureOr<String>);
+    final String data = await fileStorage.load();
     return serializers.deserializeWith(AuthState.serializer, json.decode(data));
   }
 
@@ -51,7 +50,7 @@ class PersistenceRepository {
   }
 
   Future<UIState?> loadUIState() async {
-    final String data = await (fileStorage.load() as FutureOr<String>);
+    final String data = await fileStorage.load();
     return serializers.deserializeWith(UIState.serializer, json.decode(data));
   }
 
