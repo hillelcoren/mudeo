@@ -86,16 +86,16 @@ abstract class ArtistEntity extends Object
   bool? get isPaid;
 
   @BuiltValueField(wireName: 'song_likes')
-  BuiltList<SongLikeEntity?>? get songLikes;
+  BuiltList<SongLikeEntity>? get songLikes;
 
   @BuiltValueField(wireName: 'song_flags')
-  BuiltList<SongFlagEntity?>? get songFlags;
+  BuiltList<SongFlagEntity>? get songFlags;
 
   @BuiltValueField(wireName: 'user_flags')
   BuiltList<ArtistFlagEntity>? get artistFlags;
 
   @BuiltValueField(wireName: 'following')
-  BuiltList<ArtistFollowingEntity?>? get following;
+  BuiltList<ArtistFollowingEntity>? get following;
 
   @override
   String? get listDisplayName {

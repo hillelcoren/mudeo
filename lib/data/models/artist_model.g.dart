@@ -152,7 +152,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add('song_likes')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                BuiltList, const [const FullType.nullable(SongLikeEntity)])));
+                BuiltList, const [const FullType(SongLikeEntity)])));
     }
     value = object.songFlags;
     if (value != null) {
@@ -160,7 +160,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         ..add('song_flags')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
-                BuiltList, const [const FullType.nullable(SongFlagEntity)])));
+                BuiltList, const [const FullType(SongFlagEntity)])));
     }
     value = object.artistFlags;
     if (value != null) {
@@ -175,8 +175,8 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
       result
         ..add('following')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList,
-                const [const FullType.nullable(ArtistFollowingEntity)])));
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ArtistFollowingEntity)])));
     }
     value = object.id;
     if (value != null) {
@@ -283,15 +283,15 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
           break;
         case 'song_likes':
           result.songLikes.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [
-                const FullType.nullable(SongLikeEntity)
-              ]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(SongLikeEntity)]))!
+              as BuiltList<Object?>);
           break;
         case 'song_flags':
           result.songFlags.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [
-                const FullType.nullable(SongFlagEntity)
-              ]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(SongFlagEntity)]))!
+              as BuiltList<Object?>);
           break;
         case 'user_flags':
           result.artistFlags.replace(serializers.deserialize(value,
@@ -302,7 +302,7 @@ class _$ArtistEntitySerializer implements StructuredSerializer<ArtistEntity> {
         case 'following':
           result.following.replace(serializers.deserialize(value,
               specifiedType: const FullType(BuiltList, const [
-                const FullType.nullable(ArtistFollowingEntity)
+                const FullType(ArtistFollowingEntity)
               ]))! as BuiltList<Object?>);
           break;
         case 'id':
@@ -546,13 +546,13 @@ class _$ArtistEntity extends ArtistEntity {
   @override
   final bool? isPaid;
   @override
-  final BuiltList<SongLikeEntity?>? songLikes;
+  final BuiltList<SongLikeEntity>? songLikes;
   @override
-  final BuiltList<SongFlagEntity?>? songFlags;
+  final BuiltList<SongFlagEntity>? songFlags;
   @override
   final BuiltList<ArtistFlagEntity>? artistFlags;
   @override
-  final BuiltList<ArtistFollowingEntity?>? following;
+  final BuiltList<ArtistFollowingEntity>? following;
   @override
   final int? id;
   @override
@@ -764,16 +764,16 @@ class ArtistEntityBuilder
   bool? get isPaid => _$this._isPaid;
   set isPaid(bool? isPaid) => _$this._isPaid = isPaid;
 
-  ListBuilder<SongLikeEntity?>? _songLikes;
-  ListBuilder<SongLikeEntity?> get songLikes =>
-      _$this._songLikes ??= new ListBuilder<SongLikeEntity?>();
-  set songLikes(ListBuilder<SongLikeEntity?>? songLikes) =>
+  ListBuilder<SongLikeEntity>? _songLikes;
+  ListBuilder<SongLikeEntity> get songLikes =>
+      _$this._songLikes ??= new ListBuilder<SongLikeEntity>();
+  set songLikes(ListBuilder<SongLikeEntity>? songLikes) =>
       _$this._songLikes = songLikes;
 
-  ListBuilder<SongFlagEntity?>? _songFlags;
-  ListBuilder<SongFlagEntity?> get songFlags =>
-      _$this._songFlags ??= new ListBuilder<SongFlagEntity?>();
-  set songFlags(ListBuilder<SongFlagEntity?>? songFlags) =>
+  ListBuilder<SongFlagEntity>? _songFlags;
+  ListBuilder<SongFlagEntity> get songFlags =>
+      _$this._songFlags ??= new ListBuilder<SongFlagEntity>();
+  set songFlags(ListBuilder<SongFlagEntity>? songFlags) =>
       _$this._songFlags = songFlags;
 
   ListBuilder<ArtistFlagEntity>? _artistFlags;
@@ -782,10 +782,10 @@ class ArtistEntityBuilder
   set artistFlags(ListBuilder<ArtistFlagEntity>? artistFlags) =>
       _$this._artistFlags = artistFlags;
 
-  ListBuilder<ArtistFollowingEntity?>? _following;
-  ListBuilder<ArtistFollowingEntity?> get following =>
-      _$this._following ??= new ListBuilder<ArtistFollowingEntity?>();
-  set following(ListBuilder<ArtistFollowingEntity?>? following) =>
+  ListBuilder<ArtistFollowingEntity>? _following;
+  ListBuilder<ArtistFollowingEntity> get following =>
+      _$this._following ??= new ListBuilder<ArtistFollowingEntity>();
+  set following(ListBuilder<ArtistFollowingEntity>? following) =>
       _$this._following = following;
 
   int? _id;

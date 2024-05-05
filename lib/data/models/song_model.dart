@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:path/path.dart' as p;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -178,7 +179,7 @@ abstract class SongEntity extends Object
   bool get hasParent => parentId != null && parentId! > 0;
 
   TrackEntity? get trackWithNewVideo =>
-      tracks!.firstWhere((track) => track!.video!.isNew);
+      tracks!.firstWhereOrNull((track) => track!.video!.isNew);
 
   SongEntity setTrackVolume(TrackEntity track, int? volume) {
     final index = tracks!.indexOf(track);

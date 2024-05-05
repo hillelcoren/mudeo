@@ -50,12 +50,12 @@ AuthState likeSongReducer(AuthState? authState, LikeSongSuccess action) {
     return authState!
         .rebuild((b) => b..artist.songLikes.remove(action.songLike));
   } else {
-    return authState!.rebuild((b) => b..artist.songLikes.add(action.songLike));
+    return authState!.rebuild((b) => b..artist.songLikes.add(action.songLike!));
   }
 }
 
 AuthState flagSongReducer(AuthState? authState, FlagSongSuccess action) {
-  return authState!.rebuild((b) => b..artist.songFlags.add(action.songFlag));
+  return authState!.rebuild((b) => b..artist.songFlags.add(action.songFlag!));
 }
 
 AuthState flagArtistReducer(AuthState? authState, FlagArtist action) {
@@ -70,6 +70,6 @@ AuthState followArtistReducer(
         .rebuild((b) => b..artist.following.remove(action.artistFollowing));
   } else {
     return authState!
-        .rebuild((b) => b..artist.following.add(action.artistFollowing));
+        .rebuild((b) => b..artist.following.add(action.artistFollowing!));
   }
 }

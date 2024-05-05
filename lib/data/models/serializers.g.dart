@@ -35,6 +35,19 @@ Serializers _$serializers = (new Serializers().toBuilder()
           const FullType(BuiltList, const [const FullType(SongEntity)]),
           () => new ListBuilder<SongEntity>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(SongLikeEntity)]),
+          () => new ListBuilder<SongLikeEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(SongFlagEntity)]),
+          () => new ListBuilder<SongFlagEntity>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ArtistFlagEntity)]),
+          () => new ListBuilder<ArtistFlagEntity>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ArtistFollowingEntity)]),
+          () => new ListBuilder<ArtistFollowingEntity>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(TrackEntity)]),
           () => new ListBuilder<TrackEntity>())
       ..addBuilderFactory(
@@ -43,21 +56,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(CommentEntity)]),
           () => new ListBuilder<CommentEntity>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType.nullable(SongLikeEntity)]),
-          () => new ListBuilder<SongLikeEntity?>())
-      ..addBuilderFactory(
-          const FullType(
-              BuiltList, const [const FullType.nullable(SongFlagEntity)]),
-          () => new ListBuilder<SongFlagEntity?>())
-      ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(ArtistFlagEntity)]),
-          () => new ListBuilder<ArtistFlagEntity>())
-      ..addBuilderFactory(
-          const FullType(BuiltList,
-              const [const FullType.nullable(ArtistFollowingEntity)]),
-          () => new ListBuilder<ArtistFollowingEntity?>())
       ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(double)]),
