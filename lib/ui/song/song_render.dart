@@ -356,10 +356,18 @@ class _SongRenderState extends State<SongRender> {
                           color: Colors.black,
                           child: _chewieController == null
                               ? SizedBox()
-                              : FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Chewie(
-                                    controller: _chewieController!,
+                              : SizedBox.expand(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: SizedBox(
+                                      width: _videoPlayerController!
+                                          .value.size.width,
+                                      height: _videoPlayerController!
+                                          .value.size.height,
+                                      child: Chewie(
+                                        controller: _chewieController!,
+                                      ),
+                                    ),
                                   ),
                                 ),
                         ),
