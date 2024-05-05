@@ -118,15 +118,13 @@ abstract class ArtistEntity extends Object
 
   SongLikeEntity? getSongLike(int? songId) => songLikes == null
       ? null
-      : songLikes!.firstWhere((songLike) => songLike!.songId == songId,
-          orElse: () => null);
+      : songLikes!.firstWhereOrNull((songLike) => songLike!.songId == songId);
 
   bool likedSong(int? songId) => getSongLike(songId) != null;
 
   SongFlagEntity? getSongFlag(int? songId) => songFlags == null
       ? null
-      : songFlags!.firstWhere((songFlag) => songFlag!.songId == songId,
-          orElse: () => null);
+      : songFlags!.firstWhereOrNull((songFlag) => songFlag!.songId == songId);
 
   bool flaggedSong(int? songId) => getSongFlag(songId) != null;
 
@@ -139,9 +137,8 @@ abstract class ArtistEntity extends Object
 
   ArtistFollowingEntity? getFollowing(int? artistId) => following == null
       ? null
-      : following!.firstWhere(
-          (artistFollowing) => artistFollowing!.artistFollowingId == artistId,
-          orElse: () => null);
+      : following!.firstWhereOrNull(
+          (artistFollowing) => artistFollowing!.artistFollowingId == artistId);
 
   bool isFollowing(int? artistId) => getFollowing(artistId) != null;
 
