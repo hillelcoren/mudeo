@@ -132,7 +132,8 @@ abstract class ArtistEntity extends Object
 
   ArtistFlagEntity? getArtistFlag(int? artistId) => artistFlags == null
       ? null
-      : artistFlags!.firstWhereOrNull((artistFlag) => artistFlag.artistId == artistId);
+      : artistFlags!
+          .firstWhereOrNull((artistFlag) => artistFlag.artistId == artistId);
 
   bool flaggedArtist(int? artistId) => getArtistFlag(artistId) != null;
 
@@ -145,7 +146,6 @@ abstract class ArtistEntity extends Object
   bool isFollowing(int? artistId) => getFollowing(artistId) != null;
 
   bool get hasPrivateStorage {
-
     if ((orderExpires ?? '').isEmpty) {
       return false;
     }

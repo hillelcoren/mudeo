@@ -240,11 +240,15 @@ class SaveVideoRequest implements StartSaving {
 }
 
 class SaveVideoSuccess implements StopSaving, PersistData, PersistUI {
-  SaveVideoSuccess({this.song, this.video, this.refreshUI = false});
+  SaveVideoSuccess({
+    required this.song,
+    required this.video,
+    this.refreshUI = false,
+  });
 
   final bool refreshUI;
-  final SongEntity? song;
-  final VideoEntity? video;
+  final SongEntity song;
+  final VideoEntity video;
 }
 
 class SaveVideoFailure implements StopSaving, PersistData, PersistUI {
@@ -256,7 +260,7 @@ class SaveVideoFailure implements StopSaving, PersistData, PersistUI {
 class AddSongSuccess implements StopSaving, PersistData, PersistUI {
   AddSongSuccess(this.song);
 
-  final SongEntity? song;
+  final SongEntity song;
 }
 
 class FilterSongs {

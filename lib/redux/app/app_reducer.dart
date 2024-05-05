@@ -19,7 +19,7 @@ AppState appReducer(AppState state, dynamic action) {
   return state.rebuild((b) => b
     ..isLoading = loadingReducer(state.isLoading, action)
     ..isSaving = savingReducer(state.isSaving, action)
-    ..authState.replace(authReducer(state.authState, action))
-    ..dataState.replace(dataReducer(state.dataState, action))
-    ..uiState.replace(uiReducer(state.uiState, action)));
+    ..authState.replace(authReducer(state.authState, action)!)
+    ..dataState.replace(dataReducer(state.dataState, action)!)
+    ..uiState.replace(uiReducer(state.uiState, action)!));
 }

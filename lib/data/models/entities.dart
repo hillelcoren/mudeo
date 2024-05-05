@@ -61,7 +61,7 @@ abstract class DataState implements Built<DataState, DataStateBuilder> {
 
   int? get songsUpdateAt;
 
-  BuiltMap<int?, SongEntity?>? get songMap;
+  BuiltMap<int, SongEntity>? get songMap;
 
   BuiltMap<int, ArtistEntity>? get artistMap;
 
@@ -150,7 +150,6 @@ abstract class BaseEntity implements SelectableEntity {
     return actions;
   }
   */
-
 }
 
 class EntityType extends EnumClass {

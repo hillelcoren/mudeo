@@ -43,7 +43,7 @@ Middleware<AppState> _saveSong(SongRepository repository) {
 
     if (song.hasNewVideos) {
       repository.saveVideo(store.state, song.newVideo!).then((video) {
-        store.dispatch(SaveVideoSuccess(song: song, video: video));
+        store.dispatch(SaveVideoSuccess(song: song, video: video!));
         store.dispatch(SaveSongRequest(
             song: store.state.uiState!.song, completer: action.completer));
       }).catchError((Object error) {
@@ -56,7 +56,7 @@ Middleware<AppState> _saveSong(SongRepository repository) {
           .saveSong(store.state, action.song.updateOrderByIds)
           .then((song) {
         if (action.song.isNew) {
-          store.dispatch(AddSongSuccess(song));
+          store.dispatch(AddSongSuccess(song!));
         } else {
           store.dispatch(SaveSongSuccess(song));
         }
@@ -80,7 +80,7 @@ Middleware<AppState> _saveVideo(SongRepository repository) {
 
     repository.saveVideo(store.state, action.video).then((video) {
       store.dispatch(
-          SaveVideoSuccess(song: action.song, video: video, refreshUI: true));
+          SaveVideoSuccess(song: action.song, video: video!, refreshUI: true));
       action.completer.complete(null);
     }).catchError((Object error) {
       print(error);
@@ -109,8 +109,9 @@ Middleware<AppState> _loadSongs(SongRepository repository) {
       return;
     }
 
-    final int updatedAt =
-        action.clearCache ? 0 : (state.dataState!.songsUpdateAt! / 1000).round();
+    final int updatedAt = action.clearCache
+        ? 0
+        : (state.dataState!.songsUpdateAt! / 1000).round();
 
     store.dispatch(LoadSongsRequest());
     repository.loadList(state, updatedAt).then((data) {

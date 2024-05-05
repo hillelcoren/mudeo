@@ -28,7 +28,7 @@ AuthState enablePrivateStorageReducer(
 AuthState userLoginSuccessReducer(
     AuthState? authState, UserLoginSuccess action) {
   return authState!.rebuild((b) => b
-    ..artist.replace(action.artist)
+    ..artist.replace(action.artist!)
     ..isAuthenticated = true);
 }
 
@@ -63,7 +63,8 @@ AuthState flagArtistReducer(AuthState? authState, FlagArtist action) {
       b..artist.artistFlags.add(ArtistFlagEntity(artistId: action.artist!.id)));
 }
 
-AuthState followArtistReducer(AuthState? authState, FollowArtistSuccess action) {
+AuthState followArtistReducer(
+    AuthState? authState, FollowArtistSuccess action) {
   if (action.unfollow!) {
     return authState!
         .rebuild((b) => b..artist.following.remove(action.artistFollowing));

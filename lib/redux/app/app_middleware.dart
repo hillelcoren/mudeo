@@ -91,9 +91,9 @@ Middleware<AppState> _createLoadState(
 
       final AppState appState =
           AppState(isDance: store.state.isDance).rebuild((b) => b
-            ..authState.replace(authState)
-            ..uiState.replace(uiState)
-            ..dataState.replace(dataState));
+            ..authState.replace(authState!)
+            ..uiState.replace(uiState!)
+            ..dataState.replace(dataState!));
 
       AppBuilder.of(action.context)!.rebuild();
       store.dispatch(LoadStateSuccess(appState));

@@ -92,7 +92,7 @@ UIState? saveVideoReducer(UIState? uiState, SaveVideoSuccess action) {
 }
 
 UIState saveSongReducer(UIState? uiState, SaveSongSuccess action) {
-  return uiState!.rebuild((b) => b..song.replace(action.song));
+  return uiState!.rebuild((b) => b..song.replace(action.song!));
 }
 
 UIState deleteSongReducer(UIState? uiState, DeleteSongSuccess action) {
@@ -121,21 +121,22 @@ UIState addTrackReducer(UIState? uiState, AddTrack action) {
 }
 
 UIState updateSongReducer(UIState? uiState, UpdateSong action) {
-  return uiState!.rebuild((b) => b..song.replace(action.song));
+  return uiState!.rebuild((b) => b..song.replace(action.song!));
 }
 
 UIState editSongReducer(UIState? uiState, EditSong action) {
-  UIState state = uiState!.rebuild((b) => b..selectedTabIndex = ScreenTabs.EDIT);
+  UIState state =
+      uiState!.rebuild((b) => b..selectedTabIndex = ScreenTabs.EDIT);
 
   if (uiState.song!.id != action.song!.id) {
-    state = state.rebuild((b) => b..song.replace(action.song));
+    state = state.rebuild((b) => b..song.replace(action.song!));
   }
 
   return state;
 }
 
 UIState editArtistReducer(UIState? uiState, EditArtist action) {
-  return uiState!.rebuild((b) => b..artist.replace(action.artist));
+  return uiState!.rebuild((b) => b..artist.replace(action.artist!));
 }
 
 UIState updateArtistReducer(UIState? uiState, UpdateArtist action) {

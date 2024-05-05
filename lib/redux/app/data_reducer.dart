@@ -34,19 +34,19 @@ DataState loadSongsFailureReducer(
 }
 
 DataState addSongReducer(DataState? dataState, AddSongSuccess action) {
-  return dataState!.rebuild((b) => b..songMap[action.song!.id] = action.song);
+  return dataState!.rebuild((b) => b..songMap[action.song!.id!] = action.song);
 }
 
 DataState saveSongReducer(DataState? dataState, SaveSongSuccess action) {
-  return dataState!.rebuild((b) => b..songMap[action.song!.id] = action.song);
+  return dataState!.rebuild((b) => b..songMap[action.song!.id!] = action.song!);
 }
 
 DataState deleteSongReducer(DataState? dataState, DeleteSongSuccess action) {
-  return dataState!.rebuild((b) => b..songMap[action.song!.id] = action.song);
+  return dataState!.rebuild((b) => b..songMap[action.song!.id!] = action.song!);
 }
 
 DataState joinSongReducer(DataState? dataState, JoinSongSuccess action) {
-  return dataState!.rebuild((b) => b..songMap[action.song!.id] = action.song);
+  return dataState!.rebuild((b) => b..songMap[action.song!.id!] = action.song!);
 }
 
 DataState leaveSongReducer(DataState? dataState, LeaveSongSuccess action) {
@@ -56,20 +56,21 @@ DataState leaveSongReducer(DataState? dataState, LeaveSongSuccess action) {
 DataState likeSongReducer(DataState? dataState, LikeSongSuccess action) {
   final song = dataState!.songMap![action.songLike!.songId];
   return dataState.rebuild((b) => b
-    ..songMap[action.songLike!.songId] = song!.rebuild(
+    ..songMap[action.songLike!.songId!] = song!.rebuild(
         (b) => b..countLike = song.countLike! + (action.unlike! ? -1 : 1)));
 }
 
 DataState saveCommentReducer(DataState? dataState, SaveCommentSuccess action) {
   final song = dataState!.songMap![action.comment!.songId];
   return dataState.rebuild((b) => b
-    ..songMap[song!.id] = song.rebuild((b) => b..comments.add(action.comment)));
+    ..songMap[song!.id!] =
+        song.rebuild((b) => b..comments.add(action.comment)));
 }
 
 DataState deleteCommentReducer(
     DataState? dataState, DeleteCommentSuccess action) {
   final song = dataState!.songMap![action.comment.songId];
   return dataState.rebuild((b) => b
-    ..songMap[song!.id] = song.rebuild((b) =>
-        b..comments.removeWhere((comment) => comment!.id == action.comment.id)));
+    ..songMap[song!.id!] = song.rebuild((b) => b
+      ..comments.removeWhere((comment) => comment!.id == action.comment.id)));
 }
