@@ -106,7 +106,7 @@ class EntityAction extends EnumClass {
   static EntityAction valueOf(String name) => _$valueOf(name);
 }
 
-abstract class BaseEntity implements SelectableEntity {
+abstract mixin class BaseEntity implements SelectableEntity {
   /*
   @nullable
   @BuiltValueField(wireName: 'created_at')

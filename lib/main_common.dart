@@ -60,6 +60,7 @@ class MudeoAppState extends State<MudeoApp> {
                 //if (!kIsWeb) FirebaseAnalyticsObserver(analytics: analytics),
               ],
               theme: ThemeData(
+                useMaterial3: false,
                 pageTransitionsTheme: pageTransitionsTheme,
                 brightness: Brightness.dark,
                 colorSchemeSeed: Colors.lightBlueAccent,

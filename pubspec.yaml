@@ -1,10 +1,10 @@
 name: mudeo
 description: a collaborative music video app
-version: 0.0.61+61
+version: 0.0.62+62
 publish_to: none
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=3.1.0 <4.0.0'
 
 flutter_icons:
   android: "launcher_icon"
