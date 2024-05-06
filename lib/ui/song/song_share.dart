@@ -96,7 +96,13 @@ class _SongShareDialogState extends State<SongShareDialog> {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                  child: Text(song.sharingKey!),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(song.sharingKey ?? '')),
+                      SizedBox(width: 20),
+                      Icon(Icons.copy),
+                    ],
+                  ),
                 ),
               ),
             ),
