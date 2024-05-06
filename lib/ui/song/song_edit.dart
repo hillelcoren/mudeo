@@ -1757,7 +1757,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         song.isNew &&
                         !isDesktop())
                       Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.only(top: 6),
                         child: ElevatedButton(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -1788,7 +1788,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         widget.hasHeadset &&
                         supportsFFMpeg())
                       Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.only(top: 6),
                         child: ElevatedButton(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -1830,7 +1830,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           )
                         : SizedBox(),
                         */
-                    SizedBox(height: 8),
+                    SizedBox(height: 6),
                     ElevatedButton(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -1867,7 +1867,7 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         }
                       },
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 6),
                     ElevatedButton(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
