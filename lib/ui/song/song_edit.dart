@@ -1697,8 +1697,13 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 4, vertical: 10),
-                          child: Text(AppLocalization.of(context)!.monitor!),
+                          child: Text(
+                            AppLocalization.of(context)!.monitor!,
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue),
                         onPressed: _isActive
                             ? null
                             : () {
@@ -1757,7 +1762,10 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 4, vertical: 10),
-                            child: Text(localization!.trim!),
+                            child: Text(
+                              localization!.trim!,
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.purple),
@@ -1785,7 +1793,10 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 4, vertical: 10),
-                            child: Text(localization!.adjust!),
+                            child: Text(
+                              localization!.adjust!,
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.purple),
@@ -1824,7 +1835,10 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 4, vertical: 10),
-                        child: Text(AppLocalization.of(context)!.download!),
+                        child: Text(
+                          AppLocalization.of(context)!.download!,
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green),
@@ -1858,9 +1872,12 @@ class _TrackEditDialogState extends State<TrackEditDialog> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 4, vertical: 10),
-                        child: Text(widget.track!.video!.isOld
-                            ? localization!.remove!
-                            : localization!.delete!),
+                        child: Text(
+                          widget.track!.video!.isOld
+                              ? localization!.remove!
+                              : localization!.delete!,
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                       style:
                           ElevatedButton.styleFrom(backgroundColor: Colors.red),
